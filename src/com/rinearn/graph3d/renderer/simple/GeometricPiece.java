@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.renderer;
+package com.rinearn.graph3d.renderer.simple;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
