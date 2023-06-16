@@ -5,6 +5,9 @@ import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
 
 
 /**
@@ -12,6 +15,13 @@ import java.awt.Font;
  * the rendering engine (renderer) of RINEARN Graph 3D.
  */
 public class SimpleRenderer implements RinearnGraph3DRenderer {
+
+	/** The Image instance storing the rendered image of the graph screen. */
+	private volatile BufferedImage screenImage = null;
+
+	/** The Graphics2D instance to draw the graph screen. */
+	private volatile Graphics2D screenGraphics = null;
+
 
 	/**
 	 * Creates a new renderer.
@@ -181,5 +191,36 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	@Override
 	public void drawLabel() {
 		throw new RuntimeException("Unimplemented yet");
+	}
+
+
+	/**
+	 * Sets the size of the graph screen.
+	 * 
+	 * @param screenWidth The width (pixels) of the screen.
+	 * @param screenHeight The height (pixels) of the screen.
+	 */
+	public synchronized void setScreenSize(int screenWidth, int screenHeight) {
+
+		// If the image/graphics instances are already allocated, release them.
+		if (this.screenGraphics != null) {
+			this.screenGraphics.dispose();
+			this.screenImage = null;
+			System.gc();
+		}
+
+		// Allocate the image/graphics instances.
+		this.screenImage = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_RGB);
+		this.screenGraphics = this.screenImage.createGraphics();
+	}
+
+
+	/**
+	 * Returns the Image instance storing the rendered image of the graph screen.
+	 * 
+	 * @return The rendered image of the graph screen.
+	 */
+	public synchronized Image getScreenImage() {
+		return this.screenImage;
 	}
 }
