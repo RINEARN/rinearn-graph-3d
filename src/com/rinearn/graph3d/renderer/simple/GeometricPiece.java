@@ -20,19 +20,19 @@ public abstract class GeometricPiece {
 	public static final int Z = 2;
 
 	/** Represents the number of the vertices stored in the vertex array. */
-	protected int vertexCount;
+	protected int vertexCount = -1;
 
 	/** Stores the coordinate values of the vertices, in the scaled space. */
-	protected double[][] scaledVertexArray;
+	protected double[][] scaledVertexArray = null;
 
 	/** Stores the transformed coordinate values of the vertices. */
-	protected double[][] transformedVertexArray;
+	protected double[][] transformedVertexArray = null;
 
 	/** Represents the original (unmodified) color of this piece. */
-	protected Color originalColor;
+	protected Color originalColor = null;
 
 	/** Represents the color on the screen, computed by the shading process. */
-	protected Color onscreenColor;
+	protected Color onscreenColor = null;
 
 	/** The 'depth' value of this piece. See also the comment of the getter method. */
 	protected double depth = Double.NaN;
