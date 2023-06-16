@@ -69,6 +69,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 		int screenHeight = this.screenImage.getHeight();
 		int screenOffsetX = 0;
 		int screenOffsetY = 0;
+		double magnification = 700.0;
 
 		// Clear the graph screen.
 		this.screenGraphics.setColor(this.screenBackgroundColor);
@@ -97,20 +98,19 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 		// Draw each geometric piece on the screen.
 		for (GeometricPiece piece: this.geometricPieceList) {
-			piece.project(screenWidth, screenHeight, screenOffsetX, screenOffsetY);
+			piece.project(screenWidth, screenHeight, screenOffsetX, screenOffsetY, magnification);
 			piece.draw(this.screenGraphics);
 		}
 	}
 
 	// Temporary method for developing/debugging.
 	private double[][] createTemporaryTransformationMatrix() {
-		double magnification = 700.0;
-		double distance = 6.0;
+		double distance = 3.0;
 		
 		double[][] matrix = new double[4][];
-		matrix[0] = new double[] { magnification, 0.0, 0.0, 0.0 };
-		matrix[1] = new double[] { 0.0, magnification, 0.0, 0.0 };
-		matrix[2] = new double[] { 0.0, 0.0, magnification, distance };
+		matrix[0] = new double[] { 1.0, 0.0, 0.0, 0.0 };
+		matrix[1] = new double[] { 0.0, 1.0, 0.0, 0.0 };
+		matrix[2] = new double[] { 0.0, 0.0, 1.0, distance };
 		matrix[3] = new double[] { 0.0, 0.0, 0.0, 1.0 };
 		
 		return matrix;

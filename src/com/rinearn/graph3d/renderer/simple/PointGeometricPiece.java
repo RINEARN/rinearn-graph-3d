@@ -80,9 +80,10 @@ public class PointGeometricPiece extends GeometricPiece {
 	 * @param screenHeight The height (pixels) of the screen.
 	 * @param screenOffsetX The X-offset value (positive for shifting rightward) of the screen center.
 	 * @param screenOffsetY The Y-offset value (positive for shifting upward) of the screen center.
+	 * @param magnification The magnification of the conversion from lengths in 3D space to pixels.
 	 */
 	@Override
-	public void project(int screenWidth, int screenHeight, int screenOffsetX, int screenOffsetY) {
+	public void project(int screenWidth, int screenHeight, int screenOffsetX, int screenOffsetY, double magnification) {
 
 		// Short aliases of the vertices arrays.
 		double[] tv = this.transformedVertexArray[0];
@@ -92,9 +93,9 @@ public class PointGeometricPiece extends GeometricPiece {
 		// (The origin is the left-top edge of the screen.)
 		int screenCenterX = screenWidth >> 1 + screenOffsetX; // bit-shifting instead of dividing by 2.
 		int screenCenterY = screenHeight >> 1 - screenOffsetY;
-		double recipZ = 1.0 / tv[Z];
-		pv[X] = screenCenterX + (int)(tv[X] * recipZ);
-		pv[Y] = screenCenterY - (int)(tv[Y] * recipZ);
+		double projectionRatio = magnification / tv[Z];
+		pv[X] = screenCenterX + (int)(tv[X] * projectionRatio);
+		pv[Y] = screenCenterY - (int)(tv[Y] * projectionRatio);
 	}
 
 

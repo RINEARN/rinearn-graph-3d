@@ -62,8 +62,9 @@ public abstract class GeometricPiece {
 	 * @param screenHeight The height (pixels) of the screen.
 	 * @param screenOffsetX The X-offset value (positive for shifting rightward) of the screen center.
 	 * @param screenOffsetY The Y-offset value (positive for shifting upward) of the screen center.
+	 * @param magnification The magnification of the conversion from lengths in 3D space to pixels.
 	 */
-	public abstract void project(int screenWidth, int screenHeight, int screenOffsetX, int screenOffsetY);
+	public abstract void project(int screenWidth, int screenHeight, int screenOffsetX, int screenOffsetY, double magnification);
 
 
 	/**
