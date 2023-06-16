@@ -1,5 +1,7 @@
 package temp;
 
+import com.rinearn.graph3d.renderer.simple.SimpleRenderer;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -17,6 +19,16 @@ public class TempMain {
 
 		// Launch a temporary window for previewing the rendered images.
 		TemporaryPreviewWindow tempWindow = new TemporaryPreviewWindow();
+
+		// Instantiate a simple implementation of the rendering engine of RINEARN Graph 3D.
+		SimpleRenderer renderer = new SimpleRenderer(800, 600);
+
+		// Perform the rendering process.
+		renderer.render();
+
+		// Preview the rendered image.
+		Image renderedImage = renderer.getScreenImage();
+		tempWindow.preview(renderedImage);
 	}
 
 
