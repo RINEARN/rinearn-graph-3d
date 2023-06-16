@@ -55,9 +55,41 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	}
 
 
+	/**
+	 * Renders the graph on the screen.
+	 */
 	@Override
 	public synchronized void render() {
-		throw new RuntimeException("Unimplemented yet");
+
+		// Clear the graph screen.
+		this.screenGraphics.setColor(this.screenBackgroundColor);
+		this.screenGraphics.fillRect(0, 0, this.screenImage.getWidth(), this.screenImage.getHeight());
+
+		/*
+		 * TODO:
+		 * Create the transformation matrix here,
+		 * from the camera angles and other related parameters.
+		 */
+		double[][] transformationMatrix = new double[4][4];
+
+		// Transform each geometric piece.
+		for (GeometricPiece piece: this.geometricPieceList) {
+			piece.transform(transformationMatrix);
+		}
+
+		// Sort the geometric pieces by their 'depth' values.
+		GeometricDepthComparator comparator = new GeometricDepthComparator();
+		this.geometricPieceList.sort(comparator);
+
+		// Shades the color of each geometric piece.
+		for (GeometricPiece piece: this.geometricPieceList) {
+			piece.shade();
+		}
+
+		// Draw each geometric piece on the screen.
+		for (GeometricPiece piece: this.geometricPieceList) {
+			piece.draw(this.screenGraphics);
+		}
 	}
 
 
