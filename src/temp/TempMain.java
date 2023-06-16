@@ -1,12 +1,14 @@
 package temp;
 
 import com.rinearn.graph3d.renderer.simple.SimpleRenderer;
+import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 import java.awt.Image;
+import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 
 
@@ -22,6 +24,28 @@ public class TempMain {
 
 		// Instantiate a simple implementation of the rendering engine of RINEARN Graph 3D.
 		SimpleRenderer renderer = new SimpleRenderer(800, 600);
+
+		// Draw many points.
+		int n = 100;
+		for (int i=0; i<n; i++) {
+
+			// Get a color from the HSB color gradient.
+			float colorScalarValue = i / (float)(n - 1);
+			Color color = Color.getHSBColor(colorScalarValue, 1.0f, 1.0f);
+
+			// Prepare he coordinate values of the point.
+			double theta = 6.0 * Math.PI * i / (double)(n - 1);
+			double x = Math.cos(theta);
+			double y = Math.sin(theta);
+			double z = 2.0 * i / (double)(n - 1) - 1.0;
+
+			// Draw the point.
+			RinearnGraph3DDrawingParameter param = new RinearnGraph3DDrawingParameter();
+			param.setRangeScalingEnabled(false);
+			param.setAutoColoringEnabled(false);
+			param.setColor(color);
+			renderer.drawPoint(x, y, z, 8.0, param);
+		}
 
 		// Perform the rendering process.
 		renderer.render();
