@@ -3,6 +3,8 @@ package com.rinearn.graph3d.renderer.simple;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -22,11 +24,15 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The Graphics2D instance to draw the graph screen. */
 	private volatile Graphics2D screenGraphics = null;
 
+	/** The list storing geometric pieces to be rendered. */
+	private volatile List<GeometricPiece> geometricPieceList = null;
+
 
 	/**
 	 * Creates a new renderer.
 	 */
 	public SimpleRenderer() {
+		this.geometricPieceList = new ArrayList<GeometricPiece>();
 	}
 
 
