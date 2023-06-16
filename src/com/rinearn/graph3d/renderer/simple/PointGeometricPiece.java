@@ -52,7 +52,18 @@ public class PointGeometricPiece extends GeometricPiece {
 	 */
 	@Override
 	public void project(int screenWidth, int screenHeight, int screenOffsetX, int screenOffsetY) {
-		throw new RuntimeException("Unimplemented");
+
+		// Short aliases of the vertices arrays.
+		double[] tv = this.transformedVertexArray[0];
+		int[] pv = this.projectedVertexArray[0];
+
+		// Compute the project coordinates on the screen.
+		// (The origin is the left-top edge of the screen.)
+		int screenCenterX = screenWidth >> 1 + screenOffsetX; // bit-shifting instead of dividing by 2.
+		int screenCenterY = screenHeight >> 1 - screenOffsetY;
+		double recipZ = 1.0 / tv[Z];
+		pv[X] = screenCenterX + (int)(tv[X] * recipZ);
+		pv[Y] = screenCenterY - (int)(tv[Y] * recipZ);
 	}
 
 
