@@ -8,6 +8,16 @@ import java.awt.Graphics2D;
  */
 public class PointGeometricPiece extends GeometricPiece {
 
+	/** The radius of this point, in the unit of pixels. */
+	private int radius;
+
+	/**
+	 * The diameter (pixels) of this point, in the unit of pixels.
+	 * May not match with 2 * radius, because the original radius is the floating point number.
+	 */
+	private int diameter;
+
+
 	/**
 	 * Transforms the coordinate values of this point.
 	 * 
@@ -74,6 +84,9 @@ public class PointGeometricPiece extends GeometricPiece {
 	 */
 	@Override
 	public void draw(Graphics2D graphics) {
-		throw new RuntimeException("Unimplemented");
+		graphics.setColor(this.onscreenColor);
+
+		int[] pv = this.projectedVertexArray[0];
+		graphics.fillOval(pv[X] - this.radius, pv[Y] - this.radius, this.diameter, this.diameter);
 	}
 }
