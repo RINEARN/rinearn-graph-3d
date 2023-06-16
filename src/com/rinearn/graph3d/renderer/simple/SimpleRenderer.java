@@ -75,7 +75,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 		 * Create the transformation matrix here,
 		 * from the camera angles and other related parameters.
 		 */
-		double[][] transformationMatrix = new double[4][4];
+		double[][] transformationMatrix = this.createTemporaryTransformationMatrix();
 
 		// Transform each geometric piece.
 		for (GeometricPiece piece: this.geometricPieceList) {
@@ -95,6 +95,20 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 		for (GeometricPiece piece: this.geometricPieceList) {
 			piece.draw(this.screenGraphics);
 		}
+	}
+
+	// Temporary method for developing/debugging.
+	private double[][] createTemporaryTransformationMatrix() {
+		double magnification = 700.0;
+		double distance = 6.0;
+		
+		double[][] matrix = new double[4][];
+		matrix[0] = new double[] { magnification, 0.0, 0.0, 0.0 };
+		matrix[1] = new double[] { 0.0, magnification, 0.0, 0.0 };
+		matrix[2] = new double[] { 0.0, 0.0, magnification, distance };
+		matrix[3] = new double[] { 0.0, 0.0, 0.0, 1.0 };
+		
+		return matrix;
 	}
 
 
