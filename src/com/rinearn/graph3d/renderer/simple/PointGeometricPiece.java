@@ -1,5 +1,6 @@
 package com.rinearn.graph3d.renderer.simple;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 
@@ -16,6 +17,23 @@ public class PointGeometricPiece extends GeometricPiece {
 	 * May not match with 2 * radius, because the original radius is the floating point number.
 	 */
 	private int diameter;
+
+
+	/**
+	 * 
+	 * @param x The x coordinate value of the center of the point, in the scaled space.
+	 * @param y The y coordinate value of the center of the point, in the scaled space.
+	 * @param z The z coordinate value of the center of the point, in the scaled space.
+	 * @param radius The radius (pixels) of the point.
+	 * @param color The color of the point.
+	 */
+	public PointGeometricPiece(double x, double y, double z, double radius, Color color) {
+		this.vertexCount = 1;
+		this.scaledVertexArray = new double[][] {{ x, y, z }};
+		this.transformedVertexArray = new double[this.vertexCount][3]; // [3] is X/Y/Z
+		this.projectedVertexArray = new int[this.vertexCount][2];      // [2] is X/Y
+		this.originalColor = color;
+	}
 
 
 	/**
