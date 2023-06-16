@@ -24,7 +24,9 @@ public class PointGeometricPiece extends GeometricPiece {
 	 */
 	@Override
 	public void shade() {
-		throw new RuntimeException("Unimplemented");
+
+		// Points have no shades, so simply copy the original color as it is.
+		this.onscreenColor = this.originalColor;
 	}
 
 
