@@ -39,9 +39,19 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	}
 
 
+	/**
+	 * Clears all currently rendered contents.
+	 */
 	@Override
 	public synchronized void clear() {
-		throw new RuntimeException("Unimplemented yet");
+
+		// Remove all geometric pieces registered by the drawer methods.
+		this.geometricPieceList.clear();
+		System.gc();
+
+		// Clear the content of the graph screen.
+		this.screenGraphics.setColor(this.screenBackgroundColor);
+		this.screenGraphics.fillRect(0, 0, this.screenImage.getWidth(), this.screenImage.getHeight());
 	}
 
 
