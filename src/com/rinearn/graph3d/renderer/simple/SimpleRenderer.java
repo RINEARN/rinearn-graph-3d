@@ -33,9 +33,14 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/**
 	 * Creates a new renderer.
+	 * 
+	 * @param screenWidth The width (pixels) of the screen.
+	 * @param screenHeight The height (pixels) of the screen.
 	 */
-	public SimpleRenderer() {
+	public SimpleRenderer(int screenWidth, int screenHeight) {
 		this.geometricPieceList = new ArrayList<GeometricPiece>();
+		this.setScreenSize(screenWidth, screenHeight);
+		this.clear();
 	}
 
 
