@@ -24,6 +24,9 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The Graphics2D instance to draw the graph screen. */
 	private volatile Graphics2D screenGraphics = null;
 
+	/** The background color of the graph screen. */
+	private volatile Color screenBackgroundColor = Color.BLACK;
+
 	/** The list storing geometric pieces to be rendered. */
 	private volatile List<GeometricPiece> geometricPieceList = null;
 
@@ -228,5 +231,15 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	 */
 	public synchronized Image getScreenImage() {
 		return this.screenImage;
+	}
+
+
+	/**
+	 * Sets the background color of the graph screen.
+	 * 
+	 * @param screenBackgroundColor The background color of the graph screen.
+	 */
+	public synchronized void setScreenBackgroundColor(Color screenBackgroundColor) {
+		this.screenBackgroundColor = screenBackgroundColor;
 	}
 }
