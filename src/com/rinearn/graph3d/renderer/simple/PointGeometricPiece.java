@@ -33,6 +33,9 @@ public class PointGeometricPiece extends GeometricPiece {
 		this.transformedVertexArray = new double[this.vertexCount][3]; // [3] is X/Y/Z
 		this.projectedVertexArray = new int[this.vertexCount][2];      // [2] is X/Y
 		this.originalColor = color;
+		
+		this.radius = (int)Math.round(radius);
+		this.diameter = (int)Math.round(radius * 2.0);
 	}
 
 
