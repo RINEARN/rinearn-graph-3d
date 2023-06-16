@@ -65,10 +65,14 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	 */
 	@Override
 	public synchronized void render() {
+		int screenWidth = this.screenImage.getWidth();
+		int screenHeight = this.screenImage.getHeight();
+		int screenOffsetX = 0;
+		int screenOffsetY = 0;
 
 		// Clear the graph screen.
 		this.screenGraphics.setColor(this.screenBackgroundColor);
-		this.screenGraphics.fillRect(0, 0, this.screenImage.getWidth(), this.screenImage.getHeight());
+		this.screenGraphics.fillRect(0, 0, screenWidth, screenHeight);
 
 		/*
 		 * TODO:
@@ -93,6 +97,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 		// Draw each geometric piece on the screen.
 		for (GeometricPiece piece: this.geometricPieceList) {
+			piece.project(screenWidth, screenHeight, screenOffsetX, screenOffsetY);
 			piece.draw(this.screenGraphics);
 		}
 	}

@@ -43,6 +43,20 @@ public class PointGeometricPiece extends GeometricPiece {
 
 
 	/**
+	 * Computes the projected screen coordinate values of this point.
+	 * 
+	 * @param screenWidth The width (pixels) of the screen.
+	 * @param screenHeight The height (pixels) of the screen.
+	 * @param screenOffsetX The X-offset value (positive for shifting rightward) of the screen center.
+	 * @param screenOffsetY The Y-offset value (positive for shifting upward) of the screen center.
+	 */
+	@Override
+	public void project(int screenWidth, int screenHeight, int screenOffsetX, int screenOffsetY) {
+		throw new RuntimeException("Unimplemented");
+	}
+
+
+	/**
 	 * Draws this point.
 	 * 
 	 * @param graphics The Graphics2D instance for drawing shapes to the screen image.

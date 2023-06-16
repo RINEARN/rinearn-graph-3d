@@ -28,6 +28,9 @@ public abstract class GeometricPiece {
 	/** Stores the transformed coordinate values of the vertices. */
 	protected double[][] transformedVertexArray = null;
 
+	/** Stores the projected coordinate values of the vertices. */
+	protected int[][] projectedVertexArray = null;
+
 	/** Represents the original (unmodified) color of this piece. */
 	protected Color originalColor = null;
 
@@ -50,6 +53,17 @@ public abstract class GeometricPiece {
 	 * Shades the color.
 	 */
 	public abstract void shade();
+
+
+	/**
+	 * Computes the projected screen coordinate values of the vertices.
+	 * 
+	 * @param screenWidth The width (pixels) of the screen.
+	 * @param screenHeight The height (pixels) of the screen.
+	 * @param screenOffsetX The X-offset value (positive for shifting rightward) of the screen center.
+	 * @param screenOffsetY The Y-offset value (positive for shifting upward) of the screen center.
+	 */
+	public abstract void project(int screenWidth, int screenHeight, int screenOffsetX, int screenOffsetY);
 
 
 	/**
