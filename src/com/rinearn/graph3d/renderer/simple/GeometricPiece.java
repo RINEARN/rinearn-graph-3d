@@ -32,7 +32,7 @@ public abstract class GeometricPiece {
 	protected Color originalColor;
 
 	/** Represents the color on the screen, computed by the shading process. */
-	protected Color screenColor;
+	protected Color onscreenColor;
 
 	/** The 'depth' value of this piece. See also the comment of the getter method. */
 	protected double depth = Double.NaN;
