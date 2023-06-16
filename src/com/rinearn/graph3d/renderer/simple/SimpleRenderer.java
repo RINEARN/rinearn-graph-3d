@@ -133,11 +133,29 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	}
 
 
+	/**
+	 * Draws a point with the specified parameter settings.
+	 * 
+	 * @param x The X coordinate of the point.
+	 * @param y The Y coordinate of the point.
+	 * @param z The Z coordinate of the point.
+	 * @param radius The radius of the point (in pixels).
+	 * @param parameter The object storing the drawing parameters.
+	 */
 	@Override
 	public synchronized void drawPoint(double x, double y, double z, 
 			double radius, RinearnGraph3DDrawingParameter parameter) {
 
-		throw new RuntimeException("Unimplemented yet");
+		if (parameter.isRangeScalingEnabled()) {
+			throw new RuntimeException("Unimplemented yet");			
+		}
+		if (parameter.isAutoColoringEnabled()) {
+			throw new RuntimeException("Unimplemented yet");			
+		}
+
+		Color color = parameter.getColor();
+		PointGeometricPiece point = new PointGeometricPiece(x, y, z, radius, color);
+		this.geometricPieceList.add(point);
 	}
 
 
