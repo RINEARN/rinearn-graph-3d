@@ -31,19 +31,19 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public void clear() {
+	public synchronized void clear() {
 		throw new RuntimeException("Unimplemented yet");
 	}
 
 
 	@Override
-	public void render() {
+	public synchronized void render() {
 		throw new RuntimeException("Unimplemented yet");
 	}
 
 
 	@Override
-	public void drawPoint(double x, double y, double z, 
+	public synchronized void drawPoint(double x, double y, double z, 
 			double radius) {
 
 		throw new RuntimeException("Unimplemented yet");
@@ -51,7 +51,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public void drawPoint(double x, double y, double z, 
+	public synchronized void drawPoint(double x, double y, double z, 
 			double radius, Color color) {
 
 		throw new RuntimeException("Unimplemented yet");
@@ -59,7 +59,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public void drawPoint(double x, double y, double z, 
+	public synchronized void drawPoint(double x, double y, double z, 
 			double radius, RinearnGraph3DDrawingParameter parameter) {
 
 		throw new RuntimeException("Unimplemented yet");
@@ -67,7 +67,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public void drawLine(double aX, double aY, double aZ, 
+	public synchronized void drawLine(double aX, double aY, double aZ, 
 			double bX, double bY, double bZ, 
 			double width) {
 
@@ -76,7 +76,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public void drawLine(double aX, double aY, double aZ, 
+	public synchronized void drawLine(double aX, double aY, double aZ, 
 			double bX, double bY, double bZ, 
 			double width, Color color) {
 
@@ -85,7 +85,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public void drawLine(double aX, double aY, double aZ, 
+	public synchronized void drawLine(double aX, double aY, double aZ, 
 			double bX, double bY, double bZ, 
 			double width, RinearnGraph3DDrawingParameter parameter) {
 
@@ -94,7 +94,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public void drawTriangle(double aX, double aY, double aZ, 
+	public synchronized void drawTriangle(double aX, double aY, double aZ, 
 			double bX, double bY, double bZ, 
 			double cX, double cY, double cZ) {
 
@@ -103,7 +103,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public void drawTriangle(double aX, double aY, double aZ, 
+	public synchronized void drawTriangle(double aX, double aY, double aZ, 
 			double bX, double bY, double bZ, 
 			double cX, double cY, double cZ, 
 			Color color) {
@@ -113,7 +113,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public void drawTriangle(double aX, double aY, double aZ, 
+	public synchronized void drawTriangle(double aX, double aY, double aZ, 
 			double bX, double bY, double bZ, 
 			double cX, double cY, double cZ, 
 			RinearnGraph3DDrawingParameter parameter) {
@@ -123,7 +123,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public void drawQuadrangle(double aX, double aY, double aZ, 
+	public synchronized void drawQuadrangle(double aX, double aY, double aZ, 
 			double bX, double bY, double bZ, 
 			double cX, double cY, double cZ, 
 			double dX, double dY, double dZ) {
@@ -133,7 +133,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public void drawQuadrangle(double aX, double aY, double aZ, 
+	public synchronized void drawQuadrangle(double aX, double aY, double aZ, 
 			double bX, double bY, double bZ, 
 			double cX, double cY, double cZ, 
 			double dX, double dY, double dZ, 
@@ -144,7 +144,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public void drawQuadrangle(double aX, double aY, double aZ, 
+	public synchronized void drawQuadrangle(double aX, double aY, double aZ, 
 			double bX, double bY, double bZ, 
 			double cX, double cY, double cZ, 
 			double dX, double dY, double dZ, 
@@ -155,7 +155,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public void drawText(double x, double y, double z, 
+	public synchronized void drawText(double x, double y, double z, 
 			String text, Font font, Color color) {
 
 		throw new RuntimeException("Unimplemented yet");
@@ -163,7 +163,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public void drawText(double x, double y, double z, 
+	public synchronized void drawText(double x, double y, double z, 
 			String text, Font font, RinearnGraph3DDrawingParameter parameter) {
 
 		throw new RuntimeException("Unimplemented yet");
@@ -171,25 +171,25 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public void drawFrame() {
+	public synchronized void drawFrame() {
 		throw new RuntimeException("Unimplemented yet");
 	}
 
 
 	@Override
-	public void drawScale() {
+	public synchronized void drawScale() {
 		throw new RuntimeException("Unimplemented yet");
 	}
 
 
 	@Override
-	public void drawGrid() {
+	public synchronized void drawGrid() {
 		throw new RuntimeException("Unimplemented yet");
 	}
 
 
 	@Override
-	public void drawLabel() {
+	public synchronized void drawLabel() {
 		throw new RuntimeException("Unimplemented yet");
 	}
 
