@@ -34,6 +34,9 @@ public abstract class GeometricPiece {
 	/** Represents the color on the screen, computed by the shading process. */
 	protected Color screenColor;
 
+	/** The 'depth' value of this piece. See also the comment of the getter method. */
+	protected double depth = Double.NaN;
+
 
 	/**
 	 * Transforms the coordinate values of the vertices.
@@ -55,4 +58,18 @@ public abstract class GeometricPiece {
 	 * @param graphics The Graphics2D instance for drawing shapes to the screen image.
 	 */
 	public abstract void draw(Graphics2D graphics);
+
+
+	/**
+	 * Returns the 'depth' value of this piece.
+	 * 
+	 * The 'depth' value represents how far the geometric piece is,
+	 * from the screen surface, in the depth direction (perpendicular to the screen surface).
+	 * 
+	 * The 'depth' value is computed in 'transform' method, and is stored to the field.
+	 * This method returns the stored value.
+	 */
+	public double getDepth() {
+		return this.depth;
+	}
 }
