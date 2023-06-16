@@ -34,8 +34,8 @@ public abstract class GeometricPiece {
 	/** Represents the color on the screen, computed by the shading process. */
 	protected Color onscreenColor = null;
 
-	/** The 'depth' value of this piece. See also the comment of the getter method. */
-	protected double depth = Double.NaN;
+	/** The square of the 'depth' value of this piece. See also the comment of the getter method. */
+	protected double depthSquaredValue = Double.NaN;
 
 
 	/**
@@ -61,15 +61,15 @@ public abstract class GeometricPiece {
 
 
 	/**
-	 * Returns the 'depth' value of this piece.
+	 * Returns the square of the 'depth' value of this piece.
 	 * 
 	 * The 'depth' value represents how far the geometric piece is,
 	 * from the screen surface, in the depth direction (perpendicular to the screen surface).
 	 * 
-	 * The 'depth' value is computed in 'transform' method, and is stored to the field.
+	 * The square of the 'depth' value is computed in 'transform' method, and is stored to the field.
 	 * This method returns the stored value.
 	 */
-	public double getDepth() {
-		return this.depth;
+	public double getDepthSquaredValue() {
+		return this.depthSquaredValue;
 	}
 }
