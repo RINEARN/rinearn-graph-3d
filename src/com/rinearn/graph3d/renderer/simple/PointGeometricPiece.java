@@ -20,6 +20,7 @@ public class PointGeometricPiece extends GeometricPiece {
 
 
 	/**
+	 * Creates a new geometric piece representing a point.
 	 * 
 	 * @param x The x coordinate value of the center of the point, in the scaled space.
 	 * @param y The y coordinate value of the center of the point, in the scaled space.
@@ -52,7 +53,7 @@ public class PointGeometricPiece extends GeometricPiece {
 		double[] sv = this.scaledVertexArray[0];
 		double[] tv = this.transformedVertexArray[0];
 
-		// Transform vertices, where X=0, Y=1, and Z=2.
+		// Transform the coordinate values, where X=0, Y=1, and Z=2.
 		tv[X] = m[0][0] * sv[X] + m[0][1] * sv[Y] + m[0][2] * sv[Z] + m[0][3];
 		tv[Y] = m[1][0] * sv[X] + m[1][1] * sv[Y] + m[1][2] * sv[Z] + m[1][3];
 		tv[Z] = m[2][0] * sv[X] + m[2][1] * sv[Y] + m[2][2] * sv[Z] + m[2][3];
@@ -85,14 +86,15 @@ public class PointGeometricPiece extends GeometricPiece {
 	@Override
 	public void project(int screenWidth, int screenHeight, int screenOffsetX, int screenOffsetY, double magnification) {
 
-		// Short aliases of the vertices arrays.
-		double[] tv = this.transformedVertexArray[0];
-		int[] pv = this.projectedVertexArray[0];
-
 		// Compute the project coordinates on the screen.
 		// (The origin is the left-top edge of the screen.)
 		int screenCenterX = screenWidth >> 1 + screenOffsetX; // bit-shifting instead of dividing by 2.
 		int screenCenterY = screenHeight >> 1 - screenOffsetY;
+
+		// Short aliases of the vertices arrays.
+		double[] tv = this.transformedVertexArray[0];
+		int[] pv = this.projectedVertexArray[0];
+
 		double projectionRatio = magnification / tv[Z];
 		pv[X] = screenCenterX + (int)(tv[X] * projectionRatio);
 		pv[Y] = screenCenterY - (int)(tv[Y] * projectionRatio);

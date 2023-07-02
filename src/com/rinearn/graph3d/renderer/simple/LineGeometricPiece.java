@@ -31,7 +31,7 @@ public class LineGeometricPiece extends GeometricPiece {
 		this.scaledVertexArray = new double[][] {{ aX, aY, aZ }, {bX, bY, bZ}};
 		this.transformedVertexArray = new double[this.vertexCount][3]; // [3] is X/Y/Z
 		this.projectedVertexArray = new int[this.vertexCount][2];      // [2] is X/Y
-		this.stroke = new BasicStroke((float)width, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+		this.stroke = new BasicStroke((float)width, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL);
 		this.originalColor = color;
 	}
 
