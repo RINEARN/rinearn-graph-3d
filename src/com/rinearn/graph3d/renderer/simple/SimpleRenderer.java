@@ -182,7 +182,16 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 			double bX, double bY, double bZ, 
 			double width, RinearnGraph3DDrawingParameter parameter) {
 
-		throw new RuntimeException("Unimplemented yet");
+		if (parameter.isRangeScalingEnabled()) {
+			throw new RuntimeException("Unimplemented yet");			
+		}
+		if (parameter.isAutoColoringEnabled()) {
+			throw new RuntimeException("Unimplemented yet");			
+		}
+
+		Color color = parameter.getColor();
+		LineGeometricPiece line = new LineGeometricPiece(aX, aY, aZ, bX, bY, bZ, width, color);
+		this.geometricPieceList.add(line);
 	}
 
 
