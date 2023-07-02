@@ -87,7 +87,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 			piece.transform(transformationMatrix);
 		}
 
-		// Sort the geometric pieces by their 'depth' values.
+		// Sort the geometric pieces in descending order of their 'depth' values.
 		GeometricDepthComparator comparator = new GeometricDepthComparator();
 		this.geometricPieceList.sort(comparator);
 
