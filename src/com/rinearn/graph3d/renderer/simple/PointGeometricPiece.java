@@ -95,7 +95,7 @@ public class PointGeometricPiece extends GeometricPiece {
 		double[] tv = this.transformedVertexArray[0];
 		int[] pv = this.projectedVertexArray[0];
 
-		double projectionRatio = magnification / tv[Z];
+		double projectionRatio = magnification / -tv[Z]; // Z takes a negative value for the depth direction.
 		pv[X] = screenCenterX + (int)(tv[X] * projectionRatio);
 		pv[Y] = screenCenterY - (int)(tv[Y] * projectionRatio);
 	}

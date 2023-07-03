@@ -37,7 +37,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	private volatile double[][] transformationMatrix = {
 		{ 1.0, 0.0, 0.0, 0.0 },
 		{ 0.0, 1.0, 0.0, 0.0 },
-		{ 0.0, 0.0, 1.0, DEFAULT_DISTANCE },
+		{ 0.0, 0.0, 1.0, -DEFAULT_DISTANCE }, // Z takes a negative value for the depth direction.
 		{ 0.0, 0.0, 0.0, 1.0 }
 	};
 

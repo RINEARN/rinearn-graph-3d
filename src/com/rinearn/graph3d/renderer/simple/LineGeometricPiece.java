@@ -98,7 +98,7 @@ public class LineGeometricPiece extends GeometricPiece {
 
 		// Project each vertex.
 		for (int ivertex=0; ivertex<this.vertexCount; ivertex++) {
-			double projectionRatio = magnification / tv[ivertex][Z];
+			double projectionRatio = magnification / -tv[ivertex][Z]; // Z takes a negative value for the depth direction.
 			pv[ivertex][X] = screenCenterX + (int)(tv[ivertex][X] * projectionRatio);
 			pv[ivertex][Y] = screenCenterY - (int)(tv[ivertex][Y] * projectionRatio);
 		}
