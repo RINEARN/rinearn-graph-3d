@@ -17,7 +17,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class TempMain {
 	private static final int SCREEN_WIDTH = 1000;
-	private static final int SCREEN_HEIGHT = 800;
+	private static final int SCREEN_HEIGHT = 860;
 
 	public static void main(String[] args) {
 		System.out.println("Hello RINEARN Graph 3D Ver.6!");
@@ -78,6 +78,10 @@ public class TempMain {
 			param.setColor(color);
 			renderer.drawPoint(x, y, z, 8.0, param);
 		}
+
+		// Rotate the graph.
+		renderer.rotateZ(0.24);
+		renderer.rotateX(-1.0);
 
 		// Perform the rendering process.
 		renderer.render();
