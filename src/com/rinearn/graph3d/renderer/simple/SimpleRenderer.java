@@ -18,6 +18,9 @@ import java.awt.Graphics2D;
  */
 public class SimpleRenderer implements RinearnGraph3DRenderer {
 
+	/** The default value of the distance between the viewpoint and the origin of the graph. */
+	private static final double DEFAULT_DISTANCE = 3.0;
+
 	/** The Image instance storing the rendered image of the graph screen. */
 	private volatile BufferedImage screenImage = null;
 
@@ -29,6 +32,14 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/** The list storing geometric pieces to be rendered. */
 	private volatile List<GeometricPiece> geometricPieceList = null;
+
+	// The transformation matrix from the graph coordinate system to the view coordinate system.
+	private volatile double[][] transformationMatrix = {
+		{ 1.0, 0.0, 0.0, 0.0 },
+		{ 0.0, 1.0, 0.0, 0.0 },
+		{ 0.0, 0.0, 1.0, DEFAULT_DISTANCE },
+		{ 0.0, 0.0, 0.0, 1.0 }
+	};
 
 
 	/**
@@ -75,13 +86,6 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 		this.screenGraphics.setColor(this.screenBackgroundColor);
 		this.screenGraphics.fillRect(0, 0, screenWidth, screenHeight);
 
-		/*
-		 * TODO:
-		 * Create the transformation matrix here,
-		 * from the camera angles and other related parameters.
-		 */
-		double[][] transformationMatrix = this.createTemporaryTransformationMatrix();
-
 		// Transform each geometric piece.
 		for (GeometricPiece piece: this.geometricPieceList) {
 			piece.transform(transformationMatrix);
@@ -103,17 +107,106 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 		}
 	}
 
-	// Temporary method for developing/debugging.
-	private double[][] createTemporaryTransformationMatrix() {
-		double distance = 3.0;
+
+	/**
+	 * Rotates the graph around the X-axis.
+	 * 
+	 * For the sign of the rotation angle, 
+	 * we define it as positive when a right-hand screw advances 
+	 * towards the positive direction of the X-axis.
+	 * 
+	 * @param angle The rotation angle.
+	 */
+	public void rotateX(double angle) {
+		double sin = Math.sin(angle);
+		double cos = Math.cos(angle);
+
+		// Create the rotation matrix.
+		double[][] r = new double[3][];
+		r[0] = new double[] { 1.0, 0.0, 0.0 };
+		r[1] = new double[] { 0.0, cos,-sin };
+		r[2] = new double[] { 0.0, sin, cos };
+
+		// Act the rotation matrix to the transformation matrix.
+		double[][] m = this.transformationMatrix;
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				m[i][j] = r[i][0] * m[0][j] + r[i][1] * m[1][j] + r[i][2] * m[2][j];
+			}
+		}
+	}
+
+
+	/**
+	 * Rotates the graph around the Y-axis.
+	 * 
+	 * For the sign of the rotation angle, 
+	 * we define it as positive when a right-hand screw advances 
+	 * towards the positive direction of the Y-axis.
+	 * 
+	 * @param angle The rotation angle.
+	 */
+	public void rotateY(double angle) {
+		double sin = Math.sin(angle);
+		double cos = Math.cos(angle);
+
+		// Create the rotation matrix.
+		double[][] r = new double[3][];
+		r[0] = new double[] { cos, 0.0, sin };
+		r[1] = new double[] { 0.0, 1.0, 0.0 };
+		r[2] = new double[] { -sin,0.0, cos };
+
+		// Act the rotation matrix to the transformation matrix.
+		double[][] m = this.transformationMatrix;
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				m[i][j] = r[i][0] * m[0][j] + r[i][1] * m[1][j] + r[i][2] * m[2][j];
+			}
+		}
+	}
+
+
+	/**
+	 * Rotates the graph around the Z-axis.
+	 * 
+	 * For the sign of the rotation angle, 
+	 * we define it as positive when a right-hand screw advances 
+	 * towards the positive direction of the Z-axis.
+	 * 
+	 * @param angle The rotation angle.
+	 */
+	public void rotateZ(double angle) {
+		double sin = Math.sin(angle);
+		double cos = Math.cos(angle);
+
+		// Create the rotation matrix.
+		double[][] r = new double[3][];
+		r[0] = new double[] { cos,-sin, 0.0 };
+		r[1] = new double[] { sin, cos, 0.0 };
+		r[2] = new double[] { 0.0, 0.0, 1.0 };
+
+		// Act the rotation matrix to the transformation matrix.
+		double[][] m = this.transformationMatrix;
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				m[i][j] = r[i][0] * m[0][j] + r[i][1] * m[1][j] + r[i][2] * m[2][j];
+			}
+		}
+	}
+
+
+	/**
+	 * Cancels the effects of the rotations performed by rotateX/Y/Z methods.
+	 */
+	public void cancelRotations() {
+		double dx = this.transformationMatrix[0][3];
+		double dy = this.transformationMatrix[1][3];
+		double distance = this.transformationMatrix[2][3];
 		
-		double[][] matrix = new double[4][];
-		matrix[0] = new double[] { 1.0, 0.0, 0.0, 0.0 };
-		matrix[1] = new double[] { 0.0, 1.0, 0.0, 0.0 };
-		matrix[2] = new double[] { 0.0, 0.0, 1.0, distance };
-		matrix[3] = new double[] { 0.0, 0.0, 0.0, 1.0 };
-		
-		return matrix;
+		this.transformationMatrix[0] = new double[] { 1.0, 0.0, 0.0, dx };
+		this.transformationMatrix[1] = new double[] { 0.0, 1.0, 0.0, dy };
+		this.transformationMatrix[2] = new double[] { 0.0, 0.0, 1.0, distance };
+		this.transformationMatrix[3] = new double[] { 0.0, 0.0, 0.0, 1.0 };
 	}
 
 
