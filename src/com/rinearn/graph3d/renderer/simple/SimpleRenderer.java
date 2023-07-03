@@ -127,11 +127,19 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 		r[1] = new double[] { 0.0, cos,-sin };
 		r[2] = new double[] { 0.0, sin, cos };
 
+		// Create a matrix for temporary storing updated values of the transformation matrix.
+		double[][] updated = new double[3][3];
+
 		// Act the rotation matrix to the transformation matrix.
 		double[][] m = this.transformationMatrix;
 		for (int i=0; i<3; i++) {
 			for (int j=0; j<3; j++) {
-				m[i][j] = r[i][0] * m[0][j] + r[i][1] * m[1][j] + r[i][2] * m[2][j];
+				updated[i][j] = r[i][0] * m[0][j] + r[i][1] * m[1][j] + r[i][2] * m[2][j];
+			}
+		}
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				m[i][j] = updated[i][j];
 			}
 		}
 	}
@@ -156,11 +164,19 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 		r[1] = new double[] { 0.0, 1.0, 0.0 };
 		r[2] = new double[] { -sin,0.0, cos };
 
+		// Create a matrix for temporary storing updated values of the transformation matrix.
+		double[][] updated = new double[3][3];
+
 		// Act the rotation matrix to the transformation matrix.
 		double[][] m = this.transformationMatrix;
 		for (int i=0; i<3; i++) {
 			for (int j=0; j<3; j++) {
-				m[i][j] = r[i][0] * m[0][j] + r[i][1] * m[1][j] + r[i][2] * m[2][j];
+				updated[i][j] = r[i][0] * m[0][j] + r[i][1] * m[1][j] + r[i][2] * m[2][j];
+			}
+		}
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				m[i][j] = updated[i][j];
 			}
 		}
 	}
@@ -185,11 +201,19 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 		r[1] = new double[] { sin, cos, 0.0 };
 		r[2] = new double[] { 0.0, 0.0, 1.0 };
 
+		// Create a matrix for temporary storing updated values of the transformation matrix.
+		double[][] updated = new double[3][3];
+
 		// Act the rotation matrix to the transformation matrix.
 		double[][] m = this.transformationMatrix;
 		for (int i=0; i<3; i++) {
 			for (int j=0; j<3; j++) {
-				m[i][j] = r[i][0] * m[0][j] + r[i][1] * m[1][j] + r[i][2] * m[2][j];
+				updated[i][j] = r[i][0] * m[0][j] + r[i][1] * m[1][j] + r[i][2] * m[2][j];
+			}
+		}
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				m[i][j] = updated[i][j];
 			}
 		}
 	}
