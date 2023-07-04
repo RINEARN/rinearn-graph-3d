@@ -117,7 +117,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * 
 	 * @param angle The rotation angle.
 	 */
-	public void rotateX(double angle) {
+	public synchronized void rotateX(double angle) {
 		double sin = Math.sin(angle);
 		double cos = Math.cos(angle);
 
@@ -154,7 +154,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * 
 	 * @param angle The rotation angle.
 	 */
-	public void rotateY(double angle) {
+	public synchronized void rotateY(double angle) {
 		double sin = Math.sin(angle);
 		double cos = Math.cos(angle);
 
@@ -191,7 +191,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * 
 	 * @param angle The rotation angle.
 	 */
-	public void rotateZ(double angle) {
+	public synchronized void rotateZ(double angle) {
 		double sin = Math.sin(angle);
 		double cos = Math.cos(angle);
 
@@ -222,7 +222,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	/**
 	 * Cancels the effects of the rotations performed by rotateX/Y/Z methods.
 	 */
-	public void cancelRotations() {
+	public synchronized void cancelRotations() {
 		double dx = this.transformationMatrix[0][3];
 		double dy = this.transformationMatrix[1][3];
 		double distance = this.transformationMatrix[2][3];
