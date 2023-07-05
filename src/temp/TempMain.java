@@ -1,6 +1,7 @@
 package temp;
 
 import com.rinearn.graph3d.renderer.simple.SimpleRenderer;
+import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 
 import javax.swing.JFrame;
@@ -8,8 +9,11 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 /**
@@ -18,6 +22,9 @@ import java.lang.reflect.InvocationTargetException;
 public class TempMain {
 	private static final int SCREEN_WIDTH = 1000;
 	private static final int SCREEN_HEIGHT = 860;
+	private static final int X = 0;
+	private static final int Y = 1;
+	private static final int Z = 2;
 
 	public static void main(String[] args) {
 		System.out.println("Hello RINEARN Graph 3D Ver.6!");
@@ -89,6 +96,13 @@ public class TempMain {
 		// Preview the rendered image.
 		Image renderedImage = renderer.getScreenImage();
 		tempWindow.preview(renderedImage);
+
+		RenderingLoop renderingLoop = new RenderingLoop(renderer, tempWindow);
+		Thread renderingThread = new Thread(renderingLoop);
+		renderingThread.start();
+
+		ScreenMouseListener screenMouseListener = new ScreenMouseListener(renderer, renderingLoop);
+		tempWindow.addScreenMouseListener(screenMouseListener);
 	}
 
 
@@ -109,9 +123,19 @@ public class TempMain {
 			}
 		}
 
+		public void addScreenMouseListener(ScreenMouseListener screenMouseListener) {
+			this.screenLabel.addMouseListener(screenMouseListener);
+			this.screenLabel.addMouseMotionListener(screenMouseListener);
+		}
+
 		// Previews the specified image.
 		public void preview(Image image) {
 			this.screenIcon.setImage(image);
+			this.screenLabel.repaint();
+		}
+
+		// Repaint the screen.
+		public void repaint() {
 			this.screenLabel.repaint();
 		}
 
@@ -136,6 +160,131 @@ public class TempMain {
 				screenLabel.setVisible(true);
 				frame.setVisible(true);
 			}
+		}
+	}
+
+	private static class RenderingLoop implements Runnable {
+		private final SimpleRenderer renderer;
+		private final TemporaryPreviewWindow tempWindow;
+		private volatile boolean continues = true;
+		private volatile boolean shouldRender = false;
+
+		public RenderingLoop(SimpleRenderer renderer, TemporaryPreviewWindow tempWindow) {
+			this.renderer = renderer;
+			this.tempWindow = tempWindow;
+		}
+
+		public synchronized void renderNextTime() {
+			this.shouldRender = true;
+		}
+
+		@Override
+		public void run() {
+			while(continues) {
+				if (this.shouldRender) {
+					synchronized (this) {
+						this.renderer.render();
+						this.tempWindow.repaint();
+						this.shouldRender = false;
+					}
+				}
+				try {
+					Thread.sleep(30);
+				} catch (InterruptedException ie) {
+					ie.printStackTrace();
+				}
+			}
+		}
+	}
+
+	private static class ScreenMouseListener extends MouseAdapter {
+		private final SimpleRenderer renderer;
+		private final RenderingLoop renderingLoop;
+
+		private volatile int lastMouseX = -1;
+		private volatile int lastMouseY = -1;
+
+		public ScreenMouseListener(SimpleRenderer renderer, RenderingLoop renderingLoop) {
+			this.renderer = renderer;
+			this.renderingLoop = renderingLoop;
+		}
+
+		@Override
+		public void mousePressed(MouseEvent me) {
+			this.lastMouseX = me.getX();
+			this.lastMouseY = me.getY();
+		}
+
+		@Override
+		public void mouseDragged(MouseEvent me) {
+			int currentMouseX = me.getX();
+			int currentMouseY = me.getY();
+			int dx = lastMouseX - currentMouseX;
+			int dy = lastMouseY - currentMouseY;
+
+			BufferedImage screenImage = BufferedImage.class.cast(renderer.getScreenImage());
+			int rotCenterX = screenImage.getWidth()/2;
+			int rotCenterY = screenImage.getHeight()/2;
+
+			boolean existsRadialUnitVecotr = this.existsRadialUnitVector(lastMouseX, lastMouseY, rotCenterX, rotCenterY);
+			double[] radialUnitVector = null;
+			if (existsRadialUnitVecotr) {
+				radialUnitVector = this.computeRadialUnitVector(lastMouseX, lastMouseY, rotCenterX, rotCenterY);
+			}
+
+			double[] radialDeltaVector = this.computeRadialDeltaVector(dx, dy, existsRadialUnitVecotr, radialUnitVector);
+			double   spinnerDeltaVectorLength = this.computeSpinnerDeltaVectorLength(dx, dy, existsRadialUnitVecotr, radialUnitVector, radialDeltaVector);
+
+			this.renderer.rotateX(-radialDeltaVector[Y] * 0.005);
+			this.renderer.rotateY(-radialDeltaVector[X] * 0.005);
+			this.renderer.rotateZ(spinnerDeltaVectorLength * 0.003);
+			this.renderingLoop.renderNextTime();
+
+			this.lastMouseX = currentMouseX;
+			this.lastMouseY = currentMouseY;
+		}
+
+		private boolean existsRadialUnitVector(int mouseBeginX, int mouseBeginY, int rotationCenterX, int rotationCenterY) {
+			boolean exists = (mouseBeginX != rotationCenterX || mouseBeginY != rotationCenterY);
+			return exists;
+		}
+
+		private double[] computeRadialUnitVector(int mouseBeginX, int mouseBeginY, int rotationCenterX, int rotationCenterY) {
+			if (mouseBeginX == rotationCenterX && mouseBeginY == rotationCenterY) {
+				return null;
+			}
+
+			double[] radialUnitVector = new double[2];
+			radialUnitVector[X] = mouseBeginX - rotationCenterX;
+			radialUnitVector[Y] = mouseBeginY - rotationCenterY;
+			double vectorLength =  Math.sqrt(radialUnitVector[X] * radialUnitVector[X] + radialUnitVector[Y] * radialUnitVector[Y]);
+			radialUnitVector[X] /= vectorLength;
+			radialUnitVector[Y] /= vectorLength;
+			return radialUnitVector;
+		}
+
+		private double[] computeRadialDeltaVector(int mouseDeltaX, int mouseDeltaY, boolean existsRadialUnitVector, double[] radialUnitVector) {
+			if (existsRadialUnitVector) {
+				double radialInnerProduct = mouseDeltaX * radialUnitVector[X] + mouseDeltaY * radialUnitVector[Y];
+				double[] radialDeltaVector = { radialInnerProduct * radialUnitVector[X], radialInnerProduct * radialUnitVector[Y] };
+				return radialDeltaVector;
+			} else {
+				double[] radialDeltaVector = { mouseDeltaX, mouseDeltaY };
+				return radialDeltaVector;
+			}
+		}
+
+		private double computeSpinnerDeltaVectorLength(int mouseDeltaX, int mouseDeltaY, boolean existsRadialUnitVector, double[] radialUnitVector, double[] radialDeltaVector) {
+			if (!existsRadialUnitVector) {
+				return 0.0;
+			}
+			double[] spinnerDeltaVector = { mouseDeltaX - radialDeltaVector[X], mouseDeltaY - radialDeltaVector[Y] };
+			double spinnerDeltaVectorLength = Math.sqrt(spinnerDeltaVector[X] * spinnerDeltaVector[X] + spinnerDeltaVector[Y] * spinnerDeltaVector[Y]);
+			double crossProductZ = radialUnitVector[X] * spinnerDeltaVector[Y] - radialUnitVector[Y] * spinnerDeltaVector[X];
+			if (crossProductZ < 0) {
+				spinnerDeltaVectorLength = -spinnerDeltaVectorLength;
+			}
+			return spinnerDeltaVectorLength;
 		}
 	}
 }
