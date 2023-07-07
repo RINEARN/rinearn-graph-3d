@@ -1,8 +1,10 @@
 package com.rinearn.graph3d.renderer.simple;
 
+import com.rinearn.graph3d.renderer.RinearnGraph3DLightingParameter;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
+
 
 /**
  * A geometric piece class representing a line.
@@ -146,9 +148,11 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Shades the color.
+	 * 
+	 * @param lightingParameter The object storing parameters for lighting and shading.
 	 */
 	@Override
-	public void shade() {
+	public void shade(RinearnGraph3DLightingParameter lightingParameter) {
 
 		// TODO: implement lighting effects.
 		this.onscreenColor = this.originalColor;
