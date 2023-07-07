@@ -29,11 +29,11 @@ public class RinearnGraph3DLightingParameter {
 		this.ambientReflectionStrength = 0.6;
 		this.diffuseReflectionStrength = 0.6;
 		this.diffractiveReflectionStrength = 0.5;
-		this.specularReflectionStrength = 0.64;
-		this.specularReflectionAngle = 1.3;
+		this.specularReflectionStrength = 0.5;
+		this.specularReflectionAngle = 1.26;
 
 		// Initialize the direction vector pointing to the light source, and normalize it.
-		this.lightSourceDirectionVector = new double[] { -50.0,-10.0,-30.0 };
+		this.lightSourceDirectionVector = new double[] { -50.0, -10.0, 30.0 };
 		double lightVectorLength = Math.sqrt(
 				lightSourceDirectionVector[0] * lightSourceDirectionVector[0] +
 				lightSourceDirectionVector[1] * lightSourceDirectionVector[1] +
