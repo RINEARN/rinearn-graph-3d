@@ -6,5 +6,5 @@ com/rinearn/graph3d/renderer/simple/GeometricPiece.java
 com/rinearn/graph3d/renderer/simple/LineGeometricPiece.java
 com/rinearn/graph3d/renderer/simple/package-info.java
 com/rinearn/graph3d/renderer/simple/PointGeometricPiece.java
-com/rinearn/graph3d/renderer/simple/PointGeometricPiece_copy.java
+com/rinearn/graph3d/renderer/simple/RectangleGeometricPiece.java
 com/rinearn/graph3d/renderer/simple/SimpleRenderer.java
