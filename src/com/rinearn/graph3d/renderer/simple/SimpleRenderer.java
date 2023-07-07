@@ -1,7 +1,8 @@
 package com.rinearn.graph3d.renderer.simple;
 
-import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
+import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
+import com.rinearn.graph3d.renderer.RinearnGraph3DLightingParameter;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -31,15 +32,18 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	private volatile Color screenBackgroundColor = Color.BLACK;
 
 	/** The list storing geometric pieces to be rendered. */
-	private volatile List<GeometricPiece> geometricPieceList = null;
+	private volatile List<GeometricPiece> geometricPieceList = new ArrayList<GeometricPiece>();
 
-	// The transformation matrix from the graph coordinate system to the view coordinate system.
+	/** The transformation matrix from the graph coordinate system to the view coordinate system. */
 	private volatile double[][] transformationMatrix = {
 		{ 1.0, 0.0, 0.0, 0.0 },
 		{ 0.0, 1.0, 0.0, 0.0 },
 		{ 0.0, 0.0, 1.0, -DEFAULT_DISTANCE }, // Z takes a negative value for the depth direction.
 		{ 0.0, 0.0, 0.0, 1.0 }
 	};
+
+	/** The object storing parameters for lighting and shading. */
+	private volatile RinearnGraph3DLightingParameter lightingParameter = new RinearnGraph3DLightingParameter();
 
 
 	/**
@@ -49,7 +53,6 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * @param screenHeight The height (pixels) of the screen.
 	 */
 	public SimpleRenderer(int screenWidth, int screenHeight) {
-		this.geometricPieceList = new ArrayList<GeometricPiece>();
 		this.setScreenSize(screenWidth, screenHeight);
 		this.clear();
 	}
@@ -97,7 +100,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 		// Shades the color of each geometric piece.
 		for (GeometricPiece piece: this.geometricPieceList) {
-			piece.shade();
+			piece.shade(this.lightingParameter);
 		}
 
 		// Draw each geometric piece on the screen.
