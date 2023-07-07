@@ -37,7 +37,7 @@ public class LineGeometricPiece extends GeometricPiece {
 
 
 	/**
-	 * Transforms the coordinate values of this point.
+	 * Transforms the coordinate values of this line.
 	 * 
 	 * @param matrix The transformation matrix.
 	 */
@@ -76,7 +76,7 @@ public class LineGeometricPiece extends GeometricPiece {
 
 
 	/**
-	 * Computes the projected screen coordinate values of this point.
+	 * Computes the projected screen coordinate values of this line.
 	 * 
 	 * @param screenWidth The width (pixels) of the screen.
 	 * @param screenHeight The height (pixels) of the screen.
