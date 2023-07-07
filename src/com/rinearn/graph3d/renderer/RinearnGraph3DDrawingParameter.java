@@ -22,7 +22,7 @@ public class RinearnGraph3DDrawingParameter {
 
 	/**
 	 * <span class="lang-en">
-	 * Creates a new instance for stroring drawing parameters
+	 * Creates a new instance for storing drawing parameters
 	 * </span>
 	 * <span class="lang-ja">
 	 * 新しい描画設定パラメータを格納するインスタンスを作成します

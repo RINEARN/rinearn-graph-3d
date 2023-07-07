@@ -1,10 +1,11 @@
 com/rinearn/graph3d/renderer/package-info.java
 com/rinearn/graph3d/renderer/RinearnGraph3DDrawingParameter.java
+com/rinearn/graph3d/renderer/RinearnGraph3DLightingParameter.java
 com/rinearn/graph3d/renderer/RinearnGraph3DRenderer.java
 com/rinearn/graph3d/renderer/simple/GeometricDepthComparator.java
 com/rinearn/graph3d/renderer/simple/GeometricPiece.java
 com/rinearn/graph3d/renderer/simple/LineGeometricPiece.java
 com/rinearn/graph3d/renderer/simple/package-info.java
 com/rinearn/graph3d/renderer/simple/PointGeometricPiece.java
-com/rinearn/graph3d/renderer/simple/RectangleGeometricPiece.java
+com/rinearn/graph3d/renderer/simple/QuadrangleGeometricPiece.java
 com/rinearn/graph3d/renderer/simple/SimpleRenderer.java
