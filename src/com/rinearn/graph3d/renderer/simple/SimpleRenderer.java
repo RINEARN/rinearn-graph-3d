@@ -369,7 +369,16 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 			double dX, double dY, double dZ, 
 			RinearnGraph3DDrawingParameter parameter) {
 
-		throw new RuntimeException("Unimplemented yet");
+		if (parameter.isRangeScalingEnabled()) {
+			throw new RuntimeException("Unimplemented yet");			
+		}
+		if (parameter.isAutoColoringEnabled()) {
+			throw new RuntimeException("Unimplemented yet");			
+		}
+
+		Color color = parameter.getColor();
+		QuadrangleGeometricPiece quad = new QuadrangleGeometricPiece(aX, aY, aZ, bX, bY, bZ, cX, cY, cZ, dX, dY, dZ, color);
+		this.geometricPieceList.add(quad);
 	}
 
 
