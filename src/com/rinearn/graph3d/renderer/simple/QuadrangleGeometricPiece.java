@@ -132,12 +132,25 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 		double[][] tv = this.transformedVertexArray;
 
 		// Transform each vertex.
-		for (int ivertex=0; ivertex<this.vertexCount; ivertex++) {
+		for (int ivertex=0; ivertex<=3; ivertex++) {
 
 			// Transform coordinate values of the vertex, where X=0, Y=1, and Z=2.
 			tv[ivertex][X] = m[0][0] * sv[ivertex][X] + m[0][1] * sv[ivertex][Y] + m[0][2] * sv[ivertex][Z] + m[0][3];
 			tv[ivertex][Y] = m[1][0] * sv[ivertex][X] + m[1][1] * sv[ivertex][Y] + m[1][2] * sv[ivertex][Z] + m[1][3];
 			tv[ivertex][Z] = m[2][0] * sv[ivertex][X] + m[2][1] * sv[ivertex][Y] + m[2][2] * sv[ivertex][Z] + m[2][3];
+		}
+
+		// For the normal vector (ivertex = 4), transform only its direction.
+		// So multiply only 3x3 part of the transformation matrix, to the normal vector.
+		tv[4][X] = m[0][0] * sv[4][X] + m[0][1] * sv[4][Y] + m[0][2] * sv[4][Z];
+		tv[4][Y] = m[1][0] * sv[4][X] + m[1][1] * sv[4][Y] + m[1][2] * sv[4][Z];
+		tv[4][Z] = m[2][0] * sv[4][X] + m[2][1] * sv[4][Y] + m[2][2] * sv[4][Z];
+
+		// If the normal vector is facing to the depth direction, reverse its direction.
+		if (tv[4][Z] < 0) {
+			tv[4][X] = -tv[4][X];
+			tv[4][Y] = -tv[4][Y];
+			tv[4][Z] = -tv[4][Z];
 		}
 
 		// Compute the square of the 'depth' value.
@@ -154,8 +167,63 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 	@Override
 	public void shade(RinearnGraph3DLightingParameter lightingParameter) {
 
-		// TODO: implement lighting effects.
-		this.onscreenColor = this.originalColor;
+		// Prepare aliases of the normal vector,
+		// and the direction vector pointing to the light source (hereinafter referred to as 'light vector').
+		double[] normalVector = this.transformedVertexArray[4];
+		double[] lightVector = {
+				lightingParameter.getLightSourceDirectionX(),
+				lightingParameter.getLightSourceDirectionY(),
+				lightingParameter.getLightSourceDirectionZ()
+		};
+
+		// Calculate the value of 'directional product',
+		// which is the inner product between the normal vector and the light vector.
+		double directionalProduct =
+				normalVector[X] * lightVector[X] + 
+				normalVector[Y] * lightVector[Y] + 
+				normalVector[Z] * lightVector[Z];
+
+		// Calculate the angle between the normal vector and the light vector,
+		// and normalize it into the range [0.0, 1.0].
+		double directionalAngle = Math.acos(directionalProduct);
+		double normalizedDirectionalAngle = directionalAngle / Math.PI;
+
+		// If the value of 'directional product' is negative, replace it by 0.
+		double directionalProductPositive = (0 <= directionalProduct) ? directionalProduct : 0.0;
+
+		// Calculate the brightness contributed by ambient, diffuse, and diffractive reflections.
+		double baseBrightness = 
+				lightingParameter.getAmbientReflectionStrength() +
+				lightingParameter.getDiffuseReflectionStrength() * directionalProductPositive +
+				lightingParameter.getDiffractiveReflectionStrength() * normalizedDirectionalAngle;
+
+		// Calculate the brightness contributed by specular reflection.
+		double specularBrightness = 0.0;
+		double specularAngle = lightingParameter.getSpecularReflectionAngle();
+		if (directionalAngle < specularAngle) {
+			specularBrightness = lightingParameter.getSpecularReflectionStrength() *
+					Math.cos(0.5 * Math.PI * directionalAngle / specularAngle);
+		}
+
+		// Convert the RGBA components of the original color to double-type values, in range [0.0, 1.0].
+		double recip255 = 1.0 / 255.0;
+		double r = this.originalColor.getRed() * recip255;
+		double g = this.originalColor.getGreen() * recip255;
+		double b = this.originalColor.getBlue() * recip255;
+		double a = this.originalColor.getAlpha() * recip255;
+
+		// Blend the RGBA components based on the calculated brightnesses.
+		r = r * baseBrightness * (1.0 - specularBrightness) + specularBrightness;
+		g = g * baseBrightness * (1.0 - specularBrightness) + specularBrightness;
+		b = b * baseBrightness * (1.0 - specularBrightness) + specularBrightness;
+		a = a + specularBrightness;
+
+		// Calculated RGBA components may exceed the range [0.0, 1.0], so crop values.
+		r = Math.min(Math.max(r, 0.0), 1.0);
+		g = Math.min(Math.max(g, 0.0), 1.0);
+		b = Math.min(Math.max(b, 0.0), 1.0);
+		a = Math.min(Math.max(a, 0.0), 1.0);
+		this.onscreenColor = new Color((float)r, (float)g, (float)b, (float)a);
 	}
 
 
