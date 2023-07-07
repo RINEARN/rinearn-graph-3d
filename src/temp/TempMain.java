@@ -109,7 +109,9 @@ public class TempMain {
 				RinearnGraph3DDrawingParameter param = new RinearnGraph3DDrawingParameter();
 				param.setRangeScalingEnabled(false);
 				param.setAutoColoringEnabled(false);
-				param.setColor(Color.CYAN);
+				float colorScalarValue = (float)((1.0 - aZ) / 2.5);
+				Color color = Color.getHSBColor(colorScalarValue, 1.0f, 1.0f);
+				param.setColor(color);
 				renderer.drawQuadrangle(aX,aY,aZ, bX,bY,bZ, cX,cY,cZ, dX,dY,dZ, param);
 			}
 		}
