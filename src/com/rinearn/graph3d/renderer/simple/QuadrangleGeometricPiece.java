@@ -11,6 +11,20 @@ import java.awt.Graphics2D;
  */
 public class QuadrangleGeometricPiece extends GeometricPiece {
 
+	/** An enum for representing a set of vertices for computing the normal vector of this quadrangle. */
+	private enum NormalVectorVertices {
+
+		/** Represents the set of the vertices { A, B, C }. */
+		ABC,
+
+		/** Represents the set of the vertices { A, C, D }. */
+		ACD
+	}
+
+	/** Stores a set of vertices for computing the normal vector of this quadrangle. */
+	private NormalVectorVertices normalVectorVertices;
+
+
 	/**
 	 * Creates a new geometric piece representing a quadrangle consisting of points A, B, C and D.
 	 * 
@@ -36,12 +50,23 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 			double dX, double dY, double dZ,
 			Color color) {
 
+		// Detect whether there is a couple of points having the same coordinate values in {A, B, C}.
+		boolean existsSamePointInABC =
+				(aX==bX && aY==bY && aZ==bZ) || 
+				(aX==cX && aY==cY && aZ==cZ) || 
+				(bX==cX && bY==cY && bZ==cZ);
+
+		 // Basically, the normal vector will be calculated for the triangle consisting of the points A, B, and C.
+		 // When there is a couple of points which have the same coordinate values in the points {A, B, C}, 
+		 // the normal vector will be calculated for the triangle consisting of the points A, C, and D.		
+		this.normalVectorVertices = existsSamePointInABC ? NormalVectorVertices.ACD : NormalVectorVertices.ABC;
+
+		// Initialize other fields.
 		this.vertexCount = 5; // 4 vertex vectors + 1 normal vector
 		this.scaledVertexArray = new double[][] {
 			{ aX, aY, aZ }, {bX, bY, bZ}, {cX, cY, cZ}, {dX, dY, dZ},
-			this.computeNormalVector(aX, aY, aZ , bX, bY, bZ, cX, cY, cZ, dX, dY, dZ)
+			this.computeNormalVector(aX, aY, aZ , bX, bY, bZ, cX, cY, cZ, dX, dY, dZ, this.normalVectorVertices)
 		};
-
 		this.transformedVertexArray = new double[this.vertexCount][3]; // [3] is X/Y/Z
 		this.projectedVertexArray = new int[this.vertexCount][2];      // [2] is X/Y
 		this.originalColor = color;
@@ -50,10 +75,6 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Computes the normal vector of the quadrangle of which vertices is the points A, B, C, and D.
-	 * 
-	 * Basically, the normal vector will be calculated for the triangle consisting of the points A, B, and C.
-	 * When there is a couple of points which have the same coordinate values in the points {A, B, C}, 
-	 * the normal vector will be calculated for the triangle consisting of the points A, C, and D.
 	 * 
 	 * @param aX The x coordinate value of the point A.
 	 * @param aY The y coordinate value of the point A.
@@ -64,34 +85,21 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 	 * @param cX The x coordinate value of the point C.
 	 * @param cY The y coordinate value of the point C.
 	 * @param cZ The z coordinate value of the point C.
+	 * @param normalVectorVertices Represents a set of vertices for computing the normal vector.
 	 * @return The array storing x, y, and z coordinate values of the computed normal vector.
 	 */
 	private double[] computeNormalVector(double aX, double aY, double aZ,
 			double bX, double bY, double bZ,
 			double cX, double cY, double cZ,
-			double dX, double dY, double dZ) {
-
-		// Detect whether there is a couple of points having the same coordinate values in {A, B, C}.
-		boolean existsSamePointInABC =
-				(aX==bX && aY==bY && aZ==bZ) || 
-				(aX==cX && aY==cY && aZ==cZ) || 
-				(bX==cX && bY==cY && bZ==cZ);
+			double dX, double dY, double dZ,
+			NormalVectorVertices normalVectorVertices) {
 
 		// Arrays for storing the vectors of the triangle sides.
 		double[] sideVectorP = new double[3];
 		double[] sideVectorQ = new double[3];
 
 		// Calculate the coordinate values of the above 'triangle side' vectors.
-		if (existsSamePointInABC) {
-			sideVectorP[X] = cX - aX;
-			sideVectorP[Y] = cY - aY;
-			sideVectorP[Z] = cZ - aZ;
-
-			sideVectorQ[X] = dX - aX;
-			sideVectorQ[Y] = dY - aY;
-			sideVectorQ[Z] = dZ - aZ;
-			
-		} else {
+		if (normalVectorVertices == NormalVectorVertices.ABC) {
 			sideVectorP[X] = bX - aX;
 			sideVectorP[Y] = bY - aY;
 			sideVectorP[Z] = bZ - aZ;
@@ -99,6 +107,18 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 			sideVectorQ[X] = cX - aX;
 			sideVectorQ[Y] = cY - aY;
 			sideVectorQ[Z] = cZ - aZ;
+
+		} else if (normalVectorVertices == NormalVectorVertices.ACD) {
+			sideVectorP[X] = cX - aX;
+			sideVectorP[Y] = cY - aY;
+			sideVectorP[Z] = cZ - aZ;
+
+			sideVectorQ[X] = dX - aX;
+			sideVectorQ[Y] = dY - aY;
+			sideVectorQ[Z] = dZ - aZ;
+
+		} else {
+			throw new RuntimeException("Unexpected normal vector vertices: " + normalVectorVertices);
 		}
 
 		// Calculate the normal vector as the cross product of the 'triangle side' vectors.
