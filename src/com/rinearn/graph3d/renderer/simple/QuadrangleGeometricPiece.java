@@ -290,12 +290,27 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 				lightingParameter.getDiffuseReflectionStrength() * directionalProductPositive +
 				lightingParameter.getDiffractiveReflectionStrength() * normalizedDirectionalAngle;
 
+		// Calculate the vector of the light reflected by specular reflection.
+		double[] specularReflectionVector = {
+				2.0 * directionalProduct * normalVector[X] - lightVector[X],
+				2.0 * directionalProduct * normalVector[Y] - lightVector[Y],
+				2.0 * directionalProduct * normalVector[Z] - lightVector[Z],
+		};
+		double specularReflectionVectorLength = Math.sqrt(
+				specularReflectionVector[X] * specularReflectionVector[X] +
+				specularReflectionVector[Y] * specularReflectionVector[Y] +
+				specularReflectionVector[Z] * specularReflectionVector[Z]
+		);
+		
+		// Calculate the angle between the above vector and the Z-axis (= direction of the user's gaze).
+		double specularReflectionVectorAngle = Math.acos(specularReflectionVector[Z] / specularReflectionVectorLength);
+
 		// Calculate the brightness contributed by specular reflection.
 		double specularBrightness = 0.0;
-		double specularAngle = lightingParameter.getSpecularReflectionAngle();
-		if (directionalAngle < specularAngle) {
+		double specularReflectionSpreadAngle = lightingParameter.getSpecularReflectionAngle();
+		if (specularReflectionVectorAngle < specularReflectionSpreadAngle) {
 			specularBrightness = lightingParameter.getSpecularReflectionStrength() *
-					Math.cos(0.5 * Math.PI * directionalAngle / specularAngle);
+					Math.cos(0.5 * Math.PI * specularReflectionVectorAngle / specularReflectionSpreadAngle);
 		}
 
 		// Convert the RGBA components of the original color to double-type values, in range [0.0, 1.0].
