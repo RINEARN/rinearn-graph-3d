@@ -11,6 +11,18 @@ import java.awt.Graphics2D;
  */
 public class QuadrangleGeometricPiece extends GeometricPiece {
 
+	/** Represents the array index of the vertex point A, in vertex-related arrays. */
+	private static final int A = 0;
+
+	/** Represents the array index of the vertex point B, in vertex-related arrays. */
+	private static final int B = 1;
+
+	/** Represents the array index of the vertex point C, in vertex-related arrays. */
+	private static final int C = 2;
+
+	/** Represents the array index of the vertex point D, in vertex-related arrays. */
+	private static final int D = 3;
+
 	/** An enum for representing a set of vertices for computing the normal vector of this quadrangle. */
 	private enum NormalVectorVertices {
 
@@ -166,8 +178,9 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 		tv[4][Y] = m[1][0] * sv[4][X] + m[1][1] * sv[4][Y] + m[1][2] * sv[4][Z];
 		tv[4][Z] = m[2][0] * sv[4][X] + m[2][1] * sv[4][Y] + m[2][2] * sv[4][Z];
 
-		// If the normal vector is facing to the depth direction, reverse its direction.
-		if (tv[4][Z] < 0) {
+		// If this quadrangle faces the depth direction from the viewpoint, reverse its normal vector.
+		// See also: the description of 'facesDepthDirection' method.
+		if (this.facesDepthDirection(tv, this.normalVectorVertices)) {
 			tv[4][X] = -tv[4][X];
 			tv[4][Y] = -tv[4][Y];
 			tv[4][Z] = -tv[4][Z];
@@ -176,6 +189,66 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 		// Compute the square of the 'depth' value.
 		double meanZ = (tv[0][Z] + tv[1][Z] + tv[2][Z] + tv[3][Z]) * 0.25;
 		this.depthSquaredValue = meanZ * meanZ;
+	}
+
+
+	/**
+	 * Determines whether the normal vector of the specified quadrangle faces the depth direction,
+	 * CONSIDERING THE PERSPECTIVE EFFECT.
+	 * 
+	 * In the simplest way, you can determine whether a quadrangle faces the depth direction, 
+	 * by checking the sign of the Z component of the transformed normal vector (without perspective effect).
+	 * 
+	 * However, some error occures between directions of normal vectors with/without the perspective effect.
+	 * Hence, when we are required to determine precisely whether the quadrangle faces to the depth direction 
+	 * from the viewpoint, it is necessary to consider the perspective effect.
+	 * This method is useful for such cases.
+	 * 
+	 * @param vertexArray The array storing the transformed coordinates of the vertices of the quadrangle.
+	 * @param normalVertices Represents which vertices should be used for computing the normal vector.
+	 * @return Returns true if the normal vector computed from the specified array 
+	 *          (with considering the perspective effect) faces the depth direction.
+	 */
+	private boolean facesDepthDirection(double[][] vertexArray, NormalVectorVertices normalVertices) {
+		double[][] v = vertexArray;
+
+		if (normalVertices == NormalVectorVertices.ABC) {
+
+			// Coefficients to apply the perspective effect to X and Y coordinate values of the vertices A, B, and C.
+			double azRecip = 1.0 / -v[A][Z];
+			double bzRecip = 1.0 / -v[B][Z];
+			double czRecip = 1.0 / -v[C][Z];
+
+			// Calculate the X and Y coordinate values of the above 'triangle side' vectors, with the perspective effect.
+			double sideVectorPX = v[B][X] * bzRecip - v[A][X] * azRecip;
+			double sideVectorPY = v[B][Y] * bzRecip - v[A][Y] * azRecip;
+			double sideVectorQX = v[C][X] * czRecip - v[A][X] * azRecip;
+			double sideVectorQY = v[C][Y] * czRecip - v[A][Y] * azRecip;
+
+			// Calculate the cross product of the above 'triangle side' vectors, and determine the result from its sign.
+			double crossProductZ = sideVectorPX * sideVectorQY - sideVectorPY * sideVectorQX;
+			return (crossProductZ < 0);
+
+		} else if (normalVertices == NormalVectorVertices.ACD) {
+
+			// Coefficients to apply the perspective effect to X and Y coordinate values of the vertices A, C, and D.
+			double azRecip = 1.0 / -v[A][Z];
+			double czRecip = 1.0 / -v[C][Z];
+			double dzRecip = 1.0 / -v[D][Z];
+
+			// Calculate the X and Y coordinate values of the above 'triangle side' vectors, with the perspective effect.
+			double sideVectorPX = v[C][X] * czRecip - v[A][X] * azRecip;
+			double sideVectorPY = v[C][Y] * czRecip - v[A][Y] * azRecip;
+			double sideVectorQX = v[D][X] * dzRecip - v[A][X] * azRecip;
+			double sideVectorQY = v[D][Y] * dzRecip - v[A][Y] * azRecip;
+
+			// Calculate the cross product of the above 'triangle side' vectors, and determine the result from its sign.
+			double crossProductZ = sideVectorPX * sideVectorQY - sideVectorPY * sideVectorQX;
+			return (crossProductZ < 0);
+
+		} else {
+			throw new RuntimeException("Unexpected normal vector vertices: " + normalVectorVertices);
+		}
 	}
 
 
