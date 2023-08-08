@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
 
 
 /**
@@ -34,6 +35,14 @@ public class TempMain {
 
 		// Instantiate a simple implementation of the rendering engine of RINEARN Graph 3D.
 		SimpleRenderer renderer = new SimpleRenderer(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+		// Set the ranges of X/Y/Z axes.
+		renderer.setXRange(new BigDecimal("-1.0"), new BigDecimal("1.0"));
+		renderer.setYRange(new BigDecimal("-1.0"), new BigDecimal("1.0"));
+		renderer.setZRange(new BigDecimal("-1.0"), new BigDecimal("1.0"));
+		//renderer.setXRange(new BigDecimal("-2.0"), new BigDecimal("2.0"));
+		//renderer.setYRange(new BigDecimal("-3.0"), new BigDecimal("3.0"));
+		//renderer.setZRange(new BigDecimal("-5.0"), new BigDecimal("5.0"));
 
 		// Draw lines composing a box frame.
 		{
@@ -80,13 +89,14 @@ public class TempMain {
 
 			// Draw the point.
 			RinearnGraph3DDrawingParameter param = new RinearnGraph3DDrawingParameter();
-			param.setRangeScalingEnabled(false);
+			//param.setRangeScalingEnabled(false);
 			param.setAutoColoringEnabled(false);
 			param.setColor(color);
 			renderer.drawPoint(x, y, z, 8.0, param);
 		}
 
 
+		// Draw a membrane
 		MeshData meshData = generateExamMeshData();
 		for (int ix=0; ix<meshData.xCount - 1; ix++) {
 			for (int iy=0; iy<meshData.yCount - 1; iy++) {
@@ -107,7 +117,7 @@ public class TempMain {
 				double dZ = meshData.z[ix][iy + 1];
 
 				RinearnGraph3DDrawingParameter param = new RinearnGraph3DDrawingParameter();
-				param.setRangeScalingEnabled(false);
+				//param.setRangeScalingEnabled(false);
 				param.setAutoColoringEnabled(false);
 				float colorScalarValue = (float)((1.0 - aZ) / 2.5);
 				Color color = Color.getHSBColor(colorScalarValue, 1.0f, 1.0f);

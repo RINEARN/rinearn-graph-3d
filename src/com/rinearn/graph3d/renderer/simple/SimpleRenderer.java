@@ -325,7 +325,9 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 			double radius, RinearnGraph3DDrawingParameter parameter) {
 
 		if (parameter.isRangeScalingEnabled()) {
-			throw new RuntimeException("Unimplemented yet");			
+			x = this.axes[X].scaleCoordinate(x);
+			y = this.axes[Y].scaleCoordinate(y);
+			z = this.axes[Z].scaleCoordinate(z);
 		}
 		if (parameter.isAutoColoringEnabled()) {
 			throw new RuntimeException("Unimplemented yet");			
@@ -361,7 +363,13 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 			double width, RinearnGraph3DDrawingParameter parameter) {
 
 		if (parameter.isRangeScalingEnabled()) {
-			throw new RuntimeException("Unimplemented yet");			
+			aX = this.axes[X].scaleCoordinate(aX);
+			aY = this.axes[Y].scaleCoordinate(aY);
+			aZ = this.axes[Z].scaleCoordinate(aZ);
+
+			bX = this.axes[X].scaleCoordinate(bX);
+			bY = this.axes[Y].scaleCoordinate(bY);
+			bZ = this.axes[Z].scaleCoordinate(bZ);
 		}
 		if (parameter.isAutoColoringEnabled()) {
 			throw new RuntimeException("Unimplemented yet");			
@@ -431,7 +439,21 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 			RinearnGraph3DDrawingParameter parameter) {
 
 		if (parameter.isRangeScalingEnabled()) {
-			throw new RuntimeException("Unimplemented yet");			
+			aX = this.axes[X].scaleCoordinate(aX);
+			aY = this.axes[Y].scaleCoordinate(aY);
+			aZ = this.axes[Z].scaleCoordinate(aZ);
+
+			bX = this.axes[X].scaleCoordinate(bX);
+			bY = this.axes[Y].scaleCoordinate(bY);
+			bZ = this.axes[Z].scaleCoordinate(bZ);
+
+			cX = this.axes[X].scaleCoordinate(cX);
+			cY = this.axes[Y].scaleCoordinate(cY);
+			cZ = this.axes[Z].scaleCoordinate(cZ);
+
+			dX = this.axes[X].scaleCoordinate(dX);
+			dY = this.axes[Y].scaleCoordinate(dY);
+			dZ = this.axes[Z].scaleCoordinate(dZ);
 		}
 		if (parameter.isAutoColoringEnabled()) {
 			throw new RuntimeException("Unimplemented yet");			

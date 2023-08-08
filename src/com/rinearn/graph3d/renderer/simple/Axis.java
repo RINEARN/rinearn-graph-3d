@@ -9,28 +9,30 @@ import java.math.BigDecimal;
 public class Axis {
 
 	/** Stores the minimum value of the range of this axis. */
-	private volatile BigDecimal rangeMin;
+	private volatile BigDecimal rangeMin = BigDecimal.ONE.negate(); // -1.0
 
 	/** Stores the maximum value of the range of this axis. */
-	private volatile BigDecimal rangeMax;
+	private volatile BigDecimal rangeMax = BigDecimal.ONE; // 1.0
 
 	/** Stores the minimum value of the range of this axis, as the double-type value. */
-	private volatile double rangeMinDoubleValue;
+	private volatile double rangeMinDoubleValue = -1.0;
 
 	/** Stores the maximum value of the range of this axis, as the double-type value. */
-	private volatile double rangeMaxDoubleValue;
+	private volatile double rangeMaxDoubleValue = 1.0;
 
 	/**
 	 * The margin for comparing a double-type coordinate value and the rangeMinDoubleValue,
 	 * considering tiny numerical errors of binary floating-point numbers.
+	 * This value does not take negative values (the value must be positive or zero).
 	 */
-	private volatile double rangeMinDoubleMargin;
+	private volatile double rangeMinDoubleMargin = MARGINE_RATIO;
 
 	/**
 	 * The margin for comparing a double-type coordinate value and the rangeMaxDoubleValue,
 	 * considering tiny numerical errors of binary floating-point numbers.
+	 * This value does not take negative values (the value must be positive or zero).
 	 */
-	private volatile double rangeMaxDoubleMargin;
+	private volatile double rangeMaxDoubleMargin = MARGINE_RATIO;
 
 	/** The ratio of rangeMinDoubleMargin (or rangeMaxDoubleMargin) to rangeMinDoubleValue (or rangeMaxDoubleValue). */
 	private static final double MARGINE_RATIO = 1.0E-12;
@@ -102,5 +104,27 @@ public class Axis {
 		boolean lessThanOrEqualsToMax = coordinateValue <= this.rangeMaxDoubleValue + maxMargin;
 		boolean isInRange = greaterThanOrEqualsToMin && lessThanOrEqualsToMax;
 		return isInRange;
+	}
+
+
+	/**
+	 * Scales the specified coordinate values, into the coordinate values in the "scaled space".
+	 * 
+	 * In the scaled space,
+	 * the maximum value of the range of the axis is mapped to 1.0,
+	 * and the minimum value is mapped to -1.0.
+	 * 
+	 * @param rawCoordinateValue The coordinate value to be scaled.
+	 * @return The scaled coordinate value.
+	 */
+	public synchronized double scaleCoordinate(double rawCoordinateValue) {
+		
+		// Firstly, scale into the range [0.0, 1.0].
+		double axisLength = this.rangeMaxDoubleValue - this.rangeMinDoubleValue;
+		double scaledInto01 = (rawCoordinateValue - this.rangeMinDoubleValue) / axisLength;
+
+		// Then, scale into the range [-1.0, 1.0].
+		double scaledInto11 = scaledInto01 * 2.0 - 1.0;
+		return scaledInto11;
 	}
 }
