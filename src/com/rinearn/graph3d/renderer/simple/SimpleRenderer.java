@@ -324,11 +324,25 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	public synchronized void drawPoint(double x, double y, double z, 
 			double radius, RinearnGraph3DDrawingParameter parameter) {
 
+		// Check whether the point is in ranges of X/Y/Z axes. If no, draw nothing.
+		if (parameter.isRangeClippingEnabled()) {
+			boolean isInRange =
+					this.axes[X].containsCoordinate(x, true) &&
+					this.axes[Y].containsCoordinate(y, true) &&
+					this.axes[Z].containsCoordinate(z, true);
+			
+			if (!isInRange) {
+				return;
+			}
+		}
+
+		// Scale X/Y/Z coordinate values into the range [-1.0, 1.0] (= scaled space).
 		if (parameter.isRangeScalingEnabled()) {
 			x = this.axes[X].scaleCoordinate(x);
 			y = this.axes[Y].scaleCoordinate(y);
 			z = this.axes[Z].scaleCoordinate(z);
 		}
+
 		if (parameter.isAutoColoringEnabled()) {
 			throw new RuntimeException("Unimplemented yet");			
 		}
@@ -362,6 +376,23 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 			double bX, double bY, double bZ, 
 			double width, RinearnGraph3DDrawingParameter parameter) {
 
+		// Check whether the line is in ranges of X/Y/Z axes. If no, draw nothing.
+		if (parameter.isRangeClippingEnabled()) {
+			boolean isInRange =
+					this.axes[X].containsCoordinate(aX, true) &&
+					this.axes[Y].containsCoordinate(aY, true) &&
+					this.axes[Z].containsCoordinate(aZ, true) &&
+
+					this.axes[X].containsCoordinate(bX, true) &&
+					this.axes[Y].containsCoordinate(bY, true) &&
+					this.axes[Z].containsCoordinate(bZ, true);
+
+			if (!isInRange) {
+				return;
+			}
+		}
+
+		// Scale X/Y/Z coordinate values into the range [-1.0, 1.0] (= scaled space).
 		if (parameter.isRangeScalingEnabled()) {
 			aX = this.axes[X].scaleCoordinate(aX);
 			aY = this.axes[Y].scaleCoordinate(aY);
@@ -371,6 +402,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 			bY = this.axes[Y].scaleCoordinate(bY);
 			bZ = this.axes[Z].scaleCoordinate(bZ);
 		}
+
 		if (parameter.isAutoColoringEnabled()) {
 			throw new RuntimeException("Unimplemented yet");			
 		}
@@ -438,6 +470,31 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 			double dX, double dY, double dZ, 
 			RinearnGraph3DDrawingParameter parameter) {
 
+		// Check whether the line is in ranges of X/Y/Z axes. If no, draw nothing.
+		if (parameter.isRangeClippingEnabled()) {
+			boolean isInRange =
+					this.axes[X].containsCoordinate(aX, true) &&
+					this.axes[Y].containsCoordinate(aY, true) &&
+					this.axes[Z].containsCoordinate(aZ, true) &&
+
+					this.axes[X].containsCoordinate(bX, true) &&
+					this.axes[Y].containsCoordinate(bY, true) &&
+					this.axes[Z].containsCoordinate(bZ, true) &&
+
+					this.axes[X].containsCoordinate(cX, true) &&
+					this.axes[Y].containsCoordinate(cY, true) &&
+					this.axes[Z].containsCoordinate(cZ, true) &&
+
+					this.axes[X].containsCoordinate(dX, true) &&
+					this.axes[Y].containsCoordinate(dY, true) &&
+					this.axes[Z].containsCoordinate(dZ, true);
+
+			if (!isInRange) {
+				return;
+			}
+		}
+
+		// Scale X/Y/Z coordinate values into the range [-1.0, 1.0] (= scaled space).
 		if (parameter.isRangeScalingEnabled()) {
 			aX = this.axes[X].scaleCoordinate(aX);
 			aY = this.axes[Y].scaleCoordinate(aY);
@@ -455,6 +512,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 			dY = this.axes[Y].scaleCoordinate(dY);
 			dZ = this.axes[Z].scaleCoordinate(dZ);
 		}
+
 		if (parameter.isAutoColoringEnabled()) {
 			throw new RuntimeException("Unimplemented yet");			
 		}

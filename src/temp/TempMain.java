@@ -43,12 +43,16 @@ public class TempMain {
 		//renderer.setXRange(new BigDecimal("-2.0"), new BigDecimal("2.0"));
 		//renderer.setYRange(new BigDecimal("-3.0"), new BigDecimal("3.0"));
 		//renderer.setZRange(new BigDecimal("-5.0"), new BigDecimal("5.0"));
+		//renderer.setXRange(new BigDecimal("-1.2"), new BigDecimal("0.7"));
+		//renderer.setYRange(new BigDecimal("-2.3"), new BigDecimal("0.5"));
+		//renderer.setZRange(new BigDecimal("-0.9"), new BigDecimal("0.9"));
 
 		// Draw lines composing a box frame.
 		{
 			// Create an object storing the value of the drawing parameters.
 			RinearnGraph3DDrawingParameter param = new RinearnGraph3DDrawingParameter();
 			param.setRangeScalingEnabled(false);
+			param.setRangeClippingEnabled(false);
 			param.setAutoColoringEnabled(false);
 			param.setColor(Color.LIGHT_GRAY);
 			double lineWidth = 2.0; // [px]
