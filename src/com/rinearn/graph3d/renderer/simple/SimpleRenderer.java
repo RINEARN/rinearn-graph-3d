@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
+import java.math.BigDecimal;
 
 
 /**
@@ -18,6 +19,15 @@ import java.awt.Graphics2D;
  * the rendering engine (renderer) of RINEARN Graph 3D.
  */
 public class SimpleRenderer implements RinearnGraph3DRenderer {
+
+	/** The array index representing X, in some array fields. */
+	public static final int X = 0;
+
+	/** The array index representing Y, in some array fields. */
+	public static final int Y = 1;
+
+	/** The array index representing Z, in some array fields. */
+	public static final int Z = 2;
 
 	/** The default value of the distance between the viewpoint and the origin of the graph. */
 	private static final double DEFAULT_DISTANCE = 3.0;
@@ -30,6 +40,9 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/** The background color of the graph screen. */
 	private volatile Color screenBackgroundColor = Color.BLACK;
+
+	/** The array storing X, Y, and Z-axis. Each element stores values related to an axis (e.g.: min/max value of the range). */
+	private volatile Axis[] axes = { new Axis(), new Axis(), new Axis() };
 
 	/** The list storing geometric pieces to be rendered. */
 	private volatile List<GeometricPiece> geometricPieceList = new ArrayList<GeometricPiece>();
@@ -108,6 +121,51 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 			piece.project(screenWidth, screenHeight, screenOffsetX, screenOffsetY, magnification);
 			piece.draw(this.screenGraphics);
 		}
+	}
+
+
+	/**
+	 * Sets the range of the X-axis.
+	 * 
+	 * The change of the range does not affect to the currently drawn contents
+	 * (points, lines, quadrangles, and so on).
+	 * To reflect the change of the range, please clear() and re-draw all contents again.
+	 * 
+	 * @param min The minimum value of the range.
+	 * @param max The maximum value of the range.
+	 */
+	public synchronized void setXRange(BigDecimal min, BigDecimal max) {
+		this.axes[X].setRange(min, max);
+	}
+
+
+	/**
+	 * Sets the range of the Y-axis.
+	 * 
+	 * The change of the range does not affect to the currently drawn contents
+	 * (points, lines, quadrangles, and so on).
+	 * To reflect the change of the range, please clear() and re-draw all contents again.
+	 * 
+	 * @param min The minimum value of the range.
+	 * @param max The maximum value of the range.
+	 */
+	public synchronized void setYRange(BigDecimal min, BigDecimal max) {
+		this.axes[Y].setRange(min, max);
+	}
+
+
+	/**
+	 * Sets the range of the Z-axis.
+	 * 
+	 * The change of the range does not affect to the currently drawn contents
+	 * (points, lines, quadrangles, and so on).
+	 * To reflect the change of the range, please clear() and re-draw all contents again.
+	 * 
+	 * @param min The minimum value of the range.
+	 * @param max The maximum value of the range.
+	 */
+	public synchronized void setZRange(BigDecimal min, BigDecimal max) {
+		this.axes[Z].setRange(min, max);
 	}
 
 
