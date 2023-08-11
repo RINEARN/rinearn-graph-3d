@@ -37,6 +37,12 @@ public class Axis {
 	/** The ratio of rangeMinDoubleMargin (or rangeMaxDoubleMargin) to rangeMinDoubleValue (or rangeMaxDoubleValue). */
 	private static final double MARGINE_RATIO = 1.0E-12;
 
+	/** Stores the coordinate values of the ticks of this axis. */
+	private volatile BigDecimal[] tickCoordinates;
+
+	/** Stores the displayed values of the ticks of this axis. */
+	private volatile String[] tickLabels;
+
 
 	/**
 	 * Sets the range of this axis.
@@ -77,6 +83,38 @@ public class Axis {
 	 */
 	public synchronized BigDecimal getRangeMax() {
 		return this.rangeMax;
+	}
+
+
+	/**
+	 * Set the coordinate values (positions) and the labels (displayed values) of the ticks of this axis.
+	 * 
+	 * @param tickCoordinates The coordinate values of the ticks.
+	 * @param tickLabels The labels of the ticks
+	 */
+	public synchronized void setTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
+		this.tickCoordinates = tickCoordinates;
+		this.tickLabels = tickLabels;
+	}
+
+
+	/**
+	 * Gets the coordinate values (positions) of the ticks of this axis.
+	 * 
+	 * @return The coordinate values of this ticks.
+	 */
+	public synchronized BigDecimal[] getTickCoordinates() {
+		return this.tickCoordinates;
+	}
+
+
+	/**
+	 * Gets the labels (displayed values) of the ticks of this axis.
+	 * 
+	 * @return The labels of the ticks.
+	 */
+	public synchronized String[] getTickLabels() {
+		return this.tickLabels;
 	}
 
 
