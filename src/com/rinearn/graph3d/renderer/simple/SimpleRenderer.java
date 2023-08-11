@@ -578,7 +578,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 System.out.println("==========");
 System.out.println("drawScale");
 System.out.println("----------");
-		
+
 		// Draw ticks of X, Y, Z axis.
 		for (int idim=0; idim<=2; idim++) {
 
@@ -590,12 +590,211 @@ System.out.println("----------");
 			String[] tickLabels = axis.getTickLabels();
 			int tickCount = tickCoords.length;
 
+			Color tickColor = Color.WHITE; // Temporary value
+			Font tickFont = new Font("Dialog", Font.PLAIN, 20); // Temporary value
+
+			// Draw ticks on four axes belonging to the current dimension (X or Y or Z).
 			for (int itick=0; itick<tickCount; itick++) {
-				BigDecimal tickScaledCoord = axis.scaleCoordinate(tickCoords[itick], SCALED_SPACE_PRECISION);
-System.out.println("idim=" + idim + ", itick=" + itick + ", scaledCoord=" + tickScaledCoord + ", label=" + tickLabels[itick]);
+				double scaledCoord = axis.scaleCoordinate(tickCoords[itick], SCALED_SPACE_PRECISION).doubleValue();
+
+				// X axes:
+				if (idim == X) {
+					this.drawXTickLabels(scaledCoord, tickLabels[itick], tickFont, tickColor);
+				}
+
+				// Y axes:
+				if (idim == Y) {
+					this.drawYTickLabels(scaledCoord, tickLabels[itick], tickFont, tickColor);
+				}
+
+				// Z axes:
+				if (idim == Z) {
+					this.drawZTickLabels(scaledCoord, tickLabels[itick], tickFont, tickColor);
+				}
+System.out.println("idim=" + idim + ", itick=" + itick + ", scaledCoord=" + scaledCoord + ", label=" + tickLabels[itick]);
 			}
 System.out.println("----------");
 		}
+	}
+
+
+	/**
+	 * Draws tickLabels having the specified value on the four X axes.
+	 * 
+	 * @param scaledCoord The X coordinate value (position) of the tick labels.
+	 * @param tickLabel The label (displayed value) of the tick labels.
+	 * @param tickFont The font for rendering the text of the tick labels.
+	 * @param tickColor The color of the tick labels.
+	 */
+	private void drawXTickLabels(double scaledCoord, String tickLabel, Font tickFont, Color tickColor) {
+
+		// X axis at Y=1, Z=1
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				scaledCoord, 1.0, 1.0,
+				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, -1.0} },
+				tickLabel, tickFont, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				scaledCoord, 1.0, 1.0,
+				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickLabel, tickFont, tickColor
+		));
+
+		// X axis at Y=1, Z=-1
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				scaledCoord, 1.0, -1.0,
+				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickLabel, tickFont, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				scaledCoord, 1.0, -1.0,
+				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, -1.0} },
+				tickLabel, tickFont, tickColor
+		));
+
+		// X axis at Y=-1, Z=1
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				scaledCoord, -1.0, 1.0,
+				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, -1.0} },
+				tickLabel, tickFont, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				scaledCoord, -1.0, 1.0,
+				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickLabel, tickFont, tickColor
+		));
+
+		// X axis at Y=-1, Z=-1
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				scaledCoord, -1.0, -1.0,
+				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickLabel, tickFont, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				scaledCoord, -1.0, -1.0,
+				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, -1.0} },
+				tickLabel, tickFont, tickColor
+		));
+	}
+
+
+	/**
+	 * Draws tickLabels having the specified value on the four Y axes.
+	 * 
+	 * @param scaledCoord The Y coordinate value (position) of the tick labels.
+	 * @param tickLabel The label (displayed value) of the tick labels.
+	 * @param tickFont The font for rendering the text of the tick labels.
+	 * @param tickColor The color of the tick labels.
+	 */
+	private void drawYTickLabels(double scaledCoord, String tickLabel, Font tickFont, Color tickColor) {
+
+		// Y axis at X=1, Z=1
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				1.0, scaledCoord, 1.0,
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
+				tickLabel, tickFont, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				1.0, scaledCoord, 1.0,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickLabel, tickFont, tickColor
+		));
+
+		// Y axis at X=1, Z=-1
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				1.0, scaledCoord, -1.0,
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickLabel, tickFont, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				1.0, scaledCoord, -1.0,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
+				tickLabel, tickFont, tickColor
+		));
+
+		// Y axis at X=-1, Z=1
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				-1.0, scaledCoord, 1.0,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
+				tickLabel, tickFont, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				-1.0, scaledCoord, 1.0,
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickLabel, tickFont, tickColor
+		));
+
+		// Y axis at X=-1, Z=-1
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				-1.0, scaledCoord, -1.0,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickLabel, tickFont, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				-1.0, scaledCoord, -1.0,
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
+				tickLabel, tickFont, tickColor
+		));
+	}
+
+
+	/**
+	 * Draws tickLabels having the specified value on the four Z axes.
+	 * 
+	 * @param scaledCoord The Z coordinate value (position) of the tick labels.
+	 * @param tickLabel The label (displayed value) of the tick labels.
+	 * @param tickFont The font for rendering the text of the tick labels.
+	 * @param tickColor The color of the tick labels.
+	 */
+	private void drawZTickLabels(double scaledCoord, String tickLabel, Font tickFont, Color tickColor) {
+
+		// Z axis at Y=1, Z=1
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				1.0, 1.0, scaledCoord,
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
+				tickLabel, tickFont, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				1.0, 1.0, scaledCoord,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
+				tickLabel, tickFont, tickColor
+		));
+
+		// Z axis at Y=1, Z=-1
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				1.0, -1.0, scaledCoord,
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
+				tickLabel, tickFont, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				1.0, -1.0, scaledCoord,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
+				tickLabel, tickFont, tickColor
+		));
+
+		// Z axis at Y=-1, Z=1
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				-1.0, 1.0, scaledCoord,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
+				tickLabel, tickFont, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				-1.0, 1.0, scaledCoord,
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
+				tickLabel, tickFont, tickColor
+		));
+
+		// Z axis at Y=-1, Z=-1
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				-1.0, -1.0, scaledCoord,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
+				tickLabel, tickFont, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
+				-1.0, -1.0, scaledCoord,
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
+				tickLabel, tickFont, tickColor
+		));
 	}
 
 
