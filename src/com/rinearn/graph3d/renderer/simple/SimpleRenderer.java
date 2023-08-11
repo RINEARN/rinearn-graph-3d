@@ -32,6 +32,9 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The default value of the distance between the viewpoint and the origin of the graph. */
 	private static final double DEFAULT_DISTANCE = 3.0;
 
+	/** The required precision of BigDecimal the coordinates in "scaled space". */
+	private static final int SCALED_SPACE_PRECISION = 20;
+
 	/** The Image instance storing the rendered image of the graph screen. */
 	private volatile BufferedImage screenImage = null;
 
@@ -68,6 +71,28 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	public SimpleRenderer(int screenWidth, int screenHeight) {
 		this.setScreenSize(screenWidth, screenHeight);
 		this.clear();
+	}
+
+
+	/**
+	 * Performs something temporary for the development and the debuggings.
+	 */
+	public synchronized void temporaryExam() {
+
+		// Set ticks of X axis.
+		BigDecimal[] xTickCoords = {new BigDecimal("-1.0"), new BigDecimal("-0.5"),new BigDecimal("0.0"), new BigDecimal("0.5"), new BigDecimal("1.0")};
+		String[] xTickLabels = {"-1.0", "-0.5", "0.0", "0.5", "1.0"};
+		this.axes[X].setTicks(xTickCoords, xTickLabels);
+
+		// Set ticks of Y axis.
+		BigDecimal[] yTickCoords = {new BigDecimal("-0.8"), new BigDecimal("-0.4"),new BigDecimal("0.0"), new BigDecimal("0.4"), new BigDecimal("0.8")};
+		String[] yTickLabels = {"-0.8", "-0.4", "0.0", "0.4", "0.8"};
+		this.axes[Y].setTicks(yTickCoords, yTickLabels);
+
+		// Set ticks of Z axis.
+		BigDecimal[] zTickCoords = {new BigDecimal("0.0"), new BigDecimal("0.2"),new BigDecimal("0.4"), new BigDecimal("0.8"), new BigDecimal("1.0")};
+		String[] zTickLabels = {"0.0", "0.2", "0.4", "0.8", "1.0"};
+		this.axes[Z].setTicks(zTickCoords, zTickLabels);
 	}
 
 
@@ -545,9 +570,32 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	}
 
 
+	/**
+	 * Draws the scale (ticks) of the graph frame.
+	 */
 	@Override
 	public synchronized void drawScale() {
-		throw new RuntimeException("Unimplemented yet");
+System.out.println("==========");
+System.out.println("drawScale");
+System.out.println("----------");
+		
+		// Draw ticks of X, Y, Z axis.
+		for (int idim=0; idim<=2; idim++) {
+
+			// Get the axis of the "idim"-th dimension, where "idim" represents: 0=X, 1=Y, 2=Z.
+			Axis axis = this.axes[idim];
+
+			// Get coordinates (positions) and labels (displayed values) of the ticks.
+			BigDecimal[] tickCoords = axis.getTickCoordinates();
+			String[] tickLabels = axis.getTickLabels();
+			int tickCount = tickCoords.length;
+
+			for (int itick=0; itick<tickCount; itick++) {
+				BigDecimal tickScaledCoord = axis.scaleCoordinate(tickCoords[itick], SCALED_SPACE_PRECISION);
+System.out.println("idim=" + idim + ", itick=" + itick + ", scaledCoord=" + tickScaledCoord + ", label=" + tickLabels[itick]);
+			}
+System.out.println("----------");
+		}
 	}
 
 

@@ -47,6 +47,10 @@ public class TempMain {
 		//renderer.setYRange(new BigDecimal("-2.3"), new BigDecimal("0.5"));
 		//renderer.setZRange(new BigDecimal("-0.9"), new BigDecimal("0.9"));
 
+		// Draw scale (ticks) of the graph frame.
+		renderer.temporaryExam();
+		renderer.drawScale();
+
 		// Draw lines composing a box frame.
 		{
 			// Create an object storing the value of the drawing parameters.
