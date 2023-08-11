@@ -1,6 +1,9 @@
 package com.rinearn.graph3d.renderer.simple;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+
 
 /**
  * A class storing/handling informations related to an axis.
@@ -127,19 +130,19 @@ public class Axis {
 	 * and is less than or equals to rangneMaxDoubleValue + rangeMaxDoubleMargin.
 	 * This is the behavior to address tiny errors contained in double-type values.
 	 * 
-	 * @param coordinateValue The coordinate value to be determined.
+	 * @param coordinate The coordinate value to be determined.
 	 * @param considersMargins Specify true if you enable margins to address tiny errors of coordinate values.
 	 * @return Returns true if the specified coordinate value is in the range.
 	 */
-	public synchronized boolean containsCoordinate(double coordinateValue, boolean considersMargins) {
+	public synchronized boolean containsCoordinate(double coordinate, boolean considersMargins) {
 
 		// If considersMargins is true, use margins set to the fields. Otherwise use 0 (= no margins).
 		double minMargin = considersMargins ? this.rangeMinDoubleMargin : 0.0;
 		double maxMargin = considersMargins ? this.rangeMaxDoubleMargin : 0.0;
 
 		// Compare the specified coordinate value to the min/max values (with margins, if required).
-		boolean greaterThanOrEqualsToMin = this.rangeMinDoubleValue - minMargin <= coordinateValue;
-		boolean lessThanOrEqualsToMax = coordinateValue <= this.rangeMaxDoubleValue + maxMargin;
+		boolean greaterThanOrEqualsToMin = this.rangeMinDoubleValue - minMargin <= coordinate;
+		boolean lessThanOrEqualsToMax = coordinate <= this.rangeMaxDoubleValue + maxMargin;
 		boolean isInRange = greaterThanOrEqualsToMin && lessThanOrEqualsToMax;
 		return isInRange;
 	}
@@ -155,14 +158,42 @@ public class Axis {
 	 * @param rawCoordinateValue The coordinate value to be scaled.
 	 * @return The scaled coordinate value.
 	 */
-	public synchronized double scaleCoordinate(double rawCoordinateValue) {
+	public synchronized double scaleCoordinate(double rawCoordinate) {
 		
 		// Firstly, scale into the range [0.0, 1.0].
 		double axisLength = this.rangeMaxDoubleValue - this.rangeMinDoubleValue;
-		double scaledInto01 = (rawCoordinateValue - this.rangeMinDoubleValue) / axisLength;
+		double scaledInto01 = (rawCoordinate - this.rangeMinDoubleValue) / axisLength;
 
 		// Then, scale into the range [-1.0, 1.0].
 		double scaledInto11 = scaledInto01 * 2.0 - 1.0;
+		return scaledInto11;
+	}
+
+
+	/**
+	 * Scales the specified coordinate values, into the coordinate values in the "scaled space".
+	 * 
+	 * In the scaled space,
+	 * the maximum value of the range of the axis is mapped to 1.0,
+	 * and the minimum value is mapped to -1.0.
+	 * 
+	 * @param rawCoordinate The coordinate value to be scaled.
+	 * @param precision The precision of the result.
+	 * @return The scaled coordinate value.
+	 */
+	public synchronized BigDecimal scaleCoordinate(BigDecimal rawCoordinate, int precision) {
+
+		// Create the math context for specifying the rounding behavior.
+		MathContext precisionContext = new MathContext(precision, RoundingMode.HALF_EVEN);
+		MathContext redundantPrecisionContext = new MathContext(precision * 3, RoundingMode.HALF_EVEN);
+
+		// Firstly, scale into the range [0.0, 1.0].
+		BigDecimal axisLength = this.rangeMax.subtract(this.rangeMin);
+		BigDecimal scaledInto01 = rawCoordinate.subtract(this.rangeMin).divide(axisLength, redundantPrecisionContext);
+
+		// Then, scale into the range [-1.0, 1.0].
+		BigDecimal scaledInto11 = scaledInto01.multiply(new BigDecimal(2)).subtract(BigDecimal.ONE);
+		scaledInto11 = scaledInto11.add(BigDecimal.ZERO, precisionContext);
 		return scaledInto11;
 	}
 }
