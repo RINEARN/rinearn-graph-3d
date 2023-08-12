@@ -20,6 +20,60 @@ import java.awt.Color;
  */
 public class RinearnGraph3DDrawingParameter {
 
+	/** The enum for specifying horizontal alignment for some kinds of elements to be drawn, such as texts. */
+	public static enum HorizontalAlignment {
+
+		/**
+		 * Used for specifying nothing.
+		 * 
+		 * Some kinds of shapes (lines, triangles, and so on) don't have the horizontal alignment property, 
+		 * and only this value is acceptable for them.
+		 * 
+		 * If this value is specified for shapes having the horizontal alignment property (texts and so on),
+		 * its default alignment value will be applied automatically.
+		 */
+		NONE,
+
+		/** Draws the piece at the left-side of the coordinate. */
+		LEFT,
+
+		/** Draws the piece at the right-side of the coordinate. */
+		RIGHT,
+
+		/** Draws the piece with aligning the center of the piece with the coordinate. */
+		CENTER,
+
+		/** Offsets the piece to the radial direction from the center of the graph frame (used for tick labels). */
+		RADIAL,
+	}
+
+	/** The enum for specifying vertical alignment for some kinds of elements to be drawn, such as texts. */
+	public static enum VerticalAlignment {
+
+		/**
+		 * Used for specifying nothing.
+		 * 
+		 * Some kinds of shapes (lines, triangles, and so on) don't have the horizontal alignment property, 
+		 * and only this value is acceptable for them.
+		 * 
+		 * If this value is specified for shapes having the horizontal alignment property (texts and so on),
+		 * its default alignment value will be applied automatically.
+		 */
+		NONE,
+
+		/** Draws the piece over the coordinate. */
+		TOP,
+
+		/** Draws the piece under the coordinate. */
+		BOTTOM,
+
+		/** Draws the piece with aligning the center of the piece with the coordinate. */
+		CENTER,
+
+		/** Offsets the piece to the radial direction from the center of the graph frame (used for tick labels). */
+		RADIAL,
+	}
+
 	/**
 	 * <span class="lang-en">
 	 * Creates a new instance for storing drawing parameters
@@ -372,5 +426,61 @@ public class RinearnGraph3DDrawingParameter {
 	 */
 	public synchronized double[] getDepthOffsetAmounts() { // get が配列を返すので複数形の Amounts を付けている
 		return new double[]{ -this.offsetX, -this.offsetY, -this.offsetZ };
+	}
+
+
+	/** Stores the horizontal alignment. */
+	private volatile HorizontalAlignment horizontalAlignment = HorizontalAlignment.NONE;
+
+	/**
+	 * Sets the horizontal alignment for the element to be drawn, such as texts.
+	 * 
+	 * Note that, whether the drawn element has the horizontal alignment property depends on the kind of the element.
+	 * If it doesn't have, only the value NONE is acceptable.
+	 * 
+	 * @param horizontalAlignment The horizontal alignment.
+	 */
+	public synchronized void setHorizontalAlignment(HorizontalAlignment horizontalAlignment) {
+		this.horizontalAlignment = horizontalAlignment;
+	}
+
+	/**
+	 * Sets the horizontal alignment for the element to be drawn, such as texts.
+	 * 
+	 * Note that, whether the drawn element has the horizontal alignment property depends on the kind of the element.
+	 * If it doesn't have, only the value NONE is acceptable.
+	 * 
+	 * @param horizontalAlignment The horizontal alignment.
+	 */
+	public synchronized HorizontalAlignment getHorizontalAlignment() {
+		return this.horizontalAlignment;
+	}
+
+
+	/** Stores the vertical alignment. */
+	private volatile VerticalAlignment verticalAlignment = VerticalAlignment.NONE;
+
+	/**
+	 * Sets the vertical alignment for the element to be drawn, such as texts.
+	 * 
+	 * Note that, whether the drawn element has the vertical alignment property depends on the kind of the element.
+	 * If it doesn't have, only the value NONE is acceptable.
+	 * 
+	 * @param vertocalAlignment The vertical alignment.
+	 */
+	public synchronized void setVertocalAlignment(VerticalAlignment vertocalAlignment) {
+		this.verticalAlignment = verticalAlignment;
+	}
+
+	/**
+	 * Sets the vertical alignment for the element to be drawn, such as texts.
+	 * 
+	 * Note that, whether the drawn element has the vertical alignment property depends on the kind of the element.
+	 * If it doesn't have, only the value NONE is acceptable.
+	 * 
+	 * @param verticalAlignment The vertical alignment.
+	 */
+	public synchronized VerticalAlignment getVerticalAlignment() {
+		return this.verticalAlignment;
 	}
 }
