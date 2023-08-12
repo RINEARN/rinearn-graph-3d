@@ -276,7 +276,7 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 				break;
 			}
 			default : {
-				throw new RuntimeException("Unexpected horizontal alignment: " + this.horizontalAlignment);
+				throw new RuntimeException("Unexpected vertical alignment: " + this.verticalAlignment);
 			}
 		}
 
