@@ -593,6 +593,7 @@ System.out.println("----------");
 			Color tickColor = Color.WHITE; // Temporary value
 			Font tickFont = new Font("Dialog", Font.PLAIN, 20); // Temporary value
 			int alignThreshold = 32; // temporary value
+			double tickLabelMargin = 0.06; // temporary value
 
 			// Draw ticks on four axes belonging to the current dimension (X or Y or Z).
 			for (int itick=0; itick<tickCount; itick++) {
@@ -600,17 +601,17 @@ System.out.println("----------");
 
 				// X axes:
 				if (idim == X) {
-					this.drawXTickLabels(scaledCoord, tickLabels[itick], tickFont, tickColor, alignThreshold);
+					this.drawXTickLabels(scaledCoord, tickLabels[itick], tickFont, tickColor, alignThreshold, tickLabelMargin);
 				}
 
 				// Y axes:
 				if (idim == Y) {
-					this.drawYTickLabels(scaledCoord, tickLabels[itick], tickFont, tickColor, alignThreshold);
+					this.drawYTickLabels(scaledCoord, tickLabels[itick], tickFont, tickColor, alignThreshold, tickLabelMargin);
 				}
 
 				// Z axes:
 				if (idim == Z) {
-					this.drawZTickLabels(scaledCoord, tickLabels[itick], tickFont, tickColor, alignThreshold);
+					this.drawZTickLabels(scaledCoord, tickLabels[itick], tickFont, tickColor, alignThreshold, tickLabelMargin);
 				}
 System.out.println("idim=" + idim + ", itick=" + itick + ", scaledCoord=" + scaledCoord + ", label=" + tickLabels[itick]);
 			}
@@ -627,20 +628,21 @@ System.out.println("----------");
 	 * @param tickFont The font for rendering the text of the tick labels.
 	 * @param tickColor The color of the tick labels.
 	 * @param alignThreshold The threshold radius [px] from the graph center, at which the alignment of labels change.
+	 * @param margin The margin between the specified coord to the actual rendered position, per each dimension.
 	 */
-	private void drawXTickLabels(double scaledCoord, String tickLabel, Font tickFont, Color tickColor, int alignThreshold) {
+	private void drawXTickLabels(double scaledCoord, String tickLabel, Font tickFont, Color tickColor, int alignThreshold, double margin) {
 		RinearnGraph3DDrawingParameter.HorizontalAlignment hAlign = RinearnGraph3DDrawingParameter.HorizontalAlignment.RADIAL;
 		RinearnGraph3DDrawingParameter.VerticalAlignment vAlign   = RinearnGraph3DDrawingParameter.VerticalAlignment.RADIAL;
 
 		// X axis at Y=1, Z=1
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				scaledCoord, 1.0, 1.0, // Coords of the rendered point
-				0.0, 1.0, 1.0,         // Coords of the alignment reference point
-				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, -1.0} }, // Directional vectors
-				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor // Other params
+				scaledCoord, 1.0 + margin, 1.0 + margin,  // Coords of the rendered point
+				0.0, 1.0, 1.0,  // Coords of the alignment reference point
+				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, -1.0} },  // Directional vectors
+				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor  // Other params
 		));
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				scaledCoord, 1.0, 1.0,
+				scaledCoord, 1.0 + margin, 1.0 + margin,
 				0.0, 1.0, 1.0,
 				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
@@ -648,13 +650,13 @@ System.out.println("----------");
 
 		// X axis at Y=1, Z=-1
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				scaledCoord, 1.0, -1.0,
+				scaledCoord, 1.0 + margin, -1.0 - margin,
 				0.0, 1.0, -1.0,
 				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
 		));
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				scaledCoord, 1.0, -1.0,
+				scaledCoord, 1.0 + margin, -1.0 - margin,
 				0.0, 1.0, -1.0,
 				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, -1.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
@@ -662,13 +664,13 @@ System.out.println("----------");
 
 		// X axis at Y=-1, Z=1
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				scaledCoord, -1.0, 1.0,
+				scaledCoord, -1.0 - margin, 1.0 + margin,
 				0.0, -1.0, 1.0,
 				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, -1.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
 		));
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				scaledCoord, -1.0, 1.0,
+				scaledCoord, -1.0 - margin, 1.0 + margin,
 				0.0, -1.0, 1.0,
 				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
@@ -676,13 +678,13 @@ System.out.println("----------");
 
 		// X axis at Y=-1, Z=-1
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				scaledCoord, -1.0, -1.0,
+				scaledCoord, -1.0 - margin, -1.0 - margin,
 				0.0, -1.0, -1.0,
 				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
 		));
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				scaledCoord, -1.0, -1.0,
+				scaledCoord, -1.0 - margin, -1.0 - margin,
 				0.0, -1.0, -1.0,
 				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, -1.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
@@ -698,20 +700,21 @@ System.out.println("----------");
 	 * @param tickFont The font for rendering the text of the tick labels.
 	 * @param tickColor The color of the tick labels.
 	 * @param alignThreshold The threshold radius [px] from the graph center, at which the alignment of labels change.
+	 * @param margin The margin between the specified coord to the actual rendered position, per each dimension.
 	 */
-	private void drawYTickLabels(double scaledCoord, String tickLabel, Font tickFont, Color tickColor, int alignThreshold) {
+	private void drawYTickLabels(double scaledCoord, String tickLabel, Font tickFont, Color tickColor, int alignThreshold, double margin) {
 		RinearnGraph3DDrawingParameter.HorizontalAlignment hAlign = RinearnGraph3DDrawingParameter.HorizontalAlignment.RADIAL;
 		RinearnGraph3DDrawingParameter.VerticalAlignment vAlign   = RinearnGraph3DDrawingParameter.VerticalAlignment.RADIAL;
 
 		// Y axis at X=1, Z=1
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				1.0, scaledCoord, 1.0, // Coords of the rendered point
-				1.0, 0.0, 1.0,         // Coords of the alignment reference point
-				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} }, // Directional vectors
-				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor // Other params
+				1.0 + margin, scaledCoord, 1.0 + margin,  // Coords of the rendered point
+				1.0, 0.0, 1.0,  // Coords of the alignment reference point
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },  // Directional vectors
+				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor  // Other params
 		));
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				1.0, scaledCoord, 1.0,
+				1.0 + margin, scaledCoord, 1.0 + margin,
 				1.0, 0.0, 1.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
@@ -719,13 +722,13 @@ System.out.println("----------");
 
 		// Y axis at X=1, Z=-1
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				1.0, scaledCoord, -1.0,
+				1.0 + margin, scaledCoord, -1.0 - margin,
 				1.0, 0.0, -1.0,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
 		));
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				1.0, scaledCoord, -1.0,
+				1.0 + margin, scaledCoord, -1.0 - margin,
 				1.0, 0.0, -1.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
@@ -733,13 +736,13 @@ System.out.println("----------");
 
 		// Y axis at X=-1, Z=1
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				-1.0, scaledCoord, 1.0,
+				-1.0 - margin, scaledCoord, 1.0 + margin,
 				-1.0, 0.0, 1.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
 		));
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				-1.0, scaledCoord, 1.0,
+				-1.0 - margin, scaledCoord, 1.0 + margin,
 				-1.0, 0.0, 1.0,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
@@ -747,13 +750,13 @@ System.out.println("----------");
 
 		// Y axis at X=-1, Z=-1
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				-1.0, scaledCoord, -1.0,
+				-1.0 - margin, scaledCoord, -1.0 - margin,
 				-1.0, 0.0, -1.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
 		));
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				-1.0, scaledCoord, -1.0,
+				-1.0 - margin, scaledCoord, -1.0 - margin,
 				-1.0, 0.0, -1.0,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
@@ -769,20 +772,21 @@ System.out.println("----------");
 	 * @param tickFont The font for rendering the text of the tick labels.
 	 * @param tickColor The color of the tick labels.
 	 * @param alignThreshold The threshold radius [px] from the graph center, at which the alignment of labels change.
+	 * @param margin The margin between the specified coord to the actual rendered position, per each dimension.
 	 */
-	private void drawZTickLabels(double scaledCoord, String tickLabel, Font tickFont, Color tickColor, int alignThreshold) {
+	private void drawZTickLabels(double scaledCoord, String tickLabel, Font tickFont, Color tickColor, int alignThreshold, double margin) {
 		RinearnGraph3DDrawingParameter.HorizontalAlignment hAlign = RinearnGraph3DDrawingParameter.HorizontalAlignment.RADIAL;
 		RinearnGraph3DDrawingParameter.VerticalAlignment vAlign   = RinearnGraph3DDrawingParameter.VerticalAlignment.RADIAL;
 
 		// Z axis at Y=1, Z=1
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				1.0, 1.0, scaledCoord, // Coords of the rendered point
+				1.0 + margin, 1.0 + margin, scaledCoord, // Coords of the rendered point
 				1.0, 1.0, 0.0,         // Coords of the alignment reference point
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} }, // Directional vectors
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor // Other params
 		));
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				1.0, 1.0, scaledCoord,
+				1.0 + margin, 1.0 + margin, scaledCoord,
 				1.0, 1.0, 0.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
@@ -790,13 +794,13 @@ System.out.println("----------");
 
 		// Z axis at Y=1, Z=-1
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				1.0, -1.0, scaledCoord,
+				1.0 + margin, -1.0 - margin, scaledCoord,
 				1.0, -1.0, 0.0,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
 		));
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				1.0, -1.0, scaledCoord,
+				1.0 + margin, -1.0 - margin, scaledCoord,
 				1.0, -1.0, 0.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
@@ -804,13 +808,13 @@ System.out.println("----------");
 
 		// Z axis at Y=-1, Z=1
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				-1.0, 1.0, scaledCoord,
+				-1.0 - margin, 1.0 + margin, scaledCoord,
 				-1.0, 1.0, 0.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
 		));
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				-1.0, 1.0, scaledCoord,
+				-1.0 - margin, 1.0 + margin, scaledCoord,
 				-1.0, 1.0, 0.0,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
@@ -818,13 +822,13 @@ System.out.println("----------");
 
 		// Z axis at Y=-1, Z=-1
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				-1.0, -1.0, scaledCoord,
+				-1.0 - margin, -1.0 - margin, scaledCoord,
 				-1.0, -1.0, 0.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
 		));
 		this.geometricPieceList.add(new DirectionalTextGeometricPiece(
-				-1.0, -1.0, scaledCoord,
+				-1.0 - margin, -1.0 - margin, scaledCoord,
 				-1.0, -1.0, 0.0,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
