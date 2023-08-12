@@ -1,5 +1,12 @@
 package com.rinearn.graph3d.renderer;
 
+// !!!!!
+// Note:
+//    Maybe we should this class to the upper hierarchy: com.rinear.graph3d.RinearnGraph3DLightingParameter?
+//    Probably sometimes users want to set the lighting parameters simply
+//    through the upper hierarchy (RinearnGraph3D class), without directly accessing to the renderer.
+//    Considering such usage, it may be unnatural that this class belongs to renderer's package.
+//!!!!!
 
 /**
  * <span class="lang-en">
