@@ -1,10 +1,12 @@
 package com.rinearn.graph3d.renderer.simple;
 
 import com.rinearn.graph3d.renderer.RinearnGraph3DLightingParameter;
+import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Font;
+import java.awt.FontMetrics;
 
 
 /**
@@ -20,7 +22,22 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 	private Font font;
 
 	/** The flag representing whether this text label is visible, updated in transform() method. */
-	private boolean visible;
+	private boolean visible = false;
+
+	/** The horizontal alignment (offset) of the rendered text on the screen. */
+	private RinearnGraph3DDrawingParameter.HorizontalAlignment horizontalAlignment;
+
+	/** The vertical alignment (offset) of the rendered text on the screen. */
+	private RinearnGraph3DDrawingParameter.VerticalAlignment verticalAlignment;
+
+	/** The radius [px] of the threshold at which position changes on "RADIAL" alignment. */
+	private int radialAlignmentThresholdRadius;
+
+	/** Stores X coordinate value of the screen center, updated in project() method. */
+	private int screenCenterX = 0;
+
+	/** Stores Y coordinate value of the screen center, updated in project() method. */
+	private int screenCenterY = 0;
 
 
 	/**
@@ -31,33 +48,56 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 	 * Its array indices represents [vector index][dimension index], where dimension index is: 0=X, 1=Y, and 2=Z.
 	 * The text label is only visible when ALL vectors are facing toward the front-side of the screen (Z > 0).
 	 * 
-	 * @param x The x coordinate value of the center of the text label, in the scaled space.
-	 * @param y The y coordinate value of the center of the text label, in the scaled space.
-	 * @param z The z coordinate value of the center of the text label, in the scaled space.
+	 * @param x The x coordinate value of the position of the text label, in the scaled space.
+	 * @param y The y coordinate value of the position of the text label, in the scaled space.
+	 * @param z The z coordinate value of the position of the text label, in the scaled space.
+	 * @param alignmentReferenceX The x coordinate value of the reference point of "RADIAL" alignment, in the scaled space.
+	 * @param alignmentReferenceY The y coordinate value of the reference point of "RADIAL" alignment, in the scaled space.
+	 * @param alignmentReferenceZ The z coordinate value of the reference point of "RADIAL" alignment, in the scaled space.
 	 * @param directionalVectors The vectors representing the directions from which this text label is visible. See the above description.
+	 * @param horizontalAlignment The horizontal alignment (offset) of the rendered text on the screen.
+	 * @param verticalAlignment The vertical alignment (offset) of the rendered text on the screen.
+	 * @param radialAlignmentThresholdRadius The radius [px] of the threshold at which position changes on "RADIAL" alignment.
 	 * @param text The displayed value of the text label.
 	 * @param font The font of the text.
 	 * @param color The color of the text.
 	 */
-	public DirectionalTextGeometricPiece(double x, double y, double z, double[][] directionalVectors, String text, Font font, Color color) {
-		this.vertexCount = 1 + directionalVectors.length;
+	public DirectionalTextGeometricPiece(double x, double y, double z,
+			double alignmentReferenceX, double alignmentReferenceY, double alignmentReferenceZ,
+			double[][] directionalVectors,
+			RinearnGraph3DDrawingParameter.HorizontalAlignment horizontalAlignment,
+			RinearnGraph3DDrawingParameter.VerticalAlignment verticalAlignment,
+			int radialAlignmentThresholdRadius,
+			String text, Font font, Color color) {
 
-		// In the vertex array, store X/Y/Z coordinates as 0-th vertex, and directional vectors as latter vertices, expediently.
+		// Store the rendered point, the alignment reference point, and the directional vectors as vertices.
+		// So the number of vertices is as follows:
+		this.vertexCount = 2 + directionalVectors.length;
+
+		// In the vertex array,
+		// store the rendered point as 0th vertex, the alignment reference point as 1st vertex,
+		// and directional vectors as latter vertices, expediently.
 		this.scaledVertexArray = new double[this.vertexCount][3]; // [3] is X/Y/Z
 		this.scaledVertexArray[0][X] = x;
 		this.scaledVertexArray[0][Y] = y;
 		this.scaledVertexArray[0][Z] = z;
+		this.scaledVertexArray[1][X] = alignmentReferenceX;
+		this.scaledVertexArray[1][Y] = alignmentReferenceY;
+		this.scaledVertexArray[1][Z] = alignmentReferenceZ;
 		for (int ivec=0; ivec<directionalVectors.length; ivec++) {
-			System.arraycopy(directionalVectors[ivec], 0, this.scaledVertexArray[1 + ivec], 0, 3);
+			System.arraycopy(directionalVectors[ivec], 0, this.scaledVertexArray[2 + ivec], 0, 3);
 		}
 
 		this.transformedVertexArray = new double[this.vertexCount][3]; // [3] is X/Y/Z
 		this.projectedVertexArray = new int[this.vertexCount][2];      // [2] is X/Y
 		this.originalColor = color;
 
+		this.horizontalAlignment = horizontalAlignment;
+		this.verticalAlignment = verticalAlignment;
+		this.radialAlignmentThresholdRadius = radialAlignmentThresholdRadius;
+
 		this.text = text;
 		this.font = font;
-		this.visible = false; // Updated in transform() method.
 	}
 
 
@@ -68,21 +108,6 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 	 */
 	@Override
 	public void transform(double[][] matrix) {
-/*
-		// Short aliases of the matrix and vertices arrays.
-		double[][] m = matrix;
-		double[] sv = this.scaledVertexArray[0];
-		double[] tv = this.transformedVertexArray[0];
-
-		// Transform the coordinate values, where X=0, Y=1, and Z=2.
-		tv[X] = m[0][0] * sv[X] + m[0][1] * sv[Y] + m[0][2] * sv[Z] + m[0][3];
-		tv[Y] = m[1][0] * sv[X] + m[1][1] * sv[Y] + m[1][2] * sv[Z] + m[1][3];
-		tv[Z] = m[2][0] * sv[X] + m[2][1] * sv[Y] + m[2][2] * sv[Z] + m[2][3];
-
-		// Compute the square of the 'depth' value.
-		this.depthSquaredValue = tv[Z] * tv[Z];
-*/
-		// ---
 
 		// Reset the visibility of this text label (updated later if it should be invisible).
 		this.visible = true;
@@ -92,13 +117,17 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 		double[][] sv = this.scaledVertexArray;
 		double[][] tv = this.transformedVertexArray;
 
-		// Transform the coordinate values (stores as 0-th vertex), where X=0, Y=1, and Z=2.
+		// Transform the coordinate values of the rendered point (stores as 0th vertex)
+		// and the alignment reference point (1st vertex), where X=0, Y=1, and Z=2.
 		tv[0][X] = m[0][0] * sv[0][X] + m[0][1] * sv[0][Y] + m[0][2] * sv[0][Z] + m[0][3];
 		tv[0][Y] = m[1][0] * sv[0][X] + m[1][1] * sv[0][Y] + m[1][2] * sv[0][Z] + m[1][3];
 		tv[0][Z] = m[2][0] * sv[0][X] + m[2][1] * sv[0][Y] + m[2][2] * sv[0][Z] + m[2][3];
+		tv[1][X] = m[0][0] * sv[1][X] + m[0][1] * sv[1][Y] + m[0][2] * sv[1][Z] + m[0][3];
+		tv[1][Y] = m[1][0] * sv[1][X] + m[1][1] * sv[1][Y] + m[1][2] * sv[1][Z] + m[1][3];
+		tv[1][Z] = m[2][0] * sv[1][X] + m[2][1] * sv[1][Y] + m[2][2] * sv[1][Z] + m[2][3];
 
-		// Transform directional vectors (handled as 1-th to the last vertices, expediently).
-		for (int ivertex=1; ivertex<this.vertexCount; ivertex++) {
+		// Transform directional vectors (handled as 2nd to the last vertices, expediently).
+		for (int ivertex=2; ivertex<this.vertexCount; ivertex++) {
 
 			// We use only Z element, so omit calculating X and Y elements.
 			// Note that, for the directional vectors, transform only its direction, ignoring m[*][3].
@@ -145,16 +174,22 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 
 		// Compute the project coordinates on the screen.
 		// (The origin is the left-top edge of the screen.)
-		int screenCenterX = screenWidth >> 1 + screenOffsetX; // bit-shifting instead of dividing by 2.
-		int screenCenterY = screenHeight >> 1 - screenOffsetY;
+		this.screenCenterX = screenWidth >> 1 + screenOffsetX; // bit-shifting instead of dividing by 2.
+		this.screenCenterY = screenHeight >> 1 - screenOffsetY;
 
 		// Short aliases of the vertices arrays.
-		double[] tv = this.transformedVertexArray[0];
-		int[] pv = this.projectedVertexArray[0];
+		double[][] tv = this.transformedVertexArray;
+		int[][] pv = this.projectedVertexArray;
 
-		double projectionRatio = magnification / -tv[Z]; // Z takes a negative value for the depth direction.
-		pv[X] = screenCenterX + (int)(tv[X] * projectionRatio);
-		pv[Y] = screenCenterY - (int)(tv[Y] * projectionRatio);
+		// Project the rendered point, which is stored as 0th vertex.
+		double projectionRatio = magnification / -tv[0][Z]; // Z takes a negative value for the depth direction.
+		pv[0][X] = screenCenterX + (int)(tv[0][X] * projectionRatio);
+		pv[0][Y] = screenCenterY - (int)(tv[0][Y] * projectionRatio);
+
+		// Project the alignment reference point, which is stored as 1st vertex.
+		projectionRatio = magnification / -tv[1][Z];
+		pv[1][X] = screenCenterX + (int)(tv[1][X] * projectionRatio);
+		pv[1][Y] = screenCenterY - (int)(tv[1][Y] * projectionRatio);
 	}
 
 
@@ -168,11 +203,88 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 		if (!visible) {
 			return;
 		}
+		int[][] pv = this.projectedVertexArray;
 
+		// Compute the width/height of the rendered text with the specified font.
+		FontMetrics metrics = graphics.getFontMetrics(this.font);
+		int width = metrics.stringWidth(this.text);
+		int height = metrics.getAscent();
+
+		// Determine the offset value of X coordinate of the rendering position, based on the alignment mode.
+		int coordOffsetX = Integer.MAX_VALUE;
+		switch (this.horizontalAlignment) {
+			case NONE : {
+				coordOffsetX = 0;
+				break;
+			}
+			case LEFT : {
+				coordOffsetX = -width;
+				break;
+			}
+			case RIGHT : {
+				coordOffsetX = 0;
+				break;
+			}
+			case CENTER : {
+				coordOffsetX = -width/2;
+				break;
+			}
+			case RADIAL : {
+				int referencePointX = pv[1][X];
+				if (referencePointX < this.screenCenterX - this.radialAlignmentThresholdRadius) {
+					coordOffsetX = -width; // LEFT
+				} else if (this.screenCenterX + this.radialAlignmentThresholdRadius < referencePointX) {
+					coordOffsetX = 0; // RIGHT
+				} else {
+					coordOffsetX = -width/2; // CENTER
+				}
+				break;
+			}
+			default : {
+				throw new RuntimeException("Unexpected horizontal alignment: " + this.horizontalAlignment);
+			}
+		}
+
+		// Determine the offset value of Y coordinate of the rendering position, based on the alignment mode.
+		int coordOffsetY = 0;
+		switch (this.verticalAlignment) {
+			case NONE : {
+				coordOffsetY = 0;
+				break;
+			}
+			case TOP : {
+				coordOffsetY = 0;
+				break;
+			}
+			case BOTTOM : {
+				coordOffsetY = height;
+				break;
+			}
+			case CENTER : {
+				coordOffsetY = height/2;
+				break;
+			}
+			case RADIAL : {
+				int referencePointY = pv[1][Y];
+				if (referencePointY < this.screenCenterY - this.radialAlignmentThresholdRadius) {
+					coordOffsetY = 0; // TOP
+				} else if (this.screenCenterY + this.radialAlignmentThresholdRadius < referencePointY) {
+					coordOffsetY = height; // BOTTOM
+				} else {
+					coordOffsetY = height/2; // CENTER
+				}
+				break;
+			}
+			default : {
+				throw new RuntimeException("Unexpected horizontal alignment: " + this.horizontalAlignment);
+			}
+		}
+
+		// Draw the text.
+		int textBaseLineX = pv[0][X] + coordOffsetX;
+		int textBaseLineY = pv[0][Y] + coordOffsetY;
 		graphics.setColor(this.onscreenColor);
 		graphics.setFont(this.font);
-
-		int[] pv = this.projectedVertexArray[0];
-		graphics.drawString(this.text, pv[X], pv[Y]);
+		graphics.drawString(this.text, textBaseLineX, textBaseLineY);
 	}
 }
