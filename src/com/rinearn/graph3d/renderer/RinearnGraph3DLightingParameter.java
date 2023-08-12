@@ -8,6 +8,15 @@ package com.rinearn.graph3d.renderer;
 //    Considering such usage, it may be unnatural that this class belongs to renderer's package.
 //!!!!!
 
+// > あとこれ引数に詳細渡す的なやつじゃなくてずっと参照する設定値のコンテナなのでParameterって命名もなんか違う気がする。
+//   OptionParametersやDrawingParameterに命名引っ張られてるけどあれらは引数が大量にできるのを包む的なやつなのでParameterなわけで。
+//   こっちは上層に昇格さすなら、Set Light メニューの設定内容を包んで内部でずっと保持するようなやつになるので、役割的にParamでは済まない。
+//   設定コンテナ的に Settings とかが適切では？ 他の設定メニューも似た感じのやつを量産するなら、Paramだとたぶんどっかで意味的に詰む。
+//   例えば ScaleParameter とか作ると役割的にかなり違和感生じて、ScaleSettings とか or 別の命名にしたくなる気が。
+//
+//   移動のタイミングまでに要件等
+
+
 /**
  * <span class="lang-en">
  * The class for storing parameters related to lighting and shading
