@@ -3,6 +3,7 @@ com/rinearn/graph3d/renderer/RinearnGraph3DDrawingParameter.java
 com/rinearn/graph3d/renderer/RinearnGraph3DLightingParameter.java
 com/rinearn/graph3d/renderer/RinearnGraph3DRenderer.java
 com/rinearn/graph3d/renderer/simple/Axis.java
+com/rinearn/graph3d/renderer/simple/DirectionalLineGeometricPiece.java
 com/rinearn/graph3d/renderer/simple/DirectionalTextGeometricPiece.java
 com/rinearn/graph3d/renderer/simple/GeometricDepthComparator.java
 com/rinearn/graph3d/renderer/simple/GeometricPiece.java

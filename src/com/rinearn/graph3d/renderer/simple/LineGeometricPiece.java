@@ -24,9 +24,8 @@ public class LineGeometricPiece extends GeometricPiece {
 	 * @param bX The x coordinate value of the point B, in the scaled space.
 	 * @param bY The y coordinate value of the point B, in the scaled space.
 	 * @param bZ The z coordinate value of the point B, in the scaled space.
-	 * @param z The z coordinate value of the center of the point, in the scaled space.
-	 * @param radius The radius (pixels) of the point.
-	 * @param color The color of the point.
+	 * @param width The width of the line.
+	 * @param color The color of the line.
 	 */
 	public LineGeometricPiece(double aX, double aY, double aZ, double bX, double bY, double bZ, double width, Color color) {
 		this.vertexCount = 2;

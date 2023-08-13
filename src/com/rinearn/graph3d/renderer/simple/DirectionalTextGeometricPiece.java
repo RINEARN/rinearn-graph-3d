@@ -77,7 +77,7 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 		// In the vertex array,
 		// store the rendered point as 0th vertex, the alignment reference point as 1st vertex,
 		// and directional vectors as latter vertices, expediently.
-		this.scaledVertexArray = new double[this.vertexCount][4]; // [3] is X/Y/Z/W
+		this.scaledVertexArray = new double[this.vertexCount][4]; // [4] is X/Y/Z/W
 		this.scaledVertexArray[0][X] = x;
 		this.scaledVertexArray[0][Y] = y;
 		this.scaledVertexArray[0][Z] = z;
@@ -190,7 +190,7 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 
 
 	/**
-	 * Draws this point.
+	 * Draws this text label.
 	 * 
 	 * @param graphics The Graphics2D instance for drawing shapes to the screen image.
 	 */
