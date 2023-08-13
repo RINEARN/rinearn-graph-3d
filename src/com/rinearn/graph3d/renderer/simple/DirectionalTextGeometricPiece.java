@@ -77,15 +77,22 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 		// In the vertex array,
 		// store the rendered point as 0th vertex, the alignment reference point as 1st vertex,
 		// and directional vectors as latter vertices, expediently.
-		this.scaledVertexArray = new double[this.vertexCount][3]; // [3] is X/Y/Z
+		this.scaledVertexArray = new double[this.vertexCount][4]; // [3] is X/Y/Z/W
 		this.scaledVertexArray[0][X] = x;
 		this.scaledVertexArray[0][Y] = y;
 		this.scaledVertexArray[0][Z] = z;
+		this.scaledVertexArray[0][W] = 1.0;
 		this.scaledVertexArray[1][X] = alignmentReferenceX;
 		this.scaledVertexArray[1][Y] = alignmentReferenceY;
 		this.scaledVertexArray[1][Z] = alignmentReferenceZ;
+		this.scaledVertexArray[1][W] = 1.0;
 		for (int ivec=0; ivec<directionalVectors.length; ivec++) {
 			System.arraycopy(directionalVectors[ivec], 0, this.scaledVertexArray[2 + ivec], 0, 3);
+
+			// For directional vectors, we should transform only the angle of the vectors, 
+			// so we should ignore effects of the translational elements of the transformation matrix.
+			// So set W to 0.
+			this.scaledVertexArray[2 + ivec][W] = 0.0;
 		}
 
 		this.transformedVertexArray = new double[this.vertexCount][3]; // [3] is X/Y/Z
@@ -117,26 +124,15 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 		double[][] sv = this.scaledVertexArray;
 		double[][] tv = this.transformedVertexArray;
 
-		// Transform the coordinate values of the rendered point (stores as 0th vertex)
-		// and the alignment reference point (1st vertex), where X=0, Y=1, and Z=2.
-		tv[0][X] = m[0][0] * sv[0][X] + m[0][1] * sv[0][Y] + m[0][2] * sv[0][Z] + m[0][3];
-		tv[0][Y] = m[1][0] * sv[0][X] + m[1][1] * sv[0][Y] + m[1][2] * sv[0][Z] + m[1][3];
-		tv[0][Z] = m[2][0] * sv[0][X] + m[2][1] * sv[0][Y] + m[2][2] * sv[0][Z] + m[2][3];
-		tv[1][X] = m[0][0] * sv[1][X] + m[0][1] * sv[1][Y] + m[0][2] * sv[1][Z] + m[0][3];
-		tv[1][Y] = m[1][0] * sv[1][X] + m[1][1] * sv[1][Y] + m[1][2] * sv[1][Z] + m[1][3];
-		tv[1][Z] = m[2][0] * sv[1][X] + m[2][1] * sv[1][Y] + m[2][2] * sv[1][Z] + m[2][3];
+		// Transform the coordinate values of the rendered point([0]), alignment reference point(1), and directional vectors([2],...).
+		for (int ivertex=0; ivertex<this.vertexCount; ivertex++) {
+			tv[ivertex][X] = m[0][0] * sv[ivertex][X] + m[0][1] * sv[ivertex][Y] + m[0][2] * sv[ivertex][Z] + m[0][3] * sv[ivertex][W];
+			tv[ivertex][Y] = m[1][0] * sv[ivertex][X] + m[1][1] * sv[ivertex][Y] + m[1][2] * sv[ivertex][Z] + m[1][3] * sv[ivertex][W];
+			tv[ivertex][Z] = m[2][0] * sv[ivertex][X] + m[2][1] * sv[ivertex][Y] + m[2][2] * sv[ivertex][Z] + m[2][3] * sv[ivertex][W];
+		}
 
-		// Transform directional vectors (handled as 2nd to the last vertices, expediently).
+		// If any directional vector faces the depth direction from the viewpoint, set this text label invisible.
 		for (int ivertex=2; ivertex<this.vertexCount; ivertex++) {
-
-			// We use only Z element, so omit calculating X and Y elements.
-			// Note that, for the directional vectors, transform only its direction, ignoring m[*][3].
-
-			//tv[ivertex][X] = m[0][0] * sv[ivertex][X] + m[0][1] * sv[ivertex][Y] + m[0][2] * sv[ivertex][Z];
-			//tv[ivertex][Y] = m[1][0] * sv[ivertex][X] + m[1][1] * sv[ivertex][Y] + m[1][2] * sv[ivertex][Z];
-			tv[ivertex][Z] = m[2][0] * sv[ivertex][X] + m[2][1] * sv[ivertex][Y] + m[2][2] * sv[ivertex][Z];
-
-			// If any vector faces the depth direction from the viewpoint, set this text label invisible.
 			if (tv[ivertex][Z] < 0) {
 				this.visible = false;
 			}

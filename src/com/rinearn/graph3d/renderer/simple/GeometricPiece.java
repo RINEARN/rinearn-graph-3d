@@ -21,6 +21,9 @@ public abstract class GeometricPiece {
 	/** The array index at which a Z coordinate value is stored. */
 	public static final int Z = 2;
 
+	/** The array index at which a W coordinate value is stored. */
+	public static final int W = 3;
+
 	/** Represents the number of the vertices stored in the vertex array. */
 	protected int vertexCount = -1;
 
