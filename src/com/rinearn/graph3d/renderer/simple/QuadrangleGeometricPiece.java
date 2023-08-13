@@ -72,13 +72,26 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 		 // When there is a couple of points which have the same coordinate values in the points {A, B, C}, 
 		 // the normal vector will be calculated for the triangle consisting of the points A, C, and D.		
 		this.normalVectorVertices = existsSamePointInABC ? NormalVectorVertices.ACD : NormalVectorVertices.ABC;
+		double[] normalVector = this.computeNormalVector(
+			aX, aY, aZ , bX, bY, bZ, cX, cY, cZ, dX, dY, dZ, this.normalVectorVertices
+		);
+
+		// Store the scaled coordinate values of the points A, B, C, and D into the vertex array.
+		// Also, store the normal vector as the last vertex, expediently.
+		this.scaledVertexArray = new double[][] {
+			{ aX, aY, aZ, 1.0 }, // The last element "1.0" is so-called W value.
+			{ bX, bY, bZ, 1.0 },
+			{ cX, cY, cZ, 1.0 },
+			{ dX, dY, dZ, 1.0 },
+
+			// For the normal vector, we should transform only its angle, 
+			// so we should ignore effects of the translational elements of the transformation matrix.
+			// So set the value of W (the last element of the following) to 0.
+			{ normalVector[X], normalVector[Y], normalVector[Z], 0.0 },
+		};
 
 		// Initialize other fields.
 		this.vertexCount = 5; // 4 vertex vectors + 1 normal vector
-		this.scaledVertexArray = new double[][] {
-			{ aX, aY, aZ }, {bX, bY, bZ}, {cX, cY, cZ}, {dX, dY, dZ},
-			this.computeNormalVector(aX, aY, aZ , bX, bY, bZ, cX, cY, cZ, dX, dY, dZ, this.normalVectorVertices)
-		};
 		this.transformedVertexArray = new double[this.vertexCount][3]; // [3] is X/Y/Z
 		this.projectedVertexArray = new int[this.vertexCount][2];      // [2] is X/Y
 		this.originalColor = color;
@@ -163,20 +176,12 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 		double[][] sv = this.scaledVertexArray;
 		double[][] tv = this.transformedVertexArray;
 
-		// Transform each vertex.
-		for (int ivertex=0; ivertex<=3; ivertex++) {
-
-			// Transform coordinate values of the vertex, where X=0, Y=1, and Z=2.
-			tv[ivertex][X] = m[0][0] * sv[ivertex][X] + m[0][1] * sv[ivertex][Y] + m[0][2] * sv[ivertex][Z] + m[0][3];
-			tv[ivertex][Y] = m[1][0] * sv[ivertex][X] + m[1][1] * sv[ivertex][Y] + m[1][2] * sv[ivertex][Z] + m[1][3];
-			tv[ivertex][Z] = m[2][0] * sv[ivertex][X] + m[2][1] * sv[ivertex][Y] + m[2][2] * sv[ivertex][Z] + m[2][3];
+		// Transform each vertex, where X=0, Y=1, Z=2, and W=3.
+		for (int ivertex=0; ivertex<this.vertexCount; ivertex++) {
+			tv[ivertex][X] = m[0][0] * sv[ivertex][X] + m[0][1] * sv[ivertex][Y] + m[0][2] * sv[ivertex][Z] + m[0][3] * sv[ivertex][W];
+			tv[ivertex][Y] = m[1][0] * sv[ivertex][X] + m[1][1] * sv[ivertex][Y] + m[1][2] * sv[ivertex][Z] + m[1][3] * sv[ivertex][W];
+			tv[ivertex][Z] = m[2][0] * sv[ivertex][X] + m[2][1] * sv[ivertex][Y] + m[2][2] * sv[ivertex][Z] + m[2][3] * sv[ivertex][W];
 		}
-
-		// For the normal vector (ivertex = 4), transform only its direction.
-		// So multiply only 3x3 part of the transformation matrix, to the normal vector.
-		tv[4][X] = m[0][0] * sv[4][X] + m[0][1] * sv[4][Y] + m[0][2] * sv[4][Z];
-		tv[4][Y] = m[1][0] * sv[4][X] + m[1][1] * sv[4][Y] + m[1][2] * sv[4][Z];
-		tv[4][Z] = m[2][0] * sv[4][X] + m[2][1] * sv[4][Y] + m[2][2] * sv[4][Z];
 
 		// If this quadrangle faces the depth direction from the viewpoint, reverse its normal vector.
 		// See also: the description of 'facesDepthDirection' method.
