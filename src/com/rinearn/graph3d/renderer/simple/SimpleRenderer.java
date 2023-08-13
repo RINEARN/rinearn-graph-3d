@@ -30,7 +30,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	public static final int Z = 2;
 
 	/** The default value of the distance between the viewpoint and the origin of the graph. */
-	private static final double DEFAULT_DISTANCE = 3.0;
+	private static final double DEFAULT_DISTANCE = 4.0;
 
 	/** The required precision of BigDecimal the coordinates in "scaled space". */
 	private static final int SCALED_SPACE_PRECISION = 20;
@@ -594,6 +594,7 @@ System.out.println("----------");
 			Font tickFont = new Font("Dialog", Font.PLAIN, 20); // Temporary value
 			int alignThreshold = 32; // temporary value
 			double tickLabelMargin = 0.06; // temporary value
+			double tickLength = 0.05; // temporary value
 
 			// Draw ticks on four axes belonging to the current dimension (X or Y or Z).
 			for (int itick=0; itick<tickCount; itick++) {
@@ -602,16 +603,19 @@ System.out.println("----------");
 				// X axes:
 				if (idim == X) {
 					this.drawXTickLabels(scaledCoord, tickLabels[itick], tickFont, tickColor, alignThreshold, tickLabelMargin);
+					this.drawXTickLines(scaledCoord, 1.0, tickColor, tickLength);
 				}
 
 				// Y axes:
 				if (idim == Y) {
 					this.drawYTickLabels(scaledCoord, tickLabels[itick], tickFont, tickColor, alignThreshold, tickLabelMargin);
+					this.drawYTickLines(scaledCoord, 1.0, tickColor, tickLength);
 				}
 
 				// Z axes:
 				if (idim == Z) {
 					this.drawZTickLabels(scaledCoord, tickLabels[itick], tickFont, tickColor, alignThreshold, tickLabelMargin);
+					this.drawZTickLines(scaledCoord, 1.0, tickColor, tickLength);
 				}
 System.out.println("idim=" + idim + ", itick=" + itick + ", scaledCoord=" + scaledCoord + ", label=" + tickLabels[itick]);
 			}
@@ -621,7 +625,7 @@ System.out.println("----------");
 
 
 	/**
-	 * Draws tickLabels having the specified value on the four X axes.
+	 * Draws tick labels having the specified value on the four X axes.
 	 * 
 	 * @param scaledCoord The X coordinate value (position) of the tick labels.
 	 * @param tickLabel The label (displayed value) of the tick labels.
@@ -693,7 +697,76 @@ System.out.println("----------");
 
 
 	/**
-	 * Draws tickLabels having the specified value on the four Y axes.
+	 * Draws tick lines on the four X axes, at the specified coordinate.
+	 * 
+	 * @param scaledCoord The X coordinate value (position) of the tick lines.
+	 * @param tickColor The color of the tick lines.
+	 * @param tickWidth The width of tick lines.
+	 * @param lengthPerDimension The length per dimension of tick lines.
+	 */
+	private void drawXTickLines(double scaledCoord, double tickWidth, Color tickColor, double tickLengthPerDimension) {
+		double tickLength = tickLengthPerDimension; // Short alias
+
+		// X axis at Y=1, Z=1
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				scaledCoord, 1.0, 1.0,                                // Coords of the edge point A
+				scaledCoord, 1.0 + tickLength, 1.0 + tickLength,      // Coords of the edge point B
+				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, -1.0} },  // Directional vectors
+				tickWidth, tickColor  // Other params
+		));
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				scaledCoord, 1.0, 1.0,
+				scaledCoord, 1.0 + tickLength, 1.0 + tickLength,
+				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickWidth, tickColor
+		));
+
+		// X axis at Y=1, Z=-1
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				scaledCoord, 1.0, -1.0,
+				scaledCoord, 1.0 + tickLength, -1.0 - tickLength,
+				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickWidth, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				scaledCoord, 1.0, -1.0,
+				scaledCoord, 1.0 + tickLength, -1.0 - tickLength,
+				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, -1.0} },
+				tickWidth, tickColor
+		));
+
+		// X axis at Y=-1, Z=1
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				scaledCoord, -1.0, 1.0,
+				scaledCoord, -1.0 - tickLength, 1.0 + tickLength,
+				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, -1.0} },
+				tickWidth, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				scaledCoord, -1.0, 1.0,
+				scaledCoord, -1.0 - tickLength, 1.0 + tickLength,
+				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickWidth, tickColor
+		));
+
+		// X axis at Y=-1, Z=-1
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				scaledCoord, -1.0, -1.0,
+				scaledCoord, -1.0 - tickLength, -1.0 - tickLength,
+				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickWidth, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				scaledCoord, -1.0, -1.0,
+				scaledCoord, -1.0 - tickLength, -1.0 - tickLength,
+				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, -1.0} },
+				tickWidth, tickColor
+		));
+	}
+
+
+	/**
+	 * Draws tick labels having the specified value on the four Y axes.
 	 * 
 	 * @param scaledCoord The Y coordinate value (position) of the tick labels.
 	 * @param tickLabel The label (displayed value) of the tick labels.
@@ -765,7 +838,76 @@ System.out.println("----------");
 
 
 	/**
-	 * Draws tickLabels having the specified value on the four Z axes.
+	 * Draws tick lines on the four Y axes, at the specified coordinate.
+	 * 
+	 * @param scaledCoord The Y coordinate value (position) of the tick lines.
+	 * @param tickColor The color of the tick lines.
+	 * @param tickWidth The width of tick lines.
+	 * @param lengthPerDimension The length per dimension of tick lines.
+	 */
+	private void drawYTickLines(double scaledCoord, double tickWidth, Color tickColor, double tickLengthPerDimension) {
+		double tickLength = tickLengthPerDimension; // Short alias
+
+		// Y axis at X=1, Z=1
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				1.0, scaledCoord, 1.0,                                // Coords of the edge point A
+				1.0 + tickLength, scaledCoord, 1.0 + tickLength,      // Coords of the edge point B
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },  // Directional vectors
+				tickWidth, tickColor  // Other params
+		));
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				1.0, scaledCoord, 1.0,
+				1.0 + tickLength, scaledCoord, 1.0 + tickLength,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickWidth, tickColor
+		));
+
+		// Y axis at X=1, Z=-1
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				1.0, scaledCoord, -1.0,
+				1.0 + tickLength, scaledCoord, -1.0 - tickLength,
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickWidth, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				1.0, scaledCoord, -1.0,
+				1.0 + tickLength, scaledCoord, -1.0 - tickLength,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
+				tickWidth, tickColor
+		));
+
+		// Y axis at X=-1, Z=1
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				-1.0, scaledCoord, 1.0,
+				-1.0 - tickLength, scaledCoord, 1.0 + tickLength,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
+				tickWidth, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				-1.0, scaledCoord, 1.0,
+				-1.0 - tickLength, scaledCoord, 1.0 + tickLength,
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickWidth, tickColor
+		));
+
+		// Y axis at X=-1, Z=-1
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				-1.0, scaledCoord, -1.0,
+				-1.0 - tickLength, scaledCoord, -1.0 - tickLength,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
+				tickWidth, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				-1.0, scaledCoord, -1.0,
+				-1.0 - tickLength, scaledCoord, -1.0 - tickLength,
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
+				tickWidth, tickColor
+		));
+	}
+
+
+	/**
+	 * Draws tick labels having the specified value on the four Z axes.
 	 * 
 	 * @param scaledCoord The Z coordinate value (position) of the tick labels.
 	 * @param tickLabel The label (displayed value) of the tick labels.
@@ -832,6 +974,75 @@ System.out.println("----------");
 				-1.0, -1.0, 0.0,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
 				hAlign, vAlign, alignThreshold, tickLabel, tickFont, tickColor
+		));
+	}
+
+
+	/**
+	 * Draws tick lines on the four Z axes, at the specified coordinate.
+	 * 
+	 * @param scaledCoord The Z coordinate value (position) of the tick lines.
+	 * @param tickColor The color of the tick lines.
+	 * @param tickWidth The width of tick lines.
+	 * @param lengthPerDimension The length per dimension of tick lines.
+	 */
+	private void drawZTickLines(double scaledCoord, double tickWidth, Color tickColor, double tickLengthPerDimension) {
+		double tickLength = tickLengthPerDimension; // Short alias
+
+		// Z axis at Y=1, Z=1
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				1.0, 1.0, scaledCoord,                                // Coords of the edge point A
+				1.0 + tickLength, 1.0 + tickLength, scaledCoord,      // Coords of the edge point B
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} }, // Directional vectors
+				tickWidth, tickColor  // Other params
+		));
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				1.0, 1.0, scaledCoord,
+				1.0 + tickLength, 1.0 + tickLength, scaledCoord,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
+				tickWidth, tickColor
+		));
+
+		// Z axis at Y=1, Z=-1
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				1.0, -1.0, scaledCoord,
+				1.0 + tickLength, -1.0 - tickLength, scaledCoord,
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
+				tickWidth, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				1.0, -1.0, scaledCoord,
+				1.0 + tickLength, -1.0 - tickLength, scaledCoord,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
+				tickWidth, tickColor
+		));
+
+		// Z axis at Y=-1, Z=1
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				-1.0, 1.0, scaledCoord,
+				-1.0 - tickLength, 1.0 + tickLength, scaledCoord,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
+				tickWidth, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				-1.0, 1.0, scaledCoord,
+				-1.0 - tickLength, 1.0 + tickLength, scaledCoord,
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
+				tickWidth, tickColor
+		));
+
+		// Z axis at Y=-1, Z=-1
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				-1.0, -1.0, scaledCoord,
+				-1.0 - tickLength, -1.0 - tickLength, scaledCoord,
+				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
+				tickWidth, tickColor
+		));
+		this.geometricPieceList.add(new DirectionalLineGeometricPiece(
+				-1.0, -1.0, scaledCoord,
+				-1.0 - tickLength, -1.0 - tickLength, scaledCoord,
+				new double[][]{ {1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
+				tickWidth, tickColor
 		));
 	}
 
