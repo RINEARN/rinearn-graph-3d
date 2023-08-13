@@ -30,8 +30,11 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 	/** The vertical alignment (offset) of the rendered text on the screen. */
 	private RinearnGraph3DDrawingParameter.VerticalAlignment verticalAlignment;
 
-	/** The radius [px] of the threshold at which position changes on "RADIAL" alignment. */
-	private int radialAlignmentThresholdRadius;
+	/** The vertical distance [px] from the reference point, at which position changes on "RADIAL" alignment. */
+	private int verticalAlignmentThreshold;
+
+	/** The horizontal distance [px] from the reference point, at which position changes on "RADIAL" alignment. */
+	private int horizontalAlignmentThreshold;
 
 	/** Stores X coordinate value of the screen center, updated in project() method. */
 	private int screenCenterX = 0;
@@ -55,9 +58,10 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 	 * @param alignmentReferenceY The y coordinate value of the reference point of "RADIAL" alignment, in the scaled space.
 	 * @param alignmentReferenceZ The z coordinate value of the reference point of "RADIAL" alignment, in the scaled space.
 	 * @param directionalVectors The vectors representing the directions from which this text label is visible. See the above description.
-	 * @param horizontalAlignment The horizontal alignment (offset) of the rendered text on the screen.
 	 * @param verticalAlignment The vertical alignment (offset) of the rendered text on the screen.
-	 * @param radialAlignmentThresholdRadius The radius [px] of the threshold at which position changes on "RADIAL" alignment.
+	 * @param horizontalAlignment The horizontal alignment (offset) of the rendered text on the screen.
+	 * @param verticalAlignmentThreshold The vertical distance [px] from the reference point, at which position changes on "RADIAL" alignment.
+	 * @param horizontalAlignmentThreshold The horizontal distance [px] from the reference point, at which position changes on "RADIAL" alignment.
 	 * @param text The displayed value of the text label.
 	 * @param font The font of the text.
 	 * @param color The color of the text.
@@ -65,9 +69,10 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 	public DirectionalTextGeometricPiece(double x, double y, double z,
 			double alignmentReferenceX, double alignmentReferenceY, double alignmentReferenceZ,
 			double[][] directionalVectors,
-			RinearnGraph3DDrawingParameter.HorizontalAlignment horizontalAlignment,
 			RinearnGraph3DDrawingParameter.VerticalAlignment verticalAlignment,
-			int radialAlignmentThresholdRadius,
+			RinearnGraph3DDrawingParameter.HorizontalAlignment horizontalAlignment,
+			int verticalAlignmentThreshold,
+			int horizontalAlignmentThreshold,
 			String text, Font font, Color color) {
 
 		// Store the rendered point, the alignment reference point, and the directional vectors as vertices.
@@ -101,7 +106,8 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 
 		this.horizontalAlignment = horizontalAlignment;
 		this.verticalAlignment = verticalAlignment;
-		this.radialAlignmentThresholdRadius = radialAlignmentThresholdRadius;
+		this.verticalAlignmentThreshold = verticalAlignmentThreshold;
+		this.horizontalAlignmentThreshold = verticalAlignmentThreshold;
 
 		this.text = text;
 		this.font = font;
@@ -227,9 +233,9 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 			}
 			case RADIAL : {
 				int referencePointX = pv[1][X];
-				if (referencePointX < this.screenCenterX - this.radialAlignmentThresholdRadius) {
+				if (referencePointX < this.screenCenterX - this.horizontalAlignmentThreshold) {
 					coordOffsetX = -width; // LEFT
-				} else if (this.screenCenterX + this.radialAlignmentThresholdRadius < referencePointX) {
+				} else if (this.screenCenterX + this.horizontalAlignmentThreshold < referencePointX) {
 					coordOffsetX = 0; // RIGHT
 				} else {
 					coordOffsetX = -width/2; // CENTER
@@ -262,9 +268,9 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 			}
 			case RADIAL : {
 				int referencePointY = pv[1][Y];
-				if (referencePointY < this.screenCenterY - this.radialAlignmentThresholdRadius) {
+				if (referencePointY < this.screenCenterY - this.verticalAlignmentThreshold) {
 					coordOffsetY = 0; // TOP
-				} else if (this.screenCenterY + this.radialAlignmentThresholdRadius < referencePointY) {
+				} else if (this.screenCenterY + this.verticalAlignmentThreshold < referencePointY) {
 					coordOffsetY = height; // BOTTOM
 				} else {
 					coordOffsetY = height/2; // CENTER
