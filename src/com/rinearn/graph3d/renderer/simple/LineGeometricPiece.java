@@ -1,10 +1,11 @@
 package com.rinearn.graph3d.renderer.simple;
 
-import com.rinearn.graph3d.renderer.RinearnGraph3DLightingParameter;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+
+import com.rinearn.graph3d.config.RinearnGraph3DLightConfiguration;
+
 import java.awt.BasicStroke;
 
 /**
@@ -68,10 +69,10 @@ public class LineGeometricPiece extends GeometricPiece {
 	/**
 	 * Shades the color.
 	 * 
-	 * @param lightingParameter The object storing parameters for lighting and shading.
+	 * @param lightConfig The object storing parameters for lighting and shading.
 	 */
 	@Override
-	public void shade(RinearnGraph3DLightingParameter lightingParameter) {
+	public void shade(RinearnGraph3DLightConfiguration lightConfig) {
 
 		// Lines have no shades, so simply copy the original color as it is.
 		this.onscreenColor = this.originalColor;

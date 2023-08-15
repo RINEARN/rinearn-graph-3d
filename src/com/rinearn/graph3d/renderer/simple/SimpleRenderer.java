@@ -2,7 +2,7 @@ package com.rinearn.graph3d.renderer.simple;
 
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
-import com.rinearn.graph3d.renderer.RinearnGraph3DLightingParameter;
+import com.rinearn.graph3d.config.RinearnGraph3DLightConfiguration;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	};
 
 	/** The object storing parameters for lighting and shading. */
-	private volatile RinearnGraph3DLightingParameter lightingParameter = new RinearnGraph3DLightingParameter();
+	private volatile RinearnGraph3DLightConfiguration lightConfig = new RinearnGraph3DLightConfiguration();
 
 
 	/**
@@ -138,7 +138,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 		// Shades the color of each geometric piece.
 		for (GeometricPiece piece: this.geometricPieceList) {
-			piece.shade(this.lightingParameter);
+			piece.shade(this.lightConfig);
 		}
 
 		// Draw each geometric piece on the screen.

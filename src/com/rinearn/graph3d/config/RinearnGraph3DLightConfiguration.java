@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.renderer;
+package com.rinearn.graph3d.config;
 
 // !!!!!
 // Note:
@@ -33,7 +33,7 @@ package com.rinearn.graph3d.renderer;
  * </span>
  * .
  */
-public class RinearnGraph3DLightingParameter {
+public class RinearnGraph3DLightConfiguration {
 
 	/**
 	 * <span class="lang-en">
@@ -46,7 +46,7 @@ public class RinearnGraph3DLightingParameter {
 	 * </span>
 	 * .
 	 */
-	public RinearnGraph3DLightingParameter() {
+	public RinearnGraph3DLightConfiguration() {
 		
 		// Initialize the reflection parameters by default values.
 		this.ambientReflectionStrength = 0.6;

@@ -1,9 +1,9 @@
 package com.rinearn.graph3d.renderer.simple;
 
-import com.rinearn.graph3d.renderer.RinearnGraph3DLightingParameter;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
+
+import com.rinearn.graph3d.config.RinearnGraph3DLightConfiguration;
 
 
 /**
@@ -57,9 +57,9 @@ public abstract class GeometricPiece {
 	/**
 	 * Shades the color.
 	 * 
-	 * @param lightingParameter The object storing parameters for lighting and shading.
+	 * @param lightConfig The object storing parameters for lighting and shading.
 	 */
-	public abstract void shade(RinearnGraph3DLightingParameter lightingParameter);
+	public abstract void shade(RinearnGraph3DLightConfiguration lightConfig);
 
 
 	/**

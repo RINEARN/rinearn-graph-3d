@@ -1,9 +1,9 @@
 package com.rinearn.graph3d.renderer.simple;
 
-import com.rinearn.graph3d.renderer.RinearnGraph3DLightingParameter;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
+
+import com.rinearn.graph3d.config.RinearnGraph3DLightConfiguration;
 
 
 /**
@@ -260,10 +260,10 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 	/**
 	 * Shades the color.
 	 * 
-	 * @param lightingParameter The object storing parameters for lighting and shading.
+	 * @param lightConfig The object storing parameters for lighting and shading.
 	 */
 	@Override
-	public void shade(RinearnGraph3DLightingParameter lightingParameter) {
+	public void shade(RinearnGraph3DLightConfiguration lightConfig) {
 
 		// Prepare aliases of the normal vector,
 		// and the direction vector pointing to the light source (hereinafter referred to as 'light vector').
