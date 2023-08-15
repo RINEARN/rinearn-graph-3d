@@ -1,28 +1,5 @@
 package com.rinearn.graph3d.config;
 
-// !!!!!
-// Note:
-//    Maybe we should this class to the upper hierarchy: com.rinear.graph3d.RinearnGraph3DLightingParameter?
-//    Probably sometimes users want to set the lighting parameters simply
-//    through the upper hierarchy (RinearnGraph3D class), without directly accessing to the renderer.
-//    Considering such usage, it may be unnatural that this class belongs to renderer's package.
-//!!!!!
-
-// > あとこれ引数に詳細渡す的なやつじゃなくてずっと参照する設定値のコンテナなのでParameterって命名もなんか違う気がする。
-//   OptionParametersやDrawingParameterに命名引っ張られてるけどあれらは引数が大量にできるのを包む的なやつなのでParameterなわけで。
-//   こっちは上層に昇格さすなら、Set Light メニューの設定内容を包んで内部でずっと保持するようなやつになるので、役割的にParamでは済まない。
-//   設定コンテナ的に Settings とかが適切では？ 他の設定メニューも似た感じのやつを量産するなら、Paramだとたぶんどっかで意味的に詰む。
-//   例えば ScaleParameter とか作ると役割的にかなり違和感生じて、ScaleSettings とか or 別の命名にしたくなる気が。
-// 
-//   > Settingsは意味的に良いが複数形になる（単数だと単一の設定項目になる）ので、単数形で通用する Configuration の方が良いかもしれない。
-//     意味的には粒度が大きすぎて少し違和感が出るけど、1インスタンスの変数名が複数形になる微妙さは避けられる。どっち優先すべきか。
-//
-//     > Parameter 系も、実質パラメータの集合なので本来意味的には Parameters になる所を、複数形を避けいので、
-//       「まとめて1個の引数にしている」という意味付けで単数形の Parameter にした気がする。
-//       なのでどうせならここでも複数形避ける事を優先した方がよさそうかも。Configuration の違和感もまあ許容範囲っちゃあ許容範囲のレベルなので
-//
-//   移動のタイミングまでに要件等
-
 
 /**
  * <span class="lang-en">
