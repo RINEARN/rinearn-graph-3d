@@ -1,6 +1,6 @@
+com/rinearn/graph3d/config/RinearnGraph3DLightConfiguration.java
 com/rinearn/graph3d/renderer/package-info.java
 com/rinearn/graph3d/renderer/RinearnGraph3DDrawingParameter.java
-com/rinearn/graph3d/renderer/RinearnGraph3DLightingParameter.java
 com/rinearn/graph3d/renderer/RinearnGraph3DRenderer.java
 com/rinearn/graph3d/renderer/simple/Axis.java
 com/rinearn/graph3d/renderer/simple/DirectionalLineGeometricPiece.java
