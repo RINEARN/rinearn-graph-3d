@@ -2,7 +2,6 @@ com/rinearn/graph3d/config/RinearnGraph3DLightConfiguration.java
 com/rinearn/graph3d/renderer/package-info.java
 com/rinearn/graph3d/renderer/RinearnGraph3DDrawingParameter.java
 com/rinearn/graph3d/renderer/RinearnGraph3DRenderer.java
-com/rinearn/graph3d/renderer/ScaleTickDrawer.java
 com/rinearn/graph3d/renderer/simple/Axis.java
 com/rinearn/graph3d/renderer/simple/DirectionalLineGeometricPiece.java
 com/rinearn/graph3d/renderer/simple/DirectionalTextGeometricPiece.java
@@ -12,4 +11,5 @@ com/rinearn/graph3d/renderer/simple/LineGeometricPiece.java
 com/rinearn/graph3d/renderer/simple/package-info.java
 com/rinearn/graph3d/renderer/simple/PointGeometricPiece.java
 com/rinearn/graph3d/renderer/simple/QuadrangleGeometricPiece.java
+com/rinearn/graph3d/renderer/simple/ScaleTickDrawer.java
 com/rinearn/graph3d/renderer/simple/SimpleRenderer.java
