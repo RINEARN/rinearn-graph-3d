@@ -269,9 +269,9 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 		// and the direction vector pointing to the light source (hereinafter referred to as 'light vector').
 		double[] normalVector = this.transformedVertexArray[4];
 		double[] lightVector = {
-				lightingParameter.getLightSourceDirectionX(),
-				lightingParameter.getLightSourceDirectionY(),
-				lightingParameter.getLightSourceDirectionZ()
+				lightConfig.getLightSourceDirectionX(),
+				lightConfig.getLightSourceDirectionY(),
+				lightConfig.getLightSourceDirectionZ()
 		};
 
 		// Calculate the value of 'directional product',
@@ -291,9 +291,9 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 
 		// Calculate the brightness contributed by ambient, diffuse, and diffractive reflections.
 		double baseBrightness = 
-				lightingParameter.getAmbientReflectionStrength() +
-				lightingParameter.getDiffuseReflectionStrength() * directionalProductPositive +
-				lightingParameter.getDiffractiveReflectionStrength() * normalizedDirectionalAngle;
+				lightConfig.getAmbientReflectionStrength() +
+				lightConfig.getDiffuseReflectionStrength() * directionalProductPositive +
+				lightConfig.getDiffractiveReflectionStrength() * normalizedDirectionalAngle;
 
 		// Calculate the vector of the light reflected by specular reflection.
 		double[] specularReflectionVector = {
@@ -312,9 +312,9 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 
 		// Calculate the brightness contributed by specular reflection.
 		double specularBrightness = 0.0;
-		double specularReflectionSpreadAngle = lightingParameter.getSpecularReflectionAngle();
+		double specularReflectionSpreadAngle = lightConfig.getSpecularReflectionAngle();
 		if (specularReflectionVectorAngle < specularReflectionSpreadAngle) {
-			specularBrightness = lightingParameter.getSpecularReflectionStrength() *
+			specularBrightness = lightConfig.getSpecularReflectionStrength() *
 					Math.cos(0.5 * Math.PI * specularReflectionVectorAngle / specularReflectionSpreadAngle);
 		}
 
