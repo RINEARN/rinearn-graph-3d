@@ -11,6 +11,9 @@ import java.math.RoundingMode;
  */
 public class Axis {
 
+	/** The default precision of the result value of scaleCoordinate(BigDecimal) method. */
+	private static final int DEFAULT_SCALED_SPACE_PRECISION = 20;
+
 	/** Stores the minimum value of the range of this axis. */
 	private volatile BigDecimal rangeMin = BigDecimal.ONE.negate(); // -1.0
 
@@ -167,6 +170,21 @@ public class Axis {
 		// Then, scale into the range [-1.0, 1.0].
 		double scaledInto11 = scaledInto01 * 2.0 - 1.0;
 		return scaledInto11;
+	}
+
+
+	/**
+	 * Scales the specified coordinate values, into the coordinate values in the "scaled space".
+	 * 
+	 * In the scaled space,
+	 * the maximum value of the range of the axis is mapped to 1.0,
+	 * and the minimum value is mapped to -1.0.
+	 * 
+	 * @param rawCoordinate The coordinate value to be scaled.
+	 * @return The scaled coordinate value.
+	 */
+	public synchronized BigDecimal scaleCoordinate(BigDecimal rawCoordinate) {
+		return this.scaleCoordinate(rawCoordinate, DEFAULT_SCALED_SPACE_PRECISION);
 	}
 
 
