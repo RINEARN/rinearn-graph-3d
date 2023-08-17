@@ -3,6 +3,7 @@ package com.rinearn.graph3d.renderer.simple;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.config.RinearnGraph3DLightConfiguration;
+import com.rinearn.graph3d.config.RinearnGraph3DScaleConfiguration;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -32,9 +33,6 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The default value of the distance between the viewpoint and the origin of the graph. */
 	private static final double DEFAULT_DISTANCE = 4.0;
 
-	/** The required precision of BigDecimal the coordinates in "scaled space". */
-	private static final int SCALED_SPACE_PRECISION = 20;
-
 	/** The Image instance storing the rendered image of the graph screen. */
 	private volatile BufferedImage screenImage = null;
 
@@ -60,6 +58,9 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/** The object storing parameters for lighting and shading. */
 	private volatile RinearnGraph3DLightConfiguration lightConfig = new RinearnGraph3DLightConfiguration();
+
+	/** The object storing configuration values of the scales of X/Y/Z axes. */
+	private volatile RinearnGraph3DScaleConfiguration scaleConfig = new RinearnGraph3DScaleConfiguration();
 
 
 	/**
@@ -576,6 +577,20 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	@Override
 	public synchronized void drawScale() {
 
+		// Generate coordinates and labels of ticks, based on the scale configuration.
+		ScaleTickGenerator scaleTickGenerator = new ScaleTickGenerator(this.scaleConfig);
+		BigDecimal[] xTickCoords = scaleTickGenerator.generateScaleTickCoordinates(X, this.axes[X]);
+		BigDecimal[] yTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Y, this.axes[Y]);
+		BigDecimal[] zTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Z, this.axes[Z]);
+		String[] xTickLabels = scaleTickGenerator.generateScaleTickLabels(X, this.axes[X], xTickCoords);
+		String[] yTickLabels = scaleTickGenerator.generateScaleTickLabels(Y, this.axes[Y], yTickCoords);
+		String[] zTickLabels = scaleTickGenerator.generateScaleTickLabels(Z, this.axes[Z], zTickCoords);
+
+		// Set the generated ticks to the axes.
+		this.axes[X].setTicks(xTickCoords, xTickLabels);
+		this.axes[Y].setTicks(yTickCoords, yTickLabels);
+		this.axes[Z].setTicks(xTickCoords, zTickLabels);
+
 		// Temporary settings
 		int verticalAlignThreshold = 128;
 		int horizontalAlignThreshold = 32;
@@ -584,6 +599,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 		Font tickFont = new Font("Dialog", Font.PLAIN, 20);
 		Color tickColor = Color.WHITE;
 
+		// Draw tick labels/lines.
 		ScaleTickDrawer scaleTickDrawer = new ScaleTickDrawer(
 			verticalAlignThreshold, horizontalAlignThreshold,
 			tickLabelMargin, tickLineLength,

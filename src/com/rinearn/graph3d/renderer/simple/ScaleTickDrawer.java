@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.util.List;
 
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
-import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter.HorizontalAlignment;
-import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter.VerticalAlignment;
 
 import java.math.BigDecimal;
 
