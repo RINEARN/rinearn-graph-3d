@@ -2,7 +2,7 @@ package com.rinearn.graph3d.config;
 
 
 /**
- * The class storing configuration parameters of the graph frame.
+ * The class for storing configuration parameters of the graph frame.
  */
 public final class RinearnGraph3DFrameConfiguration {
 
