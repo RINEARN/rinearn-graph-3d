@@ -283,6 +283,11 @@ public class TempMain {
 			BufferedImage screenImage = BufferedImage.class.cast(renderer.getScreenImage());
 			int rotCenterX = screenImage.getWidth()/2;
 			int rotCenterY = screenImage.getHeight()/2;
+			double distanceFromCenter = Math.sqrt(
+					(currentMouseX - rotCenterX) * (currentMouseX - rotCenterX)
+					+
+					(currentMouseY - rotCenterY) * (currentMouseY - rotCenterY)					
+			);
 
 			boolean existsRadialUnitVecotr = this.existsRadialUnitVector(lastMouseX, lastMouseY, rotCenterX, rotCenterY);
 			double[] radialUnitVector = null;
@@ -293,9 +298,18 @@ public class TempMain {
 			double[] radialDeltaVector = this.computeRadialDeltaVector(dx, dy, existsRadialUnitVecotr, radialUnitVector);
 			double   spinnerDeltaVectorLength = this.computeSpinnerDeltaVectorLength(dx, dy, existsRadialUnitVecotr, radialUnitVector, radialDeltaVector);
 
-			this.renderer.rotateX(-radialDeltaVector[Y] * 0.005);
-			this.renderer.rotateY(-radialDeltaVector[X] * 0.005);
-			this.renderer.rotateZ(spinnerDeltaVectorLength * 0.003);
+			// Near the rotational center, rotations by radial/spinner vectors computed above gives a little "hanged up" feelings.
+			// Hence, apply simple 2-axes rotation algorithm when the mouse is near the center.
+			if (distanceFromCenter < 100) {
+				this.renderer.rotateX(-dy * 0.005);
+				this.renderer.rotateY(-dx * 0.005);
+
+			// When the mouse is far enough from the center, apply 3-axes rotation algorithm based on radial/spinner vectors.
+			} else {
+				this.renderer.rotateX(-radialDeltaVector[Y] * 0.005);
+				this.renderer.rotateY(-radialDeltaVector[X] * 0.005);
+				this.renderer.rotateZ(spinnerDeltaVectorLength * 0.003);								
+			}
 			this.renderingLoop.renderNextTime();
 
 			this.lastMouseX = currentMouseX;
