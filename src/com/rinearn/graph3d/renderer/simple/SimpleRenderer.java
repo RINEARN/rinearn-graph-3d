@@ -109,21 +109,6 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * Performs something temporary for the development and the debuggings.
 	 */
 	public synchronized void temporaryExam() {
-
-		// Set ticks of X axis.
-		BigDecimal[] xTickCoords = {new BigDecimal("-1.0"), new BigDecimal("-0.5"),new BigDecimal("0.0"), new BigDecimal("0.5"), new BigDecimal("1.0")};
-		String[] xTickLabels = {"-1.0", "-0.5", "0.0", "0.5", "1.0"};
-		this.axes[X].setTicks(xTickCoords, xTickLabels);
-
-		// Set ticks of Y axis.
-		BigDecimal[] yTickCoords = {new BigDecimal("-0.8"), new BigDecimal("-0.4"),new BigDecimal("0.0"), new BigDecimal("0.4"), new BigDecimal("0.8")};
-		String[] yTickLabels = {"-0.8", "-0.4", "0.0", "0.4", "0.8"};
-		this.axes[Y].setTicks(yTickCoords, yTickLabels);
-
-		// Set ticks of Z axis.
-		BigDecimal[] zTickCoords = {new BigDecimal("0.0"), new BigDecimal("0.2"),new BigDecimal("0.4"), new BigDecimal("0.8"), new BigDecimal("1.0")};
-		String[] zTickLabels = {"0.0", "0.2", "0.4", "0.8", "1.0"};
-		this.axes[Z].setTicks(zTickCoords, zTickLabels);
 	}
 
 
@@ -234,7 +219,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * 
 	 * @param angle The rotation angle.
 	 */
-	public synchronized void rotateX(double angle) {
+	public synchronized void rotateAroundX(double angle) {
 		double sin = Math.sin(angle);
 		double cos = Math.cos(angle);
 
@@ -271,7 +256,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * 
 	 * @param angle The rotation angle.
 	 */
-	public synchronized void rotateY(double angle) {
+	public synchronized void rotateAroundY(double angle) {
 		double sin = Math.sin(angle);
 		double cos = Math.cos(angle);
 
@@ -308,7 +293,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * 
 	 * @param angle The rotation angle.
 	 */
-	public synchronized void rotateZ(double angle) {
+	public synchronized void rotateAroundZ(double angle) {
 		double sin = Math.sin(angle);
 		double cos = Math.cos(angle);
 

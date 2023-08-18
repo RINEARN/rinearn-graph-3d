@@ -110,8 +110,8 @@ public class TempMain {
 		}
 
 		// Rotate the graph.
-		renderer.rotateZ(0.24);
-		renderer.rotateX(-1.0);
+		renderer.rotateAroundZ(0.24);
+		renderer.rotateAroundX(-1.0);
 
 		// Perform the rendering process.
 		renderer.render();
@@ -301,14 +301,14 @@ public class TempMain {
 			// Near the rotational center, rotations by radial/spinner vectors computed above gives a little "hanged up" feelings.
 			// Hence, apply simple 2-axes rotation algorithm when the mouse is near the center.
 			if (distanceFromCenter < 100) {
-				this.renderer.rotateX(-dy * 0.005);
-				this.renderer.rotateY(-dx * 0.005);
+				this.renderer.rotateAroundX(-dy * 0.005);
+				this.renderer.rotateAroundY(-dx * 0.005);
 
 			// When the mouse is far enough from the center, apply 3-axes rotation algorithm based on radial/spinner vectors.
 			} else {
-				this.renderer.rotateX(-radialDeltaVector[Y] * 0.005);
-				this.renderer.rotateY(-radialDeltaVector[X] * 0.005);
-				this.renderer.rotateZ(spinnerDeltaVectorLength * 0.003);								
+				this.renderer.rotateAroundX(-radialDeltaVector[Y] * 0.005);
+				this.renderer.rotateAroundY(-radialDeltaVector[X] * 0.005);
+				this.renderer.rotateAroundZ(spinnerDeltaVectorLength * 0.003);								
 			}
 			this.renderingLoop.renderNextTime();
 
