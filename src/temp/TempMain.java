@@ -47,40 +47,12 @@ public class TempMain {
 		//renderer.setYRange(new BigDecimal("-2.3"), new BigDecimal("0.5"));
 		//renderer.setZRange(new BigDecimal("-0.9"), new BigDecimal("0.9"));
 
-		// Draw scale (ticks) of the graph frame.
-		renderer.temporaryExam();
+		// Draw scales (ticks) of X/Y/Z axes.
 		renderer.drawScale();
 
-		// Draw lines composing a box frame.
-		{
-			// Create an object storing the value of the drawing parameters.
-			RinearnGraph3DDrawingParameter param = new RinearnGraph3DDrawingParameter();
-			param.setRangeScalingEnabled(false);
-			param.setRangeClippingEnabled(false);
-			param.setAutoColoringEnabled(false);
-			param.setColor(Color.LIGHT_GRAY);
-			double lineWidth = 2.0; // [px]
+		// Draw the outer frame of the graph frame.
+		renderer.drawFrame();
 
-			// Draw the upper rectangle.
-			renderer.drawLine(1.0, 1.0, 1.0,   -1.0, 1.0, 1.0, lineWidth, param);
-			renderer.drawLine(-1.0, 1.0, 1.0,   -1.0, -1.0, 1.0, lineWidth, param);
-			renderer.drawLine(-1.0, -1.0, 1.0,   1.0, -1.0, 1.0, lineWidth, param);
-			renderer.drawLine(1.0, -1.0, 1.0,   1.0, 1.0, 1.0, lineWidth, param);
-
-			// Draw the lower rectangle.
-			renderer.drawLine(1.0, 1.0, -1.0,   -1.0, 1.0, -1.0, lineWidth, param);
-			renderer.drawLine(-1.0, 1.0, -1.0,   -1.0, -1.0, -1.0, lineWidth, param);
-			renderer.drawLine(-1.0, -1.0, -1.0,   1.0, -1.0, -1.0, lineWidth, param);
-			renderer.drawLine(1.0, -1.0, -1.0,   1.0, 1.0, -1.0, lineWidth, param);
-
-			// Draw the "pillars" between the upper rectangle and the lower rectangle.
-			renderer.drawLine(1.0, 1.0, 1.0,   1.0, 1.0, -1.0, lineWidth, param);
-			renderer.drawLine(-1.0, 1.0, 1.0,   -1.0, 1.0, -1.0, lineWidth, param);
-			renderer.drawLine(-1.0, -1.0, 1.0,   -1.0, -1.0, -1.0, lineWidth, param);
-			renderer.drawLine(1.0, -1.0, 1.0,   1.0, -1.0, -1.0, lineWidth, param);
-		}
-	
-	
 		// Draw many points.
 		int n = 100;
 		for (int i=0; i<n; i++) {

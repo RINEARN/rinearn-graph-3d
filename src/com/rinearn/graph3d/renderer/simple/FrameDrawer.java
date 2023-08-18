@@ -3,6 +3,7 @@ package com.rinearn.graph3d.renderer.simple;
 import com.rinearn.graph3d.config.RinearnGraph3DFrameConfiguration;
 
 import java.awt.Color;
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -27,10 +28,10 @@ public class FrameDrawer {
 	private volatile RinearnGraph3DFrameConfiguration frameConfig;
 
 	/** The color of lines composing outer frames. */
-	private volatile Color outerFrameColor = Color.WHITE;
+	private volatile Color outerFrameColor;
 
 	/** The color of grid lines. */
-	private volatile Color gridLineColor = Color.GRAY;
+	private volatile Color gridLineColor;
 
 
 	/**
@@ -102,24 +103,60 @@ public class FrameDrawer {
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 */
 	private void drawBoxModeFrame(List<GeometricPiece> geometricPieceList) {
-		
+
 		// Draw the floor of the outer frame.
-		this.drawMultiPieceLine(geometricPieceList, new double[] {-1.0, -1.0, -1.0}, new double[] { 1.0, -1.0, -1.0}, LINE_PIECE_COUNT);
-		this.drawMultiPieceLine(geometricPieceList, new double[] { 1.0, -1.0, -1.0}, new double[] { 1.0,  1.0, -1.0}, LINE_PIECE_COUNT);
-		this.drawMultiPieceLine(geometricPieceList, new double[] { 1.0,  1.0, -1.0}, new double[] {-1.0,  1.0, -1.0}, LINE_PIECE_COUNT);
-		this.drawMultiPieceLine(geometricPieceList, new double[] {-1.0,  1.0, -1.0}, new double[] {-1.0, -1.0, -1.0}, LINE_PIECE_COUNT);
+		this.drawMultiPieceLine(
+				geometricPieceList, new double[] {-1.0, -1.0, -1.0}, new double[] { 1.0, -1.0, -1.0}, // Coords of the edge points A and B.
+				LINE_PIECE_COUNT, this.outerFrameColor
+		);
+		this.drawMultiPieceLine(
+				geometricPieceList, new double[] { 1.0, -1.0, -1.0}, new double[] { 1.0,  1.0, -1.0},
+				LINE_PIECE_COUNT, this.outerFrameColor
+		);
+		this.drawMultiPieceLine(
+				geometricPieceList, new double[] { 1.0,  1.0, -1.0}, new double[] {-1.0,  1.0, -1.0},
+				LINE_PIECE_COUNT, this.outerFrameColor
+		);
+		this.drawMultiPieceLine(
+				geometricPieceList, new double[] {-1.0,  1.0, -1.0}, new double[] {-1.0, -1.0, -1.0},
+				LINE_PIECE_COUNT, this.outerFrameColor
+		);
 
 		// Draw the ceil of the outer frame.
-		this.drawMultiPieceLine(geometricPieceList, new double[] {-1.0, -1.0,  1.0}, new double[] { 1.0, -1.0,  1.0}, LINE_PIECE_COUNT);
-		this.drawMultiPieceLine(geometricPieceList, new double[] { 1.0, -1.0,  1.0}, new double[] { 1.0,  1.0,  1.0}, LINE_PIECE_COUNT);
-		this.drawMultiPieceLine(geometricPieceList, new double[] { 1.0,  1.0,  1.0}, new double[] {-1.0,  1.0,  1.0}, LINE_PIECE_COUNT);
-		this.drawMultiPieceLine(geometricPieceList, new double[] {-1.0,  1.0,  1.0}, new double[] {-1.0, -1.0,  1.0}, LINE_PIECE_COUNT);
+		this.drawMultiPieceLine(
+				geometricPieceList, new double[] {-1.0, -1.0,  1.0}, new double[] { 1.0, -1.0,  1.0},
+				LINE_PIECE_COUNT, this.outerFrameColor
+		);
+		this.drawMultiPieceLine(
+				geometricPieceList, new double[] { 1.0, -1.0,  1.0}, new double[] { 1.0,  1.0,  1.0},
+				LINE_PIECE_COUNT, this.outerFrameColor
+		);
+		this.drawMultiPieceLine(
+				geometricPieceList, new double[] { 1.0,  1.0,  1.0}, new double[] {-1.0,  1.0,  1.0},
+				LINE_PIECE_COUNT, this.outerFrameColor
+		);
+		this.drawMultiPieceLine(
+				geometricPieceList, new double[] {-1.0,  1.0,  1.0}, new double[] {-1.0, -1.0,  1.0},
+				LINE_PIECE_COUNT, this.outerFrameColor
+		);
 
 		// Draw pillars of the outer frame.
-		this.drawMultiPieceLine(geometricPieceList, new double[] {-1.0, -1.0, -1.0}, new double[] {-1.0, -1.0,  1.0}, LINE_PIECE_COUNT);		
-		this.drawMultiPieceLine(geometricPieceList, new double[] { 1.0, -1.0, -1.0}, new double[] { 1.0, -1.0,  1.0}, LINE_PIECE_COUNT);		
-		this.drawMultiPieceLine(geometricPieceList, new double[] { 1.0,  1.0, -1.0}, new double[] { 1.0,  1.0,  1.0}, LINE_PIECE_COUNT);		
-		this.drawMultiPieceLine(geometricPieceList, new double[] {-1.0,  1.0, -1.0}, new double[] {-1.0,  1.0,  1.0}, LINE_PIECE_COUNT);		
+		this.drawMultiPieceLine(
+				geometricPieceList, new double[] {-1.0, -1.0, -1.0}, new double[] {-1.0, -1.0,  1.0},
+				LINE_PIECE_COUNT, this.outerFrameColor
+		);
+		this.drawMultiPieceLine(
+				geometricPieceList, new double[] { 1.0, -1.0, -1.0}, new double[] { 1.0, -1.0,  1.0},
+				LINE_PIECE_COUNT, this.outerFrameColor
+		);
+		this.drawMultiPieceLine(
+				geometricPieceList, new double[] { 1.0,  1.0, -1.0}, new double[] { 1.0,  1.0,  1.0},
+				LINE_PIECE_COUNT, this.outerFrameColor
+		);
+		this.drawMultiPieceLine(
+				geometricPieceList, new double[] {-1.0,  1.0, -1.0}, new double[] {-1.0,  1.0,  1.0},
+				LINE_PIECE_COUNT, this.outerFrameColor
+		);
 	}
 
 
@@ -130,11 +167,27 @@ public class FrameDrawer {
 	 * @param aCoords The coordinate values of the edge point A, in the scaled space.
 	 * @param bCoords The coordinate values of the edge point B, in the scaled space.
 	 * @param pieceCount The number of piece consisting of the line.
+	 * @param color The color of the line.
 	 */
-	private void drawMultiPieceLine(List<GeometricPiece> geometricPieceList, double[] aCoords, double[] bCoords, int pieceCount) {
-		if (pieceCount == 0) {
-			return;
-		}
+	private void drawMultiPieceLine(List<GeometricPiece> geometricPieceList,
+			double[] aCoords, double[] bCoords, int pieceCount, Color color) {
+
+		this.drawMultiPieceDirectionalLine(geometricPieceList, aCoords, bCoords, null, pieceCount, color);
+	}
+
+
+	/**
+	 * Draws a straight line visible only from the specific direction, consisting of multiple geometric pieces.
+	 * 
+	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
+	 * @param aCoords The coordinate values of the edge point A, in the scaled space.
+	 * @param bCoords The coordinate values of the edge point B, in the scaled space.
+	 * @param visibleDirectionVector The vector facing the direction from which the line is visible.
+	 * @param pieceCount The number of piece consisting of the line.
+	 * @param color The color of the line.
+	 */
+	private void drawMultiPieceDirectionalLine(List<GeometricPiece> geometricPieceList,
+			double[] aCoords, double[] bCoords, double[] visibleDirectionVector, int pieceCount, Color color) {
 
 		// Allocate an array for storing coordinates of nodes, 
 		// which are equally N-divided points between the points A and B, where N is the number of the pieces.
@@ -158,12 +211,22 @@ public class FrameDrawer {
 
 		// Draw lines between all nodes.
 		for (int ipiece=0; ipiece<pieceCount; ipiece++) {
-			LineGeometricPiece piece = new LineGeometricPiece(
-					nodeCoords[ipiece    ][X], nodeCoords[ipiece    ][Y], nodeCoords[ipiece    ][Z],
-					nodeCoords[ipiece + 1][X], nodeCoords[ipiece + 1][Y], nodeCoords[ipiece + 1][Z],
-					1.0, this.outerFrameColor
-			);
-			geometricPieceList.add(piece);
+			if (visibleDirectionVector == null) {
+				LineGeometricPiece piece = new LineGeometricPiece(
+						nodeCoords[ipiece    ][X], nodeCoords[ipiece    ][Y], nodeCoords[ipiece    ][Z],
+						nodeCoords[ipiece + 1][X], nodeCoords[ipiece + 1][Y], nodeCoords[ipiece + 1][Z],
+						1.0, color
+				);
+				geometricPieceList.add(piece);
+			} else {
+				DirectionalLineGeometricPiece piece = new DirectionalLineGeometricPiece(
+						nodeCoords[ipiece    ][X], nodeCoords[ipiece    ][Y], nodeCoords[ipiece    ][Z],
+						nodeCoords[ipiece + 1][X], nodeCoords[ipiece + 1][Y], nodeCoords[ipiece + 1][Z],
+						new double[][] { visibleDirectionVector },
+						1.0, color
+				);
+				geometricPieceList.add(piece);
+			}
 		}
 	}
 }

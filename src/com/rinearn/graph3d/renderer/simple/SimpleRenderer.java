@@ -4,6 +4,7 @@ import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.config.RinearnGraph3DLightConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DScaleConfiguration;
+import com.rinearn.graph3d.config.RinearnGraph3DFrameConfiguration;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -42,6 +43,15 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The background color of the graph screen. */
 	private volatile Color screenBackgroundColor = Color.BLACK;
 
+	/** The color of the outer frame of the graph. */
+	private volatile Color frameColor = Color.WHITE;
+
+	/** The color of the grid lines frame of the graph. */
+	private volatile Color gridColor = Color.GRAY;
+
+	/** The font for rendering tick labels. */
+	private volatile Font tickLabelFont = new Font("Dialog", Font.PLAIN, 20);
+
 	/** The array storing X, Y, and Z-axis. Each element stores values related to an axis (e.g.: min/max value of the range). */
 	private volatile Axis[] axes = { new Axis(), new Axis(), new Axis() };
 
@@ -61,6 +71,26 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/** The object storing configuration values of the scales of X/Y/Z axes. */
 	private volatile RinearnGraph3DScaleConfiguration scaleConfig = new RinearnGraph3DScaleConfiguration();
+
+	/** The object storing configuration values of the graph frame. */
+	private volatile RinearnGraph3DFrameConfiguration frameConfig = new RinearnGraph3DFrameConfiguration();
+
+
+	// Temporary settings. Should be packed into scaleConfig.
+	int verticalAlignThreshold = 128;
+	int horizontalAlignThreshold = 32;
+	double tickLabelMargin = 0.06;
+	double tickLineLength = 0.05;
+
+	/** The object providing drawing process of scale ticks of X/Y/Z axes. */
+	private volatile ScaleTickDrawer scaleTickDrawer = new ScaleTickDrawer(
+		verticalAlignThreshold, horizontalAlignThreshold,
+		tickLabelMargin, tickLineLength,
+		tickLabelFont, frameColor
+	);
+
+	/** The object providing drawing process of graph frames and grid lines. */
+	private volatile FrameDrawer frameDrawer = new FrameDrawer(this.frameConfig, this.frameColor, this.gridColor);
 
 
 	/**
@@ -565,14 +595,17 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	}
 
 
+	/**
+	 * Draws the outer frame of the graph.
+	 */
 	@Override
 	public synchronized void drawFrame() {
-		throw new RuntimeException("Unimplemented yet");
+		this.frameDrawer.drawFrame(this.geometricPieceList);
 	}
 
 
 	/**
-	 * Draws the scale (ticks) of the graph frame.
+	 * Draws the scale ticks of X/Y/Z axes.
 	 */
 	@Override
 	public synchronized void drawScale() {
@@ -591,21 +624,8 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 		this.axes[Y].setTicks(yTickCoords, yTickLabels);
 		this.axes[Z].setTicks(xTickCoords, zTickLabels);
 
-		// Temporary settings
-		int verticalAlignThreshold = 128;
-		int horizontalAlignThreshold = 32;
-		double tickLabelMargin = 0.06;
-		double tickLineLength = 0.05;
-		Font tickFont = new Font("Dialog", Font.PLAIN, 20);
-		Color tickColor = Color.WHITE;
-
 		// Draw tick labels/lines.
-		ScaleTickDrawer scaleTickDrawer = new ScaleTickDrawer(
-			verticalAlignThreshold, horizontalAlignThreshold,
-			tickLabelMargin, tickLineLength,
-			tickFont, tickColor
-		);
-		scaleTickDrawer.drawScaleTicks(this.geometricPieceList, this.axes);
+		this.scaleTickDrawer.drawScaleTicks(this.geometricPieceList, this.axes);
 	}
 
 
