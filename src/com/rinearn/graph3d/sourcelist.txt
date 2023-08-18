@@ -1,3 +1,4 @@
+com/rinearn/graph3d/config/RinearnGraph3DConfiguration.java
 com/rinearn/graph3d/config/RinearnGraph3DFrameConfiguration.java
 com/rinearn/graph3d/config/RinearnGraph3DLightConfiguration.java
 com/rinearn/graph3d/config/RinearnGraph3DScaleConfiguration.java

@@ -272,6 +272,9 @@ public class RinearnGraph3DScaleConfiguration {
 
 		/** The displayed format of numeric tick labels. */
 		private final NumberFormat format;
+		// Note: Why we don't declare the above as DecimalFormat-type field is,
+		//       some people may want to implement original format by extending NumberFormat.
+		//       (NumberFormat is an abstract class, and DecimalFormat is one of its implementation.)
 
 		/** The flag representing whether the applicable range of this formatter is defined. */
 		private final boolean hasRange;
