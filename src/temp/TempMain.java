@@ -51,18 +51,6 @@ public class TempMain {
 		RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
 		config.setRangeConfiguration(rangeConfig);
 		renderer.setConfiguration(config);
-		/*
-		// Set the ranges of X/Y/Z axes.
-		renderer.setXRange(new BigDecimal("-1.0"), new BigDecimal("1.0"));
-		renderer.setYRange(new BigDecimal("-1.0"), new BigDecimal("1.0"));
-		renderer.setZRange(new BigDecimal("-1.0"), new BigDecimal("1.0"));
-		//renderer.setXRange(new BigDecimal("-2.0"), new BigDecimal("2.0"));
-		//renderer.setYRange(new BigDecimal("-3.0"), new BigDecimal("3.0"));
-		//renderer.setZRange(new BigDecimal("-5.0"), new BigDecimal("5.0"));
-		//renderer.setXRange(new BigDecimal("-1.2"), new BigDecimal("0.7"));
-		//renderer.setYRange(new BigDecimal("-2.3"), new BigDecimal("0.5"));
-		//renderer.setZRange(new BigDecimal("-0.9"), new BigDecimal("0.9"));
-		*/
 
 		// Draw scales (ticks) of X/Y/Z axes.
 		renderer.drawScale();

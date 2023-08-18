@@ -109,6 +109,10 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/**
 	 * Sets the container storing configuration values.
 	 * 
+	 * Note that, the changes of the configuration (contains ranges of X/Y/Z axes)
+	 * does not affect to the currently drawn contents (points, lines, quadrangles, and so on).
+	 * To reflect the changes, please clear() and re-draw all contents again.
+	 * 
 	 * @param configuration The container storing configuration values.
 	 */
 	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
@@ -201,51 +205,6 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			piece.project(screenWidth, screenHeight, screenOffsetX, screenOffsetY, magnification);
 			piece.draw(this.screenGraphics);
 		}
-	}
-
-
-	/**
-	 * Sets the range of the X-axis.
-	 * 
-	 * The change of the range does not affect to the currently drawn contents
-	 * (points, lines, quadrangles, and so on).
-	 * To reflect the change of the range, please clear() and re-draw all contents again.
-	 * 
-	 * @param min The minimum value of the range.
-	 * @param max The maximum value of the range.
-	 */
-	public synchronized void setXRange(BigDecimal min, BigDecimal max) {
-		this.axes[X].setRange(min, max);
-	}
-
-
-	/**
-	 * Sets the range of the Y-axis.
-	 * 
-	 * The change of the range does not affect to the currently drawn contents
-	 * (points, lines, quadrangles, and so on).
-	 * To reflect the change of the range, please clear() and re-draw all contents again.
-	 * 
-	 * @param min The minimum value of the range.
-	 * @param max The maximum value of the range.
-	 */
-	public synchronized void setYRange(BigDecimal min, BigDecimal max) {
-		this.axes[Y].setRange(min, max);
-	}
-
-
-	/**
-	 * Sets the range of the Z-axis.
-	 * 
-	 * The change of the range does not affect to the currently drawn contents
-	 * (points, lines, quadrangles, and so on).
-	 * To reflect the change of the range, please clear() and re-draw all contents again.
-	 * 
-	 * @param min The minimum value of the range.
-	 * @param max The maximum value of the range.
-	 */
-	public synchronized void setZRange(BigDecimal min, BigDecimal max) {
-		this.axes[Z].setRange(min, max);
 	}
 
 
