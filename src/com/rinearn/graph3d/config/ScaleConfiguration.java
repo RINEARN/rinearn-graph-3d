@@ -40,6 +40,21 @@ import java.text.DecimalFormat;
 // 
 // !!!!!
 
+// !!!!!
+// NOTE
+//
+//      内部クラスの NumericTickLabelFormatter は適当に改名して config パッケージ直下とかに出すべきでは？
+//      もし同じような事を tick label 以外でも行いたい場面が将来的に出てきた時に、現状だと所属が違和感全開になりそう。
+//      で、その時に上の階層でほぼ同機能の別名のやつ作ったら、
+//      逆に ScaleConfiguration だけ内部宣言のやつ使うという違和感が残るし、そこで型を変えると互換が崩れるしで詰む。
+//
+//      場所については、どちらかというとロジック処理っぽいので Model 階層っぽいけど、
+//      実装の外側からAPIで設定の際に使うなら Model 層のやつ参照するのも変だし（＆実装内部はあんまり互換気にしたくないし）、
+//      まあ config 直下なら多少は付随ロジック的なやつあっても許容範囲だと思う。ので config 直下で。
+//      一応 format とか range とか設定的な役割も含んでいるので。
+//
+// !!!!!
+
 /**
  * The class storing configuration values of the scales of X/Y/Z axes.
  */
