@@ -646,7 +646,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		// Set the generated ticks to the axes.
 		this.axes[X].setTicks(xTickCoords, xTickLabels);
 		this.axes[Y].setTicks(yTickCoords, yTickLabels);
-		this.axes[Z].setTicks(xTickCoords, zTickLabels);
+		this.axes[Z].setTicks(zTickCoords, zTickLabels);
 
 		// Draw tick labels/lines.
 		this.scaleTickDrawer.drawScaleTicks(this.geometricPieceList, this.axes);
