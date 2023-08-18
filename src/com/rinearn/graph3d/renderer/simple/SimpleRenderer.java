@@ -18,7 +18,7 @@ import java.math.BigDecimal;
  * The class providing a simple implementation of 
  * the rendering engine (renderer) of RINEARN Graph 3D.
  */
-public class SimpleRenderer implements RinearnGraph3DRenderer {
+public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/** The array index representing X, in some array fields. */
 	public static final int X = 0;

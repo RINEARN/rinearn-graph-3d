@@ -1,6 +1,6 @@
 package com.rinearn.graph3d.renderer.simple;
 
-import com.rinearn.graph3d.config.RinearnGraph3DFrameConfiguration;
+import com.rinearn.graph3d.config.FrameConfiguration;
 
 import java.awt.Color;
 import java.math.BigDecimal;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * The class for drawing an outer frame (box) of the graph.
  */
-public class FrameDrawer {
+public final class FrameDrawer {
 
 	/** The dimension index representing X. */
 	public static final int X = 0;
@@ -25,7 +25,7 @@ public class FrameDrawer {
 	public static final int LINE_PIECE_COUNT = 32;
 
 	/** Stores the configuration of graph frames. */
-	private volatile RinearnGraph3DFrameConfiguration frameConfig;
+	private volatile FrameConfiguration frameConfig;
 
 	/** The color of lines composing outer frames. */
 	private volatile Color outerFrameColor;
@@ -41,7 +41,7 @@ public class FrameDrawer {
 	 * @param color The color of outer frames.
 	 * @param gridLineColor The color of grid lines.
 	 */
-	public FrameDrawer(RinearnGraph3DFrameConfiguration frameConfig, Color outerFrameColor, Color gridLineColor) {
+	public FrameDrawer(FrameConfiguration frameConfig, Color outerFrameColor, Color gridLineColor) {
 		this.frameConfig = frameConfig;
 		this.outerFrameColor = outerFrameColor;
 		this.gridLineColor = gridLineColor;
@@ -53,7 +53,7 @@ public class FrameDrawer {
 	 * 
 	 * @param frameConfig The configuration of graph frames.
 	 */
-	public synchronized void setFrameConfiguration(RinearnGraph3DFrameConfiguration frameConfig) {
+	public synchronized void setFrameConfiguration(FrameConfiguration frameConfig) {
 		this.frameConfig = frameConfig;
 	}
 

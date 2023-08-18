@@ -64,7 +64,7 @@ public final class ScaleTickDrawer {
 			double tickLabelMargin, double tickLineLength, Font font, Color color) {
 
 		// Note: first four parameters should be packed into an object, e.g.:
-		//     public ScaleTickDrawer(RinearnGraph3DScaleConfiguration config, Font font, Color color)
+		//     public ScaleTickDrawer(ScaleConfiguration config, Font font, Color color)
 
 		this.verticalAlignThreshold = verticalAlignThreshold;
 		this.horizontalAlignThreshold = horizontalAlignThreshold;

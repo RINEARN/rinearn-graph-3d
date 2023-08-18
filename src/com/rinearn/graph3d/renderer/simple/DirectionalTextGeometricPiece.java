@@ -1,6 +1,6 @@
 package com.rinearn.graph3d.renderer.simple;
 
-import com.rinearn.graph3d.config.RinearnGraph3DLightConfiguration;
+import com.rinearn.graph3d.config.LightConfiguration;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 
 import java.awt.Color;
@@ -13,7 +13,7 @@ import java.awt.FontMetrics;
  * A geometric piece class representing a "directional" text label,
  * which is visible only from the specific direction.
  */
-public class DirectionalTextGeometricPiece extends GeometricPiece {
+public final class DirectionalTextGeometricPiece extends GeometricPiece {
 
 	/** The value of this text label. */
 	private String text;
@@ -155,7 +155,7 @@ public class DirectionalTextGeometricPiece extends GeometricPiece {
 	 * @param lightConfig The object storing parameters for lighting and shading.
 	 */
 	@Override
-	public void shade(RinearnGraph3DLightConfiguration lightConfig) {
+	public void shade(LightConfiguration lightConfig) {
 
 		// Text labels have no shades, so simply copy the original color as it is.
 		this.onscreenColor = this.originalColor;

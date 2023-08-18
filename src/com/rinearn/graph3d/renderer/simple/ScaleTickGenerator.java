@@ -1,6 +1,6 @@
 package com.rinearn.graph3d.renderer.simple;
 
-import com.rinearn.graph3d.config.RinearnGraph3DScaleConfiguration;
+import com.rinearn.graph3d.config.ScaleConfiguration;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -22,14 +22,14 @@ public final class ScaleTickGenerator {
 	public static final int Z = 2;
 
 	/** Stores the configuration of X/Y/Z axes's scales. */
-	private final RinearnGraph3DScaleConfiguration scaleConfig;
+	private final ScaleConfiguration scaleConfig;
 
 	/**
 	 * Creates a new instance for generating ticks under the specified configuration.
 	 * 
 	 * @param scaleConfig The configuration of X/Y/Z axes's scales.
 	 */
-	public ScaleTickGenerator(RinearnGraph3DScaleConfiguration scaleConfig) {
+	public ScaleTickGenerator(ScaleConfiguration scaleConfig) {
 		this.scaleConfig = scaleConfig;
 	}
  
@@ -40,7 +40,7 @@ public final class ScaleTickGenerator {
 	 * @param dimensionIndex The index of the axis.
 	 * @return The configuration of the specified axis's scale.
 	 */
-	private RinearnGraph3DScaleConfiguration.AxisScaleConfiguration getAxisScaleConfiguration(int dimensionIndex) {
+	private ScaleConfiguration.AxisScaleConfiguration getAxisScaleConfiguration(int dimensionIndex) {
 
 		// Extract the configuration of the scale of the specified axis (X, Y, or Z).
 		switch (dimensionIndex) {
@@ -69,7 +69,7 @@ public final class ScaleTickGenerator {
 	public BigDecimal[] generateScaleTickCoordinates(int dimensionIndex, Axis axis) {
 
 		// Extract the configuration of the scale of the specified axis (X, Y, or Z).
-		final RinearnGraph3DScaleConfiguration.AxisScaleConfiguration axisScaleConfig = 
+		final ScaleConfiguration.AxisScaleConfiguration axisScaleConfig = 
 				this.getAxisScaleConfiguration(dimensionIndex);
 
 		// Generate coordinates of ticks for the specified mode.
@@ -92,7 +92,7 @@ public final class ScaleTickGenerator {
 	 * @return The coordinates of the ticks.
 	 */
 	private BigDecimal[] generateScaleTickCoordsByEqualDivision(
-			RinearnGraph3DScaleConfiguration.AxisScaleConfiguration axisScaleConfig, Axis axis) {
+			ScaleConfiguration.AxisScaleConfiguration axisScaleConfig, Axis axis) {
 
 		// Creates a MathContext instance for specifying the precision and rounding mode of the calculations.
 		int precision = axisScaleConfig.getCalculationPrecision();
@@ -141,11 +141,11 @@ public final class ScaleTickGenerator {
 		String[] tickLabels = new String[tickCount];
 
 		// Extract the configuration of the scale of the specified axis (X, Y, or Z).
-		final RinearnGraph3DScaleConfiguration.AxisScaleConfiguration axisScaleConfig = 
+		final ScaleConfiguration.AxisScaleConfiguration axisScaleConfig = 
 				this.getAxisScaleConfiguration(dimensionIndex);
 
 		// Get the formatters of the tick labels.
-		RinearnGraph3DScaleConfiguration.NumericTickLabelFormatter[] formatters =
+		ScaleConfiguration.NumericTickLabelFormatter[] formatters =
 				axisScaleConfig.getNumericTickLabelFormatters();
 
 		// Generate tick labels from their coordinate values, and format them.

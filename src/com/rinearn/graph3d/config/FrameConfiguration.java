@@ -4,7 +4,7 @@ package com.rinearn.graph3d.config;
 /**
  * The class for storing configuration parameters of the graph frame.
  */
-public final class RinearnGraph3DFrameConfiguration {
+public final class FrameConfiguration {
 
 	// To be added: grid-lines, images, etc.
 
@@ -30,7 +30,7 @@ public final class RinearnGraph3DFrameConfiguration {
 	/**
 	 * Creates new configuration storing default values.
 	 */
-	public RinearnGraph3DFrameConfiguration() {
+	public FrameConfiguration() {
 	}
 
 

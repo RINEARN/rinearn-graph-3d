@@ -3,13 +3,13 @@ package com.rinearn.graph3d.renderer.simple;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import com.rinearn.graph3d.config.RinearnGraph3DLightConfiguration;
+import com.rinearn.graph3d.config.LightConfiguration;
 
 
 /**
  * A geometric piece class representing a point.
  */
-public class PointGeometricPiece extends GeometricPiece {
+public final class PointGeometricPiece extends GeometricPiece {
 
 	/** The radius of this point, in the unit of pixels. */
 	private int radius;
@@ -71,7 +71,7 @@ public class PointGeometricPiece extends GeometricPiece {
 	 * @param lightConfig The object storing parameters for lighting and shading.
 	 */
 	@Override
-	public void shade(RinearnGraph3DLightConfiguration lightConfig) {
+	public void shade(LightConfiguration lightConfig) {
 
 		// Points have no shades, so simply copy the original color as it is.
 		this.onscreenColor = this.originalColor;

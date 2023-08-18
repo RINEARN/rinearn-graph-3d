@@ -43,7 +43,7 @@ import java.text.DecimalFormat;
 /**
  * The class storing configuration values of the scales of X/Y/Z axes.
  */
-public class RinearnGraph3DScaleConfiguration {
+public final class ScaleConfiguration {
 
 	/** The configuration of X axis's scale. */
 	private volatile AxisScaleConfiguration xScaleConfiguration = new AxisScaleConfiguration();
@@ -58,7 +58,7 @@ public class RinearnGraph3DScaleConfiguration {
 	/**
 	 * Creates a new configuration storing default values.
 	 */
-	public RinearnGraph3DScaleConfiguration() {
+	public ScaleConfiguration() {
 	}
 
 

@@ -5,14 +5,14 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
-import com.rinearn.graph3d.config.RinearnGraph3DLightConfiguration;
+import com.rinearn.graph3d.config.LightConfiguration;
 
 
 /**
  * A geometric piece class representing a "directional" line,
  * which is visible only from the specific direction.
  */
-public class DirectionalLineGeometricPiece extends GeometricPiece {
+public final class DirectionalLineGeometricPiece extends GeometricPiece {
 
 	/** The stroke for drawing this line. */
 	private Stroke stroke;
@@ -116,7 +116,7 @@ public class DirectionalLineGeometricPiece extends GeometricPiece {
 	 * @param lightConfig The object storing parameters for lighting and shading.
 	 */
 	@Override
-	public void shade(RinearnGraph3DLightConfiguration lightConfig) {
+	public void shade(LightConfiguration lightConfig) {
 
 		// Text labels have no shades, so simply copy the original color as it is.
 		this.onscreenColor = this.originalColor;

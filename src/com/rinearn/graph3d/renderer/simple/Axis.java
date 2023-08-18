@@ -9,7 +9,7 @@ import java.math.RoundingMode;
  * A class storing/handling informations related to an axis.
  * (e.g.: Maximum and minimum values of the range of the axis, and so on.)
  */
-public class Axis {
+public final class Axis {
 
 	/** The default precision of the result value of scaleCoordinate(BigDecimal) method. */
 	private static final int DEFAULT_SCALED_SPACE_PRECISION = 20;

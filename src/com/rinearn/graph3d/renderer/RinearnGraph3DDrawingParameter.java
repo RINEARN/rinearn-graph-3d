@@ -18,7 +18,7 @@ import java.awt.Color;
  * このクラスのインスタンスを,  {@link RinearnGraph3DRenderer} クラス等の描画系メソッドの引数に渡す事で, 詳細な描画パラメータを制御できます. 
  * </div>
  */
-public class RinearnGraph3DDrawingParameter {
+public final class RinearnGraph3DDrawingParameter {
 
 	/** The enum for specifying horizontal alignment for some kinds of elements to be drawn, such as texts. */
 	public static enum HorizontalAlignment {

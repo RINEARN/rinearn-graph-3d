@@ -4,14 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
-import com.rinearn.graph3d.config.RinearnGraph3DLightConfiguration;
+import com.rinearn.graph3d.config.LightConfiguration;
 
 import java.awt.BasicStroke;
 
 /**
  * A geometric piece class representing a line.
  */
-public class LineGeometricPiece extends GeometricPiece {
+public final class LineGeometricPiece extends GeometricPiece {
 
 	/** The stroke for drawing this line. */
 	private Stroke stroke;
@@ -72,7 +72,7 @@ public class LineGeometricPiece extends GeometricPiece {
 	 * @param lightConfig The object storing parameters for lighting and shading.
 	 */
 	@Override
-	public void shade(RinearnGraph3DLightConfiguration lightConfig) {
+	public void shade(LightConfiguration lightConfig) {
 
 		// Lines have no shades, so simply copy the original color as it is.
 		this.onscreenColor = this.originalColor;

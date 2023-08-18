@@ -10,7 +10,7 @@ package com.rinearn.graph3d.config;
  * </span>
  * .
  */
-public class RinearnGraph3DLightConfiguration {
+public final class LightConfiguration {
 
 	/**
 	 * <span class="lang-en">
@@ -23,7 +23,7 @@ public class RinearnGraph3DLightConfiguration {
 	 * </span>
 	 * .
 	 */
-	public RinearnGraph3DLightConfiguration() {
+	public LightConfiguration() {
 		
 		// Initialize the reflection parameters by default values.
 		this.ambientReflectionStrength = 0.6;

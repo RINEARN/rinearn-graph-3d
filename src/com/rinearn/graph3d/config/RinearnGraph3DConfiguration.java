@@ -10,7 +10,7 @@ package com.rinearn.graph3d.config;
 //
 //        そのうち要検討
 //
-//    ・このクラスで一階層包むんだったら、要素の RinearnGraph3DScaleConfiguration とかに
+//    ・このクラスで一階層包むんだったら、要素の ScaleConfiguration とかに
 //      いちいち RinearnGraph3D が付いてるのは冗長過ぎる気がする。
 //
 //      > 外から（API経由で）は常に包んで渡すんだったら削ってもいいけど、
@@ -63,7 +63,9 @@ package com.rinearn.graph3d.config;
 //                             要素 config コンテナは実装時にフィールド宣言しながらデフォルト書いてった方がコード上は書きやすいし読みやすいし。
 //                             もしあっちもstaticファクトリメソッドに切り分けるならデフォルト値をどっか別のメタ設定的なやつに定義する必要ある。
 //
-//              後々で要検討
+//      > RinearnGraph3DScaleConfiguration とかの要素 config コンテナの命名、上記が概ね着地したので RinearnGraph3D 削った。
+//        この全体 config コンテナのみ残す方針。パッケージ内最上位だし、一覧の中でもこれが表層である事がわかりやすそうだし。
+//        あとただの Configuration だと基底クラスっぽい雰囲気になってしまうので。
 //
 // !!!!!
 
@@ -74,13 +76,13 @@ package com.rinearn.graph3d.config;
 public final class RinearnGraph3DConfiguration {
 
 	/** The configuration of the scales of X/Y/X axes. */
-	private volatile RinearnGraph3DScaleConfiguration scaleConfiguration = null;
+	private volatile ScaleConfiguration scaleConfiguration = null;
 
 	/** The configuration of the graph frame. */
-	private volatile RinearnGraph3DFrameConfiguration frameConfiguration = null;
+	private volatile FrameConfiguration frameConfiguration = null;
 
 	/** The configuration of the lighting/shading parameters. */
-	private volatile RinearnGraph3DLightConfiguration lightConfiguration = null;
+	private volatile LightConfiguration lightConfiguration = null;
 
 
 	/**
@@ -108,9 +110,9 @@ public final class RinearnGraph3DConfiguration {
 	public static RinearnGraph3DConfiguration createDefaultConfiguration() {
 		RinearnGraph3DConfiguration configuration = new RinearnGraph3DConfiguration();
 
-		configuration.setScaleConfiguration(new RinearnGraph3DScaleConfiguration());
-		configuration.setFrameConfiguration(new RinearnGraph3DFrameConfiguration());
-		configuration.setLightConfiguration(new RinearnGraph3DLightConfiguration());
+		configuration.setScaleConfiguration(new ScaleConfiguration());
+		configuration.setFrameConfiguration(new FrameConfiguration());
+		configuration.setLightConfiguration(new LightConfiguration());
 
 		return configuration;
 	}
@@ -130,7 +132,7 @@ public final class RinearnGraph3DConfiguration {
 	 * 
 	 * @param scaleConfiguration The configuration of the scales of X/Y/Z axes.
 	 */
-	public synchronized void setScaleConfiguration(RinearnGraph3DScaleConfiguration scaleConfiguration) {
+	public synchronized void setScaleConfiguration(ScaleConfiguration scaleConfiguration) {
 		this.scaleConfiguration = scaleConfiguration;
 	}
 
@@ -139,7 +141,7 @@ public final class RinearnGraph3DConfiguration {
 	 * 
 	 * @return The configuration of the scales of X/Y/Z axes.
 	 */
-	public synchronized RinearnGraph3DScaleConfiguration getScaleConfiguration() {
+	public synchronized ScaleConfiguration getScaleConfiguration() {
 		return this.scaleConfiguration;
 	}
 
@@ -158,7 +160,7 @@ public final class RinearnGraph3DConfiguration {
 	 * 
 	 * @param frameConfiguration The configuration of the graph frame.
 	 */
-	public synchronized void setFrameConfiguration(RinearnGraph3DFrameConfiguration frameConfiguration) {
+	public synchronized void setFrameConfiguration(FrameConfiguration frameConfiguration) {
 		this.frameConfiguration = frameConfiguration;
 	}
 
@@ -167,7 +169,7 @@ public final class RinearnGraph3DConfiguration {
 	 * 
 	 * @return The configuration of the graph frame.
 	 */
-	public synchronized RinearnGraph3DFrameConfiguration getFrameConfiguration() {
+	public synchronized FrameConfiguration getFrameConfiguration() {
 		return this.frameConfiguration;
 	}
 
@@ -186,7 +188,7 @@ public final class RinearnGraph3DConfiguration {
 	 * 
 	 * @param frameConfiguration The configuration of the lighting/shading parameters.
 	 */
-	public synchronized void setLightConfiguration(RinearnGraph3DLightConfiguration lightConfiguration) {
+	public synchronized void setLightConfiguration(LightConfiguration lightConfiguration) {
 		this.lightConfiguration = lightConfiguration;
 	}
 
@@ -195,7 +197,7 @@ public final class RinearnGraph3DConfiguration {
 	 * 
 	 * @return The configuration of the lighting/shading parameters.
 	 */
-	public synchronized RinearnGraph3DLightConfiguration getLightConfiguration() {
+	public synchronized LightConfiguration getLightConfiguration() {
 		return this.lightConfiguration;
 	}
 

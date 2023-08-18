@@ -3,13 +3,13 @@ package com.rinearn.graph3d.renderer.simple;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import com.rinearn.graph3d.config.RinearnGraph3DLightConfiguration;
+import com.rinearn.graph3d.config.LightConfiguration;
 
 
 /**
  * A geometric piece class representing a line.
  */
-public class QuadrangleGeometricPiece extends GeometricPiece {
+public final class QuadrangleGeometricPiece extends GeometricPiece {
 
 	/** Represents the array index of the vertex point A, in vertex-related arrays. */
 	private static final int A = 0;
@@ -263,7 +263,7 @@ public class QuadrangleGeometricPiece extends GeometricPiece {
 	 * @param lightConfig The object storing parameters for lighting and shading.
 	 */
 	@Override
-	public void shade(RinearnGraph3DLightConfiguration lightConfig) {
+	public void shade(LightConfiguration lightConfig) {
 
 		// Prepare aliases of the normal vector,
 		// and the direction vector pointing to the light source (hereinafter referred to as 'light vector').
