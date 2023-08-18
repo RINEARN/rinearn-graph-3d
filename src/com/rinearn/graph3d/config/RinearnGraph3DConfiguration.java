@@ -75,6 +75,9 @@ package com.rinearn.graph3d.config;
  */
 public final class RinearnGraph3DConfiguration {
 
+	/** The configuration of the ranges of X/Y/X axes. */
+	private volatile RangeConfiguration rangeConfiguration = null;
+
 	/** The configuration of the scales of X/Y/X axes. */
 	private volatile ScaleConfiguration scaleConfiguration = null;
 
@@ -110,11 +113,40 @@ public final class RinearnGraph3DConfiguration {
 	public static RinearnGraph3DConfiguration createDefaultConfiguration() {
 		RinearnGraph3DConfiguration configuration = new RinearnGraph3DConfiguration();
 
+		configuration.setRangeConfiguration(new RangeConfiguration());
 		configuration.setScaleConfiguration(new ScaleConfiguration());
 		configuration.setFrameConfiguration(new FrameConfiguration());
 		configuration.setLightConfiguration(new LightConfiguration());
 
 		return configuration;
+	}
+
+
+	/**
+	 * Checks whether any range configuration is set to this instance.
+	 * 
+	 * @return Returns true if any range configuration is set to this instance.
+	 */
+	public synchronized boolean hasRangeConfiguration() {
+		return this.rangeConfiguration != null;
+	}
+
+	/**
+	 * Sets the configuration of the ranges of X/Y/Z axes.
+	 * 
+	 * @param scaleConfiguration The configuration of the ranges of X/Y/Z axes.
+	 */
+	public synchronized void setRangeConfiguration(RangeConfiguration rangeConfiguration) {
+		this.rangeConfiguration = rangeConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of the ranges of X/Y/Z axes.
+	 * 
+	 * @return The configuration of the ranges of X/Y/Z axes.
+	 */
+	public synchronized RangeConfiguration getRangeConfiguration() {
+		return this.rangeConfiguration;
 	}
 
 

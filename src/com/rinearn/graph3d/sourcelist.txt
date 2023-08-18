@@ -1,5 +1,6 @@
 com/rinearn/graph3d/config/FrameConfiguration.java
 com/rinearn/graph3d/config/LightConfiguration.java
+com/rinearn/graph3d/config/RangeConfiguration.java
 com/rinearn/graph3d/config/RinearnGraph3DConfiguration.java
 com/rinearn/graph3d/config/ScaleConfiguration.java
 com/rinearn/graph3d/renderer/package-info.java
