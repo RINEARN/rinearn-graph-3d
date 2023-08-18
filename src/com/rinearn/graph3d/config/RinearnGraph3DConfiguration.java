@@ -56,6 +56,13 @@ package com.rinearn.graph3d.config;
 //                           というかこの全体 config コンテナを empty() か default() でインスタンス化するようにすればそれで解決では？
 //                           むしろ要素 config コンテナのほうは空状態が無い値もあるから empty() 作れないし、default() 一択になるし。
 //
+//                           > 作った。defaultは予約語なので createEmptyConfiguration、createDefaultConfiguration のセットで。
+//                             要素 config コンテナの方はコンストラクタ―生成＆デフォルト詰まり状態のままだけど、そっちどうすべきかはまた後で。
+//                             まあこのクラスが実質この設定パッケージの最上階層なので、ここだけちょっとリッチな感じでもありっちゃありだと思う。
+//
+//                             要素 config コンテナは実装時にフィールド宣言しながらデフォルト書いてった方がコード上は書きやすいし読みやすいし。
+//                             もしあっちもstaticファクトリメソッドに切り分けるならデフォルト値をどっか別のメタ設定的なやつに定義する必要ある。
+//
 //              後々で要検討
 //
 // !!!!!
@@ -67,21 +74,56 @@ package com.rinearn.graph3d.config;
 public final class RinearnGraph3DConfiguration {
 
 	/** The configuration of the scales of X/Y/X axes. */
-	private volatile RinearnGraph3DScaleConfiguration scaleConfiguration = new RinearnGraph3DScaleConfiguration();
+	private volatile RinearnGraph3DScaleConfiguration scaleConfiguration = null;
 
 	/** The configuration of the graph frame. */
-	private volatile RinearnGraph3DFrameConfiguration frameConfiguration = new RinearnGraph3DFrameConfiguration();
+	private volatile RinearnGraph3DFrameConfiguration frameConfiguration = null;
 
 	/** The configuration of the lighting/shading parameters. */
-	private volatile RinearnGraph3DLightConfiguration lightConfiguration = new RinearnGraph3DLightConfiguration();
+	private volatile RinearnGraph3DLightConfiguration lightConfiguration = null;
 
 
 	/**
 	 * Creates a new configuration storing default values.
 	 */
-	public RinearnGraph3DConfiguration() {
+	private RinearnGraph3DConfiguration() {
 	}
 
+
+	/**
+	 * Creates a new configuration storing nothing.
+	 * 
+	 * @return The configuration storing nothing.
+	 */
+	public static RinearnGraph3DConfiguration createEmptyConfiguration() {
+		return new RinearnGraph3DConfiguration();
+	}
+
+
+	/**
+	 * Creates a new configuration storing default values.
+	 * 
+	 * @return The configuration storing default values.
+	 */
+	public static RinearnGraph3DConfiguration createDefaultConfiguration() {
+		RinearnGraph3DConfiguration configuration = new RinearnGraph3DConfiguration();
+
+		configuration.setScaleConfiguration(new RinearnGraph3DScaleConfiguration());
+		configuration.setFrameConfiguration(new RinearnGraph3DFrameConfiguration());
+		configuration.setLightConfiguration(new RinearnGraph3DLightConfiguration());
+
+		return configuration;
+	}
+
+
+	/**
+	 * Checks whether any scale configuration is set to this instance.
+	 * 
+	 * @return Returns true if any scale configuration is set to this instance.
+	 */
+	public synchronized boolean hasScaleConfiguration() {
+		return this.scaleConfiguration != null;
+	}
 
 	/**
 	 * Sets the configuration of the scales of X/Y/Z axes.
@@ -99,6 +141,16 @@ public final class RinearnGraph3DConfiguration {
 	 */
 	public synchronized RinearnGraph3DScaleConfiguration getScaleConfiguration() {
 		return this.scaleConfiguration;
+	}
+
+
+	/**
+	 * Checks whether any frame configuration is set to this instance.
+	 * 
+	 * @return Returns true if any frame configuration is set to this instance.
+	 */
+	public synchronized boolean hasFrameConfiguration() {
+		return this.frameConfiguration != null;
 	}
 
 	/**
@@ -119,12 +171,22 @@ public final class RinearnGraph3DConfiguration {
 		return this.frameConfiguration;
 	}
 
+
+	/**
+	 * Checks whether any light configuration is set to this instance.
+	 * 
+	 * @return Returns true if any light configuration is set to this instance.
+	 */
+	public synchronized boolean hasLightConfiguration() {
+		return this.lightConfiguration != null;
+	}
+
 	/**
 	 * Sets the configuration of the lighting/shading parameters.
 	 * 
 	 * @param frameConfiguration The configuration of the lighting/shading parameters.
 	 */
-	public synchronized void setFrameConfiguration(RinearnGraph3DLightConfiguration lightConfiguration) {
+	public synchronized void setLightConfiguration(RinearnGraph3DLightConfiguration lightConfiguration) {
 		this.lightConfiguration = lightConfiguration;
 	}
 
