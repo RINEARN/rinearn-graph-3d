@@ -2,9 +2,7 @@ package com.rinearn.graph3d.renderer.simple;
 
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
-import com.rinearn.graph3d.config.RinearnGraph3DLightConfiguration;
-import com.rinearn.graph3d.config.RinearnGraph3DScaleConfiguration;
-import com.rinearn.graph3d.config.RinearnGraph3DFrameConfiguration;
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -32,7 +30,10 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	public static final int Z = 2;
 
 	/** The default value of the distance between the viewpoint and the origin of the graph. */
-	private static final double DEFAULT_DISTANCE = 4.0;
+	private static final double DEFAULT_DISTANCE = 4.0; // Should be belong to "camera configuration" ?
+
+	/** The object storing configuration values of scales, frames, lighting/shading, and so on. */
+	private volatile RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createDefaultConfiguration();
 
 	/** The Image instance storing the rendered image of the graph screen. */
 	private volatile BufferedImage screenImage = null;
@@ -41,16 +42,16 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	private volatile Graphics2D screenGraphics = null;
 
 	/** The background color of the graph screen. */
-	private volatile Color screenBackgroundColor = Color.BLACK;
+	private volatile Color screenBackgroundColor = Color.BLACK; // Should be belong to "color configuration" ?
 
 	/** The color of the outer frame of the graph. */
-	private volatile Color frameColor = Color.WHITE;
+	private volatile Color frameColor = Color.WHITE; // Should be belong to "color configuration" ?
 
 	/** The color of the grid lines frame of the graph. */
-	private volatile Color gridColor = Color.DARK_GRAY;
+	private volatile Color gridColor = Color.DARK_GRAY; // Should be belong to "color configuration" ?
 
 	/** The font for rendering tick labels. */
-	private volatile Font tickLabelFont = new Font("Dialog", Font.PLAIN, 20);
+	private volatile Font tickLabelFont = new Font("Dialog", Font.PLAIN, 20); // Should be belong to "font configuration" ?
 
 	/** The array storing X, Y, and Z-axis. Each element stores values related to an axis (e.g.: min/max value of the range). */
 	private volatile Axis[] axes = { new Axis(), new Axis(), new Axis() };
@@ -66,17 +67,8 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 		{ 0.0, 0.0, 0.0, 1.0 }
 	};
 
-	/** The object storing parameters for lighting and shading. */
-	private volatile RinearnGraph3DLightConfiguration lightConfig = new RinearnGraph3DLightConfiguration();
 
-	/** The object storing configuration values of the scales of X/Y/Z axes. */
-	private volatile RinearnGraph3DScaleConfiguration scaleConfig = new RinearnGraph3DScaleConfiguration();
-
-	/** The object storing configuration values of the graph frame. */
-	private volatile RinearnGraph3DFrameConfiguration frameConfig = new RinearnGraph3DFrameConfiguration();
-
-
-	// Temporary settings. Should be packed into scaleConfig.
+	// Temporary settings. Should be packed into this.config.scaleConfiguration.
 	int verticalAlignThreshold = 128;
 	int horizontalAlignThreshold = 32;
 	double tickLabelMargin = 0.06;
@@ -90,7 +82,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	);
 
 	/** The object providing drawing process of graph frames and grid lines. */
-	private volatile FrameDrawer frameDrawer = new FrameDrawer(this.frameConfig, this.frameColor, this.gridColor);
+	private volatile FrameDrawer frameDrawer = new FrameDrawer(this.config.getFrameConfiguration(), this.frameColor, this.gridColor);
 
 
 	/**
@@ -154,7 +146,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 
 		// Shades the color of each geometric piece.
 		for (GeometricPiece piece: this.geometricPieceList) {
-			piece.shade(this.lightConfig);
+			piece.shade(this.config.getLightConfiguration());
 		}
 
 		// Draw each geometric piece on the screen.
@@ -596,7 +588,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	public synchronized void drawScale() {
 
 		// Generate coordinates and labels of ticks, based on the scale configuration.
-		ScaleTickGenerator scaleTickGenerator = new ScaleTickGenerator(this.scaleConfig);
+		ScaleTickGenerator scaleTickGenerator = new ScaleTickGenerator(this.config.getScaleConfiguration());
 		BigDecimal[] xTickCoords = scaleTickGenerator.generateScaleTickCoordinates(X, this.axes[X]);
 		BigDecimal[] yTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Y, this.axes[Y]);
 		BigDecimal[] zTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Z, this.axes[Z]);
