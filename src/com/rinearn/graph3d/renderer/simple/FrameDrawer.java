@@ -161,6 +161,173 @@ public class FrameDrawer {
 
 
 	/**
+	 * Draws the grid lines on the backwalls of the graph.
+	 * 
+	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
+	 * @param axes The array storing X axis at [0], Y axis at [1], and Z axis at [2].
+	 */
+	public synchronized void drawGridLines(List<GeometricPiece> geometricPieceList, Axis[] axes) {
+
+		// Draw ticks of X, Y, Z axis.
+		for (int idim=0; idim<=2; idim++) {
+
+			// Get the axis of the "idim"-th dimension, where "idim" represents: 0=X, 1=Y, 2=Z.
+			Axis axis = axes[idim];
+
+			// Get coordinates (positions) of the ticks.
+			BigDecimal[] tickCoords = axis.getTickCoordinates();
+			int tickCount = tickCoords.length;
+
+			// Draw grid lines belonging to the current dimension (X or Y or Z).
+			for (int itick=0; itick<tickCount; itick++) {
+				double scaledCoord = axis.scaleCoordinate(tickCoords[itick]).doubleValue();
+
+				// lines representing X values:
+				if (idim == X) {
+					this.drawXGridLines(geometricPieceList, scaledCoord);
+				}
+
+				// lines representing Y values:
+				if (idim == Y) {
+					this.drawYGridLines(geometricPieceList, scaledCoord);
+				}
+
+				// lines representing Z values:
+				if (idim == Z) {
+					this.drawZGridLines(geometricPieceList, scaledCoord);
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * Draw grid lines connecting specified ticks on four X axes.
+	 * 
+	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
+	 * @param xCoord The scaled coordinate value of the tick to be connected by the grid line.
+	 */
+	private void drawXGridLines(List<GeometricPiece> geometricPieceList, double xScaledCoord) {
+
+		// (Y=-1, Z=-1) to (Y=1, Z=-1), visible from positive direction of Z axis.
+		this.drawMultiPieceDirectionalLine(
+				geometricPieceList,
+				new double[] {xScaledCoord, -1.0, -1.0}, new double[] {xScaledCoord, 1.0, -1.0}, // Edge points A and B.
+				new double[] {0.0, 0.0, 1.0}, // The vector of the direction from which the line is visible.
+				LINE_PIECE_COUNT, this.gridLineColor
+		);
+
+		// (Y=1, Z=-1) to (Y=1, Z=1), visible from negative direction of Y axis.
+		this.drawMultiPieceDirectionalLine(
+				geometricPieceList,
+				new double[] {xScaledCoord, 1.0, -1.0}, new double[] {xScaledCoord, 1.0, 1.0},
+				new double[] {0.0, -1.0, 0.0},
+				LINE_PIECE_COUNT, this.gridLineColor
+		);
+
+		// (Y=1, Z=1) to (Y=-1, Z=1), visible from negative direction of Z axis.
+		this.drawMultiPieceDirectionalLine(
+				geometricPieceList,
+				new double[] {xScaledCoord, 1.0, 1.0}, new double[] {xScaledCoord, -1.0, 1.0},
+				new double[] {0.0, 0.0, -1.0},
+				LINE_PIECE_COUNT, this.gridLineColor
+		);
+
+		// (Y=-1, Z=1) to (Y=-1, Z=-1), visible from positive direction of Y axis.
+		this.drawMultiPieceDirectionalLine(
+				geometricPieceList,
+				new double[] {xScaledCoord, -1.0, 1.0}, new double[] {xScaledCoord, -1.0, -1.0},
+				new double[] {0.0, 1.0, 0.0},
+				LINE_PIECE_COUNT, this.gridLineColor
+		);
+	}
+
+
+	/**
+	 * Draw grid lines connecting specified ticks on four Y axes.
+	 * 
+	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
+	 * @param xCoord The scaled coordinate value of the tick to be connected by the grid line.
+	 */
+	private void drawYGridLines(List<GeometricPiece> geometricPieceList, double yScaledCoord) {
+
+		// (X=-1, Z=-1) to (X=1, Z=-1), visible from positive direction of Z axis.
+		this.drawMultiPieceDirectionalLine(
+				geometricPieceList,
+				new double[] {-1.0, yScaledCoord, -1.0}, new double[] {1.0, yScaledCoord, -1.0}, // Edge points A and B.
+				new double[] {0.0, 0.0, 1.0}, // The vector of the direction from which the line is visible.
+				LINE_PIECE_COUNT, this.gridLineColor
+		);
+
+		// (X=1, Z=-1) to (X=1, Z=1), visible from negative direction of X axis.
+		this.drawMultiPieceDirectionalLine(
+				geometricPieceList,
+				new double[] {1.0, yScaledCoord, -1.0}, new double[] {1.0, yScaledCoord, 1.0},
+				new double[] {-1.0, 0.0, 0.0},
+				LINE_PIECE_COUNT, this.gridLineColor
+		);
+
+		// (X=1, Z=1) to (X=-1, Z=1), visible from negative direction of Z axis.
+		this.drawMultiPieceDirectionalLine(
+				geometricPieceList,
+				new double[] {1.0, yScaledCoord, 1.0}, new double[] {-1.0, yScaledCoord, 1.0},
+				new double[] {0.0, 0.0, -1.0},
+				LINE_PIECE_COUNT, this.gridLineColor
+		);
+
+		// (X=-1, Z=1) to (X=-1, Z=-1), visible from positive direction of X axis.
+		this.drawMultiPieceDirectionalLine(
+				geometricPieceList,
+				new double[] {-1.0, yScaledCoord, 1.0}, new double[] {-1.0, yScaledCoord, -1.0},
+				new double[] {1.0, 0.0, 0.0},
+				LINE_PIECE_COUNT, this.gridLineColor
+		);
+	}
+
+
+	/**
+	 * Draw grid lines connecting specified ticks on four Z axes.
+	 * 
+	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
+	 * @param xCoord The scaled coordinate value of the tick to be connected by the grid line.
+	 */
+	private void drawZGridLines(List<GeometricPiece> geometricPieceList, double zScaledCoord) {
+
+		// (X=-1, Y=-1) to (X=1, Y=-1), visible from positive direction of Y axis.
+		this.drawMultiPieceDirectionalLine(
+				geometricPieceList,
+				new double[] {-1.0, -1.0, zScaledCoord}, new double[] {1.0, -1.0, zScaledCoord}, // Edge points A and B.
+				new double[] {0.0, 1.0, 0.0}, // The vector of the direction from which the line is visible.
+				LINE_PIECE_COUNT, this.gridLineColor
+		);
+
+		// (X=1, Y=-1) to (X=1, Y=1), visible from negative direction of X axis.
+		this.drawMultiPieceDirectionalLine(
+				geometricPieceList,
+				new double[] {1.0, -1.0, zScaledCoord}, new double[] {1.0, 1.0, zScaledCoord},
+				new double[] {-1.0, 0.0, 0.0},
+				LINE_PIECE_COUNT, this.gridLineColor
+		);
+
+		// (X=1, Y=1) to (X=-1, Y=1), visible from negative direction of Y axis.
+		this.drawMultiPieceDirectionalLine(
+				geometricPieceList,
+				new double[] {1.0, 1.0, zScaledCoord}, new double[] {-1.0, 1.0, zScaledCoord},
+				new double[] {0.0, -1.0, 0.0},
+				LINE_PIECE_COUNT, this.gridLineColor
+		);
+
+		// (X=-1, Y=1) to (X=-1, Y=-1), visible from positive direction of X axis.
+		this.drawMultiPieceDirectionalLine(
+				geometricPieceList,
+				new double[] {-1.0, 1.0, zScaledCoord}, new double[] {-1.0, -1.0, zScaledCoord},
+				new double[] {1.0, 0.0, 0.0},
+				LINE_PIECE_COUNT, this.gridLineColor
+		);
+	}
+
+
+	/**
 	 * Draws a straight line consisting of multiple geometric pieces.
 	 * 
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.

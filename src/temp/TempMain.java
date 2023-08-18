@@ -50,7 +50,10 @@ public class TempMain {
 		// Draw scales (ticks) of X/Y/Z axes.
 		renderer.drawScale();
 
-		// Draw the outer frame of the graph frame.
+		// Draw the grid lines on the backwalls of the graph.
+		renderer.drawGrid();
+
+		// Draw the outer frame of the graph.
 		renderer.drawFrame();
 
 		// Draw many points.

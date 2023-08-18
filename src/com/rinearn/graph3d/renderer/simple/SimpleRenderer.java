@@ -47,7 +47,7 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	private volatile Color frameColor = Color.WHITE;
 
 	/** The color of the grid lines frame of the graph. */
-	private volatile Color gridColor = Color.GRAY;
+	private volatile Color gridColor = Color.DARK_GRAY;
 
 	/** The font for rendering tick labels. */
 	private volatile Font tickLabelFont = new Font("Dialog", Font.PLAIN, 20);
@@ -629,9 +629,12 @@ public class SimpleRenderer implements RinearnGraph3DRenderer {
 	}
 
 
+	/**
+	 * Draws the grid lines on the backwalls of the graph.
+	 */
 	@Override
 	public synchronized void drawGrid() {
-		throw new RuntimeException("Unimplemented yet");
+		this.frameDrawer.drawGridLines(this.geometricPieceList, this.axes);
 	}
 
 
