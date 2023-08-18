@@ -3,6 +3,7 @@ package com.rinearn.graph3d.renderer.simple;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.RangeConfiguration;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/** The object providing drawing process of scale ticks of X/Y/Z axes. */
 	private volatile ScaleTickDrawer scaleTickDrawer = new ScaleTickDrawer(
+		this.config.getScaleConfiguration(),
 		verticalAlignThreshold, horizontalAlignThreshold,
 		tickLabelMargin, tickLineLength,
 		tickLabelFont, frameColor
@@ -94,6 +96,51 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	public SimpleRenderer(int screenWidth, int screenHeight) {
 		this.setScreenSize(screenWidth, screenHeight);
 		this.clear();
+	}
+
+
+	// !!!!!
+	// NOTE:
+	//
+	//   Should rename to "configure(...)" ?
+	//
+	// !!!!!
+
+	/**
+	 * Sets the container storing configuration values.
+	 * 
+	 * @param configuration The container storing configuration values.
+	 */
+	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
+
+		// RinearnGraph3DConfiguration is a container of subpart configurations.
+		// Some of them are set and others are not set,
+		// so extract only stored subpart configurations in the arg and set them to the "config" field of this class.
+		if (configuration.hasRangeConfiguration()) {
+			this.config.setRangeConfiguration(configuration.getRangeConfiguration());
+		}
+		if (configuration.hasScaleConfiguration()) {
+			this.config.setScaleConfiguration(configuration.getScaleConfiguration());
+		}
+		if (configuration.hasFrameConfiguration()) {
+			this.config.setFrameConfiguration(configuration.getFrameConfiguration());
+		}
+		if (configuration.hasLightConfiguration()) {
+			this.config.setLightConfiguration(configuration.getLightConfiguration());
+		}
+
+		// Set the ranges of X/Y/Z axes.
+		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
+		this.axes[X].setRange(xRangeConfig.getMinimum(), xRangeConfig.getMaximum());
+		this.axes[Y].setRange(yRangeConfig.getMinimum(), yRangeConfig.getMaximum());
+		this.axes[Z].setRange(zRangeConfig.getMinimum(), zRangeConfig.getMaximum());
+
+		// Sets the configuration for drawing scales and frames.
+		this.scaleTickDrawer.setScaleConfiguration(this.config.getScaleConfiguration());
+		this.frameDrawer.setFrameConfiguration(this.config.getFrameConfiguration());
 	}
 
 

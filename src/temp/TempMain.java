@@ -3,6 +3,8 @@ package temp;
 import com.rinearn.graph3d.renderer.simple.SimpleRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.RangeConfiguration;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,6 +38,20 @@ public class TempMain {
 		// Instantiate a simple implementation of the rendering engine of RINEARN Graph 3D.
 		SimpleRenderer renderer = new SimpleRenderer(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+		// Prepare configuration of X/Y/Z ranges.
+		RangeConfiguration rangeConfig = new RangeConfiguration();
+		rangeConfig.getXRangeConfiguration().setMaximum(new BigDecimal("1.0"));
+		rangeConfig.getXRangeConfiguration().setMinimum(new BigDecimal("-1.0"));
+		rangeConfig.getYRangeConfiguration().setMaximum(new BigDecimal("1.2"));
+		rangeConfig.getYRangeConfiguration().setMinimum(new BigDecimal("-1.2"));
+		rangeConfig.getZRangeConfiguration().setMaximum(new BigDecimal("1.4"));
+		rangeConfig.getZRangeConfiguration().setMinimum(new BigDecimal("-1.4"));
+
+		// Reflect the configuration.
+		RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
+		config.setRangeConfiguration(rangeConfig);
+		renderer.setConfiguration(config);
+		/*
 		// Set the ranges of X/Y/Z axes.
 		renderer.setXRange(new BigDecimal("-1.0"), new BigDecimal("1.0"));
 		renderer.setYRange(new BigDecimal("-1.0"), new BigDecimal("1.0"));
@@ -46,6 +62,7 @@ public class TempMain {
 		//renderer.setXRange(new BigDecimal("-1.2"), new BigDecimal("0.7"));
 		//renderer.setYRange(new BigDecimal("-2.3"), new BigDecimal("0.5"));
 		//renderer.setZRange(new BigDecimal("-0.9"), new BigDecimal("0.9"));
+		*/
 
 		// Draw scales (ticks) of X/Y/Z axes.
 		renderer.drawScale();

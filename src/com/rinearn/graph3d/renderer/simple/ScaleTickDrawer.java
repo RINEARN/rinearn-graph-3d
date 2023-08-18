@@ -1,11 +1,11 @@
 package com.rinearn.graph3d.renderer.simple;
 
+import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
+import com.rinearn.graph3d.config.ScaleConfiguration;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.util.List;
-
-import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
-
 import java.math.BigDecimal;
 
 
@@ -31,6 +31,9 @@ public final class ScaleTickDrawer {
 	private static final RinearnGraph3DDrawingParameter.HorizontalAlignment HORIZONTAL_ALIGNMENT
 			= RinearnGraph3DDrawingParameter.HorizontalAlignment.RADIAL;
 
+	/** Stores the configuration of scales. */
+	private ScaleConfiguration scaleConfig;
+
 	/** The vertical distance [px] from the reference point, at which the alignment of tick labels change. */
 	private int verticalAlignThreshold;
 
@@ -53,6 +56,7 @@ public final class ScaleTickDrawer {
 	/**
 	 * Create an instance for drawing scale ticks under the specified settings.
 	 * 
+	 * @param scaleConfig The configuration of scales.
 	 * @param vertcalAlignThreshold The vertical distance [px] from the reference point, at which the alignment of tick labels change.
 	 * @param horizontalAlignThreshold The horizontal distance [px] from the reference point, at which the alignment of tick labels change.
 	 * @param tickLabelMargin The margin between axes and tick labels.
@@ -60,18 +64,29 @@ public final class ScaleTickDrawer {
 	 * @param font The font for rendering texts of tick labels.
 	 * @param color The color of tick labels and lines.
 	 */
-	public ScaleTickDrawer(int verticalAlignThreshold, int horizontalAlignThreshold,
+	public ScaleTickDrawer(ScaleConfiguration scaleConfig, int verticalAlignThreshold, int horizontalAlignThreshold,
 			double tickLabelMargin, double tickLineLength, Font font, Color color) {
 
 		// Note: first four parameters should be packed into an object, e.g.:
 		//     public ScaleTickDrawer(ScaleConfiguration config, Font font, Color color)
 
+		this.scaleConfig = scaleConfig;
 		this.verticalAlignThreshold = verticalAlignThreshold;
 		this.horizontalAlignThreshold = horizontalAlignThreshold;
 		this.tickLabelMargin = tickLabelMargin;
 		this.tickLineLength = tickLineLength;
 		this.font = font;
 		this.color = color;
+	}
+
+
+	/**
+	 * Sets the configuration of scales.
+	 * 
+	 * @param scaleConfig The configuration of scales.
+	 */
+	public synchronized void setScaleConfiguration(ScaleConfiguration scaleConfig) {
+		this.scaleConfig = scaleConfig;
 	}
 
 
