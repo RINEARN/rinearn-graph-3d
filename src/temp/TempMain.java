@@ -1,5 +1,6 @@
 package temp;
 
+import com.rinearn.graph3d.RinearnGraph3D;
 import com.rinearn.graph3d.renderer.simple.SimpleRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
@@ -31,6 +32,18 @@ public class TempMain {
 
 	public static void main(String[] args) {
 		System.out.println("Hello RINEARN Graph 3D Ver.6!");
+
+		// Launch a new RINEARN Graph 3D window (to be implemented).
+		RinearnGraph3D graph3D = new RinearnGraph3D();
+
+		// Old code, creating a rendering engine directly and drawing graphs on a temporary window.
+		oldMain1();
+	}
+
+	/**
+	 * Old code, creating a rendering engine directly and drawing graphs on a temporary window.
+	 */
+	private static void oldMain1() {
 
 		// Launch a temporary window for previewing the rendered images.
 		TemporaryPreviewWindow tempWindow = new TemporaryPreviewWindow();
@@ -132,6 +145,7 @@ public class TempMain {
 		ScreenMouseListener screenMouseListener = new ScreenMouseListener(renderer, renderingLoop);
 		tempWindow.addScreenMouseListener(screenMouseListener);
 	}
+
 
 	private static class MeshData {
 		public int xCount;

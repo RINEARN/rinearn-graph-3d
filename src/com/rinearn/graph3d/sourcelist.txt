@@ -19,3 +19,4 @@ com/rinearn/graph3d/renderer/simple/QuadrangleGeometricPiece.java
 com/rinearn/graph3d/renderer/simple/ScaleTickDrawer.java
 com/rinearn/graph3d/renderer/simple/ScaleTickGenerator.java
 com/rinearn/graph3d/renderer/simple/SimpleRenderer.java
+com/rinearn/graph3d/RinearnGraph3D.java
