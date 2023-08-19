@@ -110,7 +110,7 @@ public final class MainWindow {
 
 
 	/**
-	 * Sets the instance of the graph image.
+	 * Sets the instance of the graph image, to be displayed on the screen.
 	 * 
 	 * It is not necessary to call this method every time after drawing something to the image.
 	 * You can reflect the drawn contents by calling only repaint() method.
@@ -119,17 +119,17 @@ public final class MainWindow {
 	 * (e.g.: when the screen has been resized),
 	 * it requires to call this method to update the reference to the image instance to be displayed.
 	 * 
-	 * @param image The instance of the graph image.
+	 * @param image The instance of the graph image to be displayed on the screen.
 	 */
-	public synchronized void setGraphImage(Image graphImage) {
+	public synchronized void setScreenImage(Image screenImage) {
 
 		// Set the specified graph image to "screenIcon", on event-dispatcher thread.
-		GraphImageSetter graphImageSetter = new GraphImageSetter(graphImage);
+		ScreenImageSetter screenImageSetter = new ScreenImageSetter(screenImage);
 		if (SwingUtilities.isEventDispatchThread()) {
-			graphImageSetter.run();
+			screenImageSetter.run();
 		} else {
 			try {
-				SwingUtilities.invokeAndWait(graphImageSetter);
+				SwingUtilities.invokeAndWait(screenImageSetter);
 			} catch (InvocationTargetException | InterruptedException e) {
 				e.printStackTrace();
 				throw new RuntimeException(e);
@@ -140,23 +140,23 @@ public final class MainWindow {
 	/**
 	 * The class for updating reference to the graph image from "screenIcon", on event-dispatcher thread.
 	 */
-	private final class GraphImageSetter implements Runnable {
+	private final class ScreenImageSetter implements Runnable {
 
 		/** The graph image to be set to "screenIcon". */
-		private final Image graphImage;
+		private final Image screenImage;
 
 		/**
 		 * Creates an instance for setting the specified graph image to "screenIcon".
 		 * 
-		 * @param graphImage The graph image to be set to "screenIcon".
+		 * @param screenImage The graph image to be set to "screenIcon".
 		 */
-		public GraphImageSetter(Image graphImage) {
-			this.graphImage = graphImage;
+		public ScreenImageSetter(Image graphImage) {
+			this.screenImage = graphImage;
 		}
 
 		@Override
 		public void run() {
-			screenIcon.setImage(this.graphImage);
+			screenIcon.setImage(this.screenImage);
 		}
 	}
 
