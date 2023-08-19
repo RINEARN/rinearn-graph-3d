@@ -1,5 +1,7 @@
 package com.rinearn.graph3d;
 
+import com.rinearn.graph3d.view.View;
+
 /**
  * <spac lass="lang-en">
  * The class at the top layer of the implementation of RINEARN Graph 3D,
@@ -14,6 +16,10 @@ package com.rinearn.graph3d;
  */
 public class RinearnGraph3D {
 
+	/** The front-end class of "View" layer, which provides visible part of GUI without event handling. */
+	private volatile View view;
+
+
 	/**
 	 * <span class="lang-en">
 	 * Launch a new RINEARN Graph 3D window
@@ -24,5 +30,8 @@ public class RinearnGraph3D {
 	 */
 	public RinearnGraph3D() {
 		System.out.println("Hello! the constructor of RinearnGraph3D has been called!");
+
+		this.view = new View();
+		view.mainWindow.setWindowVisible(true);
 	}
 }
