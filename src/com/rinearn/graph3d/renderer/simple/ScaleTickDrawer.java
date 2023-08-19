@@ -40,12 +40,6 @@ public final class ScaleTickDrawer {
 	/** The horizontal distance [px] from the reference point, at which the alignment of tick labels change. */
 	private int horizontalAlignThreshold;
 
-	/** The margin between axes and tick labels. */
-	private volatile double tickLabelMargin;
-
-	/** The length of tick lines. */
-	private volatile double tickLineLength;
-
 	/** The font for rendering texts of tick labels. */
 	private volatile Font font;
 
@@ -59,13 +53,11 @@ public final class ScaleTickDrawer {
 	 * @param scaleConfig The configuration of scales.
 	 * @param vertcalAlignThreshold The vertical distance [px] from the reference point, at which the alignment of tick labels change.
 	 * @param horizontalAlignThreshold The horizontal distance [px] from the reference point, at which the alignment of tick labels change.
-	 * @param tickLabelMargin The margin between axes and tick labels.
-	 * @param tickLineLength The length of tick lines.
 	 * @param font The font for rendering texts of tick labels.
 	 * @param color The color of tick labels and lines.
 	 */
 	public ScaleTickDrawer(ScaleConfiguration scaleConfig, int verticalAlignThreshold, int horizontalAlignThreshold,
-			double tickLabelMargin, double tickLineLength, Font font, Color color) {
+			Font font, Color color) {
 
 		// Note: first four parameters should be packed into an object, e.g.:
 		//     public ScaleTickDrawer(ScaleConfiguration config, Font font, Color color)
@@ -73,8 +65,6 @@ public final class ScaleTickDrawer {
 		this.scaleConfig = scaleConfig;
 		this.verticalAlignThreshold = verticalAlignThreshold;
 		this.horizontalAlignThreshold = horizontalAlignThreshold;
-		this.tickLabelMargin = tickLabelMargin;
-		this.tickLineLength = tickLineLength;
 		this.font = font;
 		this.color = color;
 	}
@@ -179,12 +169,12 @@ public final class ScaleTickDrawer {
 		RinearnGraph3DDrawingParameter.HorizontalAlignment hAlign = HORIZONTAL_ALIGNMENT;
 		int vThreshold   = this.verticalAlignThreshold;
 		int hThreshold = this.horizontalAlignThreshold;
-		double margin = this.tickLabelMargin;
+		double margin = this.scaleConfig.getXScaleConfiguration().getTickLabelMargin();
 
 		// X axis at Y=1, Z=1
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				scaledCoord, 1.0 + margin, 1.0 + margin,  // Coords of the rendered point
-				0.0, 1.0, 1.0,  // Coords of the alignment reference point
+				0.0, 1.0, 1.0,                            // Coords of the alignment reference point
 				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, -1.0} },  // Directional vectors
 				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, this.color  // Other params
 		));
@@ -247,21 +237,21 @@ public final class ScaleTickDrawer {
 	 */
 	private void drawXScaleTickLines(List<GeometricPiece> geometricPieceList, double scaledCoord) {
 
-		double length = tickLineLength; // Short alias of the line length
-		double width = 1.0; // line width
+		double length = this.scaleConfig.getXScaleConfiguration().getTickLineLength();
+		double lineWidth = 1.0;
 
 		// X axis at Y=1, Z=1
 		geometricPieceList.add(new DirectionalLineGeometricPiece(
 				scaledCoord, 1.0, 1.0,                                // Coords of the edge point A
-				scaledCoord, 1.0 + length, 1.0 + length,      // Coords of the edge point B
+				scaledCoord, 1.0 + length, 1.0 + length,              // Coords of the edge point B
 				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, -1.0} },  // Directional vectors
-				width, this.color  // Other params
+				lineWidth, this.color  // Other params
 		));
 		geometricPieceList.add(new DirectionalLineGeometricPiece(
 				scaledCoord, 1.0, 1.0,
 				scaledCoord, 1.0 + length, 1.0 + length,
 				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 
 		// X axis at Y=1, Z=-1
@@ -269,13 +259,13 @@ public final class ScaleTickDrawer {
 				scaledCoord, 1.0, -1.0,
 				scaledCoord, 1.0 + length, -1.0 - length,
 				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 		geometricPieceList.add(new DirectionalLineGeometricPiece(
 				scaledCoord, 1.0, -1.0,
 				scaledCoord, 1.0 + length, -1.0 - length,
 				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, -1.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 
 		// X axis at Y=-1, Z=1
@@ -283,13 +273,13 @@ public final class ScaleTickDrawer {
 				scaledCoord, -1.0, 1.0,
 				scaledCoord, -1.0 - length, 1.0 + length,
 				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, -1.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 		geometricPieceList.add(new DirectionalLineGeometricPiece(
 				scaledCoord, -1.0, 1.0,
 				scaledCoord, -1.0 - length, 1.0 + length,
 				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 
 		// X axis at Y=-1, Z=-1
@@ -297,13 +287,13 @@ public final class ScaleTickDrawer {
 				scaledCoord, -1.0, -1.0,
 				scaledCoord, -1.0 - length, -1.0 - length,
 				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 		geometricPieceList.add(new DirectionalLineGeometricPiece(
 				scaledCoord, -1.0, -1.0,
 				scaledCoord, -1.0 - length, -1.0 - length,
 				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, -1.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 	}
 
@@ -322,12 +312,12 @@ public final class ScaleTickDrawer {
 		RinearnGraph3DDrawingParameter.HorizontalAlignment hAlign = HORIZONTAL_ALIGNMENT;
 		int vThreshold   = this.verticalAlignThreshold;
 		int hThreshold = this.horizontalAlignThreshold;
-		double margin = this.tickLabelMargin;
+		double margin = this.scaleConfig.getYScaleConfiguration().getTickLabelMargin();
 
 		// Y axis at X=1, Z=1
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				1.0 + margin, scaledCoord, 1.0 + margin,  // Coords of the rendered point
-				1.0, 0.0, 1.0,  // Coords of the alignment reference point
+				1.0, 0.0, 1.0,                            // Coords of the alignment reference point
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },  // Directional vectors
 				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, this.color  // Other params
 		));
@@ -390,21 +380,21 @@ public final class ScaleTickDrawer {
 	 */
 	private void drawYScaleTickLines(List<GeometricPiece> geometricPieceList, double scaledCoord) {
 
-		double length = tickLineLength; // Short alias of the line length
-		double width = 1.0; // line width
+		double length = this.scaleConfig.getYScaleConfiguration().getTickLineLength();
+		double lineWidth = 1.0;
 
 		// Y axis at X=1, Z=1
 		geometricPieceList.add(new DirectionalLineGeometricPiece(
 				1.0, scaledCoord, 1.0,                                // Coords of the edge point A
-				1.0 + length, scaledCoord, 1.0 + length,      // Coords of the edge point B
+				1.0 + length, scaledCoord, 1.0 + length,              // Coords of the edge point B
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },  // Directional vectors
-				width, this.color  // Other params
+				lineWidth, this.color  // Other params
 		));
 		geometricPieceList.add(new DirectionalLineGeometricPiece(
 				1.0, scaledCoord, 1.0,
 				1.0 + length, scaledCoord, 1.0 + length,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 
 		// Y axis at X=1, Z=-1
@@ -412,13 +402,13 @@ public final class ScaleTickDrawer {
 				1.0, scaledCoord, -1.0,
 				1.0 + length, scaledCoord, -1.0 - length,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 		geometricPieceList.add(new DirectionalLineGeometricPiece(
 				1.0, scaledCoord, -1.0,
 				1.0 + length, scaledCoord, -1.0 - length,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 
 		// Y axis at X=-1, Z=1
@@ -426,13 +416,13 @@ public final class ScaleTickDrawer {
 				-1.0, scaledCoord, 1.0,
 				-1.0 - length, scaledCoord, 1.0 + length,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 		geometricPieceList.add(new DirectionalLineGeometricPiece(
 				-1.0, scaledCoord, 1.0,
 				-1.0 - length, scaledCoord, 1.0 + length,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 
 		// Y axis at X=-1, Z=-1
@@ -440,13 +430,13 @@ public final class ScaleTickDrawer {
 				-1.0, scaledCoord, -1.0,
 				-1.0 - length, scaledCoord, -1.0 - length,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 		geometricPieceList.add(new DirectionalLineGeometricPiece(
 				-1.0, scaledCoord, -1.0,
 				-1.0 - length, scaledCoord, -1.0 - length,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 	}
 
@@ -465,12 +455,12 @@ public final class ScaleTickDrawer {
 		RinearnGraph3DDrawingParameter.HorizontalAlignment hAlign = HORIZONTAL_ALIGNMENT;
 		int vThreshold   = this.verticalAlignThreshold;
 		int hThreshold = this.horizontalAlignThreshold;
-		double margin = this.tickLabelMargin;
+		double margin = this.scaleConfig.getZScaleConfiguration().getTickLabelMargin();
 
 		// Z axis at Y=1, Z=1
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				1.0 + margin, 1.0 + margin, scaledCoord, // Coords of the rendered point
-				1.0, 1.0, 0.0,         // Coords of the alignment reference point
+				1.0, 1.0, 0.0,                           // Coords of the alignment reference point
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} }, // Directional vectors
 				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, this.color // Other params
 		));
@@ -533,21 +523,21 @@ public final class ScaleTickDrawer {
 	 */
 	private void drawZScaleTickLines(List<GeometricPiece> geometricPieceList, double scaledCoord) {
 
-		double length = tickLineLength; // Short alias of the line length
-		double width = 1.0; // line width
+		double length = this.scaleConfig.getZScaleConfiguration().getTickLineLength();
+		double lineWidth = 1.0;
 
 		// Z axis at Y=1, Z=1
 		geometricPieceList.add(new DirectionalLineGeometricPiece(
-				1.0, 1.0, scaledCoord,                                // Coords of the edge point A
-				1.0 + length, 1.0 + length, scaledCoord,      // Coords of the edge point B
+				1.0, 1.0, scaledCoord,                               // Coords of the edge point A
+				1.0 + length, 1.0 + length, scaledCoord,             // Coords of the edge point B
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} }, // Directional vectors
-				width, this.color  // Other params
+				lineWidth, this.color  // Other params
 		));
 		geometricPieceList.add(new DirectionalLineGeometricPiece(
 				1.0, 1.0, scaledCoord,
 				1.0 + length, 1.0 + length, scaledCoord,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 
 		// Z axis at Y=1, Z=-1
@@ -555,13 +545,13 @@ public final class ScaleTickDrawer {
 				1.0, -1.0, scaledCoord,
 				1.0 + length, -1.0 - length, scaledCoord,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 		geometricPieceList.add(new DirectionalLineGeometricPiece(
 				1.0, -1.0, scaledCoord,
 				1.0 + length, -1.0 - length, scaledCoord,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 
 		// Z axis at Y=-1, Z=1
@@ -569,13 +559,13 @@ public final class ScaleTickDrawer {
 				-1.0, 1.0, scaledCoord,
 				-1.0 - length, 1.0 + length, scaledCoord,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 		geometricPieceList.add(new DirectionalLineGeometricPiece(
 				-1.0, 1.0, scaledCoord,
 				-1.0 - length, 1.0 + length, scaledCoord,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 
 		// Z axis at Y=-1, Z=-1
@@ -583,13 +573,13 @@ public final class ScaleTickDrawer {
 				-1.0, -1.0, scaledCoord,
 				-1.0 - length, -1.0 - length, scaledCoord,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 		geometricPieceList.add(new DirectionalLineGeometricPiece(
 				-1.0, -1.0, scaledCoord,
 				-1.0 - length, -1.0 - length, scaledCoord,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
-				width, this.color
+				lineWidth, this.color
 		));
 	}
 }

@@ -96,17 +96,15 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	};
 
 
-	// Temporary settings. Should be packed into this.config.scaleConfiguration.
+	// Temporary settings: Should be packed into this.config.scaleConfiguration?
+	//     -> No, because they vary dynamically depending on zoom in/out of magnification. They are not static settings.
 	int verticalAlignThreshold = 128;
 	int horizontalAlignThreshold = 32;
-	double tickLabelMargin = 0.06;
-	double tickLineLength = 0.05;
 
 	/** The object providing drawing process of scale ticks of X/Y/Z axes. */
 	private volatile ScaleTickDrawer scaleTickDrawer = new ScaleTickDrawer(
 		this.config.getScaleConfiguration(),
 		verticalAlignThreshold, horizontalAlignThreshold,
-		tickLabelMargin, tickLineLength,
 		tickLabelFont, frameColor
 	);
 

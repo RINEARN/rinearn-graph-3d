@@ -139,6 +139,12 @@ public final class ScaleConfiguration {
 
 		// To be added: tickLineWidth, tickLabelMargin, etc.
 
+		/** The length of tick lines. */
+		private volatile double tickLineLength = 0.05;
+
+		/** The margin between axes and tick labels. */
+		private volatile double tickLabelMargin = 0.06;
+
 		/** Represents the mode for specifying alignment of ticks of a scale. */
 		private volatile TickMode tickMode = TickMode.EQUAL_DIVISION; // Temporary setting to this, but will set to AUTOMATIC in future.
 
@@ -176,6 +182,61 @@ public final class ScaleConfiguration {
 		public AxisScaleConfiguration() {
 		}
 
+
+		/**
+		 * Sets the length of tick lines.
+		 * 
+		 * The value is regarded as a projected length to a plane of the graph frame (X-Y plane, Y-Z plane, or Z-X plane).
+		 * Hence, if a tick line is not parallel with any above planes,
+		 * actual length of the line is longer than the specified value a little.
+		 * 
+		 * Also, the unit of the specified length is regarded as "length in scaled space".
+		 * In this unit, the length of a edge line (e.g.: X axis line) of the graph frame is just 2.0.
+		 * 
+		 * @param tickLineLength The length of tick lines.
+		 */
+		public synchronized void setTickLineLength(double tickLineLength) {
+			this.tickLineLength = tickLineLength;
+		}
+
+		/**
+		 * Gets the length of tick lines.
+		 * 
+		 * About details of the value, see the description of setTickLineLength(double) method.
+		 * 
+		 * @return The length of tick lines.
+		 */
+		public synchronized double getTickLineLength() {
+			return this.tickLineLength;
+		}
+
+
+		/**
+		 * Sets the margin between axes and tick labels.
+		 * 
+		 * The value is regarded as a projected length of the margin to a plane of the graph frame 
+		 * (X-Y plane, Y-Z plane, or Z-X plane), as same as the setter of tick line length.
+		 * 
+		 * The unit of the specified value is regarded as "length in scaled space".
+		 * In this unit, the length of a edge line (e.g.: X axis line) of the graph frame is just 2.0.
+		 * 
+		 * @param tickLabelMargin The margin between axes and tick labels
+		 */
+		public synchronized void setTickLabelMargin(double tickLabelMargin) {
+			this.tickLabelMargin = tickLabelMargin;
+		}
+
+		/**
+		 * Gets the margin between axes and tick labels.
+		 * 
+		 * About details of the value, see the description of setTickLabelMargin(double) method.
+		 * 
+		 * @return The margin between axes and tick labels.
+		 */
+		public synchronized double getTickLabelMargin() {
+			return this.tickLabelMargin;
+		}
+	
 
 		/**
 		 * Sets the tick mode, which determines the alignment of ticks, of this axis's scale.
@@ -316,7 +377,7 @@ public final class ScaleConfiguration {
 		/**
 		 * Creates a new formatter for formatting any labels of ticks.
 		 * 
-		 * @param format
+		 * @param format The format of labels.
 		 */
 		public NumericTickLabelFormatter(NumberFormat format) {
 			this.format = format;
