@@ -2,6 +2,7 @@ package com.rinearn.graph3d.renderer;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 
 
 /**
@@ -62,6 +63,39 @@ public interface RinearnGraph3DRenderer {
 	 * </div>
 	 */
 	public void render();
+
+
+	/**
+	 * <span class="lang-en">
+	 * Gets the image of the graph screen
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフ画面の画像を取得します
+	 * </span>
+	 * .
+	 * @return
+	 *   <span class="lang-en">The image of the graph screen</span>
+	 *   <span class="lang-ja">グラフ画面の画像</span>
+	 */
+	public Image getScreenImage();
+
+
+	/**
+	 * <span class="lang-en">
+	 * Sets the size of the graph screen
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフ画面のサイズを設定します
+	 * </span>
+	 * .
+	 * @param screenWidth
+	 *   <span class="lang-en">The width (pixels) of the screen</span>
+	 *   <span class="lang-ja">グラフ画面の幅（ピクセル単位）</span>
+	 * @param screenHeight
+	 *   <span class="lang-en">The height (pixels) of the screen</span>
+	 *   <span class="lang-ja">グラフ画面の高さ（ピクセル単位）</span>
+	 */
+	public void setScreenSize(int screenWidth, int screenHeight);
 
 
 	/**
@@ -625,5 +659,5 @@ public interface RinearnGraph3DRenderer {
 	 * </span>
 	 * .
 	 */
-	public void drawLabel();	
+	public void drawLabel();
 }
