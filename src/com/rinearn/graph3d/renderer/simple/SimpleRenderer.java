@@ -15,6 +15,33 @@ import java.awt.Graphics2D;
 import java.math.BigDecimal;
 
 
+// !!!!!
+// NOTE
+//
+//    rotateAroundX とかの引数、BigDecimal にすべき？ range とかは ticks とかは BigDecimal なので。
+//
+//    > range や ticks は完全精度で指定できないと困る場面があり得るが、
+//      rotateAroundX とかは回転でしかも追加的な振る舞いなので、double でいいでしょ。内部でどうせ sin & cos にかけるし。
+//
+//      > 外から叩くAPIだけ念のため BigDecimal にしておいても損はないような。使う手間は少し増えるけどそれ以外に。
+//
+//        > いやしかし得も絶対ない気がする。だって単位ラジアンだと、引数渡す側が円周率をかけたりする必要が常にあるけど、
+//          その円周率の値をどっから取ってくんのっていう。普通は double の精度しか得られないでしょ。しかも完全精度は理論上無理で。
+//          なので角度に関しては、0以外の値は本質的に精度落ちしてるので、BigDecimal にしても誤差ゼロにはできない。
+//          API叩く側が、ラジアンのBigDecimal値というものを作った時点で、既に精度が落ちてる。ので何も嬉しくない。手間だけが増える。
+//
+//    ならどういうパラメータが double であるべきで、どういうパラメータは BigDecimal であるべきか？
+//
+//    > 「APIは全部念のためBigDecimal」みたいな案はとりあえず除外すべきだと思う。
+//       誤差の存在が非常にクリティカル＆可視な形に効いてくる可能性があり得るパラメータのみ絞ってBigDecimal、とかが一つの基準か。
+//       そういうのが全く効いてこない、例えば極端なものでは ticks の線の長さとかは double でいいと思う。逆変換も丸めりゃ済むやつ。
+//
+//       というかBigDecimalのやつに関しても簡易版の double による setter 並存してもいいくらいだと思う。むしろ常に並存すべきか。
+//
+//    基準要検討、また後々にパラメータ整理する際まで
+//
+// !!!!!
+
 /**
  * The class providing a simple implementation of 
  * the rendering engine (renderer) of RINEARN Graph 3D.
