@@ -36,6 +36,73 @@ public class TempMain {
 		// Launch a new RINEARN Graph 3D window (to be implemented).
 		RinearnGraph3D graph3D = new RinearnGraph3D();
 
+		// Gets the rendering engine of 3D graphs.
+		RinearnGraph3DRenderer renderer = graph3D.getRenderer();
+
+		// Draw many points.
+		int n = 100;
+		for (int i=0; i<n; i++) {
+
+			// Get a color from the HSB color gradient.
+			float colorScalarValue = i / (float)(n - 1);
+			Color color = Color.getHSBColor(colorScalarValue, 1.0f, 1.0f);
+
+			// Prepare he coordinate values of the point.
+			double theta = 6.0 * Math.PI * i / (double)(n - 1);
+			double x = Math.cos(theta);
+			double y = Math.sin(theta);
+			double z = 2.0 * i / (double)(n - 1) - 1.0;
+
+			// Draw the point.
+			RinearnGraph3DDrawingParameter param = new RinearnGraph3DDrawingParameter();
+			//param.setRangeScalingEnabled(false);
+			param.setAutoColoringEnabled(false);
+			param.setColor(color);
+			renderer.drawPoint(x, y, z, 8.0, param);
+		}
+
+		// Draw a membrane
+		MeshData meshData = generateExamMeshData();
+		for (int ix=0; ix<meshData.xCount - 1; ix++) {
+			for (int iy=0; iy<meshData.yCount - 1; iy++) {
+				double aX = meshData.x[ix][iy];
+				double aY = meshData.y[ix][iy];
+				double aZ = meshData.z[ix][iy];
+
+				double bX = meshData.x[ix + 1][iy];
+				double bY = meshData.y[ix + 1][iy];
+				double bZ = meshData.z[ix + 1][iy];
+
+				double cX = meshData.x[ix + 1][iy + 1];
+				double cY = meshData.y[ix + 1][iy + 1];
+				double cZ = meshData.z[ix + 1][iy + 1];
+
+				double dX = meshData.x[ix][iy + 1];
+				double dY = meshData.y[ix][iy + 1];
+				double dZ = meshData.z[ix][iy + 1];
+
+				RinearnGraph3DDrawingParameter param = new RinearnGraph3DDrawingParameter();
+				//param.setRangeScalingEnabled(false);
+				param.setAutoColoringEnabled(false);
+				float colorScalarValue = (float)((1.0 - aZ) / 2.5);
+				Color color = Color.getHSBColor(colorScalarValue, 1.0f, 1.0f);
+				param.setColor(color);
+				renderer.drawQuadrangle(aX,aY,aZ, bX,bY,bZ, cX,cY,cZ, dX,dY,dZ, param);
+			}
+		}
+
+		// Render the 3D graph.
+		renderer.render();
+
+		// !!!!!!!!!!!!!!!!!!!!
+		// On the current stage, it requires to hide and re-show the graph window manually
+		// to update the content of the screen (3D graph rendered the above).
+		// Because RinearnGraph3D does not have screen rendering/updating thread yet.
+		// -----
+		// TODO: Implement the screen rendering/updating thread.
+		// !!!!!!!!!!!!!!!!!!!!
+
+
 		// Old code, creating a rendering engine directly and drawing graphs on a temporary window.
 		oldMain1();
 	}
