@@ -3,6 +3,7 @@ com/rinearn/graph3d/config/LightConfiguration.java
 com/rinearn/graph3d/config/RangeConfiguration.java
 com/rinearn/graph3d/config/RinearnGraph3DConfiguration.java
 com/rinearn/graph3d/config/ScaleConfiguration.java
+com/rinearn/graph3d/model/Model.java
 com/rinearn/graph3d/model/package-info.java
 com/rinearn/graph3d/renderer/package-info.java
 com/rinearn/graph3d/renderer/RinearnGraph3DDrawingParameter.java
