@@ -752,7 +752,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 */
 	@Override
 	public synchronized boolean casScreenResized(boolean fromValue, boolean toValue) {
-		boolean unmodifiedValue = this.screenUpdated;
+		boolean unmodifiedValue = this.screenResized;
 		if (this.screenResized == fromValue) {
 			this.screenResized = toValue;
 		}
