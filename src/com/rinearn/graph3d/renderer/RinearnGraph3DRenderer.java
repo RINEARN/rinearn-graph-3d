@@ -100,6 +100,111 @@ public interface RinearnGraph3DRenderer {
 
 	/**
 	 * <span class="lang-en">
+	 * References the value of the flag representing whether the content of the graph screen has been updated,
+	 * in addition. and performs Compare-and-Swap (CAS) operation to it
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフ画面の内容が更新されたかどうかを表すフラグの値を参照し、それに加えて、
+	 * いわゆる Compare-and-Swap (CAS) 操作を行います
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * Specifically, when the value of the flag equals to the value passed as "fromValue" argument,
+	 * overwrite the flag by the value passed as "toValue" argument.
+	 * In addition, regardless whether the above is performed,
+	 * this method returns the original (non modified) value of the flag as a return value.
+	 * </span>
+	 * <span class="lang-ja">
+	 * 具体的には、フラグの値が引数 fromValue と等しかった場合に、引数 toValue の値へと変更します。
+	 * また、変更の有無に関わらず、元の値を戻り値として返します。
+	 * </span>
+	 * 
+	 * <span class="lang-en">
+	 * The followings are typical examples using this method:
+	 * For referring the value of the flag, and resetting it to the false, do "flag = casScreenUpdated(true, false)".
+	 * For referring the value of the flag, without resetting it, do "flag = casScreenUpdated(true, true)" or "...(false, false)".
+	 * For putting up the flag, do "casScreenUpdated(false, true)".
+	 * </span>
+	 * <span class="lang-ja">
+	 * 以下はこのメソッドの典型的な使用例です:　
+	 * フラグ値を参照しつつ、falseにリセットしたい場合は、"flag = casScreenUpdated(true, false)" のように行います。
+	 * リセットせずに参照のみ行うには "flag = casScreenUpdated(true, true)" または "...(false, false)" とします。
+	 * 外部からフラグを立てたい場合は "casScreenUpdated(false, true)" とします。
+	 * </span>
+	 * 
+	 * <span class="lang-en">
+	 * An app-side thread refers this flag periodically, and updates the window if it is true, and then resets the flag to false.
+	 * However, user's code running on an other thread may call render() method,
+	 * and the updating of the flag caused by it may conflict to the above.
+	 * Hence, operations for referencing and changing the value of this flag must be performed atomically, through this method.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このフラグはアプリ側スレッドによって定期参照され、もし true であった場合には画面が更新され、false にリセットされます。
+	 * 一方、APIを通して外部から（別スレッドで）render メソッド等が呼ばれ、それによるフラグ更新が上記に割り込む可能性があります。
+	 * 従って、フラグの参照とリセットの操作は、このメソッドを通してアトミック（不可分）な形で一括して行う必要があります。
+	 * </span>
+	 * 
+	 * @param fromValue
+	 *   <span class="lang-en">The value to be swapped by "toValue"</span>
+	 *   <span class="lang-ja">"toValue" に変更されるべき場合の値</span>
+	 * 
+	 * @param toValue
+	 *   <span class="lang-en">The swapped value</span>
+	 *   <span class="lang-ja">変更後の値</span>
+	 * 
+	 * @return
+	 *   <span class="lang-en">Unmodified flag value (true if the content of the graph screen has been updated)</span>
+	 *   <span class="lang-ja">未変更のフラグの値（グラフ画面の内容が更新された場合に true）</span>
+	 */
+	public boolean casScreenUpdated(boolean fromValue, boolean toValue);
+
+
+	/**
+	 * <span class="lang-en">
+	 * References the value of the flag representing whether the graph screen has been resized,
+	 * in addition. and performs Compare-and-Swap (CAS) operation to it
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフ画面がリサイズされたかどうかを表すフラグの値を参照し、それに加えて、
+	 * いわゆる Compare-and-Swap (CAS) 操作を行います
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * Specifically, when the value of the flag equals to the value passed as "fromValue" argument,
+	 * overwrite the flag by the value passed as "toValue" argument.
+	 * In addition, regardless whether the above is performed,
+	 * this method returns the original (non modified) value of the flag as a return value.
+	 * </span>
+	 * <span class="lang-ja">
+	 * 具体的には、フラグの値が引数 fromValue と等しかった場合に、引数 toValue の値へと変更します。
+	 * また、変更の有無に関わらず、元の値を戻り値として返します。
+	 * </span>
+	 * 
+	 * <span class="lang-en">
+	 * For usage examples, and why we design this flag's operations as a CAS operation,
+	 * see the description of "casScreenUpdated()" method.
+	 * </span>
+	 * <span class="lang-ja">
+	 * 使用例や、このフラグの操作をCAS操作としている理由については、casScreenUpdated() メソッドの説明を参照してください。
+	 * </span>
+	 * 
+	 * @param fromValue
+	 *   <span class="lang-en">The value to be swapped by "toValue"</span>
+	 *   <span class="lang-ja">"toValue" に変更されるべき場合の値</span>
+	 * 
+	 * @param toValue
+	 *   <span class="lang-en">The swapped value</span>
+	 *   <span class="lang-ja">変更後の値</span>
+	 * 
+	 * @return
+	 *   <span class="lang-en">Unmodified flag value (true if the graph screen has been resized)</span>
+	 *   <span class="lang-ja">未変更のフラグの値（グラフ画面がリサイズされた場合に true）</span>
+	 */
+	public boolean casScreenResized(boolean fromValue, boolean toValue);
+
+
+	/**
+	 * <span class="lang-en">
 	 * Draws a point
 	 * </span>
 	 * <span class="lang-ja">

@@ -111,6 +111,12 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The object providing drawing process of graph frames and grid lines. */
 	private volatile FrameDrawer frameDrawer = new FrameDrawer(this.config.getFrameConfiguration(), this.frameColor, this.gridColor);
 
+	/** The flag representing whether the graph screen has been resized. */
+	private volatile boolean screenUpdated = false;
+
+	/** The flag representing whether the content of the graph screen has been updated. */
+	private volatile boolean screenResized = false;
+
 
 	/**
 	 * Creates a new renderer.
@@ -193,6 +199,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		// Clear the content of the graph screen.
 		this.screenGraphics.setColor(this.screenBackgroundColor);
 		this.screenGraphics.fillRect(0, 0, this.screenImage.getWidth(), this.screenImage.getHeight());
+
+		// Turn on the flag for detecting that the content of the graph screen has been updated.
+		this.screenUpdated = true;
 	}
 
 
@@ -230,6 +239,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			piece.project(screenWidth, screenHeight, screenOffsetX, screenOffsetY, magnification);
 			piece.draw(this.screenGraphics);
 		}
+
+		// Turn on the flag for detecting that the content of the graph screen has been updated.
+		this.screenUpdated = true;
 	}
 
 
@@ -671,6 +683,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		// Allocate the image/graphics instances.
 		this.screenImage = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_RGB);
 		this.screenGraphics = this.screenImage.createGraphics();
+
+		// Turn on the flag for detecting that the graph screen has been resized.
+		this.screenResized = true;
 	}
 
 
@@ -682,6 +697,66 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	@Override
 	public synchronized Image getScreenImage() {
 		return this.screenImage;
+	}
+
+
+	/**
+	 * References the value of the flag representing whether the content of the graph screen has been updated,
+	 * in addition. and performs Compare-and-Swap (CAS) operation to it.
+	 * 
+	 * Specifically, when the value of the flag equals to the value passed as "fromValue" argument,
+	 * overwrite the flag by the value passed as "toValue" argument.
+	 * In addition, regardless whether the above is performed,
+	 * this method returns the original (non modified) value of the flag as a return value.
+	 * 
+	 * The followings are typical examples using this method:
+	 * For referring the value of the flag, and resetting it to the false, do "flag = casScreenUpdated(true, false)".
+	 * For referring the value of the flag, without resetting it, do "flag = casScreenUpdated(true, true)" or "...(false, false)".
+	 * For putting up the flag, do "casScreenUpdated(false, true)".
+	 * 
+	 * An app-side thread refers this flag periodically, and updates the window if it is true, and then resets the flag to false.
+	 * However, user's code running on an other thread may call render() method,
+	 * and the updating of the flag caused by it may conflict to the above.
+	 * Hence, operations for referencing and changing the value of this flag must be performed atomically, through this method.
+	 * 
+	 * @param fromValue The value to be swapped by "toValue"
+	 * @param toValue The swapped value
+	 * @return Unmodified flag value (true if the content of the graph screen has been updated)
+	 */
+	@Override
+	public synchronized boolean casScreenUpdated(boolean fromValue, boolean toValue) {
+		boolean unmodifiedValue = this.screenUpdated;
+		if (this.screenUpdated == fromValue) {
+			this.screenUpdated = toValue;
+		}
+		return unmodifiedValue;
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * References the value of the flag representing whether the graph screen has been resized,
+	 * in addition. and performs Compare-and-Swap (CAS) operation to it.
+	 * 
+	 * Specifically, when the value of the flag equals to the value passed as "fromValue" argument,
+	 * overwrite the flag by the value passed as "toValue" argument.
+	 * In addition, regardless whether the above is performed,
+	 * this method returns the original (non modified) value of the flag as a return value.
+	 * 
+	 * For usage examples, and why we design this flag's operations as a CAS operation,
+	 * see the description of "casScreenUpdated()" method.
+	 * 
+	 * @param fromValue The value to be swapped by "toValue"
+	 * @param toValue The swapped value
+	 * @return Unmodified flag value (true if the graph screen has been resized)
+	 */
+	@Override
+	public synchronized boolean casScreenResized(boolean fromValue, boolean toValue) {
+		boolean unmodifiedValue = this.screenUpdated;
+		if (this.screenResized == fromValue) {
+			this.screenResized = toValue;
+		}
+		return unmodifiedValue;
 	}
 
 
