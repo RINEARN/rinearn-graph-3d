@@ -2,7 +2,10 @@ package com.rinearn.graph3d.view;
 
 
 /**
- * The front-end class of this "view" package.
+ * The front-end class of "View" layer (com.rinearn.graph3d.view package)
+ * of RINEARN Graph 3D.
+ * 
+ * View layer provides visible part of GUI, without event handling.
  */
 public class View {
 
@@ -11,7 +14,7 @@ public class View {
 
 
 	/**
-	 * Creates new View resources of RINEARN Graph 3D.
+	 * Creates new View layer of RINEARN Graph 3D.
 	 */
 	public View() {
 	}
