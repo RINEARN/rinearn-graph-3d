@@ -251,6 +251,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * For the sign of the rotation angle, 
 	 * we define it as positive when a right-hand screw advances 
 	 * towards the positive direction of the X-axis.
+	 * The unit of the angle is radian.
 	 * 
 	 * @param angle The rotation angle.
 	 */
@@ -288,6 +289,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * For the sign of the rotation angle, 
 	 * we define it as positive when a right-hand screw advances 
 	 * towards the positive direction of the Y-axis.
+	 * The unit of the angle is radian.
 	 * 
 	 * @param angle The rotation angle.
 	 */
@@ -325,6 +327,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * For the sign of the rotation angle, 
 	 * we define it as positive when a right-hand screw advances 
 	 * towards the positive direction of the Z-axis.
+	 * The unit of the angle is radian.
 	 * 
 	 * @param angle The rotation angle.
 	 */
@@ -357,7 +360,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	/**
-	 * Cancels the effects of the rotations performed by rotateX/Y/Z methods.
+	 * Cancels the effects of the rotations performed by rotateAroundX/Y/Z methods.
 	 */
 	public synchronized void cancelRotations() {
 		double dx = this.transformationMatrix[0][3];
