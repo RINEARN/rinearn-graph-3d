@@ -105,6 +105,15 @@ public final class MainWindow {
 			// The icon for displaying a rendered graph image on "screenLabel":
 			screenIcon = new ImageIcon();
 			screenLabel.setIcon(screenIcon);
+
+			// (Temporary) Use the default event handler which exit exit the runtime environment when the window is closed.
+			// !!!!!
+			// [TODO]
+			//   RINEARN Graph 3D can be used as a library embedded into other applications,
+			//   so we should implement closing processing which does not exit the host-side app.
+			//   When we have implemented it, remove the following.
+			// !!!!!
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 	}
 
