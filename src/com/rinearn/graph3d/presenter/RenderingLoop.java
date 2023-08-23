@@ -10,7 +10,7 @@ import java.awt.Image;
  * The class which invokes rendering procedures on an independent thread when it is requested,
  * and updates the graph screen on the window.
  */
-public class RenderingLoop implements Runnable {
+public final class RenderingLoop implements Runnable {
 
 	/** The interval wait [md] per one cycle of the rendering loop. */
 	private static final int LOOP_WAIT = 30;

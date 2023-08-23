@@ -75,7 +75,7 @@ public class RinearnGraph3D {
 
 		// Create "Presenter" layer which invokes Model's procedures triggered by user's action on GUI.
 		// (The rendering loop is also running in this Presenter layer.)
-		this.presenter = new Presenter(this.view, this.renderer);
+		this.presenter = new Presenter(this.model, this.view, this.renderer);
 	}
 
 

@@ -7,10 +7,10 @@ package com.rinearn.graph3d.view;
  * 
  * View layer provides visible part of GUI, without event handling.
  */
-public class View {
+public final class View {
 
 	/** The main window of RINEARN Graph 3D (on which a 3D graph is displayed). */
-	public volatile MainWindow mainWindow = new MainWindow();
+	public final MainWindow mainWindow = new MainWindow();
 
 
 	/**
