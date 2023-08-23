@@ -1,6 +1,9 @@
 package com.rinearn.graph3d;
 
+import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.view.View;
+import com.rinearn.graph3d.view.MainWindow;
+import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.simple.SimpleRenderer;
 
@@ -21,11 +24,17 @@ import java.awt.Image;
  */
 public class RinearnGraph3D {
 
+	/** The front-end class of "Model" layer, which provides internal logic procedures and so on. */
+	private final Model model;
+
 	/** The front-end class of "View" layer, which provides visible part of GUI without event handling. */
-	private volatile View view;
+	private final View view;
+
+	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
+	private final Presenter presenter;
 
 	/** The rendering engine of 3D graphs. */
-	private volatile RinearnGraph3DRenderer renderer;
+	private final RinearnGraph3DRenderer renderer;
 
 
 	/**
@@ -38,12 +47,15 @@ public class RinearnGraph3D {
 	 */
 	public RinearnGraph3D() {
 
+		// Create "Model" layer, which provides internal logic procedures and so on.
+		this.model = new Model();
+
 		// Create "View" layer, which provides visible part of GUI without event handling.
 		this.view = new View();
 
 		// Create a rendering engine of 3D graphs.
 		this.renderer = new SimpleRenderer(
-				view.mainWindow.DEFAULT_SCREEN_WIDTH, view.mainWindow.DEFAULT_SCREEN_HEIGHT
+				MainWindow.DEFAULT_SCREEN_WIDTH, MainWindow.DEFAULT_SCREEN_HEIGHT
 		);
 
 		// Set the reference to the rendered image of the renderer,
@@ -59,7 +71,11 @@ public class RinearnGraph3D {
 		this.view.mainWindow.repaintScreen();
 
 		// Show the window.
-		view.mainWindow.setWindowVisible(true);
+		this.view.mainWindow.setWindowVisible(true);
+
+		// Create "Presenter" layer which invokes Model's procedures triggered by user's action on GUI.
+		// (The rendering loop is also running in this Presenter layer.)
+		this.presenter = new Presenter(this.view, this.renderer);
 	}
 
 
