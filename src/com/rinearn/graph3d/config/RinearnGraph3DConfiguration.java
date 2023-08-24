@@ -87,6 +87,9 @@ public final class RinearnGraph3DConfiguration {
 	/** The configuration of the lighting/shading parameters. */
 	private volatile LightConfiguration lightConfiguration = null;
 
+	/** The configuration of the camera (angles, magnification, and so on). */
+	private volatile CameraConfiguration cameraConfiguration = null;
+
 
 	/**
 	 * Creates a new configuration storing default values.
@@ -117,6 +120,7 @@ public final class RinearnGraph3DConfiguration {
 		configuration.setScaleConfiguration(new ScaleConfiguration());
 		configuration.setFrameConfiguration(new FrameConfiguration());
 		configuration.setLightConfiguration(new LightConfiguration());
+		configuration.setCameraConfiguration(new CameraConfiguration());
 
 		return configuration;
 	}
@@ -231,6 +235,34 @@ public final class RinearnGraph3DConfiguration {
 	 */
 	public synchronized LightConfiguration getLightConfiguration() {
 		return this.lightConfiguration;
+	}
+
+
+	/**
+	 * Checks whether any camera configuration is set to this instance.
+	 * 
+	 * @return Returns true if any camera configuration is set to this instance.
+	 */
+	public synchronized boolean hasCameraConfiguration() {
+		return this.cameraConfiguration != null;
+	}
+
+	/**
+	 * Sets the configuration of the camera (angles, magnification, and so on).
+	 * 
+	 * @param frameConfiguration The configuration of the camera.
+	 */
+	public synchronized void setCameraConfiguration(CameraConfiguration cameraConfiguration) {
+		this.cameraConfiguration = cameraConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of the camera (angles, magnification, and so on).
+	 * 
+	 * @return The configuration of the camera.
+	 */
+	public synchronized CameraConfiguration getCameraConfiguration() {
+		return this.cameraConfiguration;
 	}
 
 }

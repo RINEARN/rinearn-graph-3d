@@ -1,3 +1,4 @@
+com/rinearn/graph3d/config/CameraConfiguration.java
 com/rinearn/graph3d/config/FrameConfiguration.java
 com/rinearn/graph3d/config/LightConfiguration.java
 com/rinearn/graph3d/config/RangeConfiguration.java
