@@ -4,6 +4,7 @@ import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.RangeConfiguration;
+import com.rinearn.graph3d.config.CameraConfiguration;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -163,6 +164,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		if (configuration.hasLightConfiguration()) {
 			this.config.setLightConfiguration(configuration.getLightConfiguration());
 		}
+		if (configuration.hasCameraConfiguration()) {
+			this.config.setCameraConfiguration(configuration.getCameraConfiguration());
+		}
 
 		// Set the ranges of X/Y/Z axes.
 		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
@@ -176,6 +180,46 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		// Sets the configuration for drawing scales and frames.
 		this.scaleTickDrawer.setScaleConfiguration(this.config.getScaleConfiguration());
 		this.frameDrawer.setFrameConfiguration(this.config.getFrameConfiguration());
+
+		// Update the camera angle(s).
+		CameraConfiguration cameraConfig = this.config.getCameraConfiguration();
+		this.updateCameraAngle(cameraConfig.getRotationMatrix());
+	}
+
+
+	/**
+	 * Updates the camera angle of the graph,
+	 * by acting the specified rotation matrix to the initial state (default angle).
+	 * 
+	 * @param rotationMatrix The matrix representing the rotation of the graph from the initial state.
+	 */
+	private void updateCameraAngle(double[][] rotationMatrix) {
+
+		// Resets the rotation-related elements of the transformation matrix.
+		double dx = this.transformationMatrix[0][3];
+		double dy = this.transformationMatrix[1][3];
+		double distance = this.transformationMatrix[2][3];
+		this.transformationMatrix[0] = new double[] { 1.0, 0.0, 0.0, dx };
+		this.transformationMatrix[1] = new double[] { 0.0, 1.0, 0.0, dy };
+		this.transformationMatrix[2] = new double[] { 0.0, 0.0, 1.0, distance };
+		this.transformationMatrix[3] = new double[] { 0.0, 0.0, 0.0, 1.0 };
+
+		// Create a matrix for temporary storing updated values of the transformation matrix.
+		double[][] updatedMatrix = new double[3][3];
+
+		// Act the rotation matrix to the transformation matrix.
+		double[][] r = rotationMatrix;
+		double[][] m = this.transformationMatrix;
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				updatedMatrix[i][j] = r[i][0] * m[0][j] + r[i][1] * m[1][j] + r[i][2] * m[2][j];
+			}
+		}
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				this.transformationMatrix[i][j] = updatedMatrix[i][j];
+			}
+		}
 	}
 
 
@@ -214,7 +258,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		int screenHeight = this.screenImage.getHeight();
 		int screenOffsetX = 0;
 		int screenOffsetY = 0;
-		double magnification = 700.0;
+		double magnification = this.config.getCameraConfiguration().getMagnification();
 
 		// Clear the graph screen.
 		this.screenGraphics.setColor(this.screenBackgroundColor);
