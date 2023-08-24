@@ -3,6 +3,8 @@ package com.rinearn.graph3d.presenter;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.CameraConfiguration;
 
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
@@ -16,6 +18,12 @@ import java.awt.image.BufferedImage;
  * such as mouse-dragging events for rotate a graph, mouse wheel-scrolling events for zooming up/down a graph, and so on.
  */
 public final class ScreenHandler {
+
+	/** The speed of the rotation by mouse-dragging for radial direction from the graph center. */
+	private static final double RADIAL_ROTATION_SPEED = 0.005;
+
+	/** The speed of the rotation by mouse-dragging for circumferential direction from the graph center. */
+	private static final double CIRCUMFERENTIAL_ROTATION_SPEED = 0.003;
 
 	/** The array index representing X coordinate, for 2 or 3-dimensional arrays. */
 	private static final int X = 0;
@@ -35,11 +43,9 @@ public final class ScreenHandler {
 	/** Stores the X and Y coordinates of the center of the graph on the screen. */
 	private volatile int[] graphCenterCoords = new int[2];
 
-	/** The speed of the rotation by mouse-dragging for radial direction from the graph center. */
-	private static final double RADIAL_ROTATION_SPEED = 0.005;
+	/** Stores configuration parameters related to the camera (angles, magnification, and so on). */
+	private volatile CameraConfiguration cameraConfiguration = new CameraConfiguration();
 
-	/** The speed of the rotation by mouse-dragging for circumferential direction from the graph center. */
-	private static final double CIRCUMFERENTIAL_ROTATION_SPEED = 0.003;
 
 	/**
 	 * Creates new instance for handling events occurred on the specified view, using the specified model.
@@ -146,16 +152,21 @@ public final class ScreenHandler {
 			// rotations by radial/circumferential delta vectors computed above gives a little "hanged up" feelings.
 			// Hence, apply simple 2-axes rotation algorithm when the mouse is near the center.
 			if (distanceFromCenter < 100) {
-				renderer.rotateAroundX(-dy * RADIAL_ROTATION_SPEED);
-				renderer.rotateAroundY(-dx * RADIAL_ROTATION_SPEED);
+				cameraConfiguration.rotateAroundX(-dy * RADIAL_ROTATION_SPEED);
+				cameraConfiguration.rotateAroundY(-dx * RADIAL_ROTATION_SPEED);
 
 			// When the mouse is far enough from the center,
 			// apply 3-axes rotation algorithm based on radial/circumferential vectors.
 			} else {
-				renderer.rotateAroundX(-radialDeltaVector[Y] * RADIAL_ROTATION_SPEED);
-				renderer.rotateAroundY(-radialDeltaVector[X] * RADIAL_ROTATION_SPEED);
-				renderer.rotateAroundZ(circumferentialDeltaVectorLength * CIRCUMFERENTIAL_ROTATION_SPEED);								
+				cameraConfiguration.rotateAroundX(-radialDeltaVector[Y] * RADIAL_ROTATION_SPEED);
+				cameraConfiguration.rotateAroundY(-radialDeltaVector[X] * RADIAL_ROTATION_SPEED);
+				cameraConfiguration.rotateAroundZ(circumferentialDeltaVectorLength * CIRCUMFERENTIAL_ROTATION_SPEED);					
 			}
+
+			// Reflect the updated camera angles to the renderer.
+			RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
+			config.setCameraConfiguration(cameraConfiguration);
+			renderer.setConfiguration(config);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			renderingLoop.requestRendering();
