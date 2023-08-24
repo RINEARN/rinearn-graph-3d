@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+
 
 /**
  * <span class="lang-en">
@@ -15,6 +17,36 @@ import java.awt.Image;
  * .
  */
 public interface RinearnGraph3DRenderer {
+
+	/**
+	 * <span class="lang-en">
+	 * Configures the state of this renderer, by setting the container storing configuration values
+	 * </span>
+	 * <span class="lang-ja">
+	 * 設定値を格納するコンテナを渡して、このレンダラーの状態を設定します
+	 * <span class="lang-en">
+	 * .
+	 * <span class="lang-en">
+	 * Note that, the changes of the configuration (contains ranges of X/Y/Z axes)
+	 * does not affect to the currently drawn contents (points, lines, quadrangles, and so on).
+	 * To reflect the changes, please clear() and re-draw all contents again.
+	 * <span class="lang-en">
+	 * <span class="lang-ja">
+	 * なお、設定の変更は、それまでに draw 系メソッドを用いて描画した内容（点や線、四角形など）
+	 * には反映されない事に注意してください。
+	 * 設定の変更を反映させるには、一旦 clear() メソッドでそれらをクリアして、再度描画してください。
+	 * <span class="lang-en">
+	 * 
+	 * @param configuration
+	 *   <span class="lang-en">
+	 *   The container storing configuration values.
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   設定値を格納しているコンテナ
+	 *   </span>
+	 */
+	public void setConfiguration(RinearnGraph3DConfiguration configuration);
+
 
 	/**
 	 * <span class="lang-en">
