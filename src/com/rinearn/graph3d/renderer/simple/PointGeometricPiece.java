@@ -92,8 +92,8 @@ public final class PointGeometricPiece extends GeometricPiece {
 
 		// Compute the project coordinates on the screen.
 		// (The origin is the left-top edge of the screen.)
-		int screenCenterX = screenWidth >> 1 + screenOffsetX; // bit-shifting instead of dividing by 2.
-		int screenCenterY = screenHeight >> 1 - screenOffsetY;
+		int screenCenterX = (screenWidth >> 1) + screenOffsetX; // bit-shifting instead of dividing by 2.
+		int screenCenterY = (screenHeight >> 1) - screenOffsetY;
 
 		// Short aliases of the vertices arrays.
 		double[] tv = this.transformedVertexArray[0];

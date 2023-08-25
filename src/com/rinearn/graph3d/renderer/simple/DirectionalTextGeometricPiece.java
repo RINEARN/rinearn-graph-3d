@@ -176,8 +176,8 @@ public final class DirectionalTextGeometricPiece extends GeometricPiece {
 
 		// Compute the project coordinates on the screen.
 		// (The origin is the left-top edge of the screen.)
-		this.screenCenterX = screenWidth >> 1 + screenOffsetX; // bit-shifting instead of dividing by 2.
-		this.screenCenterY = screenHeight >> 1 - screenOffsetY;
+		this.screenCenterX = (screenWidth >> 1) + screenOffsetX; // bit-shifting instead of dividing by 2.
+		this.screenCenterY = (screenHeight >> 1) - screenOffsetY;
 
 		// Short aliases of the vertices arrays.
 		double[][] tv = this.transformedVertexArray;
