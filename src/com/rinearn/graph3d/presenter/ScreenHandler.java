@@ -179,8 +179,10 @@ public final class ScreenHandler {
 			// Get the differential vector (dx, dy) from the last coordinate of the mouse pointer.
 			int currentMouseX = me.getX();
 			int currentMouseY = me.getY();
-			int dx = lastMouseX - currentMouseX;
-			int dy = lastMouseY - currentMouseY;
+			//int dx = lastMouseX - currentMouseX;
+			//int dy = lastMouseY - currentMouseY;
+			int dx = currentMouseX - lastMouseX;
+			int dy = currentMouseY - lastMouseY;
 
 			// From the differential vector, extract a component vector facing the radial direction from the graph center.
 			double distanceFromCenter = Math.sqrt(
@@ -219,14 +221,14 @@ public final class ScreenHandler {
 			// rotations by radial/circumferential delta vectors computed above gives a little "hanged up" feelings.
 			// Hence, apply simple 2-axes rotation algorithm when the mouse is near the center.
 			if (distanceFromCenter < 100) {
-				cameraConfiguration.rotateAroundX(-dy * RADIAL_ROTATION_SPEED);
-				cameraConfiguration.rotateAroundY(-dx * RADIAL_ROTATION_SPEED);
+				cameraConfiguration.rotateAroundX(dy * RADIAL_ROTATION_SPEED);
+				cameraConfiguration.rotateAroundY(dx * RADIAL_ROTATION_SPEED);
 
 			// When the mouse is far enough from the center,
 			// apply 3-axes rotation algorithm based on radial/circumferential vectors.
 			} else {
-				cameraConfiguration.rotateAroundX(-radialDeltaVector[Y] * RADIAL_ROTATION_SPEED);
-				cameraConfiguration.rotateAroundY(-radialDeltaVector[X] * RADIAL_ROTATION_SPEED);
+				cameraConfiguration.rotateAroundX(radialDeltaVector[Y] * RADIAL_ROTATION_SPEED);
+				cameraConfiguration.rotateAroundY(radialDeltaVector[X] * RADIAL_ROTATION_SPEED);
 				cameraConfiguration.rotateAroundZ(circumferentialDeltaVectorLength * CIRCUMFERENTIAL_ROTATION_SPEED);					
 			}
 
@@ -352,7 +354,7 @@ public final class ScreenHandler {
 			// between the radial UNIT vector and the circumferential delta vectors, and checking the sign of its Z component.
 			// Note that, the radial DELTA vector may be zero vector theoretically, so don't use it instead of the radial unit vector here.
 			double crossProductZ = radialUnitVector[X] * circumferentialDeltaVector[Y] - radialUnitVector[Y] * circumferentialDeltaVector[X];
-			if (crossProductZ < 0) {
+			if (0 < crossProductZ) {
 				circumferentialDeltaVectorLength = -circumferentialDeltaVectorLength;
 			}
 			return circumferentialDeltaVectorLength;
