@@ -144,7 +144,7 @@ public class CameraConfiguration {
 		// Update values of camera angles.
 		switch (this.angleMode) {
 			case Z_ZENITH: {
-				// this.computeZZenithAnglesFromMatrix(); // To be implemented.
+				this.computeZZenithAnglesFromMatrix();
 				return;
 			}
 			default: {
@@ -194,7 +194,7 @@ public class CameraConfiguration {
 		// Update values of camera angles.
 		switch (this.angleMode) {
 			case Z_ZENITH: {
-				// this.computeZZenithAnglesFromMatrix(); // To be implemented.
+				this.computeZZenithAnglesFromMatrix();
 				return;
 			}
 			default: {
@@ -244,7 +244,7 @@ public class CameraConfiguration {
 		// Update values of camera angles.
 		switch (this.angleMode) {
 			case Z_ZENITH: {
-				// this.computeZZenithAnglesFromMatrix(); // To be implemented.
+				this.computeZZenithAnglesFromMatrix();
 				return;
 			}
 			default: {
@@ -385,4 +385,93 @@ public class CameraConfiguration {
 		System.out.println("------------------------------");
 	}
 
+
+	/**
+	 * Shifts the value of the specified angle, into the range [0, 2pi].
+	 * 
+	 * @param angle The angle to be shifted.
+	 * @return The shifted angle.
+	 */
+	private double shiftAngleFrom0To2Pi(double angle) {
+		double shiftedAngle = angle;
+		double pi2 = 2.0 * PI;
+		while (shiftedAngle < 0) {
+			shiftedAngle += pi2;
+		}
+		while (pi2 < shiftedAngle) {
+			shiftedAngle -= pi2;
+		}
+		return shiftedAngle;
+	}
+
+
+	/**
+	 * From the current rotation matrix,
+	 * computes the values of vertical/horizontal/screw angles, regarding Z axis as the zenith axis.
+	 */
+	private void computeZZenithAnglesFromMatrix() {
+
+		// From the rotation matrix, extract vectors of X/Y/Z axes of the graph.
+		double[][] m = this.rotationMatrix;
+		double[] graphXAxis = new double[] { m[X][X], m[Y][X], m[Z][X] };
+		double[] graphYAxis = new double[] { m[X][Y], m[Y][Y], m[Z][Y] };
+		double[] graphZAxis = new double[] { m[X][Z], m[Y][Z], m[Z][Z] };
+
+		// If Z axis of the graph is parallel with the Z axis of the camera, we can compute angles easily.
+		if (Math.abs(graphZAxis[X]) < 1.0E-10 && Math.abs(graphZAxis[Y]) < 1.0E-10) {
+
+			// When Z axis faces to the user.
+			if (0 < graphZAxis[Z]) {
+				this.verticalAngle = 0.0;
+				this.screwAngle = 0.0;
+				this.horizontalAngle = 0.5 * PI - atan2(graphYAxis[Y], graphYAxis[X]); // Don't use X axis here. Otherwise it does not work under the situation that vertical angle = pi.
+				this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle);
+
+			// When Z axis faces to the depth-direction of the screen.
+			} else {
+				this.verticalAngle = PI;
+				this.screwAngle = 0.0;
+				this.horizontalAngle = atan2(graphYAxis[Y], graphYAxis[X]) - 1.5 * Math.PI;
+				this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle); // Don't use X axis here. Otherwise it does not work under the situation that vertical angle = pi.
+				
+			}
+			return;
+		}
+
+		// The vertical angle, which is the angle between two Z axes of the camera and the graph,
+		// is independent of the horizontal angle and the screw angle.
+		// So determine the vertical angle at first.
+		double innerProductBetweenCameraZandGraphZ = graphZAxis[Z];
+		this.verticalAngle = acos(innerProductBetweenCameraZandGraphZ);
+
+		// Next, consider about the projected vector of the graph's Z axis to the screen.
+		// Its direction is independent of the horizontal angle, but dependent on the screw angle.
+		// So we can determine the screw angle from the projected vector.
+		double[] graphZAxisOnScreen = new double[] { graphZAxis[X], graphZAxis[Y] };
+		this.screwAngle = 0.5 * PI - atan2(graphZAxisOnScreen[Y], graphZAxisOnScreen[X]);
+		this.screwAngle = this.shiftAngleFrom0To2Pi(this.screwAngle);
+
+		// If the horizontal angle is 0, X axis of the graph is parallel with the screen.
+		// Call it as "graphXDash". We can compute its vector component from the screw angle, as follows:
+		double[] graphXDash = new double[] { Math.cos(this.screwAngle), Math.sin(this.screwAngle), 0.0 };
+
+		// Call the Y axis of the graph under the same situation as "graphYDash".
+		// We can compute it as the cross product vector between graphZAxis and graphXDash:
+		double[] graphYDash = new double[] {
+				graphZAxis[Y] * graphXDash[Z] - graphZAxis[Z] * graphXDash[Y],
+				graphZAxis[Z] * graphXDash[X] - graphZAxis[X] * graphXDash[Z],
+				graphZAxis[X] * graphXDash[Y] - graphZAxis[Y] * graphXDash[X]
+		};
+
+		// Then, consider the 2-D coordinate system of which X and Y axes is graphXDash and graphYDash.
+		// On the above coordinate, the vector components (ux, uy) of actual X axis (not dash) of the graph
+		// can be expressed as inner products with graphXDash for ux, and graphYDash for uy:
+		double ux = graphXAxis[X] * graphXDash[X] + graphXAxis[Y] * graphXDash[Y] + graphXAxis[Z] * graphXDash[Z];
+		double uy = graphXAxis[X] * graphYDash[X] + graphXAxis[Y] * graphYDash[Y] + graphXAxis[Z] * graphYDash[Z];
+
+		// Finally, we can determine horizontal value from ux and uy:
+		//this.horizontalAngle = atan2(ux, uy);
+		this.horizontalAngle = -atan2(uy, ux);
+		this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle);
+	}
 }
