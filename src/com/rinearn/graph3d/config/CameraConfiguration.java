@@ -115,8 +115,8 @@ public class CameraConfiguration {
 	 * @param angle The rotation angle.
 	 */
 	public synchronized void rotateAroundX(double angle) {
-		double sin = Math.sin(angle);
-		double cos = Math.cos(angle);
+		double sin = sin(angle);
+		double cos = cos(angle);
 
 		// Create the rotation matrix around X axis: Rx.
 		double[][] rx = {
@@ -165,8 +165,8 @@ public class CameraConfiguration {
 	 * @param angle The rotation angle.
 	 */
 	public synchronized void rotateAroundY(double angle) {
-		double sin = Math.sin(angle);
-		double cos = Math.cos(angle);
+		double sin = sin(angle);
+		double cos = cos(angle);
 
 		// Create the rotation matrix around Y axis: Ry.
 		double[][] ry = {
@@ -215,8 +215,8 @@ public class CameraConfiguration {
 	 * @param angle The rotation angle.
 	 */
 	public synchronized void rotateAroundZ(double angle) {
-		double sin = Math.sin(angle);
-		double cos = Math.cos(angle);
+		double sin = sin(angle);
+		double cos = cos(angle);
 
 		// Create the rotation matrix around Z axis: Rz.
 		double[][] rz = {
