@@ -1,34 +1,15 @@
 package temp;
 
 import com.rinearn.graph3d.RinearnGraph3D;
-import com.rinearn.graph3d.renderer.simple.SimpleRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
-import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
-import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.config.RangeConfiguration;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.awt.Color;
-import java.lang.reflect.InvocationTargetException;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.math.BigDecimal;
 
 
 /**
  * A temporary main class in the development of this application.
  */
 public class TempMain {
-	private static final int SCREEN_WIDTH = 1000;
-	private static final int SCREEN_HEIGHT = 860;
-	private static final int X = 0;
-	private static final int Y = 1;
-	private static final int Z = 2;
 
 	public static void main(String[] args) {
 		System.out.println("Hello RINEARN Graph 3D Ver.6!");
@@ -54,11 +35,7 @@ public class TempMain {
 			double z = 2.0 * i / (double)(n - 1) - 1.0;
 
 			// Draw the point.
-			RinearnGraph3DDrawingParameter param = new RinearnGraph3DDrawingParameter();
-			//param.setRangeScalingEnabled(false);
-			param.setAutoColoringEnabled(false);
-			param.setColor(color);
-			renderer.drawPoint(x, y, z, 8.0, param);
+			renderer.drawPoint(x, y, z, 8.0, color);
 		}
 
 		// Draw a membrane
@@ -81,13 +58,9 @@ public class TempMain {
 				double dY = meshData.y[ix][iy + 1];
 				double dZ = meshData.z[ix][iy + 1];
 
-				RinearnGraph3DDrawingParameter param = new RinearnGraph3DDrawingParameter();
-				//param.setRangeScalingEnabled(false);
-				param.setAutoColoringEnabled(false);
 				float colorScalarValue = (float)((1.0 - aZ) / 2.5);
 				Color color = Color.getHSBColor(colorScalarValue, 1.0f, 1.0f);
-				param.setColor(color);
-				renderer.drawQuadrangle(aX,aY,aZ, bX,bY,bZ, cX,cY,cZ, dX,dY,dZ, param);
+				renderer.drawQuadrangle(aX,aY,aZ, bX,bY,bZ, cX,cY,cZ, dX,dY,dZ, color);
 			}
 		}
 

@@ -301,7 +301,10 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	public synchronized void drawPoint(double x, double y, double z, 
 			double radius, Color color) {
 
-		throw new RuntimeException("Unimplemented yet");
+		RinearnGraph3DDrawingParameter parameter = new RinearnGraph3DDrawingParameter();
+		parameter.setAutoColoringEnabled(false);
+		parameter.setColor(color);
+		this.drawPoint(x, y, z, radius, parameter);
 	}
 
 
@@ -361,7 +364,10 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			double bX, double bY, double bZ, 
 			double width, Color color) {
 
-		throw new RuntimeException("Unimplemented yet");
+		RinearnGraph3DDrawingParameter parameter = new RinearnGraph3DDrawingParameter();
+		parameter.setAutoColoringEnabled(false);
+		parameter.setColor(color);
+		this.drawLine(aX, aY, aZ, bX, bY, bZ, width, parameter);
 	}
 
 
@@ -453,7 +459,10 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			double dX, double dY, double dZ, 
 			Color color) {
 
-		throw new RuntimeException("Unimplemented yet");
+		RinearnGraph3DDrawingParameter parameter = new RinearnGraph3DDrawingParameter();
+		parameter.setAutoColoringEnabled(false);
+		parameter.setColor(color);
+		this.drawQuadrangle(aX, aY, aZ, bX, bY, bZ, cX, cY, cZ, dX, dY, dZ, parameter);
 	}
 
 
