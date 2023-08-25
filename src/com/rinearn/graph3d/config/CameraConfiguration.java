@@ -453,7 +453,7 @@ public class CameraConfiguration {
 
 		// If the horizontal angle is 0, X axis of the graph is parallel with the screen.
 		// Call it as "graphXDash". We can compute its vector component from the screw angle, as follows:
-		double[] graphXDash = new double[] { Math.cos(this.screwAngle), Math.sin(this.screwAngle), 0.0 };
+		double[] graphXDash = new double[] { cos(this.screwAngle), -sin(this.screwAngle), 0.0 };
 
 		// Call the Y axis of the graph under the same situation as "graphYDash".
 		// We can compute it as the cross product vector between graphZAxis and graphXDash:
