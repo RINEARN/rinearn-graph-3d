@@ -50,6 +50,7 @@ public final class ScreenHandler {
 	// For debugging window
 	public volatile CameraConfiguration debugCameraConfiguration;
 	public volatile RinearnGraph3DRenderer debugRenderer;
+	public volatile boolean isDebugWindow = false;
 
 
 	/**
@@ -84,6 +85,9 @@ public final class ScreenHandler {
 	public synchronized CameraConfiguration getCameraConfiguration() {
 		return this.cameraConfiguration;
 	}
+	public synchronized void setDebugWindow(boolean isDebugWindow) {
+		this.isDebugWindow = isDebugWindow;
+	}
 
 
 	/**
@@ -114,6 +118,9 @@ public final class ScreenHandler {
 		 */
 		@Override
 		public void mouseDragged(MouseEvent me) {
+if (isDebugWindow) {
+	return;
+}
 			if (!SwingUtilities.isLeftMouseButton(me)) {
 				return;
 			}
@@ -191,11 +198,11 @@ public final class ScreenHandler {
 			// For developing and debugging.
 			cameraConfiguration.dumpCameraAngles();
 			if (debugCameraConfiguration != null) {
-				/*
 				debugCameraConfiguration.setVerticalAngle(cameraConfiguration.getVerticalAngle());
 				debugCameraConfiguration.setHorizontalAngle(cameraConfiguration.getHorizontalAngle());
 				debugCameraConfiguration.setScrewAngle(cameraConfiguration.getScrewAngle());
-				*/
+
+				/*
 				if (distanceFromCenter < 100) {
 					debugCameraConfiguration.rotateAroundX(-dy * RADIAL_ROTATION_SPEED);
 					debugCameraConfiguration.rotateAroundY(-dx * RADIAL_ROTATION_SPEED);
@@ -207,6 +214,7 @@ public final class ScreenHandler {
 					debugCameraConfiguration.rotateAroundY(-radialDeltaVector[X] * RADIAL_ROTATION_SPEED);
 					debugCameraConfiguration.rotateAroundZ(circumferentialDeltaVectorLength * CIRCUMFERENTIAL_ROTATION_SPEED);					
 				}
+				*/
 
 				RinearnGraph3DConfiguration debugConfig = RinearnGraph3DConfiguration.createEmptyConfiguration();
 				debugConfig.setCameraConfiguration(debugCameraConfiguration);

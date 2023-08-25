@@ -112,6 +112,7 @@ public class RinearnGraph3D {
 		view.mainWindow.repaintScreen();
 
 		// Offset the location.
+		view.mainWindow.frame.setTitle("Temporary Window for Developing/Debugging Camera Control Algorithms");
 		view.mainWindow.frame.setLocation(800, 0);
 
 		// Show the window.
@@ -120,6 +121,7 @@ public class RinearnGraph3D {
 		// Create "Presenter" layer which invokes Model's procedures triggered by user's action on GUI.
 		// (The rendering loop is also running in this Presenter layer.)
 		Presenter presenter = new Presenter(model, view, renderer);
+		presenter.screenHandler.setDebugWindow(true);
 		return new Object[] { presenter, renderer, presenter.screenHandler.getCameraConfiguration() };
 	}
 

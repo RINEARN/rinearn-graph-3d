@@ -105,7 +105,7 @@ public class CameraConfiguration {
 
 
 	/**
-	 * Rotates the graph around the X-axis.
+	 * Rotates the graph around the X-axis of the camera (view) coordinate.
 	 * 
 	 * For the sign of the rotation angle, 
 	 * we define it as positive when a right-hand screw advances 
@@ -155,7 +155,7 @@ public class CameraConfiguration {
 
 
 	/**
-	 * Rotates the graph around the Y-axis.
+	 * Rotates the graph around the Y-axis of the camera (view) coordinate.
 	 * 
 	 * For the sign of the rotation angle, 
 	 * we define it as positive when a right-hand screw advances 
@@ -205,7 +205,7 @@ public class CameraConfiguration {
 
 
 	/**
-	 * Rotates the graph around the Z-axis.
+	 * Rotates the graph around the Z-axis of the camera (view) coordinate.
 	 * 
 	 * For the sign of the rotation angle, 
 	 * we define it as positive when a right-hand screw advances 
@@ -481,14 +481,23 @@ public class CameraConfiguration {
 	 * regarding Z axis as the zenith axis.
 	 */
 	private void computeMatrixFromZZenithAngles() {
-System.out.println("Called Z Zenith setter");
+System.out.println("Called Z Zenith setter of " + this);
+
+System.out.println("Angles=" + this.verticalAngle + ", " + this.horizontalAngle + ", " + this.screwAngle);
+System.out.println("Matrix Diagonal Elem=" + this.rotationMatrix[0][0] + ", " + this.rotationMatrix[1][1] + ", " + this.rotationMatrix[2][2]);
+
 		// Variables for storing values of sin(angle) and cos(angle) functions temporary.
 		double sin;
 		double cos;
 
 		// Reset the rotation matrix of the graph, and define its short alias.
-		this.cancelRotaion();
-		double[][] m = this.rotationMatrix;
+		// (Don't call cancelRotation() here, because it resets vertical/horizontal/screw angles to 0.0.)
+	 	this.rotationMatrix = new double[][] {
+	 		{ 1.0, 0.0, 0.0 },
+	 		{ 0.0, 1.0, 0.0 },
+	 		{ 0.0, 0.0, 1.0 }
+	 	};
+	 	double[][] m = this.rotationMatrix;
 
 		// Create a temporary matrix, for storing updated values of the rotation matrix of the graph.
 		double[][] updatedMatrix = new double[3][3];
@@ -520,9 +529,9 @@ System.out.println("Called Z Zenith setter");
 		sin = sin(-this.verticalAngle); // Be careful of the direction of the rotation.
 		cos = cos(-this.verticalAngle);
 		double[][] rv = {
-				{ cos, 0.0, sin },
-				{ 0.0, 1.0, 0.0 },
-				{ -sin,0.0, cos }
+				{ 1.0, 0.0, 0.0 },
+				{ 0.0, cos,-sin },
+				{ 0.0, sin, cos }
 		};
 
 		// Act Rv to the rotation matrix of the graph.
@@ -542,9 +551,9 @@ System.out.println("Called Z Zenith setter");
 		sin = sin(-this.screwAngle); // Be careful of the direction of the rotation.
 		cos = cos(-this.screwAngle);
 		double[][] rs = {
-				{ 1.0, 0.0, 0.0 },
-				{ 0.0, cos,-sin },
-				{ 0.0, sin, cos }
+				{ cos,-sin, 0.0 },
+				{ sin, cos, 0.0 },
+				{ 0.0, 0.0, 1.0 }
 		};
 
 		// Act Rs to the rotation matrix of the graph.
