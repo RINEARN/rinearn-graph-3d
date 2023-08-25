@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 
 
@@ -24,6 +25,12 @@ public final class ScreenHandler {
 
 	/** The speed of the rotation by mouse-dragging for circumferential direction from the graph center. */
 	private static final double CIRCUMFERENTIAL_ROTATION_SPEED = 0.003;
+
+	/** The maximum value of the magnification. */
+	private static final double MAGNIFICATION_MAX = 100000.0;
+
+	/** The minimum value of the magnification. */
+	private static final double MAGNIFICATION_MIN = 1.0;
 
 	/** The array index representing X coordinate, for 2 or 3-dimensional arrays. */
 	private static final int X = 0;
@@ -70,10 +77,55 @@ public final class ScreenHandler {
 		this.screenLabel.addMouseListener(centerOffsetEventHandler);
 		this.screenLabel.addMouseMotionListener(centerOffsetEventHandler);
 
+		// The MouseWheelListener handling mouse-wheel-scrolling events for zooming-up/down the graph.
+		ZoomEventListener zoomEventHandler = new ZoomEventListener();
+		this.screenLabel.addMouseWheelListener(zoomEventHandler);
+
 		// Initializes the screen center's coordinates.
 		BufferedImage screenImage = BufferedImage.class.cast(renderer.getScreenImage());
 		this.screenCenterCoords[X] = screenImage.getWidth()/2;
 		this.screenCenterCoords[Y] = screenImage.getHeight()/2;
+	}
+
+
+	/**
+	 * The event listener handling mouse-wheel-scrolling events for zooming-up/down the graph.
+	 */
+	private final class ZoomEventListener extends MouseAdapter {
+
+		/**
+		 * Stores the X and Y coordinates of the mouse pointer, when the mouse's RIGHT BUTTON is pressed.
+		 */
+		@Override
+		public void mouseWheelMoved(MouseWheelEvent me) {
+			double magnification = cameraConfiguration.getMagnification();
+
+			// Zoom-in or out, depending on the direction of the wheel rotation.
+			int wheelRot = me.getWheelRotation();
+			if (wheelRot == 0) {
+				return; // High-resolution mouse wheel may return 0 for rotation amount, when the wheel slightly rotated.
+			} else if (wheelRot < 0) {
+				magnification *= 1.2;
+			} else if (0 < wheelRot) {
+				magnification /= 1.2;
+			}
+
+			// If the updated magnification is too large or small, replace it by the acceptable limit value(s).
+			if (magnification < MAGNIFICATION_MIN) {
+				magnification = MAGNIFICATION_MIN;
+			} else if (MAGNIFICATION_MAX < magnification) {
+				magnification = MAGNIFICATION_MAX;
+			}
+
+			// Reflect the updated magnification to the renderer.
+			cameraConfiguration.setMagnification(magnification);
+			RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
+			config.setCameraConfiguration(cameraConfiguration);
+			renderer.setConfiguration(config);
+
+			// Perform rendering on the rendering loop's thread asynchronously.
+			renderingLoop.requestRendering();
+		}
 	}
 
 
@@ -123,7 +175,7 @@ public final class ScreenHandler {
 			cameraConfiguration.setHorizontalCenterOffset(centerOffsetX);
 			cameraConfiguration.setVerticalCenterOffset(centerOffsetY);
 
-			// Reflect the updated camera angles to the renderer.
+			// Reflect the updated center offsets to the renderer.
 			RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
 			config.setCameraConfiguration(cameraConfiguration);
 			renderer.setConfiguration(config);
