@@ -286,7 +286,7 @@ public class CameraConfiguration {
 		// Update the rotation matrix.
 		switch (this.angleMode) {
 			case Z_ZENITH: {
-				// this.computeMatrixFromZZenithAngles(); // To be implemented
+				this.computeMatrixFromZZenithAngles();
 				return;
 			}
 			default: {
@@ -319,7 +319,7 @@ public class CameraConfiguration {
 		// Update the rotation matrix.
 		switch (this.angleMode) {
 			case Z_ZENITH: {
-				// this.computeMatrixFromZZenithAngles(); // To be implemented
+				this.computeMatrixFromZZenithAngles();
 				return;
 			}
 			default: {
@@ -352,7 +352,7 @@ public class CameraConfiguration {
 		// Update the rotation matrix.
 		switch (this.angleMode) {
 			case Z_ZENITH: {
-				// this.computeMatrixFromZZenithAngles(); // To be implemented
+				this.computeMatrixFromZZenithAngles();
 				return;
 			}
 			default: {
@@ -473,5 +473,90 @@ public class CameraConfiguration {
 		//this.horizontalAngle = atan2(ux, uy);
 		this.horizontalAngle = -atan2(uy, ux);
 		this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle);
+	}
+
+
+	/**
+	 * Computes the rotation matrix from the values of vertical/horizontal/screw angles,
+	 * regarding Z axis as the zenith axis.
+	 */
+	private void computeMatrixFromZZenithAngles() {
+System.out.println("Called Z Zenith setter");
+		// Variables for storing values of sin(angle) and cos(angle) functions temporary.
+		double sin;
+		double cos;
+
+		// Reset the rotation matrix of the graph, and define its short alias.
+		this.cancelRotaion();
+		double[][] m = this.rotationMatrix;
+
+		// Create a temporary matrix, for storing updated values of the rotation matrix of the graph.
+		double[][] updatedMatrix = new double[3][3];
+
+		// The rotation by horizontal angle can be expressed as
+		// rotation around Z axis of view coordinate. Call its matrix as "Rh":
+		sin = sin(-this.horizontalAngle); // Be careful of the direction of the rotation.
+		cos = cos(-this.horizontalAngle);
+		double[][] rh = {
+				{ cos,-sin, 0.0 },
+				{ sin, cos, 0.0 },
+				{ 0.0, 0.0, 1.0 }
+		};
+
+		// Act Rh to the rotation matrix of the graph.
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				updatedMatrix[i][j] = rh[i][0] * m[0][j] + rh[i][1] * m[1][j] + rh[i][2] * m[2][j];
+			}
+		}
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				m[i][j] = updatedMatrix[i][j];
+			}
+		}
+
+		// The rotation by vertical angle can be expressed as
+		// rotation around X axis of view coordinate. Call its matrix as "Rv":
+		sin = sin(-this.verticalAngle); // Be careful of the direction of the rotation.
+		cos = cos(-this.verticalAngle);
+		double[][] rv = {
+				{ cos, 0.0, sin },
+				{ 0.0, 1.0, 0.0 },
+				{ -sin,0.0, cos }
+		};
+
+		// Act Rv to the rotation matrix of the graph.
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				updatedMatrix[i][j] = rv[i][0] * m[0][j] + rv[i][1] * m[1][j] + rv[i][2] * m[2][j];
+			}
+		}
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				m[i][j] = updatedMatrix[i][j];
+			}
+		}
+
+		// The rotation by screw angle can be expressed as
+		// re-rotation around Z axis of view coordinate. Call its matrix as "Rs":
+		sin = sin(-this.screwAngle); // Be careful of the direction of the rotation.
+		cos = cos(-this.screwAngle);
+		double[][] rs = {
+				{ 1.0, 0.0, 0.0 },
+				{ 0.0, cos,-sin },
+				{ 0.0, sin, cos }
+		};
+
+		// Act Rs to the rotation matrix of the graph.
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				updatedMatrix[i][j] = rs[i][0] * m[0][j] + rs[i][1] * m[1][j] + rs[i][2] * m[2][j];
+			}
+		}
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				m[i][j] = updatedMatrix[i][j];
+			}
+		}
 	}
 }

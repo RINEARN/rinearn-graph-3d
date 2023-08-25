@@ -47,6 +47,11 @@ public final class ScreenHandler {
 	private volatile CameraConfiguration cameraConfiguration = new CameraConfiguration();
 
 
+	// For debugging window
+	public volatile CameraConfiguration debugCameraConfiguration;
+	public volatile RinearnGraph3DRenderer debugRenderer;
+
+
 	/**
 	 * Creates new instance for handling events occurred on the specified view, using the specified model.
 	 * 
@@ -70,6 +75,14 @@ public final class ScreenHandler {
 		BufferedImage screenImage = BufferedImage.class.cast(renderer.getScreenImage());
 		this.graphCenterCoords[X] = screenImage.getWidth()/2;
 		this.graphCenterCoords[Y] = screenImage.getHeight()/2;
+	}
+
+	public void setDebugResources(RinearnGraph3DRenderer debugRenderer, CameraConfiguration debugCameraConfiguration) {
+		this.debugRenderer = debugRenderer;
+		this.debugCameraConfiguration = debugCameraConfiguration;
+	}
+	public synchronized CameraConfiguration getCameraConfiguration() {
+		return this.cameraConfiguration;
 	}
 
 
@@ -163,9 +176,6 @@ public final class ScreenHandler {
 				cameraConfiguration.rotateAroundZ(circumferentialDeltaVectorLength * CIRCUMFERENTIAL_ROTATION_SPEED);					
 			}
 
-// Dump the values of vertical/horizontal/screw angles for debugging.
-cameraConfiguration.dumpCameraAngles();
-
 			// Reflect the updated camera angles to the renderer.
 			RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
 			config.setCameraConfiguration(cameraConfiguration);
@@ -177,6 +187,32 @@ cameraConfiguration.dumpCameraAngles();
 			// Updates the coordinates of the mouse pointer at the lastly pressed point, to the current point.
 			this.lastMouseX = currentMouseX;
 			this.lastMouseY = currentMouseY;
+
+			// For developing and debugging.
+			cameraConfiguration.dumpCameraAngles();
+			if (debugCameraConfiguration != null) {
+				/*
+				debugCameraConfiguration.setVerticalAngle(cameraConfiguration.getVerticalAngle());
+				debugCameraConfiguration.setHorizontalAngle(cameraConfiguration.getHorizontalAngle());
+				debugCameraConfiguration.setScrewAngle(cameraConfiguration.getScrewAngle());
+				*/
+				if (distanceFromCenter < 100) {
+					debugCameraConfiguration.rotateAroundX(-dy * RADIAL_ROTATION_SPEED);
+					debugCameraConfiguration.rotateAroundY(-dx * RADIAL_ROTATION_SPEED);
+
+				// When the mouse is far enough from the center,
+				// apply 3-axes rotation algorithm based on radial/circumferential vectors.
+				} else {
+					debugCameraConfiguration.rotateAroundX(-radialDeltaVector[Y] * RADIAL_ROTATION_SPEED);
+					debugCameraConfiguration.rotateAroundY(-radialDeltaVector[X] * RADIAL_ROTATION_SPEED);
+					debugCameraConfiguration.rotateAroundZ(circumferentialDeltaVectorLength * CIRCUMFERENTIAL_ROTATION_SPEED);					
+				}
+
+				RinearnGraph3DConfiguration debugConfig = RinearnGraph3DConfiguration.createEmptyConfiguration();
+				debugConfig.setCameraConfiguration(debugCameraConfiguration);
+				debugRenderer.setConfiguration(debugConfig);
+				debugRenderer.render();
+			}
 		}
 
 

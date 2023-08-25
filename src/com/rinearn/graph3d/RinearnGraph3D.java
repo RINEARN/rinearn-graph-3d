@@ -76,8 +76,52 @@ public class RinearnGraph3D {
 		// Create "Presenter" layer which invokes Model's procedures triggered by user's action on GUI.
 		// (The rendering loop is also running in this Presenter layer.)
 		this.presenter = new Presenter(this.model, this.view, this.renderer);
+
+		Object[] debugResources = this.createDebuggingInstance();
+		Presenter debugPresenter = (Presenter)debugResources[0];
+		RinearnGraph3DRenderer debugRenderer = (RinearnGraph3DRenderer)debugResources[1];
+		com.rinearn.graph3d.config.CameraConfiguration debugCameraConfig = (com.rinearn.graph3d.config.CameraConfiguration)debugResources[2];
+		this.presenter.screenHandler.setDebugResources(debugRenderer, debugCameraConfig);
 	}
 
+
+	// Temporary, for debugging
+	private Object[] createDebuggingInstance() {
+
+		// Create "Model" layer, which provides internal logic procedures and so on.
+		Model model = new Model();
+
+		// Create "View" layer, which provides visible part of GUI without event handling.
+		View view = new View();
+
+		// Create a rendering engine of 3D graphs.
+		RinearnGraph3DRenderer renderer = new SimpleRenderer(
+				MainWindow.DEFAULT_SCREEN_WIDTH, MainWindow.DEFAULT_SCREEN_HEIGHT
+		);
+
+		// Set the reference to the rendered image of the renderer,
+		// to the graph screen of the window for displaying it.
+		Image screenImage = this.renderer.getScreenImage();
+		view.mainWindow.setScreenImage(screenImage);
+
+		// First rendering and repainting.
+		renderer.drawScale();
+		renderer.drawGrid();
+		renderer.drawFrame();
+		renderer.render();
+		view.mainWindow.repaintScreen();
+
+		// Offset the location.
+		view.mainWindow.frame.setLocation(800, 0);
+
+		// Show the window.
+		view.mainWindow.setWindowVisible(true);
+
+		// Create "Presenter" layer which invokes Model's procedures triggered by user's action on GUI.
+		// (The rendering loop is also running in this Presenter layer.)
+		Presenter presenter = new Presenter(model, view, renderer);
+		return new Object[] { presenter, renderer, presenter.screenHandler.getCameraConfiguration() };
+	}
 
 	/**
 	 * <span class="lang-en">
