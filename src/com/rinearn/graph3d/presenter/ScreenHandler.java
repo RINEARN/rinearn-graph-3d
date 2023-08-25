@@ -40,8 +40,8 @@ public final class ScreenHandler {
 	/** The loop which performs rendering and updates the screen, on an independent thread. */
 	public final RenderingLoop renderingLoop;
 
-	/** Stores the X and Y coordinates of the center of the graph on the screen. */
-	private volatile int[] graphCenterCoords = new int[2];
+	/** Stores the X and Y coordinates of the center of the screen. */
+	private volatile int[] screenCenterCoords = new int[2];
 
 	/** Stores configuration parameters related to the camera (angles, magnification, and so on). */
 	private volatile CameraConfiguration cameraConfiguration = new CameraConfiguration();
@@ -60,21 +60,86 @@ public final class ScreenHandler {
 		this.renderer = renderer;
 		this.renderingLoop = renderingLoop;
 
-		// The implementation of MouseListener and MouseMotionLister,
-		// handing mouse-dragging events for rotate a graph.
+		// The MouseListener/MouseMotionLister handing mouse-dragging events for rotate a graph.
 		RotationEventListener rotationEventListener = new RotationEventListener();
 		this.screenLabel.addMouseListener(rotationEventListener);
 		this.screenLabel.addMouseMotionListener(rotationEventListener);
 
-		// Initializes the graph center's coordinates to match with the screen center.
+		// The MouseListener/MouseMotionLister handling mouse-dragging events for shifting a graph center.
+		CenterOffsetEventListener centerOffsetEventHandler = new CenterOffsetEventListener();
+		this.screenLabel.addMouseListener(centerOffsetEventHandler);
+		this.screenLabel.addMouseMotionListener(centerOffsetEventHandler);
+
+		// Initializes the screen center's coordinates.
 		BufferedImage screenImage = BufferedImage.class.cast(renderer.getScreenImage());
-		this.graphCenterCoords[X] = screenImage.getWidth()/2;
-		this.graphCenterCoords[Y] = screenImage.getHeight()/2;
+		this.screenCenterCoords[X] = screenImage.getWidth()/2;
+		this.screenCenterCoords[Y] = screenImage.getHeight()/2;
 	}
 
 
 	/**
-	 * The event listener handling mouse-dragging events for rotate a graph.
+	 * The event listener handling mouse-dragging events for shifting a graph center.
+	 */
+	private final class CenterOffsetEventListener extends MouseAdapter {
+
+		/** Stores the X coordinate of the mouse pointer at the lastly pressed point. */
+		private volatile int lastMouseX = -1;
+
+		/** Stores the X coordinate of the mouse pointer at the lastly pressed point. */
+		private volatile int lastMouseY = -1;
+
+		/**
+		 * Stores the X and Y coordinates of the mouse pointer, when the mouse's RIGHT BUTTON is pressed.
+		 */
+		@Override
+		public void mousePressed(MouseEvent me) {
+			if (!SwingUtilities.isRightMouseButton(me)) {
+				return;
+			}
+			this.lastMouseX = me.getX();
+			this.lastMouseY = me.getY();
+		}
+
+		/**
+		 * Shifts the center of the graph, when the mouse is dragged BY PRESSING THE RIGHT-BUTTON.
+		 */
+		@Override
+		public void mouseDragged(MouseEvent me) {
+			if (!SwingUtilities.isRightMouseButton(me)) {
+				return;
+			}
+
+			// Get the differential vector (dx, dy) from the last coordinate of the mouse pointer.
+			int currentMouseX = me.getX();
+			int currentMouseY = me.getY();
+			int dx = currentMouseX - lastMouseX;
+			int dy = currentMouseY - lastMouseY;
+
+			// Integrate dx and dy to the values of the graph center offsets.
+			int centerOffsetX = cameraConfiguration.getHorizontalCenterOffset();
+			int centerOffsetY = cameraConfiguration.getVerticalCenterOffset();
+			centerOffsetX += dx; // Be careful of the sign.
+			centerOffsetY -= dy; // Be careful of the sign.
+			cameraConfiguration.setHorizontalCenterOffset(centerOffsetX);
+			cameraConfiguration.setVerticalCenterOffset(centerOffsetY);
+
+			// Reflect the updated camera angles to the renderer.
+			RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
+			config.setCameraConfiguration(cameraConfiguration);
+			renderer.setConfiguration(config);
+
+			// Perform rendering on the rendering loop's thread asynchronously.
+			renderingLoop.requestRendering();
+
+			// Updates the coordinates of the mouse pointer at the lastly pressed point, to the current point.
+			this.lastMouseX = currentMouseX;
+			this.lastMouseY = currentMouseY;
+		}
+	}
+
+
+	/**
+	 * The event listener handling mouse-dragging events for rotateing a graph.
 	 */
 	private final class RotationEventListener extends MouseAdapter {
 
@@ -85,7 +150,7 @@ public final class ScreenHandler {
 		private volatile int lastMouseY = -1;
 
 		/**
-		 * Stores the X and Y coordinates of the mouse pointer, when the mouse's left button is pressed.
+		 * Stores the X and Y coordinates of the mouse pointer, when the mouse's LEFT BUTTON is pressed.
 		 */
 		@Override
 		public void mousePressed(MouseEvent me) {
@@ -97,7 +162,7 @@ public final class ScreenHandler {
 		}
 
 		/**
-		 * Rotates the angles of the graph, when the mouse is dragged by pressing the left-button.
+		 * Rotates the angles of the graph, when the mouse is dragged BY PRESSING THE LEFT-BUTTON.
 		 */
 		@Override
 		public void mouseDragged(MouseEvent me) {
@@ -106,8 +171,10 @@ public final class ScreenHandler {
 			}
 
 			// Short aliases.
-			int centerX = graphCenterCoords[X];
-			int centerY = graphCenterCoords[Y];
+			int centerOffsetX = cameraConfiguration.getHorizontalCenterOffset();
+			int centerOffsetY = cameraConfiguration.getVerticalCenterOffset();
+			int centerX = screenCenterCoords[X] + centerOffsetX; // Be careful of the sign.
+			int centerY = screenCenterCoords[Y] - centerOffsetY; // Be careful of the sign.
 
 			// Get the differential vector (dx, dy) from the last coordinate of the mouse pointer.
 			int currentMouseX = me.getX();
@@ -117,9 +184,9 @@ public final class ScreenHandler {
 
 			// From the differential vector, extract a component vector facing the radial direction from the graph center.
 			double distanceFromCenter = Math.sqrt(
-					(currentMouseX - graphCenterCoords[X]) * (currentMouseX - graphCenterCoords[X])
+					(currentMouseX - centerX) * (currentMouseX - centerX)
 					+
-					(currentMouseY - graphCenterCoords[Y]) * (currentMouseY - graphCenterCoords[Y])					
+					(currentMouseY - centerY) * (currentMouseY - centerX)
 			);
 
 			// Check whether we can define a "radial unit vector" under the current situation,
@@ -175,6 +242,7 @@ public final class ScreenHandler {
 			this.lastMouseX = currentMouseX;
 			this.lastMouseY = currentMouseY;
 		}
+
 
 		/**
 		 * Checks whether we can define a "radial unit vector" under the current situation,
