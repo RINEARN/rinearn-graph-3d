@@ -256,8 +256,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	public synchronized void render() {
 		int screenWidth = this.screenImage.getWidth();
 		int screenHeight = this.screenImage.getHeight();
-		int screenOffsetX = 0;
-		int screenOffsetY = 0;
+		int screenOffsetX = this.config.getCameraConfiguration().getHorizontalCenterOffset();
+		int screenOffsetY = this.config.getCameraConfiguration().getVerticalCenterOffset();
 		double magnification = this.config.getCameraConfiguration().getMagnification();
 
 		// Clear the graph screen.

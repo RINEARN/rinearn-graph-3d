@@ -24,6 +24,12 @@ public class CameraConfiguration {
 	/** The magnification of the graph screen. */
 	private volatile double magnification = 700.0;
 
+	/** The horizontal offset amount of the graph center (= rotation center), from the screen center. */
+	private volatile int horizontalCenterOffset = 0;
+
+	/** The vertical offset amount of the graph center (= rotation center), from the screen center. */
+	private volatile int verticalCenterOffset = 0;
+
 	/** The enum representing each angle mode, for switching how specify the camera angle(s). */
 	public static enum AngleMode {
 
@@ -76,7 +82,55 @@ public class CameraConfiguration {
 		return this.magnification;
  	}
 
+
+ 	/**
+ 	 * Sets the horizontal offset amount of the graph center, from the screen center.
+ 	 * 
+ 	 * When the graph center matches with the screen center, the offset amount is 0.
+ 	 * If specify a positive value, the position of the graph is shifted to the right, from the screen center.
+ 	 * Also, the center of rotation always matches with the (shifted) graph center.
+ 	 * 
+ 	 * @param horizontalCenterOffset The horizontal offset amount of the graph center (in pixels).
+ 	 */
+ 	public synchronized void setHorizontalCenterOffset(int horizontalCenterOffset) {
+ 		this.horizontalCenterOffset = horizontalCenterOffset;
+ 	}
  
+ 
+ 	/**
+ 	 * Gets the horizontal offset amount of the graph center, on the screen, from the screen center.
+ 	 * 
+ 	 * @param horizontalCenterOffset The horizontal offset amount of the graph center (in pixels).
+ 	 */
+ 	public synchronized int getHorizontalCenterOffset() {
+ 		return this.horizontalCenterOffset;
+ 	}
+
+ 
+ 	/**
+ 	 * Sets the vertical offset amount of the graph center, on the screen, from the screen center.
+ 	 * 
+ 	 * When the graph center matches with the screen center, the offset amount is 0.
+ 	 * If specify a positive value, the position of the graph is shifted up, from the screen center.
+ 	 * Also, the center of rotation always matches with the (shifted) graph center.
+ 	 * 
+ 	 * @param verticalCenterOffset The vertical offset amount of the graph center (in pixels).
+ 	 */
+	public synchronized void setVerticalCenterOffset(int verticalScreenCenterOffset) {
+ 		this.verticalCenterOffset = verticalScreenCenterOffset;
+ 	}
+
+
+ 	/**
+ 	 * Gets the vertical offset amount of the graph center, on the screen, from the screen center.
+ 	 * 
+ 	 * @param verticalCenterOffset The vertical offset amount of the graph center (in pixels).
+ 	 */
+ 	public synchronized int getVerticalCenterOffset() {
+ 		return this.verticalCenterOffset;
+ 	}
+ 
+
  	/**
  	 * Gets the matrix representing the rotation of the graph to the current state from the initial state.
  	 * 
