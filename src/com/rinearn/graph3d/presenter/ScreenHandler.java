@@ -163,6 +163,9 @@ public final class ScreenHandler {
 				cameraConfiguration.rotateAroundZ(circumferentialDeltaVectorLength * CIRCUMFERENTIAL_ROTATION_SPEED);					
 			}
 
+// Dump the values of vertical/horizontal/screw angles for debugging.
+cameraConfiguration.dumpCameraAngles();
+
 			// Reflect the updated camera angles to the renderer.
 			RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
 			config.setCameraConfiguration(cameraConfiguration);
