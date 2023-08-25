@@ -77,8 +77,8 @@ public final class ScreenHandler {
 		this.graphCenterCoords[X] = screenImage.getWidth()/2;
 		this.graphCenterCoords[Y] = screenImage.getHeight()/2;
 
-// Temporary set the camera angle mode to X_ZENITH mode, for developing it.
-this.cameraConfiguration.setAngleMode(CameraConfiguration.AngleMode.X_ZENITH);
+// Temporary set the camera angle mode to Y_ZENITH mode, for developing it.
+this.cameraConfiguration.setAngleMode(CameraConfiguration.AngleMode.Y_ZENITH);
 RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
 config.setCameraConfiguration(this.cameraConfiguration);
 renderer.setConfiguration(config);
