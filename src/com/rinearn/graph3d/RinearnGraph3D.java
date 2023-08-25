@@ -111,9 +111,26 @@ public class RinearnGraph3D {
 		renderer.render();
 		view.mainWindow.repaintScreen();
 
-		// Offset the location.
+		// Offset the location, and so on.
 		view.mainWindow.frame.setTitle("Temporary Window for Developing/Debugging Camera Control Algorithms");
 		view.mainWindow.frame.setLocation(800, 0);
+
+		// Draw lines representing X/Y/Z axes.
+		com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter xParam
+				= new com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter();
+		com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter yParam
+			= new com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter();
+		com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter zParam
+			= new com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter();
+		xParam.setAutoColoringEnabled(false);
+		yParam.setAutoColoringEnabled(false);
+		zParam.setAutoColoringEnabled(false);
+		xParam.setColor(java.awt.Color.RED);
+		yParam.setColor(java.awt.Color.GREEN);
+		zParam.setColor(java.awt.Color.BLUE);
+		renderer.drawLine(0.0,0.0,0.0, 1.0,0.0,0.0, 1.0, xParam);
+		renderer.drawLine(0.0,0.0,0.0, 0.0,1.0,0.0, 1.0, yParam);
+		renderer.drawLine(0.0,0.0,0.0, 0.0,0.0,1.0, 1.0, zParam);
 
 		// Show the window.
 		view.mainWindow.setWindowVisible(true);
@@ -122,6 +139,7 @@ public class RinearnGraph3D {
 		// (The rendering loop is also running in this Presenter layer.)
 		Presenter presenter = new Presenter(model, view, renderer);
 		presenter.screenHandler.setDebugWindow(true);
+		renderer.render();
 		return new Object[] { presenter, renderer, presenter.screenHandler.getCameraConfiguration() };
 	}
 
