@@ -437,19 +437,6 @@ public class CameraConfiguration {
 
 
 	/**
-	 * Dumps the values of vertical/horizontal/screw angles, for debugging.
-	 */
-	public synchronized void dumpCameraAngles() {
-		System.out.println("----- DUMP CAMERA ANGLES -----");
-		System.out.println(" mode       = " + this.angleMode);
-		System.out.println(" vertical   = " + this.verticalAngle);
-		System.out.println(" horizontal = " + this.horizontalAngle);
-		System.out.println(" screw      = " + this.screwAngle);
-		System.out.println("------------------------------");
-	}
-
-
-	/**
 	 * Shifts the value of the specified angle, into the range [0, 2pi].
 	 * 
 	 * @param angle The angle to be shifted.

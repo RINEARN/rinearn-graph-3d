@@ -47,12 +47,6 @@ public final class ScreenHandler {
 	private volatile CameraConfiguration cameraConfiguration = new CameraConfiguration();
 
 
-	// For debugging window
-	public volatile CameraConfiguration debugCameraConfiguration;
-	public volatile RinearnGraph3DRenderer debugRenderer;
-	public volatile boolean isDebugWindow = false;
-
-
 	/**
 	 * Creates new instance for handling events occurred on the specified view, using the specified model.
 	 * 
@@ -76,24 +70,6 @@ public final class ScreenHandler {
 		BufferedImage screenImage = BufferedImage.class.cast(renderer.getScreenImage());
 		this.graphCenterCoords[X] = screenImage.getWidth()/2;
 		this.graphCenterCoords[Y] = screenImage.getHeight()/2;
-
-// Temporary set the camera angle mode to Y_ZENITH mode, for developing it.
-this.cameraConfiguration.setAngleMode(CameraConfiguration.AngleMode.Y_ZENITH);
-RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
-config.setCameraConfiguration(this.cameraConfiguration);
-renderer.setConfiguration(config);
-renderer.render();
-	}
-
-	public void setDebugResources(RinearnGraph3DRenderer debugRenderer, CameraConfiguration debugCameraConfiguration) {
-		this.debugRenderer = debugRenderer;
-		this.debugCameraConfiguration = debugCameraConfiguration;
-	}
-	public synchronized CameraConfiguration getCameraConfiguration() {
-		return this.cameraConfiguration;
-	}
-	public synchronized void setDebugWindow(boolean isDebugWindow) {
-		this.isDebugWindow = isDebugWindow;
 	}
 
 
@@ -125,9 +101,6 @@ renderer.render();
 		 */
 		@Override
 		public void mouseDragged(MouseEvent me) {
-if (isDebugWindow) {
-	return;
-}
 			if (!SwingUtilities.isLeftMouseButton(me)) {
 				return;
 			}
@@ -201,19 +174,6 @@ if (isDebugWindow) {
 			// Updates the coordinates of the mouse pointer at the lastly pressed point, to the current point.
 			this.lastMouseX = currentMouseX;
 			this.lastMouseY = currentMouseY;
-
-			// For developing and debugging.
-			cameraConfiguration.dumpCameraAngles();
-
-			if (debugCameraConfiguration != null) {
-				debugCameraConfiguration.setVerticalAngle(cameraConfiguration.getVerticalAngle());
-				debugCameraConfiguration.setHorizontalAngle(cameraConfiguration.getHorizontalAngle());
-				debugCameraConfiguration.setScrewAngle(cameraConfiguration.getScrewAngle());
-				RinearnGraph3DConfiguration debugConfig = RinearnGraph3DConfiguration.createEmptyConfiguration();
-				debugConfig.setCameraConfiguration(debugCameraConfiguration);
-				debugRenderer.setConfiguration(debugConfig);
-				debugRenderer.render();
-			}
 		}
 
 		/**
