@@ -109,11 +109,148 @@ NOTE
 /**
  * The class for storing configuration of colors.
  */
-public class ColorConfiguration {
+public final class ColorConfiguration {
+
+	// IMPORTANT NOTE: plural of "series" is also "series".
+
+
+	// とりあえずインターフェース案だと土台はこれ
+	public static interface ColorGradient {
+	}
+
+	// インターフェースだと実装はこんな感じ？
+	public static class ColorGradient1D implements ColorGradient {
+	}
+	public static class ColorGradient2D implements ColorGradient {
+	}
+
+	// でもやっぱりなんか微妙だなあ… ColorGradientの中に封じ込めたい。
+
+	// 本質的に color gradient の要素を絞り出して作れば、後の派生は本質的に渡す側で変化できて、そうあるべきでは？
+	// とすると次元軸とmax/minとその方向の色配列があれば、それ以上の複雑化はそもそも要らない気がするし、すべきでない気がする。
+	// そしてそれなら次元数に関して一般化された構造になるはずで。
+
+	// 例えばスカラ場の強度でグラデするしても1Dで、ベクトル方向渡すにしても3Dで、
+	// そこに位置かベクトル成分かの違いは渡す側でスイッチすべきでしょ。
+	// DirectionalColorGradient3Dとか生えていくのはまずい方向でしょ。直感的に。
+	// そんならもうColorGradinentは N-Dimensional なグラデに単純化して、
+	// 上みたいな派生は上層でやる方がいいかと。
+
+	// ライブラリとして使う際にアプリサイドで派生させられるメリットはあるが
+	// そもそも渡される情報が決まってればそんなに自由さはないでしょ。
+	// 結局モード増やすしかない気がするし、それと併せて渡す側の拡張するしかないわけで。
+
+
+	/**
+	 * The enum for specifying coloring mode for each data series.
+	 */
+	public enum SeriesColoringMode {
+
+		/** Represents the mode for drawing a data series with a solid color. */
+		SOLID,
+
+		/** Represents the mode for drawing a data series with gradient colors. */
+		GRADIENT;
+	}
+
+	/** The array storing a color mode for each data series. */
+	private volatile SeriesColoringMode[] seriesColoringModes = {
+		SeriesColoringMode.GRADIENT // Because the gradient option is enabled by default.
+	};
+
+	/** The array storing a solid color for each data series. */
+	private volatile Color[] seriesSolidColors = {
+		Color.RED,
+		Color.GREEN,
+		Color.BLUE,
+		Color.MAGENTA,
+		Color.YELLOW,
+		Color.CYAN,
+		Color.PINK,
+		Color.ORANGE
+	};
+
+	/** The array storing a gradient color(s) for each of data series. */
+	private volatile ColorGradient[] seriesColorGradients;   // The design of "Gradient" has not been fixed yet.
+
 
 	/**
 	 * Creates new configuration storing default values.
 	 */
 	public ColorConfiguration() {		
 	}
+
+
+	/**
+	 * Sets the coloring modes, for determining the color of each data series.
+	 * 
+	 * @param seriesColorModes The array storing a coloring mode for each data series.
+	 */
+	public synchronized void setSeriesColoringModes(SeriesColoringMode[] seriesColoringModes) {
+		this.seriesColoringModes = seriesColoringModes;
+	}
+
+	/**
+	 * Gets the coloring modes, for determining the color of each data series.
+	 * 
+	 * @return The array storing a coloring mode for each data series.
+	 */
+	public synchronized SeriesColoringMode[] getSeriesColoringModes() {
+		return this.seriesColoringModes;
+	}
+
+
+	// 以下のやつ、Series って付くのよくないんじゃない？
+	// ここで定義されるのはあくまでソリッド色やグラデ色のリストで、
+	// インデックスは別に系列インデックスではないよな？ 色番号だよな？
+	// 
+	// -> いや、mode があってればインデックスはそのまま系列インデックス（%N）に一致するよ。
+	//    %Nされるからといって、別に「 n個目のソリッド色 」みたいな感じでインクリメンタルに参照されるわけじゃない。のでこれでいい。
+	//
+	//    -> それはどちらかというとミキサー側の事情であって、ここでSeriesって決めてしまうと将来性に足枷にならない？
+	//       %N ではない方式での色の割り振りとかもあり得るでしょ。N以降は特定色にするとか。
+	//
+	//       -> そんなら setDataSolidColors とかにすべき？
+	//          で、各系列がどの色に割り当てられるかは dataColors[ 系列インデックス % N ] になります、的な。
+	//          確かにこっちの方が説明もわかりやすいかも。
+
+	/**
+	 * Sets solid colors used for drawing data series, applied when their coloring modes are SOLID.
+	 * 
+	 * @param seriesColors The array storing a solid color for each data series.
+	 */
+	public synchronized void setSerieSolidsColors(Color[] seriesSolidColors) {
+		this.seriesSolidColors = seriesSolidColors;
+	}
+
+
+	/**
+	 * Gets solid colors used for drawing data series, applied when their coloring modes are SOLID.
+	 * 
+	 * @return The array storing a solid color for each data series.
+	 */
+	public synchronized Color[] getSeriesSolidColors() {
+		return this.seriesSolidColors;
+	}
+
+
+	/**
+	 * Sets gradient colors used for drawing data series, applied when their coloring modes are GRADIENT.
+	 * 
+	 * @param seriesGradientColors The array storing a ColorGradient instance for each data series.
+	 */
+	public synchronized void setSeriesColorGradients(ColorGradient[] seriesColorGradients) {
+		this.seriesColorGradients = seriesColorGradients;
+	}
+
+	/**
+	 * Gets color gradients used for drawing data series, applied when their coloring modes are GRADIENT.
+	 * 
+	 * @return The array storing a ColorGradient instance for each data series.
+	 */
+	public synchronized ColorGradient[] getSeriesColorGradients() {
+		return this.seriesColorGradients;
+	}
+
+
 }
