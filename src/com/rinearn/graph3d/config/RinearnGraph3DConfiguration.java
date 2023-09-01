@@ -90,6 +90,9 @@ public final class RinearnGraph3DConfiguration {
 	/** The configuration of the camera (angles, magnification, and so on). */
 	private volatile CameraConfiguration cameraConfiguration = null;
 
+	/** The configuration of colors. */
+	private volatile ColorConfiguration colorConfiguration = null;
+
 
 	/**
 	 * Creates a new configuration storing default values.
@@ -121,6 +124,7 @@ public final class RinearnGraph3DConfiguration {
 		configuration.setFrameConfiguration(new FrameConfiguration());
 		configuration.setLightConfiguration(new LightConfiguration());
 		configuration.setCameraConfiguration(new CameraConfiguration());
+		configuration.setColorConfiguration(new ColorConfiguration());
 
 		return configuration;
 	}
@@ -265,4 +269,31 @@ public final class RinearnGraph3DConfiguration {
 		return this.cameraConfiguration;
 	}
 
+
+	/**
+	 * Checks whether any color configuration is set to this instance.
+	 * 
+	 * @return Returns true if any color configuration is set to this instance.
+	 */
+	public synchronized boolean hasColorConfiguration() {
+		return this.colorConfiguration != null;
+	}
+
+	/**
+	 * Sets the configuration of colors.
+	 * 
+	 * @param colorConfiguration The configuration of colors.
+	 */
+	public synchronized void setColorConfiguration(ColorConfiguration colorConfiguration) {
+		this.colorConfiguration = colorConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of colors.
+	 * 
+	 * @return The configuration of colors.
+	 */
+	public synchronized ColorConfiguration getColorConfiguration() {
+		return this.colorConfiguration;
+	}
 }
