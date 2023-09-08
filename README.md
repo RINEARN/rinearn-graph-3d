@@ -53,9 +53,14 @@ Please free to contact us if you have any questions, feedbacks, and so on.
 
 Following webpages may be useful if you need more information about RINEARN Graph 3D Ver.6, which is developed on this repository.
 
-* [RINEARN Graph 3D Updated and Next Version (Ver.6) Development Has Begun! - RINEARN News /  September 4, 2023](https://www.rinearn.com/en-us/info/news/2023/0904-software-update)
-<br/>
-An article introducing the concept of Ver.6.
+<dl>
+    <dt style="margin-left: 40px; display: list-item;">
+        <a href="https://www.rinearn.com/en-us/info/news/2023/0904-software-update">RINEARN Graph 3D Updated and Next Version (Ver.6) Development Has Begun! - RINEARN News /  September 4, 2023</a>
+    </dt>
+    <dd>
+        An article introducing the concept of Ver.6.
+    </dd>
+</dl>
 
 
 ---

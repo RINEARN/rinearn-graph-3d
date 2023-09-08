@@ -62,9 +62,14 @@ Ver.6のAPI仕様書はまだ用意されていませんが、以下から Ver.5
 
 このリポジトリで開発中の、次期版リニアングラフ3D（Ver.6）についての情報をもっと知りたい場合は、以下のウェブサイトや記事などが参考になるかもしれません。
 
-* [リニアングラフ3Dをアップデート、次期版（Ver.6）の開発もスタート! - RINEARN お知らせ記事 / 2023年9月4日](https://www.rinearn.com/ja-jp/info/news/2023/0904-software-update)
-<br/>
-記事の後半で、Ver.6 の開発コンセプトなどを紹介しています。
+<dl>
+    <dt style="margin-left: 40px; display: list-item;">
+        <a href="https://www.rinearn.com/ja-jp/info/news/2023/0904-software-update">リニアングラフ3Dをアップデート、次期版（Ver.6）の開発もスタート! - RINEARN お知らせ記事 / 2023年9月4日</a>
+    </dt>
+    <dd>
+        記事の後半で、Ver.6 の開発コンセプトなどを紹介しています。
+    </dd>
+</dl>
 
 
 ---
