@@ -41,6 +41,15 @@ RINEARN Graph 3D is being developed by a software development studio '[RINEARN](
 The author is Fumihiro Matsui, the founder of RINEARN.
 Please free to contact us if you have any questions, feedbacks, and so on.
 
+## References and Links
+
+Following webpages may be useful if you need more information about RINEARN Graph 3D Ver.6, which is developed on this repository.
+
+* [RINEARN Graph 3D Updated and Next Version (Ver.6) Development Has Begun! - RINEARN News /  September 4, 2023](https://www.rinearn.com/en-us/info/news/2023/0904-software-update)
+<br/>
+An article introducing the concept of Ver.6.
+
+
 ---
 
 ### Trademarks and Credits
