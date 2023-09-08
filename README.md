@@ -1,8 +1,12 @@
 # RINEARN Graph 3D / Ver. 6
 
+( &raquo; [Japanese README](./README_JAPANESE.md) )
+
 The repository for developing the next major version of RINEARN Graph 3D.
 
-( You can get the current version, Ver.5.6, from: [https://www.rinearn.com/graph3d/](https://www.rinearn.com/graph3d/) )
+You can get the current version, Ver.5.6, from the following website:
+<br />
+[https://www.rinearn.com/graph3d/](https://www.rinearn.com/graph3d/)
 
 ## Requirements
 
