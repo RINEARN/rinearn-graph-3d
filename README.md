@@ -38,6 +38,10 @@ You can see the API reference docs for Ver.5.6 from the followings:
 
 Please note that, on Ver.6, most of features in the above references have not been implemented yet.
 
+Also, how to use RINEARN Graph 3D as a graph drawing library, using the above API, is explained in the following article:
+
+* [Controlling and 3D Drawing by Java Language - RINEARN Graph 3D User's Guide](https://www.rinearn.com/en-us/graph3d/guide/api)
+
 
 ## About Us
 
