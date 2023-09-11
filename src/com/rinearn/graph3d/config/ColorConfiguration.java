@@ -99,6 +99,7 @@ NOTE
 
 
   また実装しながら後々で要検討
+  → とりあえず ColorGradient を仮案の通りに実装したので、ミキサー側を実装したあたりでまた再検討/検証
 
 !!!!!
 NOTE
@@ -112,34 +113,6 @@ NOTE
 public final class ColorConfiguration {
 
 	// IMPORTANT NOTE: plural of "series" is also "series".
-
-
-	// とりあえずインターフェース案だと土台はこれ
-	public static interface ColorGradient {
-	}
-
-	// インターフェースだと実装はこんな感じ？
-	public static class ColorGradient1D implements ColorGradient {
-	}
-	public static class ColorGradient2D implements ColorGradient {
-	}
-
-	// でもやっぱりなんか微妙だなあ… ColorGradientの中に封じ込めたい。
-
-	// 本質的に color gradient の要素を絞り出して作れば、後の派生は本質的に渡す側で変化できて、そうあるべきでは？
-	// とすると次元軸とmax/minとその方向の色配列があれば、それ以上の複雑化はそもそも要らない気がするし、すべきでない気がする。
-	// そしてそれなら次元数に関して一般化された構造になるはずで。
-
-	// 例えばスカラ場の強度でグラデするしても1Dで、ベクトル方向渡すにしても3Dで、
-	// そこに位置かベクトル成分かの違いは渡す側でスイッチすべきでしょ。
-	// DirectionalColorGradient3Dとか生えていくのはまずい方向でしょ。直感的に。
-	// そんならもうColorGradinentは N-Dimensional なグラデに単純化して、
-	// 上みたいな派生は上層でやる方がいいかと。
-
-	// ライブラリとして使う際にアプリサイドで派生させられるメリットはあるが
-	// そもそも渡される情報が決まってればそんなに自由さはないでしょ。
-	// 結局モード増やすしかない気がするし、それと併せて渡す側の拡張するしかないわけで。
-
 
 	/**
 	 * The enum for specifying coloring mode for each data series.
@@ -171,7 +144,9 @@ public final class ColorConfiguration {
 	};
 
 	/** The array storing a gradient color(s) for each of data series. */
-	private volatile ColorGradient[] seriesColorGradients;   // The design of "Gradient" has not been fixed yet.
+	private volatile ColorGradient[] seriesColorGradients = {
+		new ColorGradient()
+	};
 
 
 	/**

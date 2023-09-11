@@ -153,6 +153,11 @@ public final class ScaleConfiguration {
 		// ↑ 区間の訳の命名、interval は長さ値的なニュアンスを含むので、個数に注目しているここでは section の方がいい。
 		//    前者のニュアンスを含む個所では interval を使うよう注意。
 
+		// -> MANUAL モードとかとの統一性を考えたら tickCount の方がいいのでは？
+		//    Color gradient の方でも boundaryCount にしてるし、そっちとの対応的にも。
+		//    利用上は sectionCount ベースの方が便利かもだが、それはUI層でどうとでもなるし、
+		//    config 層では内部処理的に綺麗な方がしておいた方がいいかも。
+
 		/** The precision of the internal calculation of the scale's coordinates. */
 		private volatile int calculationPrecision = 128;
 
