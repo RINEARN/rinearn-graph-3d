@@ -231,10 +231,10 @@ public final class ColorGradient {
 		private volatile BigDecimal[] boundaryCoordinates = null;
 
 		/** The minimum coordinate value in boundary points, in EQUAL_DIVISION mode. */
-		private volatile BigDecimal minBoundaryCoordinate = BigDecimal.ONE;
+		private volatile BigDecimal minBoundaryCoordinate = BigDecimal.ONE.negate();
 
 		/** The maximum coordinate value in boundary points, in EQUAL_DIVISION mode. */
-		private volatile BigDecimal maxBoundaryCoordinate = BigDecimal.ONE.negate();
+		private volatile BigDecimal maxBoundaryCoordinate = BigDecimal.ONE;
 
 		/** The flag to detect the min/max coords of boundary points automatically from the data, in EQUAL_DIVISION mode. */
 		private volatile boolean autoBoundaryRangingEnabled = true;

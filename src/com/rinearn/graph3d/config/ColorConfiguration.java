@@ -117,7 +117,7 @@ public final class ColorConfiguration {
 	/**
 	 * The enum for specifying coloring mode for each data series.
 	 */
-	public enum SeriesColoringMode {
+	public enum DataColoringMode {
 
 		/** Represents the mode for drawing a data series with a solid color. */
 		SOLID,
@@ -127,12 +127,12 @@ public final class ColorConfiguration {
 	}
 
 	/** The array storing a color mode for each data series. */
-	private volatile SeriesColoringMode[] seriesColoringModes = {
-		SeriesColoringMode.GRADIENT // Because the gradient option is enabled by default.
+	private volatile DataColoringMode[] dataColoringModes = {
+		DataColoringMode.GRADIENT // Because the gradient option is enabled by default.
 	};
 
 	/** The array storing a solid color for each data series. */
-	private volatile Color[] seriesSolidColors = {
+	private volatile Color[] dataSolidColors = {
 		Color.RED,
 		Color.GREEN,
 		Color.BLUE,
@@ -144,7 +144,7 @@ public final class ColorConfiguration {
 	};
 
 	/** The array storing a gradient color(s) for each of data series. */
-	private volatile ColorGradient[] seriesColorGradients = {
+	private volatile ColorGradient[] dataColorGradients = {
 		new ColorGradient()
 	};
 
@@ -159,10 +159,10 @@ public final class ColorConfiguration {
 	/**
 	 * Sets the coloring modes, for determining the color of each data series.
 	 * 
-	 * @param seriesColorModes The array storing a coloring mode for each data series.
+	 * @param dataColoringModes The array storing a coloring mode for each data series.
 	 */
-	public synchronized void setSeriesColoringModes(SeriesColoringMode[] seriesColoringModes) {
-		this.seriesColoringModes = seriesColoringModes;
+	public synchronized void setDataColoringModes(DataColoringMode[] dataColoringModes) {
+		this.dataColoringModes = dataColoringModes;
 	}
 
 	/**
@@ -170,8 +170,8 @@ public final class ColorConfiguration {
 	 * 
 	 * @return The array storing a coloring mode for each data series.
 	 */
-	public synchronized SeriesColoringMode[] getSeriesColoringModes() {
-		return this.seriesColoringModes;
+	public synchronized DataColoringMode[] getDataColoringModes() {
+		return this.dataColoringModes;
 	}
 
 
@@ -188,14 +188,16 @@ public final class ColorConfiguration {
 	//       -> そんなら setDataSolidColors とかにすべき？
 	//          で、各系列がどの色に割り当てられるかは dataColors[ 系列インデックス % N ] になります、的な。
 	//          確かにこっちの方が説明もわかりやすいかも。
+	//
+	//          -> 全般的に series -> data に改名した。まだ変えてみただけなので仕様が固まるまでこの Note は消さない。
 
 	/**
 	 * Sets solid colors used for drawing data series, applied when their coloring modes are SOLID.
 	 * 
-	 * @param seriesColors The array storing a solid color for each data series.
+	 * @param dataSolidColors The array storing a solid color for each data series.
 	 */
-	public synchronized void setSerieSolidsColors(Color[] seriesSolidColors) {
-		this.seriesSolidColors = seriesSolidColors;
+	public synchronized void setDataSolidsColors(Color[] dataSolidColors) {
+		this.dataSolidColors = dataSolidColors;
 	}
 
 
@@ -204,18 +206,18 @@ public final class ColorConfiguration {
 	 * 
 	 * @return The array storing a solid color for each data series.
 	 */
-	public synchronized Color[] getSeriesSolidColors() {
-		return this.seriesSolidColors;
+	public synchronized Color[] getDataSolidColors() {
+		return this.dataSolidColors;
 	}
 
 
 	/**
 	 * Sets gradient colors used for drawing data series, applied when their coloring modes are GRADIENT.
 	 * 
-	 * @param seriesGradientColors The array storing a ColorGradient instance for each data series.
+	 * @param dataColorGradients The array storing a ColorGradient instance for each data series.
 	 */
-	public synchronized void setSeriesColorGradients(ColorGradient[] seriesColorGradients) {
-		this.seriesColorGradients = seriesColorGradients;
+	public synchronized void setDataColorGradients(ColorGradient[] dataColorGradients) {
+		this.dataColorGradients = dataColorGradients;
 	}
 
 	/**
@@ -223,8 +225,8 @@ public final class ColorConfiguration {
 	 * 
 	 * @return The array storing a ColorGradient instance for each data series.
 	 */
-	public synchronized ColorGradient[] getSeriesColorGradients() {
-		return this.seriesColorGradients;
+	public synchronized ColorGradient[] getDataColorGradients() {
+		return this.dataColorGradients;
 	}
 
 
