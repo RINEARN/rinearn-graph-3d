@@ -107,6 +107,24 @@ NOTE
 */
 
 
+/*
+!!!!!
+NOTE 2
+!!!!!
+
+・setColorBarRange 的な手軽なやつが欲しい。
+
+  → config の層は構造的に合わなさそう。RinearnGraph3Dにダイレクトに付ける？
+     内部処理的には、axisGradients[0] の autoRangingEnabled を false にしつつ min/max 値を設定する config 操作を一括でやる感じで、
+     できるのは一応できる。問題はあっていいかどうか。しかし無しという選択肢は実用考えたら厳しい気がするし、やっぱあるべきか。
+
+	 また後々で要検討。
+
+!!!!!
+NOTE 2
+!!!!!
+ */
+
 /**
  * The class for storing configuration of colors.
  */
