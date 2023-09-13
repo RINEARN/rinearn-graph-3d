@@ -24,9 +24,9 @@ public class TempMain {
 		// Gets the rendering engine of 3D graphs.
 		RinearnGraph3DRenderer renderer = graph3D.getRenderer();
 
-		// Create a color configuration of 2D color gradient.
+		// Create a color configuration of 3D color gradient.
 		ColorConfiguration colorConfig = new ColorConfiguration();
-		ColorGradient gradient = create2DColorGradient();
+		ColorGradient gradient = create3DColorGradient();
 		colorConfig.setDataColorGradients(new ColorGradient[] {gradient});
 
 		// Reflect the above color configuration to the renderer.
@@ -162,6 +162,44 @@ public class TempMain {
 		return gradient;
 	}
 
+
+	private static ColorGradient create3DColorGradient() {
+
+		Color clearBlack = new Color(0, 0, 0, 0);
+
+		ColorGradient.AxisColorGradient xGradient = new ColorGradient.AxisColorGradient();
+		xGradient.setAxis(ColorGradient.GradientAxis.X);
+		xGradient.setBoundaryCount(2);
+		xGradient.setBoundaryColors(new Color[] {clearBlack, Color.RED});
+
+		ColorGradient.AxisColorGradient yGradient = new ColorGradient.AxisColorGradient();
+		yGradient.setAxis(ColorGradient.GradientAxis.Y);
+		yGradient.setBoundaryCount(2);
+		yGradient.setBoundaryColors(new Color[] {clearBlack, Color.GREEN});
+
+		ColorGradient.AxisColorGradient zGradient = new ColorGradient.AxisColorGradient();
+		zGradient.setAxis(ColorGradient.GradientAxis.Z);
+		zGradient.setBoundaryCount(2);
+		zGradient.setBoundaryColors(new Color[] {clearBlack, Color.BLUE});
+
+		ColorGradient.AxisColorGradient[] axisGradients = {
+				xGradient,
+				yGradient,
+				zGradient
+		};
+
+		ColorGradient.BlendMode[] axisBlendModes = {
+				ColorGradient.BlendMode.ADDITION,
+				ColorGradient.BlendMode.ADDITION,
+				ColorGradient.BlendMode.ADDITION
+		};
+
+		ColorGradient gradient = new ColorGradient();
+		gradient.setAxisCount(3);
+		gradient.setAxisColorGradients(axisGradients);
+		gradient.setAxisBlendModes(axisBlendModes);
+		return gradient;
+	}
 
 
 	private static class MeshData {
