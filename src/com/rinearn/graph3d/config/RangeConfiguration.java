@@ -100,6 +100,30 @@ public final class RangeConfiguration {
 		this.extraDimensionRangeConfigurations = extraDimensionRangeConfigurations;
 	}
 
+	/**
+	 * Validates correctness and consistency of configuration parameters stored in this instance.
+	 * 
+	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
+	 * If no issue is detected, nothing occurs.
+	 * If any issue is detected, throws IllegalStateException.
+	 * 
+	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 */
+	public synchronized void validate() throws IllegalStateException {
+
+		// Validate configs of X/Y/Z axes.
+		this.xRangeConfiguration.validate();
+		this.yRangeConfiguration.validate();
+		this.zRangeConfiguration.validate();
+
+		// Validate configs of extra dimensions.
+		if (this.extraDimensionRangeConfigurations == null) {
+			throw new IllegalStateException("The extra-dimension's range configurations is null.");
+		}
+		for (AxisRangeConfiguration extraDimConfig: this.extraDimensionRangeConfigurations) {
+			extraDimConfig.validate();
+		}
+	}
 
 	/**
 	 * The class storing configuration values of the range of an axis (X, Y, or Z).
@@ -146,6 +170,24 @@ public final class RangeConfiguration {
 		 */
 		public synchronized BigDecimal getMaximum() {
 			return this.max;
+		}
+
+		/**
+		 * Validates correctness and consistency of configuration parameters stored in this instance.
+		 * 
+		 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
+		 * If no issue is detected, nothing occurs.
+		 * If any issue is detected, throws IllegalStateException.
+		 * 
+		 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+		 */
+		public synchronized void validate() throws IllegalStateException {
+			if (this.min == null) {
+				throw new IllegalStateException("The minimum value of the range is null.");
+			}
+			if (this.max == null) {
+				throw new IllegalStateException("The maximum value of the range is null.");
+			}
 		}
 	}
 }

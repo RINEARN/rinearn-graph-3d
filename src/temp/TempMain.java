@@ -4,6 +4,7 @@ import com.rinearn.graph3d.RinearnGraph3D;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.config.ColorConfiguration;
 import com.rinearn.graph3d.config.ColorGradient;
 
@@ -31,11 +32,14 @@ public class TempMain {
 		ColorGradient gradient = createXColorGradientWithYClearMask();
 		colorConfig.setDataColorGradients(new ColorGradient[] {gradient});
 
-		// Reflect the above color configuration to the renderer.
+		// Create a range configuration.
+		RangeConfiguration rangeConfig = new RangeConfiguration();
+
+		// Reflect the above color configs to the renderer.
 		RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
 		config.setColorConfiguration(colorConfig);
+		config.setRangeConfiguration(rangeConfig);
 		renderer.setConfiguration(config);
-
 
 		// Draw many roundom points.
 		for (int i=0; i<500; i++) {

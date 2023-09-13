@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.config;
 
+import com.rinearn.graph3d.config.RangeConfiguration.AxisRangeConfiguration;
+
 // !!!!!
 // NOTE
 //
@@ -127,6 +129,22 @@ public final class RinearnGraph3DConfiguration {
 		configuration.setColorConfiguration(new ColorConfiguration());
 
 		return configuration;
+	}
+
+
+	/**
+	 * Validates correctness and consistency of configuration parameters stored in this instance.
+	 * 
+	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
+	 * If no issue is detected, nothing occurs.
+	 * If any issue is detected, throws IllegalStateException.
+	 * 
+	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 */
+	public synchronized void validate() throws IllegalStateException {
+		if (this.hasRangeConfiguration()) {
+			this.rangeConfiguration.validate();
+		}
 	}
 
 

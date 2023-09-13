@@ -149,8 +149,15 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * To reflect the changes, please clear() and re-draw all contents again.
 	 * 
 	 * @param configuration The container storing configuration values.
+	 * @throws IllegalArgumentException
+	 *     Thrown when incorrect or inconsistent settings are detected in the specified configuration.
 	 */
 	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
+		try {
+			configuration.validate();
+		} catch (Exception e) {
+			throw new IllegalArgumentException(e);
+		}
 
 		// RinearnGraph3DConfiguration is a container of subpart configurations.
 		// Some of them are set and others are not set,
