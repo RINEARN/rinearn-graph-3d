@@ -170,6 +170,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		if (configuration.hasCameraConfiguration()) {
 			this.config.setCameraConfiguration(configuration.getCameraConfiguration());
 		}
+		if (configuration.hasColorConfiguration()) {
+			this.config.setColorConfiguration(configuration.getColorConfiguration());
+		}
 
 		// Set the ranges of X/Y/Z axes.
 		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
