@@ -58,8 +58,29 @@ public final class ColorMixer {
 	 * @return The generated color.
 	 */
 	public synchronized Color generateColor(
-			BigDecimal[] coordinates, RinearnGraph3DDrawingParameter drawingParam, ColorConfiguration colorConfig) {
+			double[] coordinates, RinearnGraph3DDrawingParameter drawingParam, ColorConfiguration colorConfig) {
 
+		// Convert the arg "coordinates" to BigDecimal values.
+		int coordinateCount = coordinates.length;
+		BigDecimal[] bigDecimalCoords = new BigDecimal[coordinateCount];
+		for (int icoord=0; icoord<coordinateCount; icoord++) {
+			bigDecimalCoords[icoord] = new BigDecimal(coordinates[icoord]);
+		}
+
+		return this.generateColor(bigDecimalCoords, drawingParam, colorConfig);
+	}
+
+
+	/**
+	 * Generates a color for drawing a geometric piece (a point, a line, and so on).
+	 * 
+	 * @param coordinates The coordinate values of the representative point. The index is [0:X, 1:Y, 2:Z, 3:scalar-dimension].
+	 * @param drawingParam The drawing parameter specified for drawing the geometric piece.
+	 * @param colorConfig The color configuration.
+	 * @return The generated color.
+	 */
+	public synchronized Color generateColor(
+			BigDecimal[] coordinates, RinearnGraph3DDrawingParameter drawingParam, ColorConfiguration colorConfig) {
 		// If the automatic-coloring feature is disabled, the color is explicitly specified in the param object.
 		// So return that color.
 		if (!drawingParam.isAutoColoringEnabled()) {
@@ -220,10 +241,10 @@ public final class ColorMixer {
 			}
 
 			// The color components may exceed 1.0 by the above operations, so crop them into the range [0.0, 1.0].
-			resultR = Math.min(Math.min(resultR, 1.0), 0.0);
-			resultG = Math.min(Math.min(resultG, 1.0), 0.0);
-			resultB = Math.min(Math.min(resultB, 1.0), 0.0);
-			resultA = Math.min(Math.min(resultA, 1.0), 0.0);
+			resultR = Math.max(Math.min(resultR, 1.0), 0.0);
+			resultG = Math.max(Math.min(resultG, 1.0), 0.0);
+			resultB = Math.max(Math.min(resultB, 1.0), 0.0);
+			resultA = Math.max(Math.min(resultA, 1.0), 0.0);
 		}
 
 		// Create a Color instance having the blended color components, and return it.
