@@ -153,6 +153,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 *     Thrown when incorrect or inconsistent settings are detected in the specified configuration.
 	 */
 	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
+
+		// Validate the specified (may be partial) configuration at first.
 		try {
 			configuration.validate();
 		} catch (Exception e) {
@@ -161,7 +163,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 		// RinearnGraph3DConfiguration is a container of subpart configurations.
 		// Some of them are set and others are not set,
-		// so extract only stored subpart configurations in the arg and set them to the "config" field of this class.
+		// so extract only stored subpart configurations in the arg and merge them to the "config" field of this instance.
 		if (configuration.hasRangeConfiguration()) {
 			this.config.setRangeConfiguration(configuration.getRangeConfiguration());
 		}
@@ -179,6 +181,16 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		}
 		if (configuration.hasColorConfiguration()) {
 			this.config.setColorConfiguration(configuration.getColorConfiguration());
+		}
+
+		// Validate the merged full "config" (field of this instance).
+		// Note that, even when the validation of the specified "configuration" argument has passed,
+		// the validation of the full "config" may fail.
+		// It is because there are some dependencies between subpart configurations.
+		try {
+			this.config.validate();
+		} catch (Exception e) {
+			throw new IllegalArgumentException(e);
 		}
 
 		// Set the ranges of X/Y/Z axes.
