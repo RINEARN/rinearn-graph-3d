@@ -16,6 +16,9 @@ public final class RangeConfiguration {
 	/** The configuration of the range of Z axis. */
 	private volatile AxisRangeConfiguration zRangeConfiguration = new AxisRangeConfiguration();
 
+	/** The configurations of the ranges of the extra dimensions. */
+	private volatile AxisRangeConfiguration[] extraDimensionRangeConfigurations = new AxisRangeConfiguration[0];
+
 
 	/**
 	 * Creates a new configuration storing default values.
@@ -76,6 +79,25 @@ public final class RangeConfiguration {
 	 */
 	public synchronized AxisRangeConfiguration getZRangeConfiguration() {
 		return this.zRangeConfiguration;
+	}
+
+	/**
+	 * Gets the total number of the extra dimensions.
+	 * 
+	 * @return The total number of the extra dimensions.
+	 */
+	public synchronized int getExtraDimensionCount() {
+		return this.extraDimensionRangeConfigurations.length;
+	}
+
+	/**
+	 * Sets the configurations of the ranges of the extra dimensions.
+	 * 
+	 * @param extraDimensionRangeConfigurations The configurations of the extra dimensions.
+	 */
+	public synchronized void setExtraDimensionRangeConfigurations(
+			AxisRangeConfiguration[] extraDimensionRangeConfigurations) {
+		this.extraDimensionRangeConfigurations = extraDimensionRangeConfigurations;
 	}
 
 
