@@ -112,6 +112,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The object providing drawing process of graph frames and grid lines. */
 	private volatile FrameDrawer frameDrawer = new FrameDrawer(this.config.getFrameConfiguration(), this.frameColor, this.gridColor);
 
+	/** The color mixer, which generates colors of geometric pieces (points, lines, and so on). */
+	private volatile ColorMixer colorMixer = new ColorMixer();
+
 	/** The flag representing whether the graph screen has been resized. */
 	private volatile boolean screenUpdated = false;
 
@@ -293,7 +296,10 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	public synchronized void drawPoint(double x, double y, double z, 
 			double radius) {
 
-		throw new RuntimeException("Unimplemented yet");
+		RinearnGraph3DDrawingParameter parameter = new RinearnGraph3DDrawingParameter();
+		parameter.setAutoColoringEnabled(true);
+		parameter.setSeriesIndex(0);
+		this.drawPoint(x, y, z, radius, parameter);
 	}
 
 
@@ -340,11 +346,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			z = this.axes[Z].scaleCoordinate(z);
 		}
 
-		if (parameter.isAutoColoringEnabled()) {
-			throw new RuntimeException("Unimplemented yet");			
-		}
-
-		Color color = parameter.getColor();
+		double[] colorRepresentCoords = {x, y, z};
+		Color color = this.colorMixer.generateColor(colorRepresentCoords, parameter, this.config.getColorConfiguration());
 		PointGeometricPiece point = new PointGeometricPiece(x, y, z, radius, color);
 		this.geometricPieceList.add(point);
 	}

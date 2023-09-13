@@ -20,6 +20,18 @@ public class TempMain {
 		// Gets the rendering engine of 3D graphs.
 		RinearnGraph3DRenderer renderer = graph3D.getRenderer();
 
+		// Draw many roundom points.
+		int n = 500;
+		for (int i=0; i<n; i++) {
+
+			double x = Math.random() * 2.0 - 1.0;
+			double y = Math.random() * 2.0 - 1.0;
+			double z = Math.random() * 2.0 - 1.0;
+			renderer.drawPoint(x, y, z, 4.0);
+			//renderer.drawPoint(x, y, z, 4.0, Color.GREEN);
+		}
+
+		/*
 		// Draw many points.
 		int n = 100;
 		for (int i=0; i<n; i++) {
@@ -63,6 +75,7 @@ public class TempMain {
 				renderer.drawQuadrangle(aX,aY,aZ, bX,bY,bZ, cX,cY,cZ, dX,dY,dZ, color);
 			}
 		}
+		*/
 
 		// Render the 3D graph.
 		renderer.render();
