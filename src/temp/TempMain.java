@@ -42,6 +42,29 @@ public class TempMain {
 			renderer.drawLine(aX, aY, aZ, bX, bY, bZ, 1.0);
 		}
 
+		// Draw many quadrangles.
+		for (int i=0; i<100; i++) {
+
+			double aX = Math.random() * 2.0 - 1.0;
+			double aY = Math.random() * 2.0 - 1.0;
+			double aZ = Math.random() * 2.0 - 1.0;
+			double bX = aX + 0.1;
+			double bY = aY;
+			double bZ = aZ;
+			double cX = aX + 0.1;
+			double cY = aY + 0.1;
+			double cZ = aZ;
+			double dX = aX;
+			double dY = aY + 0.1;
+			double dZ = aZ;
+			renderer.drawQuadrangle(
+					aX, aY, aZ,
+					bX, bY, bZ,
+					cX, cY, cZ,
+					dX, dY, dZ
+			);
+		}
+
 		/*
 		// Draw many points.
 		int n = 100;

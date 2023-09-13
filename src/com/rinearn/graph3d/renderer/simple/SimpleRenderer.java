@@ -461,7 +461,10 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			double cX, double cY, double cZ, 
 			double dX, double dY, double dZ) {
 
-		throw new RuntimeException("Unimplemented yet");
+		RinearnGraph3DDrawingParameter parameter = new RinearnGraph3DDrawingParameter();
+		parameter.setAutoColoringEnabled(true);
+		parameter.setSeriesIndex(0);
+		this.drawQuadrangle(aX, aY, aZ, bX, bY, bZ, cX, cY, cZ, dX, dY, dZ, parameter);
 	}
 
 
@@ -529,11 +532,15 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			dZ = this.axes[Z].scaleCoordinate(dZ);
 		}
 
-		if (parameter.isAutoColoringEnabled()) {
-			throw new RuntimeException("Unimplemented yet");			
-		}
+		// Generates the color based on the current color configuration.
+		double[] colorRepresentCoords = {
+				(aX + bX + cX + dX) / 4.0,
+				(aY + bY + cY + dY) / 4.0,
+				(aZ + bZ + cZ + dZ) / 4.0
+		};
+		Color color = this.colorMixer.generateColor(colorRepresentCoords, parameter, this.config.getColorConfiguration());
 
-		Color color = parameter.getColor();
+		// Create a quadrangle piece and register to the list.
 		QuadrangleGeometricPiece quad = new QuadrangleGeometricPiece(aX, aY, aZ, bX, bY, bZ, cX, cY, cZ, dX, dY, dZ, color);
 		this.geometricPieceList.add(quad);
 	}
