@@ -346,8 +346,11 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			z = this.axes[Z].scaleCoordinate(z);
 		}
 
+		// Generates the color based on the current color configuration.
 		double[] colorRepresentCoords = {x, y, z};
 		Color color = this.colorMixer.generateColor(colorRepresentCoords, parameter, this.config.getColorConfiguration());
+
+		// Create a point piece and register to the list.
 		PointGeometricPiece point = new PointGeometricPiece(x, y, z, radius, color);
 		this.geometricPieceList.add(point);
 	}
@@ -358,7 +361,10 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			double bX, double bY, double bZ, 
 			double width) {
 
-		throw new RuntimeException("Unimplemented yet");
+		RinearnGraph3DDrawingParameter parameter = new RinearnGraph3DDrawingParameter();
+		parameter.setAutoColoringEnabled(true);
+		parameter.setSeriesIndex(0);
+		this.drawLine(aX, aY, aZ, bX, bY, bZ, width, parameter);
 	}
 
 
@@ -406,11 +412,15 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			bZ = this.axes[Z].scaleCoordinate(bZ);
 		}
 
-		if (parameter.isAutoColoringEnabled()) {
-			throw new RuntimeException("Unimplemented yet");			
-		}
+		// Generates the color based on the current color configuration.
+		double[] colorRepresentCoords = {
+				(aX + bX) / 2.0,
+				(aY + bY) / 2.0,
+				(aZ + bZ) / 2.0
+		};
+		Color color = this.colorMixer.generateColor(colorRepresentCoords, parameter, this.config.getColorConfiguration());
 
-		Color color = parameter.getColor();
+		// Create a line piece and register to the list.
 		LineGeometricPiece line = new LineGeometricPiece(aX, aY, aZ, bX, bY, bZ, width, color);
 		this.geometricPieceList.add(line);
 	}

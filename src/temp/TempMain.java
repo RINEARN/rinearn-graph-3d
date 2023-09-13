@@ -21,14 +21,25 @@ public class TempMain {
 		RinearnGraph3DRenderer renderer = graph3D.getRenderer();
 
 		// Draw many roundom points.
-		int n = 500;
-		for (int i=0; i<n; i++) {
+		for (int i=0; i<500; i++) {
 
 			double x = Math.random() * 2.0 - 1.0;
 			double y = Math.random() * 2.0 - 1.0;
 			double z = Math.random() * 2.0 - 1.0;
 			renderer.drawPoint(x, y, z, 4.0);
 			//renderer.drawPoint(x, y, z, 4.0, Color.GREEN);
+		}
+
+		// Draw many roundom lines.
+		for (int i=0; i<500; i++) {
+
+			double aX = Math.random() * 2.0 - 1.0;
+			double aY = Math.random() * 2.0 - 1.0;
+			double aZ = Math.random() * 2.0 - 1.0;
+			double bX = aX + Math.random() * 0.6 - 0.3;
+			double bY = aY + Math.random() * 0.6 - 0.3;
+			double bZ = aZ + Math.random() * 0.6 - 0.3;
+			renderer.drawLine(aX, aY, aZ, bX, bY, bZ, 1.0);
 		}
 
 		/*
