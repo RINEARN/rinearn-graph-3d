@@ -3,6 +3,10 @@ package temp;
 import com.rinearn.graph3d.RinearnGraph3D;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.ColorConfiguration;
+import com.rinearn.graph3d.config.ColorGradient;
+
 import java.awt.Color;
 
 
@@ -19,6 +23,17 @@ public class TempMain {
 
 		// Gets the rendering engine of 3D graphs.
 		RinearnGraph3DRenderer renderer = graph3D.getRenderer();
+
+		// Create a color configuration of 2D color gradient.
+		ColorConfiguration colorConfig = new ColorConfiguration();
+		ColorGradient gradient = create2DColorGradient();
+		colorConfig.setDataColorGradients(new ColorGradient[] {gradient});
+
+		// Reflect the above color configuration to the renderer.
+		RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
+		config.setColorConfiguration(colorConfig);
+		renderer.setConfiguration(config);
+
 
 		// Draw many roundom points.
 		for (int i=0; i<500; i++) {
@@ -114,6 +129,39 @@ public class TempMain {
 		// Render the 3D graph.
 		renderer.render();
 	}
+
+
+	private static ColorGradient create2DColorGradient() {
+
+		Color clearBlack = new Color(0, 0, 0, 0);
+
+		ColorGradient.AxisColorGradient xGradient = new ColorGradient.AxisColorGradient();
+		xGradient.setAxis(ColorGradient.GradientAxis.X);
+		xGradient.setBoundaryCount(2);
+		xGradient.setBoundaryColors(new Color[] {clearBlack, Color.RED});
+
+		ColorGradient.AxisColorGradient yGradient = new ColorGradient.AxisColorGradient();
+		yGradient.setAxis(ColorGradient.GradientAxis.Y);
+		yGradient.setBoundaryCount(2);
+		yGradient.setBoundaryColors(new Color[] {clearBlack, Color.GREEN});
+
+		ColorGradient.AxisColorGradient[] axisGradients = {
+				xGradient,
+				yGradient
+		};
+
+		ColorGradient.BlendMode[] axisBlendModes = {
+				ColorGradient.BlendMode.ADDITION,
+				ColorGradient.BlendMode.ADDITION
+		};
+
+		ColorGradient gradient = new ColorGradient();
+		gradient.setAxisCount(2);
+		gradient.setAxisColorGradients(axisGradients);
+		gradient.setAxisBlendModes(axisBlendModes);
+		return gradient;
+	}
+
 
 
 	private static class MeshData {
