@@ -52,10 +52,6 @@ public final class ColorGradient {
 	/** Stores an one-dimensional gradient for each axis. */
 	private AxisColorGradient[] axisColorGradients = { new AxisColorGradient() };
 
-	/** Stores a blend mode for each axis. */
-	private BlendMode[] axisBlendModes = { BlendMode.ADDITION };
-	// Note: About the above: the blend mode Should be contained in AxisColorGradient as a field?
-
 	/** The background color on which the gradients of all axes are blended. */
 	private Color backgroundColor = new Color(0, 0, 0, 0); // Clear black
 
@@ -85,24 +81,6 @@ public final class ColorGradient {
 	 */
 	public synchronized AxisColorGradient[] getAxisColorGradients() {
 		return this.axisColorGradients;
-	}
-
-	/**
-	 * Sets each axis's blend mode, by an array storing a blend mode for each axis.
-	 * 
-	 * @param axisBlendModes The array storing a blend mode for each axis.
-	 */
-	public synchronized void setAxisBlendModes(BlendMode[] axisBlendModes) {
-		this.axisBlendModes = axisBlendModes;
-	}
-
-	/**
-	 * Gets each axis's blend mode as an array.
-	 * 
-	 * @return The array storing a blend mode for each axis.
-	 */
-	public synchronized BlendMode[] getAxisBlendModes() {
-		return this.axisBlendModes;
 	}
 
 	/**
@@ -146,18 +124,9 @@ public final class ColorGradient {
 			}
 		}
 
-		// Validate blend modes.
-		if (this.axisBlendModes == null) {
-			throw new IllegalStateException("The axes's blend modes are null");
-		} else {
-			for (ColorGradient.BlendMode axisBlendMode: this.axisBlendModes) {
-				if (axisBlendMode == null) {
-					throw new IllegalStateException("There is a null element in the axes's blend modes.");
-				}
-			}
-			if (this.axisColorGradients.length != this.axisBlendModes.length) {
-				throw new IllegalStateException("The total number of the axes's blend modes does not mathc with the number of the axes's color gradients.");
-			}
+		// Validate the background color.
+		if (this.backgroundColor == null) {
+			throw new IllegalStateException("The background color is null.");
 		}
 	}
 
@@ -233,6 +202,9 @@ public final class ColorGradient {
 		/** The dimension axis of this gradient. */
 		private volatile GradientAxis axis = GradientAxis.Z;
 
+		/** Stores a blend mode, for blending this gradient to the background color or an other gradient. */
+		private BlendMode blendMode = BlendMode.ADDITION;
+
 		/** The boundary mode, which determines locations of boundary points. */
 		private volatile BoundaryMode boundaryMode = BoundaryMode.EQUAL_DIVISION;
 
@@ -277,6 +249,24 @@ public final class ColorGradient {
 		 */
 		public synchronized GradientAxis getAxis() {
 			return this.axis;
+		}
+
+		/**
+		 * Sets the blend mode, for blending this gradient to the background color or an other gradient.
+		 * 
+		 * @param blendMode The blend mode.
+		 */
+		public synchronized void setBlendMode(BlendMode blendMode) {
+			this.blendMode = blendMode;
+		}
+
+		/**
+		 * Gets the blend mode, for blending this gradient to the background color or an other gradient.
+		 * 
+		 * @return The blend mode.
+		 */
+		public synchronized BlendMode getBlendMode() {
+			return this.blendMode;
 		}
 
 		/**
@@ -427,9 +417,12 @@ public final class ColorGradient {
 		 */
 		public synchronized void validate() throws IllegalStateException {
 
-			// Validate modes.
+			// Validate the axis and the modes.
 			if (this.axis == null) {
 				throw new IllegalStateException("The axis is null.");
+			}
+			if (this.blendMode == null) {
+				throw new IllegalStateException("The blend mode is null.");
 			}
 			if (this.boundaryMode == null) {
 				throw new IllegalStateException("The boundary mode is null.");

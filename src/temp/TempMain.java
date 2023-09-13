@@ -144,24 +144,20 @@ public class TempMain {
 		ColorGradient.AxisColorGradient xGradient = new ColorGradient.AxisColorGradient();
 		xGradient.setAxis(ColorGradient.GradientAxis.X);
 		xGradient.setBoundaryColors(new Color[] {clearBlack, Color.RED});
+		xGradient.setBlendMode(ColorGradient.BlendMode.ADDITION);
 
 		ColorGradient.AxisColorGradient yGradient = new ColorGradient.AxisColorGradient();
 		yGradient.setAxis(ColorGradient.GradientAxis.Y);
 		yGradient.setBoundaryColors(new Color[] {clearBlack, Color.GREEN});
+		yGradient.setBlendMode(ColorGradient.BlendMode.ADDITION);
 
 		ColorGradient.AxisColorGradient[] axisGradients = {
 				xGradient,
 				yGradient
 		};
 
-		ColorGradient.BlendMode[] axisBlendModes = {
-				ColorGradient.BlendMode.ADDITION,
-				ColorGradient.BlendMode.ADDITION
-		};
-
 		ColorGradient gradient = new ColorGradient();
 		gradient.setAxisColorGradients(axisGradients);
-		gradient.setAxisBlendModes(axisBlendModes);
 		return gradient;
 	}
 
@@ -173,14 +169,17 @@ public class TempMain {
 		ColorGradient.AxisColorGradient xGradient = new ColorGradient.AxisColorGradient();
 		xGradient.setAxis(ColorGradient.GradientAxis.X);
 		xGradient.setBoundaryColors(new Color[] {clearBlack, Color.RED});
+		xGradient.setBlendMode(ColorGradient.BlendMode.ADDITION);
 
 		ColorGradient.AxisColorGradient yGradient = new ColorGradient.AxisColorGradient();
 		yGradient.setAxis(ColorGradient.GradientAxis.Y);
 		yGradient.setBoundaryColors(new Color[] {clearBlack, Color.GREEN});
+		yGradient.setBlendMode(ColorGradient.BlendMode.ADDITION);
 
 		ColorGradient.AxisColorGradient zGradient = new ColorGradient.AxisColorGradient();
 		zGradient.setAxis(ColorGradient.GradientAxis.Z);
 		zGradient.setBoundaryColors(new Color[] {clearBlack, Color.BLUE});
+		zGradient.setBlendMode(ColorGradient.BlendMode.ADDITION);
 
 		ColorGradient.AxisColorGradient[] axisGradients = {
 				xGradient,
@@ -188,15 +187,8 @@ public class TempMain {
 				zGradient
 		};
 
-		ColorGradient.BlendMode[] axisBlendModes = {
-				ColorGradient.BlendMode.ADDITION,
-				ColorGradient.BlendMode.ADDITION,
-				ColorGradient.BlendMode.ADDITION
-		};
-
 		ColorGradient gradient = new ColorGradient();
 		gradient.setAxisColorGradients(axisGradients);
-		gradient.setAxisBlendModes(axisBlendModes);
 		return gradient;
 	}
 
@@ -214,24 +206,20 @@ public class TempMain {
 				Color.YELLOW,
 				Color.RED
 		});
+		xGradient.setBlendMode(ColorGradient.BlendMode.ADDITION);
 
 		ColorGradient.AxisColorGradient yGradient = new ColorGradient.AxisColorGradient();
 		yGradient.setAxis(ColorGradient.GradientAxis.Y);
 		yGradient.setBoundaryColors(new Color[] {clearWhite, Color.WHITE});
+		yGradient.setBlendMode(ColorGradient.BlendMode.MULTIPLICATION);
 
 		ColorGradient.AxisColorGradient[] axisGradients = {
 				xGradient,
 				yGradient
 		};
 
-		ColorGradient.BlendMode[] axisBlendModes = {
-				ColorGradient.BlendMode.ADDITION,
-				ColorGradient.BlendMode.MULTIPLICATION, // For masking by transparent colors
-		};
-
 		ColorGradient gradient = new ColorGradient();
 		gradient.setAxisColorGradients(axisGradients);
-		gradient.setAxisBlendModes(axisBlendModes);
 		return gradient;
 	}
 
