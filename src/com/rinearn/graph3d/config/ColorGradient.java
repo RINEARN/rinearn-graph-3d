@@ -450,18 +450,20 @@ public final class ColorGradient {
 			}
 
 			// Validate boundary colors.
-			if (this.boundaryColors == null && this.boundaryMode == BoundaryMode.MANUAL) {
-				throw new IllegalStateException("The boundary coordinates is null. In MANUAL mode, they are mandatory.");
-			} else {
-				for (BigDecimal coord: this.boundaryCoordinates) {
-					if (coord == null) {
-						throw new IllegalStateException("There is a null element in boundary coordinates.");
+			if (this.boundaryMode == BoundaryMode.MANUAL) {
+				if (this.boundaryColors == null) {
+					throw new IllegalStateException("The boundary coordinates is null. In MANUAL mode, they are mandatory.");
+				} else {
+					for (BigDecimal coord: this.boundaryCoordinates) {
+						if (coord == null) {
+							throw new IllegalStateException("There is a null element in boundary coordinates.");
+						}
 					}
-				}
-				if (this.boundaryCoordinates.length != this.boundaryColors.length) {
-					throw new IllegalStateException(
-						"The total number of the boundary coordinates does not match with the number of the boundary colors."
-					);
+					if (this.boundaryCoordinates.length != this.boundaryColors.length) {
+						throw new IllegalStateException(
+							"The total number of the boundary coordinates does not match with the number of the boundary colors."
+						);
+					}
 				}
 			}
 

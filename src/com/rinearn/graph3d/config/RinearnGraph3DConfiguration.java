@@ -142,8 +142,38 @@ public final class RinearnGraph3DConfiguration {
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws IllegalStateException {
+
+		// Validate the range configuration.
 		if (this.hasRangeConfiguration()) {
 			this.rangeConfiguration.validate();
+		}
+
+		// Validate the color configuration.
+		if (this.hasColorConfiguration()) {
+			this.colorConfiguration.validate();
+		}
+
+		// There are some dependencies between color and range configurations, so check the consistency of them.
+		if (this.hasRangeConfiguration() && this.hasColorConfiguration()) {
+
+			// Extract each axis's gradient stored in the color configuration.
+			for (ColorGradient dataColorGradient: this.colorConfiguration.getDataColorGradients()) {
+				for (ColorGradient.AxisColorGradient axisGradient: dataColorGradient.getAxisColorGradients()) {
+
+					// If any gradient's axis is set to an extra dimension (e.g.: 4-th column),
+					// the range of the extra dimension must be stored in that range configuration.
+					ColorGradient.GradientAxis axis = axisGradient.getAxis();
+					if (axis == ColorGradient.GradientAxis.COLUMN_4) {
+						if (this.rangeConfiguration.getExtraDimensionCount() < 1) {
+							throw new IllegalStateException(
+								"For setting a gradient's axis to COLUMN_4," +
+								"the range settings for the 4-th dimension must exist in the range configuration," +
+								"but it does not exist."
+							);
+						}
+					}
+				}
+			}
 		}
 	}
 

@@ -2,6 +2,8 @@ package com.rinearn.graph3d.config;
 
 import java.awt.Color;
 
+import com.rinearn.graph3d.config.RangeConfiguration.AxisRangeConfiguration;
+
 /*
 !!!!!
 NOTE
@@ -247,5 +249,55 @@ public final class ColorConfiguration {
 		return this.dataColorGradients;
 	}
 
+	/**
+	 * Validates correctness and consistency of configuration parameters stored in this instance.
+	 * 
+	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
+	 * If no issue is detected, nothing occurs.
+	 * If any issue is detected, throws IllegalStateException.
+	 * 
+	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 */
+	public synchronized void validate() throws IllegalStateException {
 
+		// Validate data-coloring modes.
+		if (this.dataColoringModes == null) {
+			throw new IllegalStateException("The data-coloring modes are null.");
+		} else {
+			for (DataColoringMode coloringMode: this.dataColoringModes) {
+				if (coloringMode == null) {
+					throw new IllegalStateException("There is a null element in the data-coloring modes.");
+				}
+			}
+		}
+
+		// Validate data solid colors.
+		if (this.dataSolidColors == null) {
+			throw new IllegalStateException("The data-solid-colors are null.");
+		} else {
+			if (this.dataSolidColors.length == 0) {
+				throw new IllegalStateException("For data-solid-colors, at least one element is required, but nothing is stored.");
+			}
+			for (Color solidColor: this.dataSolidColors) {
+				if (solidColor == null) {
+					throw new IllegalStateException("There is a null element in the data-solid-colors.");
+				}
+			}
+		}
+
+		// Validate data color gradients.
+		if (this.dataColorGradients == null) {
+			throw new IllegalStateException("The data-color-gradients are null.");
+		} else {
+			if (this.dataColorGradients.length == 0) {
+				throw new IllegalStateException("For data-color-gradients, at least one element is required, but nothing is stored.");
+			}
+			for (ColorGradient colorGradient: this.dataColorGradients) {
+				if (colorGradient == null) {
+					throw new IllegalStateException("There is a null element in the data-color-gradients.");
+				}
+				colorGradient.validate();
+			}
+		}
+	}
 }

@@ -118,9 +118,12 @@ public final class RangeConfiguration {
 
 		// Validate configs of extra dimensions.
 		if (this.extraDimensionRangeConfigurations == null) {
-			throw new IllegalStateException("The extra-dimension's range configurations is null.");
+			throw new IllegalStateException("The extra-dimension's range configurations are null.");
 		}
 		for (AxisRangeConfiguration extraDimConfig: this.extraDimensionRangeConfigurations) {
+			if (extraDimConfig == null) {
+				throw new IllegalStateException("There is a null element in the extra dimension's range configurations.");			
+			}
 			extraDimConfig.validate();
 		}
 	}
