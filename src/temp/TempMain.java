@@ -142,12 +142,12 @@ public class TempMain {
 		Color clearBlack = new Color(0, 0, 0, 0);
 
 		ColorGradient.AxisColorGradient xGradient = new ColorGradient.AxisColorGradient();
-		xGradient.setAxis(ColorGradient.GradientAxis.X);
+		xGradient.setAxis(ColorGradient.Axis.X);
 		xGradient.setBoundaryColors(new Color[] {clearBlack, Color.RED});
 		xGradient.setBlendMode(ColorGradient.BlendMode.ADDITION);
 
 		ColorGradient.AxisColorGradient yGradient = new ColorGradient.AxisColorGradient();
-		yGradient.setAxis(ColorGradient.GradientAxis.Y);
+		yGradient.setAxis(ColorGradient.Axis.Y);
 		yGradient.setBoundaryColors(new Color[] {clearBlack, Color.GREEN});
 		yGradient.setBlendMode(ColorGradient.BlendMode.ADDITION);
 
@@ -167,17 +167,17 @@ public class TempMain {
 		Color clearBlack = new Color(0, 0, 0, 0);
 
 		ColorGradient.AxisColorGradient xGradient = new ColorGradient.AxisColorGradient();
-		xGradient.setAxis(ColorGradient.GradientAxis.X);
+		xGradient.setAxis(ColorGradient.Axis.X);
 		xGradient.setBoundaryColors(new Color[] {clearBlack, Color.RED});
 		xGradient.setBlendMode(ColorGradient.BlendMode.ADDITION);
 
 		ColorGradient.AxisColorGradient yGradient = new ColorGradient.AxisColorGradient();
-		yGradient.setAxis(ColorGradient.GradientAxis.Y);
+		yGradient.setAxis(ColorGradient.Axis.Y);
 		yGradient.setBoundaryColors(new Color[] {clearBlack, Color.GREEN});
 		yGradient.setBlendMode(ColorGradient.BlendMode.ADDITION);
 
 		ColorGradient.AxisColorGradient zGradient = new ColorGradient.AxisColorGradient();
-		zGradient.setAxis(ColorGradient.GradientAxis.Z);
+		zGradient.setAxis(ColorGradient.Axis.Z);
 		zGradient.setBoundaryColors(new Color[] {clearBlack, Color.BLUE});
 		zGradient.setBlendMode(ColorGradient.BlendMode.ADDITION);
 
@@ -198,7 +198,7 @@ public class TempMain {
 		Color clearWhite = new Color(255, 255, 255, 0);
 
 		ColorGradient.AxisColorGradient xGradient = new ColorGradient.AxisColorGradient();
-		xGradient.setAxis(ColorGradient.GradientAxis.X);
+		xGradient.setAxis(ColorGradient.Axis.X);
 		xGradient.setBoundaryColors(new Color[] {
 				Color.BLUE,
 				Color.CYAN,
@@ -209,7 +209,7 @@ public class TempMain {
 		xGradient.setBlendMode(ColorGradient.BlendMode.ADDITION);
 
 		ColorGradient.AxisColorGradient yGradient = new ColorGradient.AxisColorGradient();
-		yGradient.setAxis(ColorGradient.GradientAxis.Y);
+		yGradient.setAxis(ColorGradient.Axis.Y);
 		yGradient.setBoundaryColors(new Color[] {clearWhite, Color.WHITE});
 		yGradient.setBlendMode(ColorGradient.BlendMode.MULTIPLICATION);
 

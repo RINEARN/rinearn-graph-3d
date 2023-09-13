@@ -162,8 +162,8 @@ public final class RinearnGraph3DConfiguration {
 
 					// If any gradient's axis is set to an extra dimension (e.g.: 4-th column),
 					// the range of the extra dimension must be stored in that range configuration.
-					ColorGradient.GradientAxis axis = axisGradient.getAxis();
-					if (axis == ColorGradient.GradientAxis.COLUMN_4) {
+					ColorGradient.Axis axis = axisGradient.getAxis();
+					if (axis == ColorGradient.Axis.COLUMN_4) {
 						if (this.rangeConfiguration.getExtraDimensionCount() < 1) {
 							throw new IllegalStateException(
 								"For setting a gradient's axis to COLUMN_4," +

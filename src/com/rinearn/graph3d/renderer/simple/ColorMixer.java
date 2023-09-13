@@ -384,7 +384,7 @@ public final class ColorMixer {
 	 * @param axis The axis.
 	 * @return The coordinate value corresponding to the specified axis.
 	 */
-	private BigDecimal extractCoordinateOnAxis(BigDecimal[] coordinates, ColorGradient.GradientAxis axis) {
+	private BigDecimal extractCoordinateOnAxis(BigDecimal[] coordinates, ColorGradient.Axis axis) {
 		switch (axis) {
 			case X : return coordinates[X];
 			case Y : return coordinates[Y];

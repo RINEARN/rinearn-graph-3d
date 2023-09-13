@@ -132,9 +132,9 @@ public final class ColorGradient {
 
 
 	/**
-	 * The enum for specifying a gradient axis.
+	 * The enum for specifying a gradient's axis.
 	 */
-	public static enum GradientAxis {
+	public static enum Axis {
 
 		/** Represents the gradient for the direction of X axis. */
 		X,
@@ -146,7 +146,7 @@ public final class ColorGradient {
 		Z,
 
 		/** Represents the gradient by coordinate values of 4-th column in data files. */
-		COLUMN_4;
+		COLUMN_4; // Note: Should rename to more abstract one?
 	}
 
 
@@ -200,7 +200,7 @@ public final class ColorGradient {
 		// boundaryCount みたいなやつがいるが…命名どうする？ -> ちょうど色数に一致するからそれでいい。
 
 		/** The dimension axis of this gradient. */
-		private volatile GradientAxis axis = GradientAxis.Z;
+		private volatile Axis axis = Axis.Z;
 
 		/** Stores a blend mode, for blending this gradient to the background color or an other gradient. */
 		private BlendMode blendMode = BlendMode.ADDITION;
@@ -238,7 +238,7 @@ public final class ColorGradient {
 		 * 
 		 * @param axis The dimension axis of this gradient.
 		 */
-		public synchronized void setAxis(GradientAxis axis) {
+		public synchronized void setAxis(Axis axis) {
 			this.axis = axis;
 		}
 
@@ -247,7 +247,7 @@ public final class ColorGradient {
 		 * 
 		 * @return The dimension axis of this gradient.
 		 */
-		public synchronized GradientAxis getAxis() {
+		public synchronized Axis getAxis() {
 			return this.axis;
 		}
 
