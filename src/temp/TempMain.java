@@ -26,7 +26,9 @@ public class TempMain {
 
 		// Create a color configuration of 3D color gradient.
 		ColorConfiguration colorConfig = new ColorConfiguration();
-		ColorGradient gradient = create3DColorGradient();
+		//ColorGradient gradient = create2DColorGradient();
+		//ColorGradient gradient = create3DColorGradient();
+		ColorGradient gradient = createXColorGradientWithYClearMask();
 		colorConfig.setDataColorGradients(new ColorGradient[] {gradient});
 
 		// Reflect the above color configuration to the renderer.
@@ -196,6 +198,44 @@ public class TempMain {
 
 		ColorGradient gradient = new ColorGradient();
 		gradient.setAxisCount(3);
+		gradient.setAxisColorGradients(axisGradients);
+		gradient.setAxisBlendModes(axisBlendModes);
+		return gradient;
+	}
+
+
+	private static ColorGradient createXColorGradientWithYClearMask() {
+
+		Color clearWhite = new Color(255, 255, 255, 0);
+
+		ColorGradient.AxisColorGradient xGradient = new ColorGradient.AxisColorGradient();
+		xGradient.setAxis(ColorGradient.GradientAxis.X);
+		xGradient.setBoundaryCount(5);
+		xGradient.setBoundaryColors(new Color[] {
+				Color.BLUE,
+				Color.CYAN,
+				Color.GREEN,
+				Color.YELLOW,
+				Color.RED
+		});
+
+		ColorGradient.AxisColorGradient yGradient = new ColorGradient.AxisColorGradient();
+		yGradient.setAxis(ColorGradient.GradientAxis.Y);
+		yGradient.setBoundaryCount(2);
+		yGradient.setBoundaryColors(new Color[] {clearWhite, Color.WHITE});
+
+		ColorGradient.AxisColorGradient[] axisGradients = {
+				xGradient,
+				yGradient
+		};
+
+		ColorGradient.BlendMode[] axisBlendModes = {
+				ColorGradient.BlendMode.ADDITION,
+				ColorGradient.BlendMode.MULTIPLICATION, // For masking by transparent colors
+		};
+
+		ColorGradient gradient = new ColorGradient();
+		gradient.setAxisCount(2);
 		gradient.setAxisColorGradients(axisGradients);
 		gradient.setAxisBlendModes(axisBlendModes);
 		return gradient;
