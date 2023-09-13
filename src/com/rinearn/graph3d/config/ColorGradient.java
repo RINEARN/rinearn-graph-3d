@@ -49,9 +49,6 @@ import java.math.BigDecimal;
  */
 public final class ColorGradient {
 
-	/** The total number of the axes (dimensions) of this gradient. */
-	private volatile int axisCount = 1;
-
 	/** Stores an one-dimensional gradient for each axis. */
 	private AxisColorGradient[] axisColorGradients = { new AxisColorGradient() };
 
@@ -64,21 +61,12 @@ public final class ColorGradient {
 
 
 	/**
-	 * Sets the total number of the axes (dimensions) of this gradient.
-	 * 
-	 * @param axisCount The total number of the axes.
-	 */
-	public synchronized void setAxisCount(int axisCount) {
-		this.axisCount = axisCount;
-	}
-
-	/**
 	 * Gets the total number of the axes (dimensions) of this gradient.
 	 * 
 	 * @return The total number of the axes.
 	 */
 	public synchronized int getAxisCount() {
-		return this.axisCount;
+		return this.axisColorGradients.length;
 	}
 
 	/**
@@ -87,11 +75,6 @@ public final class ColorGradient {
 	 * @param axisColorGradients The array storing an one-dimensional gradient for each axis.
 	 */
 	public synchronized void setAxisColorGradients(AxisColorGradient[] axisColorGradients) {
-		if (axisColorGradients.length != this.axisCount) {
-			throw new IllegalArgumentException(
-					"The length of the argument \"axisColorGradients\" must be the same as the value of axisCount."
-			);
-		}
 		this.axisColorGradients = axisColorGradients;
 	}
 
@@ -138,6 +121,44 @@ public final class ColorGradient {
 	 */
 	public synchronized Color getBackgroundColor() {
 		return this.backgroundColor;
+	}
+
+	/**
+	 * Validates correctness and consistency of parameters stored in this instance.
+	 * 
+	 * This method is called when a color configuration is specified to RinearnGraph3D or its renderer.
+	 * If no issue is detected, nothing occurs.
+	 * If any issue is detected, throws IllegalStateException.
+	 * 
+	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 */
+	public synchronized void validate() throws IllegalStateException {
+
+		// Validate axes's color gradients.
+		if (this.axisColorGradients == null) {
+			throw new IllegalStateException("The axes's color gradients are null");
+		} else {
+			for (ColorGradient.AxisColorGradient axisGradient: this.axisColorGradients) {
+				if (axisGradient == null) {
+					throw new IllegalStateException("There is a null element in the axes's color gradients.");
+				}
+				axisGradient.validate();
+			}
+		}
+
+		// Validate blend modes.
+		if (this.axisBlendModes == null) {
+			throw new IllegalStateException("The axes's blend modes are null");
+		} else {
+			for (ColorGradient.BlendMode axisBlendMode: this.axisBlendModes) {
+				if (axisBlendMode == null) {
+					throw new IllegalStateException("There is a null element in the axes's blend modes.");
+				}
+			}
+			if (this.axisColorGradients.length != this.axisBlendModes.length) {
+				throw new IllegalStateException("The total number of the axes's blend modes does not mathc with the number of the axes's color gradients.");
+			}
+		}
 	}
 
 
@@ -218,10 +239,6 @@ public final class ColorGradient {
 		/** The interpolation mode, which determines colors between boundary points. */
 		private volatile InterpolationMode interpolationMode = InterpolationMode.LINEAR;
 
-		/** The total number of the boudnary points of this gradient. */
-		private volatile int boundaryCount = 5;
-		// Note: The sizes of "boundaryColors" and "boundaryCoordinates" must match with this value.
-
 		/** The colors at the boundary points of this gradient. */
 		private volatile Color[] boundaryColors = {
 				Color.BLUE,
@@ -299,21 +316,12 @@ public final class ColorGradient {
 		}
 
 		/**
-		 * Sets the total number of the boundary points of this gradient.
-		 * 
-		 * @param boundaryCount The total number of the boundary points of this gradient.
-		 */
-		public synchronized void setBoundaryCount(int boundaryCount) {
-			this.boundaryCount = boundaryCount;
-		}
-
-		/**
 		 * Gets the total number of the boundary points of this gradient.
 		 * 
 		 * @return The total number of the boundary points of this gradient.
 		 */
 		public synchronized int getBoundaryCount() {
-			return this.boundaryCount;
+			return this.boundaryColors.length;
 		}
 
 		/**
@@ -322,11 +330,6 @@ public final class ColorGradient {
 		 * @param boundaryColors The colors at the boundary points of this gradient.
 		 */
 		public synchronized void setBoundaryColors(Color[] boundaryColors) {
-			if (boundaryColors.length != this.boundaryCount) {
-				throw new IllegalArgumentException(
-						"The length of the argument \"boundaryColors\" must be the same as the value of boundaryCount."
-				);
-			}
 			this.boundaryColors = boundaryColors;
 		}
 
@@ -345,11 +348,6 @@ public final class ColorGradient {
 		 * @param boundaryCoordinates The coordinate values of the boundary points of this gradient.
 		 */
 		public synchronized void setBoundaryCoordinates(BigDecimal[] boundaryCoordinates) {
-			if (boundaryCoordinates.length != this.boundaryCount) {
-				throw new IllegalArgumentException(
-						"The length of the argument \"boundaryCoordinates\" must be the same as the value of boundaryCount."
-				);
-			}
 			this.boundaryCoordinates = boundaryCoordinates;
 		}
 
@@ -416,6 +414,70 @@ public final class ColorGradient {
 		 */
 		public synchronized boolean isAutoBoundaryRangingEnabled() {
 			return this.autoBoundaryRangingEnabled;
+		}
+
+		/**
+		 * Validates correctness and consistency of parameters stored in this instance.
+		 * 
+		 * This method is called when a color configuration is specified to RinearnGraph3D or its renderer.
+		 * If no issue is detected, nothing occurs.
+		 * If any issue is detected, throws IllegalStateException.
+		 * 
+		 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+		 */
+		public synchronized void validate() throws IllegalStateException {
+
+			// Validate modes.
+			if (this.axis == null) {
+				throw new IllegalStateException("The axis is null.");
+			}
+			if (this.boundaryMode == null) {
+				throw new IllegalStateException("The boundary mode is null.");
+			}
+			if (this.interpolationMode == null) {
+				throw new IllegalStateException("The interpolation mode is null.");
+			}
+
+			// Validate boundary colors.
+			if (this.boundaryColors == null) {
+				throw new IllegalStateException("The boundary colors are null.");
+			} else {
+				for (Color color: this.boundaryColors) {
+					if (color == null) {
+						throw new IllegalStateException("There is a null element in boundary colors.");
+					}
+				}
+			}
+
+			// Validate boundary colors.
+			if (this.boundaryColors == null && this.boundaryMode == BoundaryMode.MANUAL) {
+				throw new IllegalStateException("The boundary coordinates is null. In MANUAL mode, they are mandatory.");
+			} else {
+				for (BigDecimal coord: this.boundaryCoordinates) {
+					if (coord == null) {
+						throw new IllegalStateException("There is a null element in boundary coordinates.");
+					}
+				}
+				if (this.boundaryCoordinates.length != this.boundaryColors.length) {
+					throw new IllegalStateException(
+						"The total number of the boundary coordinates does not match with the number of the boundary colors."
+					);
+				}
+			}
+
+			// Validate min/max coordinates.
+			if (this.boundaryMode == BoundaryMode.EQUAL_DIVISION && !this.autoBoundaryRangingEnabled) {
+				if (this.minBoundaryCoordinate == null) {
+					throw new IllegalStateException(
+						"The minimum boundary coordinate is null. In EQUAL_DIVISION mode, it is mandatory when the auto-ranging is disabled."
+					);
+				}
+				if (this.maxBoundaryCoordinate == null) {
+					throw new IllegalStateException(
+						"The maximum boundary coordinate is null. In EQUAL_DIVISION mode, it is mandatory when the auto-ranging is disabled."
+					);
+				}
+			}
 		}
 	}
 }
