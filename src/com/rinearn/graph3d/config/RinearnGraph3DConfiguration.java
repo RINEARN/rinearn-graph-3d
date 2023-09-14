@@ -1,7 +1,5 @@
 package com.rinearn.graph3d.config;
 
-import com.rinearn.graph3d.config.RangeConfiguration.AxisRangeConfiguration;
-
 // !!!!!
 // NOTE
 //
@@ -129,6 +127,40 @@ public final class RinearnGraph3DConfiguration {
 		configuration.setColorConfiguration(new ColorConfiguration());
 
 		return configuration;
+	}
+
+
+	/**
+	 * Merges the specified configuration to this configuration.
+	 * 
+	 * Practically, extracts subcategory configurations (range config, color config, and so on)
+	 * from the argument "mergedConfiguration", and stores them into this instance.
+	 * If the corresponding subcategory configs already exist in this instance, overwrites them.
+	 * 
+	 * Also, there is no effect for the subcategory configs stored in this instance
+	 * but aren't stored in "mergedConfiguration".
+	 * 
+	 * @param mergedConfiguration The configuration to be merged to this configuration.
+	 */
+	public synchronized void merge(RinearnGraph3DConfiguration mergedConfiguration) {
+		if (mergedConfiguration.hasRangeConfiguration()) {
+			this.setRangeConfiguration(mergedConfiguration.getRangeConfiguration());
+		}
+		if (mergedConfiguration.hasScaleConfiguration()) {
+			this.setScaleConfiguration(mergedConfiguration.getScaleConfiguration());
+		}
+		if (mergedConfiguration.hasFrameConfiguration()) {
+			this.setFrameConfiguration(mergedConfiguration.getFrameConfiguration());
+		}
+		if (mergedConfiguration.hasLightConfiguration()) {
+			this.setLightConfiguration(mergedConfiguration.getLightConfiguration());
+		}
+		if (mergedConfiguration.hasCameraConfiguration()) {
+			this.setCameraConfiguration(mergedConfiguration.getCameraConfiguration());
+		}
+		if (mergedConfiguration.hasColorConfiguration()) {
+			this.setColorConfiguration(mergedConfiguration.getColorConfiguration());
+		}
 	}
 
 

@@ -165,34 +165,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 		// RinearnGraph3DConfiguration is a container of subpart configurations.
 		// Some of them are set and others are not set,
-		// so extract only stored subpart configurations in the arg and merge them to the "config" field of this instance.
-		if (configuration.hasRangeConfiguration()) {
-			this.config.setRangeConfiguration(configuration.getRangeConfiguration());
-		}
-		if (configuration.hasScaleConfiguration()) {
-			this.config.setScaleConfiguration(configuration.getScaleConfiguration());
-		}
-		if (configuration.hasFrameConfiguration()) {
-			this.config.setFrameConfiguration(configuration.getFrameConfiguration());
-		}
-		if (configuration.hasLightConfiguration()) {
-			this.config.setLightConfiguration(configuration.getLightConfiguration());
-		}
-		if (configuration.hasCameraConfiguration()) {
-			this.config.setCameraConfiguration(configuration.getCameraConfiguration());
-		}
-		if (configuration.hasColorConfiguration()) {
-			this.config.setColorConfiguration(configuration.getColorConfiguration());
-		}
-
-		// !!! NOTE !!!
-		// Maybe we should move the above copy processing into RinearnGraph3DConfiguration as a method,
-		// e.g.:
-		//     RineargGraph3DConfiguration.merge(RineargGraph3DConfiguration config)
-		// 
-		// Because we will do the same processing in RinearnGraph3D.configure(config).
-		// !!! NOTE !!!
-
+		// so extract only stored subpart configurations in the argument "configuration"
+		// and merge them to the "config" field of this instance.
+		this.config.merge(configuration);
 
 		// Validate the merged full "config" (field of this instance).
 		// Note that, even when the validation of the specified "configuration" argument has passed,
