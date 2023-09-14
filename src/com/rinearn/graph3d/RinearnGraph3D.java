@@ -121,7 +121,7 @@ public class RinearnGraph3D {
 			= this.model.getConfiguration().getRangeConfiguration().getXRangeConfiguration();
 		xRangeConfig.setMinimum(min);
 		xRangeConfig.setMaximum(max);
-		this.reflectUpdatedConfiguration();
+		this.presenter.reflectUpdatedConfiguration();
 	}
 
 
@@ -146,7 +146,7 @@ public class RinearnGraph3D {
 			= this.model.getConfiguration().getRangeConfiguration().getYRangeConfiguration();
 		yRangeConfig.setMinimum(min);
 		yRangeConfig.setMaximum(max);
-		this.reflectUpdatedConfiguration();
+		this.presenter.reflectUpdatedConfiguration();
 	}
 
 
@@ -171,37 +171,14 @@ public class RinearnGraph3D {
 			= this.model.getConfiguration().getRangeConfiguration().getZRangeConfiguration();
 		zRangeConfig.setMinimum(min);
 		zRangeConfig.setMaximum(max);
-		this.reflectUpdatedConfiguration();
+		this.presenter.reflectUpdatedConfiguration();
 	}
 
-
-	/**
-	 * Reflects the current configuration to the graph.
-	 */
-	private void reflectUpdatedConfiguration() {
-		RinearnGraph3DConfiguration config = this.model.getConfiguration();
-		this.renderer.setConfiguration(config);
-		this.replot();
-	}
 
 	/**
 	 * Re-plots the contents composing the graph.
 	 */
 	public synchronized void replot() {
-
-		// Clear all currently drawn contents registered to the renderer.
-		this.renderer.clear();
-
-		// Draw basic components (outer frame, scale ticks, etc.) of the graph.
-		this.renderer.drawScale();
-		this.renderer.drawGrid();
-		this.renderer.drawFrame();
-
-		// -----
-		// Future: Draw other elements here
-		// -----
-
-		// Render the re-plotted contents on the screen.
-		this.renderer.render();
+		this.presenter.replot();
 	}
 }

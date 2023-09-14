@@ -1,5 +1,6 @@
 package com.rinearn.graph3d.presenter;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
@@ -11,6 +12,9 @@ import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
  * 
  * Components in Presenter layer invokes "Model" layer's procedures triggered by user's action on GUI,
  * and updates the graph screen depending on the result.
+ * 
+ * Also, in addition to the above normal events, this presenter layer handles API requests,
+ * through wrapper method defined in RinearnGraph3D class.
  */
 public final class Presenter {
 
@@ -48,5 +52,37 @@ public final class Presenter {
 
 		// Create a handler of events of the graph screen, handling mouse-dragging events for rotate a graph, etc.
 		this.screenHandler = new ScreenHandler(model, view, renderer, renderingLoop);
+	}
+
+
+	/**
+	 * Reflects the current configuration to the graph.
+	 */
+	public void reflectUpdatedConfiguration() {
+		RinearnGraph3DConfiguration config = this.model.getConfiguration();
+		this.renderer.setConfiguration(config);
+		this.replot();
+	}
+
+
+	/**
+	 * Re-plots the contents composing the graph.
+	 */
+	public synchronized void replot() {
+
+		// Clear all currently drawn contents registered to the renderer.
+		this.renderer.clear();
+
+		// Draw basic components (outer frame, scale ticks, etc.) of the graph.
+		this.renderer.drawScale();
+		this.renderer.drawGrid();
+		this.renderer.drawFrame();
+
+		// -----
+		// Future: Draw other elements here
+		// -----
+
+		// Render the re-plotted contents on the screen.
+		this.renderer.render();
 	}
 }
