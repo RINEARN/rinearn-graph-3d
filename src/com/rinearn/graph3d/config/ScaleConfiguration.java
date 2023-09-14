@@ -55,6 +55,16 @@ import java.text.DecimalFormat;
 //
 // !!!!!
 
+//!!!!!
+//NOTE
+//
+// dividedSectionCount は tickCount にしてMANUALモードでの個数 getter と合流させた方がいいかも？
+// でもあまり固まってない案なので、しない方がいいかも。 
+// 後々で適当な時に振り返って要検討。
+//
+//NOTE
+//!!!!!
+
 /**
  * The class storing configuration values of the scales of X/Y/Z axes.
  */
@@ -148,6 +158,12 @@ public final class ScaleConfiguration {
 		/** Represents the mode for specifying alignment of ticks of a scale. */
 		private volatile TickMode tickMode = TickMode.EQUAL_DIVISION; // Temporary setting to this, but will set to AUTOMATIC in future.
 
+		/** The coordinates (locations) of ticks, in MANUAL mode. */
+		private volatile BigDecimal[] tickCoordinates = new BigDecimal[0];
+
+		/** The labels (displayed texts) of ticks, in MANUAL mode. */
+		private volatile String[] tickLabels = new String[0];
+
 		/** Number of sections between ticks, in EQUAL_DIVISION mode. */
 		private volatile int dividedSectionCount = 4;
 		// ↑ 区間の訳の命名、interval は長さ値的なニュアンスを含むので、個数に注目しているここでは section の方がいい。
@@ -157,6 +173,7 @@ public final class ScaleConfiguration {
 		//    Color gradient の方でも boundaryCount にしてるし、そっちとの対応的にも。
 		//    利用上は sectionCount ベースの方が便利かもだが、それはUI層でどうとでもなるし、
 		//    config 層では内部処理的に綺麗な方がしておいた方がいいかも。
+
 
 		/** The precision of the internal calculation of the scale's coordinates. */
 		private volatile int calculationPrecision = 128;
@@ -259,6 +276,44 @@ public final class ScaleConfiguration {
 		 */
 		public synchronized TickMode getTickMode() {
 			return this.tickMode;
+		}
+
+
+		/**
+		 * Sets the coordinates (locations) of the ticks, in MANUAL mode.
+		 * 
+		 * @param tickCoordinates The coordinates of the ticks.
+		 */
+		public synchronized void setTickCoordinates(BigDecimal[] tickCoordinates) {
+			this.tickCoordinates = tickCoordinates;
+		}
+
+		/**
+		 * Gets the coordinates (locations) of the ticks, in MANUAL mode.
+		 * 
+		 * @return The coordinates of the ticks.
+		 */
+		public synchronized BigDecimal[] getTickCoordinates() {
+			return this.tickCoordinates;
+		}
+
+
+		/**
+		 * Sets the labels (displayed texts) of the ticks, in MANUAL mode.
+		 * 
+		 * @param tickCoordinates The labels of the ticks.
+		 */
+		public synchronized void setTickLabels(String[] tickLabels) {
+			this.tickLabels = tickLabels;
+		}
+
+		/**
+		 * Gets the labels (displayed texts) of the ticks, in MANUAL mode.
+		 * 
+		 * @return The labels of the ticks.
+		 */
+		public synchronized String[] getTickLabels() {
+			return this.tickLabels;
 		}
 
 
