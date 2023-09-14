@@ -5,6 +5,13 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 
 
+// !!! NOTE !!!
+// getRangeMin() とかの命名は、他の config 類との命名と一貫性に欠ける。getMinimum とかにすべき？
+// -> このクラス内に、他の種類の minimum 量が将来的に追加される可能性を考慮すると getRangeMinimum の方が良い？
+//    -> setRange があるのでそれとの対応がいい: getRnageMinimum/Maximum
+//    -> getRangeMinimumCoordinate は？ 長いか
+//!!! NOTE !!!
+
 /**
  * A class storing/handling informations related to an axis.
  * (e.g.: Maximum and minimum values of the range of the axis, and so on.)

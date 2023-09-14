@@ -41,6 +41,11 @@ import java.math.BigDecimal;
 //
 //!!! NOTE !!!
 
+// !!! NOTE2 !!!
+// 
+// getMinimumBoundaryCoordinate とかの命名、むしろ getBoundaryCoordinateMinimum とかでは？ getRangeMinimum とかとの対応的に。
+//
+// !!! NOTE2 !!!
 
 /**
  * The class representing a color gradient.

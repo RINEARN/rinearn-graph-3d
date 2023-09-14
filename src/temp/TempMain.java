@@ -9,6 +9,7 @@ import com.rinearn.graph3d.config.ColorConfiguration;
 import com.rinearn.graph3d.config.ColorGradient;
 
 import java.awt.Color;
+import java.math.BigDecimal;
 
 
 /**
@@ -34,6 +35,8 @@ public class TempMain {
 
 		// Create a range configuration.
 		RangeConfiguration rangeConfig = new RangeConfiguration();
+		rangeConfig.getXRangeConfiguration().setMinimum(new BigDecimal(-2.0));
+		rangeConfig.getXRangeConfiguration().setMaximum(new BigDecimal(2.0));
 
 		// Reflect the above color configs to the renderer.
 		RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
@@ -41,12 +44,19 @@ public class TempMain {
 		config.setRangeConfiguration(rangeConfig);
 		renderer.setConfiguration(config);
 
+		// To reflect the range configuration, re-draw the graph frame and ticks.
+		renderer.clear();
+		renderer.drawGrid();
+		renderer.drawFrame();
+		renderer.drawScale();
+
 		// Draw many roundom points.
 		for (int i=0; i<500; i++) {
 
 			double x = Math.random() * 2.0 - 1.0;
 			double y = Math.random() * 2.0 - 1.0;
 			double z = Math.random() * 2.0 - 1.0;
+			x *= 2.0;
 			renderer.drawPoint(x, y, z, 4.0);
 			//renderer.drawPoint(x, y, z, 4.0, Color.GREEN);
 		}
@@ -57,9 +67,11 @@ public class TempMain {
 			double aX = Math.random() * 2.0 - 1.0;
 			double aY = Math.random() * 2.0 - 1.0;
 			double aZ = Math.random() * 2.0 - 1.0;
+			aX *= 2.0;
 			double bX = aX + Math.random() * 0.6 - 0.3;
 			double bY = aY + Math.random() * 0.6 - 0.3;
 			double bZ = aZ + Math.random() * 0.6 - 0.3;
+			bX *= 2.0;
 			renderer.drawLine(aX, aY, aZ, bX, bY, bZ, 1.0);
 		}
 
@@ -69,6 +81,7 @@ public class TempMain {
 			double aX = Math.random() * 2.0 - 1.0;
 			double aY = Math.random() * 2.0 - 1.0;
 			double aZ = Math.random() * 2.0 - 1.0;
+			aX *= 2.0;
 			double bX = aX + 0.1;
 			double bY = aY;
 			double bZ = aZ;

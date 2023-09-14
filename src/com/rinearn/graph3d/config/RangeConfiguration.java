@@ -101,6 +101,15 @@ public final class RangeConfiguration {
 	}
 
 	/**
+	 * Gets the configurations of the ranges of the extra dimensions.
+	 * 
+	 * @return The configurations of the extra dimensions.
+	 */
+	public synchronized AxisRangeConfiguration[] getExtraDimensionRangeConfigurations() {
+		return this.extraDimensionRangeConfigurations;
+	}
+
+	/**
 	 * Validates correctness and consistency of configuration parameters stored in this instance.
 	 * 
 	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.

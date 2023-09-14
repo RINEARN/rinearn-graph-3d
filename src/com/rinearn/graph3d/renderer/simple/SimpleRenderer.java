@@ -5,6 +5,8 @@ import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.config.CameraConfiguration;
+import com.rinearn.graph3d.config.ColorConfiguration;
+import com.rinearn.graph3d.config.ColorGradient;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -183,6 +185,15 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			this.config.setColorConfiguration(configuration.getColorConfiguration());
 		}
 
+		// !!! NOTE !!!
+		// Maybe we should move the above copy processing into RinearnGraph3DConfiguration as a method,
+		// e.g.:
+		//     RineargGraph3DConfiguration.merge(RineargGraph3DConfiguration config)
+		// 
+		// Because we will do the same processing in RinearnGraph3D.configure(config).
+		// !!! NOTE !!!
+
+
 		// Validate the merged full "config" (field of this instance).
 		// Note that, even when the validation of the specified "configuration" argument has passed,
 		// the validation of the full "config" may fail.
@@ -209,6 +220,43 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		// Update the camera angle(s).
 		CameraConfiguration cameraConfig = this.config.getCameraConfiguration();
 		this.updateCameraAngle(cameraConfig.getRotationMatrix());
+
+		// Update the range of each axis (dimension) of color gradients, if its auto-ranging feature is enabled.
+		ColorConfiguration colorConfig = this.config.getColorConfiguration();
+		for (ColorGradient gradient: colorConfig.getDataColorGradients()) {
+			for (ColorGradient.AxisColorGradient axisGradient: gradient.getAxisColorGradients()) {
+				if (!axisGradient.isAutoBoundaryRangingEnabled()) {
+					continue;
+				}
+				switch (axisGradient.getAxis()) {
+					case X : {
+						axisGradient.setMinimumBoundaryCoordinate(xRangeConfig.getMinimum());
+						axisGradient.setMaximumBoundaryCoordinate(xRangeConfig.getMaximum());
+						break;
+					}
+					case Y : {
+						axisGradient.setMinimumBoundaryCoordinate(yRangeConfig.getMinimum());
+						axisGradient.setMaximumBoundaryCoordinate(yRangeConfig.getMaximum());
+						break;
+					}
+					case Z : {
+						axisGradient.setMinimumBoundaryCoordinate(zRangeConfig.getMinimum());
+						axisGradient.setMaximumBoundaryCoordinate(zRangeConfig.getMaximum());
+						break;
+					}
+					case COLUMN_4 : {
+						RangeConfiguration.AxisRangeConfiguration[] extraRangeConfig = rangeConfig.getExtraDimensionRangeConfigurations();
+						axisGradient.setMinimumBoundaryCoordinate(extraRangeConfig[0].getMinimum());
+						axisGradient.setMaximumBoundaryCoordinate(extraRangeConfig[0].getMaximum());
+						// Existence of extraRangeConfig[0] has been checked in the validation.
+						break;
+					}
+					default : {
+						throw new UnsupportedOperationException("Unknown gradient axis: " + axisGradient.getAxis());
+					}
+				}
+			}
+		}
 	}
 
 
@@ -279,6 +327,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 */
 	@Override
 	public synchronized void render() {
+
+		// Update the screen dimension.
 		int screenWidth = this.screenImage.getWidth();
 		int screenHeight = this.screenImage.getHeight();
 		int screenOffsetX = this.config.getCameraConfiguration().getHorizontalCenterOffset();
