@@ -33,6 +33,9 @@ public final class Presenter {
 	/** The handler of events of the graph screen, such as mouse-dragging events for rotate a graph, etc. */
 	public final ScreenHandler screenHandler;
 
+	/** The handler of events and API requests for setting ranges. */
+	public final RangeSettingHandler rangeSettingHandler;
+
 
 	/**
 	 * Creates new Presenter layer of RINEARN Graph 3D.
@@ -52,6 +55,10 @@ public final class Presenter {
 
 		// Create a handler of events of the graph screen, handling mouse-dragging events for rotate a graph, etc.
 		this.screenHandler = new ScreenHandler(model, view, renderer, renderingLoop);
+
+		// Create handlers for various events and API requests.
+		this.rangeSettingHandler = new RangeSettingHandler(model, view, this);
+		// ...
 	}
 
 

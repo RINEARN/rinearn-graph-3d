@@ -10,6 +10,7 @@ com/rinearn/graph3d/model/Model.java
 com/rinearn/graph3d/model/package-info.java
 com/rinearn/graph3d/presenter/package-info.java
 com/rinearn/graph3d/presenter/Presenter.java
+com/rinearn/graph3d/presenter/RangeSettingHandler.java
 com/rinearn/graph3d/presenter/RenderingLoop.java
 com/rinearn/graph3d/presenter/ScreenHandler.java
 com/rinearn/graph3d/renderer/package-info.java
