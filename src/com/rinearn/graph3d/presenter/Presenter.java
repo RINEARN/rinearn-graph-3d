@@ -36,6 +36,9 @@ public final class Presenter {
 	/** The handler of events and API requests for setting ranges. */
 	public final RangeSettingHandler rangeSettingHandler;
 
+	/** The handler of events and API requests for setting camera-related parameters. */
+	public final CameraSettingHandler cameraSettingHandler;
+
 
 	/**
 	 * Creates new Presenter layer of RINEARN Graph 3D.
@@ -58,6 +61,7 @@ public final class Presenter {
 
 		// Create handlers for various events and API requests.
 		this.rangeSettingHandler = new RangeSettingHandler(model, view, this);
+		this.cameraSettingHandler = new CameraSettingHandler(model, view, this);
 		// ...
 	}
 
