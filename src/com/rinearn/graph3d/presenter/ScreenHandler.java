@@ -38,6 +38,9 @@ public final class ScreenHandler {
 	/** The array index representing Y coordinate, for 2 or 3-dimensional arrays. */
 	private static final int Y = 1;
 
+	/** The front-end class of "Model" layer, which provides internal logic procedures and so on. */
+	private final Model model;
+
 	/** The label playing the role of the screen, on which a 3D graph is displayed. */
 	private final JLabel screenLabel;
 
@@ -50,9 +53,6 @@ public final class ScreenHandler {
 	/** Stores the X and Y coordinates of the center of the screen. */
 	private volatile int[] screenCenterCoords = new int[2];
 
-	/** Stores configuration parameters related to the camera (angles, magnification, and so on). */
-	private volatile CameraConfiguration cameraConfiguration = new CameraConfiguration();
-
 
 	/**
 	 * Creates new instance for handling events occurred on the specified view, using the specified model.
@@ -63,6 +63,7 @@ public final class ScreenHandler {
 	 * @param renderingLoop The loop which invokes rendering procedures on an independent thread, and updates the screen.
 	 */
 	public ScreenHandler(Model model, View view, RinearnGraph3DRenderer renderer, RenderingLoop renderingLoop) {
+		this.model = model;
 		this.screenLabel = view.mainWindow.screenLabel;
 		this.renderer = renderer;
 		this.renderingLoop = renderingLoop;
@@ -98,6 +99,7 @@ public final class ScreenHandler {
 		 */
 		@Override
 		public void mouseWheelMoved(MouseWheelEvent me) {
+			CameraConfiguration cameraConfiguration = model.getConfiguration().getCameraConfiguration();
 			double magnification = cameraConfiguration.getMagnification();
 
 			// Zoom-in or out, depending on the direction of the wheel rotation.
@@ -160,6 +162,7 @@ public final class ScreenHandler {
 			if (!SwingUtilities.isRightMouseButton(me)) {
 				return;
 			}
+			CameraConfiguration cameraConfiguration = model.getConfiguration().getCameraConfiguration();
 
 			// Get the differential vector (dx, dy) from the last coordinate of the mouse pointer.
 			int currentMouseX = me.getX();
@@ -221,6 +224,7 @@ public final class ScreenHandler {
 			if (!SwingUtilities.isLeftMouseButton(me)) {
 				return;
 			}
+			CameraConfiguration cameraConfiguration = model.getConfiguration().getCameraConfiguration();
 
 			// Short aliases.
 			int centerOffsetX = cameraConfiguration.getHorizontalCenterOffset();
