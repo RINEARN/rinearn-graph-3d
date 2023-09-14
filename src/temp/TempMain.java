@@ -26,7 +26,25 @@ public class TempMain {
 		// Set the ranges of X/Y/Z axes.
 		graph3D.setXRange(-2.0, 2.0);
 		graph3D.setYRange(-1.2, 1.2);
-		graph3D.setZRange(-1.5, 1.5);
+		graph3D.setZRange(-1.0, 1.5);
+
+		// Set the ticks of X axis.
+		graph3D.setXTicks(
+			new double[] { -2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0 },
+			new String[] { "-2", "-1.5", "-1", "-0.5", "0", "0.5", "1", "1.5", "2" }
+		);
+
+		// Set the ticks of Y axis.
+		graph3D.setYTicks(
+			new double[] { -1.2, -1.0, -0.8, -0.6, -0.4, -0.2, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2 },
+			new String[] { "-1.2", "-1.0", "-0.8", "-0.6", "-0.4", "-0.2", "0.0", "0.2", "0.4", "0.6", "0.8", "1.0", "1.2" }
+		);
+
+		// Set the ticks of Z axis.
+		graph3D.setZTicks(
+			new double[] { -1.0, -0.5, 0.0, 0.5, 1.0, 1.5 },
+			new String[] { "-1.0", "-0.5", "0.0", "0.5", "1.0", "1.5" }
+		);
 
 		// Set the camera angle.
 		graph3D.setZZenithCameraAngle(0.4, 1.0, 0.0);
