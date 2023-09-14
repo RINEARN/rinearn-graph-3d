@@ -107,7 +107,7 @@ public class RinearnGraph3D {
 	 * @param max The maximum coordinate value of X axis.
 	 */
 	public synchronized void setXRange(double min, double max) {
-		this.setXRange(new BigDecimal(min), new BigDecimal(max));
+		this.presenter.rangeSettingHandler.setXRange(new BigDecimal(min), new BigDecimal(max));
 	}
 
 	/**
@@ -117,11 +117,7 @@ public class RinearnGraph3D {
 	 * @param max The maximum coordinate value of X axis.
 	 */
 	public synchronized void setXRange(BigDecimal min, BigDecimal max) {
-		RangeConfiguration.AxisRangeConfiguration xRangeConfig
-			= this.model.getConfiguration().getRangeConfiguration().getXRangeConfiguration();
-		xRangeConfig.setMinimum(min);
-		xRangeConfig.setMaximum(max);
-		this.presenter.reflectUpdatedConfiguration();
+		this.presenter.rangeSettingHandler.setXRange(min, max);
 	}
 
 
@@ -132,7 +128,7 @@ public class RinearnGraph3D {
 	 * @param max The maximum coordinate value of Y axis.
 	 */
 	public synchronized void setYRange(double min, double max) {
-		this.setYRange(new BigDecimal(min), new BigDecimal(max));
+		this.presenter.rangeSettingHandler.setYRange(new BigDecimal(min), new BigDecimal(max));
 	}
 
 	/**
@@ -142,11 +138,7 @@ public class RinearnGraph3D {
 	 * @param max The maximum coordinate value of Y axis.
 	 */
 	public synchronized void setYRange(BigDecimal min, BigDecimal max) {
-		RangeConfiguration.AxisRangeConfiguration yRangeConfig
-			= this.model.getConfiguration().getRangeConfiguration().getYRangeConfiguration();
-		yRangeConfig.setMinimum(min);
-		yRangeConfig.setMaximum(max);
-		this.presenter.reflectUpdatedConfiguration();
+		this.presenter.rangeSettingHandler.setYRange(min, max);
 	}
 
 
@@ -157,7 +149,7 @@ public class RinearnGraph3D {
 	 * @param max The maximum coordinate value of Z axis.
 	 */
 	public synchronized void setZRange(double min, double max) {
-		this.setZRange(new BigDecimal(min), new BigDecimal(max));
+		this.presenter.rangeSettingHandler.setZRange(new BigDecimal(min), new BigDecimal(max));
 	}
 
 	/**
@@ -167,11 +159,7 @@ public class RinearnGraph3D {
 	 * @param max The maximum coordinate value of Z axis.
 	 */
 	public synchronized void setZRange(BigDecimal min, BigDecimal max) {
-		RangeConfiguration.AxisRangeConfiguration zRangeConfig
-			= this.model.getConfiguration().getRangeConfiguration().getZRangeConfiguration();
-		zRangeConfig.setMinimum(min);
-		zRangeConfig.setMaximum(max);
-		this.presenter.reflectUpdatedConfiguration();
+		this.presenter.rangeSettingHandler.setZRange(min, max);
 	}
 
 
