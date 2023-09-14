@@ -61,7 +61,7 @@ public class ScaleSettingHandler {
 	 */
 	public synchronized void setYTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
 		ScaleConfiguration.AxisScaleConfiguration yScaleConfig
-			= this.model.getConfiguration().getScaleConfiguration().getXScaleConfiguration();
+			= this.model.getConfiguration().getScaleConfiguration().getYScaleConfiguration();
 
 		yScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
 		yScaleConfig.setTickCoordinates(tickCoordinates);
@@ -78,7 +78,7 @@ public class ScaleSettingHandler {
 	 */
 	public synchronized void setZTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
 		ScaleConfiguration.AxisScaleConfiguration zScaleConfig
-			= this.model.getConfiguration().getScaleConfiguration().getXScaleConfiguration();
+			= this.model.getConfiguration().getScaleConfiguration().getZScaleConfiguration();
 
 		zScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
 		zScaleConfig.setTickCoordinates(tickCoordinates);
