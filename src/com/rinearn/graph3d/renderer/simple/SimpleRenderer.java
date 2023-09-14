@@ -411,16 +411,16 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			}
 		}
 
+		// Generates the color based on the current color configuration.
+		double[] colorRepresentCoords = {x, y, z};
+		Color color = this.colorMixer.generateColor(colorRepresentCoords, parameter, this.config.getColorConfiguration());
+
 		// Scale X/Y/Z coordinate values into the range [-1.0, 1.0] (= scaled space).
 		if (parameter.isRangeScalingEnabled()) {
 			x = this.axes[X].scaleCoordinate(x);
 			y = this.axes[Y].scaleCoordinate(y);
 			z = this.axes[Z].scaleCoordinate(z);
 		}
-
-		// Generates the color based on the current color configuration.
-		double[] colorRepresentCoords = {x, y, z};
-		Color color = this.colorMixer.generateColor(colorRepresentCoords, parameter, this.config.getColorConfiguration());
 
 		// Create a point piece and register to the list.
 		PointGeometricPiece point = new PointGeometricPiece(x, y, z, radius, color);
@@ -473,6 +473,14 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			}
 		}
 
+		// Generates the color based on the current color configuration.
+		double[] colorRepresentCoords = {
+				(aX + bX) / 2.0,
+				(aY + bY) / 2.0,
+				(aZ + bZ) / 2.0
+		};
+		Color color = this.colorMixer.generateColor(colorRepresentCoords, parameter, this.config.getColorConfiguration());
+
 		// Scale X/Y/Z coordinate values into the range [-1.0, 1.0] (= scaled space).
 		if (parameter.isRangeScalingEnabled()) {
 			aX = this.axes[X].scaleCoordinate(aX);
@@ -483,14 +491,6 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			bY = this.axes[Y].scaleCoordinate(bY);
 			bZ = this.axes[Z].scaleCoordinate(bZ);
 		}
-
-		// Generates the color based on the current color configuration.
-		double[] colorRepresentCoords = {
-				(aX + bX) / 2.0,
-				(aY + bY) / 2.0,
-				(aZ + bZ) / 2.0
-		};
-		Color color = this.colorMixer.generateColor(colorRepresentCoords, parameter, this.config.getColorConfiguration());
 
 		// Create a line piece and register to the list.
 		LineGeometricPiece line = new LineGeometricPiece(aX, aY, aZ, bX, bY, bZ, width, color);
@@ -585,6 +585,14 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			}
 		}
 
+		// Generates the color based on the current color configuration.
+		double[] colorRepresentCoords = {
+				(aX + bX + cX + dX) / 4.0,
+				(aY + bY + cY + dY) / 4.0,
+				(aZ + bZ + cZ + dZ) / 4.0
+		};
+		Color color = this.colorMixer.generateColor(colorRepresentCoords, parameter, this.config.getColorConfiguration());
+
 		// Scale X/Y/Z coordinate values into the range [-1.0, 1.0] (= scaled space).
 		if (parameter.isRangeScalingEnabled()) {
 			aX = this.axes[X].scaleCoordinate(aX);
@@ -603,14 +611,6 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			dY = this.axes[Y].scaleCoordinate(dY);
 			dZ = this.axes[Z].scaleCoordinate(dZ);
 		}
-
-		// Generates the color based on the current color configuration.
-		double[] colorRepresentCoords = {
-				(aX + bX + cX + dX) / 4.0,
-				(aY + bY + cY + dY) / 4.0,
-				(aZ + bZ + cZ + dZ) / 4.0
-		};
-		Color color = this.colorMixer.generateColor(colorRepresentCoords, parameter, this.config.getColorConfiguration());
 
 		// Create a quadrangle piece and register to the list.
 		QuadrangleGeometricPiece quad = new QuadrangleGeometricPiece(aX, aY, aZ, bX, bY, bZ, cX, cY, cZ, dX, dY, dZ, color);
