@@ -62,6 +62,11 @@ import java.text.DecimalFormat;
 // でもあまり固まってない案なので、しない方がいいかも。 
 // 後々で適当な時に振り返って要検討。
 //
+// -> そういえば、それ思った時、カラーグラデの config で section count ベースではなく境界本数ベースにしたので、
+//    こっちもそれと統一したい、みたいな事を考えてた。上記はそれの整合性を綺麗にするためも兼ねてたはず。
+//    UI上の使い勝手は区間数ベースの方がいいかもだけど、それはUI層でどうとでもなるので、config 層は整合性優先した方がいい、的な。
+//    -> いやそもそも使い勝手も慣れたら本数ベースの方がいいでしょ。たぶん変な馴れ方してるせいな気がする、いつも区間数にしてしまうのは。
+//
 //NOTE
 //!!!!!
 
@@ -139,6 +144,21 @@ public final class ScaleConfiguration {
 	 */
 	public synchronized AxisScaleConfiguration getZScaleConfiguration() {
 		return this.zScaleConfiguration;
+	}
+
+	/**
+	 * Validates correctness and consistency of configuration parameters stored in this instance.
+	 * 
+	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
+	 * If no issue is detected, nothing occurs.
+	 * If any issue is detected, throws IllegalStateException.
+	 * 
+	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 */
+	public synchronized void validate() {
+		this.xScaleConfiguration.validate();
+		this.yScaleConfiguration.validate();
+		this.zScaleConfiguration.validate();
 	}
 
 
@@ -376,6 +396,56 @@ public final class ScaleConfiguration {
 		public synchronized NumericTickLabelFormatter[] getNumericTickLabelFormatters() {
 			return this.numericTickLabelFormatters;
 		}
+
+
+		/**
+		 * Validates correctness and consistency of configuration parameters stored in this instance.
+		 * 
+		 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
+		 * If no issue is detected, nothing occurs.
+		 * If any issue is detected, throws IllegalStateException.
+		 * 
+		 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+		 */
+		public synchronized void validate() {
+			if (this.tickLineLength < 0.0) {
+				throw new IllegalStateException("The length of tick lines must be a positive value.");
+			}
+			if (this.tickLabelMargin < 0.0) {
+				throw new IllegalStateException("The margin of tick labels must be a positive value.");
+			}
+			if (this.tickMode == null) {
+				throw new IllegalStateException("The tick mode is null.");				
+			}
+			if (this.calculationPrecision < 1) {
+				throw new IllegalStateException("The calculation precision must be greater than 1.");
+			}
+
+			// Validate parameters for each mode.
+			switch (this.tickMode) {
+				case MANUAL : {
+					if (this.tickCoordinates == null) {
+						throw new IllegalStateException("The tick coordinates are null (mandatory in MANUAL mode).");
+					}
+					if (this.tickLabels == null) {
+						throw new IllegalStateException("The tick labels are null (mandatory in MANUAL mode).");
+					}
+					if (this.tickCoordinates.length != this.tickLabels.length) {
+						throw new IllegalStateException("The number of the tick coordinates does not match with the number of the tick labels.");
+					}
+					break;
+				}
+				case EQUAL_DIVISION : {
+					if (dividedSectionCount < 1) {
+						throw new IllegalStateException("The length of tick lines must be greater than 1.");
+					}
+					break;
+				}
+				default : {
+					throw new UnsupportedOperationException("Unknown tick mode: " + this.tickMode);
+				}
+			}
+		}
 	}
 
 
@@ -400,6 +470,12 @@ public final class ScaleConfiguration {
 		MANUAL,
 	}
 
+
+	// !!! NOTE !!!
+	//
+	// ↓これやっぱ外にあった方がいいなあ、どう考えても
+	//
+	// !!! NOTE !!!
 
 	/**
 	 * The formatter of displayed values of numeric tick labels.

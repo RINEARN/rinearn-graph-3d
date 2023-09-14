@@ -175,6 +175,11 @@ public final class RinearnGraph3DConfiguration {
 	 */
 	public synchronized void validate() throws IllegalStateException {
 
+		// Validate the scale configuration.
+		if (this.hasScaleConfiguration()) {
+			this.scaleConfiguration.validate();
+		}
+
 		// Validate the range configuration.
 		if (this.hasRangeConfiguration()) {
 			this.rangeConfiguration.validate();
