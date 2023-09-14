@@ -7,7 +7,11 @@ import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.simple.SimpleRenderer;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.RangeConfiguration;
+
 import java.awt.Image;
+import java.math.BigDecimal;
 
 
 /**
@@ -93,5 +97,111 @@ public class RinearnGraph3D {
 	 */
 	public synchronized RinearnGraph3DRenderer getRenderer() {
 		return this.renderer;
+	}
+
+
+	/**
+	 * Sets the range of X axis.
+	 * 
+	 * @param min The minimum coordinate value of X axis.
+	 * @param max The maximum coordinate value of X axis.
+	 */
+	public synchronized void setXRange(double min, double max) {
+		this.setXRange(new BigDecimal(min), new BigDecimal(max));
+	}
+
+	/**
+	 * Sets the range of X axis.
+	 * 
+	 * @param min The minimum coordinate value of X axis.
+	 * @param max The maximum coordinate value of X axis.
+	 */
+	public synchronized void setXRange(BigDecimal min, BigDecimal max) {
+		RangeConfiguration.AxisRangeConfiguration xRangeConfig
+			= this.model.getConfiguration().getRangeConfiguration().getXRangeConfiguration();
+		xRangeConfig.setMinimum(min);
+		xRangeConfig.setMaximum(max);
+		this.reflectUpdatedConfiguration();
+	}
+
+
+	/**
+	 * Sets the range of Y axis.
+	 * 
+	 * @param min The minimum coordinate value of Y axis.
+	 * @param max The maximum coordinate value of Y axis.
+	 */
+	public synchronized void setYRange(double min, double max) {
+		this.setYRange(new BigDecimal(min), new BigDecimal(max));
+	}
+
+	/**
+	 * Sets the range of Y axis.
+	 * 
+	 * @param min The minimum coordinate value of Y axis.
+	 * @param max The maximum coordinate value of Y axis.
+	 */
+	public synchronized void setYRange(BigDecimal min, BigDecimal max) {
+		RangeConfiguration.AxisRangeConfiguration yRangeConfig
+			= this.model.getConfiguration().getRangeConfiguration().getYRangeConfiguration();
+		yRangeConfig.setMinimum(min);
+		yRangeConfig.setMaximum(max);
+		this.reflectUpdatedConfiguration();
+	}
+
+
+	/**
+	 * Sets the range of Z axis.
+	 * 
+	 * @param min The minimum coordinate value of Z axis.
+	 * @param max The maximum coordinate value of Z axis.
+	 */
+	public synchronized void setZRange(double min, double max) {
+		this.setZRange(new BigDecimal(min), new BigDecimal(max));
+	}
+
+	/**
+	 * Sets the range of Z axis.
+	 * 
+	 * @param min The minimum coordinate value of Z axis.
+	 * @param max The maximum coordinate value of Z axis.
+	 */
+	public synchronized void setZRange(BigDecimal min, BigDecimal max) {
+		RangeConfiguration.AxisRangeConfiguration zRangeConfig
+			= this.model.getConfiguration().getRangeConfiguration().getZRangeConfiguration();
+		zRangeConfig.setMinimum(min);
+		zRangeConfig.setMaximum(max);
+		this.reflectUpdatedConfiguration();
+	}
+
+
+	/**
+	 * Reflects the current configuration to the graph.
+	 */
+	private void reflectUpdatedConfiguration() {
+		RinearnGraph3DConfiguration config = this.model.getConfiguration();
+		this.renderer.setConfiguration(config);
+		this.replot();
+	}
+
+	/**
+	 * Re-plots the contents composing the graph.
+	 */
+	public synchronized void replot() {
+
+		// Clear all currently drawn contents registered to the renderer.
+		this.renderer.clear();
+
+		// Draw basic components (outer frame, scale ticks, etc.) of the graph.
+		this.renderer.drawScale();
+		this.renderer.drawGrid();
+		this.renderer.drawFrame();
+
+		// -----
+		// Future: Draw other elements here
+		// -----
+
+		// Render the re-plotted contents on the screen.
+		this.renderer.render();
 	}
 }

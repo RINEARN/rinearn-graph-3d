@@ -22,6 +22,9 @@ public class TempMain {
 
 		// Launch a new RINEARN Graph 3D window (to be implemented).
 		RinearnGraph3D graph3D = new RinearnGraph3D();
+		graph3D.setXRange(-2.0, 2.0);
+		graph3D.setYRange(-1.2, 1.2);
+		graph3D.setZRange(-1.5, 1.5);
 
 		// Gets the rendering engine of 3D graphs.
 		RinearnGraph3DRenderer renderer = graph3D.getRenderer();
@@ -33,22 +36,26 @@ public class TempMain {
 		ColorGradient gradient = createXColorGradientWithYClearMask();
 		colorConfig.setDataColorGradients(new ColorGradient[] {gradient});
 
+		/*
 		// Create a range configuration.
 		RangeConfiguration rangeConfig = new RangeConfiguration();
 		rangeConfig.getXRangeConfiguration().setMinimum(new BigDecimal(-2.0));
 		rangeConfig.getXRangeConfiguration().setMaximum(new BigDecimal(2.0));
+		*/
 
 		// Reflect the above color configs to the renderer.
 		RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
 		config.setColorConfiguration(colorConfig);
-		config.setRangeConfiguration(rangeConfig);
+		//config.setRangeConfiguration(rangeConfig);
 		renderer.setConfiguration(config);
 
+		/*
 		// To reflect the range configuration, re-draw the graph frame and ticks.
 		renderer.clear();
 		renderer.drawGrid();
 		renderer.drawFrame();
 		renderer.drawScale();
+		*/
 
 		// Draw many roundom points.
 		for (int i=0; i<500; i++) {
