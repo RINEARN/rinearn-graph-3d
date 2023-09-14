@@ -77,6 +77,9 @@ public final class ScaleTickGenerator {
 			case EQUAL_DIVISION : {
 				return this.generateScaleTickCoordsByEqualDivision(axisScaleConfig, axis);
 			}
+			case MANUAL : {
+				return axisScaleConfig.getTickCoordinates();
+			}
 			default : {
 				throw new RuntimeException("The specified tick mode is unimplemented yet: " + axisScaleConfig.getTickMode());
 			}
@@ -137,34 +140,46 @@ public final class ScaleTickGenerator {
 	 * @return The labels of the ticks.
 	 */
 	public String[] generateScaleTickLabels(int dimensionIndex, Axis axis, BigDecimal[] tickCoords) {
-		int tickCount = tickCoords.length;
-		String[] tickLabels = new String[tickCount];
 
 		// Extract the configuration of the scale of the specified axis (X, Y, or Z).
 		final ScaleConfiguration.AxisScaleConfiguration axisScaleConfig = 
 				this.getAxisScaleConfiguration(dimensionIndex);
 
-		// Get the formatters of the tick labels.
-		ScaleConfiguration.NumericTickLabelFormatter[] formatters =
-				axisScaleConfig.getNumericTickLabelFormatters();
+		// Generate the labels based on the tick mode.
+		switch (axisScaleConfig.getTickMode()) {
+			case MANUAL : {
+				return axisScaleConfig.getTickLabels();
+			}
+			case EQUAL_DIVISION : {
+				int tickCount = tickCoords.length;
+				String[] tickLabels = new String[tickCount];
 
-		// Generate tick labels from their coordinate values, and format them.
-		for (int itick=0; itick<tickCount; itick++) {
+				// Get the formatters of the tick labels.
+				ScaleConfiguration.NumericTickLabelFormatter[] formatters =
+						axisScaleConfig.getNumericTickLabelFormatters();
 
-			// Firstly, define the label text of the tick,
-			// as String representation of its coordinate value in full precision.
-			tickLabels[itick] = tickCoords[itick].toString();
+				// Generate tick labels from their coordinate values, and format them.
+				for (int itick=0; itick<tickCount; itick++) {
 
-			// Next, replace the label by the text formatted by the formatter
-			// of which range contains the coordinate, if it exists.
-			int formatterCount = formatters.length;
-			for (int iformatter=0; iformatter<formatterCount; iformatter++) {
+					// Firstly, define the label text of the tick,
+					// as String representation of its coordinate value in full precision.
+					tickLabels[itick] = tickCoords[itick].toString();
 
-				if (formatters[iformatter].contains(tickCoords[itick])) {
-					tickLabels[itick] = formatters[iformatter].format(tickCoords[itick]);
+					// Next, replace the label by the text formatted by the formatter
+					// of which range contains the coordinate, if it exists.
+					int formatterCount = formatters.length;
+					for (int iformatter=0; iformatter<formatterCount; iformatter++) {
+
+						if (formatters[iformatter].contains(tickCoords[itick])) {
+							tickLabels[itick] = formatters[iformatter].format(tickCoords[itick]);
+						}
+					}
 				}
+				return tickLabels;				
+			}
+			default : {
+				throw new UnsupportedOperationException("Unknown tick mode: " + axisScaleConfig.getTickMode());
 			}
 		}
-		return tickLabels;
 	}
 }
