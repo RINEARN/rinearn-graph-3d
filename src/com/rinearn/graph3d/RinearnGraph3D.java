@@ -120,6 +120,15 @@ public class RinearnGraph3D {
 		this.presenter.rangeSettingHandler.setXRange(min, max);
 	}
 
+	/**
+	 * Turns on/off the auto-ranging feature for X axis.
+	 * 
+	 * @param enabled Specify true/false for turning on/off (the default is on).
+	 */
+	public synchronized void setXAutoRangingEnabled(boolean enabled) {
+		this.presenter.rangeSettingHandler.setXAutoRangingEnabled(enabled);
+	}
+
 
 	/**
 	 * Sets the range of Y axis.
@@ -141,6 +150,15 @@ public class RinearnGraph3D {
 		this.presenter.rangeSettingHandler.setYRange(min, max);
 	}
 
+	/**
+	 * Turns on/off the auto-ranging feature for Y axis.
+	 * 
+	 * @param enabled Specify true/false for turning on/off (the default is on).
+	 */
+	public synchronized void setYAutoRangingEnabled(boolean enabled) {
+		this.presenter.rangeSettingHandler.setYAutoRangingEnabled(enabled);
+	}
+
 
 	/**
 	 * Sets the range of Z axis.
@@ -160,6 +178,15 @@ public class RinearnGraph3D {
 	 */
 	public synchronized void setZRange(BigDecimal min, BigDecimal max) {
 		this.presenter.rangeSettingHandler.setZRange(min, max);
+	}
+
+	/**
+	 * Turns on/off the auto-ranging feature for Z axis.
+	 * 
+	 * @param enabled Specify true/false for turning on/off (the default is on).
+	 */
+	public synchronized void setZAutoRangingEnabled(boolean enabled) {
+		this.presenter.rangeSettingHandler.setZAutoRangingEnabled(enabled);
 	}
 
 

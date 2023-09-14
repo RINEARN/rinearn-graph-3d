@@ -47,7 +47,19 @@ public class RangeSettingHandler {
 			= this.model.getConfiguration().getRangeConfiguration().getXRangeConfiguration();
 		xRangeConfig.setMinimum(min);
 		xRangeConfig.setMaximum(max);
-		this.presenter.reflectUpdatedConfiguration();
+		this.presenter.reflectUpdatedConfiguration(true);
+	}
+
+	/**
+	 * Turns on/off the auto-ranging feature for X axis.
+	 * 
+	 * @param enabled Specify true/false for turning on/off (the default is on).
+	 */
+	public synchronized void setXAutoRangingEnabled(boolean enabled) {
+		RangeConfiguration.AxisRangeConfiguration xRangeConfig
+			= this.model.getConfiguration().getRangeConfiguration().getXRangeConfiguration();
+		xRangeConfig.setAutoRangingEnabled(enabled);
+		this.presenter.reflectUpdatedConfiguration(false);
 	}
 
 
@@ -62,7 +74,19 @@ public class RangeSettingHandler {
 			= this.model.getConfiguration().getRangeConfiguration().getYRangeConfiguration();
 		yRangeConfig.setMinimum(min);
 		yRangeConfig.setMaximum(max);
-		this.presenter.reflectUpdatedConfiguration();
+		this.presenter.reflectUpdatedConfiguration(true);
+	}
+
+	/**
+	 * Turns on/off the auto-ranging feature for Y axis.
+	 * 
+	 * @param enabled Specify true/false for turning on/off (the default is on).
+	 */
+	public synchronized void setYAutoRangingEnabled(boolean enabled) {
+		RangeConfiguration.AxisRangeConfiguration yRangeConfig
+			= this.model.getConfiguration().getRangeConfiguration().getYRangeConfiguration();
+		yRangeConfig.setAutoRangingEnabled(enabled);
+		this.presenter.reflectUpdatedConfiguration(false);
 	}
 
 
@@ -77,7 +101,19 @@ public class RangeSettingHandler {
 			= this.model.getConfiguration().getRangeConfiguration().getZRangeConfiguration();
 		zRangeConfig.setMinimum(min);
 		zRangeConfig.setMaximum(max);
-		this.presenter.reflectUpdatedConfiguration();
+		this.presenter.reflectUpdatedConfiguration(true);
+	}
+
+	/**
+	 * Turns on/off the auto-ranging feature for Z axis.
+	 * 
+	 * @param enabled Specify true/false for turning on/off (the default is on).
+	 */
+	public synchronized void setZAutoRangingEnabled(boolean enabled) {
+		RangeConfiguration.AxisRangeConfiguration zRangeConfig
+			= this.model.getConfiguration().getRangeConfiguration().getZRangeConfiguration();
+		zRangeConfig.setAutoRangingEnabled(enabled);
+		this.presenter.reflectUpdatedConfiguration(false);
 	}
 
 }
