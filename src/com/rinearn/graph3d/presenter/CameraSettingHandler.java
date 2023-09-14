@@ -35,85 +35,14 @@ public final class CameraSettingHandler {
 
 
 	/**
-	 * Sets the camera angle by two angular parameters, regarding X axis as the zenith axis.
-	 * 
-	 * The "screw angle" is always set to zero by this method.
-	 * To set the screw angle together, use the overload of this method, having 3-arguments instead.
-	 * 
-	 * @param horizontalAngle The horizontal angle, which is the rotation angle of the camera's location around the zenith axis.
-	 * @param verticalAngle The vertical angle, which is the angle between the zenith axis and the direction toward the camera.
-	 */
-	public synchronized void setXZenithCameraAngle(double horizontalAngle, double verticalAngle) {
-		this.setZenithCameraAngle(horizontalAngle, verticalAngle, 0.0, CameraConfiguration.AngleMode.X_ZENITH);
-	}
-
-	/**
-	 * Sets the camera angle by three angular parameters, regarding X axis as the zenith axis.
-	 * 
-	 * @param horizontalAngle The horizontal angle, which is the rotation angle of the camera's location around the zenith axis.
-	 * @param verticalAngle The vertical angle, which is the angle between the zenith axis and the direction toward the camera.
-	 * @param screwAngle The screw angle, which is the rotation angle of the camera itself (not location) around the screen center.
-	 */
-	public synchronized void setXZenithCameraAngle(double horizontalAngle, double verticalAngle, double screwAngle) {
-		this.setZenithCameraAngle(horizontalAngle, verticalAngle, screwAngle, CameraConfiguration.AngleMode.X_ZENITH);
-	}
-
-	/**
-	 * Sets the camera angle by two angular parameters, regarding Y axis as the zenith axis.
-	 * 
-	 * The "screw angle" is always set to zero by this method.
-	 * To set the screw angle together, use the overload of this method, having 3-arguments instead.
-	 * 
-	 * @param horizontalAngle The horizontal angle, which is the rotation angle of the camera's location around the zenith axis.
-	 * @param verticalAngle The vertical angle, which is the angle between the zenith axis and the direction toward the camera.
-	 */
-	public synchronized void setYZenithCameraAngle(double horizontalAngle, double verticalAngle) {
-		this.setZenithCameraAngle(horizontalAngle, verticalAngle, 0.0, CameraConfiguration.AngleMode.Y_ZENITH);
-	}
-
-	/**
-	 * Sets the camera angle by three angular parameters, regarding Y axis as the zenith axis.
-	 * 
-	 * @param horizontalAngle The horizontal angle, which is the rotation angle of the camera's location around the zenith axis.
-	 * @param verticalAngle The vertical angle, which is the angle between the zenith axis and the direction toward the camera.
-	 * @param screwAngle The screw angle, which is the rotation angle of the camera itself (not location) around the screen center.
-	 */
-	public synchronized void setYZenithCameraAngle(double horizontalAngle, double verticalAngle, double screwAngle) {
-		this.setZenithCameraAngle(horizontalAngle, verticalAngle, screwAngle, CameraConfiguration.AngleMode.Y_ZENITH);
-	}
-
-	/**
-	 * Sets the camera angle by two angular parameters, regarding Z axis as the zenith axis.
-	 * 
-	 * The "screw angle" is always set to zero by this method.
-	 * To set the screw angle together, use the overload of this method, having 3-arguments instead.
-	 * 
-	 * @param horizontalAngle The horizontal angle, which is the rotation angle of the camera's location around the zenith axis.
-	 * @param verticalAngle The vertical angle, which is the angle between the zenith axis and the direction toward the camera.
-	 */
-	public synchronized void setZZenithCameraAngle(double horizontalAngle, double verticalAngle) {
-		this.setZenithCameraAngle(horizontalAngle, verticalAngle, 0.0, CameraConfiguration.AngleMode.Z_ZENITH);
-	}
-
-	/**
-	 * Sets the camera angle by three angular parameters, regarding Z axis as the zenith axis.
-	 * 
-	 * @param horizontalAngle The horizontal angle, which is the rotation angle of the camera's location around the zenith axis.
-	 * @param verticalAngle The vertical angle, which is the angle between the zenith axis and the direction toward the camera.
-	 * @param screwAngle The screw angle, which is the rotation angle of the camera itself (not location) around the screen center.
-	 */
-	public synchronized void setZZenithCameraAngle(double horizontalAngle, double verticalAngle, double screwAngle) {
-		this.setZenithCameraAngle(horizontalAngle, verticalAngle, screwAngle, CameraConfiguration.AngleMode.Z_ZENITH);
-	}
-
-	/**
 	 * Sets the camera angle by three angular parameters, regarding the specified axis (by "angleMode" arg) as the zenith axis.
 	 * 
 	 * @param horizontalAngle The horizontal angle, which is the rotation angle of the camera's location around the zenith axis.
 	 * @param verticalAngle The vertical angle, which is the angle between the zenith axis and the direction toward the camera.
 	 * @param screwAngle The screw angle, which is the rotation angle of the camera itself (not location) around the screen center.
+	 * @param angleMode Specify X_ZENITH/Y_ZENITH/Z_ZENITH for regarding X/Y/Z axis as the zenith angle.
 	 */
-	private void setZenithCameraAngle(double horizontalAngle, double verticalAngle, double screwAngle,
+	public void setZenithCameraAngle(double horizontalAngle, double verticalAngle, double screwAngle,
 			CameraConfiguration.AngleMode angleMode) {
 
 		CameraConfiguration cameraConfig = this.model.getConfiguration().getCameraConfiguration();

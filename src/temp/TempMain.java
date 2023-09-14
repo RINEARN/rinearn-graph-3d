@@ -22,9 +22,17 @@ public class TempMain {
 
 		// Launch a new RINEARN Graph 3D window (to be implemented).
 		RinearnGraph3D graph3D = new RinearnGraph3D();
+
+		// Set the ranges of X/Y/Z axes.
 		graph3D.setXRange(-2.0, 2.0);
 		graph3D.setYRange(-1.2, 1.2);
 		graph3D.setZRange(-1.5, 1.5);
+
+		// Set the camera angle.
+		graph3D.setZZenithCameraAngle(0.4, 1.0, 0.0);
+
+
+		// --- Renderer-Level Operations --- //
 
 		// Gets the rendering engine of 3D graphs.
 		RinearnGraph3DRenderer renderer = graph3D.getRenderer();
