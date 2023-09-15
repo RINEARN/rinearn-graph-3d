@@ -2,6 +2,7 @@ com/rinearn/graph3d/config/CameraConfiguration.java
 com/rinearn/graph3d/config/ColorConfiguration.java
 com/rinearn/graph3d/config/ColorGradient.java
 com/rinearn/graph3d/config/FrameConfiguration.java
+com/rinearn/graph3d/config/LabelConfiguration.java
 com/rinearn/graph3d/config/LightConfiguration.java
 com/rinearn/graph3d/config/RangeConfiguration.java
 com/rinearn/graph3d/config/RinearnGraph3DConfiguration.java

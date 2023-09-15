@@ -70,6 +70,13 @@ import java.text.DecimalFormat;
 //NOTE
 //!!!!!
 
+// !!! NOTE !!!
+// tickLabel は tickLabelTexts にすべきでは？
+// tickLabel 自体には tickLabelMargin とかのテキスト以外の属性があるし、
+// LabelConfig での軸ラベルも setText にしてるし。
+// !!! NOTE !!!
+
+
 /**
  * The class storing configuration values of the scales of X/Y/Z axes.
  */
@@ -166,8 +173,6 @@ public final class ScaleConfiguration {
 	 * The class storing configuration values of the scale of an axis (X, Y, or Z).
 	 */
 	public static class AxisScaleConfiguration {
-
-		// To be added: tickLineWidth, tickLabelMargin, etc.
 
 		/** The length of tick lines. */
 		private volatile double tickLineLength = 0.05;

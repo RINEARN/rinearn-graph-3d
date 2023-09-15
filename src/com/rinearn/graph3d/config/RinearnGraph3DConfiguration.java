@@ -93,6 +93,9 @@ public final class RinearnGraph3DConfiguration {
 	/** The configuration of colors. */
 	private volatile ColorConfiguration colorConfiguration = null;
 
+	/** The configuration of labels. */
+	private volatile LabelConfiguration labelConfiguration = null;
+
 
 	/**
 	 * Creates a new configuration storing default values.
@@ -125,6 +128,7 @@ public final class RinearnGraph3DConfiguration {
 		configuration.setLightConfiguration(new LightConfiguration());
 		configuration.setCameraConfiguration(new CameraConfiguration());
 		configuration.setColorConfiguration(new ColorConfiguration());
+		configuration.setLabelConfiguration(new LabelConfiguration());
 
 		return configuration;
 	}
@@ -161,6 +165,9 @@ public final class RinearnGraph3DConfiguration {
 		if (mergedConfiguration.hasColorConfiguration()) {
 			this.setColorConfiguration(mergedConfiguration.getColorConfiguration());
 		}
+		if (mergedConfiguration.hasLabelConfiguration()) {
+			this.setLabelConfiguration(mergedConfiguration.getLabelConfiguration());
+		}
 	}
 
 
@@ -174,6 +181,11 @@ public final class RinearnGraph3DConfiguration {
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws IllegalStateException {
+
+		// Validate the label configuration.
+		if (this.hasLabelConfiguration()) {
+			this.labelConfiguration.validate();
+		}
 
 		// Validate the scale configuration.
 		if (this.hasScaleConfiguration()) {
@@ -380,5 +392,33 @@ public final class RinearnGraph3DConfiguration {
 	 */
 	public synchronized ColorConfiguration getColorConfiguration() {
 		return this.colorConfiguration;
+	}
+
+
+	/**
+	 * Checks whether any label configuration is set to this instance.
+	 * 
+	 * @return Returns true if any label configuration is set to this instance.
+	 */
+	public synchronized boolean hasLabelConfiguration() {
+		return this.labelConfiguration != null;
+	}
+
+	/**
+	 * Sets the configuration of the labels of X/Y/Z axes.
+	 * 
+	 * @param scaleConfiguration The configuration of the labels of X/Y/Z axes.
+	 */
+	public synchronized void setLabelConfiguration(LabelConfiguration labelConfiguration) {
+		this.labelConfiguration = labelConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of the labels of X/Y/Z axes.
+	 * 
+	 * @return The configuration of the labels of X/Y/Z axes.
+	 */
+	public synchronized LabelConfiguration getLabelConfiguration() {
+		return this.labelConfiguration;
 	}
 }
