@@ -53,4 +53,26 @@ public final class CameraSettingHandler {
 		this.presenter.reflectUpdatedConfiguration(true);
 	}
 
+
+ 	/**
+ 	 * Sets the distance between the viewpoint and the origin of the graph.
+ 	 * 
+ 	 * @param distance The distance between the viewpoint and the origin of the graph.
+ 	 */
+	public void setCameraDistance(double distance) {
+		CameraConfiguration cameraConfig = this.model.getConfiguration().getCameraConfiguration();
+		cameraConfig.setDistance(distance);
+		this.presenter.reflectUpdatedConfiguration(true);
+	}
+
+	/**
+	 * Sets the magnification of the graph screen.
+	 * 
+	 * @param magnification The magnification of the graph screen.
+	 */
+	public void setCameraMagnification(double magnification) {
+		CameraConfiguration cameraConfig = this.model.getConfiguration().getCameraConfiguration();
+		cameraConfig.setMagnification(magnification);
+		this.presenter.reflectUpdatedConfiguration(true);
+	}
 }

@@ -54,6 +54,10 @@ public class TempMain {
 		// Set the camera angle.
 		graph3D.setZZenithCameraAngle(0.4, 1.0, 0.0);
 
+		// Set the camera distance and the magnification.
+		graph3D.setCameraDistance(5.25);
+		graph3D.setCameraMagnification(1000.0);
+
 
 		// --- Renderer-Level Operations --- //
 

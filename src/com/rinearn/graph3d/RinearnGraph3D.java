@@ -220,6 +220,25 @@ public class RinearnGraph3D {
 	}
 
 
+ 	/**
+ 	 * Sets the distance between the viewpoint and the origin of the graph.
+ 	 * 
+ 	 * @param distance The distance between the viewpoint and the origin of the graph.
+ 	 */
+	public void setCameraDistance(double distance) {
+		this.presenter.cameraSettingHandler.setCameraDistance(distance);
+	}
+
+	/**
+	 * Sets the magnification of the graph screen.
+	 * 
+	 * @param magnification The magnification of the graph screen.
+	 */
+	public void setCameraMagnification(double magnification) {
+		this.presenter.cameraSettingHandler.setCameraMagnification(magnification);
+	}
+
+
 	/**
 	 * Sets the camera angle by two angular parameters, regarding X axis as the zenith axis.
 	 * 
