@@ -9,6 +9,31 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 
 
+// !!! NOTE !!!
+// さすがに全部コンストラクタ引数にするのは無理が出てきたし
+// アラインメント系だけでもメソッドに分けるべき
+// 生成時の可読性もそろそろ地に落ちてるし
+//
+// -> それならいっそ directionalVector を optional 扱いにして
+//    普通の TextGeometricPiece を兼ねさせる？ 未実装だし
+//
+//    -> そうする場合は LineGeometricPiece の方でもやらないと雰囲気が変になるのでその点も含めて考える必要が
+//
+//       -> アラインメント系は目盛りにしかほぼ使わない機能だし、そのための複雑なあれこれが
+//          単純な線や文字列描画のコードにが混ざってるのは微妙な気がする。シンプルなやつはシンプルなやつであってほしい気が。
+//
+//          -> しかしアラインメント機能はAPIでも一応使えるようにサポートするのでは？
+//             そうなると、機能を使ってるか or 使ってないかでインスタンス化する実装を切り分けるのもそれはそれで微妙な気が。
+//             文字列はこれ、線はこれ。って感じで一通りだった方が外からは読みやすい。中は読み辛くても。
+//             そして中のコードを触る機会は外から生成する機会より少ないわけだし。
+//
+//             -> いやでも「線を描く」みたいな基本的なやつの実装めっちゃ複雑になるのはめっちゃ嫌だなあ。派生実装なら許せるんだが
+//
+//   また考える
+//
+// !!! NOTE !!!
+
+
 /**
  * A geometric piece class representing a "directional" text label,
  * which is visible only from the specific direction.
@@ -35,6 +60,16 @@ public final class DirectionalTextGeometricPiece extends GeometricPiece {
 
 	/** The horizontal distance [px] from the reference point, at which position changes on "RADIAL" alignment. */
 	private int horizontalAlignmentThreshold;
+
+	/** The vertical offset [px] of the alignment. The offset direction depends on the alignment mode. */
+	private int verticalAlignmentOffset = 0;
+
+	/** The horizontal distance [px] of the alignment. The offset direction depends on the alignment mode. */
+	private int horizontalAlignmentOffset = 0;
+
+	// The offset directions of the followings don't depend on the alignment mode.
+	// private int horizontalOffset
+	// private int verticalOffset
 
 	/** Stores X coordinate value of the screen center, updated in project() method. */
 	private int screenCenterX = 0;
@@ -111,6 +146,27 @@ public final class DirectionalTextGeometricPiece extends GeometricPiece {
 
 		this.text = text;
 		this.font = font;
+	}
+
+
+	/**
+	 * Sets the offset values [px] of the alignment.
+	 * 
+	 * The offset directions (signs) depend on the alignment mode.
+	 * In the current implementation, this feature is available for only RADIAL alignment mode.
+	 * 
+	 * @param verticalAlignmentOffset The offset for the vertical direction on the screen.
+	 * @param horizontalAlignmentOffset The offset for the horizontal direction on the screen.
+	 */
+	public synchronized void setAlignmentOffsets(int verticalAlignmentOffset, int horizontalAlignmentOffset) {
+		if (this.horizontalAlignment != RinearnGraph3DDrawingParameter.HorizontalAlignment.RADIAL) {
+			throw new UnsupportedOperationException("The alignment offset is available for only RADIAL alignment mode.");
+		}
+		if (this.verticalAlignment != RinearnGraph3DDrawingParameter.VerticalAlignment.RADIAL) {
+			throw new UnsupportedOperationException("The alignment offset is available for only RADIAL alignment mode.");
+		}
+		this.verticalAlignmentOffset = verticalAlignmentOffset;
+		this.horizontalAlignmentOffset = horizontalAlignmentOffset;
 	}
 
 
@@ -234,9 +290,9 @@ public final class DirectionalTextGeometricPiece extends GeometricPiece {
 			case RADIAL : {
 				int referencePointX = pv[1][X];
 				if (referencePointX < this.screenCenterX - this.horizontalAlignmentThreshold) {
-					coordOffsetX = -width; // LEFT
+					coordOffsetX = -width - this.horizontalAlignmentOffset; // LEFT
 				} else if (this.screenCenterX + this.horizontalAlignmentThreshold < referencePointX) {
-					coordOffsetX = 0; // RIGHT
+					coordOffsetX = this.horizontalAlignmentOffset; // RIGHT
 				} else {
 					coordOffsetX = -width/2; // CENTER
 				}
@@ -269,9 +325,9 @@ public final class DirectionalTextGeometricPiece extends GeometricPiece {
 			case RADIAL : {
 				int referencePointY = pv[1][Y];
 				if (referencePointY < this.screenCenterY - this.verticalAlignmentThreshold) {
-					coordOffsetY = 0; // TOP
+					coordOffsetY = -this.verticalAlignmentOffset; // TOP
 				} else if (this.screenCenterY + this.verticalAlignmentThreshold < referencePointY) {
-					coordOffsetY = height; // BOTTOM
+					coordOffsetY = height + this.verticalAlignmentOffset; // BOTTOM
 				} else {
 					coordOffsetY = height/2; // CENTER
 				}

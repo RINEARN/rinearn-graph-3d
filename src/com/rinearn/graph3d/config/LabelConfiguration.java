@@ -2,6 +2,30 @@ package com.rinearn.graph3d.config;
 
 import com.rinearn.graph3d.config.RangeConfiguration.AxisRangeConfiguration;
 
+// !!! NOTE !!!
+//
+// なんかこれ書いてて、あちこちの set...Labels 的なやつ（setTickLabelsとか）の命名を
+// set...LabelTexts とかに直したほうがいいような気がしてきたけど、
+// 一方で直さない方が良い気もする。
+// 
+// ・直した方がいいと思う理由は、Label そのものには margin とかの要素もイメージ上の階層構造内に含んでて、
+// 　なので実際 set...LabelMargin とかが存在するので、
+// 　ラベルの表示文字列を設定するのは Text を付けないと曖昧な気がしてきたため。
+//
+// 　実際、このクラス内の AxisLabelConfiguration みたいにイメージ上の構造をクラスの構造に射影した際に、
+// 　ラベルの値の setter の命名とかで結局 setText とかになるので、やっぱそうだよなあ、という感じがして。
+//
+// ・そのままでいいと思う理由は、例えば普通に「 setXLabel 」とか見るとラベル文字列をセットする事は十分に明快で、
+// 　RinearnGraph3D のAPI上でも既にそうなってるし、たぶんそれで曖昧さを感じて混乱する事は実際には無さそうなので。
+// 
+// 　とすると Config 類のラベル的なもののあちこちに Text が付くのは、イメージ上の階層構造では綺麗になるが、
+// 　そのために実用上は（微妙に面倒くさいという）不利益を生み出すだけになるのって方針としてどうなの？という。
+//
+// また後々で要検討
+//
+//!!! NOTE !!!
+
+
 /**
  * The class storing configuration values of labels.
  */
@@ -116,7 +140,7 @@ public final class LabelConfiguration {
 		 * 
 		 * @param text The displayed text of this label.
 		 */
-		private synchronized void setText(String text) {
+		public synchronized void setText(String text) { // NOTEのText付ける案が却下になったらこいつは setLabel にする？ setValue はなんか曖昧すぎる
 			this.text = text;
 		}
 
@@ -125,7 +149,7 @@ public final class LabelConfiguration {
 		 * 
 		 * @return The displayed text of this label.
 		 */
-		private synchronized String getText() {
+		public synchronized String getText() { // 上と同様、getLabel にする？ 要検討
 			return this.text;
 		}
 
