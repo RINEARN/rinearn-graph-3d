@@ -98,10 +98,9 @@ public final class ScaleTickGenerator {
 	 * Generates coordinates (positions) of ticks.
 	 * 
 	 * @param dimensionIndex Specify 0 for X, 1 for Y, and 2 for Z axis.
-	 * @param axis The axis to which the generated ticks belong.
 	 * @return The coordinates of the ticks.
 	 */
-	public BigDecimal[] generateScaleTickCoordinates(int dimensionIndex, Axis axis) {
+	public BigDecimal[] generateScaleTickCoordinates(int dimensionIndex) {
 
 		// Extract the configurations of the scale & range of the specified axis (X, Y, or Z).
 		final ScaleConfiguration.AxisScaleConfiguration axisScaleConfig = 
@@ -173,11 +172,10 @@ public final class ScaleTickGenerator {
 	 * Generates labels of ticks.
 	 * 
 	 * @param dimensionIndex Specify 0 for X, 1 for Y, and 2 for Z axis.
-	 * @param axis The axis to which the generated ticks belong.
 	 * @param tickCoords The coordinates (positions) of the ticks.
 	 * @return The labels of the ticks.
 	 */
-	public String[] generateScaleTickLabels(int dimensionIndex, Axis axis, BigDecimal[] tickCoords) {
+	public String[] generateScaleTickLabels(int dimensionIndex, BigDecimal[] tickCoords) {
 
 		// Extract the configuration of the scale of the specified axis (X, Y, or Z).
 		final ScaleConfiguration.AxisScaleConfiguration axisScaleConfig = 

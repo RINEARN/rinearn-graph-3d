@@ -88,9 +88,6 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The font for rendering axis labels. */
 	private volatile Font axisLabelFont = new Font("Dialog", Font.PLAIN, 30); // Should be belong to "font configuration" ?
 
-	/** The array storing X, Y, and Z-axis. Each element stores values related to an axis (e.g.: min/max value of the range). */
-	private volatile Axis[] axes = { new Axis(), new Axis(), new Axis() };
-
 	/** The converters of coordinates from the real space to the "scaled space". The index is [0:X, 1:Y, 2:Z]. */
 	private volatile SpaceConverter[] spaceConverters = {new SpaceConverter(), new SpaceConverter(), new SpaceConverter()};
 
@@ -227,12 +224,12 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 */
 	private void updateTicks() {
 		ScaleTickGenerator scaleTickGenerator = new ScaleTickGenerator(this.config);
-		BigDecimal[] xTickCoords = scaleTickGenerator.generateScaleTickCoordinates(X, this.axes[X]);
-		BigDecimal[] yTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Y, this.axes[Y]);
-		BigDecimal[] zTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Z, this.axes[Z]);
-		String[] xTickLabels = scaleTickGenerator.generateScaleTickLabels(X, this.axes[X], xTickCoords);
-		String[] yTickLabels = scaleTickGenerator.generateScaleTickLabels(Y, this.axes[Y], yTickCoords);
-		String[] zTickLabels = scaleTickGenerator.generateScaleTickLabels(Z, this.axes[Z], zTickCoords);
+		BigDecimal[] xTickCoords = scaleTickGenerator.generateScaleTickCoordinates(X);
+		BigDecimal[] yTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Y);
+		BigDecimal[] zTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Z);
+		String[] xTickLabels = scaleTickGenerator.generateScaleTickLabels(X, xTickCoords);
+		String[] yTickLabels = scaleTickGenerator.generateScaleTickLabels(Y, yTickCoords);
+		String[] zTickLabels = scaleTickGenerator.generateScaleTickLabels(Z, zTickCoords);
 
 		this.frameDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
 		this.labelDrawer.setTickLabels(xTickLabels, yTickLabels, zTickLabels);
@@ -691,7 +688,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	public synchronized void drawLabel() {
 		this.screenGraphics.setFont(this.tickLabelFont);
 		FontMetrics tickLabelFontMetrics = this.screenGraphics.getFontMetrics();
-		this.labelDrawer.drawAxisLabels(this.geometricPieceList, this.axes, tickLabelFontMetrics);
+		this.labelDrawer.drawAxisLabels(this.geometricPieceList, tickLabelFontMetrics);
 	}
 
 

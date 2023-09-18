@@ -1,14 +1,11 @@
 package com.rinearn.graph3d.renderer.simple;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.config.LabelConfiguration;
-import com.rinearn.graph3d.config.ScaleConfiguration;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.math.BigDecimal;
 import java.util.List;
 
 // !!! NOTE
@@ -55,9 +52,6 @@ public class LabelDrawer {
 	/** The font for rendering texts of axis labels. */
 	private volatile Font axisLabelFont;
 
-	/** The font for rendering texts of tick labels. */
-	private volatile Font tickLabelFont;
-
 	/** The labels of the ticks on X axis. */
 	private String[] xTickLabels = {};
 
@@ -85,7 +79,6 @@ public class LabelDrawer {
 		this.verticalAlignThreshold = verticalAlignThreshold;
 		this.horizontalAlignThreshold = horizontalAlignThreshold;
 		this.axisLabelFont = axisLabelFont;
-		this.tickLabelFont = tickLabelFont;
 		this.color = color;
 	}
 
@@ -132,15 +125,6 @@ public class LabelDrawer {
 	}
 
 	/**
-	 * Sets the font for rendering texts of tick labels.
-	 * 
-	 * @param axisLabelFont The font for rendering texts of tick labels.
-	 */
-	public synchronized void setTickLabelFont(Font tickLabelFont) {
-		this.tickLabelFont = tickLabelFont;
-	}
-
-	/**
 	 * Sets the color of labels.
 	 * 
 	 * @param color The color of labels.
@@ -165,29 +149,25 @@ public class LabelDrawer {
 	 * Draws axis labels on all axes.
 	 * 
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
-	 * @param axes The array storing X axis at [0], Y axis at [1], and Z axis at [2].
 	 * @param tickLabelFontMetrics The metrics of the font used for drawing tick labels.
 	 */
-	public synchronized void drawAxisLabels(List<GeometricPiece> geometricPieceList, Axis[] axes, FontMetrics tickLabelFontMetrics) {
+	public synchronized void drawAxisLabels(List<GeometricPiece> geometricPieceList, FontMetrics tickLabelFontMetrics) {
 
 		// Draw axis labels of X, Y, Z axis.
 		for (int idim=0; idim<=2; idim++) {
 
-			// Get the axis of the "idim"-th dimension, where "idim" represents: 0=X, 1=Y, 2=Z.
-			Axis axis = axes[idim];
-
 			// Draw axis labels for each axis.
 			switch (idim) {
 				case X : {
-					this.drawXAxisLabels(geometricPieceList, axis, tickLabelFontMetrics);
+					this.drawXAxisLabels(geometricPieceList, tickLabelFontMetrics);
 					break;
 				}
 				case Y : {
-					this.drawYAxisLabels(geometricPieceList, axis, tickLabelFontMetrics);
+					this.drawYAxisLabels(geometricPieceList, tickLabelFontMetrics);
 					break;
 				}
 				case Z : {
-					this.drawZAxisLabels(geometricPieceList, axis, tickLabelFontMetrics);
+					this.drawZAxisLabels(geometricPieceList, tickLabelFontMetrics);
 					break;
 				}
 				default : {
@@ -219,9 +199,9 @@ public class LabelDrawer {
 	 * On all (four) X axis's scale, draws tick labels having the specified value.
 	 * 
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
-	 * @param axisLabel The label of X axis.
+	 * @param tickLabelFontMetrics The metrics of the font used for drawing tick labels.
 	 */
-	private void drawXAxisLabels(List<GeometricPiece> geometricPieceList, Axis axis, FontMetrics tickLabelFontMetrics) {
+	private void drawXAxisLabels(List<GeometricPiece> geometricPieceList, FontMetrics tickLabelFontMetrics) {
 
 		// Define short aliases of some fields:
 		RinearnGraph3DDrawingParameter.VerticalAlignment vAlign   = VERTICAL_ALIGNMENT;
@@ -331,9 +311,9 @@ public class LabelDrawer {
 	 * On all (four) Y axis's scale, draws tick labels having the specified value.
 	 * 
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
-	 * @param axisLabel The label of Y axis.
+	 * @param tickLabelFontMetrics The metrics of the font used for drawing tick labels.
 	 */
-	private void drawYAxisLabels(List<GeometricPiece> geometricPieceList, Axis axis, FontMetrics tickLabelFontMetrics) {
+	private void drawYAxisLabels(List<GeometricPiece> geometricPieceList, FontMetrics tickLabelFontMetrics) {
 
 		// Define short aliases of some fields:
 		RinearnGraph3DDrawingParameter.VerticalAlignment vAlign   = VERTICAL_ALIGNMENT;
@@ -441,9 +421,9 @@ public class LabelDrawer {
 	 * On all (four) Z axis's scale, draws tick labels having the specified value.
 	 * 
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
-	 * @param axisLabel The label of Z axis.
+	 * @param tickLabelFontMetrics The metrics of the font used for drawing tick labels.
 	 */
-	private void drawZAxisLabels(List<GeometricPiece> geometricPieceList, Axis axis, FontMetrics tickLabelFontMetrics) {
+	private void drawZAxisLabels(List<GeometricPiece> geometricPieceList, FontMetrics tickLabelFontMetrics) {
 
 		// Define short aliases of some fields:
 		RinearnGraph3DDrawingParameter.VerticalAlignment vAlign   = VERTICAL_ALIGNMENT;
