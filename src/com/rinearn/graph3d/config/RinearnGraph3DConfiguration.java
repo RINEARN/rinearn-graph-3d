@@ -93,6 +93,9 @@ public final class RinearnGraph3DConfiguration {
 	/** The configuration of colors. */
 	private volatile ColorConfiguration colorConfiguration = null;
 
+	/** The configuration of fonts. */
+	private volatile FontConfiguration fontConfiguration = null;
+
 	/** The configuration of labels. */
 	private volatile LabelConfiguration labelConfiguration = null;
 
@@ -128,6 +131,7 @@ public final class RinearnGraph3DConfiguration {
 		configuration.setLightConfiguration(new LightConfiguration());
 		configuration.setCameraConfiguration(new CameraConfiguration());
 		configuration.setColorConfiguration(new ColorConfiguration());
+		configuration.setFontConfiguration(new FontConfiguration());
 		configuration.setLabelConfiguration(new LabelConfiguration());
 
 		return configuration;
@@ -165,6 +169,9 @@ public final class RinearnGraph3DConfiguration {
 		if (mergedConfiguration.hasColorConfiguration()) {
 			this.setColorConfiguration(mergedConfiguration.getColorConfiguration());
 		}
+		if (mergedConfiguration.hasFontConfiguration()) {
+			this.setFontConfiguration(mergedConfiguration.getFontConfiguration());
+		}
 		if (mergedConfiguration.hasLabelConfiguration()) {
 			this.setLabelConfiguration(mergedConfiguration.getLabelConfiguration());
 		}
@@ -190,6 +197,11 @@ public final class RinearnGraph3DConfiguration {
 		// Validate the scale configuration.
 		if (this.hasScaleConfiguration()) {
 			this.scaleConfiguration.validate();
+		}
+
+		// Validate the color configuration.
+		if (this.hasFontConfiguration()) {
+			this.fontConfiguration.validate();
 		}
 
 		// Validate the range configuration.
@@ -392,6 +404,34 @@ public final class RinearnGraph3DConfiguration {
 	 */
 	public synchronized ColorConfiguration getColorConfiguration() {
 		return this.colorConfiguration;
+	}
+
+
+	/**
+	 * Checks whether any font configuration is set to this instance.
+	 * 
+	 * @return Returns true if any font configuration is set to this instance.
+	 */
+	public synchronized boolean hasFontConfiguration() {
+		return this.fontConfiguration != null;
+	}
+
+	/**
+	 * Sets the configuration of fonts.
+	 * 
+	 * @param fontConfiguration The configuration of fonts.
+	 */
+	public synchronized void setFontConfiguration(FontConfiguration fontConfiguration) {
+		this.fontConfiguration = fontConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of fonts.
+	 * 
+	 * @return The configuration of fonts.
+	 */
+	public synchronized FontConfiguration getFontConfiguration() {
+		return this.fontConfiguration;
 	}
 
 
