@@ -61,9 +61,6 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The array index representing Z, in some array fields. */
 	public static final int Z = 2;
 
-	/** The default value of the distance between the viewpoint and the origin of the graph. */
-	private static final double DEFAULT_DISTANCE = 4.0; // Should be belong to "camera configuration" ?
-
 	/** The object storing configuration values of scales, frames, lighting/shading, and so on. */
 	private volatile RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createDefaultConfiguration();
 
@@ -83,7 +80,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	private volatile double[][] transformationMatrix = {
 		{ 1.0, 0.0, 0.0, 0.0 },
 		{ 0.0, 1.0, 0.0, 0.0 },
-		{ 0.0, 0.0, 1.0, -DEFAULT_DISTANCE }, // Z takes a negative value for the depth direction.
+		{ 0.0, 0.0, 1.0, -config.getCameraConfiguration().getDistance() }, // Z takes a negative value for the depth direction.
 		{ 0.0, 0.0, 0.0, 1.0 }
 	};
 
@@ -192,9 +189,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		// Update the tick coordinates and tick labels, from the updated configuration.
 		this.updateTicks();
 
-		// Update the camera angle(s).
-		CameraConfiguration cameraConfig = this.config.getCameraConfiguration();
-		this.updateCameraAngle(cameraConfig.getRotationMatrix());
+		// Update the camera angles and parameters.
+		this.updateCamera();
 
 		// Updates the ranges of the color gradients, from the updated configuration.
 		this.updateColorGradients();
@@ -266,20 +262,19 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	}
 
 	/**
-	 * Updates the camera angle of the graph,
-	 * by acting the specified rotation matrix to the initial state (default angle).
-	 * 
-	 * @param rotationMatrix The matrix representing the rotation of the graph from the initial state.
+	 * Updates the camera angle and parameters, from the current camera configuration.
 	 */
-	private void updateCameraAngle(double[][] rotationMatrix) {
+	private void updateCamera() {
+		CameraConfiguration cameraConfig = this.config.getCameraConfiguration();
+		double[][] rotationMatrix = cameraConfig.getRotationMatrix();
 
 		// Resets the rotation-related elements of the transformation matrix.
 		double dx = this.transformationMatrix[0][3];
 		double dy = this.transformationMatrix[1][3];
-		double distance = this.transformationMatrix[2][3];
+		double distance = cameraConfig.getDistance();
 		this.transformationMatrix[0] = new double[] { 1.0, 0.0, 0.0, dx };
 		this.transformationMatrix[1] = new double[] { 0.0, 1.0, 0.0, dy };
-		this.transformationMatrix[2] = new double[] { 0.0, 0.0, 1.0, distance };
+		this.transformationMatrix[2] = new double[] { 0.0, 0.0, 1.0, -distance }; // Z takes a negative value for the depth direction.
 		this.transformationMatrix[3] = new double[] { 0.0, 0.0, 0.0, 1.0 };
 
 		// Create a matrix for temporary storing updated values of the transformation matrix.

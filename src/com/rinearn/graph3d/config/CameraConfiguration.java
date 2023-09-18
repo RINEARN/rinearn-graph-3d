@@ -24,6 +24,9 @@ public class CameraConfiguration {
 	/** The magnification of the graph screen. */
 	private volatile double magnification = 700.0;
 
+	/** The distance between the viewpoint and the origin of the graph. */
+	private volatile double distance = 4.0;
+
 	/** The horizontal offset amount of the graph center (= rotation center), from the screen center. */
 	private volatile int horizontalCenterOffset = 0;
 
@@ -80,6 +83,26 @@ public class CameraConfiguration {
  	 */
  	public synchronized double getMagnification() {
 		return this.magnification;
+ 	}
+
+
+ 	/**
+ 	 * Sets the distance between the viewpoint and the origin of the graph.
+ 	 * 
+ 	 * @param distance The distance between the viewpoint and the origin of the graph.
+ 	 */
+ 	public synchronized void setDistance(double distance) {
+ 		this.distance = distance;
+ 	}
+
+ 
+ 	/**
+ 	 * Gets the distance between the viewpoint and the origin of the graph.
+ 	 * 
+ 	 * @return The distance between the viewpoint and the origin of the graph.
+ 	 */
+ 	public synchronized double getDistance() {
+ 		return this.distance;
  	}
 
 
