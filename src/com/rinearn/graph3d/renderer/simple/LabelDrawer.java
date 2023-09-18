@@ -59,13 +59,13 @@ public class LabelDrawer {
 	private volatile Font tickLabelFont;
 
 	/** The labels of the ticks on X axis. */
-	private String[] xTickLabels;
+	private String[] xTickLabels = {};
 
 	/** The labels of the ticks on Y axis. */
-	private String[] yTickLabels;
+	private String[] yTickLabels = {};
 
 	/** The labels of the ticks on Z axis. */
-	private String[] zTickLabels;
+	private String[] zTickLabels = {};
 
 
 	/**

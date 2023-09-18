@@ -91,6 +91,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The array storing X, Y, and Z-axis. Each element stores values related to an axis (e.g.: min/max value of the range). */
 	private volatile Axis[] axes = { new Axis(), new Axis(), new Axis() };
 
+	/** The converters of coordinates from the real space to the "scaled space". The index is [0:X, 1:Y, 2:Z]. */
+	private volatile SpaceConverter[] spaceConverters = {new SpaceConverter(), new SpaceConverter(), new SpaceConverter()};
+
 	/** The list storing geometric pieces to be rendered. */
 	private volatile List<GeometricPiece> geometricPieceList = new ArrayList<GeometricPiece>();
 
@@ -193,40 +196,59 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			throw new IllegalArgumentException(e);
 		}
 
-		// Set the ranges of X/Y/Z axes.
+		// Set the ranges of X/Y/Z axes, to the range converter for each axis.
 		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
 		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
 		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
 		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
-		this.axes[X].setRange(xRangeConfig.getMinimum(), xRangeConfig.getMaximum());
-		this.axes[Y].setRange(yRangeConfig.getMinimum(), yRangeConfig.getMaximum());
-		this.axes[Z].setRange(zRangeConfig.getMinimum(), zRangeConfig.getMaximum());
-
+		this.spaceConverters[X].setRange(xRangeConfig.getMinimum(), xRangeConfig.getMaximum());
+		this.spaceConverters[Y].setRange(yRangeConfig.getMinimum(), yRangeConfig.getMaximum());
+		this.spaceConverters[Z].setRange(zRangeConfig.getMinimum(), zRangeConfig.getMaximum());
 
 		// Sets the configuration for drawing scales and frames.
 		this.scaleTickDrawer.setConfiguration(this.config);
 		this.frameDrawer.setConfiguration(this.config);
 		this.labelDrawer.setConfiguration(this.config);
 
-		// Generate coordinates and labels of ticks, based on the scale configuration.
-		ScaleTickGenerator scaleTickGenerator = new ScaleTickGenerator(this.config.getScaleConfiguration());
+		// Update the tick coordinates and tick labels, from the updated configuration.
+		this.updateTicks();
+
+		// Update the camera angle(s).
+		CameraConfiguration cameraConfig = this.config.getCameraConfiguration();
+		this.updateCameraAngle(cameraConfig.getRotationMatrix());
+
+		// Updates the ranges of the color gradients, from the updated configuration.
+		this.updateColorGradients();
+	}
+
+
+	/**
+	 * Updates the tick coordinates and tick labels, from the current configuration.
+	 */
+	private void updateTicks() {
+		ScaleTickGenerator scaleTickGenerator = new ScaleTickGenerator(this.config);
 		BigDecimal[] xTickCoords = scaleTickGenerator.generateScaleTickCoordinates(X, this.axes[X]);
 		BigDecimal[] yTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Y, this.axes[Y]);
 		BigDecimal[] zTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Z, this.axes[Z]);
 		String[] xTickLabels = scaleTickGenerator.generateScaleTickLabels(X, this.axes[X], xTickCoords);
 		String[] yTickLabels = scaleTickGenerator.generateScaleTickLabels(Y, this.axes[Y], yTickCoords);
 		String[] zTickLabels = scaleTickGenerator.generateScaleTickLabels(Z, this.axes[Z], zTickCoords);
+
 		this.frameDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
 		this.labelDrawer.setTickLabels(xTickLabels, yTickLabels, zTickLabels);
 		this.scaleTickDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
 		this.scaleTickDrawer.setTickLabels(xTickLabels, yTickLabels, zTickLabels);
+	}
 
+	/**
+	 * Updates the ranges of the color gradients, from the current configuration.
+	 */
+	private void updateColorGradients() {
+		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 
-		// Update the camera angle(s).
-		CameraConfiguration cameraConfig = this.config.getCameraConfiguration();
-		this.updateCameraAngle(cameraConfig.getRotationMatrix());
-
-		// Update the range of each axis (dimension) of color gradients, if its auto-ranging feature is enabled.
 		ColorConfiguration colorConfig = this.config.getColorConfiguration();
 		for (ColorGradient gradient: colorConfig.getDataColorGradients()) {
 			for (ColorGradient.AxisColorGradient axisGradient: gradient.getAxisColorGradients()) {
@@ -263,7 +285,6 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			}
 		}
 	}
-
 
 	/**
 	 * Updates the camera angle of the graph,
@@ -407,9 +428,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		// Check whether the point is in ranges of X/Y/Z axes. If no, draw nothing.
 		if (parameter.isRangeClippingEnabled()) {
 			boolean isInRange =
-					this.axes[X].containsCoordinate(x, true) &&
-					this.axes[Y].containsCoordinate(y, true) &&
-					this.axes[Z].containsCoordinate(z, true);
+					this.spaceConverters[X].containsInRange(x, true) &&
+					this.spaceConverters[Y].containsInRange(y, true) &&
+					this.spaceConverters[Z].containsInRange(z, true);
 			
 			if (!isInRange) {
 				return;
@@ -422,9 +443,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 		// Scale X/Y/Z coordinate values into the range [-1.0, 1.0] (= scaled space).
 		if (parameter.isRangeScalingEnabled()) {
-			x = this.axes[X].scaleCoordinate(x);
-			y = this.axes[Y].scaleCoordinate(y);
-			z = this.axes[Z].scaleCoordinate(z);
+			x = this.spaceConverters[X].toScaledSpaceCoordinate(x);
+			y = this.spaceConverters[Y].toScaledSpaceCoordinate(y);
+			z = this.spaceConverters[Z].toScaledSpaceCoordinate(z);
 		}
 
 		// Create a point piece and register to the list.
@@ -465,13 +486,13 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		// Check whether the line is in ranges of X/Y/Z axes. If no, draw nothing.
 		if (parameter.isRangeClippingEnabled()) {
 			boolean isInRange =
-					this.axes[X].containsCoordinate(aX, true) &&
-					this.axes[Y].containsCoordinate(aY, true) &&
-					this.axes[Z].containsCoordinate(aZ, true) &&
+					this.spaceConverters[X].containsInRange(aX, true) &&
+					this.spaceConverters[Y].containsInRange(aY, true) &&
+					this.spaceConverters[Z].containsInRange(aZ, true) &&
 
-					this.axes[X].containsCoordinate(bX, true) &&
-					this.axes[Y].containsCoordinate(bY, true) &&
-					this.axes[Z].containsCoordinate(bZ, true);
+					this.spaceConverters[X].containsInRange(bX, true) &&
+					this.spaceConverters[Y].containsInRange(bY, true) &&
+					this.spaceConverters[Z].containsInRange(bZ, true);
 
 			if (!isInRange) {
 				return;
@@ -488,13 +509,13 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 		// Scale X/Y/Z coordinate values into the range [-1.0, 1.0] (= scaled space).
 		if (parameter.isRangeScalingEnabled()) {
-			aX = this.axes[X].scaleCoordinate(aX);
-			aY = this.axes[Y].scaleCoordinate(aY);
-			aZ = this.axes[Z].scaleCoordinate(aZ);
+			aX = this.spaceConverters[X].toScaledSpaceCoordinate(aX);
+			aY = this.spaceConverters[Y].toScaledSpaceCoordinate(aY);
+			aZ = this.spaceConverters[Z].toScaledSpaceCoordinate(aZ);
 
-			bX = this.axes[X].scaleCoordinate(bX);
-			bY = this.axes[Y].scaleCoordinate(bY);
-			bZ = this.axes[Z].scaleCoordinate(bZ);
+			bX = this.spaceConverters[X].toScaledSpaceCoordinate(bX);
+			bY = this.spaceConverters[Y].toScaledSpaceCoordinate(bY);
+			bZ = this.spaceConverters[Z].toScaledSpaceCoordinate(bZ);
 		}
 
 		// Create a line piece and register to the list.
@@ -569,21 +590,21 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		// Check whether the line is in ranges of X/Y/Z axes. If no, draw nothing.
 		if (parameter.isRangeClippingEnabled()) {
 			boolean isInRange =
-					this.axes[X].containsCoordinate(aX, true) &&
-					this.axes[Y].containsCoordinate(aY, true) &&
-					this.axes[Z].containsCoordinate(aZ, true) &&
+					this.spaceConverters[X].containsInRange(aX, true) &&
+					this.spaceConverters[Y].containsInRange(aY, true) &&
+					this.spaceConverters[Z].containsInRange(aZ, true) &&
 
-					this.axes[X].containsCoordinate(bX, true) &&
-					this.axes[Y].containsCoordinate(bY, true) &&
-					this.axes[Z].containsCoordinate(bZ, true) &&
+					this.spaceConverters[X].containsInRange(bX, true) &&
+					this.spaceConverters[Y].containsInRange(bY, true) &&
+					this.spaceConverters[Z].containsInRange(bZ, true) &&
 
-					this.axes[X].containsCoordinate(cX, true) &&
-					this.axes[Y].containsCoordinate(cY, true) &&
-					this.axes[Z].containsCoordinate(cZ, true) &&
+					this.spaceConverters[X].containsInRange(cX, true) &&
+					this.spaceConverters[Y].containsInRange(cY, true) &&
+					this.spaceConverters[Z].containsInRange(cZ, true) &&
 
-					this.axes[X].containsCoordinate(dX, true) &&
-					this.axes[Y].containsCoordinate(dY, true) &&
-					this.axes[Z].containsCoordinate(dZ, true);
+					this.spaceConverters[X].containsInRange(dX, true) &&
+					this.spaceConverters[Y].containsInRange(dY, true) &&
+					this.spaceConverters[Z].containsInRange(dZ, true);
 
 			if (!isInRange) {
 				return;
@@ -600,21 +621,21 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 		// Scale X/Y/Z coordinate values into the range [-1.0, 1.0] (= scaled space).
 		if (parameter.isRangeScalingEnabled()) {
-			aX = this.axes[X].scaleCoordinate(aX);
-			aY = this.axes[Y].scaleCoordinate(aY);
-			aZ = this.axes[Z].scaleCoordinate(aZ);
+			aX = this.spaceConverters[X].toScaledSpaceCoordinate(aX);
+			aY = this.spaceConverters[Y].toScaledSpaceCoordinate(aY);
+			aZ = this.spaceConverters[Z].toScaledSpaceCoordinate(aZ);
 
-			bX = this.axes[X].scaleCoordinate(bX);
-			bY = this.axes[Y].scaleCoordinate(bY);
-			bZ = this.axes[Z].scaleCoordinate(bZ);
+			bX = this.spaceConverters[X].toScaledSpaceCoordinate(bX);
+			bY = this.spaceConverters[Y].toScaledSpaceCoordinate(bY);
+			bZ = this.spaceConverters[Z].toScaledSpaceCoordinate(bZ);
 
-			cX = this.axes[X].scaleCoordinate(cX);
-			cY = this.axes[Y].scaleCoordinate(cY);
-			cZ = this.axes[Z].scaleCoordinate(cZ);
+			cX = this.spaceConverters[X].toScaledSpaceCoordinate(cX);
+			cY = this.spaceConverters[Y].toScaledSpaceCoordinate(cY);
+			cZ = this.spaceConverters[Z].toScaledSpaceCoordinate(cZ);
 
-			dX = this.axes[X].scaleCoordinate(dX);
-			dY = this.axes[Y].scaleCoordinate(dY);
-			dZ = this.axes[Z].scaleCoordinate(dZ);
+			dX = this.spaceConverters[X].toScaledSpaceCoordinate(dX);
+			dY = this.spaceConverters[Y].toScaledSpaceCoordinate(dY);
+			dZ = this.spaceConverters[Z].toScaledSpaceCoordinate(dZ);
 		}
 
 		// Create a quadrangle piece and register to the list.
@@ -653,19 +674,6 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 */
 	@Override
 	public synchronized void drawScale() {
-
-		// Generate coordinates and labels of ticks, based on the scale configuration.
-		ScaleTickGenerator scaleTickGenerator = new ScaleTickGenerator(this.config.getScaleConfiguration());
-		BigDecimal[] xTickCoords = scaleTickGenerator.generateScaleTickCoordinates(X, this.axes[X]);
-		BigDecimal[] yTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Y, this.axes[Y]);
-		BigDecimal[] zTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Z, this.axes[Z]);
-		String[] xTickLabels = scaleTickGenerator.generateScaleTickLabels(X, this.axes[X], xTickCoords);
-		String[] yTickLabels = scaleTickGenerator.generateScaleTickLabels(Y, this.axes[Y], yTickCoords);
-		String[] zTickLabels = scaleTickGenerator.generateScaleTickLabels(Z, this.axes[Z], zTickCoords);
-
-		// Draw tick labels/lines.
-		this.scaleTickDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
-		this.scaleTickDrawer.setTickLabels(xTickLabels, yTickLabels, zTickLabels);
 		this.scaleTickDrawer.drawScaleTicks(this.geometricPieceList);
 	}
 
@@ -675,29 +683,12 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 */
 	@Override
 	public synchronized void drawGrid() {
-		ScaleTickGenerator scaleTickGenerator = new ScaleTickGenerator(this.config.getScaleConfiguration());
-		BigDecimal[] xTickCoords = scaleTickGenerator.generateScaleTickCoordinates(X, this.axes[X]);
-		BigDecimal[] yTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Y, this.axes[Y]);
-		BigDecimal[] zTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Z, this.axes[Z]);
-
-		this.frameDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
 		this.frameDrawer.drawGridLines(this.geometricPieceList);
 	}
 
 
 	@Override
 	public synchronized void drawLabel() {
-
-		// Generate coordinates and labels of ticks, based on the scale configuration.
-		ScaleTickGenerator scaleTickGenerator = new ScaleTickGenerator(this.config.getScaleConfiguration());
-		BigDecimal[] xTickCoords = scaleTickGenerator.generateScaleTickCoordinates(X, this.axes[X]);
-		BigDecimal[] yTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Y, this.axes[Y]);
-		BigDecimal[] zTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Z, this.axes[Z]);
-		String[] xTickLabels = scaleTickGenerator.generateScaleTickLabels(X, this.axes[X], xTickCoords);
-		String[] yTickLabels = scaleTickGenerator.generateScaleTickLabels(Y, this.axes[Y], yTickCoords);
-		String[] zTickLabels = scaleTickGenerator.generateScaleTickLabels(Z, this.axes[Z], zTickCoords);
-		this.labelDrawer.setTickLabels(xTickLabels, yTickLabels, zTickLabels);
-
 		this.screenGraphics.setFont(this.tickLabelFont);
 		FontMetrics tickLabelFontMetrics = this.screenGraphics.getFontMetrics();
 		this.labelDrawer.drawAxisLabels(this.geometricPieceList, this.axes, tickLabelFontMetrics);

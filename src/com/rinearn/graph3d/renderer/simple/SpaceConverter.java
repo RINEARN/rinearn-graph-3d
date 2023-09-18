@@ -53,6 +53,13 @@ public final class SpaceConverter {
 
 
 	/**
+	 * Creates a new converter based on the default range.
+	 */
+	public SpaceConverter() {
+	}
+
+
+	/**
 	 * Creates a new converter based on the specified range.
 	 */
 	public SpaceConverter(BigDecimal min, BigDecimal max) {
@@ -95,7 +102,7 @@ public final class SpaceConverter {
 	 * @param considersMargins Specify true if you enable margins to address tiny errors of coordinate values.
 	 * @return Returns true if the specified coordinate value is in the range.
 	 */
-	public synchronized boolean containsCoordinate(double coordinate, boolean considersMargins) {
+	public synchronized boolean containsInRange(double coordinate, boolean considersMargins) {
 
 		// If considersMargins is true, use margins set to the fields. Otherwise use 0 (= no margins).
 		double minMargin = considersMargins ? this.rangeMinDoubleMargin : 0.0;

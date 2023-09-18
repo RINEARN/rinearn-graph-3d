@@ -48,22 +48,22 @@ public final class ScaleTickDrawer {
 	private volatile Color color;
 
 	/** The coordinates of the ticks on X axis. */
-	private BigDecimal[] xTickCoordinates;
+	private BigDecimal[] xTickCoordinates = {};
 
 	/** The coordinates of the ticks on Y axis. */
-	private BigDecimal[] yTickCoordinates;
+	private BigDecimal[] yTickCoordinates = {};
 
 	/** The coordinates of the ticks on Z axis. */
-	private BigDecimal[] zTickCoordinates;
+	private BigDecimal[] zTickCoordinates = {};
 
 	/** The labels of the ticks on X axis. */
-	private String[] xTickLabels;
+	private String[] xTickLabels = {};
 
 	/** The labels of the ticks on Y axis. */
-	private String[] yTickLabels;
+	private String[] yTickLabels = {};
 
 	/** The labels of the ticks on Z axis. */
-	private String[] zTickLabels;
+	private String[] zTickLabels = {};
 
 
 	/**

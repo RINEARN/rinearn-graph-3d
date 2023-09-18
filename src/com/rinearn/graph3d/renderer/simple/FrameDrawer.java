@@ -36,13 +36,13 @@ public final class FrameDrawer {
 	private volatile Color gridLineColor;
 
 	/** The coordinates of the ticks on X axis. */
-	private BigDecimal[] xTickCoordinates;
+	private BigDecimal[] xTickCoordinates = {};
 
 	/** The coordinates of the ticks on Y axis. */
-	private BigDecimal[] yTickCoordinates;
+	private BigDecimal[] yTickCoordinates = {};
 
 	/** The coordinates of the ticks on Z axis. */
-	private BigDecimal[] zTickCoordinates;
+	private BigDecimal[] zTickCoordinates = {};
 
 
 	/**

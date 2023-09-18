@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.renderer.simple;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.config.ScaleConfiguration;
 
 import java.math.BigDecimal;
@@ -21,16 +23,22 @@ public final class ScaleTickGenerator {
 	/** The dimension index representing Z. */
 	public static final int Z = 2;
 
-	/** Stores the configuration of X/Y/Z axes's scales. */
-	private final ScaleConfiguration scaleConfig;
+	/** Stores the configuration of this application. */
+	private final RinearnGraph3DConfiguration config;
 
 	/**
 	 * Creates a new instance for generating ticks under the specified configuration.
 	 * 
-	 * @param scaleConfig The configuration of X/Y/Z axes's scales.
+	 * @param configuration The configuration of this application.
 	 */
-	public ScaleTickGenerator(ScaleConfiguration scaleConfig) {
-		this.scaleConfig = scaleConfig;
+	public ScaleTickGenerator(RinearnGraph3DConfiguration configuration) {
+		if (!configuration.hasScaleConfiguration()) {
+			throw new IllegalArgumentException("No scale configuration is stored in the specified configuration container.");
+		}
+		if (!configuration.hasRangeConfiguration()) {
+			throw new IllegalArgumentException("No range configuration is stored in the specified configuration container.");
+		}
+		this.config = configuration;
 	}
  
 
@@ -45,19 +53,46 @@ public final class ScaleTickGenerator {
 		// Extract the configuration of the scale of the specified axis (X, Y, or Z).
 		switch (dimensionIndex) {
 			case X : {
-				return this.scaleConfig.getXScaleConfiguration();
+				return this.config.getScaleConfiguration().getXScaleConfiguration();
 			}
 			case Y : {
-				return this.scaleConfig.getYScaleConfiguration();
+				return this.config.getScaleConfiguration().getYScaleConfiguration();
 			}
 			case Z : {
-				return this.scaleConfig.getZScaleConfiguration();
+				return this.config.getScaleConfiguration().getZScaleConfiguration();
 			}
 			default : {
 				throw new RuntimeException("Unexpected dimension index: " + dimensionIndex);
 			}
 		}
 	}
+
+
+	/**
+	 * Extracts the configuration of the specified axis's range, stored in scaleConfig field.
+	 * 
+	 * @param dimensionIndex The index of the axis.
+	 * s@return The configuration of the specified axis's range.
+	 */
+	private RangeConfiguration.AxisRangeConfiguration getAxisRangeConfiguration(int dimensionIndex) {
+
+		// Extract the configuration of the scale of the specified axis (X, Y, or Z).
+		switch (dimensionIndex) {
+			case X : {
+				return this.config.getRangeConfiguration().getXRangeConfiguration();
+			}
+			case Y : {
+				return this.config.getRangeConfiguration().getYRangeConfiguration();
+			}
+			case Z : {
+				return this.config.getRangeConfiguration().getZRangeConfiguration();
+			}
+			default : {
+				throw new RuntimeException("Unexpected dimension index: " + dimensionIndex);
+			}
+		}
+	}
+
 
 	/**
 	 * Generates coordinates (positions) of ticks.
@@ -68,14 +103,16 @@ public final class ScaleTickGenerator {
 	 */
 	public BigDecimal[] generateScaleTickCoordinates(int dimensionIndex, Axis axis) {
 
-		// Extract the configuration of the scale of the specified axis (X, Y, or Z).
+		// Extract the configurations of the scale & range of the specified axis (X, Y, or Z).
 		final ScaleConfiguration.AxisScaleConfiguration axisScaleConfig = 
 				this.getAxisScaleConfiguration(dimensionIndex);
+		final RangeConfiguration.AxisRangeConfiguration axisRangeConfig = 
+				this.getAxisRangeConfiguration(dimensionIndex);
 
 		// Generate coordinates of ticks for the specified mode.
 		switch (axisScaleConfig.getTickMode()) {
 			case EQUAL_DIVISION : {
-				return this.generateScaleTickCoordsByEqualDivision(axisScaleConfig, axis);
+				return this.generateScaleTickCoordsByEqualDivision(axisScaleConfig, axisRangeConfig);
 			}
 			case MANUAL : {
 				return axisScaleConfig.getTickCoordinates();
@@ -91,11 +128,12 @@ public final class ScaleTickGenerator {
 	 * Generates coordinates (positions) of ticks for EQUAL_DIVISION mode.
 	 * 
 	 * @param axisScaleConfig The configuration of the axis's scale.
-	 * @param axis The axis to which the generated ticks belong.
+	 * @param axisRangeConfig The configuration of the axis's range.
 	 * @return The coordinates of the ticks.
 	 */
 	private BigDecimal[] generateScaleTickCoordsByEqualDivision(
-			ScaleConfiguration.AxisScaleConfiguration axisScaleConfig, Axis axis) {
+			ScaleConfiguration.AxisScaleConfiguration axisScaleConfig,
+			RangeConfiguration.AxisRangeConfiguration axisRangeConfig) {
 
 		// Creates a MathContext instance for specifying the precision and rounding mode of the calculations.
 		int precision = axisScaleConfig.getCalculationPrecision();
@@ -106,8 +144,8 @@ public final class ScaleTickGenerator {
 		BigDecimal sectionCountBD = new BigDecimal(sectionCount);
 
 		// Calculate the interval between the ticks to be generated.
-		BigDecimal min = axis.getRangeMin();
-		BigDecimal max = axis.getRangeMax();
+		BigDecimal min = axisRangeConfig.getMinimum();
+		BigDecimal max = axisRangeConfig.getMaximum();
 		BigDecimal interval = max.subtract(min).divide(sectionCountBD, mathContext);
 
 		// We can return the result without calculations if the number of sections is smaller than 3.
