@@ -41,9 +41,6 @@ public final class ScaleTickDrawer {
 	/** The horizontal distance [px] from the reference point, at which the alignment of tick labels change. */
 	private int horizontalAlignThreshold;
 
-	/** The font for rendering texts of tick labels. */
-	private volatile Font font;
-
 	/** The coordinates of the ticks on X axis. */
 	private BigDecimal[] xTickCoordinates = {};
 
@@ -69,12 +66,9 @@ public final class ScaleTickDrawer {
 	 * @param configuration The configuration of this application.
 	 * @param vertcalAlignThreshold The vertical distance [px] from the reference point, at which the alignment of tick labels change.
 	 * @param horizontalAlignThreshold The horizontal distance [px] from the reference point, at which the alignment of tick labels change.
-	 * @param font The font for rendering texts of tick labels.
-	 * @param color The color of tick labels and lines.
 	 */
 	public ScaleTickDrawer(RinearnGraph3DConfiguration configuration,
-			int verticalAlignThreshold, int horizontalAlignThreshold,
-			Font font) {
+			int verticalAlignThreshold, int horizontalAlignThreshold) {
 
 		// Note: first four parameters should be packed into an object, e.g.:
 		//     public ScaleTickDrawer(ScaleConfiguration config, Font font, Color color)
@@ -82,7 +76,6 @@ public final class ScaleTickDrawer {
 		this.setConfiguration(configuration);
 		this.verticalAlignThreshold = verticalAlignThreshold;
 		this.horizontalAlignThreshold = horizontalAlignThreshold;
-		this.font = font;
 	}
 
 
@@ -149,15 +142,6 @@ public final class ScaleTickDrawer {
 		this.horizontalAlignThreshold = horizontalAlignThreshold;
 	}
 
-	/**
-	 * Sets the font for rendering texts of tick labels.
-	 * 
-	 * @param font The font for rendering texts of tick labels.
-	 */
-	public synchronized void setFont(Font font) {
-		this.font = font;
-	}
-
 
 	/**
 	 * Draws tick lines and tick labels on all axes.
@@ -217,19 +201,20 @@ public final class ScaleTickDrawer {
 		int hThreshold = this.horizontalAlignThreshold;
 		double margin = this.config.getScaleConfiguration().getXScaleConfiguration().getTickLabelMargin();
 		Color color = this.config.getColorConfiguration().getForegroundColor();
+		Font font = this.config.getFontConfiguration().getTickLabelFont();
 
 		// X axis at Y=1, Z=1
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				scaledCoord, 1.0 + margin, 1.0 + margin,  // Coords of the rendered point
 				0.0, 1.0, 1.0,                            // Coords of the alignment reference point
 				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, -1.0} },  // Directional vectors
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color  // Other params
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color  // Other params
 		));
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				scaledCoord, 1.0 + margin, 1.0 + margin,
 				0.0, 1.0, 1.0,
 				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 
 		// X axis at Y=1, Z=-1
@@ -237,13 +222,13 @@ public final class ScaleTickDrawer {
 				scaledCoord, 1.0 + margin, -1.0 - margin,
 				0.0, 1.0, -1.0,
 				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				scaledCoord, 1.0 + margin, -1.0 - margin,
 				0.0, 1.0, -1.0,
 				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, -1.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 
 		// X axis at Y=-1, Z=1
@@ -251,13 +236,13 @@ public final class ScaleTickDrawer {
 				scaledCoord, -1.0 - margin, 1.0 + margin,
 				0.0, -1.0, 1.0,
 				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, -1.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				scaledCoord, -1.0 - margin, 1.0 + margin,
 				0.0, -1.0, 1.0,
 				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 
 		// X axis at Y=-1, Z=-1
@@ -265,13 +250,13 @@ public final class ScaleTickDrawer {
 				scaledCoord, -1.0 - margin, -1.0 - margin,
 				0.0, -1.0, -1.0,
 				new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				scaledCoord, -1.0 - margin, -1.0 - margin,
 				0.0, -1.0, -1.0,
 				new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, -1.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 	}
 
@@ -362,19 +347,20 @@ public final class ScaleTickDrawer {
 		int hThreshold = this.horizontalAlignThreshold;
 		double margin = this.config.getScaleConfiguration().getYScaleConfiguration().getTickLabelMargin();
 		Color color = this.config.getColorConfiguration().getForegroundColor();
+		Font font = this.config.getFontConfiguration().getTickLabelFont();
 
 		// Y axis at X=1, Z=1
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				1.0 + margin, scaledCoord, 1.0 + margin,  // Coords of the rendered point
 				1.0, 0.0, 1.0,                            // Coords of the alignment reference point
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },  // Directional vectors
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color  // Other params
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color  // Other params
 		));
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				1.0 + margin, scaledCoord, 1.0 + margin,
 				1.0, 0.0, 1.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 
 		// Y axis at X=1, Z=-1
@@ -382,13 +368,13 @@ public final class ScaleTickDrawer {
 				1.0 + margin, scaledCoord, -1.0 - margin,
 				1.0, 0.0, -1.0,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				1.0 + margin, scaledCoord, -1.0 - margin,
 				1.0, 0.0, -1.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 
 		// Y axis at X=-1, Z=1
@@ -396,13 +382,13 @@ public final class ScaleTickDrawer {
 				-1.0 - margin, scaledCoord, 1.0 + margin,
 				-1.0, 0.0, 1.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				-1.0 - margin, scaledCoord, 1.0 + margin,
 				-1.0, 0.0, 1.0,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 
 		// Y axis at X=-1, Z=-1
@@ -410,13 +396,13 @@ public final class ScaleTickDrawer {
 				-1.0 - margin, scaledCoord, -1.0 - margin,
 				-1.0, 0.0, -1.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				-1.0 - margin, scaledCoord, -1.0 - margin,
 				-1.0, 0.0, -1.0,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 	}
 
@@ -507,19 +493,20 @@ public final class ScaleTickDrawer {
 		int hThreshold = this.horizontalAlignThreshold;
 		double margin = this.config.getScaleConfiguration().getZScaleConfiguration().getTickLabelMargin();
 		Color color = this.config.getColorConfiguration().getForegroundColor();
+		Font font = this.config.getFontConfiguration().getTickLabelFont();
 
 		// Z axis at Y=1, Z=1
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				1.0 + margin, 1.0 + margin, scaledCoord, // Coords of the rendered point
 				1.0, 1.0, 0.0,                           // Coords of the alignment reference point
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} }, // Directional vectors
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color // Other params
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color // Other params
 		));
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				1.0 + margin, 1.0 + margin, scaledCoord,
 				1.0, 1.0, 0.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 
 		// Z axis at Y=1, Z=-1
@@ -527,13 +514,13 @@ public final class ScaleTickDrawer {
 				1.0 + margin, -1.0 - margin, scaledCoord,
 				1.0, -1.0, 0.0,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				1.0 + margin, -1.0 - margin, scaledCoord,
 				1.0, -1.0, 0.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 
 		// Z axis at Y=-1, Z=1
@@ -541,13 +528,13 @@ public final class ScaleTickDrawer {
 				-1.0 - margin, 1.0 + margin, scaledCoord,
 				-1.0, 1.0, 0.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				-1.0 - margin, 1.0 + margin, scaledCoord,
 				-1.0, 1.0, 0.0,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 
 		// Z axis at Y=-1, Z=-1
@@ -555,13 +542,13 @@ public final class ScaleTickDrawer {
 				-1.0 - margin, -1.0 - margin, scaledCoord,
 				-1.0, -1.0, 0.0,
 				new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
 				-1.0 - margin, -1.0 - margin, scaledCoord,
 				-1.0, -1.0, 0.0,
 				new double[][]{ {1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
-				vAlign, hAlign, vThreshold, hThreshold, tickLabel, this.font, color
+				vAlign, hAlign, vThreshold, hThreshold, tickLabel, font, color
 		));
 	}
 

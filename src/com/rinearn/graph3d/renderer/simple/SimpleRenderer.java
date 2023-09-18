@@ -73,12 +73,6 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The Graphics2D instance to draw the graph screen. */
 	private volatile Graphics2D screenGraphics = null;
 
-	/** The font for rendering tick labels. */
-	private volatile Font tickLabelFont = new Font("Dialog", Font.PLAIN, 20); // Should be belong to "font configuration" ?
-
-	/** The font for rendering axis labels. */
-	private volatile Font axisLabelFont = new Font("Dialog", Font.PLAIN, 30); // Should be belong to "font configuration" ?
-
 	/** The converters of coordinates from the real space to the "scaled space". The index is [0:X, 1:Y, 2:Z]. */
 	private volatile SpaceConverter[] spaceConverters = {new SpaceConverter(), new SpaceConverter(), new SpaceConverter()};
 
@@ -102,15 +96,13 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The object providing drawing process of scale ticks of X/Y/Z axes. */
 	private volatile ScaleTickDrawer scaleTickDrawer = new ScaleTickDrawer(
 		this.config,
-		this.verticalAlignThreshold, this.horizontalAlignThreshold,
-		this.tickLabelFont
+		this.verticalAlignThreshold, this.horizontalAlignThreshold
 	);
 
 	/** The object providing drawing process of axis labels. */
 	private volatile LabelDrawer labelDrawer = new LabelDrawer(
 		this.config,
-		this.verticalAlignThreshold, this.horizontalAlignThreshold,
-		this.axisLabelFont
+		this.verticalAlignThreshold, this.horizontalAlignThreshold
 	);
 
 	/** The object providing drawing process of graph frames and grid lines. */
@@ -676,7 +668,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	@Override
 	public synchronized void drawLabel() {
-		this.screenGraphics.setFont(this.tickLabelFont);
+		this.screenGraphics.setFont(this.config.getFontConfiguration().getTickLabelFont());
 		FontMetrics tickLabelFontMetrics = this.screenGraphics.getFontMetrics();
 		this.labelDrawer.drawAxisLabels(this.geometricPieceList, tickLabelFontMetrics);
 	}
