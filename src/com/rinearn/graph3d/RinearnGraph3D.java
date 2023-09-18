@@ -193,6 +193,34 @@ public class RinearnGraph3D {
 
 
 	/**
+	 * Set the displayed text of X axis label.
+	 * 
+	 * @param xLabel The text of X axis label.
+	 */
+	public synchronized void setXLabel(String xLabel) {
+		this.presenter.labelSettingHandler.setXLabel(xLabel);
+	}
+
+	/**
+	 * Set the displayed text of Y axis label.
+	 * 
+	 * @param yLabel The text of Y axis label.
+	 */
+	public synchronized void setYLabel(String yLabel) {
+		this.presenter.labelSettingHandler.setYLabel(yLabel);
+	}
+
+	/**
+	 * Set the displayed text of Z axis label.
+	 * 
+	 * @param zLabel The text of Z axis label.
+	 */
+	public synchronized void setZLabel(String zLabel) {
+		this.presenter.labelSettingHandler.setZLabel(zLabel);
+	}
+
+
+	/**
 	 * Sets the camera angle by two angular parameters, regarding X axis as the zenith axis.
 	 * 
 	 * The "screw angle" is always set to zero by this method.

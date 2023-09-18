@@ -46,6 +46,11 @@ public class TempMain {
 			new String[] { "-1.0", "-0.5", "0.0", "0.5", "1.0", "1.5" }
 		);
 
+		// Set the axis labels of X/Y/Z axes.
+		graph3D.setXLabel("Lx");
+		graph3D.setYLabel("Ly");
+		graph3D.setZLabel("|E(z)|");
+
 		// Set the camera angle.
 		graph3D.setZZenithCameraAngle(0.4, 1.0, 0.0);
 
