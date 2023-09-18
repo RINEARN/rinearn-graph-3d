@@ -1,5 +1,6 @@
 package com.rinearn.graph3d.renderer.simple;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.LabelConfiguration;
 import com.rinearn.graph3d.config.ScaleConfiguration;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
@@ -39,17 +40,14 @@ public class LabelDrawer {
 	private static final RinearnGraph3DDrawingParameter.HorizontalAlignment HORIZONTAL_ALIGNMENT
 			= RinearnGraph3DDrawingParameter.HorizontalAlignment.RADIAL;
 
+	/** Stores the configuration of this application. */
+	RinearnGraph3DConfiguration config;
+
 	/** The vertical distance [px] from the reference point, at which the alignment of tick labels change. */
 	private int verticalAlignThreshold;
 
 	/** The horizontal distance [px] from the reference point, at which the alignment of tick labels change. */
 	private int horizontalAlignThreshold;
-
-	/** Stores the configuration of labels. */
-	LabelConfiguration labelConfig;
-
-	/** Stores the configuration of scales. */
-	ScaleConfiguration scaleConfig;
 
 	/** The color of labels. */
 	private volatile Color color;
@@ -60,26 +58,32 @@ public class LabelDrawer {
 	/** The font for rendering texts of tick labels. */
 	private volatile Font tickLabelFont;
 
+	/** The labels of the ticks on X axis. */
+	private String[] xTickLabels;
+
+	/** The labels of the ticks on Y axis. */
+	private String[] yTickLabels;
+
+	/** The labels of the ticks on Z axis. */
+	private String[] zTickLabels;
 
 
 	/**
 	 * Creates a new instance for drawing graph frames under the specified configurations.
 	 * 
-	 * @param labelConfig The configuration of axis labels.
-	 * @param scaleConfig The configuration of scales.
+	 * @param configuration The configuration of this application.
 	 * @param vertcalAlignThreshold The vertical distance [px] from the reference point, at which the alignment of tick labels change.
 	 * @param horizontalAlignThreshold The horizontal distance [px] from the reference point, at which the alignment of tick labels change.
 	 * @param axisLabelFont The font for rendering texts of axis labels.
 	 * @param color The color of labels.
 	 */
-	public LabelDrawer(LabelConfiguration labelConfig, ScaleConfiguration scaleConfig, 
+	public LabelDrawer(RinearnGraph3DConfiguration configuration, 
 			int verticalAlignThreshold, int horizontalAlignThreshold,
 			Font axisLabelFont, Font tickLabelFont, Color color) {
 
+		this.setConfiguration(configuration);
 		this.verticalAlignThreshold = verticalAlignThreshold;
 		this.horizontalAlignThreshold = horizontalAlignThreshold;
-		this.labelConfig = labelConfig;
-		this.scaleConfig = scaleConfig;
 		this.axisLabelFont = axisLabelFont;
 		this.tickLabelFont = tickLabelFont;
 		this.color = color;
@@ -87,21 +91,34 @@ public class LabelDrawer {
 
 
 	/**
-	 * Sets the configuration of labels.
+	 * Sets the configuration.
 	 * 
-	 * @param labelConfig The configuration of labels.
+	 * @param config The configuration.
 	 */
-	public synchronized void setLabelConfiguration(LabelConfiguration labelConfig) {
-		this.labelConfig = labelConfig;
+	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
+		if (!configuration.hasScaleConfiguration()) {
+			throw new IllegalArgumentException("The scale configuration is not stored in the specified configuration.");
+		}
+		if (!configuration.hasLabelConfiguration()) {
+			throw new IllegalArgumentException("The label configuration is not stored in the specified configuration.");			
+		}
+		this.config = configuration;
 	}
 
+
 	/**
-	 * Sets the configuration of scales.
+	 * Sets the labels of the ticks on X, Y, and Z axes.
 	 * 
-	 * @param scaleConfig The configuration of scales.
+	 * @param xTickLabels The labels of the ticks on X axis.
+	 * @param yTickLabels The labels of the ticks on Y axis.
+	 * @param zTickLabels The labels of the ticks on Z axis.
 	 */
-	public synchronized void setScaleConfiguration(ScaleConfiguration scaleConfig) {
-		this.scaleConfig = scaleConfig;
+	public synchronized void setTickLabels(
+			String[] xTickLabels, String[] yTickLabels, String[] zTickLabels) {
+
+		this.xTickLabels = xTickLabels;
+		this.yTickLabels = yTickLabels;
+		this.zTickLabels = zTickLabels;
 	}
 
 
@@ -211,9 +228,9 @@ public class LabelDrawer {
 		RinearnGraph3DDrawingParameter.HorizontalAlignment hAlign = HORIZONTAL_ALIGNMENT;
 		int vThreshold   = this.verticalAlignThreshold;
 		int hThreshold = this.horizontalAlignThreshold;
-		double tickLabelMargin = this.scaleConfig.getXScaleConfiguration().getTickLabelMargin();
-		String[] tickLabels = axis.getTickLabels();
-		String axisLabel = this.labelConfig.getXLabelConfiguration().getText();
+		double tickLabelMargin = this.config.getScaleConfiguration().getXScaleConfiguration().getTickLabelMargin();
+		String[] tickLabels = this.xTickLabels;
+		String axisLabel = this.config.getLabelConfiguration().getXLabelConfiguration().getText();
 
 		int hOffset = this.getTickLabelMaxWidth(tickLabels, tickLabelFontMetrics);
 		int vOffset = tickLabelFontMetrics.getHeight();
@@ -323,9 +340,9 @@ public class LabelDrawer {
 		RinearnGraph3DDrawingParameter.HorizontalAlignment hAlign = HORIZONTAL_ALIGNMENT;
 		int vThreshold   = this.verticalAlignThreshold;
 		int hThreshold = this.horizontalAlignThreshold;
-		double tickLabelMargin = this.scaleConfig.getYScaleConfiguration().getTickLabelMargin();
-		String[] tickLabels = axis.getTickLabels();
-		String axisLabel = this.labelConfig.getYLabelConfiguration().getText();
+		double tickLabelMargin = this.config.getScaleConfiguration().getYScaleConfiguration().getTickLabelMargin();
+		String[] tickLabels = this.yTickLabels;
+		String axisLabel = this.config.getLabelConfiguration().getYLabelConfiguration().getText();
 
 		int hOffset = this.getTickLabelMaxWidth(tickLabels, tickLabelFontMetrics);
 		int vOffset = tickLabelFontMetrics.getHeight();
@@ -433,9 +450,9 @@ public class LabelDrawer {
 		RinearnGraph3DDrawingParameter.HorizontalAlignment hAlign = HORIZONTAL_ALIGNMENT;
 		int vThreshold   = this.verticalAlignThreshold;
 		int hThreshold = this.horizontalAlignThreshold;
-		double tickLabelMargin = this.scaleConfig.getZScaleConfiguration().getTickLabelMargin();
-		String[] tickLabels = axis.getTickLabels();
-		String axisLabel = this.labelConfig.getZLabelConfiguration().getText();
+		double tickLabelMargin = this.config.getScaleConfiguration().getZScaleConfiguration().getTickLabelMargin();
+		String[] tickLabels = this.zTickLabels;
+		String axisLabel = this.config.getLabelConfiguration().getZLabelConfiguration().getText();
 
 		int hOffset = this.getTickLabelMaxWidth(tickLabels, tickLabelFontMetrics);
 		int vOffset = tickLabelFontMetrics.getHeight();

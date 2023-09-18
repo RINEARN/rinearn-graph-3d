@@ -1,6 +1,8 @@
 package com.rinearn.graph3d.renderer.simple;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.FrameConfiguration;
+import com.rinearn.graph3d.config.RangeConfiguration;
 
 import java.awt.Color;
 import java.math.BigDecimal;
@@ -24,8 +26,8 @@ public final class FrameDrawer {
 	/** The number of geometric pieces composing a line. */
 	public static final int LINE_PIECE_COUNT = 32;
 
-	/** Stores the configuration of graph frames. */
-	private volatile FrameConfiguration frameConfig;
+	/** Stores the configuration of this application. */
+	private volatile RinearnGraph3DConfiguration config;
 
 	/** The color of lines composing outer frames. */
 	private volatile Color outerFrameColor;
@@ -33,29 +35,62 @@ public final class FrameDrawer {
 	/** The color of grid lines. */
 	private volatile Color gridLineColor;
 
+	/** The coordinates of the ticks on X axis. */
+	private BigDecimal[] xTickCoordinates;
+
+	/** The coordinates of the ticks on Y axis. */
+	private BigDecimal[] yTickCoordinates;
+
+	/** The coordinates of the ticks on Z axis. */
+	private BigDecimal[] zTickCoordinates;
+
 
 	/**
 	 * Creates a new instance for drawing graph frames under the specified configurations.
 	 * 
-	 * @param frameConfig The configuration of graph frames.
-	 * @param color The color of outer frames.
+	 * @param configuration The configuration of this application.
+	 * @param outerFrameColor The color of outer frames.
 	 * @param gridLineColor The color of grid lines.
 	 */
-	public FrameDrawer(FrameConfiguration frameConfig, Color outerFrameColor, Color gridLineColor) {
-		this.frameConfig = frameConfig;
+	public FrameDrawer(RinearnGraph3DConfiguration configuration, Color outerFrameColor, Color gridLineColor) {
+		this.setConfiguration(configuration);
 		this.outerFrameColor = outerFrameColor;
 		this.gridLineColor = gridLineColor;
 	}
 
 
 	/**
-	 * Sets the configuration of graph frames.
+	 * Sets the configuration.
 	 * 
-	 * @param frameConfig The configuration of graph frames.
+	 * @param config The configuration.
 	 */
-	public synchronized void setFrameConfiguration(FrameConfiguration frameConfig) {
-		this.frameConfig = frameConfig;
+	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
+		if (!configuration.hasFrameConfiguration()) {
+			throw new IllegalArgumentException("The frame configuration is not stored in the specified configuration.");
+		}
+		if (!configuration.hasRangeConfiguration()) {
+			throw new IllegalArgumentException("The range configuration is not stored in the specified configuration.");			
+		}
+
+		this.config = configuration;
 	}
+
+
+	/**
+	 * Sets the coordinates of the ticks on X, Y, and Z axes.
+	 * 
+	 * @param xTickCoordinates The coordinates of the ticks on X axis.
+	 * @param yTickCoordinates The coordinates of the ticks on Y axis.
+	 * @param zTickCoordinates The coordinates of the ticks on Z axis.
+	 */
+	public synchronized void setTickCoordinates(
+			BigDecimal[] xTickCoordinates, BigDecimal[] yTickCoordinates, BigDecimal[] zTickCoordinates) {
+
+		this.xTickCoordinates = xTickCoordinates;
+		this.yTickCoordinates = yTickCoordinates;
+		this.zTickCoordinates = zTickCoordinates;
+	}
+
 
 	/**
 	 * Sets the color of lines composing outer frames.
@@ -82,7 +117,7 @@ public final class FrameDrawer {
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 */
 	public synchronized void drawFrame(List<GeometricPiece> geometricPieceList) {
-		switch (this.frameConfig.getFrameMode()) {
+		switch (this.config.getFrameConfiguration().getFrameMode()) {
 			case NONE : {
 				return;
 			}
@@ -91,7 +126,7 @@ public final class FrameDrawer {
 				return;
 			}
 			default : {
-				throw new RuntimeException("Unexpected frame mode: " + this.frameConfig.getFrameMode());
+				throw new RuntimeException("Unexpected frame mode: " + this.config.getFrameConfiguration().getFrameMode());
 			}
 		}
 	}
@@ -165,38 +200,36 @@ public final class FrameDrawer {
 	 * 
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param axes The array storing X axis at [0], Y axis at [1], and Z axis at [2].
+	 * @param xTickCoordinates The coordinates of the ticks on X axis.
+	 * @param yTickCoordinates The coordinates of the ticks on Y axis.
+	 * @param zTickCoordinates The coordinates of the ticks on Z axis.
 	 */
-	public synchronized void drawGridLines(List<GeometricPiece> geometricPieceList, Axis[] axes) {
+	public synchronized void drawGridLines(List<GeometricPiece> geometricPieceList) {
+		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 
-		// Draw ticks of X, Y, Z axis.
-		for (int idim=0; idim<=2; idim++) {
+		SpaceConverter xSpaceConverter = new SpaceConverter(xRangeConfig.getMinimum(), xRangeConfig.getMaximum());
+		SpaceConverter ySpaceConverter = new SpaceConverter(yRangeConfig.getMinimum(), yRangeConfig.getMaximum());
+		SpaceConverter zSpaceConverter = new SpaceConverter(zRangeConfig.getMinimum(), zRangeConfig.getMaximum());
 
-			// Get the axis of the "idim"-th dimension, where "idim" represents: 0=X, 1=Y, 2=Z.
-			Axis axis = axes[idim];
+		// Draw ticks on X axis.
+		for (BigDecimal tickCoord: this.xTickCoordinates) {
+			double scaledCoord = xSpaceConverter.toScaledSpaceCoordinate(tickCoord.doubleValue());
+			this.drawXGridLines(geometricPieceList, scaledCoord);					
+		}
 
-			// Get coordinates (positions) of the ticks.
-			BigDecimal[] tickCoords = axis.getTickCoordinates();
-			int tickCount = tickCoords.length;
+		// Draw ticks on Y axis.
+		for (BigDecimal tickCoord: this.yTickCoordinates) {
+			double scaledCoord = ySpaceConverter.toScaledSpaceCoordinate(tickCoord.doubleValue());
+			this.drawYGridLines(geometricPieceList, scaledCoord);
+		}
 
-			// Draw grid lines belonging to the current dimension (X or Y or Z).
-			for (int itick=0; itick<tickCount; itick++) {
-				double scaledCoord = axis.scaleCoordinate(tickCoords[itick]).doubleValue();
-
-				// lines representing X values:
-				if (idim == X) {
-					this.drawXGridLines(geometricPieceList, scaledCoord);
-				}
-
-				// lines representing Y values:
-				if (idim == Y) {
-					this.drawYGridLines(geometricPieceList, scaledCoord);
-				}
-
-				// lines representing Z values:
-				if (idim == Z) {
-					this.drawZGridLines(geometricPieceList, scaledCoord);
-				}
-			}
+		// Draw ticks on Z axis.
+		for (BigDecimal tickCoord: this.zTickCoordinates) {
+			double scaledCoord = zSpaceConverter.toScaledSpaceCoordinate(tickCoord.doubleValue());
+			this.drawZGridLines(geometricPieceList, scaledCoord);					
 		}
 	}
 

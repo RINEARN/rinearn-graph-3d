@@ -110,20 +110,23 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/** The object providing drawing process of scale ticks of X/Y/Z axes. */
 	private volatile ScaleTickDrawer scaleTickDrawer = new ScaleTickDrawer(
-		this.config.getScaleConfiguration(),
+		this.config,
 		this.verticalAlignThreshold, this.horizontalAlignThreshold,
 		this.tickLabelFont, this.frameColor
 	);
 
 	/** The object providing drawing process of axis labels. */
 	private volatile LabelDrawer labelDrawer = new LabelDrawer(
-		this.config.getLabelConfiguration(), this.config.getScaleConfiguration(),
+		this.config,
 		this.verticalAlignThreshold, this.horizontalAlignThreshold,
 		this.axisLabelFont, this.tickLabelFont, this.frameColor
 	);
 
 	/** The object providing drawing process of graph frames and grid lines. */
-	private volatile FrameDrawer frameDrawer = new FrameDrawer(this.config.getFrameConfiguration(), this.frameColor, this.gridColor);
+	private volatile FrameDrawer frameDrawer = new FrameDrawer(
+		this.config,
+		this.frameColor, this.gridColor
+	);
 
 	/** The color mixer, which generates colors of geometric pieces (points, lines, and so on). */
 	private volatile ColorMixer colorMixer = new ColorMixer();
@@ -199,11 +202,25 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		this.axes[Y].setRange(yRangeConfig.getMinimum(), yRangeConfig.getMaximum());
 		this.axes[Z].setRange(zRangeConfig.getMinimum(), zRangeConfig.getMaximum());
 
+
 		// Sets the configuration for drawing scales and frames.
-		this.scaleTickDrawer.setScaleConfiguration(this.config.getScaleConfiguration());
-		this.frameDrawer.setFrameConfiguration(this.config.getFrameConfiguration());
-		this.labelDrawer.setScaleConfiguration(this.config.getScaleConfiguration());
-		this.labelDrawer.setLabelConfiguration(this.config.getLabelConfiguration());
+		this.scaleTickDrawer.setConfiguration(this.config);
+		this.frameDrawer.setConfiguration(this.config);
+		this.labelDrawer.setConfiguration(this.config);
+
+		// Generate coordinates and labels of ticks, based on the scale configuration.
+		ScaleTickGenerator scaleTickGenerator = new ScaleTickGenerator(this.config.getScaleConfiguration());
+		BigDecimal[] xTickCoords = scaleTickGenerator.generateScaleTickCoordinates(X, this.axes[X]);
+		BigDecimal[] yTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Y, this.axes[Y]);
+		BigDecimal[] zTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Z, this.axes[Z]);
+		String[] xTickLabels = scaleTickGenerator.generateScaleTickLabels(X, this.axes[X], xTickCoords);
+		String[] yTickLabels = scaleTickGenerator.generateScaleTickLabels(Y, this.axes[Y], yTickCoords);
+		String[] zTickLabels = scaleTickGenerator.generateScaleTickLabels(Z, this.axes[Z], zTickCoords);
+		this.frameDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
+		this.labelDrawer.setTickLabels(xTickLabels, yTickLabels, zTickLabels);
+		this.scaleTickDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
+		this.scaleTickDrawer.setTickLabels(xTickLabels, yTickLabels, zTickLabels);
+
 
 		// Update the camera angle(s).
 		CameraConfiguration cameraConfig = this.config.getCameraConfiguration();
@@ -646,13 +663,10 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		String[] yTickLabels = scaleTickGenerator.generateScaleTickLabels(Y, this.axes[Y], yTickCoords);
 		String[] zTickLabels = scaleTickGenerator.generateScaleTickLabels(Z, this.axes[Z], zTickCoords);
 
-		// Set the generated ticks to the axes.
-		this.axes[X].setTicks(xTickCoords, xTickLabels);
-		this.axes[Y].setTicks(yTickCoords, yTickLabels);
-		this.axes[Z].setTicks(zTickCoords, zTickLabels);
-
 		// Draw tick labels/lines.
-		this.scaleTickDrawer.drawScaleTicks(this.geometricPieceList, this.axes);
+		this.scaleTickDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
+		this.scaleTickDrawer.setTickLabels(xTickLabels, yTickLabels, zTickLabels);
+		this.scaleTickDrawer.drawScaleTicks(this.geometricPieceList);
 	}
 
 
@@ -661,12 +675,29 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 */
 	@Override
 	public synchronized void drawGrid() {
-		this.frameDrawer.drawGridLines(this.geometricPieceList, this.axes);
+		ScaleTickGenerator scaleTickGenerator = new ScaleTickGenerator(this.config.getScaleConfiguration());
+		BigDecimal[] xTickCoords = scaleTickGenerator.generateScaleTickCoordinates(X, this.axes[X]);
+		BigDecimal[] yTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Y, this.axes[Y]);
+		BigDecimal[] zTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Z, this.axes[Z]);
+
+		this.frameDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
+		this.frameDrawer.drawGridLines(this.geometricPieceList);
 	}
 
 
 	@Override
 	public synchronized void drawLabel() {
+
+		// Generate coordinates and labels of ticks, based on the scale configuration.
+		ScaleTickGenerator scaleTickGenerator = new ScaleTickGenerator(this.config.getScaleConfiguration());
+		BigDecimal[] xTickCoords = scaleTickGenerator.generateScaleTickCoordinates(X, this.axes[X]);
+		BigDecimal[] yTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Y, this.axes[Y]);
+		BigDecimal[] zTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Z, this.axes[Z]);
+		String[] xTickLabels = scaleTickGenerator.generateScaleTickLabels(X, this.axes[X], xTickCoords);
+		String[] yTickLabels = scaleTickGenerator.generateScaleTickLabels(Y, this.axes[Y], yTickCoords);
+		String[] zTickLabels = scaleTickGenerator.generateScaleTickLabels(Z, this.axes[Z], zTickCoords);
+		this.labelDrawer.setTickLabels(xTickLabels, yTickLabels, zTickLabels);
+
 		this.screenGraphics.setFont(this.tickLabelFont);
 		FontMetrics tickLabelFontMetrics = this.screenGraphics.getFontMetrics();
 		this.labelDrawer.drawAxisLabels(this.geometricPieceList, this.axes, tickLabelFontMetrics);

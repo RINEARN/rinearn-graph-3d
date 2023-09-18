@@ -82,13 +82,13 @@ public final class Axis {
 	private static final double MARGINE_RATIO = 1.0E-12;
 
 	/** Stores the coordinate values of the ticks of this axis. */
-	private volatile BigDecimal[] tickCoordinates;
+	//private volatile BigDecimal[] tickCoordinates;
 
 	/** Stores the displayed texts of the ticks of this axis. */
-	private volatile String[] tickLabels;
+	//private volatile String[] tickLabels;
 
 	/** Stores the axis labels. */
-	private volatile String[] axisLabels;
+	//private volatile String[] axisLabels;
 
 
 	/**
@@ -138,18 +138,22 @@ public final class Axis {
 	 * 
 	 * @param axisLabels the axis labels.
 	 */
+	/*
 	public synchronized void setAxisLabels(String[] axisLabels) {
 		this.axisLabels = axisLabels;
 	}
+	*/
 
 	/**
 	 * Gets the axis labels.
 	 * 
 	 * @return the axis labels.
 	 */
+	/*
 	public synchronized String[] getAxisLabels() {
 		return this.axisLabels;
 	}
+	*/
 
 
 	/**
@@ -158,10 +162,12 @@ public final class Axis {
 	 * @param tickCoordinates The coordinate values of the ticks.
 	 * @param tickLabels The labels of the ticks
 	 */
+	/*
 	public synchronized void setTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
 		this.tickCoordinates = tickCoordinates;
 		this.tickLabels = tickLabels;
 	}
+	*/
 
 
 	/**
@@ -169,9 +175,11 @@ public final class Axis {
 	 * 
 	 * @return The coordinate values of this ticks.
 	 */
+	/*
 	public synchronized BigDecimal[] getTickCoordinates() {
 		return this.tickCoordinates;
 	}
+	*/
 
 
 	/**
@@ -179,9 +187,11 @@ public final class Axis {
 	 * 
 	 * @return The labels of the ticks.
 	 */
+	/*
 	public synchronized String[] getTickLabels() {
 		return this.tickLabels;
 	}
+	*/
 
 
 	/**

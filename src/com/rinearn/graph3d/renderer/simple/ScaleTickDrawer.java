@@ -1,7 +1,8 @@
 package com.rinearn.graph3d.renderer.simple;
 
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
-import com.rinearn.graph3d.config.ScaleConfiguration;
+import com.rinearn.graph3d.config.RangeConfiguration;
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -31,8 +32,8 @@ public final class ScaleTickDrawer {
 	private static final RinearnGraph3DDrawingParameter.HorizontalAlignment HORIZONTAL_ALIGNMENT
 			= RinearnGraph3DDrawingParameter.HorizontalAlignment.RADIAL;
 
-	/** Stores the configuration of scales. */
-	private ScaleConfiguration scaleConfig;
+	/** Stores the configuration of this application. */
+	RinearnGraph3DConfiguration config;
 
 	/** The vertical distance [px] from the reference point, at which the alignment of tick labels change. */
 	private int verticalAlignThreshold;
@@ -46,23 +47,42 @@ public final class ScaleTickDrawer {
 	/** The color of tick labels and lines. */
 	private volatile Color color;
 
+	/** The coordinates of the ticks on X axis. */
+	private BigDecimal[] xTickCoordinates;
+
+	/** The coordinates of the ticks on Y axis. */
+	private BigDecimal[] yTickCoordinates;
+
+	/** The coordinates of the ticks on Z axis. */
+	private BigDecimal[] zTickCoordinates;
+
+	/** The labels of the ticks on X axis. */
+	private String[] xTickLabels;
+
+	/** The labels of the ticks on Y axis. */
+	private String[] yTickLabels;
+
+	/** The labels of the ticks on Z axis. */
+	private String[] zTickLabels;
+
 
 	/**
 	 * Create an instance for drawing scale ticks under the specified settings.
 	 * 
-	 * @param scaleConfig The configuration of scales.
+	 * @param configuration The configuration of this application.
 	 * @param vertcalAlignThreshold The vertical distance [px] from the reference point, at which the alignment of tick labels change.
 	 * @param horizontalAlignThreshold The horizontal distance [px] from the reference point, at which the alignment of tick labels change.
 	 * @param font The font for rendering texts of tick labels.
 	 * @param color The color of tick labels and lines.
 	 */
-	public ScaleTickDrawer(ScaleConfiguration scaleConfig, int verticalAlignThreshold, int horizontalAlignThreshold,
+	public ScaleTickDrawer(RinearnGraph3DConfiguration configuration,
+			int verticalAlignThreshold, int horizontalAlignThreshold,
 			Font font, Color color) {
 
 		// Note: first four parameters should be packed into an object, e.g.:
 		//     public ScaleTickDrawer(ScaleConfiguration config, Font font, Color color)
 
-		this.scaleConfig = scaleConfig;
+		this.setConfiguration(configuration);
 		this.verticalAlignThreshold = verticalAlignThreshold;
 		this.horizontalAlignThreshold = horizontalAlignThreshold;
 		this.font = font;
@@ -71,12 +91,51 @@ public final class ScaleTickDrawer {
 
 
 	/**
-	 * Sets the configuration of scales.
+	 * Sets the configuration.
 	 * 
-	 * @param scaleConfig The configuration of scales.
+	 * @param config The configuration.
 	 */
-	public synchronized void setScaleConfiguration(ScaleConfiguration scaleConfig) {
-		this.scaleConfig = scaleConfig;
+	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
+		this.config = configuration;
+
+		if (!configuration.hasScaleConfiguration()) {
+			throw new IllegalArgumentException("The scale configuration is not stored in the specified configuration.");
+		}
+		if (!configuration.hasRangeConfiguration()) {
+			throw new IllegalArgumentException("The range configuration is not stored in the specified configuration.");			
+		}
+	}
+
+
+	/**
+	 * Sets the coordinates of the ticks on X, Y, and Z axes.
+	 * 
+	 * @param xTickCoordinates The coordinates of the ticks on X axis.
+	 * @param yTickCoordinates The coordinates of the ticks on Y axis.
+	 * @param zTickCoordinates The coordinates of the ticks on Z axis.
+	 */
+	public synchronized void setTickCoordinates(
+			BigDecimal[] xTickCoordinates, BigDecimal[] yTickCoordinates, BigDecimal[] zTickCoordinates) {
+
+		this.xTickCoordinates = xTickCoordinates;
+		this.yTickCoordinates = yTickCoordinates;
+		this.zTickCoordinates = zTickCoordinates;
+	}
+
+
+	/**
+	 * Sets the labels of the ticks on X, Y, and Z axes.
+	 * 
+	 * @param xTickLabels The labels of the ticks on X axis.
+	 * @param yTickLabels The labels of the ticks on Y axis.
+	 * @param zTickLabels The labels of the ticks on Z axis.
+	 */
+	public synchronized void setTickLabels(
+			String[] xTickLabels, String[] yTickLabels, String[] zTickLabels) {
+
+		this.xTickLabels = xTickLabels;
+		this.yTickLabels = yTickLabels;
+		this.zTickLabels = zTickLabels;
 	}
 
 
@@ -116,41 +175,38 @@ public final class ScaleTickDrawer {
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param axes The array storing X axis at [0], Y axis at [1], and Z axis at [2].
 	 */
-	public synchronized void drawScaleTicks(List<GeometricPiece> geometricPieceList, Axis[] axes) {
+	public synchronized void drawScaleTicks(List<GeometricPiece> geometricPieceList) {
+		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 
-		// Draw ticks of X, Y, Z axis.
-		for (int idim=0; idim<=2; idim++) {
+		SpaceConverter xSpaceConverter = new SpaceConverter(xRangeConfig.getMinimum(), xRangeConfig.getMaximum());
+		SpaceConverter ySpaceConverter = new SpaceConverter(yRangeConfig.getMinimum(), yRangeConfig.getMaximum());
+		SpaceConverter zSpaceConverter = new SpaceConverter(zRangeConfig.getMinimum(), zRangeConfig.getMaximum());
 
-			// Get the axis of the "idim"-th dimension, where "idim" represents: 0=X, 1=Y, 2=Z.
-			Axis axis = axes[idim];
+		// Draw ticks on X axis.
+		int xTickCount = this.xTickCoordinates.length;
+		for (int itick=0; itick<xTickCount; itick++) {
+			double scaledCoord = xSpaceConverter.toScaledSpaceCoordinate(this.xTickCoordinates[itick]).doubleValue();
+			this.drawXScaleTickLabels(geometricPieceList, scaledCoord, this.xTickLabels[itick]);
+			this.drawXScaleTickLines(geometricPieceList, scaledCoord);
+		}
 
-			// Get coordinates (positions) and labels (displayed values) of the ticks.
-			BigDecimal[] tickCoords = axis.getTickCoordinates();
-			String[] tickLabels = axis.getTickLabels();
-			int tickCount = tickCoords.length;
+		// Draw ticks on Y axis.
+		int yTickCount = this.yTickCoordinates.length;
+		for (int itick=0; itick<yTickCount; itick++) {
+			double scaledCoord = ySpaceConverter.toScaledSpaceCoordinate(this.yTickCoordinates[itick]).doubleValue();
+			this.drawYScaleTickLabels(geometricPieceList, scaledCoord, this.yTickLabels[itick]);
+			this.drawYScaleTickLines(geometricPieceList, scaledCoord);
+		}
 
-			// Draw ticks on four axes belonging to the current dimension (X or Y or Z).
-			for (int itick=0; itick<tickCount; itick++) {
-				double scaledCoord = axis.scaleCoordinate(tickCoords[itick]).doubleValue();
-
-				// X axes:
-				if (idim == X) {
-					this.drawXScaleTickLabels(geometricPieceList, scaledCoord, tickLabels[itick]);
-					this.drawXScaleTickLines(geometricPieceList, scaledCoord);
-				}
-
-				// Y axes:
-				if (idim == Y) {
-					this.drawYScaleTickLabels(geometricPieceList, scaledCoord, tickLabels[itick]);
-					this.drawYScaleTickLines(geometricPieceList, scaledCoord);
-				}
-
-				// Z axes:
-				if (idim == Z) {
-					this.drawZScaleTickLabels(geometricPieceList, scaledCoord, tickLabels[itick]);
-					this.drawZScaleTickLines(geometricPieceList, scaledCoord);
-				}
-			}
+		// Draw ticks on Z axis.
+		int zTickCount = this.zTickCoordinates.length;
+		for (int itick=0; itick<zTickCount; itick++) {
+			double scaledCoord = zSpaceConverter.toScaledSpaceCoordinate(this.zTickCoordinates[itick]).doubleValue();
+			this.drawZScaleTickLabels(geometricPieceList, scaledCoord, this.zTickLabels[itick]);
+			this.drawZScaleTickLines(geometricPieceList, scaledCoord);
 		}
 	}
 
@@ -169,7 +225,7 @@ public final class ScaleTickDrawer {
 		RinearnGraph3DDrawingParameter.HorizontalAlignment hAlign = HORIZONTAL_ALIGNMENT;
 		int vThreshold   = this.verticalAlignThreshold;
 		int hThreshold = this.horizontalAlignThreshold;
-		double margin = this.scaleConfig.getXScaleConfiguration().getTickLabelMargin();
+		double margin = this.config.getScaleConfiguration().getXScaleConfiguration().getTickLabelMargin();
 
 		// X axis at Y=1, Z=1
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
@@ -237,7 +293,7 @@ public final class ScaleTickDrawer {
 	 */
 	private void drawXScaleTickLines(List<GeometricPiece> geometricPieceList, double scaledCoord) {
 
-		double length = this.scaleConfig.getXScaleConfiguration().getTickLineLength();
+		double length = this.config.getScaleConfiguration().getXScaleConfiguration().getTickLineLength();
 		double lineWidth = 1.0;
 
 		// X axis at Y=1, Z=1
@@ -312,7 +368,7 @@ public final class ScaleTickDrawer {
 		RinearnGraph3DDrawingParameter.HorizontalAlignment hAlign = HORIZONTAL_ALIGNMENT;
 		int vThreshold   = this.verticalAlignThreshold;
 		int hThreshold = this.horizontalAlignThreshold;
-		double margin = this.scaleConfig.getYScaleConfiguration().getTickLabelMargin();
+		double margin = this.config.getScaleConfiguration().getYScaleConfiguration().getTickLabelMargin();
 
 		// Y axis at X=1, Z=1
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
@@ -380,7 +436,7 @@ public final class ScaleTickDrawer {
 	 */
 	private void drawYScaleTickLines(List<GeometricPiece> geometricPieceList, double scaledCoord) {
 
-		double length = this.scaleConfig.getYScaleConfiguration().getTickLineLength();
+		double length = this.config.getScaleConfiguration().getYScaleConfiguration().getTickLineLength();
 		double lineWidth = 1.0;
 
 		// Y axis at X=1, Z=1
@@ -455,7 +511,7 @@ public final class ScaleTickDrawer {
 		RinearnGraph3DDrawingParameter.HorizontalAlignment hAlign = HORIZONTAL_ALIGNMENT;
 		int vThreshold   = this.verticalAlignThreshold;
 		int hThreshold = this.horizontalAlignThreshold;
-		double margin = this.scaleConfig.getZScaleConfiguration().getTickLabelMargin();
+		double margin = this.config.getScaleConfiguration().getZScaleConfiguration().getTickLabelMargin();
 
 		// Z axis at Y=1, Z=1
 		geometricPieceList.add(new DirectionalTextGeometricPiece(
@@ -523,7 +579,7 @@ public final class ScaleTickDrawer {
 	 */
 	private void drawZScaleTickLines(List<GeometricPiece> geometricPieceList, double scaledCoord) {
 
-		double length = this.scaleConfig.getZScaleConfiguration().getTickLineLength();
+		double length = this.config.getScaleConfiguration().getZScaleConfiguration().getTickLineLength();
 		double lineWidth = 1.0;
 
 		// Z axis at Y=1, Z=1
