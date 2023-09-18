@@ -12,6 +12,37 @@ import java.math.RoundingMode;
 //    -> getRangeMinimumCoordinate は？ 長いか
 //!!! NOTE !!!
 
+//!!! NOTE2 !!!
+//
+// なんか config コンテナベースの方向性に収束しつつあるので、この Axis の中に色々と情報保持してる構造が微妙になってきた気がする。
+// どっち参照すればいいの？ みたいになる。なので内容の同期が必要になるんだけど、そもそも常に config コンテナ参照すりゃいいのでは。
+//
+// つまりこの Axis ってもう無くしてもいいのでは？ 初期の土台作りに必要だった足場みたいなもんで。
+// そもそも Axis ってのが初見だとなんかイメージしづらい概念だし、あっても分かりやすくなるもんでもなさそうな。
+//
+// -> そもそも最初はなんでこうしたんだっけ。Axisというくくりでまとめるのが凄くいい、みたいに思ったはずだけど。
+//
+//    -> Label とか Scale とかのカテゴリーでくくるよりも Axis でまとめた方がよさそう、みたいになったと思うが。
+//       つまり当時は逆に感じた。そういう観点があったはずで。
+//
+//    -> 最初はとりあえず散らばっていたものをすっきりまとめる過程で↑に思ったが、
+//       しかしレンダラーのステートを全部コンテナに整理して上層から降って来るようにしようとすると、
+//       Axis関連だけでは済まなくなるし、それで乖離していったのかと。
+//       つまり、階層を上に昇れば設定画面とか設定ファイルとかの粒度との対応も想定したコンテナ群が必要で、
+//       その階層だと Axis というくくりの横断的すぎる感じが逆にまずかった。整理において。
+//
+//       つまりAxisは概念として横断的なので、その横断レンジでカバーしきれる情報群に注目するとすっきりまとまるけど、
+//       カバーしきれない情報群に対しては中途半端なくくりになってしまう。
+//       そこの境界の外側をカバーするコンテナも、その中途半端な概念形の補集合みたいになって、やっぱり中途半端になる。
+//       なので概念形がなんというかスクエアな感じの方が収まりがいい。実際の収納のように。
+//       それで今みたいなコンテナの切り方に落ち着いてきた。という感じか。
+//       なんとなくじわじわ変形してきたのでメモ残ってないが
+//
+// 削るか整理する方向で検討
+//
+//!!! NOTE2 !!!
+
+
 /**
  * A class storing/handling informations related to an axis.
  * (e.g.: Maximum and minimum values of the range of the axis, and so on.)
@@ -53,8 +84,11 @@ public final class Axis {
 	/** Stores the coordinate values of the ticks of this axis. */
 	private volatile BigDecimal[] tickCoordinates;
 
-	/** Stores the displayed values of the ticks of this axis. */
+	/** Stores the displayed texts of the ticks of this axis. */
 	private volatile String[] tickLabels;
+
+	/** Stores the axis labels. */
+	private volatile String[] axisLabels;
 
 
 	/**
@@ -96,6 +130,25 @@ public final class Axis {
 	 */
 	public synchronized BigDecimal getRangeMax() {
 		return this.rangeMax;
+	}
+
+
+	/**
+	 * Sets the axis labels.
+	 * 
+	 * @param axisLabels the axis labels.
+	 */
+	public synchronized void setAxisLabels(String[] axisLabels) {
+		this.axisLabels = axisLabels;
+	}
+
+	/**
+	 * Gets the axis labels.
+	 * 
+	 * @return the axis labels.
+	 */
+	public synchronized String[] getAxisLabels() {
+		return this.axisLabels;
 	}
 
 

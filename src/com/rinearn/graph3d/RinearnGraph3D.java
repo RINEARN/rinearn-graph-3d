@@ -70,6 +70,7 @@ public class RinearnGraph3D {
 
 		// First rendering and repainting.
 		this.renderer.drawScale();
+		this.renderer.drawLabel();
 		this.renderer.drawGrid();
 		this.renderer.drawFrame();
 		this.renderer.render();

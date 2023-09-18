@@ -111,7 +111,7 @@ public final class ScaleTickDrawer {
 
 
 	/**
-	 * On all (four) X axis's scale, draws tick labels having the specified value.
+	 * Draws tick lines and tick labels on all axes.
 	 * 
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param axes The array storing X axis at [0], Y axis at [1], and Z axis at [2].

@@ -93,6 +93,7 @@ public final class Presenter {
 
 		// Draw basic components (outer frame, scale ticks, etc.) of the graph.
 		this.renderer.drawScale();
+		this.renderer.drawLabel();
 		this.renderer.drawGrid();
 		this.renderer.drawFrame();
 

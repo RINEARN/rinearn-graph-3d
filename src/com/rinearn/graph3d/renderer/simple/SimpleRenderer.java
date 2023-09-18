@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
@@ -84,6 +85,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The font for rendering tick labels. */
 	private volatile Font tickLabelFont = new Font("Dialog", Font.PLAIN, 20); // Should be belong to "font configuration" ?
 
+	/** The font for rendering axis labels. */
+	private volatile Font axisLabelFont = new Font("Dialog", Font.PLAIN, 30); // Should be belong to "font configuration" ?
+
 	/** The array storing X, Y, and Z-axis. Each element stores values related to an axis (e.g.: min/max value of the range). */
 	private volatile Axis[] axes = { new Axis(), new Axis(), new Axis() };
 
@@ -107,8 +111,15 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The object providing drawing process of scale ticks of X/Y/Z axes. */
 	private volatile ScaleTickDrawer scaleTickDrawer = new ScaleTickDrawer(
 		this.config.getScaleConfiguration(),
-		verticalAlignThreshold, horizontalAlignThreshold,
-		tickLabelFont, frameColor
+		this.verticalAlignThreshold, this.horizontalAlignThreshold,
+		this.tickLabelFont, this.frameColor
+	);
+
+	/** The object providing drawing process of axis labels. */
+	private volatile LabelDrawer labelDrawer = new LabelDrawer(
+		this.config.getLabelConfiguration(), this.config.getScaleConfiguration(),
+		this.verticalAlignThreshold, this.horizontalAlignThreshold,
+		this.axisLabelFont, this.tickLabelFont, this.frameColor
 	);
 
 	/** The object providing drawing process of graph frames and grid lines. */
@@ -191,6 +202,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		// Sets the configuration for drawing scales and frames.
 		this.scaleTickDrawer.setScaleConfiguration(this.config.getScaleConfiguration());
 		this.frameDrawer.setFrameConfiguration(this.config.getFrameConfiguration());
+		this.labelDrawer.setScaleConfiguration(this.config.getScaleConfiguration());
+		this.labelDrawer.setLabelConfiguration(this.config.getLabelConfiguration());
 
 		// Update the camera angle(s).
 		CameraConfiguration cameraConfig = this.config.getCameraConfiguration();
@@ -654,7 +667,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	@Override
 	public synchronized void drawLabel() {
-		throw new RuntimeException("Unimplemented yet");
+		this.screenGraphics.setFont(this.tickLabelFont);
+		FontMetrics tickLabelFontMetrics = this.screenGraphics.getFontMetrics();
+		this.labelDrawer.drawAxisLabels(this.geometricPieceList, this.axes, tickLabelFontMetrics);
 	}
 
 
