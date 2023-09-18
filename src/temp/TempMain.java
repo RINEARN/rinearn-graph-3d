@@ -64,34 +64,7 @@ public class TempMain {
 		// Gets the rendering engine of 3D graphs.
 		RinearnGraph3DRenderer renderer = graph3D.getRenderer();
 
-		// Create a color configuration of 3D color gradient.
-		ColorConfiguration colorConfig = new ColorConfiguration();
-		//ColorGradient gradient = create2DColorGradient();
-		//ColorGradient gradient = create3DColorGradient();
-		ColorGradient gradient = createXColorGradientWithYClearMask();
-		colorConfig.setDataColorGradients(new ColorGradient[] {gradient});
-
 		/*
-		// Create a range configuration.
-		RangeConfiguration rangeConfig = new RangeConfiguration();
-		rangeConfig.getXRangeConfiguration().setMinimum(new BigDecimal(-2.0));
-		rangeConfig.getXRangeConfiguration().setMaximum(new BigDecimal(2.0));
-		*/
-
-		// Reflect the above color configs to the renderer.
-		RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
-		config.setColorConfiguration(colorConfig);
-		//config.setRangeConfiguration(rangeConfig);
-		renderer.setConfiguration(config);
-
-		/*
-		// To reflect the range configuration, re-draw the graph frame and ticks.
-		renderer.clear();
-		renderer.drawGrid();
-		renderer.drawFrame();
-		renderer.drawScale();
-		*/
-
 		// Draw many roundom points.
 		for (int i=0; i<500; i++) {
 
@@ -140,8 +113,8 @@ public class TempMain {
 					dX, dY, dZ
 			);
 		}
+		*/
 
-		/*
 		// Draw many points.
 		int n = 100;
 		for (int i=0; i<n; i++) {
@@ -152,7 +125,7 @@ public class TempMain {
 
 			// Prepare he coordinate values of the point.
 			double theta = 6.0 * Math.PI * i / (double)(n - 1);
-			double x = Math.cos(theta);
+			double x = Math.cos(theta) * 1.6;
 			double y = Math.sin(theta);
 			double z = 2.0 * i / (double)(n - 1) - 1.0;
 
@@ -185,7 +158,6 @@ public class TempMain {
 				renderer.drawQuadrangle(aX,aY,aZ, bX,bY,bZ, cX,cY,cZ, dX,dY,dZ, color);
 			}
 		}
-		*/
 
 		// Render the 3D graph.
 		renderer.render();
@@ -289,10 +261,12 @@ public class TempMain {
 	private static MeshData generateExamMeshData() {
 		int xCount = 80 + 1;
 		int yCount = 80 + 1;
-		double xMin = -1.0;
-		double yMin = -1.0;
-		double xDelta = 2.0 / (double)(xCount - 1);
-		double yDelta = 2.0 / (double)(yCount - 1);
+		double xMin = -2.0;
+		double yMin = -2.0;
+		double xMax = 2.0;
+		double yMax = 2.0;
+		double xDelta = (xMax - xMin) / (double)(xCount - 1);
+		double yDelta = (yMax - yMin) / (double)(yCount - 1);
 		
 		double[][] x = new double[xCount][yCount];
 		double[][] y = new double[xCount][yCount];
@@ -302,7 +276,7 @@ public class TempMain {
 			for (int iy=0; iy<yCount; iy++) {
 				x[ix][iy] = xMin + ix * xDelta;
 				y[ix][iy] = yMin + iy * yDelta;
-				z[ix][iy] = 0.5 * Math.sin(3.0 * x[ix][iy]) + 0.5 * Math.cos(2.0 * y[ix][iy]);
+				z[ix][iy] = 0.5 * Math.sin(1.5 * x[ix][iy]) + 0.5 * Math.cos(2.0 * y[ix][iy]);
 			}
 		}
 		
