@@ -46,9 +46,6 @@ public class LabelDrawer {
 	/** The horizontal distance [px] from the reference point, at which the alignment of tick labels change. */
 	private int horizontalAlignThreshold;
 
-	/** The color of labels. */
-	private volatile Color color;
-
 	/** The font for rendering texts of axis labels. */
 	private volatile Font axisLabelFont;
 
@@ -73,13 +70,12 @@ public class LabelDrawer {
 	 */
 	public LabelDrawer(RinearnGraph3DConfiguration configuration, 
 			int verticalAlignThreshold, int horizontalAlignThreshold,
-			Font axisLabelFont, Font tickLabelFont, Color color) {
+			Font axisLabelFont) {
 
 		this.setConfiguration(configuration);
 		this.verticalAlignThreshold = verticalAlignThreshold;
 		this.horizontalAlignThreshold = horizontalAlignThreshold;
 		this.axisLabelFont = axisLabelFont;
-		this.color = color;
 	}
 
 
@@ -90,10 +86,13 @@ public class LabelDrawer {
 	 */
 	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
 		if (!configuration.hasScaleConfiguration()) {
-			throw new IllegalArgumentException("The scale configuration is not stored in the specified configuration.");
+			throw new IllegalArgumentException("No scale configuration is stored in the specified configuration.");
 		}
 		if (!configuration.hasLabelConfiguration()) {
-			throw new IllegalArgumentException("The label configuration is not stored in the specified configuration.");			
+			throw new IllegalArgumentException("No label configuration is stored in the specified configuration.");			
+		}
+		if (!configuration.hasColorConfiguration()) {
+			throw new IllegalArgumentException("No label configuration is stored in the specified configuration.");			
 		}
 		this.config = configuration;
 	}
@@ -124,14 +123,6 @@ public class LabelDrawer {
 		this.axisLabelFont = axisLabelFont;
 	}
 
-	/**
-	 * Sets the color of labels.
-	 * 
-	 * @param color The color of labels.
-	 */
-	public synchronized void setColor(Color color) {
-		this.color = color;
-	}
 
 	/**
 	 * Sets the threshold distances at which the alignment of labels change.
@@ -216,6 +207,8 @@ public class LabelDrawer {
 		int vOffset = tickLabelFontMetrics.getHeight();
 		hOffset = (int)(hOffset * 1.5);
 		vOffset = (int)(vOffset * 1.5);
+		Color color = this.config.getColorConfiguration().getForegroundColor();
+
 		DirectionalTextGeometricPiece piece = null;
 
 		// X axis at Y=1, Z=1
@@ -224,7 +217,7 @@ public class LabelDrawer {
 					0.0, 1.0 + tickLabelMargin, 1.0 + tickLabelMargin,  // Coords of the rendered point
 					0.0, 1.0, 1.0,                            // Coords of the alignment reference point
 					new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, -1.0} },  // Directional vectors
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color  // Other params
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color  // Other params
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -233,7 +226,7 @@ public class LabelDrawer {
 					0.0, 1.0 + tickLabelMargin, 1.0 + tickLabelMargin,
 					0.0, 1.0, 1.0,
 					new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -246,7 +239,7 @@ public class LabelDrawer {
 					0.0, 1.0 + tickLabelMargin, -1.0 - tickLabelMargin,
 					0.0, 1.0, -1.0,
 					new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -255,7 +248,7 @@ public class LabelDrawer {
 					0.0, 1.0 + tickLabelMargin, -1.0 - tickLabelMargin,
 					0.0, 1.0, -1.0,
 					new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, -1.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -268,7 +261,7 @@ public class LabelDrawer {
 					0.0, -1.0 - tickLabelMargin, 1.0 + tickLabelMargin,
 					0.0, -1.0, 1.0,
 					new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, -1.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -277,7 +270,7 @@ public class LabelDrawer {
 					0.0, -1.0 - tickLabelMargin, 1.0 + tickLabelMargin,
 					0.0, -1.0, 1.0,
 					new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -290,7 +283,7 @@ public class LabelDrawer {
 					0.0, -1.0 - tickLabelMargin, -1.0 - tickLabelMargin,
 					0.0, -1.0, -1.0,
 					new double[][]{ {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -299,7 +292,7 @@ public class LabelDrawer {
 					0.0, -1.0 - tickLabelMargin, -1.0 - tickLabelMargin,
 					0.0, -1.0, -1.0,
 					new double[][]{ {0.0, 1.0, 0.0}, {0.0, 0.0, -1.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -328,6 +321,8 @@ public class LabelDrawer {
 		int vOffset = tickLabelFontMetrics.getHeight();
 		hOffset = (int)(hOffset * 1.5);
 		vOffset = (int)(vOffset * 1.5);
+		Color color = this.config.getColorConfiguration().getForegroundColor();
+
 		DirectionalTextGeometricPiece piece = null;
 
 		// Y axis at X=1, Z=1
@@ -336,7 +331,7 @@ public class LabelDrawer {
 					1.0 + tickLabelMargin, 0.0, 1.0 + tickLabelMargin,  // Coords of the rendered point
 					1.0, 0.0, 1.0,                            // Coords of the alignment reference point
 					new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },  // Directional vectors
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color  // Other params
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color  // Other params
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -345,7 +340,7 @@ public class LabelDrawer {
 					1.0 + tickLabelMargin, 0.0, 1.0 + tickLabelMargin,
 					1.0, 0.0, 1.0,
 					new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -358,7 +353,7 @@ public class LabelDrawer {
 					1.0 + tickLabelMargin, 0.0, -1.0 - tickLabelMargin,
 					1.0, 0.0, -1.0,
 					new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -367,7 +362,7 @@ public class LabelDrawer {
 					1.0 + tickLabelMargin, 0.0, -1.0 - tickLabelMargin,
 					1.0, 0.0, -1.0,
 					new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -379,7 +374,7 @@ public class LabelDrawer {
 					-1.0 - tickLabelMargin, 0.0, 1.0 + tickLabelMargin,
 					-1.0, 0.0, 1.0,
 					new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -388,7 +383,7 @@ public class LabelDrawer {
 					-1.0 - tickLabelMargin, 0.0, 1.0 + tickLabelMargin,
 					-1.0, 0.0, 1.0,
 					new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -400,7 +395,7 @@ public class LabelDrawer {
 					-1.0 - tickLabelMargin, 0.0, -1.0 - tickLabelMargin,
 					-1.0, 0.0, -1.0,
 					new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 0.0, 1.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -409,7 +404,7 @@ public class LabelDrawer {
 					-1.0 - tickLabelMargin, 0.0, -1.0 - tickLabelMargin,
 					-1.0, 0.0, -1.0,
 					new double[][]{ {1.0, 0.0, 0.0}, {0.0, 0.0, -1.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -438,6 +433,8 @@ public class LabelDrawer {
 		int vOffset = tickLabelFontMetrics.getHeight();
 		hOffset = (int)(hOffset * 1.5);
 		vOffset = (int)(vOffset * 1.5);
+		Color color = this.config.getColorConfiguration().getForegroundColor();
+
 		DirectionalTextGeometricPiece piece = null;
 
 		// Z axis at Y=1, Z=1
@@ -446,7 +443,7 @@ public class LabelDrawer {
 					1.0 + tickLabelMargin, 1.0 + tickLabelMargin, 0.0, // Coords of the rendered point
 					1.0, 1.0, 0.0,                           // Coords of the alignment reference point
 					new double[][]{ {1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} }, // Directional vectors
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color // Other params
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color // Other params
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -455,7 +452,7 @@ public class LabelDrawer {
 					1.0 + tickLabelMargin, 1.0 + tickLabelMargin, 0.0,
 					1.0, 1.0, 0.0,
 					new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -467,7 +464,7 @@ public class LabelDrawer {
 					1.0 + tickLabelMargin, -1.0 - tickLabelMargin, 0.0,
 					1.0, -1.0, 0.0,
 					new double[][]{ {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -476,7 +473,7 @@ public class LabelDrawer {
 					1.0 + tickLabelMargin, -1.0 - tickLabelMargin, 0.0,
 					1.0, -1.0, 0.0,
 					new double[][]{ {-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -488,7 +485,7 @@ public class LabelDrawer {
 					-1.0 - tickLabelMargin, 1.0 + tickLabelMargin, 0.0,
 					-1.0, 1.0, 0.0,
 					new double[][]{ {-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -497,7 +494,7 @@ public class LabelDrawer {
 					-1.0 - tickLabelMargin, 1.0 + tickLabelMargin, 0.0,
 					-1.0, 1.0, 0.0,
 					new double[][]{ {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -509,7 +506,7 @@ public class LabelDrawer {
 					-1.0 - tickLabelMargin, -1.0 - tickLabelMargin, 0.0,
 					-1.0, -1.0, 0.0,
 					new double[][]{ {-1.0, 0.0, 0.0}, {0.0, 1.0, 0.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
@@ -518,7 +515,7 @@ public class LabelDrawer {
 					-1.0 - tickLabelMargin, -1.0 - tickLabelMargin, 0.0,
 					-1.0, -1.0, 0.0,
 					new double[][]{ {1.0, 0.0, 0.0}, {0.0, -1.0, 0.0} },
-					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, this.color
+					vAlign, hAlign, vThreshold, hThreshold, axisLabel, this.axisLabelFont, color
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);

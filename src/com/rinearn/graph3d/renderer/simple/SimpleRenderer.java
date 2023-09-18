@@ -73,15 +73,6 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The Graphics2D instance to draw the graph screen. */
 	private volatile Graphics2D screenGraphics = null;
 
-	/** The background color of the graph screen. */
-	private volatile Color screenBackgroundColor = Color.BLACK; // Should be belong to "color configuration" ?
-
-	/** The color of the outer frame of the graph. */
-	private volatile Color frameColor = Color.WHITE; // Should be belong to "color configuration" ?
-
-	/** The color of the grid lines frame of the graph. */
-	private volatile Color gridColor = Color.DARK_GRAY; // Should be belong to "color configuration" ?
-
 	/** The font for rendering tick labels. */
 	private volatile Font tickLabelFont = new Font("Dialog", Font.PLAIN, 20); // Should be belong to "font configuration" ?
 
@@ -112,20 +103,19 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	private volatile ScaleTickDrawer scaleTickDrawer = new ScaleTickDrawer(
 		this.config,
 		this.verticalAlignThreshold, this.horizontalAlignThreshold,
-		this.tickLabelFont, this.frameColor
+		this.tickLabelFont
 	);
 
 	/** The object providing drawing process of axis labels. */
 	private volatile LabelDrawer labelDrawer = new LabelDrawer(
 		this.config,
 		this.verticalAlignThreshold, this.horizontalAlignThreshold,
-		this.axisLabelFont, this.tickLabelFont, this.frameColor
+		this.axisLabelFont
 	);
 
 	/** The object providing drawing process of graph frames and grid lines. */
 	private volatile FrameDrawer frameDrawer = new FrameDrawer(
-		this.config,
-		this.frameColor, this.gridColor
+		this.config
 	);
 
 	/** The color mixer, which generates colors of geometric pieces (points, lines, and so on). */
@@ -337,7 +327,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		System.gc();
 
 		// Clear the content of the graph screen.
-		this.screenGraphics.setColor(this.screenBackgroundColor);
+		this.screenGraphics.setColor(this.config.getColorConfiguration().getBackgroundColor());
 		this.screenGraphics.fillRect(0, 0, this.screenImage.getWidth(), this.screenImage.getHeight());
 
 		// Turn on the flag for detecting that the content of the graph screen has been updated.
@@ -359,7 +349,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		double magnification = this.config.getCameraConfiguration().getMagnification();
 
 		// Clear the graph screen.
-		this.screenGraphics.setColor(this.screenBackgroundColor);
+		this.screenGraphics.setColor(this.config.getColorConfiguration().getBackgroundColor());
 		this.screenGraphics.fillRect(0, 0, screenWidth, screenHeight);
 
 		// Transform each geometric piece.
@@ -785,15 +775,5 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			this.screenResized = toValue;
 		}
 		return unmodifiedValue;
-	}
-
-
-	/**
-	 * Sets the background color of the graph screen.
-	 * 
-	 * @param screenBackgroundColor The background color of the graph screen.
-	 */
-	public synchronized void setScreenBackgroundColor(Color screenBackgroundColor) {
-		this.screenBackgroundColor = screenBackgroundColor;
 	}
 }

@@ -132,8 +132,6 @@ NOTE 2
  */
 public final class ColorConfiguration {
 
-	// IMPORTANT NOTE: plural of "series" is also "series".
-
 	/**
 	 * The enum for specifying coloring mode for each data series.
 	 */
@@ -167,6 +165,15 @@ public final class ColorConfiguration {
 	private volatile ColorGradient[] dataColorGradients = {
 		new ColorGradient()
 	};
+
+	/** The background color of the graph screen. */
+	private volatile Color backgroundColor = Color.BLACK;
+
+	/** The foreground color, which is a color of the outer frame of the graph, labels, and so on. */
+	private volatile Color foregroundColor = Color.WHITE;
+
+	/** The color of the grid lines frame of the graph. */
+	private volatile Color gridColor = Color.DARK_GRAY;
 
 
 	/**
@@ -247,6 +254,60 @@ public final class ColorConfiguration {
 	 */
 	public synchronized ColorGradient[] getDataColorGradients() {
 		return this.dataColorGradients;
+	}
+
+	/**
+	 * Sets the background color of the graph screen.
+	 * 
+	 * @param backgroundColor The background color of the graph screen.
+	 */
+	public synchronized void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
+
+	/**
+	 * Gets the background color of the graph screen.
+	 * 
+	 * @return The background color of the graph screen.
+	 */
+	public synchronized Color getBackgroundColor() {
+		return this.backgroundColor;
+	}
+
+	/**
+	 * Sets the foreground color, which is a color of the outer frame of the graph, labels, and so on.
+	 * 
+	 * @param foregroundColor The foreground color.
+	 */
+	public synchronized void setForegroundColor(Color foregroundColor) {
+		this.foregroundColor = foregroundColor;
+	}
+
+	/**
+	 * Gets the foreground color, which is a color of the outer frame of the graph, labels, and so on.
+	 * 
+	 * @return The foreground color.
+	 */
+	public synchronized Color getForegroundColor() {
+		return this.foregroundColor;
+	}
+
+	/**
+	 * Sets the color of grid lines.
+	 * 
+	 * @param gridColor The color of grid lines.
+	 */
+	public synchronized void setGridColor(Color gridColor) {
+		this.gridColor = gridColor;
+	}
+
+	/**
+	 * Gets the color of grid lines.
+	 * 
+	 * @return The color of grid lines.
+	 */
+	public synchronized Color getGridColor() {
+		return this.gridColor;
 	}
 
 	/**

@@ -1,7 +1,6 @@
 package com.rinearn.graph3d.renderer.simple;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.config.FrameConfiguration;
 import com.rinearn.graph3d.config.RangeConfiguration;
 
 import java.awt.Color;
@@ -29,12 +28,6 @@ public final class FrameDrawer {
 	/** Stores the configuration of this application. */
 	private volatile RinearnGraph3DConfiguration config;
 
-	/** The color of lines composing outer frames. */
-	private volatile Color outerFrameColor;
-
-	/** The color of grid lines. */
-	private volatile Color gridLineColor;
-
 	/** The coordinates of the ticks on X axis. */
 	private BigDecimal[] xTickCoordinates = {};
 
@@ -49,13 +42,9 @@ public final class FrameDrawer {
 	 * Creates a new instance for drawing graph frames under the specified configurations.
 	 * 
 	 * @param configuration The configuration of this application.
-	 * @param outerFrameColor The color of outer frames.
-	 * @param gridLineColor The color of grid lines.
 	 */
-	public FrameDrawer(RinearnGraph3DConfiguration configuration, Color outerFrameColor, Color gridLineColor) {
+	public FrameDrawer(RinearnGraph3DConfiguration configuration) {
 		this.setConfiguration(configuration);
-		this.outerFrameColor = outerFrameColor;
-		this.gridLineColor = gridLineColor;
 	}
 
 
@@ -66,12 +55,14 @@ public final class FrameDrawer {
 	 */
 	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
 		if (!configuration.hasFrameConfiguration()) {
-			throw new IllegalArgumentException("The frame configuration is not stored in the specified configuration.");
+			throw new IllegalArgumentException("The frame configuration is stored in the specified configuration.");
 		}
 		if (!configuration.hasRangeConfiguration()) {
-			throw new IllegalArgumentException("The range configuration is not stored in the specified configuration.");			
+			throw new IllegalArgumentException("The range configuration is stored in the specified configuration.");			
 		}
-
+		if (!configuration.hasColorConfiguration()) {
+			throw new IllegalArgumentException("No color configuration is stored in the specified configuration.");			
+		}
 		this.config = configuration;
 	}
 
@@ -89,25 +80,6 @@ public final class FrameDrawer {
 		this.xTickCoordinates = xTickCoordinates;
 		this.yTickCoordinates = yTickCoordinates;
 		this.zTickCoordinates = zTickCoordinates;
-	}
-
-
-	/**
-	 * Sets the color of lines composing outer frames.
-	 * 
-	 * @param color The color of outer frames.
-	 */
-	public synchronized void setOuterFrameColor(Color outerFrameColor) {
-		this.outerFrameColor = outerFrameColor;
-	}
-
-	/**
-	 * Sets the color of grid lines.
-	 * 
-	 * @param gridLineColor The color of grid lines.
-	 */
-	public synchronized void setGridLineColor(Color gridLineColor) {
-		this.gridLineColor = gridLineColor;
 	}
 
 
@@ -138,59 +110,60 @@ public final class FrameDrawer {
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 */
 	private void drawBoxModeFrame(List<GeometricPiece> geometricPieceList) {
+		Color color = this.config.getColorConfiguration().getForegroundColor();
 
 		// Draw the floor of the outer frame.
 		this.drawMultiPieceLine(
 				geometricPieceList, new double[] {-1.0, -1.0, -1.0}, new double[] { 1.0, -1.0, -1.0}, // Coords of the edge points A and B.
-				LINE_PIECE_COUNT, this.outerFrameColor
+				LINE_PIECE_COUNT, color
 		);
 		this.drawMultiPieceLine(
 				geometricPieceList, new double[] { 1.0, -1.0, -1.0}, new double[] { 1.0,  1.0, -1.0},
-				LINE_PIECE_COUNT, this.outerFrameColor
+				LINE_PIECE_COUNT, color
 		);
 		this.drawMultiPieceLine(
 				geometricPieceList, new double[] { 1.0,  1.0, -1.0}, new double[] {-1.0,  1.0, -1.0},
-				LINE_PIECE_COUNT, this.outerFrameColor
+				LINE_PIECE_COUNT, color
 		);
 		this.drawMultiPieceLine(
 				geometricPieceList, new double[] {-1.0,  1.0, -1.0}, new double[] {-1.0, -1.0, -1.0},
-				LINE_PIECE_COUNT, this.outerFrameColor
+				LINE_PIECE_COUNT, color
 		);
 
 		// Draw the ceil of the outer frame.
 		this.drawMultiPieceLine(
 				geometricPieceList, new double[] {-1.0, -1.0,  1.0}, new double[] { 1.0, -1.0,  1.0},
-				LINE_PIECE_COUNT, this.outerFrameColor
+				LINE_PIECE_COUNT, color
 		);
 		this.drawMultiPieceLine(
 				geometricPieceList, new double[] { 1.0, -1.0,  1.0}, new double[] { 1.0,  1.0,  1.0},
-				LINE_PIECE_COUNT, this.outerFrameColor
+				LINE_PIECE_COUNT, color
 		);
 		this.drawMultiPieceLine(
 				geometricPieceList, new double[] { 1.0,  1.0,  1.0}, new double[] {-1.0,  1.0,  1.0},
-				LINE_PIECE_COUNT, this.outerFrameColor
+				LINE_PIECE_COUNT, color
 		);
 		this.drawMultiPieceLine(
 				geometricPieceList, new double[] {-1.0,  1.0,  1.0}, new double[] {-1.0, -1.0,  1.0},
-				LINE_PIECE_COUNT, this.outerFrameColor
+				LINE_PIECE_COUNT, color
 		);
 
 		// Draw pillars of the outer frame.
 		this.drawMultiPieceLine(
 				geometricPieceList, new double[] {-1.0, -1.0, -1.0}, new double[] {-1.0, -1.0,  1.0},
-				LINE_PIECE_COUNT, this.outerFrameColor
+				LINE_PIECE_COUNT, color
 		);
 		this.drawMultiPieceLine(
 				geometricPieceList, new double[] { 1.0, -1.0, -1.0}, new double[] { 1.0, -1.0,  1.0},
-				LINE_PIECE_COUNT, this.outerFrameColor
+				LINE_PIECE_COUNT, color
 		);
 		this.drawMultiPieceLine(
 				geometricPieceList, new double[] { 1.0,  1.0, -1.0}, new double[] { 1.0,  1.0,  1.0},
-				LINE_PIECE_COUNT, this.outerFrameColor
+				LINE_PIECE_COUNT, color
 		);
 		this.drawMultiPieceLine(
 				geometricPieceList, new double[] {-1.0,  1.0, -1.0}, new double[] {-1.0,  1.0,  1.0},
-				LINE_PIECE_COUNT, this.outerFrameColor
+				LINE_PIECE_COUNT, color
 		);
 	}
 
@@ -241,13 +214,14 @@ public final class FrameDrawer {
 	 * @param xCoord The scaled coordinate value of the tick to be connected by the grid line.
 	 */
 	private void drawXGridLines(List<GeometricPiece> geometricPieceList, double xScaledCoord) {
+		Color color = this.config.getColorConfiguration().getGridColor();
 
 		// (Y=-1, Z=-1) to (Y=1, Z=-1), visible from positive direction of Z axis.
 		this.drawMultiPieceDirectionalLine(
 				geometricPieceList,
 				new double[] {xScaledCoord, -1.0, -1.0}, new double[] {xScaledCoord, 1.0, -1.0}, // Edge points A and B.
 				new double[] {0.0, 0.0, 1.0}, // The vector of the direction from which the line is visible.
-				LINE_PIECE_COUNT, this.gridLineColor
+				LINE_PIECE_COUNT, color
 		);
 
 		// (Y=1, Z=-1) to (Y=1, Z=1), visible from negative direction of Y axis.
@@ -255,7 +229,7 @@ public final class FrameDrawer {
 				geometricPieceList,
 				new double[] {xScaledCoord, 1.0, -1.0}, new double[] {xScaledCoord, 1.0, 1.0},
 				new double[] {0.0, -1.0, 0.0},
-				LINE_PIECE_COUNT, this.gridLineColor
+				LINE_PIECE_COUNT, color
 		);
 
 		// (Y=1, Z=1) to (Y=-1, Z=1), visible from negative direction of Z axis.
@@ -263,7 +237,7 @@ public final class FrameDrawer {
 				geometricPieceList,
 				new double[] {xScaledCoord, 1.0, 1.0}, new double[] {xScaledCoord, -1.0, 1.0},
 				new double[] {0.0, 0.0, -1.0},
-				LINE_PIECE_COUNT, this.gridLineColor
+				LINE_PIECE_COUNT, color
 		);
 
 		// (Y=-1, Z=1) to (Y=-1, Z=-1), visible from positive direction of Y axis.
@@ -271,7 +245,7 @@ public final class FrameDrawer {
 				geometricPieceList,
 				new double[] {xScaledCoord, -1.0, 1.0}, new double[] {xScaledCoord, -1.0, -1.0},
 				new double[] {0.0, 1.0, 0.0},
-				LINE_PIECE_COUNT, this.gridLineColor
+				LINE_PIECE_COUNT, color
 		);
 	}
 
@@ -283,13 +257,14 @@ public final class FrameDrawer {
 	 * @param xCoord The scaled coordinate value of the tick to be connected by the grid line.
 	 */
 	private void drawYGridLines(List<GeometricPiece> geometricPieceList, double yScaledCoord) {
+		Color color = this.config.getColorConfiguration().getGridColor();
 
 		// (X=-1, Z=-1) to (X=1, Z=-1), visible from positive direction of Z axis.
 		this.drawMultiPieceDirectionalLine(
 				geometricPieceList,
 				new double[] {-1.0, yScaledCoord, -1.0}, new double[] {1.0, yScaledCoord, -1.0}, // Edge points A and B.
 				new double[] {0.0, 0.0, 1.0}, // The vector of the direction from which the line is visible.
-				LINE_PIECE_COUNT, this.gridLineColor
+				LINE_PIECE_COUNT, color
 		);
 
 		// (X=1, Z=-1) to (X=1, Z=1), visible from negative direction of X axis.
@@ -297,7 +272,7 @@ public final class FrameDrawer {
 				geometricPieceList,
 				new double[] {1.0, yScaledCoord, -1.0}, new double[] {1.0, yScaledCoord, 1.0},
 				new double[] {-1.0, 0.0, 0.0},
-				LINE_PIECE_COUNT, this.gridLineColor
+				LINE_PIECE_COUNT, color
 		);
 
 		// (X=1, Z=1) to (X=-1, Z=1), visible from negative direction of Z axis.
@@ -305,7 +280,7 @@ public final class FrameDrawer {
 				geometricPieceList,
 				new double[] {1.0, yScaledCoord, 1.0}, new double[] {-1.0, yScaledCoord, 1.0},
 				new double[] {0.0, 0.0, -1.0},
-				LINE_PIECE_COUNT, this.gridLineColor
+				LINE_PIECE_COUNT, color
 		);
 
 		// (X=-1, Z=1) to (X=-1, Z=-1), visible from positive direction of X axis.
@@ -313,7 +288,7 @@ public final class FrameDrawer {
 				geometricPieceList,
 				new double[] {-1.0, yScaledCoord, 1.0}, new double[] {-1.0, yScaledCoord, -1.0},
 				new double[] {1.0, 0.0, 0.0},
-				LINE_PIECE_COUNT, this.gridLineColor
+				LINE_PIECE_COUNT, color
 		);
 	}
 
@@ -325,13 +300,14 @@ public final class FrameDrawer {
 	 * @param xCoord The scaled coordinate value of the tick to be connected by the grid line.
 	 */
 	private void drawZGridLines(List<GeometricPiece> geometricPieceList, double zScaledCoord) {
+		Color color = this.config.getColorConfiguration().getGridColor();
 
 		// (X=-1, Y=-1) to (X=1, Y=-1), visible from positive direction of Y axis.
 		this.drawMultiPieceDirectionalLine(
 				geometricPieceList,
 				new double[] {-1.0, -1.0, zScaledCoord}, new double[] {1.0, -1.0, zScaledCoord}, // Edge points A and B.
 				new double[] {0.0, 1.0, 0.0}, // The vector of the direction from which the line is visible.
-				LINE_PIECE_COUNT, this.gridLineColor
+				LINE_PIECE_COUNT, color
 		);
 
 		// (X=1, Y=-1) to (X=1, Y=1), visible from negative direction of X axis.
@@ -339,7 +315,7 @@ public final class FrameDrawer {
 				geometricPieceList,
 				new double[] {1.0, -1.0, zScaledCoord}, new double[] {1.0, 1.0, zScaledCoord},
 				new double[] {-1.0, 0.0, 0.0},
-				LINE_PIECE_COUNT, this.gridLineColor
+				LINE_PIECE_COUNT, color
 		);
 
 		// (X=1, Y=1) to (X=-1, Y=1), visible from negative direction of Y axis.
@@ -347,7 +323,7 @@ public final class FrameDrawer {
 				geometricPieceList,
 				new double[] {1.0, 1.0, zScaledCoord}, new double[] {-1.0, 1.0, zScaledCoord},
 				new double[] {0.0, -1.0, 0.0},
-				LINE_PIECE_COUNT, this.gridLineColor
+				LINE_PIECE_COUNT, color
 		);
 
 		// (X=-1, Y=1) to (X=-1, Y=-1), visible from positive direction of X axis.
@@ -355,7 +331,7 @@ public final class FrameDrawer {
 				geometricPieceList,
 				new double[] {-1.0, 1.0, zScaledCoord}, new double[] {-1.0, -1.0, zScaledCoord},
 				new double[] {1.0, 0.0, 0.0},
-				LINE_PIECE_COUNT, this.gridLineColor
+				LINE_PIECE_COUNT, color
 		);
 	}
 
