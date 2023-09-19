@@ -42,14 +42,17 @@ public final class MainWindow {
 	/** The width of the left-side UI panel. */
 	public static final int LEFT_SIDE_UI_PANEL_WIDTH = 95;
 
-	/** The approximate height of the header-area (window header + menu bar). */
-	public static final int APPROX_HEADER_AREA_HEIGHT = 65;
+	/** The approximate height of the window header. */
+	public static final int APPROX_WINDOW_HEADER_HEIGHT = 35;
+
+	/** The approximate height of the menu bar. */
+	public static final int APPROX_MENU_BAR_HEIGHT = 30;
 
 	/** The default width [px] of the 3D graph screen. */
 	public static final int DEFAULT_SCREEN_WIDTH = DEFAULT_WINDOW_WIDTH - LEFT_SIDE_UI_PANEL_WIDTH;
 
 	/** The default height [px] of the 3D graph screen. */
-	public static final int DEFAULT_SCREEN_HEIGHT = DEFAULT_WINDOW_HEIGHT - APPROX_HEADER_AREA_HEIGHT;
+	public static final int DEFAULT_SCREEN_HEIGHT = DEFAULT_WINDOW_HEIGHT - APPROX_WINDOW_HEADER_HEIGHT - APPROX_MENU_BAR_HEIGHT;
 
 	/** The the max value (integer count) of the dimension length bars. */
 	public static final int DIMENSION_LENGTH_BAR_MAX_COUNT = 1000;
@@ -81,6 +84,12 @@ public final class MainWindow {
 
 	/** The menu bar at the top of the window. */
 	public volatile JMenuBar menuBar;
+
+	/** The flag for switching the visibility of the UI panel at the screen side. */
+	public volatile boolean screenSideUIVisible = true;
+
+	/** The flag for switching the visibility of the menu bar and the right-click menus. */
+	public volatile boolean menuVisible = true;
 
 
 	/**
@@ -285,18 +294,31 @@ public final class MainWindow {
 			int windowWidth = (int)frame.getSize().getWidth();
 			int windowHeight = (int)frame.getSize().getHeight();
 
-			// Resize the graph screen.
-			int screenWidth = windowWidth - LEFT_SIDE_UI_PANEL_WIDTH;
-			int screenHeight = windowHeight - APPROX_HEADER_AREA_HEIGHT;
-			int screenX = LEFT_SIDE_UI_PANEL_WIDTH;
+			// Compute the layout of the graph screen.
+			int screenWidth = windowWidth;
+			int screenHeight = windowHeight - APPROX_WINDOW_HEADER_HEIGHT;
+			int screenX = 0;
 			int screenY = 0;
+			if (menuVisible) {
+				screenHeight -= APPROX_MENU_BAR_HEIGHT;
+			}
+			if (screenSideUIVisible) {
+				screenX += LEFT_SIDE_UI_PANEL_WIDTH;
+				screenWidth -= LEFT_SIDE_UI_PANEL_WIDTH;
+			}
+
+			// Resize the graph screen.
 			screenLabel.setBounds(
 					screenX, screenY, screenWidth, screenHeight
 			);
 			// The resizing event of the graph screen is fired in ScreenHandler, by the above setBounds(...).
 
 			// Resize the UI-panel at the left side of the screen.
-			leftSideUIPanel.setBounds(0, 0, LEFT_SIDE_UI_PANEL_WIDTH, screenHeight);
+			if (screenSideUIVisible) {
+				leftSideUIPanel.setBounds(0, 0, LEFT_SIDE_UI_PANEL_WIDTH, screenHeight);
+			} else {
+				leftSideUIPanel.setBounds(0, 0, 0, screenHeight);				
+			}
 		}
 	}
 
@@ -432,6 +454,116 @@ public final class MainWindow {
 				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
 			}
 			frame.setVisible(visible);
+		}
+	}
+
+
+	/**
+	 * Sets the visibility of the menu bar and the right click menus.
+	 * 
+	 * @param visible Specify true for showing the menu bar and the right click menus.
+	 */
+	public void setMenuVisible(boolean visible) {
+
+		// Switch visibility on event-dispatcher thread.
+		MenuVisiblitySwitcher visibilitySwitcher = new MenuVisiblitySwitcher(visible);
+		if (SwingUtilities.isEventDispatchThread()) {
+			visibilitySwitcher.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(visibilitySwitcher);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class for switching visibility of the menu bar and the right click menus.
+	 */
+	private final class MenuVisiblitySwitcher implements Runnable {
+
+		/** The flag representing whether the menu bar and the right click menus. */
+		private volatile boolean visible;
+
+		/**
+		 * Create an instance for switching visibility of the menu bar and the right click menus.
+		 * 
+		 * @param visible Specify true for showing the menu bar and the right-click menus.
+		 */
+		public MenuVisiblitySwitcher(boolean visible) {
+			this.visible = visible;
+		}
+		@Override
+		public void run() {
+			if (!SwingUtilities.isEventDispatchThread()) {
+				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
+			}
+
+			// Demount or re-mount the menu bar.
+			menuVisible = visible;
+			if (menuVisible) {
+				frame.setJMenuBar(menuBar);
+			} else {
+				frame.setJMenuBar(null);				
+			}
+
+			// Update the location and the size of the screen.
+			resize();
+		}
+	}
+
+
+	/**
+	 * Sets the visibility of the UI panel at the screen side.
+	 * 
+	 * @param visible Specify true for showing the UI panel at the screen side.
+	 */
+	public void setScreenSideUIVisible(boolean visible) {
+
+		// Switch visibility on event-dispatcher thread.
+		ScreenSideUIVisiblitySwitcher visibilitySwitcher = new ScreenSideUIVisiblitySwitcher(visible);
+		if (SwingUtilities.isEventDispatchThread()) {
+			visibilitySwitcher.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(visibilitySwitcher);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class for switching visibility of the UI panel at the screen side.
+	 */
+	private final class ScreenSideUIVisiblitySwitcher implements Runnable {
+
+		/** The flag representing whether the UI panel at the screen side. */
+		private volatile boolean visible;
+
+		/**
+		 * Create an instance for switching visibility of the menu bar and the right click menus.
+		 * 
+		 * @param visible Specify true for showing the menu bar and the right-click menus.
+		 */
+		public ScreenSideUIVisiblitySwitcher(boolean visible) {
+			this.visible = visible;
+		}
+		@Override
+		public void run() {
+			if (!SwingUtilities.isEventDispatchThread()) {
+				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
+			}
+
+			// Switch visibility of the left-side UI panel.
+			screenSideUIVisible = visible;
+			leftSideUIPanel.setVisible(screenSideUIVisible);
+
+			// Update the location and the size of the screen.
+			resize();
 		}
 	}
 }
