@@ -8,6 +8,7 @@ import javax.swing.JMenuBar;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.lang.reflect.InvocationTargetException;
@@ -136,6 +137,16 @@ public final class MainWindow {
 			frame.getContentPane().add(screenLabel);
 			screenLabel.setVisible(true);
 
+			// The UI-panel at the left side of the screen.
+			leftSideUIPanel = new JPanel();
+			leftSideUIPanel.setBounds(
+					0, 0,
+					LEFT_SIDE_UI_PANEL_WIDTH, DEFAULT_SCREEN_HEIGHT
+			);
+			leftSideUIPanel.setBackground(Color.GREEN);
+			frame.getContentPane().add(leftSideUIPanel);
+			leftSideUIPanel.setVisible(true);
+
 			// The icon for displaying a rendered graph image on "screenLabel":
 			screenIcon = new ImageIcon();
 			screenLabel.setIcon(screenIcon);
@@ -190,9 +201,11 @@ public final class MainWindow {
 				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
 			}
 
-			// Resize the graph screen.
+			// Get the current size of the window.
 			int windowWidth = (int)frame.getSize().getWidth();
 			int windowHeight = (int)frame.getSize().getHeight();
+
+			// Resize the graph screen.
 			int screenWidth = windowWidth - LEFT_SIDE_UI_PANEL_WIDTH;
 			int screenHeight = windowHeight - APPROX_HEADER_AREA_HEIGHT;
 			int screenX = LEFT_SIDE_UI_PANEL_WIDTH;
@@ -201,6 +214,9 @@ public final class MainWindow {
 					screenX, screenY, screenWidth, screenHeight
 			);
 			// The resizing event of the graph screen is fired in ScreenHandler, by the above setBounds(...).
+
+			// Resize the UI-panel at the left side of the screen.
+			leftSideUIPanel.setBounds(0, 0, LEFT_SIDE_UI_PANEL_WIDTH, screenHeight);
 		}
 	}
 

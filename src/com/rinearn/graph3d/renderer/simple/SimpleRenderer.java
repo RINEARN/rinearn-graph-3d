@@ -46,6 +46,10 @@ import java.math.BigDecimal;
 //
 // !!!!!
 
+// !!! NOTE !!!
+// Zoom in/out した時にアラインメントの threshold 値を変えるやつ実装しないと。
+// !!! NOTE !!!
+
 /**
  * The class providing a simple implementation of 
  * the rendering engine (renderer) of RINEARN Graph 3D.
@@ -83,7 +87,6 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		{ 0.0, 0.0, 1.0, -config.getCameraConfiguration().getDistance() }, // Z takes a negative value for the depth direction.
 		{ 0.0, 0.0, 0.0, 1.0 }
 	};
-
 
 	// Temporary settings: Should be packed into this.config.scaleConfiguration?
 	//     -> No, because they vary dynamically depending on zoom in/out of magnification. They are not static settings.
