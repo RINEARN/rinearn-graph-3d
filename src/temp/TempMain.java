@@ -61,6 +61,9 @@ public class TempMain {
 		// Hide the menu bar.
 		graph3D.setMenuVisible(false);
 
+		// Hide UI-panel at the left side of the screen.
+		graph3D.setScreenSideUIVisible(false);
+
 
 		// --- Renderer-Level Operations --- //
 

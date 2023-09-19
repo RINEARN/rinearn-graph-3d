@@ -412,6 +412,16 @@ public class RinearnGraph3D {
 
 
 	/**
+	 * Sets the visibility of the UI-panel at the left side of the screen.
+	 * 
+	 * @param visible Specify true for showing the UI-panel at the left side of the screen.
+	 */
+	public synchronized void setScreenSideUIVisible(boolean visible) {
+		presenter.screenSideUIHandler.setScreenSideUIVisible(visible);
+	}
+
+
+	/**
 	 * Re-plots the contents composing the graph.
 	 */
 	public synchronized void replot() {

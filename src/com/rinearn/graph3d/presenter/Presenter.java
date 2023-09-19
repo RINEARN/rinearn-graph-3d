@@ -39,6 +39,9 @@ public final class Presenter {
 	/** The handler of events and API requests related to the menu bar and right click menus. */
 	public final MenuHandler menuHandler;
 
+	/** The handler of events and API requests related to UI on the panel at the left side of the screen. */
+	public final ScreenSideUIHandler screenSideUIHandler;
+
 	/** The handler of events and API requests for setting ranges. */
 	public final RangeSettingHandler rangeSettingHandler;
 
@@ -76,6 +79,7 @@ public final class Presenter {
 
 		// Create handlers for various events and API requests.
 		this.menuHandler = new MenuHandler(model, view, this);
+		this.screenSideUIHandler = new ScreenSideUIHandler(model, view, this);
 		this.rangeSettingHandler = new RangeSettingHandler(model, view, this);
 		this.labelSettingHandler = new LabelSettingHandler(model, view, this);
 		this.cameraSettingHandler = new CameraSettingHandler(model, view, this);
