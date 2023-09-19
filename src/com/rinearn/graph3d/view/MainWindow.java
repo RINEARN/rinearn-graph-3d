@@ -566,4 +566,39 @@ public final class MainWindow {
 			resize();
 		}
 	}
+
+
+	/**
+	 * Force updates the layout of the components on the window.
+	 */
+	public void forceUpdateWindowLayout() {
+		WindowLayoutForceUpdater windowLayoutUpdater = new WindowLayoutForceUpdater();
+		if (SwingUtilities.isEventDispatchThread()) {
+			windowLayoutUpdater.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(windowLayoutUpdater);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class for force-updating the layout of the components, on event-dispatcher thread.
+	 */
+	private final class WindowLayoutForceUpdater implements Runnable {
+		@Override
+		public void run() {
+			if (!SwingUtilities.isEventDispatchThread()) {
+				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
+			}
+
+			// Seems very tricky,
+			// but most reliable way to force update the layout of the components on the window, for various situations.
+			frame.setVisible(false);
+			frame.setVisible(true);
+		}
+	}
 }
