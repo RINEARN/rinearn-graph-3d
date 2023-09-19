@@ -6,11 +6,15 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.ImageIcon;
+import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.lang.reflect.InvocationTargetException;
 
 
@@ -47,6 +51,13 @@ public final class MainWindow {
 	/** The default height [px] of the 3D graph screen. */
 	public static final int DEFAULT_SCREEN_HEIGHT = DEFAULT_WINDOW_HEIGHT - APPROX_HEADER_AREA_HEIGHT;
 
+	/** The the max value (integer count) of the dimension length bars. */
+	public static final int DIMENSION_LENGTH_BAR_MAX_COUNT = 1000;
+
+	/** The color of the dimension length bars. */
+	public static final Color DIMENSION_LENGTH_BAR_COLOR = new Color(100, 120, 200);
+
+
 	/** The frame of this window. */
 	public volatile JFrame frame;
 
@@ -58,6 +69,15 @@ public final class MainWindow {
 
 	/** The UI panel at the left-side of the screen. */
 	public volatile JPanel leftSideUIPanel;
+
+	/** The scroll bar for controlling the length of X dimension. */
+	public volatile JScrollBar xDimensionLengthBar;
+
+	/** The scroll bar for controlling the length of Y dimension. */
+	public volatile JScrollBar yDimensionLengthBar;
+
+	/** The scroll bar for controlling the length of Z dimension. */
+	public volatile JScrollBar zDimensionLengthBar;
 
 	/** The menu bar at the top of the window. */
 	public volatile JMenuBar menuBar;
@@ -143,14 +163,74 @@ public final class MainWindow {
 					0, 0,
 					LEFT_SIDE_UI_PANEL_WIDTH, DEFAULT_SCREEN_HEIGHT
 			);
-			leftSideUIPanel.setBackground(Color.GREEN);
 			frame.getContentPane().add(leftSideUIPanel);
 			leftSideUIPanel.setVisible(true);
+
+			// Creates the dimension length bars, and mount them on the left-side UI panel.
+			mountDimensionLengthBars();
 
 			// The icon for displaying a rendered graph image on "screenLabel":
 			screenIcon = new ImageIcon();
 			screenLabel.setIcon(screenIcon);
 		}
+	}
+
+	/**
+	 * Creates the dimension length bars, and mount them on the left-side UI panel.
+	 */
+	private void mountDimensionLengthBars() {
+		GridBagLayout layout = new GridBagLayout();
+		GridBagConstraints constraints = new GridBagConstraints();
+		leftSideUIPanel.setLayout(layout);
+		constraints.gridy = 0;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 1.0;
+		constraints.weighty = 1.0;
+		constraints.fill = GridBagConstraints.BOTH;
+		constraints.insets = new Insets(5, 5, 5, 5);
+
+		// The scroll bar for controlling the length of X dimension.
+		constraints.gridx = 0;
+		xDimensionLengthBar = new JScrollBar(
+				JScrollBar.VERTICAL,
+				DIMENSION_LENGTH_BAR_MAX_COUNT / 2, // default value
+				0, // extent
+				0, // min
+				DIMENSION_LENGTH_BAR_MAX_COUNT // max
+		);
+		xDimensionLengthBar.setBackground(DIMENSION_LENGTH_BAR_COLOR);
+		layout.setConstraints(xDimensionLengthBar, constraints);
+		leftSideUIPanel.add(xDimensionLengthBar);
+		xDimensionLengthBar.setVisible(true);
+
+		// The scroll bar for controlling the length of Y dimension.
+		constraints.gridx = 1;
+		yDimensionLengthBar = new JScrollBar(
+				JScrollBar.VERTICAL,
+				DIMENSION_LENGTH_BAR_MAX_COUNT / 2, // default value
+				0, // extent
+				0, // min
+				DIMENSION_LENGTH_BAR_MAX_COUNT // max
+		);
+		yDimensionLengthBar.setBackground(DIMENSION_LENGTH_BAR_COLOR);
+		layout.setConstraints(yDimensionLengthBar, constraints);
+		leftSideUIPanel.add(yDimensionLengthBar);
+		yDimensionLengthBar.setVisible(true);
+
+		// The scroll bar for controlling the length of Z dimension.
+		constraints.gridx = 2;
+		zDimensionLengthBar = new JScrollBar(
+				JScrollBar.VERTICAL,
+				DIMENSION_LENGTH_BAR_MAX_COUNT / 2, // default value
+				0, // extent
+				0, // min
+				DIMENSION_LENGTH_BAR_MAX_COUNT // max
+		);
+		zDimensionLengthBar.setBackground(DIMENSION_LENGTH_BAR_COLOR);
+		layout.setConstraints(zDimensionLengthBar, constraints);
+		leftSideUIPanel.add(zDimensionLengthBar);
+		zDimensionLengthBar.setVisible(true);
 	}
 
 
