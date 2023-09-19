@@ -20,6 +20,7 @@ com/rinearn/graph3d/presenter/RangeSettingHandler.java
 com/rinearn/graph3d/presenter/RenderingLoop.java
 com/rinearn/graph3d/presenter/ScaleSettingHandler.java
 com/rinearn/graph3d/presenter/ScreenHandler.java
+com/rinearn/graph3d/presenter/ScreenSideUIHandler.java
 com/rinearn/graph3d/renderer/package-info.java
 com/rinearn/graph3d/renderer/RinearnGraph3DDrawingParameter.java
 com/rinearn/graph3d/renderer/RinearnGraph3DRenderer.java
