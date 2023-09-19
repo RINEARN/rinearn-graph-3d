@@ -29,9 +29,6 @@ public final class RenderingLoop implements Runnable {
 	/** The rendering engine of 3D graphs. */
 	private final RinearnGraph3DRenderer renderer;
 
-	/** The main window of RINEARN Graph 3D. */
-	private final MainWindow mainWindow;
-
 	/** The flag for continuing the loop, or exit from it. */
 	private volatile boolean continuing = true;
 
@@ -58,7 +55,6 @@ public final class RenderingLoop implements Runnable {
 		this.view = view;
 		this.presenter = presenter;
 		this.renderer = renderer;
-		this.mainWindow = view.mainWindow;
 	}
 
 
@@ -137,11 +133,11 @@ public final class RenderingLoop implements Runnable {
 
 			if (this.renderer.casScreenResized(true, false)) {
 				Image screenImage = this.renderer.getScreenImage();
-				this.mainWindow.setScreenImage(screenImage);
+				view.mainWindow.setScreenImage(screenImage);
 			}
 
 			if (this.renderer.casScreenUpdated(true, false)) {
-				this.mainWindow.repaintScreen();
+				view.mainWindow.repaintScreen();
 			}
 
 			try {

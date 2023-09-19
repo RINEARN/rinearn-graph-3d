@@ -50,14 +50,8 @@ public final class ScreenHandler {
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
 
-	/** The label playing the role of the screen, on which a 3D graph is displayed. */
-	private final JLabel screenLabel;
-
 	/** The rendering engine of 3D graphs. */
 	private final RinearnGraph3DRenderer renderer;
-
-	/** The loop which performs rendering and updates the screen, on an independent thread. */
-	public final RenderingLoop renderingLoop;
 
 	/** Stores the X and Y coordinates of the center of the screen. */
 	private volatile int[] screenCenterCoords = new int[2];
@@ -75,27 +69,27 @@ public final class ScreenHandler {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;
-		this.screenLabel = view.mainWindow.screenLabel;
 		this.renderer = renderer;
-		this.renderingLoop = presenter.renderingLoop;
+
+		JLabel screenLabel = view.mainWindow.screenLabel;
 
 		// Add the MouseListener/MouseMotionLister handing mouse-dragging events for rotate a graph.
 		RotationEventListener rotationEventListener = new RotationEventListener();
-		this.screenLabel.addMouseListener(rotationEventListener);
-		this.screenLabel.addMouseMotionListener(rotationEventListener);
+		screenLabel.addMouseListener(rotationEventListener);
+		screenLabel.addMouseMotionListener(rotationEventListener);
 
 		// Add the MouseListener/MouseMotionLister handling mouse-dragging events for shifting a graph center.
 		CenterOffsetEventListener centerOffsetEventHandler = new CenterOffsetEventListener();
-		this.screenLabel.addMouseListener(centerOffsetEventHandler);
-		this.screenLabel.addMouseMotionListener(centerOffsetEventHandler);
+		screenLabel.addMouseListener(centerOffsetEventHandler);
+		screenLabel.addMouseMotionListener(centerOffsetEventHandler);
 
 		// Add the MouseWheelListener handling mouse-wheel-scrolling events for zooming-up/down the graph.
 		ZoomEventListener zoomEventListener = new ZoomEventListener();
-		this.screenLabel.addMouseWheelListener(zoomEventListener);
+		screenLabel.addMouseWheelListener(zoomEventListener);
 
 		// Add the ComponentListener handling resizing events of the graph screen.
 		ResizeEventListener resizeEventListener = new ResizeEventListener();
-		this.screenLabel.addComponentListener(resizeEventListener);
+		screenLabel.addComponentListener(resizeEventListener);
 
 		// Initializes the screen center's coordinates.
 		BufferedImage screenImage = BufferedImage.class.cast(renderer.getScreenImage());
@@ -155,7 +149,7 @@ public final class ScreenHandler {
 			renderer.setConfiguration(config);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
-			renderingLoop.requestRendering();
+			presenter.renderingLoop.requestRendering();
 		}
 	}
 
@@ -213,7 +207,7 @@ public final class ScreenHandler {
 			renderer.setConfiguration(config);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
-			renderingLoop.requestRendering();
+			presenter.renderingLoop.requestRendering();
 
 			// Updates the coordinates of the mouse pointer at the lastly pressed point, to the current point.
 			this.lastMouseX = currentMouseX;
@@ -323,7 +317,7 @@ public final class ScreenHandler {
 			renderer.setConfiguration(config);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
-			renderingLoop.requestRendering();
+			presenter.renderingLoop.requestRendering();
 
 			// Updates the coordinates of the mouse pointer at the lastly pressed point, to the current point.
 			this.lastMouseX = currentMouseX;
