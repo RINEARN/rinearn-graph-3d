@@ -58,6 +58,9 @@ public class TempMain {
 		graph3D.setCameraDistance(5.25);
 		graph3D.setCameraMagnification(1000.0);
 
+		// Hide the menu bar.
+		graph3D.setMenuVisible(false);
+
 
 		// --- Renderer-Level Operations --- //
 

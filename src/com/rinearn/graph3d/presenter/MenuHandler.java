@@ -40,6 +40,6 @@ public final class MenuHandler {
 	public synchronized void setMenuVisible(boolean visible) {
 		view.mainWindow.setMenuVisible(visible);
 		view.mainWindow.forceUpdateWindowLayout();
-		presenter.renderingLoop.requestRendering();		
+		presenter.renderingLoop.requestRendering();
 	}
 }

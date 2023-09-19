@@ -402,6 +402,16 @@ public class RinearnGraph3D {
 
 
 	/**
+	 * Sets the visibility of the menu bar and the right click menus.
+	 * 
+	 * @param visible Specify true for showing the menu bar and the right click menus.
+	 */
+	public synchronized void setMenuVisible(boolean visible) {
+		presenter.menuHandler.setMenuVisible(visible);
+	}
+
+
+	/**
 	 * Re-plots the contents composing the graph.
 	 */
 	public synchronized void replot() {
