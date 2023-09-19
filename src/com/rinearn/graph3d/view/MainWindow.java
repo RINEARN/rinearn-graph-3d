@@ -1,6 +1,7 @@
 package com.rinearn.graph3d.view;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -45,6 +46,9 @@ public final class MainWindow {
 
 	/** The icon for displaying a rendered graph image on "screenLabel". */
 	public volatile ImageIcon screenIcon;
+
+	/** The UI panel at the left-side of the screen. */
+	public volatile JPanel leftSideUIPanel;
 
 	/** The menu bar at the top of the window. */
 	public volatile JMenuBar menuBar;
@@ -105,17 +109,25 @@ public final class MainWindow {
 			// The icon for displaying a rendered graph image on "screenLabel":
 			screenIcon = new ImageIcon();
 			screenLabel.setIcon(screenIcon);
-
-			// (Temporary) Use the default event handler which exit exit the runtime environment when the window is closed.
-			// !!!!!
-			// [TODO]
-			//   RINEARN Graph 3D can be used as a library embedded into other applications,
-			//   so we should implement closing processing which does not exit the host-side app.
-			//   When we have implemented it, remove the following.
-			// !!!!!
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 	}
+
+
+	// !!!!! IMPORTANT NOTE !!!!!
+	//
+	// Don't put "synchronized" modifier to UI-operation methods,
+	// such as resize(), repaintScreen(), setScreenImage(image), etc.
+	//
+	// The internal processing of the UI operation methods are
+	// always processed in serial, on the event-dispatcher thread.
+	// So "synchronized" is not necessary for them.
+	//
+	// If we put "synchronized" to them,
+	// it becomes impossible to call other synchronized methods of this instance,
+	// from other tasks (varies depending on timing) stacked on the event dispatcher's queue.
+	// IF WE ACCIDENTALLY CALL IT, THE EVENT-DISPATCHER THREAD MAY FAIL INTO A DEADLOCK.
+	//
+	// !!!!! IMPORTANT NOTE !!!!!
 
 
 	/**
@@ -130,7 +142,7 @@ public final class MainWindow {
 	 * 
 	 * @param image The instance of the graph image to be displayed on the screen.
 	 */
-	public synchronized void setScreenImage(Image screenImage) {
+	public void setScreenImage(Image screenImage) {
 
 		// Set the specified graph image to "screenIcon", on event-dispatcher thread.
 		ScreenImageSetter screenImageSetter = new ScreenImageSetter(screenImage);
@@ -165,6 +177,9 @@ public final class MainWindow {
 
 		@Override
 		public void run() {
+			if (!SwingUtilities.isEventDispatchThread()) {
+				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
+			}
 			screenIcon.setImage(this.screenImage);
 		}
 	}
@@ -173,7 +188,7 @@ public final class MainWindow {
 	/**
 	 * Repaints the graph screen.
 	 */
-	public synchronized void repaintScreen() {
+	public void repaintScreen() {
 
 		// Repaints "screenLabel", on event-dispatcher thread.
 		ScreenRepainter screenRepainter = new ScreenRepainter();
@@ -192,9 +207,12 @@ public final class MainWindow {
 	/**
 	 * The class for repainting the "screenLabel" and so on, on event-dispatcher thread.
 	 */
-	public final class ScreenRepainter implements Runnable {
+	private final class ScreenRepainter implements Runnable {
 		@Override
 		public void run() {
+			if (!SwingUtilities.isEventDispatchThread()) {
+				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
+			}
 			screenLabel.repaint();
 		}
 	}
@@ -205,7 +223,7 @@ public final class MainWindow {
 	 * 
 	 * @param visible Specify true for showing the window, false for hiding the window.
 	 */
-	public synchronized void setWindowVisible(boolean visible) {
+	public void setWindowVisible(boolean visible) {
 
 		// Set visibility of "frame", on event-dispatcher thread.
 		WindowVisiblitySwitcher visibilitySwitcher = new WindowVisiblitySwitcher(visible);
@@ -239,6 +257,9 @@ public final class MainWindow {
 		}
 		@Override
 		public void run() {
+			if (!SwingUtilities.isEventDispatchThread()) {
+				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
+			}
 			frame.setVisible(visible);
 		}
 	}
