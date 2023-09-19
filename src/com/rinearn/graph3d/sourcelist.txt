@@ -13,6 +13,7 @@ com/rinearn/graph3d/model/package-info.java
 com/rinearn/graph3d/presenter/CameraSettingHandler.java
 com/rinearn/graph3d/presenter/FrameHandler.java
 com/rinearn/graph3d/presenter/LabelSettingHandler.java
+com/rinearn/graph3d/presenter/MenuHandler.java
 com/rinearn/graph3d/presenter/package-info.java
 com/rinearn/graph3d/presenter/Presenter.java
 com/rinearn/graph3d/presenter/RangeSettingHandler.java
