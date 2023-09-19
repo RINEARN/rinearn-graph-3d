@@ -30,6 +30,9 @@ public final class Presenter {
 	/** The loop which performs rendering and updates the screen, on an independent thread. */
 	public final RenderingLoop renderingLoop;
 
+	/** The handler of events of the frame of the main window. */
+	public final FrameHandler frameHandler;
+
 	/** The handler of events of the graph screen, such as mouse-dragging events for rotate a graph, etc. */
 	public final ScreenHandler screenHandler;
 
@@ -61,6 +64,9 @@ public final class Presenter {
 		// Create a rendering loop/thread, and start it.
 		this.renderingLoop = new RenderingLoop(renderer, view.mainWindow);
 		this.renderingLoop.start();
+
+		// Create a handler of events of the frame of the main window.
+		this.frameHandler = new FrameHandler(model, view, this);
 
 		// Create a handler of events of the graph screen, handling mouse-dragging events for rotate a graph, etc.
 		this.screenHandler = new ScreenHandler(model, view, renderer, renderingLoop);
