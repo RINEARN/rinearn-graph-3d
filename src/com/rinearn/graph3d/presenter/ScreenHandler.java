@@ -107,7 +107,9 @@ public final class ScreenHandler {
 			int screenWidth = (int)view.mainWindow.screenLabel.getSize().getWidth();
 			int screenHeight = (int)view.mainWindow.screenLabel.getSize().getHeight();
 			renderer.setScreenSize(screenWidth, screenHeight);
-			presenter.renderingLoop.requestReplotting();
+
+			// Perform rendering on the rendering loop's thread asynchronously.
+			presenter.renderingLoop.requestRendering();
 		}
 	}
 
