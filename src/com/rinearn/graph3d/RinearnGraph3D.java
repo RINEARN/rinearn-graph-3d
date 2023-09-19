@@ -74,7 +74,7 @@ public class RinearnGraph3D {
 		this.renderer.drawGrid();
 		this.renderer.drawFrame();
 		this.renderer.render();
-		this.view.mainWindow.repaintScreen();
+		//this.view.mainWindow.repaintScreen();
 
 		// Show the window.
 		this.view.mainWindow.setWindowVisible(true);

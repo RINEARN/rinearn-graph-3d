@@ -7,6 +7,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
+
+import java.awt.Font;
 import java.awt.Image;
 import java.lang.reflect.InvocationTargetException;
 
@@ -32,11 +34,17 @@ public final class MainWindow {
 	/** The default height [px] of the main window. */
 	public static final int DEFAULT_WINDOW_HEIGHT = 860;
 
+	/** The width of the left-side UI panel. */
+	public static final int LEFT_SIDE_UI_PANEL_WIDTH = 95;
+
+	/** The approximate height of the header-area (window header + menu bar). */
+	public static final int APPROX_HEADER_AREA_HEIGHT = 65;
+
 	/** The default width [px] of the 3D graph screen. */
-	public static final int DEFAULT_SCREEN_WIDTH = 1000;
+	public static final int DEFAULT_SCREEN_WIDTH = DEFAULT_WINDOW_WIDTH - LEFT_SIDE_UI_PANEL_WIDTH;
 
 	/** The default height [px] of the 3D graph screen. */
-	public static final int DEFAULT_SCREEN_HEIGHT = 830;
+	public static final int DEFAULT_SCREEN_HEIGHT = DEFAULT_WINDOW_HEIGHT - APPROX_HEADER_AREA_HEIGHT;
 
 	/** The frame of this window. */
 	public volatile JFrame frame;
@@ -93,16 +101,38 @@ public final class MainWindow {
 
 			// The menu bar:
 			menuBar = new JMenuBar();
-			menuBar.add(new JMenu("Hello!"));
-			menuBar.add(new JMenu("These"));
-			menuBar.add(new JMenu("Are"));
-			menuBar.add(new JMenu("Dummy"));
-			menuBar.add(new JMenu("Menus"));
 			frame.setJMenuBar(menuBar);
+
+			// Add dummy menus to the menu bar.
+			Font tempMenuFont = new Font("Dialog", Font.BOLD, 16);
+			JMenu menu;
+
+			menu = new JMenu("Hello!");
+			menu.setFont(tempMenuFont);
+			menuBar.add(menu);
+
+			menu = new JMenu("These");
+			menu.setFont(tempMenuFont);
+			menuBar.add(menu);
+
+			menu = new JMenu("Are");
+			menu.setFont(tempMenuFont);
+			menuBar.add(menu);
+
+			menu = new JMenu("Dummy");
+			menu.setFont(tempMenuFont);
+			menuBar.add(menu);
+
+			menu = new JMenu("Menus");
+			menu.setFont(tempMenuFont);
+			menuBar.add(menu);
 
 			// The label of the screen, on which a 3D graph is displayed:
 			screenLabel = new JLabel();
-			screenLabel.setBounds(0, 0, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
+			screenLabel.setBounds(
+					LEFT_SIDE_UI_PANEL_WIDTH, 0,
+					DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT
+			);
 			frame.getContentPane().add(screenLabel);
 			screenLabel.setVisible(true);
 
@@ -128,6 +158,51 @@ public final class MainWindow {
 	// IF WE ACCIDENTALLY CALL IT, THE EVENT-DISPATCHER THREAD MAY FAIL INTO A DEADLOCK.
 	//
 	// !!!!! IMPORTANT NOTE !!!!!
+
+
+	/**
+	 * Resizes the components on the window.
+	 */
+	public void resize() {
+
+		// Resizes the components on the window, on event-dispatcher thread.
+		Resizer resizer = new Resizer();
+
+		if (SwingUtilities.isEventDispatchThread()) {
+			resizer.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(resizer);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class for resizing the components on the window, on event-dispatcher thread.
+	 */
+	private final class Resizer implements Runnable {
+		@Override
+		public void run() {
+			if (!SwingUtilities.isEventDispatchThread()) {
+				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
+			}
+
+			// Resize the graph screen.
+			int windowWidth = (int)frame.getSize().getWidth();
+			int windowHeight = (int)frame.getSize().getHeight();
+			int screenWidth = windowWidth - LEFT_SIDE_UI_PANEL_WIDTH;
+			int screenHeight = windowHeight - APPROX_HEADER_AREA_HEIGHT;
+			int screenX = LEFT_SIDE_UI_PANEL_WIDTH;
+			int screenY = 0;
+			screenLabel.setBounds(
+					screenX, screenY, screenWidth, screenHeight
+			);
+			// The resizing event of the graph screen is fired in ScreenHandler, by the above setBounds(...).
+		}
+	}
 
 
 	/**

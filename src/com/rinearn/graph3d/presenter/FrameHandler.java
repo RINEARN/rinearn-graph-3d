@@ -55,7 +55,7 @@ public final class FrameHandler {
 	private class ResizeEventListener extends ComponentAdapter {
 		@Override
 		public void componentResized(ComponentEvent ce) {
-			System.out.println("Main Window Resized");
+			view.mainWindow.resize();
 		}
 	}
 

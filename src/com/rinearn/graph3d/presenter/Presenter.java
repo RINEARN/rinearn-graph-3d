@@ -62,14 +62,14 @@ public final class Presenter {
 		this.renderer = renderer;
 
 		// Create a rendering loop/thread, and start it.
-		this.renderingLoop = new RenderingLoop(renderer, view.mainWindow);
+		this.renderingLoop = new RenderingLoop(model, view, this, renderer);
 		this.renderingLoop.start();
 
 		// Create a handler of events of the frame of the main window.
 		this.frameHandler = new FrameHandler(model, view, this);
 
 		// Create a handler of events of the graph screen, handling mouse-dragging events for rotate a graph, etc.
-		this.screenHandler = new ScreenHandler(model, view, renderer, renderingLoop);
+		this.screenHandler = new ScreenHandler(model, view, this, renderer);
 
 		// Create handlers for various events and API requests.
 		this.rangeSettingHandler = new RangeSettingHandler(model, view, this);

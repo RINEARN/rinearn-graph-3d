@@ -8,6 +8,9 @@ import com.rinearn.graph3d.config.CameraConfiguration;
 
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
+
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -41,6 +44,12 @@ public final class ScreenHandler {
 	/** The front-end class of "Model" layer, which provides internal logic procedures and so on. */
 	private final Model model;
 
+	/** The front-end class of "View" layer, which provides visible part of GUI without event handling. */
+	private final View view;
+
+	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
+	private final Presenter presenter;
+
 	/** The label playing the role of the screen, on which a 3D graph is displayed. */
 	private final JLabel screenLabel;
 
@@ -57,35 +66,55 @@ public final class ScreenHandler {
 	/**
 	 * Creates new instance for handling events occurred on the specified view, using the specified model.
 	 * 
-	 * @param model The front-end class of Model layer, which provides internal logic procedures and so on.
-	 * @param view The front-end class of View layer, which provides visible part of GUI without event handling.
+	 * @param model The front-end class of "Model" layer, which provides internal logic procedures and so on.
+	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
+	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
 	 * @param renderer The rendering engine of 3D graphs.
-	 * @param renderingLoop The loop which invokes rendering procedures on an independent thread, and updates the screen.
 	 */
-	public ScreenHandler(Model model, View view, RinearnGraph3DRenderer renderer, RenderingLoop renderingLoop) {
+	public ScreenHandler(Model model, View view, Presenter presenter, RinearnGraph3DRenderer renderer) {
 		this.model = model;
+		this.view = view;
+		this.presenter = presenter;
 		this.screenLabel = view.mainWindow.screenLabel;
 		this.renderer = renderer;
-		this.renderingLoop = renderingLoop;
+		this.renderingLoop = presenter.renderingLoop;
 
-		// The MouseListener/MouseMotionLister handing mouse-dragging events for rotate a graph.
+		// Add the MouseListener/MouseMotionLister handing mouse-dragging events for rotate a graph.
 		RotationEventListener rotationEventListener = new RotationEventListener();
 		this.screenLabel.addMouseListener(rotationEventListener);
 		this.screenLabel.addMouseMotionListener(rotationEventListener);
 
-		// The MouseListener/MouseMotionLister handling mouse-dragging events for shifting a graph center.
+		// Add the MouseListener/MouseMotionLister handling mouse-dragging events for shifting a graph center.
 		CenterOffsetEventListener centerOffsetEventHandler = new CenterOffsetEventListener();
 		this.screenLabel.addMouseListener(centerOffsetEventHandler);
 		this.screenLabel.addMouseMotionListener(centerOffsetEventHandler);
 
-		// The MouseWheelListener handling mouse-wheel-scrolling events for zooming-up/down the graph.
-		ZoomEventListener zoomEventHandler = new ZoomEventListener();
-		this.screenLabel.addMouseWheelListener(zoomEventHandler);
+		// Add the MouseWheelListener handling mouse-wheel-scrolling events for zooming-up/down the graph.
+		ZoomEventListener zoomEventListener = new ZoomEventListener();
+		this.screenLabel.addMouseWheelListener(zoomEventListener);
+
+		// Add the ComponentListener handling resizing events of the graph screen.
+		ResizeEventListener resizeEventListener = new ResizeEventListener();
+		this.screenLabel.addComponentListener(resizeEventListener);
 
 		// Initializes the screen center's coordinates.
 		BufferedImage screenImage = BufferedImage.class.cast(renderer.getScreenImage());
 		this.screenCenterCoords[X] = screenImage.getWidth()/2;
 		this.screenCenterCoords[Y] = screenImage.getHeight()/2;
+	}
+
+
+	/**
+	 * The event listener handling resizing events of the graph screen.
+	 */
+	private class ResizeEventListener extends ComponentAdapter {
+		@Override
+		public void componentResized(ComponentEvent ce) {
+			int screenWidth = (int)view.mainWindow.screenLabel.getSize().getWidth();
+			int screenHeight = (int)view.mainWindow.screenLabel.getSize().getHeight();
+			renderer.setScreenSize(screenWidth, screenHeight);
+			presenter.renderingLoop.requestReplotting();
+		}
 	}
 
 

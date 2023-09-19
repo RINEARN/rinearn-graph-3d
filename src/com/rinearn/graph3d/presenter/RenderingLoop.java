@@ -1,7 +1,9 @@
 package com.rinearn.graph3d.presenter;
 
+import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.view.MainWindow;
+import com.rinearn.graph3d.view.View;
 
 import java.awt.Image;
 
@@ -14,6 +16,15 @@ public final class RenderingLoop implements Runnable {
 
 	/** The interval wait [md] per one cycle of the rendering loop. */
 	private static final int LOOP_WAIT = 30;
+
+	/** The front-end class of "Model" layer, which provides internal logic procedures and so on. */
+	private final Model model;
+
+	/** The front-end class of "View" layer, which provides visible part of GUI without event handling. */
+	private final View view;
+
+	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
+	private final Presenter presenter;
 
 	/** The rendering engine of 3D graphs. */
 	private final RinearnGraph3DRenderer renderer;
@@ -30,16 +41,24 @@ public final class RenderingLoop implements Runnable {
 	/** The flag representing that invoking render() on the loop thread has been requested. */
 	private volatile boolean renderingRequested = false;
 
+	/** The flag representing that invoking replot() on the loop thread has been requested. */
+	private volatile boolean replottingRequested = false;
+
 
 	/**
 	 * Creates new rendering loop.
 	 * 
+	 * @param model The front-end class of "Model" layer, which provides internal logic procedures and so on.
+	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
+	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
 	 * @param renderer The rendering engine of 3D graphs.
-	 * @param mainWindow The main window of RINEARN Graph 3D.
 	 */
-	public RenderingLoop(RinearnGraph3DRenderer renderer, MainWindow mainWindow) {
+	public RenderingLoop(Model model, View view, Presenter presenter, RinearnGraph3DRenderer renderer) {
+		this.model = model;
+		this.view = view;
+		this.presenter = presenter;
 		this.renderer = renderer;
-		this.mainWindow = mainWindow;
+		this.mainWindow = view.mainWindow;
 	}
 
 
@@ -85,11 +104,29 @@ public final class RenderingLoop implements Runnable {
 
 
 	/**
+	 * Requests invoking replot() method of the Presenter on the thread of this rendering loop.
+	 * 
+	 * After requesting it by this method, replot() method is performed asynchronously.
+	 * When the replotting is complete, the graph screen of the window is updated automatically.
+	 */
+	public synchronized void requestReplotting() {
+		this.replottingRequested = true;
+	}
+
+
+	/**
 	 * The procedures of the rendering loop, which runs on an independent thread.
 	 */
 	@Override
 	public void run() {
 		while (this.continuing) {
+
+			synchronized (this) {
+				if (this.replottingRequested) {
+					this.replottingRequested = false;
+					this.presenter.replot();
+				}
+			}
 
 			synchronized (this) {
 				if (this.renderingRequested) {
