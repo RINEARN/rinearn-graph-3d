@@ -90,12 +90,12 @@ public final class Presenter {
 	/**
 	 * Reflects the current configuration to the graph.
 	 * 
-	 * @param requestsReplot Specify true if re-plotting is necessary.
+	 * @param reprotsNow Specify true if re-plotting is necessary.
 	 */
-	public synchronized void reflectUpdatedConfiguration(boolean requestsReplot) {
+	public synchronized void reflectUpdatedConfiguration(boolean reprotsNow) {
 		RinearnGraph3DConfiguration config = this.model.getConfiguration();
 		this.renderer.configure(config);
-		if (requestsReplot) {
+		if (reprotsNow) {
 			this.replot();			
 		}
 	}

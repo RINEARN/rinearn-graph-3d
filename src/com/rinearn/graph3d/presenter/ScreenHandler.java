@@ -143,12 +143,10 @@ public final class ScreenHandler {
 			} else if (MAGNIFICATION_MAX < magnification) {
 				magnification = MAGNIFICATION_MAX;
 			}
-
-			// Reflect the updated magnification to the renderer.
 			cameraConfiguration.setMagnification(magnification);
-			RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
-			config.setCameraConfiguration(cameraConfiguration);
-			renderer.configure(config);
+
+			// Reflect the updated camera angles.
+			presenter.reflectUpdatedConfiguration(false);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();
@@ -203,10 +201,8 @@ public final class ScreenHandler {
 			cameraConfiguration.setHorizontalCenterOffset(centerOffsetX);
 			cameraConfiguration.setVerticalCenterOffset(centerOffsetY);
 
-			// Reflect the updated center offsets to the renderer.
-			RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
-			config.setCameraConfiguration(cameraConfiguration);
-			renderer.configure(config);
+			// Reflect the updated camera angles.
+			presenter.reflectUpdatedConfiguration(false);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();
@@ -313,10 +309,8 @@ public final class ScreenHandler {
 				cameraConfiguration.rotateAroundZ(circumferentialDeltaVectorLength * CIRCUMFERENTIAL_ROTATION_SPEED);					
 			}
 
-			// Reflect the updated camera angles to the renderer.
-			RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
-			config.setCameraConfiguration(cameraConfiguration);
-			renderer.configure(config);
+			// Reflect the updated camera angles.
+			presenter.reflectUpdatedConfiguration(false);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();
