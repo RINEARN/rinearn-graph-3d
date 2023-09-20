@@ -75,6 +75,9 @@ package com.rinearn.graph3d.config;
  */
 public final class RinearnGraph3DConfiguration {
 
+	/** The configuration depending on the user's environment and basic preferences. */
+	private volatile EnvironmentConfiguration environmentConfiguration = null;
+
 	/** The configuration of the ranges of X/Y/X axes. */
 	private volatile RangeConfiguration rangeConfiguration = null;
 
@@ -125,6 +128,7 @@ public final class RinearnGraph3DConfiguration {
 	public static RinearnGraph3DConfiguration createDefaultConfiguration() {
 		RinearnGraph3DConfiguration configuration = new RinearnGraph3DConfiguration();
 
+		configuration.setEnvironmentConfiguration(new EnvironmentConfiguration());
 		configuration.setRangeConfiguration(new RangeConfiguration());
 		configuration.setScaleConfiguration(new ScaleConfiguration());
 		configuration.setFrameConfiguration(new FrameConfiguration());
@@ -151,6 +155,9 @@ public final class RinearnGraph3DConfiguration {
 	 * @param mergedConfiguration The configuration to be merged to this configuration.
 	 */
 	public synchronized void merge(RinearnGraph3DConfiguration mergedConfiguration) {
+		if (mergedConfiguration.hasEnvironmentConfiguration()) {
+			this.setEnvironmentConfiguration(mergedConfiguration.getEnvironmentConfiguration());
+		}
 		if (mergedConfiguration.hasRangeConfiguration()) {
 			this.setRangeConfiguration(mergedConfiguration.getRangeConfiguration());
 		}
@@ -188,6 +195,11 @@ public final class RinearnGraph3DConfiguration {
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws IllegalStateException {
+
+		// Validate the environment configuration.
+		if (this.hasEnvironmentConfiguration()) {
+			this.environmentConfiguration.validate();
+		}
 
 		// Validate the label configuration.
 		if (this.hasLabelConfiguration()) {
@@ -236,6 +248,34 @@ public final class RinearnGraph3DConfiguration {
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * Checks whether any environment configuration is set to this instance.
+	 * 
+	 * @return Returns true if any environment configuration is set to this instance.
+	 */
+	public synchronized boolean hasEnvironmentConfiguration() {
+		return this.environmentConfiguration != null;
+	}
+
+	/**
+	 * Sets the configuration related to the user's environment and basic preferences.
+	 * 
+	 * @param scaleConfiguration The configuration related to the user's environment and basic preferences.
+	 */
+	public synchronized void setEnvironmentConfiguration(EnvironmentConfiguration environmentConfiguration) {
+		this.environmentConfiguration = environmentConfiguration;
+	}
+
+	/**
+	 * Gets the configuration related to the user's environment and basic preferences.
+	 * 
+	 * @return The configuration related to the user's environment and basic preferences.
+	 */
+	public synchronized EnvironmentConfiguration getEnvironmentConfiguration() {
+		return this.environmentConfiguration;
 	}
 
 
