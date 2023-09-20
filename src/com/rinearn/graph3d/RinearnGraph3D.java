@@ -9,7 +9,6 @@ import com.rinearn.graph3d.renderer.simple.SimpleRenderer;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.CameraConfiguration;
-import com.rinearn.graph3d.config.RangeConfiguration;
 
 import java.awt.Image;
 import java.math.BigDecimal;
@@ -82,6 +81,29 @@ public class RinearnGraph3D {
 		// Create "Presenter" layer which invokes Model's procedures triggered by user's action on GUI.
 		// (The rendering loop is also running in this Presenter layer.)
 		this.presenter = new Presenter(this.model, this.view, this.renderer);
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Configures detailed setting parameters, by the container storing them
+	 * </span>
+	 * <span class="lang-ja">
+	 * 設定値を格納するコンテナを渡して、詳細な設定パラメータを設定します
+	 * <span class="lang-en">
+	 * .
+	 * @param configuration
+	 *   <span class="lang-en">
+	 *   The container storing configuration values.
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   設定値を格納しているコンテナ
+	 *   </span>
+	 */
+	public synchronized void configure(RinearnGraph3DConfiguration configuration) {
+		RinearnGraph3DConfiguration currentConfiguration = this.model.getConfiguration();
+		currentConfiguration.merge(configuration);
+		this.presenter.reflectUpdatedConfiguration(true);
 	}
 
 

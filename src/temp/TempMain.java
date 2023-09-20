@@ -24,9 +24,21 @@ public class TempMain {
 		RinearnGraph3D graph3D = new RinearnGraph3D();
 
 		// Set the ranges of X/Y/Z axes.
+		/*
 		graph3D.setXRange(-2.0, 2.0);
 		graph3D.setYRange(-1.2, 1.2);
 		graph3D.setZRange(-1.0, 1.5);
+		*/
+		RangeConfiguration rangeConfig = new RangeConfiguration();
+		rangeConfig.getXRangeConfiguration().setMinimum(new BigDecimal("-2.0"));
+		rangeConfig.getXRangeConfiguration().setMaximum(new BigDecimal("2.0"));
+		rangeConfig.getYRangeConfiguration().setMinimum(new BigDecimal("-1.2"));
+		rangeConfig.getYRangeConfiguration().setMaximum(new BigDecimal("1.2"));
+		rangeConfig.getZRangeConfiguration().setMinimum(new BigDecimal("-1.0"));
+		rangeConfig.getZRangeConfiguration().setMaximum(new BigDecimal("1.5"));
+		RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
+		config.setRangeConfiguration(rangeConfig);
+		graph3D.configure(config);
 
 		// Set the ticks of X axis.
 		graph3D.setXTicks(
