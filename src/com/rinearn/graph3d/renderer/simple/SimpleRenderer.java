@@ -150,7 +150,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * @throws IllegalArgumentException
 	 *     Thrown when incorrect or inconsistent settings are detected in the specified configuration.
 	 */
-	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
+	public synchronized void configure(RinearnGraph3DConfiguration configuration) {
 
 		// Validate the specified (may be partial) configuration at first.
 		try {

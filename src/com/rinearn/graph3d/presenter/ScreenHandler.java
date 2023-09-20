@@ -148,7 +148,7 @@ public final class ScreenHandler {
 			cameraConfiguration.setMagnification(magnification);
 			RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
 			config.setCameraConfiguration(cameraConfiguration);
-			renderer.setConfiguration(config);
+			renderer.configure(config);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();
@@ -206,7 +206,7 @@ public final class ScreenHandler {
 			// Reflect the updated center offsets to the renderer.
 			RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
 			config.setCameraConfiguration(cameraConfiguration);
-			renderer.setConfiguration(config);
+			renderer.configure(config);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();
@@ -316,7 +316,7 @@ public final class ScreenHandler {
 			// Reflect the updated camera angles to the renderer.
 			RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createEmptyConfiguration();
 			config.setCameraConfiguration(cameraConfiguration);
-			renderer.setConfiguration(config);
+			renderer.configure(config);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();

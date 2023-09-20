@@ -45,7 +45,7 @@ public interface RinearnGraph3DRenderer {
 	 *   設定値を格納しているコンテナ
 	 *   </span>
 	 */
-	public void setConfiguration(RinearnGraph3DConfiguration configuration);
+	public void configure(RinearnGraph3DConfiguration configuration);
 
 
 	/**
