@@ -51,15 +51,18 @@ public class RinearnGraph3D {
 	 */
 	public RinearnGraph3D() {
 
+		// Create the configuration container storing the default values for all configuration parameters.
+		RinearnGraph3DConfiguration configuration = RinearnGraph3DConfiguration.createDefaultConfiguration();
+
 		// Create "Model" layer, which provides internal logic procedures and so on.
-		this.model = new Model();
+		this.model = new Model(configuration);
 
 		// Create "View" layer, which provides visible part of GUI without event handling.
-		this.view = new View();
+		this.view = new View(configuration);
 
 		// Create a rendering engine of 3D graphs.
 		this.renderer = new SimpleRenderer(
-				MainWindow.DEFAULT_SCREEN_WIDTH, MainWindow.DEFAULT_SCREEN_HEIGHT
+				MainWindow.DEFAULT_SCREEN_WIDTH, MainWindow.DEFAULT_SCREEN_HEIGHT, configuration
 		);
 
 		// Set the reference to the rendered image of the renderer,

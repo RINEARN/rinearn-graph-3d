@@ -40,11 +40,8 @@ public final class FrameDrawer {
 
 	/**
 	 * Creates a new instance for drawing graph frames under the specified configurations.
-	 * 
-	 * @param configuration The configuration of this application.
 	 */
-	public FrameDrawer(RinearnGraph3DConfiguration configuration) {
-		this.setConfiguration(configuration);
+	public FrameDrawer() {
 	}
 
 
@@ -89,6 +86,9 @@ public final class FrameDrawer {
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 */
 	public synchronized void drawFrame(List<GeometricPiece> geometricPieceList) {
+		if (this.config == null) {
+			throw new IllegalArgumentException("This drawer instance has not been configured yet.");
+		}
 		switch (this.config.getFrameConfiguration().getFrameMode()) {
 			case NONE : {
 				return;
@@ -178,6 +178,9 @@ public final class FrameDrawer {
 	 * @param zTickCoordinates The coordinates of the ticks on Z axis.
 	 */
 	public synchronized void drawGridLines(List<GeometricPiece> geometricPieceList) {
+		if (this.config == null) {
+			throw new IllegalArgumentException("This drawer instance has not been configured yet.");
+		}
 		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
 		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
 		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();

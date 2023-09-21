@@ -59,16 +59,10 @@ public class LabelDrawer {
 	/**
 	 * Creates a new instance for drawing graph frames under the specified configurations.
 	 * 
-	 * @param configuration The configuration of this application.
 	 * @param vertcalAlignThreshold The vertical distance [px] from the reference point, at which the alignment of tick labels change.
 	 * @param horizontalAlignThreshold The horizontal distance [px] from the reference point, at which the alignment of tick labels change.
-	 * @param axisLabelFont The font for rendering texts of axis labels.
-	 * @param color The color of labels.
 	 */
-	public LabelDrawer(RinearnGraph3DConfiguration configuration,
-			int verticalAlignThreshold, int horizontalAlignThreshold) {
-
-		this.setConfiguration(configuration);
+	public LabelDrawer(int verticalAlignThreshold, int horizontalAlignThreshold) {
 		this.verticalAlignThreshold = verticalAlignThreshold;
 		this.horizontalAlignThreshold = horizontalAlignThreshold;
 	}
@@ -128,6 +122,9 @@ public class LabelDrawer {
 	 * @param tickLabelFontMetrics The metrics of the font used for drawing tick labels.
 	 */
 	public synchronized void drawAxisLabels(List<GeometricPiece> geometricPieceList, FontMetrics tickLabelFontMetrics) {
+		if (this.config == null) {
+			throw new IllegalArgumentException("This drawer instance has not been configured yet.");
+		}
 
 		// Draw axis labels of X, Y, Z axis.
 		for (int idim=0; idim<=2; idim++) {

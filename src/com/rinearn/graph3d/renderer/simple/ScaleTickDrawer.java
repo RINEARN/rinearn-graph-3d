@@ -33,7 +33,7 @@ public final class ScaleTickDrawer {
 			= RinearnGraph3DDrawingParameter.HorizontalAlignment.RADIAL;
 
 	/** Stores the configuration of this application. */
-	RinearnGraph3DConfiguration config;
+	RinearnGraph3DConfiguration config = null;
 
 	/** The vertical distance [px] from the reference point, at which the alignment of tick labels change. */
 	private int verticalAlignThreshold;
@@ -63,17 +63,14 @@ public final class ScaleTickDrawer {
 	/**
 	 * Create an instance for drawing scale ticks under the specified settings.
 	 * 
-	 * @param configuration The configuration of this application.
 	 * @param vertcalAlignThreshold The vertical distance [px] from the reference point, at which the alignment of tick labels change.
 	 * @param horizontalAlignThreshold The horizontal distance [px] from the reference point, at which the alignment of tick labels change.
 	 */
-	public ScaleTickDrawer(RinearnGraph3DConfiguration configuration,
-			int verticalAlignThreshold, int horizontalAlignThreshold) {
+	public ScaleTickDrawer(int verticalAlignThreshold, int horizontalAlignThreshold) {
 
 		// Note: first four parameters should be packed into an object, e.g.:
 		//     public ScaleTickDrawer(ScaleConfiguration config, Font font, Color color)
 
-		this.setConfiguration(configuration);
 		this.verticalAlignThreshold = verticalAlignThreshold;
 		this.horizontalAlignThreshold = horizontalAlignThreshold;
 	}
@@ -150,6 +147,9 @@ public final class ScaleTickDrawer {
 	 * @param axes The array storing X axis at [0], Y axis at [1], and Z axis at [2].
 	 */
 	public synchronized void drawScaleTicks(List<GeometricPiece> geometricPieceList) {
+		if (this.config == null) {
+			throw new IllegalArgumentException("This drawer instance has not been configured yet.");
+		}
 		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
 		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
 		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();

@@ -11,19 +11,22 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
  */
 public final class Model {
 
-	/** The container of various configuration parameters. */
-	private volatile RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createDefaultConfiguration();
+	/** The container of configuration parameters. */
+	private volatile RinearnGraph3DConfiguration config = null;
 
 
 	/**
 	 * Creates new Model layer of RINEARN Graph 3D.
+	 * 
+	 * @param configuration The container of configuration parameters.
 	 */
-	public Model() {
+	public Model(RinearnGraph3DConfiguration configuration) {
+		this.setConfiguration(configuration);
 	}
 
 
 	/**
-	 * Sets the container of various configuration parameters.
+	 * Sets the container of configuration parameters.
 	 * 
 	 * @param configuration The container of configuration parameters.
 	 */
@@ -32,7 +35,7 @@ public final class Model {
 	}
 
 	/**
-	 * Returns the container of various configuration parameters.
+	 * Returns the container of configuration parameters.
 	 * 
 	 * @return The container of configuration parameters.
 	 */

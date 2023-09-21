@@ -66,7 +66,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	public static final int Z = 2;
 
 	/** The object storing configuration values of scales, frames, lighting/shading, and so on. */
-	private volatile RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createDefaultConfiguration();
+	private volatile RinearnGraph3DConfiguration config = null;
 
 	/** The Image instance storing the rendered image of the graph screen. */
 	private volatile BufferedImage screenImage = null;
@@ -84,7 +84,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	private volatile double[][] transformationMatrix = {
 		{ 1.0, 0.0, 0.0, 0.0 },
 		{ 0.0, 1.0, 0.0, 0.0 },
-		{ 0.0, 0.0, 1.0, -config.getCameraConfiguration().getDistance() }, // Z takes a negative value for the depth direction.
+		{ 0.0, 0.0, 1.0, 0.0 },
 		{ 0.0, 0.0, 0.0, 1.0 }
 	};
 
@@ -95,20 +95,16 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/** The object providing drawing process of scale ticks of X/Y/Z axes. */
 	private volatile ScaleTickDrawer scaleTickDrawer = new ScaleTickDrawer(
-		this.config,
 		this.verticalAlignThreshold, this.horizontalAlignThreshold
 	);
 
 	/** The object providing drawing process of axis labels. */
 	private volatile LabelDrawer labelDrawer = new LabelDrawer(
-		this.config,
 		this.verticalAlignThreshold, this.horizontalAlignThreshold
 	);
 
 	/** The object providing drawing process of graph frames and grid lines. */
-	private volatile FrameDrawer frameDrawer = new FrameDrawer(
-		this.config
-	);
+	private volatile FrameDrawer frameDrawer = new FrameDrawer();
 
 	/** The color mixer, which generates colors of geometric pieces (points, lines, and so on). */
 	private volatile ColorMixer colorMixer = new ColorMixer();
@@ -125,8 +121,10 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * 
 	 * @param screenWidth The width (pixels) of the screen.
 	 * @param screenHeight The height (pixels) of the screen.
+	 * @param configuration The container of configuration parameters.
 	 */
-	public SimpleRenderer(int screenWidth, int screenHeight) {
+	public SimpleRenderer(int screenWidth, int screenHeight, RinearnGraph3DConfiguration configuration) {
+		this.configure(configuration);
 		this.setScreenSize(screenWidth, screenHeight);
 		this.clear();
 	}
@@ -163,7 +161,11 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		// Some of them are set and others are not set,
 		// so extract only stored subpart configurations in the argument "configuration"
 		// and merge them to the "config" field of this instance.
-		this.config.merge(configuration);
+		if (this.config == null) {
+			this.config = configuration;
+		} else {
+			this.config.merge(configuration);
+		}
 
 		// Validate the merged full "config" (field of this instance).
 		// Note that, even when the validation of the specified "configuration" argument has passed,
