@@ -51,7 +51,7 @@ public final class CameraSettingHandler {
 		cameraConfig.setVerticalAngle(verticalAngle);
 		cameraConfig.setScrewAngle(screwAngle);
 		this.presenter.propagateConfiguration();
-		this.presenter.replot();
+		this.presenter.plot();
 	}
 
 
@@ -64,7 +64,7 @@ public final class CameraSettingHandler {
 		CameraConfiguration cameraConfig = this.model.getConfiguration().getCameraConfiguration();
 		cameraConfig.setDistance(distance);
 		this.presenter.propagateConfiguration();
-		this.presenter.replot();
+		this.presenter.plot();
 	}
 
 	/**
@@ -76,6 +76,6 @@ public final class CameraSettingHandler {
 		CameraConfiguration cameraConfig = this.model.getConfiguration().getCameraConfiguration();
 		cameraConfig.setMagnification(magnification);
 		this.presenter.propagateConfiguration();
-		this.presenter.replot();
+		this.presenter.plot();
 	}
 }

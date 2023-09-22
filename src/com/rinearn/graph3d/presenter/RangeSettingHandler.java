@@ -48,7 +48,7 @@ public final class RangeSettingHandler {
 		xRangeConfig.setMinimum(min);
 		xRangeConfig.setMaximum(max);
 		this.presenter.propagateConfiguration();
-		this.presenter.replot();
+		this.presenter.plot();
 	}
 
 	/**
@@ -77,7 +77,7 @@ public final class RangeSettingHandler {
 		yRangeConfig.setMinimum(min);
 		yRangeConfig.setMaximum(max);
 		this.presenter.propagateConfiguration();
-		this.presenter.replot();
+		this.presenter.plot();
 	}
 
 	/**
@@ -106,7 +106,7 @@ public final class RangeSettingHandler {
 		zRangeConfig.setMinimum(min);
 		zRangeConfig.setMaximum(max);
 		this.presenter.propagateConfiguration();
-		this.presenter.replot();
+		this.presenter.plot();
 	}
 
 	/**

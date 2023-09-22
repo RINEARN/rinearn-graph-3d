@@ -120,7 +120,7 @@ public final class RenderingLoop implements Runnable {
 			synchronized (this) {
 				if (this.replottingRequested) {
 					this.replottingRequested = false;
-					this.presenter.replot();
+					this.presenter.plot();
 				}
 			}
 

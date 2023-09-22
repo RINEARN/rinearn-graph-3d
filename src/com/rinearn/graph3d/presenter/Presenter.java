@@ -98,9 +98,9 @@ public final class Presenter {
 
 
 	/**
-	 * Re-plots the contents composing the graph.
+	 * Plots all contents composing the graph again (replot).
 	 */
-	public synchronized void replot() {
+	public synchronized void plot() {
 
 		// Clear all currently drawn contents registered to the renderer.
 		this.renderer.clear();

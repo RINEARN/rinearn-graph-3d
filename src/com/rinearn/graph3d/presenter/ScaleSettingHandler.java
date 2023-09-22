@@ -50,7 +50,7 @@ public class ScaleSettingHandler {
 		xScaleConfig.setTickCoordinates(tickCoordinates);
 		xScaleConfig.setTickLabels(tickLabels);
 		this.presenter.propagateConfiguration();
-		this.presenter.replot();
+		this.presenter.plot();
 	}
 
 
@@ -68,7 +68,7 @@ public class ScaleSettingHandler {
 		yScaleConfig.setTickCoordinates(tickCoordinates);
 		yScaleConfig.setTickLabels(tickLabels);
 		this.presenter.propagateConfiguration();
-		this.presenter.replot();
+		this.presenter.plot();
 	}
 
 
@@ -86,6 +86,6 @@ public class ScaleSettingHandler {
 		zScaleConfig.setTickCoordinates(tickCoordinates);
 		zScaleConfig.setTickLabels(tickLabels);
 		this.presenter.propagateConfiguration();
-		this.presenter.replot();
+		this.presenter.plot();
 	}
 }

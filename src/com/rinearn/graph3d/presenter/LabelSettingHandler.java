@@ -52,7 +52,7 @@ public class LabelSettingHandler {
 			= this.model.getConfiguration().getLabelConfiguration().getXLabelConfiguration();
 		xLabelConfig.setText(xLabel);
 		this.presenter.propagateConfiguration();
-		this.presenter.replot();
+		this.presenter.plot();
 	}
 
 
@@ -66,7 +66,7 @@ public class LabelSettingHandler {
 			= this.model.getConfiguration().getLabelConfiguration().getYLabelConfiguration();
 		yLabelConfig.setText(yLabel);
 		this.presenter.propagateConfiguration();
-		this.presenter.replot();
+		this.presenter.plot();
 	}
 
 
@@ -80,7 +80,7 @@ public class LabelSettingHandler {
 			= this.model.getConfiguration().getLabelConfiguration().getZLabelConfiguration();
 		zLabelConfig.setText(zLabel);
 		this.presenter.propagateConfiguration();
-		this.presenter.replot();
+		this.presenter.plot();
 	}
 
 
@@ -107,7 +107,7 @@ public class LabelSettingHandler {
 			presenter.propagateConfiguration();
 
 			// Replot the graph.
-			presenter.replot();
+			presenter.plot();
 		}
 	}
 }

@@ -495,10 +495,13 @@ public class RinearnGraph3D {
 	}
 
 
+	// ↓これ外部APIとして出す必用ある？ 出したら戻せないが。
+	//    このアプリは設定更新したら内部で replot される挙動なので、不要かもしれん。
+	//    要るようになった時に追加してもいいような。要検討
 	/**
-	 * Re-plots the contents composing the graph.
+	 * Plots all contents composing the graph again (replot).
 	 */
-	public synchronized void replot() {
-		this.presenter.replot();
+	public synchronized void plot() {
+		this.presenter.plot();
 	}
 }
