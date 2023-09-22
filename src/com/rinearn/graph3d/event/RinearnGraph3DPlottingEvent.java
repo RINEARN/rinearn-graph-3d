@@ -3,6 +3,9 @@ package com.rinearn.graph3d.event;
 import java.util.EventObject;
 
 
+//Note: copied from the API souece of Ver.5.6
+
+
 /**
  * <span class="lang-ja">
  * リニアングラフ3D（RINEARN Graph3D）において、プロット/再プロットが必要になった際に発生するイベントです
