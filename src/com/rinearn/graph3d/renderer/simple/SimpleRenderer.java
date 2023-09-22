@@ -65,8 +65,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The array index representing Z, in some array fields. */
 	public static final int Z = 2;
 
-	/** The object storing configuration values of scales, frames, lighting/shading, and so on. */
-	private volatile RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createDefaultConfiguration();
+	/** The container of configuration parameters (such as lighting/shading params, scales setting params, and so on). */
+	private final RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createDefaultConfiguration();
 
 	// !!! WARNING !!!
 	// - About the above "config" -
@@ -138,25 +138,21 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	}
 
 
-	// !!!!!
-	// NOTE:
-	//
-	//   Should rename to "configure(...)" ?
-	//
-	// !!!!!
-
 	/**
-	 * Sets the container storing configuration values.
+	 * Configures the state of this renderer, by parameters stored in the specified configuration container.
 	 * 
 	 * Note that, the changes of the configuration (contains ranges of X/Y/Z axes)
 	 * does not affect to the currently drawn contents (points, lines, quadrangles, and so on).
 	 * To reflect the changes, please clear() and re-draw all contents again.
 	 * 
-	 * @param configuration The container storing configuration values.
+	 * @param configuration The container storing configuration parameters.
 	 * @throws IllegalArgumentException
 	 *     Thrown when incorrect or inconsistent settings are detected in the specified configuration.
 	 */
 	public synchronized void configure(RinearnGraph3DConfiguration configuration) {
+
+		// Don't replace the reference of "config" field of this instance.
+		// Only modify its contents.
 
 		// Validate the specified (may be partial) configuration at first.
 		try {
