@@ -94,6 +94,7 @@ public final class Presenter {
 	 */
 	public synchronized void reflectUpdatedConfiguration(boolean reprotsNow) {
 		RinearnGraph3DConfiguration config = this.model.getConfiguration();
+		this.view.configure(config);
 		this.renderer.configure(config);
 		if (reprotsNow) {
 			this.replot();

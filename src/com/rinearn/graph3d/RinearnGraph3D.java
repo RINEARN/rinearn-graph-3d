@@ -54,16 +54,44 @@ public class RinearnGraph3D {
 		// Create the configuration container storing the default values for all configuration parameters.
 		RinearnGraph3DConfiguration configuration = RinearnGraph3DConfiguration.createDefaultConfiguration();
 
+		// !!! NOTE !!!
+		//
+		// ↑で config 生成して全体で参照共有しようとしたけど、良く考えたらレンダラーでも共有するのはまずい。
+		// RinearnGraph3D と RinearnGraph3DRenderer はAPIを提供していて、それぞれ独立に外部から conifigure され得るが、
+		// それらは渡されたconfigコンテナの中身を、自信の保持しているコンテナにマージする挙動になっている。
+		// （利便性から、APIでは部分設定だけが入ったconfigコンテナを渡して反映できるようにしたいため。）
+		//
+		// で、それぞれの内部に保持している config コンテナの参照が同じだと、
+		// 例えば RinearnGraph3DRenderer にAPI経由でマージされた部分設定が、上層の RinearnGraph3D にも反映されてしまう。
+		// それは明らかに意図と異なるし、直感的な階層構造にも反する。
+		//
+		// つまりレンダラーはレンダラーのみで独立に config コンテナを持っているべき。
+		// コンテナの参照を統一してはいけない。
+		//
+		// -> じゃあ数個前のコミットは結局元の方が合ってたわけなので、後で部分的に戻さないといけない。
+		//    また後々で戻すべき
+		//
+		// !!! NOTE !!!
+
 		// Create "Model" layer, which provides internal logic procedures and so on.
 		this.model = new Model(configuration);
 
+		// !!! NOTE !!!
+		// 結局それなら ↑ も内部で生成してればよかったのでは？ ここで生成して渡さんでも。一昨日のままでよかった気が。
+		// !!! NOTE !!!
+
 		// Create "View" layer, which provides visible part of GUI without event handling.
-		this.view = new View(configuration);
+		this.view = new View();
 
 		// Create a rendering engine of 3D graphs.
 		this.renderer = new SimpleRenderer(
 				MainWindow.DEFAULT_SCREEN_WIDTH, MainWindow.DEFAULT_SCREEN_HEIGHT, configuration
 		);
+
+		// !!! NOTE !!!
+		// ↑ここで引数で渡して参照共有してるのは確実にやめるべき。
+		// !!! NOTE !!!
+
 
 		// Set the reference to the rendered image of the renderer,
 		// to the graph screen of the window for displaying it.
@@ -84,6 +112,9 @@ public class RinearnGraph3D {
 		// Create "Presenter" layer which invokes Model's procedures triggered by user's action on GUI.
 		// (The rendering loop is also running in this Presenter layer.)
 		this.presenter = new Presenter(this.model, this.view, this.renderer);
+
+		// Reflect the configuration stored in Model layer, to other layers.
+		this.presenter.reflectUpdatedConfiguration(false);
 	}
 
 
