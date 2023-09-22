@@ -125,8 +125,8 @@ public class RinearnGraph3D {
 		// (The rendering loop is also running in this Presenter layer.)
 		this.presenter = new Presenter(this.model, this.view, this.renderer);
 
-		// Reflect the configuration stored in Model layer, to other layers.
-		this.presenter.reflectUpdatedConfiguration(false);
+		// Propagate the configuration stored in Model, to the entire application.
+		this.presenter.propagateConfiguration();
 	}
 
 
@@ -147,9 +147,15 @@ public class RinearnGraph3D {
 	 *   </span>
 	 */
 	public synchronized void configure(RinearnGraph3DConfiguration configuration) {
-		RinearnGraph3DConfiguration currentConfiguration = this.model.getConfiguration();
-		currentConfiguration.merge(configuration);
-		this.presenter.reflectUpdatedConfiguration(true);
+
+		// RinearnGraph3DConfiguration is a container of subpart configurations.
+		// Some of them are set and others are not set,
+		// so extract only stored subpart configurations in the argument "configuration"
+		// and merge them to the configuration of this application, which is stored in Model.
+		this.model.getConfiguration().merge(configuration);
+
+		// Propagate the above modified configuration (stored in Model) to the entire application.
+		this.presenter.propagateConfiguration();
 	}
 
 

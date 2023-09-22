@@ -49,7 +49,8 @@ public class ScaleSettingHandler {
 		xScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
 		xScaleConfig.setTickCoordinates(tickCoordinates);
 		xScaleConfig.setTickLabels(tickLabels);
-		this.presenter.reflectUpdatedConfiguration(true);
+		this.presenter.propagateConfiguration();
+		this.presenter.replot();
 	}
 
 
@@ -66,7 +67,8 @@ public class ScaleSettingHandler {
 		yScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
 		yScaleConfig.setTickCoordinates(tickCoordinates);
 		yScaleConfig.setTickLabels(tickLabels);
-		this.presenter.reflectUpdatedConfiguration(true);
+		this.presenter.propagateConfiguration();
+		this.presenter.replot();
 	}
 
 
@@ -83,6 +85,7 @@ public class ScaleSettingHandler {
 		zScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
 		zScaleConfig.setTickCoordinates(tickCoordinates);
 		zScaleConfig.setTickLabels(tickLabels);
-		this.presenter.reflectUpdatedConfiguration(true);
+		this.presenter.propagateConfiguration();
+		this.presenter.replot();
 	}
 }

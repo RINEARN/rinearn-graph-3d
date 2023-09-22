@@ -42,7 +42,8 @@ public class LabelSettingHandler {
 		LabelConfiguration.AxisLabelConfiguration xLabelConfig
 			= this.model.getConfiguration().getLabelConfiguration().getXLabelConfiguration();
 		xLabelConfig.setText(xLabel);
-		this.presenter.reflectUpdatedConfiguration(true);
+		this.presenter.propagateConfiguration();
+		this.presenter.replot();
 	}
 
 
@@ -55,7 +56,8 @@ public class LabelSettingHandler {
 		LabelConfiguration.AxisLabelConfiguration yLabelConfig
 			= this.model.getConfiguration().getLabelConfiguration().getYLabelConfiguration();
 		yLabelConfig.setText(yLabel);
-		this.presenter.reflectUpdatedConfiguration(true);
+		this.presenter.propagateConfiguration();
+		this.presenter.replot();
 	}
 
 
@@ -68,7 +70,8 @@ public class LabelSettingHandler {
 		LabelConfiguration.AxisLabelConfiguration zLabelConfig
 			= this.model.getConfiguration().getLabelConfiguration().getZLabelConfiguration();
 		zLabelConfig.setText(zLabel);
-		this.presenter.reflectUpdatedConfiguration(true);
+		this.presenter.propagateConfiguration();
+		this.presenter.replot();
 	}
 
 }

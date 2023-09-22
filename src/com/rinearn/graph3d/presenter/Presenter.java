@@ -88,17 +88,12 @@ public final class Presenter {
 
 
 	/**
-	 * Reflects the current configuration to the graph.
-	 * 
-	 * @param reprotsNow Specify true if re-plotting is necessary.
+	 * Propagates the current configuration stored in Model layer, to the entire application.
 	 */
-	public synchronized void reflectUpdatedConfiguration(boolean reprotsNow) {
+	public synchronized void propagateConfiguration() {
 		RinearnGraph3DConfiguration config = this.model.getConfiguration();
 		this.view.configure(config);
 		this.renderer.configure(config);
-		if (reprotsNow) {
-			this.replot();
-		}
 	}
 
 

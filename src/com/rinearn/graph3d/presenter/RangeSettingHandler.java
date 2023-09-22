@@ -47,7 +47,8 @@ public final class RangeSettingHandler {
 			= this.model.getConfiguration().getRangeConfiguration().getXRangeConfiguration();
 		xRangeConfig.setMinimum(min);
 		xRangeConfig.setMaximum(max);
-		this.presenter.reflectUpdatedConfiguration(true);
+		this.presenter.propagateConfiguration();
+		this.presenter.replot();
 	}
 
 	/**
@@ -59,7 +60,8 @@ public final class RangeSettingHandler {
 		RangeConfiguration.AxisRangeConfiguration xRangeConfig
 			= this.model.getConfiguration().getRangeConfiguration().getXRangeConfiguration();
 		xRangeConfig.setAutoRangingEnabled(enabled);
-		this.presenter.reflectUpdatedConfiguration(false);
+		this.presenter.propagateConfiguration();
+		// this.presenter.replot(); // Not necessary.
 	}
 
 
@@ -74,7 +76,8 @@ public final class RangeSettingHandler {
 			= this.model.getConfiguration().getRangeConfiguration().getYRangeConfiguration();
 		yRangeConfig.setMinimum(min);
 		yRangeConfig.setMaximum(max);
-		this.presenter.reflectUpdatedConfiguration(true);
+		this.presenter.propagateConfiguration();
+		this.presenter.replot();
 	}
 
 	/**
@@ -86,7 +89,8 @@ public final class RangeSettingHandler {
 		RangeConfiguration.AxisRangeConfiguration yRangeConfig
 			= this.model.getConfiguration().getRangeConfiguration().getYRangeConfiguration();
 		yRangeConfig.setAutoRangingEnabled(enabled);
-		this.presenter.reflectUpdatedConfiguration(false);
+		this.presenter.propagateConfiguration();
+		// this.presenter.replot(); Not necessary.
 	}
 
 
@@ -101,7 +105,8 @@ public final class RangeSettingHandler {
 			= this.model.getConfiguration().getRangeConfiguration().getZRangeConfiguration();
 		zRangeConfig.setMinimum(min);
 		zRangeConfig.setMaximum(max);
-		this.presenter.reflectUpdatedConfiguration(true);
+		this.presenter.propagateConfiguration();
+		this.presenter.replot();
 	}
 
 	/**
@@ -113,7 +118,8 @@ public final class RangeSettingHandler {
 		RangeConfiguration.AxisRangeConfiguration zRangeConfig
 			= this.model.getConfiguration().getRangeConfiguration().getZRangeConfiguration();
 		zRangeConfig.setAutoRangingEnabled(enabled);
-		this.presenter.reflectUpdatedConfiguration(false);
+		this.presenter.propagateConfiguration();
+		// this.presenter.replot(); Not necessary.
 	}
 
 }

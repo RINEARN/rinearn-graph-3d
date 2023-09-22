@@ -146,7 +146,7 @@ public final class ScreenHandler {
 			cameraConfiguration.setMagnification(magnification);
 
 			// Reflect the updated camera angles.
-			presenter.reflectUpdatedConfiguration(false);
+			presenter.propagateConfiguration();
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();
@@ -202,7 +202,7 @@ public final class ScreenHandler {
 			cameraConfiguration.setVerticalCenterOffset(centerOffsetY);
 
 			// Reflect the updated camera angles.
-			presenter.reflectUpdatedConfiguration(false);
+			presenter.propagateConfiguration();
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();
@@ -310,7 +310,7 @@ public final class ScreenHandler {
 			}
 
 			// Reflect the updated camera angles.
-			presenter.reflectUpdatedConfiguration(false);
+			presenter.propagateConfiguration();
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();
