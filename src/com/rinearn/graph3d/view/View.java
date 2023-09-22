@@ -83,6 +83,18 @@ public final class View {
 	/** The main window of RINEARN Graph 3D (on which a 3D graph is displayed). */
 	public final MainWindow mainWindow = new MainWindow();
 
+	/** The label setting window. */
+	public final LabelSettingWindow labelSettingWindow = new LabelSettingWindow();
+
+
+	// !!! IMPORTANT NOTE !!!
+	//   Don't store the configuration as a field of this instance or subcomponents. It is Model layer's role.
+	//   Components in View layer passively reflect the configuration propagated from Model through Presenter layer,
+	//   without storing it. So don't declare the following:
+	// --------------------
+	// RinearnGraph3DConfiguration config;
+
+
 	/**
 	 * Creates new View layer of RINEARN Graph 3D.
 	 */
@@ -96,8 +108,6 @@ public final class View {
 	 * @param configuration The configuration container.
 	 */
 	public synchronized void configure(RinearnGraph3DConfiguration configuration) {
-
-		// Specify configuration to components in View layer here.
-
+		this.labelSettingWindow.configure(configuration);
 	}
 }

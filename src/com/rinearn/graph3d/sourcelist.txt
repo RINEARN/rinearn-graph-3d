@@ -41,6 +41,7 @@ com/rinearn/graph3d/renderer/simple/ScaleTickGenerator.java
 com/rinearn/graph3d/renderer/simple/SimpleRenderer.java
 com/rinearn/graph3d/renderer/simple/SpaceConverter.java
 com/rinearn/graph3d/RinearnGraph3D.java
+com/rinearn/graph3d/view/LabelSettingWindow.java
 com/rinearn/graph3d/view/MainWindow.java
 com/rinearn/graph3d/view/package-info.java
 com/rinearn/graph3d/view/View.java
