@@ -66,7 +66,16 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	public static final int Z = 2;
 
 	/** The object storing configuration values of scales, frames, lighting/shading, and so on. */
-	private volatile RinearnGraph3DConfiguration config = null;
+	private volatile RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createDefaultConfiguration();
+
+	// !!! WARNING !!!
+	// - About the above "config" -
+	//
+	//     Don't share the same configuration container with Model layer.
+	//     Because contents of the configuration container stored in this class
+	//     may be modified from the outside through configure(...) API.
+	//     If share the same config container with Model layer,
+	//     the changes of the config through the above propagates to the config of Model layer.
 
 	/** The Image instance storing the rendered image of the graph screen. */
 	private volatile BufferedImage screenImage = null;
@@ -121,10 +130,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * 
 	 * @param screenWidth The width (pixels) of the screen.
 	 * @param screenHeight The height (pixels) of the screen.
-	 * @param configuration The container of configuration parameters.
 	 */
-	public SimpleRenderer(int screenWidth, int screenHeight, RinearnGraph3DConfiguration configuration) {
-		this.configure(configuration);
+	public SimpleRenderer(int screenWidth, int screenHeight) {
+		this.configure(this.config);
 		this.setScreenSize(screenWidth, screenHeight);
 		this.clear();
 	}
@@ -161,11 +169,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		// Some of them are set and others are not set,
 		// so extract only stored subpart configurations in the argument "configuration"
 		// and merge them to the "config" field of this instance.
-		if (this.config == null) {
-			this.config = configuration;
-		} else {
-			this.config.merge(configuration);
-		}
+		this.config.merge(configuration);
 
 		// Validate the merged full "config" (field of this instance).
 		// Note that, even when the validation of the specified "configuration" argument has passed,

@@ -71,6 +71,8 @@ public class RinearnGraph3D {
 		// -> じゃあ数個前のコミットは結局元の方が合ってたわけなので、後で部分的に戻さないといけない。
 		//    また後々で戻すべき
 		//
+		// -> とりあえずレンダラーとの共有はやめた。でもまだレンダラーの中のほうでリファクタが要りそう。
+		//
 		// !!! NOTE !!!
 
 		// Create "Model" layer, which provides internal logic procedures and so on.
@@ -78,6 +80,15 @@ public class RinearnGraph3D {
 
 		// !!! NOTE !!!
 		// 結局それなら ↑ も内部で生成してればよかったのでは？ ここで生成して渡さんでも。一昨日のままでよかった気が。
+		//
+		// -> これはまあ、「アプリのconfigはModelが保持/管理しますよ」っていう役割を考えたら、
+		//    際表層で生成してコンストラクタで渡してても変ではないと思う。
+		//    両者の違いは、「生成までがModelの役割に含まれるか」どうかというデザイン上の違いで。
+		//
+		//    例えば、仮にこの RinearnGraph3D のコンストラクタに、引数として config 渡せるようなやつがあったら、
+		//    生成は Model の役割にまとめ込めなくなるし、上のような感じで投げるのが自然だし。
+		//    それ考えたら上のデザインでもまあいい。
+		//
 		// !!! NOTE !!!
 
 		// Create "View" layer, which provides visible part of GUI without event handling.
@@ -85,11 +96,12 @@ public class RinearnGraph3D {
 
 		// Create a rendering engine of 3D graphs.
 		this.renderer = new SimpleRenderer(
-				MainWindow.DEFAULT_SCREEN_WIDTH, MainWindow.DEFAULT_SCREEN_HEIGHT, configuration
+				MainWindow.DEFAULT_SCREEN_WIDTH, MainWindow.DEFAULT_SCREEN_HEIGHT
 		);
 
 		// !!! NOTE !!!
 		// ↑ここで引数で渡して参照共有してるのは確実にやめるべき。
+		//   -> やめた。
 		// !!! NOTE !!!
 
 
