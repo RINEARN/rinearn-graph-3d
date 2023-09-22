@@ -8,6 +8,9 @@ import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.config.ColorConfiguration;
 import com.rinearn.graph3d.config.ColorGradient;
 
+import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;
+import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
+
 import java.awt.Color;
 import java.math.BigDecimal;
 
@@ -19,6 +22,12 @@ public class TempMain {
 
 	public static void main(String[] args) {
 		System.out.println("Hello RINEARN Graph 3D Ver.6!");
+
+		TempMain tempMain = new TempMain();
+		tempMain.init();
+	}
+
+	public void init() {
 
 		// Launch a new RINEARN Graph 3D window (to be implemented).
 		RinearnGraph3D graph3D = new RinearnGraph3D();
@@ -76,109 +85,137 @@ public class TempMain {
 		// Hide UI-panel at the left side of the screen.
 		graph3D.setScreenSideUIVisible(false);
 
-
-		// --- Renderer-Level Operations --- //
-
 		// Gets the rendering engine of 3D graphs.
 		RinearnGraph3DRenderer renderer = graph3D.getRenderer();
 
-		/*
-		// Draw many roundom points.
-		for (int i=0; i<500; i++) {
+		// Create the plotter, which plot contents using the above renderer.
+		Plotter plotter = new Plotter(renderer);
 
-			double x = Math.random() * 2.0 - 1.0;
-			double y = Math.random() * 2.0 - 1.0;
-			double z = Math.random() * 2.0 - 1.0;
-			x *= 2.0;
-			renderer.drawPoint(x, y, z, 4.0);
-			//renderer.drawPoint(x, y, z, 4.0, Color.GREEN);
+		// Register the above plotter to the graph, and perform the first plotting.
+		graph3D.addPlottingListener(plotter);
+		graph3D.plot();
+	}
+
+
+	// A plotter class, which plots contents using the specified renderer, when the plotting is requested by the RINEARN Graph 3D.
+	private class Plotter implements RinearnGraph3DPlottingListener {
+		private final RinearnGraph3DRenderer renderer;
+		
+		public Plotter(RinearnGraph3DRenderer renderer) {
+			this.renderer = renderer;
 		}
 
-		// Draw many roundom lines.
-		for (int i=0; i<500; i++) {
-
-			double aX = Math.random() * 2.0 - 1.0;
-			double aY = Math.random() * 2.0 - 1.0;
-			double aZ = Math.random() * 2.0 - 1.0;
-			aX *= 2.0;
-			double bX = aX + Math.random() * 0.6 - 0.3;
-			double bY = aY + Math.random() * 0.6 - 0.3;
-			double bZ = aZ + Math.random() * 0.6 - 0.3;
-			bX *= 2.0;
-			renderer.drawLine(aX, aY, aZ, bX, bY, bZ, 1.0);
+		@Override
+		public void plottingRequested(RinearnGraph3DPlottingEvent e) {
+			System.out.println("plottingRequested is called! @" + System.currentTimeMillis() + "[ms]");
+			this.plot();
 		}
 
-		// Draw many quadrangles.
-		for (int i=0; i<100; i++) {
-
-			double aX = Math.random() * 2.0 - 1.0;
-			double aY = Math.random() * 2.0 - 1.0;
-			double aZ = Math.random() * 2.0 - 1.0;
-			aX *= 2.0;
-			double bX = aX + 0.1;
-			double bY = aY;
-			double bZ = aZ;
-			double cX = aX + 0.1;
-			double cY = aY + 0.1;
-			double cZ = aZ;
-			double dX = aX;
-			double dY = aY + 0.1;
-			double dZ = aZ;
-			renderer.drawQuadrangle(
-					aX, aY, aZ,
-					bX, bY, bZ,
-					cX, cY, cZ,
-					dX, dY, dZ
-			);
-		}
-		*/
-
-		// Draw many points.
-		int n = 100;
-		for (int i=0; i<n; i++) {
-
-			// Get a color from the HSB color gradient.
-			float colorScalarValue = i / (float)(n - 1);
-			Color color = Color.getHSBColor(colorScalarValue, 1.0f, 1.0f);
-
-			// Prepare he coordinate values of the point.
-			double theta = 6.0 * Math.PI * i / (double)(n - 1);
-			double x = Math.cos(theta) * 1.6;
-			double y = Math.sin(theta);
-			double z = 2.0 * i / (double)(n - 1) - 1.0;
-
-			// Draw the point.
-			renderer.drawPoint(x, y, z, 8.0, color);
+		@Override
+		public void plottingCanceled(RinearnGraph3DPlottingEvent e) {
 		}
 
-		// Draw a membrane
-		MeshData meshData = generateExamMeshData();
-		for (int ix=0; ix<meshData.xCount - 1; ix++) {
-			for (int iy=0; iy<meshData.yCount - 1; iy++) {
-				double aX = meshData.x[ix][iy];
-				double aY = meshData.y[ix][iy];
-				double aZ = meshData.z[ix][iy];
+		@Override
+		public void plottingFinished(RinearnGraph3DPlottingEvent e) {
+		}
 
-				double bX = meshData.x[ix + 1][iy];
-				double bY = meshData.y[ix + 1][iy];
-				double bZ = meshData.z[ix + 1][iy];
+		public void plot() {
 
-				double cX = meshData.x[ix + 1][iy + 1];
-				double cY = meshData.y[ix + 1][iy + 1];
-				double cZ = meshData.z[ix + 1][iy + 1];
+			// Draw many points.
+			int n = 100;
+			for (int i=0; i<n; i++) {
 
-				double dX = meshData.x[ix][iy + 1];
-				double dY = meshData.y[ix][iy + 1];
-				double dZ = meshData.z[ix][iy + 1];
-
-				float colorScalarValue = (float)((1.0 - aZ) / 2.5);
+				// Get a color from the HSB color gradient.
+				float colorScalarValue = i / (float)(n - 1);
 				Color color = Color.getHSBColor(colorScalarValue, 1.0f, 1.0f);
-				renderer.drawQuadrangle(aX,aY,aZ, bX,bY,bZ, cX,cY,cZ, dX,dY,dZ, color);
-			}
-		}
 
-		// Render the 3D graph.
-		renderer.render();
+				// Prepare he coordinate values of the point.
+				double theta = 6.0 * Math.PI * i / (double)(n - 1);
+				double x = Math.cos(theta) * 1.6;
+				double y = Math.sin(theta);
+				double z = 2.0 * i / (double)(n - 1) - 1.0;
+
+				// Draw the point.
+				renderer.drawPoint(x, y, z, 8.0, color);
+			}
+
+			// Draw a membrane
+			MeshData meshData = generateExamMeshData();
+			for (int ix=0; ix<meshData.xCount - 1; ix++) {
+				for (int iy=0; iy<meshData.yCount - 1; iy++) {
+					double aX = meshData.x[ix][iy];
+					double aY = meshData.y[ix][iy];
+					double aZ = meshData.z[ix][iy];
+
+					double bX = meshData.x[ix + 1][iy];
+					double bY = meshData.y[ix + 1][iy];
+					double bZ = meshData.z[ix + 1][iy];
+
+					double cX = meshData.x[ix + 1][iy + 1];
+					double cY = meshData.y[ix + 1][iy + 1];
+					double cZ = meshData.z[ix + 1][iy + 1];
+
+					double dX = meshData.x[ix][iy + 1];
+					double dY = meshData.y[ix][iy + 1];
+					double dZ = meshData.z[ix][iy + 1];
+
+					float colorScalarValue = (float)((1.0 - aZ) / 2.5);
+					Color color = Color.getHSBColor(colorScalarValue, 1.0f, 1.0f);
+					renderer.drawQuadrangle(aX,aY,aZ, bX,bY,bZ, cX,cY,cZ, dX,dY,dZ, color);
+				}
+			}
+
+			/*
+			// Draw many roundom points.
+			for (int i=0; i<500; i++) {
+
+				double x = Math.random() * 2.0 - 1.0;
+				double y = Math.random() * 2.0 - 1.0;
+				double z = Math.random() * 2.0 - 1.0;
+				x *= 2.0;
+				renderer.drawPoint(x, y, z, 4.0);
+				//renderer.drawPoint(x, y, z, 4.0, Color.GREEN);
+			}
+
+			// Draw many roundom lines.
+			for (int i=0; i<500; i++) {
+
+				double aX = Math.random() * 2.0 - 1.0;
+				double aY = Math.random() * 2.0 - 1.0;
+				double aZ = Math.random() * 2.0 - 1.0;
+				aX *= 2.0;
+				double bX = aX + Math.random() * 0.6 - 0.3;
+				double bY = aY + Math.random() * 0.6 - 0.3;
+				double bZ = aZ + Math.random() * 0.6 - 0.3;
+				bX *= 2.0;
+				renderer.drawLine(aX, aY, aZ, bX, bY, bZ, 1.0);
+			}
+
+			// Draw many quadrangles.
+			for (int i=0; i<100; i++) {
+
+				double aX = Math.random() * 2.0 - 1.0;
+				double aY = Math.random() * 2.0 - 1.0;
+				double aZ = Math.random() * 2.0 - 1.0;
+				aX *= 2.0;
+				double bX = aX + 0.1;
+				double bY = aY;
+				double bZ = aZ;
+				double cX = aX + 0.1;
+				double cY = aY + 0.1;
+				double cZ = aZ;
+				double dX = aX;
+				double dY = aY + 0.1;
+				double dZ = aZ;
+				renderer.drawQuadrangle(
+						aX, aY, aZ,
+						bX, bY, bZ,
+						cX, cY, cZ,
+						dX, dY, dZ
+				);
+			}
+			*/
+		}
 	}
 
 

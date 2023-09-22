@@ -28,8 +28,9 @@ public final class Presenter {
 	/** The rendering engine of 3D graphs. */
 	private final RinearnGraph3DRenderer renderer;
 
+
 	/** The event dispatcher, which manages listeners of RinearnGraph3DPlottingEvent and dispatches fired events to them. */
-	private final RinearnGraph3DEventDispatcher plottingEventDispatcher;
+	public final RinearnGraph3DEventDispatcher plottingEventDispatcher;
 
 	/** The loop which performs rendering and updates the screen, on an independent thread. */
 	public final RenderingLoop renderingLoop;

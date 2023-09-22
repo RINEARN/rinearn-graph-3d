@@ -7,6 +7,7 @@ import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.simple.SimpleRenderer;
 import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
+import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.CameraConfiguration;
@@ -501,9 +502,37 @@ public class RinearnGraph3D {
 	}
 
 
+	/**
+	 * <span class="lang-ja">
+	 * 再プロットが必要になった際に発行される RinearnGraph3DPlottingEvent を受け取る, 
+	 * RinearnGraph3DPlottingListener インタフェースを実装したイベントリスナーを追加登録します
+	 * </span>
+	 * <span class="lang-en">
+	 * Adds the event listener implementing RinearnGraph3DPlottingListener, 
+	 * for receiving RinearnGraph3DPlottingEvent which occurs when plotting/replotting is required.
+	 * </span>
+	 * .
+	 * @param plottingListener 
+	 *   <span class="lang-ja">登録するイベントリスナー</span>
+	 *   <span class="lang-en">The event listener to be added</span>
+	 */
+	public void addPlottingListener(RinearnGraph3DPlottingListener plottingListener) {
+		this.presenter.plottingEventDispatcher.addPlottingListener(plottingListener);
+	}
+
+
 	// ↓これ外部APIとして出す必用ある？ 出したら戻せないが。
 	//    このアプリは設定更新したら内部で replot される挙動なので、不要かもしれん。
 	//    要るようになった時に追加してもいいような。要検討
+	//
+	//    -> 思いついた。PlottingEvent のリスナーを作って登録した時、
+	//       そのままでは次の再プロットタイミングまで呼ばれないから、
+	//       初回描画的な意味で今すぐ実行させたい時とか。
+	//
+	//       現状はそのために最初の一回（イベント発動とは別に）描画処理を走らせるコードを書く必用があるが、
+	//       その代わりにplot呼べばイベントとして勝手に走って描かれるので、そうした方がたぶん読みやすくなる。
+	//
+	//       つまりリスナー登録＆plot()で初回描画のコンボで使う。
 	/**
 	 * Plots all contents composing the graph again (replot).
 	 */
