@@ -3,6 +3,11 @@ package com.rinearn.graph3d.presenter;
 import com.rinearn.graph3d.config.LabelConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.view.View;
+import com.rinearn.graph3d.view.LabelSettingWindow;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 
 /**
  * The class handling events and API requests for setting labels.
@@ -30,6 +35,10 @@ public class LabelSettingHandler {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;
+
+		// Add the action listener defined in this class, to the OK button of label setting window.
+		LabelSettingWindow window = this.view.labelSettingWindow;
+		window.okButton.addActionListener(new OkPressedEventListener());
 	}
 
 
@@ -74,4 +83,31 @@ public class LabelSettingHandler {
 		this.presenter.replot();
 	}
 
+
+	/**
+	 * The event listener handling the event that OK button is pressed.
+	 */
+	private final class OkPressedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+
+			// Get the inputted value of the labels of X/Y/Z axes.
+			LabelSettingWindow window = view.labelSettingWindow;
+			String xLabel = window.xLabelTextField.getText();
+			String yLabel = window.yLabelTextField.getText();
+			String zLabel = window.zLabelTextField.getText();
+
+			// Store the above into the configuration container.
+			LabelConfiguration labelConfig = model.getConfiguration().getLabelConfiguration();
+			labelConfig.getXLabelConfiguration().setText(xLabel);
+			labelConfig.getYLabelConfiguration().setText(yLabel);
+			labelConfig.getZLabelConfiguration().setText(zLabel);
+
+			// Propagate the above update of the configuration to the entire application.
+			presenter.propagateConfiguration();
+
+			// Replot the graph.
+			presenter.replot();
+		}
+	}
 }
