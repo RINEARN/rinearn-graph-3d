@@ -4,6 +4,7 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
+import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
 
 
 /**
@@ -26,6 +27,9 @@ public final class Presenter {
 
 	/** The rendering engine of 3D graphs. */
 	private final RinearnGraph3DRenderer renderer;
+
+	/** The event dispatcher, which manages listeners of RinearnGraph3DPlottingEvent and dispatches fired events to them. */
+	private final RinearnGraph3DEventDispatcher plottingEventDispatcher;
 
 	/** The loop which performs rendering and updates the screen, on an independent thread. */
 	public final RenderingLoop renderingLoop;
@@ -61,11 +65,15 @@ public final class Presenter {
 	 * @param model The front-end class of Model layer, which provides internal logic procedures and so on.
 	 * @param view The front-end class of View layer, which provides visible part of GUI without event handling.
 	 * @param renderer The rendering engine of 3D graphs.
+	 * @param plottingEventDispatcher The event dispatcher of RinearnGraph3DPlottingEvent.
 	 */
-	public Presenter(Model model, View view, RinearnGraph3DRenderer renderer) {
+	public Presenter(Model model, View view,
+			RinearnGraph3DRenderer renderer, RinearnGraph3DEventDispatcher plottingEventDispatcher) {
+
 		this.model = model;
 		this.view = view;
 		this.renderer = renderer;
+		this.plottingEventDispatcher = plottingEventDispatcher;
 
 		// Create a rendering loop/thread, and start it.
 		this.renderingLoop = new RenderingLoop(model, view, this, renderer);
@@ -114,6 +122,49 @@ public final class Presenter {
 		// -----
 		// Future: Draw other elements here
 		// -----
+
+		// Call "plottingRequested" methods of the registered event listeners of RinearnGraph3DPlottingEvent.
+		this.plottingEventDispatcher.firePlottingRequested();
+
+		// Call "plottingFinished" methods of the registered event listeners of RinearnGraph3DPlottingEvent.
+		this.plottingEventDispatcher.firePlottingFinished();
+		// ↑ これ render 後に呼ぶべき？ 前に呼ぶべき？
+		//
+		//    -> render まで全て終わった後にスクリーン上に（2Dで）何か描きたいみたいな場面を考えたら、後で呼ぶべきでは？
+		//
+		//       -> でも Ver.5.6 だと前に呼んでる。まあそっちはスクリーン上に2Dで何か描く機能無いので気にしなくていいかもだけど。
+		//
+		//           -> そういう処理は2D描画の foregroundRenderer とか backgroundRenderer とか用意して前景/背景レイヤーを追加する可能性がある。
+		//              もし将来的にそうした場合、合成はたぶん render 時に行うので、render 後だと逆に描けなくなってしまう。
+		//              そこまで拡張考えたら render 前の方がいいかと思う。
+		//
+		//              -> render前に行うやつなら firePlottingRequested 一本でいいんじゃないの？
+		//
+		//                 -> 他のリスナーの firePlottingRequested が終わったのを待ってから行いたい処理とかがなんかあるかも、
+		//                    …と思って作った記憶があるが、その時点で具体的に何かは想定していなかった記憶もある。なんか後々でありそうみたいな。
+		//                    インターフェース決めると後で追加したら互換崩れるし、念のため宣言しといたという感じだったかと。
+		//
+		//                    -> まあ replot は頻繁に発生するわけではないので、requested の時点でなんかリソース確保して描いて、
+		//                       後続のリスナーもそのリソース共有して使って、
+		//                       んで finished の時点で解放する、とかの使い道が全く無いわけではなさそうな。
+		//
+		//                       -> ああなんか機器やネットワーク上のレイテンシ大きいやつとかに connection する場合はありそう、いかにも
+		//
+		//              -> そもそも仮に render 後にスクリーンのグラフィックスコンテキスト引っ張ってきて画面上に何か描いたところで
+		//                 画面更新ループが察知できないから表示はされないし意味ないような
+		//
+		//                 -> いや、レンダラーの casScreenUpdated で画面更新フラグ立てれば拾われる。
+		//                    むしろ要らんかもと思いつつ念のため CAS 操作可能なAPIにした意味が生じる珍しい例かも。
+		//
+		//           -> ああそうだ、仮に render 後の2D描画が可能で便利でも、画面をマウス操作した瞬間に再び render が走って描画内容がすぐ消えるんだ。
+		//              Ver.5.6 で最初にそう実装してすぐ描画内容消えて、意味ないよなあってなって結局 render 前にしたんだ。思い出した。
+		//
+		//              で、そういうのをサポートするなら render のタイミングをイベントとして拾う RinearnGraph3DRenderingListener を作って
+		//              そっちのメソッドを fire すべきで、でもそれはスクリーン前景/背景への2D描画の仕様を固めないといけないから未実装、
+		//              みたいな。そういう感じだったかと。
+		//
+		// とりあえず render 前に行って、後でまた再検討する（RenderingListener とか作る方向も含めて）
+
 
 		// Render the re-plotted contents on the screen.
 		this.renderer.render();

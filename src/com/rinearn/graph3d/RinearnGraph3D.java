@@ -6,6 +6,7 @@ import com.rinearn.graph3d.view.MainWindow;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.simple.SimpleRenderer;
+import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.CameraConfiguration;
@@ -121,9 +122,14 @@ public class RinearnGraph3D {
 		// Show the window.
 		this.view.mainWindow.setWindowVisible(true);
 
+		// Creates the event dispatcher, which manages listeners of RinearnGraph3DPlottingEvent and dispatches fired events.
+		// It is managed in Presenter, but instantiate here to specify this RinearnGraph3D instance as the event source.
+		// And then, pass it to the argument of the Presenter's constructor.
+		RinearnGraph3DEventDispatcher plottingEventDispatcher = new RinearnGraph3DEventDispatcher(this);
+
 		// Create "Presenter" layer which invokes Model's procedures triggered by user's action on GUI.
 		// (The rendering loop is also running in this Presenter layer.)
-		this.presenter = new Presenter(this.model, this.view, this.renderer);
+		this.presenter = new Presenter(this.model, this.view, this.renderer, plottingEventDispatcher);
 
 		// Propagate the configuration stored in Model, to the entire application.
 		this.presenter.propagateConfiguration();
