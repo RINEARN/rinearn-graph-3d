@@ -108,6 +108,7 @@ public final class View {
 	 * @param configuration The configuration container.
 	 */
 	public synchronized void configure(RinearnGraph3DConfiguration configuration) {
+		this.mainWindow.configure(configuration);
 		this.labelSettingWindow.configure(configuration);
 	}
 }

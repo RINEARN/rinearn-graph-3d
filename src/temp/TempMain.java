@@ -80,7 +80,7 @@ public class TempMain {
 		graph3D.setCameraMagnification(1000.0);
 
 		// Hide the menu bar.
-		graph3D.setMenuVisible(false);
+		//graph3D.setMenuVisible(false);
 
 		// Hide UI-panel at the left side of the screen.
 		graph3D.setScreenSideUIVisible(false);

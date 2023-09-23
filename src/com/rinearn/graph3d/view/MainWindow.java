@@ -1,9 +1,12 @@
 package com.rinearn.graph3d.view;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollBar;
@@ -85,6 +88,18 @@ public final class MainWindow {
 	/** The menu bar at the top of the window. */
 	public volatile JMenuBar menuBar;
 
+	/** "File" menu on the menu bar. */
+	public volatile JMenu fileMenu;
+
+	/** "Settings" > "Set Labels" menu item on the menu bar. */
+	public volatile JMenuItem labelSettingMenuItem;
+
+	/** "Settings" menu on the menu bar. */
+	public volatile JMenu settingsMenu;
+
+	/** "Options" menu on the menu bar. */
+	public volatile JMenu optionsMenu;
+
 	/** The flag for switching the visibility of the UI panel at the screen side. */
 	public volatile boolean screenSideUIVisible = true;
 
@@ -133,29 +148,23 @@ public final class MainWindow {
 			menuBar = new JMenuBar();
 			frame.setJMenuBar(menuBar);
 
-			// Add dummy menus to the menu bar.
-			Font tempMenuFont = new Font("Dialog", Font.BOLD, 16);
-			JMenu menu;
+			// "File" menu:
+			fileMenu = new JMenu("Unconfigured");
+			menuBar.add(fileMenu);
 
-			menu = new JMenu("Hello!");
-			menu.setFont(tempMenuFont);
-			menuBar.add(menu);
+			// "Settings" menu:
+			{
+				settingsMenu = new JMenu("Unconfigured");
+				menuBar.add(settingsMenu);
 
-			menu = new JMenu("These");
-			menu.setFont(tempMenuFont);
-			menuBar.add(menu);
+				// "Settings" > "Set Labels" menu item:
+				labelSettingMenuItem = new JMenuItem("Unconfigured");
+				settingsMenu.add(labelSettingMenuItem);
+			}
 
-			menu = new JMenu("Are");
-			menu.setFont(tempMenuFont);
-			menuBar.add(menu);
-
-			menu = new JMenu("Dummy");
-			menu.setFont(tempMenuFont);
-			menuBar.add(menu);
-
-			menu = new JMenu("Menus");
-			menu.setFont(tempMenuFont);
-			menuBar.add(menu);
+			// "Options" menu:
+			optionsMenu = new JMenu("Unconfigured");
+			menuBar.add(optionsMenu);
 
 			// The label of the screen, on which a 3D graph is displayed:
 			screenLabel = new JLabel();
@@ -183,6 +192,7 @@ public final class MainWindow {
 			screenLabel.setIcon(screenIcon);
 		}
 	}
+
 
 	/**
 	 * Creates the dimension length bars, and mount them on the left-side UI panel.
@@ -246,7 +256,7 @@ public final class MainWindow {
 	// !!!!! IMPORTANT NOTE !!!!!
 	//
 	// Don't put "synchronized" modifier to UI-operation methods,
-	// such as resize(), repaintScreen(), setScreenImage(image), etc.
+	// such as configure(), resize(), repaintScreen(), setScreenImage(image), etc.
 	//
 	// The internal processing of the UI operation methods are
 	// always processed in serial, on the event-dispatcher thread.
@@ -258,6 +268,111 @@ public final class MainWindow {
 	// IF WE ACCIDENTALLY CALL IT, THE EVENT-DISPATCHER THREAD MAY FAIL INTO A DEADLOCK.
 	//
 	// !!!!! IMPORTANT NOTE !!!!!
+
+
+	/**
+	 * Reflects the configuration parameters related to this window, such as the language of UI, fonts, and so on.
+	 * 
+	 * @param configuration The configuration container.
+	 */
+	public void configure(RinearnGraph3DConfiguration configuration) {
+
+		// Reflect the configuration, on event-dispatcher thread.
+		ConfigurationReflector configReflector = new ConfigurationReflector(configuration);
+		if (SwingUtilities.isEventDispatchThread()) {
+			configReflector.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(configReflector);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+
+	/**
+	 * The class for reflecting the updated configuration, on event-dispatcher thread.
+	 */
+	private final class ConfigurationReflector implements Runnable {
+
+		/* The configuration to be reflected. */
+		private volatile RinearnGraph3DConfiguration configuration;
+
+		/**
+		 * Creates a new instance to reflect the specified configuration.
+		 * 
+		 * @param configuration The configuration to be reflected.
+		 */
+		public ConfigurationReflector(RinearnGraph3DConfiguration configuration) {
+			if (!configuration.hasEnvironmentConfiguration()) {
+				throw new IllegalArgumentException("No environment configuration is stored in the specified configuration.");
+			}
+			if (!configuration.hasLabelConfiguration()) {
+				throw new IllegalArgumentException("No label configuration is stored in the specified configuration.");
+			}
+			this.configuration = configuration;
+		}
+
+		@Override
+		public void run() {
+			if (!SwingUtilities.isEventDispatchThread()) {
+				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
+			}
+
+			// Set texts to the components, in the language specified by the configuration.
+			if (this.configuration.getEnvironmentConfiguration().isLocaleJapanese()) {
+				this.setJapaneseTexts();
+			} else {
+				this.setEnglishTexts();
+			}
+		}
+
+		/**
+		 * Sets Japanese texts to the GUI components.
+		 */
+		private void setJapaneseTexts() {
+
+			// "File" menu and sub menu items.
+			{
+				fileMenu.setText("ファイル");
+			}
+
+			// "Settings" menu and sub menu items.
+			{
+				settingsMenu.setText("設定");
+				labelSettingMenuItem.setText("ラベルの設定");
+			}
+
+			// "Options" menu and sub menu items.
+			{
+				optionsMenu.setText("オプション");
+			}
+		}
+
+		/**
+		 * Sets English texts to the GUI components.
+		 */
+		private void setEnglishTexts() {
+
+			// "File" menu and sub menu items.
+			{
+				fileMenu.setText("File");
+			}
+
+			// "Settings" menu and sub menu items.
+			{
+				settingsMenu.setText("Settings");
+				labelSettingMenuItem.setText("Set Labels");
+			}
+
+			// "Options" menu and sub menu items.
+			{
+				optionsMenu.setText("Options");
+			}
+		}
+	}
 
 
 	/**
