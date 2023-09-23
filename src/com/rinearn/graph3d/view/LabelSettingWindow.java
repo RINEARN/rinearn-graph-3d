@@ -19,7 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 
 
 /**
- * The window of "Set Label" menu.
+ * The window of "Set Labels" menu.
  */
 public final class LabelSettingWindow {
 
@@ -112,8 +112,7 @@ public final class LabelSettingWindow {
 					DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT
 			);
 			frame.setLayout(null);
-			//frame.setVisible(false);
-			frame.setVisible(true); // Temporary, for developing.
+			frame.setVisible(false);
 
 			// Prepare the layout manager and resources.
 			Container basePanel = frame.getContentPane();
@@ -280,7 +279,7 @@ public final class LabelSettingWindow {
 		 * Sets English texts to the GUI components.
 		 */
 		private void setEnglishTexts() {
-			frame.setTitle("Set Label");
+			frame.setTitle("Set Labels");
 			xLabelTextLabel.setText("X Axis Label:");
 			yLabelTextLabel.setText("Y Axis Label:");
 			zLabelTextLabel.setText("Z Axis Label:");

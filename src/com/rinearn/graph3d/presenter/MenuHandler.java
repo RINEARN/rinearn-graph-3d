@@ -2,6 +2,11 @@ package com.rinearn.graph3d.presenter;
 
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.view.View;
+import com.rinearn.graph3d.view.MainWindow;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 /**
  * The class handling events and API requests related to the menu bar and right-click menus.
@@ -29,6 +34,11 @@ public final class MenuHandler {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;
+
+		MainWindow window = this.view.mainWindow;
+
+		// Add the action listener to "Settings" > "Set Labels" menu item.
+		window.labelSettingMenuItem.addActionListener(new SetLabelsItemClickedEventListener());
 	}
 
 
@@ -41,5 +51,16 @@ public final class MenuHandler {
 		view.mainWindow.setMenuVisible(visible);
 		view.mainWindow.forceUpdateWindowLayout();
 		presenter.renderingLoop.requestRendering();
+	}
+
+
+	/**
+	 * The listener handling the event that "Settings" > "Set Labels" menu item is clicked.
+	 */
+	private final class SetLabelsItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			view.labelSettingWindow.setWindowVisible(true);
+		}
 	}
 }
