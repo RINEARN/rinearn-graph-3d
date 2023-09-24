@@ -1,6 +1,7 @@
 package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.FontConfiguration;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -327,6 +328,9 @@ public final class MainWindow {
 			} else {
 				this.setEnglishTexts();
 			}
+
+			// Set fonts to the components.
+			this.setFonts();
 		}
 
 		/**
@@ -370,6 +374,30 @@ public final class MainWindow {
 			// "Options" menu and sub menu items.
 			{
 				optionsMenu.setText("Options");
+			}
+		}
+
+		/**
+		 * Set fonts to the components.
+		 */
+		private void setFonts() {
+			FontConfiguration fontConfig = configuration.getFontConfiguration();
+			Font uiBoldFont = fontConfig.getUIBoldFont();
+
+			// "File" menu and sub menu items.
+			{
+				fileMenu.setFont(uiBoldFont);
+			}
+
+			// "Settings" menu and sub menu items.
+			{
+				settingsMenu.setFont(uiBoldFont);
+				labelSettingMenuItem.setFont(uiBoldFont);
+			}
+
+			// "Options" menu and sub menu items.
+			{
+				optionsMenu.setFont(uiBoldFont);
 			}
 		}
 	}
