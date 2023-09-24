@@ -8,11 +8,55 @@ import java.awt.Font;
  */
 public class FontConfiguration {
 
+	/** The plain font for GUI components. */
+	private volatile Font uiPlainFont = new Font("Dialog", Font.PLAIN, 16);
+
+	/** The bold font for GUI components. */
+	private volatile Font uiBoldFont = new Font("Dialog", Font.BOLD, 16);
+
 	/** The font for rendering axis labels. */
 	private volatile Font axisLabelFont = new Font("Dialog", Font.PLAIN, 30);
 
 	/** The font for rendering tick labels. */
 	private volatile Font tickLabelFont = new Font("Dialog", Font.PLAIN, 20);
+
+
+	/**
+	 * Sets the plain font for GUI components.
+	 * 
+	 * @param uiPlainFont The plain font for GUI components;
+	 */
+	public synchronized void setUIPlainFont(Font uiPlainFont) {
+		this.uiPlainFont = uiPlainFont;
+	}
+
+	/**
+	 * Gets the plain font for GUI components.
+	 * 
+	 * @return The plain font for GUI components.
+	 */
+	public synchronized Font getUIPlainFont() {
+		return this.uiPlainFont;
+	}
+
+
+	/**
+	 * Sets the bold font for GUI components.
+	 * 
+	 * @param uiPlainFont The bold font for GUI components;
+	 */
+	public synchronized void setUIBoldFont(Font uiBoldFont) {
+		this.uiBoldFont = uiBoldFont;
+	}
+
+	/**
+	 * Gets the bold font for GUI components.
+	 * 
+	 * @return The bold font for GUI components.
+	 */
+	public synchronized Font getUIBoldFont() {
+		return this.uiBoldFont;
+	}
 
 
 	/**
