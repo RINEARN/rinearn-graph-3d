@@ -1,5 +1,6 @@
 package com.rinearn.graph3d.view;
 
+import com.rinearn.graph3d.config.FontConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 
 import javax.swing.JFrame;
@@ -260,6 +261,9 @@ public final class LabelSettingWindow {
 				this.setEnglishTexts();
 			}
 
+			// Set fonts to the components.
+			this.setFonts();
+
 			// Updates the values of text fields, by the values stored in the configuration.
 			this.updateValuesByConfiguration();
 		}
@@ -284,6 +288,25 @@ public final class LabelSettingWindow {
 			yLabelTextLabel.setText("Y Axis Label:");
 			zLabelTextLabel.setText("Z Axis Label:");
 			okButton.setText("OK");
+		}
+
+		/**
+		 * Set fonts to the components.
+		 */
+		private void setFonts() {
+			FontConfiguration fontConfig = configuration.getFontConfiguration();
+			Font uiBoldFont = fontConfig.getUIBoldFont();
+			Font uiPlainFont = fontConfig.getUIPlainFont();
+
+			frame.setFont(uiBoldFont);
+			xLabelTextLabel.setFont(uiBoldFont);
+			yLabelTextLabel.setFont(uiBoldFont);
+			zLabelTextLabel.setFont(uiBoldFont);
+			okButton.setFont(uiBoldFont);
+
+			xLabelTextField.setFont(uiPlainFont);
+			yLabelTextField.setFont(uiPlainFont);
+			zLabelTextField.setFont(uiPlainFont);
 		}
 
 		/**
