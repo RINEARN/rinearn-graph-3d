@@ -565,6 +565,67 @@ public final class MainWindow {
 
 
 	/**
+	 * Sets the location and the size of this window.
+	 */
+	public void setWindowBounds(int x, int y, int width, int height) {
+
+		// Sets the bounds of this window, on event-dispatcher thread.
+		WindowBoundsSetter boundsSetter = new WindowBoundsSetter(x, y, width, height);
+		if (SwingUtilities.isEventDispatchThread()) {
+			boundsSetter.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(boundsSetter);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class for setting the location and the size of this window, on event-dispatcher thread.
+	 */
+	private final class WindowBoundsSetter implements Runnable {
+
+		/** The X coordinate of the left-top edge of the window, to be set. */
+		private final int x;
+
+		/** The Y coordinate of the left-top edge of the window, to be set. */
+		private final int y;
+
+		/** The width of the window, to be set. */
+		private final int width;
+
+		/** The height of the window, to be set. */
+		private final int height;
+
+		/**
+		 * Creates a new instance for setting the window to the specified location/size.
+		 * 
+		 * @param x The X coordinate of the left-top edge of the window.
+		 * @param y The Y coordinate of the left-top edge of the window.
+		 * @param width The width of the window.
+		 * @param height The height of the window.
+		 */
+		public WindowBoundsSetter(int x, int y, int width, int height) {
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+		}
+
+		@Override
+		public void run() {
+			if (!SwingUtilities.isEventDispatchThread()) {
+				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
+			}
+			frame.setBounds(this.x, this.y, this.width, this.height);
+		}
+	}
+
+
+	/**
 	 * Sets the visibility of the window.
 	 * 
 	 * @param visible Specify true for showing the window, false for hiding the window.

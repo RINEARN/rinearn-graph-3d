@@ -184,6 +184,49 @@ public class RinearnGraph3D {
 
 
 	/**
+	 * <span class="lang-ja">
+	 * グラフ表示ウィンドウの位置とサイズを設定します
+	 * </span>
+	 * <span class="lang-en">
+	 * Sets the location and the size of the graph window
+	 * </span>
+	 * .
+	 * <span class="lang-ja">
+	 * 変更後のウィンドウのサイズに合わせて, グラフスクリーンのサイズも変更されます. 
+	 * なお, グラフスクリーンのサイズは, ウィンドウのサイズよりも若干小さくなり, 
+	 * その差はバージョンや環境に依存する事に注意してください. 
+	 * 画像出力用途などで, グラフスクリーンのサイズを明示的に指定したい場合は, 代わりに
+	 * {@link RinearnGraph3D#setScreenSize setScreenSize} メソッドを使用してください. 
+	 * </span>
+	 * 
+	 * <span class="lang-en">
+	 * Note that, the graph screen will be resized automatically, 
+	 * corresponding with the size of the modified graph window.
+	 * The size of the graph screen will be little smaller than the size of the graph window, 
+	 * and the difference between them depends on your environment and the version of RINEARN Graph 3D.
+	 * When you want to set the size of the graph screen precisely, 
+	 * use {@link RinearnGraph3D#setScreenSize setScreenSize} method instead.
+	 * </span>
+	 *
+	 * @param x
+	 *   <span class="lang-ja">グラフウィンドウ左上のX座標</span>
+	 *   <span class="lang-en">The X-coordinate of the left-top edge of the graph window</span>
+	 * @param y
+	 *   <span class="lang-ja">グラフウィンドウ左上のY座標</span>
+	 *   <span class="lang-en">The Y-coordinate of the left-top edge of the graph window</span>
+	 * @param width
+	 *   <span class="lang-ja">グラフウィンドウの幅</span>
+	 *   <span class="lang-en">The width the graph window</span>
+	 * @param height
+	 *   <span class="lang-ja">グラフウィンドウの高さ</span>
+	 *   <span class="lang-en">The height the graph window</span>
+	 */
+	public void setWindowBounds(int x, int y, int width, int height) {
+		this.view.mainWindow.setWindowBounds(x, y, width, height);
+	}
+
+
+	/**
 	 * Sets the range of X axis.
 	 * 
 	 * @param min The minimum coordinate value of X axis.

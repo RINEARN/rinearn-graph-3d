@@ -32,6 +32,9 @@ public class TempMain {
 		// Launch a new RINEARN Graph 3D window (to be implemented).
 		RinearnGraph3D graph3D = new RinearnGraph3D();
 
+		// Set the location and size of the graph window.
+		graph3D.setWindowBounds(200, 50, 860, 730);
+
 		// Set the ranges of X/Y/Z axes.
 		/*
 		graph3D.setXRange(-2.0, 2.0);
@@ -77,7 +80,7 @@ public class TempMain {
 
 		// Set the camera distance and the magnification.
 		graph3D.setCameraDistance(5.25);
-		graph3D.setCameraMagnification(1000.0);
+		graph3D.setCameraMagnification(800.0);
 
 		// Hide the menu bar.
 		//graph3D.setMenuVisible(false);
