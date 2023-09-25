@@ -231,7 +231,7 @@ public class RinearnGraph3D {
 	 * グラフスクリーンのサイズを設定します
 	 * </span>
 	 * <span class="lang-en">
-	 * Sets the location and the size of the graph window
+	 * Sets the size of the graph screen
 	 * </span>
 	 * .
 	 * <span class="lang-ja">
