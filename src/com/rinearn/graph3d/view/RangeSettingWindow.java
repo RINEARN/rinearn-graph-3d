@@ -154,8 +154,7 @@ public class RangeSettingWindow {
 					DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT
 			);
 			frame.setLayout(null);
-			//frame.setVisible(false);
-			frame.setVisible(true); // Temporary
+			frame.setVisible(false);
 
 			// Prepare the layout manager and resources.
 			Container basePanel = frame.getContentPane();

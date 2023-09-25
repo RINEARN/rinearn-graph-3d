@@ -92,6 +92,9 @@ public final class MainWindow {
 	/** "File" menu on the menu bar. */
 	public volatile JMenu fileMenu;
 
+	/** "Settings" > "Set Ranges" menu item on the menu bar. */
+	public volatile JMenuItem rangeSettingMenuItem;
+
 	/** "Settings" > "Set Labels" menu item on the menu bar. */
 	public volatile JMenuItem labelSettingMenuItem;
 
@@ -157,6 +160,10 @@ public final class MainWindow {
 			{
 				settingsMenu = new JMenu("Unconfigured");
 				menuBar.add(settingsMenu);
+
+				// "Settings" > "Set Ranges" menu item:
+				rangeSettingMenuItem = new JMenuItem("Unconfigured");
+				settingsMenu.add(rangeSettingMenuItem);
 
 				// "Settings" > "Set Labels" menu item:
 				labelSettingMenuItem = new JMenuItem("Unconfigured");
@@ -346,6 +353,7 @@ public final class MainWindow {
 			// "Settings" menu and sub menu items.
 			{
 				settingsMenu.setText("設定");
+				rangeSettingMenuItem.setText("範囲の設定");
 				labelSettingMenuItem.setText("ラベルの設定");
 			}
 
@@ -368,6 +376,7 @@ public final class MainWindow {
 			// "Settings" menu and sub menu items.
 			{
 				settingsMenu.setText("Settings");
+				rangeSettingMenuItem.setText("Set Ranges");
 				labelSettingMenuItem.setText("Set Labels");
 			}
 
@@ -392,6 +401,7 @@ public final class MainWindow {
 			// "Settings" menu and sub menu items.
 			{
 				settingsMenu.setFont(uiBoldFont);
+				rangeSettingMenuItem.setFont(uiBoldFont);
 				labelSettingMenuItem.setFont(uiBoldFont);
 			}
 

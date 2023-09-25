@@ -37,7 +37,8 @@ public final class MenuHandler {
 
 		MainWindow window = this.view.mainWindow;
 
-		// Add the action listener to "Settings" > "Set Labels" menu item.
+		// Add the action listener to sub menu items in "Settings" menu.
+		window.rangeSettingMenuItem.addActionListener(new SetRangesItemClickedEventListener());
 		window.labelSettingMenuItem.addActionListener(new SetLabelsItemClickedEventListener());
 	}
 
@@ -51,6 +52,17 @@ public final class MenuHandler {
 		view.mainWindow.setMenuVisible(visible);
 		view.mainWindow.forceUpdateWindowLayout();
 		presenter.renderingLoop.requestRendering();
+	}
+
+
+	/**
+	 * The listener handling the event that "Settings" > "Set Ranges" menu item is clicked.
+	 */
+	private final class SetRangesItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			view.rangeSettingWindow.setWindowVisible(true);
+		}
 	}
 
 
