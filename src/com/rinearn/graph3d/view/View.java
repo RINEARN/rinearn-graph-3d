@@ -86,6 +86,9 @@ public final class View {
 	/** The label setting window. */
 	public final LabelSettingWindow labelSettingWindow = new LabelSettingWindow();
 
+	/** The range setting window. */
+	public final RangeSettingWindow rangeSettingWindow = new RangeSettingWindow();
+
 
 	// !!! IMPORTANT NOTE !!!
 	//   Don't store the configuration as a field of this instance or subcomponents. It is Model layer's role.
@@ -110,5 +113,6 @@ public final class View {
 	public synchronized void configure(RinearnGraph3DConfiguration configuration) {
 		this.mainWindow.configure(configuration);
 		this.labelSettingWindow.configure(configuration);
+		this.rangeSettingWindow.configure(configuration);
 	}
 }

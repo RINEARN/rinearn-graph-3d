@@ -200,6 +200,15 @@ public final class RangeConfiguration {
 		}
 
 		/**
+		 * Gets whether the auto-ranging feature is enabled.
+		 * 
+		 * @return Returns true if the auto-ranging feature is enabled.
+		 */
+		public synchronized boolean isAutoRangingEnabled() {
+			return this.autoRangingEnabled;
+		}
+
+		/**
 		 * Validates correctness and consistency of configuration parameters stored in this instance.
 		 * 
 		 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
