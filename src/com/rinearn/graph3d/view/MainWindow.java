@@ -566,6 +566,11 @@ public final class MainWindow {
 
 	/**
 	 * Sets the location and the size of this window.
+	 * 
+	 * @param x The X coordinate of the left-top edge of the window.
+	 * @param y The Y coordinate of the left-top edge of the window.
+	 * @param width The width of the window.
+	 * @param height The height of the window.
 	 */
 	public void setWindowBounds(int x, int y, int width, int height) {
 
@@ -621,6 +626,73 @@ public final class MainWindow {
 				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
 			}
 			frame.setBounds(this.x, this.y, this.width, this.height);
+		}
+	}
+
+
+	/**
+	 * Sets the size of the graph screen.
+	 * 
+	 * @param width The width of the graph screen.
+	 * @param height The height of the graph screen.
+	 */
+	public void setScreenSize(int width, int height) {
+
+		// Sets the bounds of this window, on event-dispatcher thread.
+		ScreenSizeSetter sizeSetter = new ScreenSizeSetter(width, height);
+		if (SwingUtilities.isEventDispatchThread()) {
+			sizeSetter.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(sizeSetter);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class for setting the size of the graph screen, on event-dispatcher thread.
+	 */
+	private final class ScreenSizeSetter implements Runnable {
+
+		/** The width of the screen, to be set. */
+		private final int width;
+
+		/** The height of the screen, to be set. */
+		private final int height;
+
+		/**
+		 * Creates a new instance for setting the screen to the specified size.
+		 * 
+		 * @param width The width of the screen.
+		 * @param height The height of the screen.
+		 */
+		public ScreenSizeSetter(int width, int height) {
+			this.width = width;
+			this.height = height;
+		}
+
+		@Override
+		public void run() {
+			if (!SwingUtilities.isEventDispatchThread()) {
+				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
+			}
+
+			// Compute the window size corresponding to the specified screen size.
+			int windowWidth = this.width;
+			int windowHeight = this.height + APPROX_WINDOW_HEADER_HEIGHT;
+			if (screenSideUIVisible) {
+				windowWidth += LEFT_SIDE_UI_PANEL_WIDTH;
+			}
+			if (menuVisible) {
+				windowHeight += APPROX_MENU_BAR_HEIGHT;
+			}
+
+			// Update the window size.
+			// (Then the screen will be resized automatically.)
+			frame.setSize(windowWidth, windowHeight);
 		}
 	}
 

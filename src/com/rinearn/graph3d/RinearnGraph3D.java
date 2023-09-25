@@ -227,6 +227,39 @@ public class RinearnGraph3D {
 
 
 	/**
+	 * <span class="lang-ja">
+	 * グラフスクリーンのサイズを設定します
+	 * </span>
+	 * <span class="lang-en">
+	 * Sets the location and the size of the graph window
+	 * </span>
+	 * .
+	 * <span class="lang-ja">
+	 * 変更後のスクリーンサイズに合わせて, グラフウィンドウのサイズも自動で変更されます.
+	 * グラフウィンドウのサイズを明示的に指定したい場合は, 代わりに
+	 * {@link RinearnGraph3D#setWindowBounds setWindowBounds} メソッドを使用してください. 
+	 * </span>
+	 * 
+	 * <span class="lang-en">
+	 * Note that, the graph window will be resized automatically, 
+	 * corresponding with the size of the modified graph screen.
+	 * When you want to set the size of the graph window explicitly, 
+	 * use {@link RinearnGraph3D#setWindowBounds setWindowBounds} method instead.
+	 * </span>
+	 *
+	 * @param width
+	 *   <span class="lang-ja">グラフスクリーンの幅</span>
+	 *   <span class="lang-en">The width the graph screen</span>
+	 * @param height
+	 *   <span class="lang-ja">グラフスクリーンの高さ</span>
+	 *   <span class="lang-en">The height the graph screen</span>
+	 */
+	public void setScreenSize (int width, int height) {
+		this.view.mainWindow.setScreenSize(width, height);
+	}
+
+
+	/**
 	 * Sets the range of X axis.
 	 * 
 	 * @param min The minimum coordinate value of X axis.
