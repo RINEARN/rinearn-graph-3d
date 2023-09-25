@@ -436,8 +436,7 @@ public class RangeSettingWindow {
 
 			// Set texts to the components, in the language specified by the configuration.
 			if (this.configuration.getEnvironmentConfiguration().isLocaleJapanese()) {
-				//this.setJapaneseTexts();
-				this.setEnglishTexts();
+				this.setJapaneseTexts();
 			} else {
 				this.setEnglishTexts();
 			}
