@@ -501,15 +501,25 @@ public class RangeSettingWindow {
 			xAxisLabel.setFont(uiBoldFont);
 			yAxisLabel.setFont(uiBoldFont);
 			zAxisLabel.setFont(uiBoldFont);
+
 			xAutoRangingBox.setFont(uiBoldFont);
 			yAutoRangingBox.setFont(uiBoldFont);
 			zAutoRangingBox.setFont(uiBoldFont);
-			xMaxLabel.setFont(uiPlainFont);
-			xMinLabel.setFont(uiPlainFont);
-			yMaxLabel.setFont(uiPlainFont);
-			yMinLabel.setFont(uiPlainFont);
-			zMaxLabel.setFont(uiPlainFont);
-			zMinLabel.setFont(uiPlainFont);
+
+			xMaxLabel.setFont(uiBoldFont);
+			xMinLabel.setFont(uiBoldFont);
+			yMaxLabel.setFont(uiBoldFont);
+			yMinLabel.setFont(uiBoldFont);
+			zMaxLabel.setFont(uiBoldFont);
+			zMinLabel.setFont(uiBoldFont);
+
+			xMaxField.setFont(uiPlainFont);
+			xMinField.setFont(uiPlainFont);
+			yMaxField.setFont(uiPlainFont);
+			yMinField.setFont(uiPlainFont);
+			zMaxField.setFont(uiPlainFont);
+			zMinField.setFont(uiPlainFont);
+
 			okButton.setFont(uiBoldFont);
 		}
 
