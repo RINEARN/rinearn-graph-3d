@@ -701,7 +701,6 @@ public final class MainWindow {
 			}
 
 			// Update the window size.
-			// (Then the screen will be resized automatically.)
 			frame.setSize(windowWidth, windowHeight);
 		}
 	}

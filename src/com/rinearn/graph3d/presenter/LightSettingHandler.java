@@ -23,6 +23,9 @@ public class LightSettingHandler {
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
 
+	/** The flag for turning on/off the event handling feature of this instance. */
+	private volatile boolean eventHandlingEnabled = true;
+
 
 	/**
 	 * Create a new instance handling events and API requests using the specified resources.
@@ -49,11 +52,34 @@ public class LightSettingHandler {
 
 
 	/**
+	 * Turns on/off the event handling feature of this instance.
+	 * 
+	 * @param enabled Specify false for turning off the event handling feature (enabled by default).
+	 */
+	public synchronized void setEventHandlingEnabled(boolean enabled) {
+		this.eventHandlingEnabled = enabled;
+	}
+
+
+	/**
+	 * Gets whether the event handling feature of this instance is enabled.
+	 * 
+	 * @return Returns true if the event handling feature is enabled.
+	 */
+	public synchronized boolean isEventHandlingEnabled() {
+		return this.eventHandlingEnabled;
+	}
+
+
+	/**
 	 * The event listener handling the event that the scroll bar of "Ambient" parameter is moved.
 	 */
 	private final class AmbientScrolledEventListener implements AdjustmentListener {
 		@Override
 		public void adjustmentValueChanged(AdjustmentEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
 			LightSettingWindow window = view.lightSettingWindow;
 			LightConfiguration lightConfig = model.getConfiguration().getLightConfiguration();
 
@@ -62,7 +88,9 @@ public class LightSettingHandler {
 			lightConfig.setAmbientReflectionStrength(strength);
 
 			// Propagate the above update of the configuration to the entire application.
+			setEventHandlingEnabled(false);
 			presenter.propagateConfiguration();
+			setEventHandlingEnabled(true);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();
@@ -76,6 +104,9 @@ public class LightSettingHandler {
 	private final class DiffuseScrolledEventListener implements AdjustmentListener {
 		@Override
 		public void adjustmentValueChanged(AdjustmentEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
 			LightSettingWindow window = view.lightSettingWindow;
 			LightConfiguration lightConfig = model.getConfiguration().getLightConfiguration();
 
@@ -84,7 +115,9 @@ public class LightSettingHandler {
 			lightConfig.setDiffuseReflectionStrength(strength);
 
 			// Propagate the above update of the configuration to the entire application.
+			setEventHandlingEnabled(false);
 			presenter.propagateConfiguration();
+			setEventHandlingEnabled(true);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();
@@ -98,6 +131,9 @@ public class LightSettingHandler {
 	private final class DiffractiveScrolledEventListener implements AdjustmentListener {
 		@Override
 		public void adjustmentValueChanged(AdjustmentEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
 			LightSettingWindow window = view.lightSettingWindow;
 			LightConfiguration lightConfig = model.getConfiguration().getLightConfiguration();
 
@@ -106,7 +142,9 @@ public class LightSettingHandler {
 			lightConfig.setDiffractiveReflectionStrength(strength);
 
 			// Propagate the above update of the configuration to the entire application.
+			setEventHandlingEnabled(false);
 			presenter.propagateConfiguration();
+			setEventHandlingEnabled(true);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();
@@ -120,6 +158,9 @@ public class LightSettingHandler {
 	private final class SpecularStrengthScrolledEventListener implements AdjustmentListener {
 		@Override
 		public void adjustmentValueChanged(AdjustmentEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
 			LightSettingWindow window = view.lightSettingWindow;
 			LightConfiguration lightConfig = model.getConfiguration().getLightConfiguration();
 
@@ -128,7 +169,9 @@ public class LightSettingHandler {
 			lightConfig.setSpecularReflectionStrength(strength);
 
 			// Propagate the above update of the configuration to the entire application.
+			setEventHandlingEnabled(false);
 			presenter.propagateConfiguration();
+			setEventHandlingEnabled(true);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();
@@ -142,6 +185,9 @@ public class LightSettingHandler {
 	private final class SpecularAngleScrolledEventListener implements AdjustmentListener {
 		@Override
 		public void adjustmentValueChanged(AdjustmentEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
 			LightSettingWindow window = view.lightSettingWindow;
 			LightConfiguration lightConfig = model.getConfiguration().getLightConfiguration();
 
@@ -151,7 +197,9 @@ public class LightSettingHandler {
 			lightConfig.setSpecularReflectionAngle(angle);
 
 			// Propagate the above update of the configuration to the entire application.
+			setEventHandlingEnabled(false);
 			presenter.propagateConfiguration();
+			setEventHandlingEnabled(true);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();
@@ -166,6 +214,9 @@ public class LightSettingHandler {
 	private final class LightAngleScrolledEventListener implements AdjustmentListener {
 		@Override
 		public void adjustmentValueChanged(AdjustmentEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
 			LightSettingWindow window = view.lightSettingWindow;
 			LightConfiguration lightConfig = model.getConfiguration().getLightConfiguration();
 
@@ -188,7 +239,9 @@ public class LightSettingHandler {
 			lightConfig.setLightSourceDirection(lightX, lightY, lightZ);
 
 			// Propagate the above update of the configuration to the entire application.
+			setEventHandlingEnabled(false);
 			presenter.propagateConfiguration();
+			setEventHandlingEnabled(true);
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();

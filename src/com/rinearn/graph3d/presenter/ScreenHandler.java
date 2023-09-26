@@ -56,6 +56,9 @@ public final class ScreenHandler {
 	/** Stores the X and Y coordinates of the center of the screen. */
 	private volatile int[] screenCenterCoords = new int[2];
 
+	/** The flag for turning on/off the event handling feature of this instance. */
+	private volatile boolean eventHandlingEnabled = true;
+
 
 	/**
 	 * Creates new instance for handling events occurred on the specified view, using the specified model.
@@ -99,11 +102,34 @@ public final class ScreenHandler {
 
 
 	/**
+	 * Turns on/off the event handling feature of this instance.
+	 * 
+	 * @param enabled Specify false for turning off the event handling feature (enabled by default).
+	 */
+	public synchronized void setEventHandlingEnabled(boolean enabled) {
+		this.eventHandlingEnabled = enabled;
+	}
+
+
+	/**
+	 * Gets whether the event handling feature of this instance is enabled.
+	 * 
+	 * @return Returns true if the event handling feature is enabled.
+	 */
+	public synchronized boolean isEventHandlingEnabled() {
+		return this.eventHandlingEnabled;
+	}
+
+
+	/**
 	 * The event listener handling resizing events of the graph screen.
 	 */
 	private class ResizeEventListener extends ComponentAdapter {
 		@Override
 		public void componentResized(ComponentEvent ce) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
 			int screenWidth = (int)view.mainWindow.screenLabel.getSize().getWidth();
 			int screenHeight = (int)view.mainWindow.screenLabel.getSize().getHeight();
 			renderer.setScreenSize(screenWidth, screenHeight);
@@ -124,6 +150,9 @@ public final class ScreenHandler {
 		 */
 		@Override
 		public void mouseWheelMoved(MouseWheelEvent me) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
 			CameraConfiguration cameraConfiguration = model.getConfiguration().getCameraConfiguration();
 			double magnification = cameraConfiguration.getMagnification();
 
@@ -170,6 +199,9 @@ public final class ScreenHandler {
 		 */
 		@Override
 		public void mousePressed(MouseEvent me) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
 			if (!SwingUtilities.isRightMouseButton(me)) {
 				return;
 			}
@@ -182,6 +214,9 @@ public final class ScreenHandler {
 		 */
 		@Override
 		public void mouseDragged(MouseEvent me) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
 			if (!SwingUtilities.isRightMouseButton(me)) {
 				return;
 			}
@@ -230,6 +265,9 @@ public final class ScreenHandler {
 		 */
 		@Override
 		public void mousePressed(MouseEvent me) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
 			if (!SwingUtilities.isLeftMouseButton(me)) {
 				return;
 			}
@@ -242,6 +280,9 @@ public final class ScreenHandler {
 		 */
 		@Override
 		public void mouseDragged(MouseEvent me) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
 			if (!SwingUtilities.isLeftMouseButton(me)) {
 				return;
 			}

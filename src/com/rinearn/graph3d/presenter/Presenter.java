@@ -63,6 +63,10 @@ public final class Presenter {
 	public final LightSettingHandler lightSettingHandler;
 
 
+	/** The flag for turning on/off the event handling feature of subcomponents in this instance. */
+	private volatile boolean eventHandlingEnabled = true;
+
+
 	/**
 	 * Creates new Presenter layer of RINEARN Graph 3D.
 	 * 
@@ -101,12 +105,42 @@ public final class Presenter {
 
 
 	/**
+	 * Turns on/off the event handling feature of subcomponents in this Presenter layer.
+	 * 
+	 * @param enabled Specify false for turning off the event handling feature (enabled by default).
+	 */
+	public synchronized void setEventHandlingEnabled(boolean enabled) {
+		this.eventHandlingEnabled = enabled;
+		this.frameHandler.setEventHandlingEnabled(enabled);
+		this.screenHandler.setEventHandlingEnabled(enabled);
+		this.menuHandler.setEventHandlingEnabled(enabled);
+		this.screenSideUIHandler.setEventHandlingEnabled(enabled);
+		this.rangeSettingHandler.setEventHandlingEnabled(enabled);
+		this.labelSettingHandler.setEventHandlingEnabled(enabled);
+		this.cameraSettingHandler.setEventHandlingEnabled(enabled);
+		this.scaleSettingHandler.setEventHandlingEnabled(enabled);
+		this.lightSettingHandler.setEventHandlingEnabled(enabled);
+	}
+
+
+	/**
 	 * Propagates the current configuration stored in Model layer, to the entire application.
 	 */
 	public synchronized void propagateConfiguration() {
+		boolean eventHandlingEnabledBeforeCall = this.eventHandlingEnabled;
+
+		// To prevent infinite looping, disable the event handling feature temporary.
+		// (When the view is updated in this method, some events occurs
+		//  and their handlers may call this method again, if they are not disabled.)
+		this.setEventHandlingEnabled(false);
+
+		// Update the View layer and the renderer.
 		RinearnGraph3DConfiguration config = this.model.getConfiguration();
 		this.view.configure(config);
 		this.renderer.configure(config);
+
+		// Enable the event handling feature again, if it had been enabled before calling this method.
+		this.setEventHandlingEnabled(eventHandlingEnabledBeforeCall);
 	}
 
 

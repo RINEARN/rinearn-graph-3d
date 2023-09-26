@@ -25,6 +25,9 @@ public final class FrameHandler {
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
 
+	/** The flag for turning on/off the event handling feature of this instance. */
+	private volatile boolean eventHandlingEnabled = true;
+
 
 	/**
 	 * Create a new instance handling events and API requests using the specified resources.
@@ -50,11 +53,34 @@ public final class FrameHandler {
 
 
 	/**
+	 * Turns on/off the event handling feature of this instance.
+	 * 
+	 * @param enabled Specify false for turning off the event handling feature (enabled by default).
+	 */
+	public synchronized void setEventHandlingEnabled(boolean enabled) {
+		this.eventHandlingEnabled = enabled;
+	}
+
+
+	/**
+	 * Gets whether the event handling feature of this instance is enabled.
+	 * 
+	 * @return Returns true if the event handling feature is enabled.
+	 */
+	public synchronized boolean isEventHandlingEnabled() {
+		return this.eventHandlingEnabled;
+	}
+
+
+	/**
 	 * The event listener handling resizing events of the frame.
 	 */
 	private class ResizeEventListener extends ComponentAdapter {
 		@Override
 		public void componentResized(ComponentEvent ce) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
 			view.mainWindow.resize();
 		}
 	}
@@ -66,6 +92,9 @@ public final class FrameHandler {
 	private class CloseEventListener extends WindowAdapter {
 		@Override
 		public void windowClosing(WindowEvent we) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
 
 			// Temporary
 			System.exit(0);
