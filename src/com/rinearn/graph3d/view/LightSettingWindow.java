@@ -89,10 +89,6 @@ public class LightSettingWindow {
 	public volatile JScrollBar verticalAngleBar;
 
 
-	/** The button to reflect settings. */
-	public volatile JButton okButton;
-
-
 	/**
 	 * Creates a new window.
 	 * 
@@ -169,7 +165,7 @@ public class LightSettingWindow {
 
 			// Define margines.
 			int topMargin = 5;
-			int bottomMargin = 5;
+			int bottomMargin = 15;
 			int leftMargin = 5;
 			int rightMargin = 5;
 			int bottomMarginUnderSectionTitile = 20;
@@ -315,19 +311,12 @@ public class LightSettingWindow {
 				// Create the scroll bar of "Vertical Angle" section.
 				verticalAngleBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, SCROLL_BAR_MAX_COUNT);
 				verticalAngleBar.setBackground(SCROLL_BAR_COLOR);
-				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginUnderSection, rightMargin);
+				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMargin, rightMargin);
 				layour.setConstraints(verticalAngleBar, constraints);
 				basePanel.add(verticalAngleBar);
 
 				constraints.gridy++;
 			}
-
-			// The button to reflect settings (OK button).
-			okButton = new JButton("Unconfigured");
-			constraints.weighty = 4.0;
-			constraints.insets = new Insets(0, leftMargin, bottomMargin, rightMargin);
-			layour.setConstraints(okButton, constraints);
-			basePanel.add(okButton);
 		}
 	}
 
@@ -410,7 +399,6 @@ public class LightSettingWindow {
 			lightSectionLabel.setText("- 光源の方向 -");
 			horizontalAngleLabel.setText("水平角度:");
 			verticalAngleLabel.setText("垂直角度:");
-			okButton.setText("OK");
 		}
 
 		/**
@@ -427,7 +415,6 @@ public class LightSettingWindow {
 			lightSectionLabel.setText("- Light Source Direction -");
 			horizontalAngleLabel.setText("Horizontal Angle:");
 			verticalAngleLabel.setText("Vertical Angle:");
-			okButton.setText("OK");
 		}
 
 		/**
@@ -446,7 +433,6 @@ public class LightSettingWindow {
 			lightSectionLabel.setFont(uiBoldFont);
 			horizontalAngleLabel.setFont(uiBoldFont);
 			verticalAngleLabel.setFont(uiBoldFont);
-			okButton.setFont(uiBoldFont);
 		}
 
 		/**
