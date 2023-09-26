@@ -40,6 +40,7 @@ public final class MenuHandler {
 		// Add the action listener to sub menu items in "Settings" menu.
 		window.rangeSettingMenuItem.addActionListener(new SetRangesItemClickedEventListener());
 		window.labelSettingMenuItem.addActionListener(new SetLabelsItemClickedEventListener());
+		window.lightSettingMenuItem.addActionListener(new SetLightingParametersItemClickedEventListener());
 	}
 
 
@@ -73,6 +74,17 @@ public final class MenuHandler {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			view.labelSettingWindow.setWindowVisible(true);
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Settings" > "Set Lighting Parameters" menu item is clicked.
+	 */
+	private final class SetLightingParametersItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			view.lightSettingWindow.setWindowVisible(true);
 		}
 	}
 }

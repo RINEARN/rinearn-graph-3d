@@ -152,8 +152,7 @@ public class LightSettingWindow {
 					DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT
 			);
 			frame.setLayout(null);
-			//frame.setVisible(false);
-			frame.setVisible(true); // Temporary
+			frame.setVisible(false);
 
 			// Prepare the layout manager and resources.
 			Container basePanel = frame.getContentPane();
@@ -401,7 +400,7 @@ public class LightSettingWindow {
 		 * Sets Japanese texts to the GUI components.
 		 */
 		private void setJapaneseTexts() {
-			frame.setTitle("ライトの設定");
+			frame.setTitle("光の設定");
 			reflectionSectionLabel.setText("- 反射パラメータ -");
 			ambientLabel.setText("環境光反射:");
 			diffuseLabel.setText("拡散反射:");

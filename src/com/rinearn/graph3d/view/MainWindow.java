@@ -98,6 +98,9 @@ public final class MainWindow {
 	/** "Settings" > "Set Labels" menu item on the menu bar. */
 	public volatile JMenuItem labelSettingMenuItem;
 
+	/** "Settings" > "Set Lighting Parameters" menu item on the menu bar. */
+	public volatile JMenuItem lightSettingMenuItem;
+
 	/** "Settings" menu on the menu bar. */
 	public volatile JMenu settingsMenu;
 
@@ -168,6 +171,10 @@ public final class MainWindow {
 				// "Settings" > "Set Labels" menu item:
 				labelSettingMenuItem = new JMenuItem("Unconfigured");
 				settingsMenu.add(labelSettingMenuItem);
+
+				// "Settings" > "Set Lighting Parameters" menu item:
+				lightSettingMenuItem = new JMenuItem("Unconfigured");
+				settingsMenu.add(lightSettingMenuItem);
 			}
 
 			// "Options" menu:
@@ -355,6 +362,7 @@ public final class MainWindow {
 				settingsMenu.setText("設定");
 				rangeSettingMenuItem.setText("範囲の設定");
 				labelSettingMenuItem.setText("ラベルの設定");
+				lightSettingMenuItem.setText("光の設定");
 			}
 
 			// "Options" menu and sub menu items.
@@ -378,6 +386,7 @@ public final class MainWindow {
 				settingsMenu.setText("Settings");
 				rangeSettingMenuItem.setText("Set Ranges");
 				labelSettingMenuItem.setText("Set Labels");
+				lightSettingMenuItem.setText("Set Lighting Parameters");
 			}
 
 			// "Options" menu and sub menu items.
@@ -403,6 +412,7 @@ public final class MainWindow {
 				settingsMenu.setFont(uiBoldFont);
 				rangeSettingMenuItem.setFont(uiBoldFont);
 				labelSettingMenuItem.setFont(uiBoldFont);
+				lightSettingMenuItem.setFont(uiBoldFont);
 			}
 
 			// "Options" menu and sub menu items.
