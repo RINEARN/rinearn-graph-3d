@@ -440,6 +440,30 @@ public class LightSettingWindow {
 		 */
 		private void updateValuesByConfiguration() {
 			LightConfiguration lightConfig = this.configuration.getLightConfiguration();
+
+			// Extract the current values of the reflection parameters from the configuration container.
+			double ambient = lightConfig.getAmbientReflectionStrength();
+			double diffuse = lightConfig.getDiffuseReflectionStrength();
+			double diffractive = lightConfig.getDiffractiveReflectionStrength();
+			double specularStrength = lightConfig.getSpecularReflectionStrength();
+			double specularAngle = lightConfig.getSpecularReflectionAngle();
+
+			// Scale the angler parameter into the range [0.0, 1.0]
+			double specularAngle01 = specularAngle / (0.5 * Math.PI);
+
+			// Convert the above values to the counts of the scroll bars.
+			int ambientScrollCount = (int)Math.round(ambient * LightSettingWindow.SCROLL_BAR_MAX_COUNT);
+			int diffuseScrollCount = (int)Math.round(diffuse * LightSettingWindow.SCROLL_BAR_MAX_COUNT);
+			int diffractiveScrollCount = (int)Math.round(diffractive * LightSettingWindow.SCROLL_BAR_MAX_COUNT);
+			int specularStrengthScrollCount = (int)Math.round(specularStrength * LightSettingWindow.SCROLL_BAR_MAX_COUNT);
+			int specularAngleScrollCount = (int)Math.round((specularAngle01) * LightSettingWindow.SCROLL_BAR_MAX_COUNT);
+
+			// Set the aboves to the scroll bars.
+			ambientBar.setValue(ambientScrollCount);
+			diffuseBar.setValue(diffuseScrollCount);
+			diffractiveBar.setValue(diffractiveScrollCount);
+			specularStrengthBar.setValue(specularStrengthScrollCount);
+			specularAngleBar.setValue(specularAngleScrollCount);
 		}
 	}
 
