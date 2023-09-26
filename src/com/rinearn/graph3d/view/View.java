@@ -89,6 +89,9 @@ public final class View {
 	/** The range setting window. */
 	public final RangeSettingWindow rangeSettingWindow = new RangeSettingWindow();
 
+	/** The light setting window. */
+	public final LightSettingWindow lightSettingWindow = new LightSettingWindow();
+
 
 	// !!! IMPORTANT NOTE !!!
 	//   Don't store the configuration as a field of this instance or subcomponents. It is Model layer's role.
@@ -114,5 +117,6 @@ public final class View {
 		this.mainWindow.configure(configuration);
 		this.labelSettingWindow.configure(configuration);
 		this.rangeSettingWindow.configure(configuration);
+		this.lightSettingWindow.configure(configuration);
 	}
 }
