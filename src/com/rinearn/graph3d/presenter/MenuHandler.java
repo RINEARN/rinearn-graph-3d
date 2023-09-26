@@ -38,9 +38,9 @@ public final class MenuHandler {
 		MainWindow window = this.view.mainWindow;
 
 		// Add the action listener to sub menu items in "Settings" menu.
-		window.rangeSettingMenuItem.addActionListener(new SetRangesItemClickedEventListener());
-		window.labelSettingMenuItem.addActionListener(new SetLabelsItemClickedEventListener());
-		window.lightSettingMenuItem.addActionListener(new SetLightingParametersItemClickedEventListener());
+		window.rangeSettingMenuItem.addActionListener(new RangeSettingItemClickedEventListener());
+		window.labelSettingMenuItem.addActionListener(new LabelSettingItemClickedEventListener());
+		window.lightSettingMenuItem.addActionListener(new LightSettingParametersItemClickedEventListener());
 	}
 
 
@@ -59,7 +59,7 @@ public final class MenuHandler {
 	/**
 	 * The listener handling the event that "Settings" > "Set Ranges" menu item is clicked.
 	 */
-	private final class SetRangesItemClickedEventListener implements ActionListener {
+	private final class RangeSettingItemClickedEventListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			view.rangeSettingWindow.setWindowVisible(true);
@@ -70,7 +70,7 @@ public final class MenuHandler {
 	/**
 	 * The listener handling the event that "Settings" > "Set Labels" menu item is clicked.
 	 */
-	private final class SetLabelsItemClickedEventListener implements ActionListener {
+	private final class LabelSettingItemClickedEventListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			view.labelSettingWindow.setWindowVisible(true);
@@ -81,7 +81,7 @@ public final class MenuHandler {
 	/**
 	 * The listener handling the event that "Settings" > "Set Lighting Parameters" menu item is clicked.
 	 */
-	private final class SetLightingParametersItemClickedEventListener implements ActionListener {
+	private final class LightSettingParametersItemClickedEventListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			view.lightSettingWindow.setWindowVisible(true);
