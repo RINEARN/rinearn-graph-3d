@@ -59,6 +59,9 @@ public final class Presenter {
 	/** The handler of events and API requests for setting scale-related parameters. */
 	public final ScaleSettingHandler scaleSettingHandler;
 
+	/** The handler of events for lighting parameters. */
+	public final LightSettingHandler lightSettingHandler;
+
 
 	/**
 	 * Creates new Presenter layer of RINEARN Graph 3D.
@@ -93,6 +96,7 @@ public final class Presenter {
 		this.labelSettingHandler = new LabelSettingHandler(model, view, this);
 		this.cameraSettingHandler = new CameraSettingHandler(model, view, this);
 		this.scaleSettingHandler = new ScaleSettingHandler(model, view, this);
+		this.lightSettingHandler = new LightSettingHandler(model, view, this);
 	}
 
 
