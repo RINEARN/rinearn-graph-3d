@@ -220,12 +220,7 @@ public class RinearnGraph3D {
 	 *   <span class="lang-en">The height the graph window</span>
 	 */
 	public synchronized void setWindowBounds(int x, int y, int width, int height) {
-
-		// ↓微妙に落ち着かなかったけどやっぱAPIから直接View層を触ったらあかんと思う
-		//   これピンポイントではできても基本方針として禁止にしたほうがいい
-		//   あちこちでこれやると連鎖でイベント発動したりせんかったりが紛らわしくなる
-		this.view.mainWindow.setWindowBounds(x, y, width, height);
-
+		this.presenter.frameHandler.setWindowBounds(x, y, width, height);
 		this.presenter.screenHandler.updateScreenSize();
 	}
 
@@ -259,10 +254,7 @@ public class RinearnGraph3D {
 	 *   <span class="lang-en">The height the graph screen</span>
 	 */
 	public synchronized void setScreenSize (int width, int height) {
-
-		// ↓上記と同様、これたぶんだめ
-		this.view.mainWindow.setScreenSize(width, height);
-
+		this.presenter.frameHandler.setScreenSize(width, height);
 		this.presenter.screenHandler.setScreenSize(width, height);
 	}
 
