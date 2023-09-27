@@ -293,7 +293,7 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 		double baseBrightness = 
 				lightConfig.getAmbientReflectionStrength() +
 				lightConfig.getDiffuseReflectionStrength() * directionalProductPositive +
-				lightConfig.getDiffractiveReflectionStrength() * normalizedDirectionalAngle;
+				lightConfig.getDiffractiveReflectionStrength() * (1.0 - normalizedDirectionalAngle);
 
 		// Calculate the vector of the light reflected by specular reflection.
 		double[] specularReflectionVector = {
