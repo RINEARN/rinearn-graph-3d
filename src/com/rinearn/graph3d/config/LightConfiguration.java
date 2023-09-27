@@ -26,8 +26,8 @@ public final class LightConfiguration {
 	public LightConfiguration() {
 		
 		// Initialize the reflection parameters by default values.
-		this.ambientReflectionStrength = 0.6;
-		this.diffuseReflectionStrength = 0.6;
+		this.ambientReflectionStrength = 0.4;
+		this.diffuseReflectionStrength = 0.2;
 		this.diffractiveReflectionStrength = 0.5;
 		this.specularReflectionStrength = 0.5;
 		this.specularReflectionAngle = 1.26;
