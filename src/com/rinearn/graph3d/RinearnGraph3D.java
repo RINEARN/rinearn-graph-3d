@@ -223,6 +223,13 @@ public class RinearnGraph3D {
 	 */
 	public void setWindowBounds(int x, int y, int width, int height) {
 		this.view.mainWindow.setWindowBounds(x, y, width, height);
+		/*
+		if (!this.presenter.isEventHandlingEnabled()) {
+			int screenWidth = this.view.mainWindow.screenLabel.getWidth();
+			int screenHeight = this.view.mainWindow.screenLabel.getHeight();
+			this.renderer.setScreenSize(screenWidth, screenHeight);
+		}
+		*/
 	}
 
 
@@ -256,6 +263,13 @@ public class RinearnGraph3D {
 	 */
 	public void setScreenSize (int width, int height) {
 		this.view.mainWindow.setScreenSize(width, height);
+		/*
+		if (!this.presenter.isEventHandlingEnabled()) {
+			int screenWidth = this.view.mainWindow.screenLabel.getWidth();
+			int screenHeight = this.view.mainWindow.screenLabel.getHeight();
+			this.renderer.setScreenSize(screenWidth, screenHeight);
+		}
+		*/
 	}
 
 

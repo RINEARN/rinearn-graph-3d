@@ -124,6 +124,16 @@ public final class Presenter {
 
 
 	/**
+	 * Gets whether the event handling feature of this instance is enabled.
+	 * 
+	 * @return Returns true if the event handling feature is enabled.
+	 */
+	public synchronized boolean isEventHandlingEnabled() {
+		return this.eventHandlingEnabled;
+	}
+
+
+	/**
 	 * Propagates the current configuration stored in Model layer, to the entire application.
 	 */
 	public synchronized void propagateConfiguration() {
@@ -134,10 +144,18 @@ public final class Presenter {
 		//  and their handlers may call this method again, if they are not disabled.)
 		this.setEventHandlingEnabled(false);
 
-		// Update the View layer and the renderer.
+		// Update the state of View layer and the renderer by the configuration.
 		RinearnGraph3DConfiguration config = this.model.getConfiguration();
 		this.view.configure(config);
 		this.renderer.configure(config);
+
+		// Update the screen size.
+		// (Because "screen-resized" event does not occurs here even if the window size is changed.)
+		/*
+		int screenWidth = this.view.mainWindow.screenLabel.getWidth();
+		int screenHeight = this.view.mainWindow.screenLabel.getHeight();
+		this.renderer.setScreenSize(screenWidth, screenHeight); // 重い、しかし控えて比較だと無反応、なんとかしたい
+		*/
 
 		// Enable the event handling feature again, if it had been enabled before calling this method.
 		this.setEventHandlingEnabled(eventHandlingEnabledBeforeCall);

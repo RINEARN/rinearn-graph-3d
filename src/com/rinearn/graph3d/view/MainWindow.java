@@ -424,12 +424,31 @@ public final class MainWindow {
 
 
 	/**
-	 * Resizes the components on the window.
+	 * Resizes the components on this window, based on the current size of this window.
 	 */
 	public void resize() {
+		int currentWindowWidth = this.frame.getWidth();
+		int currentWindowHeight = this.frame.getHeight();
+		this.resize(currentWindowWidth, currentWindowHeight);
+	}
+
+	/**
+	 * Resizes the components on this window, based on the specified window size.
+	 * 
+	 * Please note that, there is some time-lag between calling setBounds(...) method of the window
+	 * and updating the window size actually.
+	 * 
+	 * For avoiding the broken layout caused by the above time-lag,
+	 * specify the window width/height which were passed to the argument of setBounds(...),
+	 * to the arguments of this method.
+	 * 
+	 * @param currentWindowWidth The current width of the window.
+	 * @param currentWindowHeight The current height of the window.
+	 */
+	private void resize(int currentWindowWidth, int currentWindowHeight) {
 
 		// Resizes the components on the window, on event-dispatcher thread.
-		Resizer resizer = new Resizer();
+		Resizer resizer = new Resizer(currentWindowWidth, currentWindowHeight);
 
 		if (SwingUtilities.isEventDispatchThread()) {
 			resizer.run();
@@ -444,22 +463,43 @@ public final class MainWindow {
 	}
 
 	/**
-	 * The class for resizing the components on the window, on event-dispatcher thread.
+	 * The class for resizing the components on the window based on the current size of the window, on event-dispatcher thread.
 	 */
 	private final class Resizer implements Runnable {
+
+		/** The current width of the window. */
+		private final int currentWindowWidth;
+
+		/** The current height of the window. */
+		private final int currentWindowHeight;
+
+		/**
+		 * Create a new instance resizing the component based on the specified window size.
+		 * 
+		 * Please note that, there is some time-lag between calling setBounds(...) method of the window
+		 * and updating the window size actually.
+		 * 
+		 * For avoiding the broken layout caused by the above time-lag,
+		 * specify the window width/height which were passed to the argument of setBounds(...),
+		 * to the arguments of this constructor.
+		 * 
+		 * @param currentWindowWidth The current width of the window.
+		 * @param currentWindowHeight The current height of the window.
+		 */
+		public Resizer(int currentWindowWidth, int currentWindowHeight) {
+			this.currentWindowWidth = currentWindowWidth;
+			this.currentWindowHeight = currentWindowHeight;
+		}
+
 		@Override
 		public void run() {
 			if (!SwingUtilities.isEventDispatchThread()) {
 				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
 			}
 
-			// Get the current size of the window.
-			int windowWidth = (int)frame.getSize().getWidth();
-			int windowHeight = (int)frame.getSize().getHeight();
-
 			// Compute the layout of the graph screen.
-			int screenWidth = windowWidth;
-			int screenHeight = windowHeight - APPROX_WINDOW_HEADER_HEIGHT;
+			int screenWidth = currentWindowWidth;
+			int screenHeight = currentWindowHeight - APPROX_WINDOW_HEADER_HEIGHT;
 			int screenX = 0;
 			int screenY = 0;
 			if (menuVisible) {
@@ -474,7 +514,6 @@ public final class MainWindow {
 			screenLabel.setBounds(
 					screenX, screenY, screenWidth, screenHeight
 			);
-			// The resizing event of the graph screen is fired in ScreenHandler, by the above setBounds(...).
 
 			// Resize the UI-panel at the left side of the screen.
 			if (screenSideUIVisible) {
@@ -636,6 +675,9 @@ public final class MainWindow {
 				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
 			}
 			frame.setBounds(this.x, this.y, this.width, this.height);
+
+			// Resize components on the window.
+			resize(this.width, this.height);
 		}
 	}
 
@@ -702,6 +744,9 @@ public final class MainWindow {
 
 			// Update the window size.
 			frame.setSize(windowWidth, windowHeight);
+
+			// Resize components on the window.
+			resize(windowWidth, windowHeight);
 		}
 	}
 
