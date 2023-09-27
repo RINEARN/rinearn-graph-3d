@@ -690,8 +690,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * @param screenWidth The width (pixels) of the screen.
 	 * @param screenHeight The height (pixels) of the screen.
 	 */
-	@Override
-	public synchronized void setScreenSize(int screenWidth, int screenHeight) {
+	private synchronized void setScreenSize(int screenWidth, int screenHeight) {
 
 		// If the image/graphics instances are already allocated, release them.
 		if (this.screenGraphics != null) {

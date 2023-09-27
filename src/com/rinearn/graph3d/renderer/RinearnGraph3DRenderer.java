@@ -114,24 +114,6 @@ public interface RinearnGraph3DRenderer {
 
 	/**
 	 * <span class="lang-en">
-	 * Sets the size of the graph screen
-	 * </span>
-	 * <span class="lang-ja">
-	 * グラフ画面のサイズを設定します
-	 * </span>
-	 * .
-	 * @param screenWidth
-	 *   <span class="lang-en">The width (pixels) of the screen</span>
-	 *   <span class="lang-ja">グラフ画面の幅（ピクセル単位）</span>
-	 * @param screenHeight
-	 *   <span class="lang-en">The height (pixels) of the screen</span>
-	 *   <span class="lang-ja">グラフ画面の高さ（ピクセル単位）</span>
-	 */
-	public void setScreenSize(int screenWidth, int screenHeight);
-
-
-	/**
-	 * <span class="lang-en">
 	 * References the value of the flag representing whether the content of the graph screen has been updated,
 	 * in addition. and performs Compare-and-Swap (CAS) operation to it
 	 * </span>
