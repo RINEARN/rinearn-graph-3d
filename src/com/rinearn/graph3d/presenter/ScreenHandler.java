@@ -7,6 +7,7 @@ import com.rinearn.graph3d.config.CameraConfiguration;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
+import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -109,6 +110,15 @@ public final class ScreenHandler {
 	 */
 	public synchronized boolean isEventHandlingEnabled() {
 		return this.eventHandlingEnabled;
+	}
+
+
+	/**
+	 * Updates the size of the screen, into the size corresponding to the current window size.
+	 */
+	public synchronized void updateScreenSize() {
+		Dimension screenSize = this.view.mainWindow.getScreenSize();
+		this.setScreenSize((int)screenSize.getWidth(), (int)screenSize.getHeight());
 	}
 
 
