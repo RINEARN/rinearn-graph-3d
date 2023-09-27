@@ -75,6 +75,56 @@ public final class FrameHandler {
 	}
 
 
+
+
+
+	// ================================================================================
+	// 
+	// - Event Listeners -
+	//
+	// ================================================================================
+
+
+	/**
+	 * The event listener handling resizing events of the frame.
+	 */
+	private class ResizeEventListener extends ComponentAdapter {
+		@Override
+		public void componentResized(ComponentEvent ce) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			view.mainWindow.resize();
+		}
+	}
+
+
+	/**
+	 * The event listener handling resizing events of the frame.
+	 */
+	private class CloseEventListener extends WindowAdapter {
+		@Override
+		public void windowClosing(WindowEvent we) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Temporary
+			System.exit(0);
+		}
+	}
+
+
+
+
+
+	// ================================================================================
+	// 
+	// - API Listeners -
+	//
+	// ================================================================================
+
+
 	/**
 	 * Sets the location and the size of the main window.
 	 * (API Implementation)
@@ -191,36 +241,6 @@ public final class FrameHandler {
 		public void run() {
 			MainWindow window = view.mainWindow;
 			window.setScreenSize(this.width, this.height);
-		}
-	}
-
-
-	/**
-	 * The event listener handling resizing events of the frame.
-	 */
-	private class ResizeEventListener extends ComponentAdapter {
-		@Override
-		public void componentResized(ComponentEvent ce) {
-			if (!isEventHandlingEnabled()) {
-				return;
-			}
-			view.mainWindow.resize();
-		}
-	}
-
-
-	/**
-	 * The event listener handling resizing events of the frame.
-	 */
-	private class CloseEventListener extends WindowAdapter {
-		@Override
-		public void windowClosing(WindowEvent we) {
-			if (!isEventHandlingEnabled()) {
-				return;
-			}
-
-			// Temporary
-			System.exit(0);
 		}
 	}
 }
