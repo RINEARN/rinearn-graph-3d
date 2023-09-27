@@ -2,6 +2,11 @@ package com.rinearn.graph3d.presenter;
 
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.view.View;
+
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.SwingUtilities;
+
 import com.rinearn.graph3d.config.CameraConfiguration;
 
 
@@ -57,6 +62,16 @@ public final class CameraSettingHandler {
 	}
 
 
+
+
+
+	// ================================================================================
+	// 
+	// - API Listeners -
+	//
+	// ================================================================================
+
+
 	/**
 	 * Sets the camera angle by three angular parameters, regarding the specified axis (by "angleMode" arg) as the zenith axis.
 	 * 
@@ -68,27 +83,119 @@ public final class CameraSettingHandler {
 	public void setZenithCameraAngle(double horizontalAngle, double verticalAngle, double screwAngle,
 			CameraConfiguration.AngleMode angleMode) {
 
-		CameraConfiguration cameraConfig = this.model.getConfiguration().getCameraConfiguration();
-		cameraConfig.setAngleMode(angleMode);
-		cameraConfig.setHorizontalAngle(horizontalAngle);
-		cameraConfig.setVerticalAngle(verticalAngle);
-		cameraConfig.setScrewAngle(screwAngle);
-		this.presenter.propagateConfiguration();
-		this.presenter.plot();
+		// Handle the API on the event-dispatcher thread.
+		SetZenithCameraAngleAPIListener apiListener = new SetZenithCameraAngleAPIListener(
+				horizontalAngle, verticalAngle, screwAngle, angleMode
+		);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setZenithCameraAngle(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetZenithCameraAngleAPIListener implements Runnable {
+
+		/** The horizontal angle, which is the rotation angle of the camera's location around the zenith axis. */
+		private volatile double horizontalAngle;
+
+		/** The vertical angle, which is the angle between the zenith axis and the direction toward the camera. */
+		private volatile double verticalAngle;
+
+		/** The screw angle, which is the rotation angle of the camera itself (not location) around the screen center. */
+		private volatile double screwAngle;
+
+		/** The angle mode. Specify X_ZENITH/Y_ZENITH/Z_ZENITH for regarding X/Y/Z axis as the zenith angle. */
+		private volatile CameraConfiguration.AngleMode angleMode;
+
+		/**
+		 * Create an instance handling setZenithCameraAngle(-) API with the specified argument.
+		 * 
+		 * @param horizontalAngle The horizontal angle, which is the rotation angle of the camera's location around the zenith axis.
+		 * @param verticalAngle The vertical angle, which is the angle between the zenith axis and the direction toward the camera.
+		 * @param screwAngle The screw angle, which is the rotation angle of the camera itself (not location) around the screen center.
+		 * @param angleMode Specify X_ZENITH/Y_ZENITH/Z_ZENITH for regarding X/Y/Z axis as the zenith angle.
+		 */
+		public SetZenithCameraAngleAPIListener(double horizontalAngle, double verticalAngle, double screwAngle,
+				CameraConfiguration.AngleMode angleMode) {
+
+			this.horizontalAngle = horizontalAngle;
+			this.verticalAngle = verticalAngle;
+			this.screwAngle = screwAngle;
+			this.angleMode = angleMode;
+		}
+
+		@Override
+		public void run() {
+			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			cameraConfig.setAngleMode(angleMode);
+			cameraConfig.setHorizontalAngle(horizontalAngle);
+			cameraConfig.setVerticalAngle(verticalAngle);
+			cameraConfig.setScrewAngle(screwAngle);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
 	}
 
 
  	/**
  	 * Sets the distance between the viewpoint and the origin of the graph.
+ 	 * (API Implementation)
  	 * 
  	 * @param distance The distance between the viewpoint and the origin of the graph.
  	 */
 	public void setCameraDistance(double distance) {
-		CameraConfiguration cameraConfig = this.model.getConfiguration().getCameraConfiguration();
-		cameraConfig.setDistance(distance);
-		this.presenter.propagateConfiguration();
-		this.presenter.plot();
+
+		// Handle the API on the event-dispatcher thread.
+		SetCameraDistanceAPIListener apiListener = new SetCameraDistanceAPIListener(distance);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
 	}
+
+	/**
+	 * The class handling API requests from setCameraDistance(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetCameraDistanceAPIListener implements Runnable {
+
+		/** The distance between the viewpoint and the origin of the graph. */
+		private volatile double distance;
+
+		/**
+		 * Create an instance handling setCameraDistance(-) API with the specified argument.
+		 * 
+		 * @param distance The distance between the viewpoint and the origin of the graph.
+		 */
+		public SetCameraDistanceAPIListener(double distance) {
+			this.distance = distance;
+		}
+
+		@Override
+		public void run() {
+			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			cameraConfig.setDistance(distance);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
 
 	/**
 	 * Sets the magnification of the graph screen.
@@ -96,9 +203,46 @@ public final class CameraSettingHandler {
 	 * @param magnification The magnification of the graph screen.
 	 */
 	public void setCameraMagnification(double magnification) {
-		CameraConfiguration cameraConfig = this.model.getConfiguration().getCameraConfiguration();
-		cameraConfig.setMagnification(magnification);
-		this.presenter.propagateConfiguration();
-		this.presenter.plot();
+
+		// Handle the API on the event-dispatcher thread.
+		SetCameraMagnificationAPIListener apiListener = new SetCameraMagnificationAPIListener(magnification);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
 	}
+
+	/**
+	 * The class handling API requests from setCameraMagnification(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetCameraMagnificationAPIListener implements Runnable {
+
+		/** The distance between the viewpoint and the origin of the graph. */
+		private volatile double magnification;
+
+		/**
+		 * Create an instance handling setCameraMagnification(-) API with the specified argument.
+		 * 
+		 * @param magnification The magnification of the graph screen.
+		 */
+		public SetCameraMagnificationAPIListener(double magnification) {
+			this.magnification = magnification;
+		}
+
+		@Override
+		public void run() {
+			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			cameraConfig.setMagnification(magnification);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
 }
