@@ -67,6 +67,139 @@ public final class RangeSettingHandler {
 	}
 
 
+
+
+
+	// ================================================================================
+	// 
+	// - Event Listeners -
+	//
+	// ================================================================================
+
+
+	/**
+	 * The event listener handling the event that OK button is pressed.
+	 */
+	private final class OkPressedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			RangeSettingWindow window = view.rangeSettingWindow;
+
+			// Get the references to the configuration containers to be modified.
+			RangeConfiguration rangeConfig = model.getConfiguration().getRangeConfiguration();
+			RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+			RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+			RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
+
+			// Detect whether the UI language is set to Japanese. (Necessary for generating error messages.)
+			boolean isJapanese = model.getConfiguration().getEnvironmentConfiguration().isLocaleJapanese();
+
+			// X range:
+			{
+				// Get the inputted values and check them.
+				boolean xAutoRangingEnabled = window.xAutoRangingBox.isSelected();
+				BigDecimal xMax = null;
+				BigDecimal xMin = null;
+				try {
+					xMax = new BigDecimal(window.xMaxField.getText());
+				} catch (NumberFormatException nfe) {
+					String errorMessage = isJapanese ?
+							"X軸の最大値を解釈できません。\n入力値が正しい数値か、確認してください。" :
+							"Can not parse \"Max\" value of X axis.\nPlease check that input value is a correct numeric value.";
+					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				try {
+					xMin = new BigDecimal(window.xMinField.getText());
+				} catch (NumberFormatException nfe) {
+					String errorMessage = isJapanese ?
+							"X軸の最小値を解釈できません。\n入力値が正しい数値か、確認してください。" :
+							"Can not parse \"Min\" value of X axis.\nPlease check that input value is a correct numeric value.";
+					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				// Store the above into the configuration container.
+				xRangeConfig.setAutoRangingEnabled(xAutoRangingEnabled);
+				xRangeConfig.setMaximum(xMax);
+				xRangeConfig.setMinimum(xMin);
+			}
+
+			// Y range:
+			{
+				// Get the inputted values and check them.
+				boolean yAutoRangingEnabled = window.yAutoRangingBox.isSelected();
+				BigDecimal yMax = null;
+				BigDecimal yMin = null;
+				try {
+					yMax = new BigDecimal(window.yMaxField.getText());
+				} catch (NumberFormatException nfe) {
+					String errorMessage = isJapanese ?
+							"Y軸の最大値を解釈できません。\n入力値が正しい数値か、確認してください。" :
+							"Can not parse \"Max\" value of Y axis.\nPlease check that input value is a correct numeric value.";
+					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				try {
+					yMin = new BigDecimal(window.yMinField.getText());
+				} catch (NumberFormatException nfe) {
+					String errorMessage = isJapanese ?
+							"Y軸の最小値を解釈できません。\n入力値が正しい数値か、確認してください。" :
+							"Can not parse \"Min\" value of Y axis.\nPlease check that input value is a correct numeric value.";
+					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				// Store the above into the configuration container.
+				yRangeConfig.setAutoRangingEnabled(yAutoRangingEnabled);
+				yRangeConfig.setMaximum(yMax);
+				yRangeConfig.setMinimum(yMin);
+			}
+
+			// Z range:
+			{
+				// Get the inputted values and check them.
+				boolean zAutoRangingEnabled = window.zAutoRangingBox.isSelected();
+				BigDecimal zMax = null;
+				BigDecimal zMin = null;
+				try {
+					zMax = new BigDecimal(window.zMaxField.getText());
+				} catch (NumberFormatException nfe) {
+					String errorMessage = isJapanese ?
+							"Z軸の最大値を解釈できません。\n入力値が正しい数値か、確認してください。" :
+							"Can not parse \"Max\" value of Z axis.\nPlease check that input value is a correct numeric value.";
+					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				try {
+					zMin = new BigDecimal(window.zMinField.getText());
+				} catch (NumberFormatException nfe) {
+					String errorMessage = isJapanese ?
+							"Z軸の最小値を解釈できません。\n入力値が正しい数値か、確認してください。" :
+							"Can not parse \"Min\" value of Z axis.\nPlease check that input value is a correct numeric value.";
+					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				// Store the above into the configuration container.
+				zRangeConfig.setAutoRangingEnabled(zAutoRangingEnabled);
+				zRangeConfig.setMaximum(zMax);
+				zRangeConfig.setMinimum(zMin);
+			}
+
+			// Propagate the above update of the configuration to the entire application.
+			presenter.propagateConfiguration();
+
+			// Replot the graph.
+			presenter.plot();
+		}
+	}
+
+
+
 	/**
 	 * Sets the range of X axis.
 	 * 
@@ -154,126 +287,4 @@ public final class RangeSettingHandler {
 	}
 
 
-	/**
-	 * The event listener handling the event that OK button is pressed.
-	 */
-	private final class OkPressedEventListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			if (!isEventHandlingEnabled()) {
-				return;
-			}
-			RangeSettingWindow window = view.rangeSettingWindow;
-
-			// Get the references to the configuration containers to be modified.
-			RangeConfiguration rangeConfig = model.getConfiguration().getRangeConfiguration();
-			RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
-			RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
-			RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
-
-			// Detect whether the UI language is set to Japanese. (Necessary for generating error messages.)
-			boolean isJapanese = model.getConfiguration().getEnvironmentConfiguration().isLocaleJapanese();
-
-			// X range:
-			{
-				// Get the inputted values and check them.
-				boolean xAutoRangingEnabled = window.xAutoRangingBox.isSelected();
-				BigDecimal xMax = null;
-				BigDecimal xMin = null;
-				try {
-					xMax = new BigDecimal(window.xMaxField.getText());
-				} catch (NumberFormatException nfe) {
-					String errorMessage = isJapanese ?
-							"X軸の最大値を解釈できません。\n入力値が正しい数値か、確認してください。" :
-							"Can not parse \"Max\" value of X axis.\nPlease check that input value is a correct numeric value.";
-					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				try {
-					xMin = new BigDecimal(window.xMinField.getText());
-				} catch (NumberFormatException nfe) {
-					String errorMessage = isJapanese ?
-							"X軸の最小値を解釈できません。\n入力値が正しい数値か、確認してください。" :
-							"Can not parse \"Min\" value of X axis.\nPlease check that input value is a correct numeric value.";
-					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-
-				// Store the above into the configuration container.
-				xRangeConfig.setAutoRangingEnabled(xAutoRangingEnabled);
-				xRangeConfig.setMaximum(xMax);
-				xRangeConfig.setMinimum(xMin);
-			}
-
-			// Y range:
-			{
-				// Get the inputted values and check them.
-				boolean yAutoRangingEnabled = window.yAutoRangingBox.isSelected();
-				String yMaxString = window.yMaxField.getText();
-				BigDecimal yMax = null;
-				BigDecimal yMin = null;
-				try {
-					yMax = new BigDecimal(window.yMaxField.getText());
-				} catch (NumberFormatException nfe) {
-					String errorMessage = isJapanese ?
-							"Y軸の最大値を解釈できません。\n入力値が正しい数値か、確認してください。" :
-							"Can not parse \"Max\" value of Y axis.\nPlease check that input value is a correct numeric value.";
-					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				try {
-					yMin = new BigDecimal(window.yMinField.getText());
-				} catch (NumberFormatException nfe) {
-					String errorMessage = isJapanese ?
-							"Y軸の最小値を解釈できません。\n入力値が正しい数値か、確認してください。" :
-							"Can not parse \"Min\" value of Y axis.\nPlease check that input value is a correct numeric value.";
-					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-
-				// Store the above into the configuration container.
-				yRangeConfig.setAutoRangingEnabled(yAutoRangingEnabled);
-				yRangeConfig.setMaximum(yMax);
-				yRangeConfig.setMinimum(yMin);
-			}
-
-			// Z range:
-			{
-				// Get the inputted values and check them.
-				boolean zAutoRangingEnabled = window.zAutoRangingBox.isSelected();
-				String zMaxString = window.zMaxField.getText();
-				BigDecimal zMax = null;
-				BigDecimal zMin = null;
-				try {
-					zMax = new BigDecimal(window.zMaxField.getText());
-				} catch (NumberFormatException nfe) {
-					String errorMessage = isJapanese ?
-							"Z軸の最大値を解釈できません。\n入力値が正しい数値か、確認してください。" :
-							"Can not parse \"Max\" value of Z axis.\nPlease check that input value is a correct numeric value.";
-					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				try {
-					zMin = new BigDecimal(window.zMinField.getText());
-				} catch (NumberFormatException nfe) {
-					String errorMessage = isJapanese ?
-							"Z軸の最小値を解釈できません。\n入力値が正しい数値か、確認してください。" :
-							"Can not parse \"Min\" value of Z axis.\nPlease check that input value is a correct numeric value.";
-					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-
-				// Store the above into the configuration container.
-				zRangeConfig.setAutoRangingEnabled(zAutoRangingEnabled);
-				zRangeConfig.setMaximum(zMax);
-				zRangeConfig.setMinimum(zMin);
-			}
-
-			// Propagate the above update of the configuration to the entire application.
-			presenter.propagateConfiguration();
-
-			// Replot the graph.
-			presenter.plot();
-		}
-	}
 }
