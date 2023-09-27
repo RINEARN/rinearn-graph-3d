@@ -2,8 +2,6 @@ package com.rinearn.graph3d.presenter;
 
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.model.Model;
-import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
-import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.CameraConfiguration;
 
 import javax.swing.JLabel;
@@ -14,7 +12,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.awt.image.BufferedImage;
 
 
 /**
@@ -50,9 +47,6 @@ public final class ScreenHandler {
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
 
-	/** The rendering engine of 3D graphs. */
-	private final RinearnGraph3DRenderer renderer;
-
 	/** Stores the X and Y coordinates of the center of the screen. */
 	private volatile int[] screenCenterCoords = new int[2];
 
@@ -66,13 +60,11 @@ public final class ScreenHandler {
 	 * @param model The front-end class of "Model" layer, which provides internal logic procedures and so on.
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
-	 * @param renderer The rendering engine of 3D graphs.
 	 */
-	public ScreenHandler(Model model, View view, Presenter presenter, RinearnGraph3DRenderer renderer) {
+	public ScreenHandler(Model model, View view, Presenter presenter) {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;
-		this.renderer = renderer;
 
 		JLabel screenLabel = view.mainWindow.screenLabel;
 

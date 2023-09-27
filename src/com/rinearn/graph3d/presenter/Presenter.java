@@ -91,7 +91,7 @@ public final class Presenter {
 		this.frameHandler = new FrameHandler(model, view, this);
 
 		// Create a handler of events of the graph screen, handling mouse-dragging events for rotate a graph, etc.
-		this.screenHandler = new ScreenHandler(model, view, this, renderer);
+		this.screenHandler = new ScreenHandler(model, view, this);
 
 		// Create handlers for various events and API requests.
 		this.menuHandler = new MenuHandler(model, view, this);
