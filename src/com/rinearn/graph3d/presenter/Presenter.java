@@ -7,6 +7,24 @@ import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
 
 
+// !!! NOTE !!!
+//
+// ・なんかやっぱりAPIリクエストも全てイベントディスパッチスレッド上で捌くようにした方が結局いいかも。
+// 
+//   APIも通常イベントも共にconfigコンテナ操作 -> 全体伝搬のフローで統一したとしても、
+//   コンテナ操作から全体伝搬までがトランザクション的にアトミックでないと競合で不整合状態になるケースあり得るでしょ。
+//   コンテナパラメータの操作をアトミックにしていたとしても、伝搬まで包んでないと不意のタイミングで伝搬し得るでしょ。
+// 
+//   んでそこまでアトミックにして大げさな更新伝搬構造を組むくらいなら
+//   APIリクエストと通常イベントを同じスレッドでシリアルに処理した方が簡単だしよくあるパターンだしずっとよさそうな。
+// 
+//   無駄なラグは増えるけどどうせView層の更新を伴わない config 更新なんて稀なのでどうせ大抵どっかでラグ入るわけで。
+//
+// 要検討
+//
+// !!! NOTE !!!
+
+
 /**
  * The front-end class of "Presenter" layer (com.rinearn.graph3d.presenter package)
  * of RINEARN Graph 3D.
