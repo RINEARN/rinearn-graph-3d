@@ -6,6 +6,10 @@ import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.view.LabelSettingWindow;
 
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.SwingUtilities;
+
 import java.awt.event.ActionEvent;
 
 
@@ -106,31 +110,115 @@ public class LabelSettingHandler {
 	}
 
 
+
+
+
+	// ================================================================================
+	// 
+	// - API Listeners -
+	//
+	// ================================================================================
+
+
 	/**
 	 * Set the displayed text of X axis label.
+	 * (API Implementation)
 	 * 
 	 * @param xLabel The text of X axis label.
 	 */
-	public synchronized void setXLabel(String xLabel) {
-		LabelConfiguration.AxisLabelConfiguration xLabelConfig
-			= this.model.getConfiguration().getLabelConfiguration().getXLabelConfiguration();
-		xLabelConfig.setText(xLabel);
-		this.presenter.propagateConfiguration();
-		this.presenter.plot();
+	public void setXLabel(String xLabel) {
+
+		// Handle the API on the event-dispatcher thread.
+		SetXLabelAPIListener apiListener = new SetXLabelAPIListener(xLabel);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setXLabel(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetXLabelAPIListener implements Runnable {
+
+		/** The text of X axis label. */
+		private volatile String xLabel;
+
+		/**
+		 * Create an instance handling setXLabel(-) API with the specified argument.
+		 * 
+		 * @param xLabel The text of X axis label.
+		 */
+		public SetXLabelAPIListener(String xLabel) {
+			this.xLabel = xLabel;
+		}
+
+		@Override
+		public void run() {
+			LabelConfiguration.AxisLabelConfiguration xLabelConfig
+					= model.getConfiguration().getLabelConfiguration().getXLabelConfiguration();
+			xLabelConfig.setText(xLabel);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
 	}
 
 
 	/**
 	 * Set the displayed text of Y axis label.
+	 * (API Implementation)
 	 * 
 	 * @param yLabel The text of Y axis label.
 	 */
-	public synchronized void setYLabel(String yLabel) {
-		LabelConfiguration.AxisLabelConfiguration yLabelConfig
-			= this.model.getConfiguration().getLabelConfiguration().getYLabelConfiguration();
-		yLabelConfig.setText(yLabel);
-		this.presenter.propagateConfiguration();
-		this.presenter.plot();
+	public void setYLabel(String yLabel) {
+
+		// Handle the API on the event-dispatcher thread.
+		SetYLabelAPIListener apiListener = new SetYLabelAPIListener(yLabel);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setYLabel(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetYLabelAPIListener implements Runnable {
+
+		/** The text of Y axis label. */
+		private volatile String yLabel;
+
+		/**
+		 * Create an instance handling setYLabel(-) API with the specified argument.
+		 * 
+		 * @param yLabel The text of Y axis label.
+		 */
+		public SetYLabelAPIListener(String yLabel) {
+			this.yLabel = yLabel;
+		}
+
+		@Override
+		public void run() {
+			LabelConfiguration.AxisLabelConfiguration yLabelConfig
+					= model.getConfiguration().getLabelConfiguration().getYLabelConfiguration();
+			yLabelConfig.setText(yLabel);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
 	}
 
 
@@ -139,12 +227,48 @@ public class LabelSettingHandler {
 	 * 
 	 * @param zLabel The text of Z axis label.
 	 */
-	public synchronized void setZLabel(String zLabel) {
-		LabelConfiguration.AxisLabelConfiguration zLabelConfig
-			= this.model.getConfiguration().getLabelConfiguration().getZLabelConfiguration();
-		zLabelConfig.setText(zLabel);
-		this.presenter.propagateConfiguration();
-		this.presenter.plot();
+	public void setZLabel(String zLabel) {
+
+		// Handle the API on the event-dispatcher thread.
+		SetZLabelAPIListener apiListener = new SetZLabelAPIListener(zLabel);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setZLabel(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetZLabelAPIListener implements Runnable {
+
+		/** The text of Z axis label. */
+		private volatile String zLabel;
+
+		/**
+		 * Create an instance handling setZLabel(-) API with the specified argument.
+		 * 
+		 * @param zLabel The text of Z axis label.
+		 */
+		public SetZLabelAPIListener(String zLabel) {
+			this.zLabel = zLabel;
+		}
+
+		@Override
+		public void run() {
+			LabelConfiguration.AxisLabelConfiguration zLabelConfig
+					= model.getConfiguration().getLabelConfiguration().getZLabelConfiguration();
+			zLabelConfig.setText(zLabel);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
 	}
 
 }
