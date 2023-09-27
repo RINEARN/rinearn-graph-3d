@@ -71,6 +71,16 @@ public class LightSettingHandler {
 	}
 
 
+
+
+
+	// ================================================================================
+	// 
+	// - Event Listeners -
+	//
+	// ================================================================================
+
+
 	/**
 	 * The event listener handling the event that the scroll bar of "Ambient" parameter is moved.
 	 */
