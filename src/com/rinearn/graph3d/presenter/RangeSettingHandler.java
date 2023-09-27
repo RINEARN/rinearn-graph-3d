@@ -6,8 +6,11 @@ import com.rinearn.graph3d.view.RangeSettingWindow;
 import com.rinearn.graph3d.view.View;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 
 
@@ -200,91 +203,338 @@ public final class RangeSettingHandler {
 
 
 
+
+
+	// ================================================================================
+	// 
+	// - API Listeners -
+	//
+	// ================================================================================
+
+
 	/**
 	 * Sets the range of X axis.
+	 * (API Implementation)
 	 * 
 	 * @param min The minimum coordinate value of X axis.
 	 * @param max The maximum coordinate value of X axis.
 	 */
-	public synchronized void setXRange(BigDecimal min, BigDecimal max) {
-		RangeConfiguration.AxisRangeConfiguration xRangeConfig
-			= this.model.getConfiguration().getRangeConfiguration().getXRangeConfiguration();
-		xRangeConfig.setMinimum(min);
-		xRangeConfig.setMaximum(max);
-		this.presenter.propagateConfiguration();
-		this.presenter.plot();
+	public void setXRange(BigDecimal min, BigDecimal max) {
+
+		// Handle the API on the event-dispatcher thread.
+		SetXRangeAPIListener apiListener = new SetXRangeAPIListener(min, max);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 	/**
+	 * The class handling API requests from setXRange(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetXRangeAPIListener implements Runnable {
+
+		/** The minimum coordinate value of X axis. */
+		private final BigDecimal min;
+
+		/** The maximum coordinate value of X axis. */
+		private final BigDecimal max;
+
+		/**
+		 * Create an instance handling setXRange(-) API with the specified argument.
+		 * 
+		 * @param min The minimum coordinate value of X axis.
+		 * @param max The maximum coordinate value of X axis.
+		 */
+		public SetXRangeAPIListener(BigDecimal min, BigDecimal max) {
+			this.min = min;
+			this.max = max;
+		}
+
+		@Override
+		public void run() {
+			RangeConfiguration.AxisRangeConfiguration xRangeConfig
+					= model.getConfiguration().getRangeConfiguration().getXRangeConfiguration();
+			xRangeConfig.setMinimum(min);
+			xRangeConfig.setMaximum(max);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
+
+	/**
 	 * Turns on/off the auto-ranging feature for X axis.
+	 * (API Implementation)
 	 * 
 	 * @param enabled Specify true/false for turning on/off (the default is on).
 	 */
-	public synchronized void setXAutoRangingEnabled(boolean enabled) {
-		RangeConfiguration.AxisRangeConfiguration xRangeConfig
-			= this.model.getConfiguration().getRangeConfiguration().getXRangeConfiguration();
-		xRangeConfig.setAutoRangingEnabled(enabled);
-		this.presenter.propagateConfiguration();
-		// this.presenter.replot(); // Not necessary.
+	public void setXAutoRangingEnabled(boolean enabled) {
+
+		// Handle the API on the event-dispatcher thread.
+		SetXAutoRangingEnabledAPIListener apiListener = new SetXAutoRangingEnabledAPIListener(enabled);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setXAutoRangingEnabled(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetXAutoRangingEnabledAPIListener implements Runnable {
+
+		/** The flag representing whether the auto ranging feature is enabled. */
+		private final boolean enabled;
+
+		/**
+		 * Create an instance handling setXAutoRangingEnabled(-) API with the specified argument.
+		 * 
+		 * @param enabled Specify true/false for turning on/off (the default is on).
+		 */
+		public SetXAutoRangingEnabledAPIListener(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		@Override
+		public void run() {
+			RangeConfiguration.AxisRangeConfiguration xRangeConfig
+					= model.getConfiguration().getRangeConfiguration().getXRangeConfiguration();
+			xRangeConfig.setAutoRangingEnabled(enabled);
+			presenter.propagateConfiguration();
+			// presenter.replot(); // Not necessary.
+		}
 	}
 
 
 	/**
 	 * Sets the range of Y axis.
+	 * (API Implementation)
 	 * 
 	 * @param min The minimum coordinate value of Y axis.
 	 * @param max The maximum coordinate value of Y axis.
 	 */
-	public synchronized void setYRange(BigDecimal min, BigDecimal max) {
-		RangeConfiguration.AxisRangeConfiguration yRangeConfig
-			= this.model.getConfiguration().getRangeConfiguration().getYRangeConfiguration();
-		yRangeConfig.setMinimum(min);
-		yRangeConfig.setMaximum(max);
-		this.presenter.propagateConfiguration();
-		this.presenter.plot();
+	public void setYRange(BigDecimal min, BigDecimal max) {
+
+		// Handle the API on the event-dispatcher thread.
+		SetYRangeAPIListener apiListener = new SetYRangeAPIListener(min, max);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setYRange(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetYRangeAPIListener implements Runnable {
+
+		/** The minimum coordinate value of X axis. */
+		private final BigDecimal min;
+
+		/** The maximum coordinate value of X axis. */
+		private final BigDecimal max;
+
+		/**
+		 * Create an instance handling setYRange(-) API with the specified argument.
+		 * 
+		 * @param min The minimum coordinate value of Y axis.
+		 * @param max The maximum coordinate value of Y axis.
+		 */
+		public SetYRangeAPIListener(BigDecimal min, BigDecimal max) {
+			this.min = min;
+			this.max = max;
+		}
+
+		@Override
+		public void run() {
+			RangeConfiguration.AxisRangeConfiguration yRangeConfig
+					= model.getConfiguration().getRangeConfiguration().getYRangeConfiguration();
+			yRangeConfig.setMinimum(min);
+			yRangeConfig.setMaximum(max);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
 	}
 
 	/**
 	 * Turns on/off the auto-ranging feature for Y axis.
+	 * (API Implementation)
 	 * 
 	 * @param enabled Specify true/false for turning on/off (the default is on).
 	 */
-	public synchronized void setYAutoRangingEnabled(boolean enabled) {
-		RangeConfiguration.AxisRangeConfiguration yRangeConfig
-			= this.model.getConfiguration().getRangeConfiguration().getYRangeConfiguration();
-		yRangeConfig.setAutoRangingEnabled(enabled);
-		this.presenter.propagateConfiguration();
-		// this.presenter.replot(); Not necessary.
+	public void setYAutoRangingEnabled(boolean enabled) {
+
+		// Handle the API on the event-dispatcher thread.
+		SetYAutoRangingEnabledAPIListener apiListener = new SetYAutoRangingEnabledAPIListener(enabled);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setYAutoRangingEnabled(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetYAutoRangingEnabledAPIListener implements Runnable {
+
+		/** The flag representing whether the auto ranging feature is enabled. */
+		private final boolean enabled;
+
+		/**
+		 * Create an instance handling setYAutoRangingEnabled(-) API with the specified argument.
+		 * 
+		 * @param enabled Specify true/false for turning on/off (the default is on).
+		 */
+		public SetYAutoRangingEnabledAPIListener(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		@Override
+		public void run() {
+			RangeConfiguration.AxisRangeConfiguration yRangeConfig
+					= model.getConfiguration().getRangeConfiguration().getYRangeConfiguration();
+			yRangeConfig.setAutoRangingEnabled(enabled);
+			presenter.propagateConfiguration();
+			// presenter.replot(); Not necessary.
+		}
 	}
 
 
 	/**
 	 * Sets the range of Z axis.
+	 * (API Implementation)
 	 * 
 	 * @param min The minimum coordinate value of Z axis.
 	 * @param max The maximum coordinate value of Z axis.
 	 */
-	public synchronized void setZRange(BigDecimal min, BigDecimal max) {
-		RangeConfiguration.AxisRangeConfiguration zRangeConfig
-			= this.model.getConfiguration().getRangeConfiguration().getZRangeConfiguration();
-		zRangeConfig.setMinimum(min);
-		zRangeConfig.setMaximum(max);
-		this.presenter.propagateConfiguration();
-		this.presenter.plot();
+	public void setZRange(BigDecimal min, BigDecimal max) {
+
+		// Handle the API on the event-dispatcher thread.
+		SetZRangeAPIListener apiListener = new SetZRangeAPIListener(min, max);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 	/**
+	 * The class handling API requests from setZRange(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetZRangeAPIListener implements Runnable {
+
+		/** The minimum coordinate value of Z axis. */
+		private final BigDecimal min;
+
+		/** The maximum coordinate value of Z axis. */
+		private final BigDecimal max;
+
+		/**
+		 * Create an instance handling setZRange(-) API with the specified argument.
+		 * 
+		 * @param min The minimum coordinate value of Z axis.
+		 * @param max The maximum coordinate value of Z axis.
+		 */
+		public SetZRangeAPIListener(BigDecimal min, BigDecimal max) {
+			this.min = min;
+			this.max = max;
+		}
+
+		@Override
+		public void run() {
+			RangeConfiguration.AxisRangeConfiguration zRangeConfig
+					= model.getConfiguration().getRangeConfiguration().getZRangeConfiguration();
+			zRangeConfig.setMinimum(min);
+			zRangeConfig.setMaximum(max);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
+
+	/**
 	 * Turns on/off the auto-ranging feature for Z axis.
+	 * (API Implementation)
 	 * 
 	 * @param enabled Specify true/false for turning on/off (the default is on).
 	 */
-	public synchronized void setZAutoRangingEnabled(boolean enabled) {
-		RangeConfiguration.AxisRangeConfiguration zRangeConfig
-			= this.model.getConfiguration().getRangeConfiguration().getZRangeConfiguration();
-		zRangeConfig.setAutoRangingEnabled(enabled);
-		this.presenter.propagateConfiguration();
-		// this.presenter.replot(); Not necessary.
+	public void setZAutoRangingEnabled(boolean enabled) {
+
+		// Handle the API on the event-dispatcher thread.
+		SetZAutoRangingEnabledAPIListener apiListener = new SetZAutoRangingEnabledAPIListener(enabled);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
+	/**
+	 * The class handling API requests from setZAutoRangingEnabled(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetZAutoRangingEnabledAPIListener implements Runnable {
+
+		/** The flag representing whether the auto ranging feature is enabled. */
+		private final boolean enabled;
+
+		/**
+		 * Create an instance handling setZAutoRangingEnabled(-) API with the specified argument.
+		 * 
+		 * @param enabled Specify true/false for turning on/off (the default is on).
+		 */
+		public SetZAutoRangingEnabledAPIListener(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		@Override
+		public void run() {
+			RangeConfiguration.AxisRangeConfiguration zRangeConfig
+					= model.getConfiguration().getRangeConfiguration().getZRangeConfiguration();
+			zRangeConfig.setAutoRangingEnabled(enabled);
+			presenter.propagateConfiguration();
+			// presenter.replot(); Not necessary.
+		}
+	}
 
 }
