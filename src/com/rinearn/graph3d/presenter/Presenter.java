@@ -20,6 +20,14 @@ import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
 // 
 //   無駄なラグは増えるけどどうせView層の更新を伴わない config 更新なんて稀なのでどうせ大抵どっかでラグ入るわけで。
 //
+//   -> 確かにそうすべき。↑を踏まえて ScreenHandler 改修してたらやっぱり確かにその通りだと思う。
+//
+//   -> あとこのPresenterと各Handlerの eventHandlingEnabled setter/getter もイベントディスパッチスレッドで処理すべきか。
+//      このフラグが参照されて効くのはイベントハンドラなので、
+//      操作リクエストがハンドラとシリアルに処理される事を保証できた方がたぶんいい。と思うけどどうだろ
+//
+//      -> 固まらん？ 固まらんなら多分そのほうがいい絶対
+//
 // 要検討
 //
 // !!! NOTE !!!

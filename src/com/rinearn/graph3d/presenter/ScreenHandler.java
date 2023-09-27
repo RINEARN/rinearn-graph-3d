@@ -7,12 +7,12 @@ import com.rinearn.graph3d.config.CameraConfiguration;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
-import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.lang.reflect.InvocationTargetException;
 
 
 /**
@@ -116,43 +116,45 @@ public final class ScreenHandler {
 	/**
 	 * Updates the size of the screen, into the size corresponding to the current window size.
 	 */
-	public synchronized void updateScreenSize() {
-		Dimension screenSize = this.view.mainWindow.getScreenSize();
-		this.setScreenSize((int)screenSize.getWidth(), (int)screenSize.getHeight());
+	public void updateScreenSize() {
+
+		// Update the screen size, on the event-dispatcher thread.
+		ScreenSizeUpdater screenSizeUpdater = new ScreenSizeUpdater();
+		if (SwingUtilities.isEventDispatchThread()) {
+			screenSizeUpdater.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(screenSizeUpdater);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 
 	/**
 	 * Sets the size of the screen.
 	 * 
-	 * @param screenWidth The width (pixels) of the screen.
-	 * @param screenHeight The height (pixels) of the screen.
+	 * @param screenWidth The screenWidth (pixels) of the screen.
+	 * @param screenHeight The screenHeight (pixels) of the screen.
 	 */
-	public synchronized void setScreenSize(int screenWidth, int screenHeight) {
+	public void setScreenSize(int screenWidth, int screenHeight) {
 
-		// Store the above size into the configuration container.
-		CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
-		cameraConfig.setScreenSize(screenWidth, screenHeight);
-
-		// Reflect the updated screen size.
-		presenter.propagateConfiguration();
-
-		// Perform rendering on the rendering loop's thread asynchronously.
-		presenter.renderingLoop.requestRendering();
-
-		// Update the screen center's coordinates.
-		screenCenterCoords[X] = screenWidth/2;
-		screenCenterCoords[Y] = screenHeight/2;
+		// Update the screen size, on the event-dispatcher thread.
+		ScreenSizeUpdater screenSizeUpdater = new ScreenSizeUpdater(screenWidth, screenHeight);
+		if (SwingUtilities.isEventDispatchThread()) {
+			screenSizeUpdater.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(screenSizeUpdater);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
-	// !!! NOTE !!!
-	//
-	// APIも通常イベントも両方イベントディスパッチスレッド上で捌く案、
-	// ↑と↓みたいなのをうまいこと統一して共通化したい。
-	// 大まかにはフロントエンドのインターフェースが Listener か Runnable かの違い程度で済みそうな気がするが
-	// どうだろ
-	//
-	// !!! NOTE !!!
 
 	/**
 	 * The event listener handling resizing events of the graph screen.
@@ -163,14 +165,53 @@ public final class ScreenHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
+			new ScreenSizeUpdater().run();
+		}
+	}
 
-			// Get the current size of the screen.
-			int screenWidth = (int)view.mainWindow.screenLabel.getSize().getWidth();
-			int screenHeight = (int)view.mainWindow.screenLabel.getSize().getHeight();
+
+	/**
+	 * The class for updating the size of the graph screen, on the event-dispatcher thread.
+	 */
+	private class ScreenSizeUpdater implements Runnable {
+
+		/** The screenWidth of the screen, to be updated. If the value is -1, the size is computed automatically. */
+		private volatile int screenWidth;
+
+		/** The screenHeight of the screen, to be updated. If the value is -1, the size is computed automatically. */
+		private volatile int screenHeight;
+
+		/**
+		 * Create a new instance for resizing the screen size, into the size corresponding with the current window size.
+		 */
+		public ScreenSizeUpdater() {
+			this.screenWidth = -1;
+			this.screenHeight = -1;
+		}
+
+		/**
+		 * Create a new instance for resizing size into the specified size.
+		 * 
+		 * @param screenWidth The screenWidth of the screen.
+		 * @param screenHeight The screenHeight of the screen.
+		 */
+		public ScreenSizeUpdater(int width, int height) {
+			this.screenWidth = width;
+			this.screenHeight = height;
+		}
+
+		@Override
+		public void run() {
+			if (this.screenWidth == -1) {
+				this.screenWidth = (int)view.mainWindow.getScreenSize().getWidth();
+			}
+			if (this.screenHeight == -1) {
+				this.screenHeight = (int)view.mainWindow.getScreenSize().getHeight();
+			}
 
 			// Store the above size into the configuration container.
 			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
-			cameraConfig.setScreenSize(screenWidth, screenHeight);
+			cameraConfig.setScreenSize(this.screenWidth, this.screenHeight);
 
 			// Reflect the updated screen size.
 			presenter.propagateConfiguration();
@@ -179,8 +220,8 @@ public final class ScreenHandler {
 			presenter.renderingLoop.requestRendering();
 
 			// Update the screen center's coordinates.
-			screenCenterCoords[X] = screenWidth/2;
-			screenCenterCoords[Y] = screenHeight/2;
+			screenCenterCoords[X] = this.screenWidth/2;
+			screenCenterCoords[Y] = this.screenHeight/2;
 		}
 	}
 

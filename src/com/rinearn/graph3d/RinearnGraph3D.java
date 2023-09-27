@@ -2,7 +2,6 @@ package com.rinearn.graph3d;
 
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.view.View;
-import com.rinearn.graph3d.view.MainWindow;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.simple.SimpleRenderer;
@@ -13,6 +12,7 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.CameraConfiguration;
 
 import java.awt.Image;
+import java.awt.Dimension;
 import java.math.BigDecimal;
 
 
@@ -219,15 +219,14 @@ public class RinearnGraph3D {
 	 *   <span class="lang-ja">グラフウィンドウの高さ</span>
 	 *   <span class="lang-en">The height the graph window</span>
 	 */
-	public void setWindowBounds(int x, int y, int width, int height) {
+	public synchronized void setWindowBounds(int x, int y, int width, int height) {
+
+		// ↓微妙に落ち着かなかったけどやっぱAPIから直接View層を触ったらあかんと思う
+		//   これピンポイントではできても基本方針として禁止にしたほうがいい
+		//   あちこちでこれやると連鎖でイベント発動したりせんかったりが紛らわしくなる
 		this.view.mainWindow.setWindowBounds(x, y, width, height);
-		/*
-		if (!this.presenter.isEventHandlingEnabled()) {
-			int screenWidth = this.view.mainWindow.screenLabel.getWidth();
-			int screenHeight = this.view.mainWindow.screenLabel.getHeight();
-			this.renderer.setScreenSize(screenWidth, screenHeight);
-		}
-		*/
+
+		this.presenter.screenHandler.updateScreenSize();
 	}
 
 
@@ -259,15 +258,12 @@ public class RinearnGraph3D {
 	 *   <span class="lang-ja">グラフスクリーンの高さ</span>
 	 *   <span class="lang-en">The height the graph screen</span>
 	 */
-	public void setScreenSize (int width, int height) {
+	public synchronized void setScreenSize (int width, int height) {
+
+		// ↓上記と同様、これたぶんだめ
 		this.view.mainWindow.setScreenSize(width, height);
-		/*
-		if (!this.presenter.isEventHandlingEnabled()) {
-			int screenWidth = this.view.mainWindow.screenLabel.getWidth();
-			int screenHeight = this.view.mainWindow.screenLabel.getHeight();
-			this.renderer.setScreenSize(screenWidth, screenHeight);
-		}
-		*/
+
+		this.presenter.screenHandler.setScreenSize(width, height);
 	}
 
 
