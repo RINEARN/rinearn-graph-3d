@@ -65,6 +65,47 @@ public class LabelSettingHandler {
 	}
 
 
+
+
+
+	// ================================================================================
+	// 
+	// - Event Listeners -
+	//
+	// ================================================================================
+
+
+	/**
+	 * The event listener handling the event that OK button is pressed.
+	 */
+	private final class OkPressedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Get the inputted value of the labels of X/Y/Z axes.
+			LabelSettingWindow window = view.labelSettingWindow;
+			String xLabel = window.xLabelTextField.getText();
+			String yLabel = window.yLabelTextField.getText();
+			String zLabel = window.zLabelTextField.getText();
+
+			// Store the above into the configuration container.
+			LabelConfiguration labelConfig = model.getConfiguration().getLabelConfiguration();
+			labelConfig.getXLabelConfiguration().setText(xLabel);
+			labelConfig.getYLabelConfiguration().setText(yLabel);
+			labelConfig.getZLabelConfiguration().setText(zLabel);
+
+			// Propagate the above update of the configuration to the entire application.
+			presenter.propagateConfiguration();
+
+			// Replot the graph.
+			presenter.plot();
+		}
+	}
+
+
 	/**
 	 * Set the displayed text of X axis label.
 	 * 
@@ -106,34 +147,4 @@ public class LabelSettingHandler {
 		this.presenter.plot();
 	}
 
-
-	/**
-	 * The event listener handling the event that OK button is pressed.
-	 */
-	private final class OkPressedEventListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			if (!isEventHandlingEnabled()) {
-				return;
-			}
-
-			// Get the inputted value of the labels of X/Y/Z axes.
-			LabelSettingWindow window = view.labelSettingWindow;
-			String xLabel = window.xLabelTextField.getText();
-			String yLabel = window.yLabelTextField.getText();
-			String zLabel = window.zLabelTextField.getText();
-
-			// Store the above into the configuration container.
-			LabelConfiguration labelConfig = model.getConfiguration().getLabelConfiguration();
-			labelConfig.getXLabelConfiguration().setText(xLabel);
-			labelConfig.getYLabelConfiguration().setText(yLabel);
-			labelConfig.getZLabelConfiguration().setText(zLabel);
-
-			// Propagate the above update of the configuration to the entire application.
-			presenter.propagateConfiguration();
-
-			// Replot the graph.
-			presenter.plot();
-		}
-	}
 }
