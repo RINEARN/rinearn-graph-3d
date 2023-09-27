@@ -95,9 +95,8 @@ public final class ScreenHandler {
 		screenLabel.addComponentListener(resizeEventListener);
 
 		// Initializes the screen center's coordinates.
-		BufferedImage screenImage = BufferedImage.class.cast(renderer.getScreenImage());
-		this.screenCenterCoords[X] = screenImage.getWidth()/2;
-		this.screenCenterCoords[Y] = screenImage.getHeight()/2;
+		this.screenCenterCoords[X] = screenLabel.getWidth()/2;
+		this.screenCenterCoords[Y] = screenLabel.getHeight()/2;
 	}
 
 
@@ -144,6 +143,10 @@ public final class ScreenHandler {
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();
+
+			// Update the screen center's coordinates.
+			screenCenterCoords[X] = screenWidth/2;
+			screenCenterCoords[Y] = screenHeight/2;
 		}
 	}
 
