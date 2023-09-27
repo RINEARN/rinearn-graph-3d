@@ -298,6 +298,16 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 				this.transformationMatrix[i][j] = updatedMatrix[i][j];
 			}
 		}
+
+		// Update the size of the screen.
+		int updatedScreenWidth = cameraConfig.getScreenWidth();
+		int updatedScreenHeight = cameraConfig.getScreenHeight();
+		if (this.screenImage == null ||
+				this.screenImage.getWidth() != updatedScreenWidth ||
+				this.screenImage.getHeight() != updatedScreenHeight) {
+
+			this.setScreenSize(updatedScreenWidth, updatedScreenHeight);
+		}
 	}
 
 
