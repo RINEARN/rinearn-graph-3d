@@ -4,7 +4,10 @@ import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.config.ScaleConfiguration;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+
+import javax.swing.SwingUtilities;
 
 
 /**
@@ -59,21 +62,72 @@ public class ScaleSettingHandler {
 	}
 
 
+
+
+
+	// ================================================================================
+	// 
+	// - API Listeners -
+	//
+	// ================================================================================
+
+
 	/**
 	 * Sets the coordinates (locations) and the labels (displayed texts) of the scale ticks on X axis.
 	 * 
 	 * @param tickCoordinates The coordinates of the scale ticks.
 	 * @param tickLabels The labels of the scale ticks.
 	 */
-	public synchronized void setXTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
-		ScaleConfiguration.AxisScaleConfiguration xScaleConfig
-			= this.model.getConfiguration().getScaleConfiguration().getXScaleConfiguration();
+	public void setXTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
 
-		xScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
-		xScaleConfig.setTickCoordinates(tickCoordinates);
-		xScaleConfig.setTickLabels(tickLabels);
-		this.presenter.propagateConfiguration();
-		this.presenter.plot();
+		// Handle the API on the event-dispatcher thread.
+		SetXTicksAPIListener apiListener = new SetXTicksAPIListener(tickCoordinates, tickLabels);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setXTicks(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetXTicksAPIListener implements Runnable {
+
+		/** The coordinates of the scale ticks. */
+		private final BigDecimal[] tickCoordinates;
+
+		/** The labels of the scale ticks. */
+		private final String[] tickLabels;
+
+		/**
+		 * Create an instance handling setXTicks(-) API with the specified argument.
+		 * 
+		 * @param tickCoordinates The coordinates of the scale ticks.
+		 * @param tickLabels The labels of the scale ticks.
+		 */
+		public SetXTicksAPIListener(BigDecimal[] tickCoordinates, String[] tickLabels) {
+			this.tickCoordinates = tickCoordinates;
+			this.tickLabels = tickLabels;
+		}
+
+		@Override
+		public void run() {
+			ScaleConfiguration.AxisScaleConfiguration xScaleConfig
+					= model.getConfiguration().getScaleConfiguration().getXScaleConfiguration();
+
+			xScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
+			xScaleConfig.setTickCoordinates(tickCoordinates);
+			xScaleConfig.setTickLabels(tickLabels);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
 	}
 
 
@@ -83,15 +137,56 @@ public class ScaleSettingHandler {
 	 * @param tickCoordinates The coordinates of the scale ticks.
 	 * @param tickLabels The labels of the scale ticks.
 	 */
-	public synchronized void setYTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
-		ScaleConfiguration.AxisScaleConfiguration yScaleConfig
-			= this.model.getConfiguration().getScaleConfiguration().getYScaleConfiguration();
+	public void setYTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
 
-		yScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
-		yScaleConfig.setTickCoordinates(tickCoordinates);
-		yScaleConfig.setTickLabels(tickLabels);
-		this.presenter.propagateConfiguration();
-		this.presenter.plot();
+		// Handle the API on the event-dispatcher thread.
+		SetYTicksAPIListener apiListener = new SetYTicksAPIListener(tickCoordinates, tickLabels);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setYTicks(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetYTicksAPIListener implements Runnable {
+
+		/** The coordinates of the scale ticks. */
+		private final BigDecimal[] tickCoordinates;
+
+		/** The labels of the scale ticks. */
+		private final String[] tickLabels;
+
+		/**
+		 * Create an instance handling setYTicks(-) API with the specified argument.
+		 * 
+		 * @param tickCoordinates The coordinates of the scale ticks.
+		 * @param tickLabels The labels of the scale ticks.
+		 */
+		public SetYTicksAPIListener(BigDecimal[] tickCoordinates, String[] tickLabels) {
+			this.tickCoordinates = tickCoordinates;
+			this.tickLabels = tickLabels;
+		}
+
+		@Override
+		public void run() {
+			ScaleConfiguration.AxisScaleConfiguration yScaleConfig
+					= model.getConfiguration().getScaleConfiguration().getYScaleConfiguration();
+
+			yScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
+			yScaleConfig.setTickCoordinates(tickCoordinates);
+			yScaleConfig.setTickLabels(tickLabels);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
 	}
 
 
@@ -101,14 +196,56 @@ public class ScaleSettingHandler {
 	 * @param tickCoordinates The coordinates of the scale ticks.
 	 * @param tickLabels The labels of the scale ticks.
 	 */
-	public synchronized void setZTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
-		ScaleConfiguration.AxisScaleConfiguration zScaleConfig
-			= this.model.getConfiguration().getScaleConfiguration().getZScaleConfiguration();
+	public void setZTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
 
-		zScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
-		zScaleConfig.setTickCoordinates(tickCoordinates);
-		zScaleConfig.setTickLabels(tickLabels);
-		this.presenter.propagateConfiguration();
-		this.presenter.plot();
+		// Handle the API on the event-dispatcher thread.
+		SetZTicksAPIListener apiListener = new SetZTicksAPIListener(tickCoordinates, tickLabels);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
 	}
+
+	/**
+	 * The class handling API requests from setZTicks(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetZTicksAPIListener implements Runnable {
+
+		/** The coordinates of the scale ticks. */
+		private final BigDecimal[] tickCoordinates;
+
+		/** The labels of the scale ticks. */
+		private final String[] tickLabels;
+
+		/**
+		 * Create an instance handling setZTicks(-) API with the specified argument.
+		 * 
+		 * @param tickCoordinates The coordinates of the scale ticks.
+		 * @param tickLabels The labels of the scale ticks.
+		 */
+		public SetZTicksAPIListener(BigDecimal[] tickCoordinates, String[] tickLabels) {
+			this.tickCoordinates = tickCoordinates;
+			this.tickLabels = tickLabels;
+		}
+
+		@Override
+		public void run() {
+			ScaleConfiguration.AxisScaleConfiguration zScaleConfig
+					= model.getConfiguration().getScaleConfiguration().getZScaleConfiguration();
+
+			zScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
+			zScaleConfig.setTickCoordinates(tickCoordinates);
+			zScaleConfig.setTickLabels(tickLabels);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
 }
