@@ -33,6 +33,12 @@ public class CameraConfiguration {
 	/** The vertical offset amount of the graph center (= rotation center), from the screen center. */
 	private volatile int verticalCenterOffset = 0;
 
+	/** The width (pixels) of the screen. */
+	private volatile int screenWidth = 500;
+
+	/** The height (pixels) of the screen. */
+	private volatile int screenHeight = 500;
+
 	/** The enum representing each angle mode, for switching how specify the camera angle(s). */
 	public static enum AngleMode {
 
@@ -152,7 +158,39 @@ public class CameraConfiguration {
  	public synchronized int getVerticalCenterOffset() {
  		return this.verticalCenterOffset;
  	}
+
  
+ 	/**
+ 	 * Sets the size of the screen.
+ 	 * 
+ 	 * @param screenWidth The width (pixels) of the screen.
+ 	 * @param screenHeight The height (pixels) of the screen.
+ 	 */
+ 	public synchronized void setScreenSize(int screenWidth, int screenHeight) {
+ 		this.screenWidth = screenWidth;
+ 		this.screenHeight = screenHeight;
+ 	}
+
+ 
+ 	/**
+ 	 * Gets the width (pixels) of the screen.
+ 	 * 
+ 	 * @return The width (pixels) of the screen.
+ 	 */
+ 	public synchronized int getScreenWidth() {
+ 		return this.screenWidth;
+ 	}
+ 
+ 
+ 	/**
+ 	 * Gets the height (pixels) of the screen.
+ 	 * 
+ 	 * @return The height (pixels) of the screen.
+ 	 */
+	public synchronized int getScreenHeight() {
+ 		return this.screenHeight;
+ 	}
+
 
  	/**
  	 * Gets the matrix representing the rotation of the graph to the current state from the initial state.
