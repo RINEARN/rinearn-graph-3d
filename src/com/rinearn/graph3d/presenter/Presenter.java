@@ -59,7 +59,8 @@ import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
 //                     ヘビーデータの plot とかを、setAsyncPlottingEnabled(true) 指定されてる時だけ別スレッドのキューに詰む、
 //                     くらいが妥協の落とし所では。 Ver.5.6 通り。
 //
-// 要検討
+//    -> 上記、とりあえずイベントディスパッチスレッド案に改修してみたのでしばらく様子を見る
+//       後々でまた再検討
 //
 // !!! NOTE !!!
 
