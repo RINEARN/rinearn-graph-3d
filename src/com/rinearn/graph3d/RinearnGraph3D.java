@@ -97,9 +97,7 @@ public class RinearnGraph3D {
 		this.view = new View();
 
 		// Create a rendering engine of 3D graphs.
-		this.renderer = new SimpleRenderer(
-				MainWindow.DEFAULT_SCREEN_WIDTH, MainWindow.DEFAULT_SCREEN_HEIGHT
-		);
+		this.renderer = new SimpleRenderer();
 
 		// !!! NOTE !!!
 		// ↑ここで引数で渡して参照共有してるのは確実にやめるべき。

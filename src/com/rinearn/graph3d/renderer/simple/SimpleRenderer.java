@@ -127,13 +127,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/**
 	 * Creates a new renderer.
-	 * 
-	 * @param screenWidth The width (pixels) of the screen.
-	 * @param screenHeight The height (pixels) of the screen.
 	 */
-	public SimpleRenderer(int screenWidth, int screenHeight) {
+	public SimpleRenderer() {
 		this.configure(this.config);
-		this.setScreenSize(screenWidth, screenHeight);
 		this.clear();
 	}
 
