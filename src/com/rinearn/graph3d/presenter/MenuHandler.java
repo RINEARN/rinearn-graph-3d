@@ -67,6 +67,16 @@ public final class MenuHandler {
 	}
 
 
+
+
+
+	// ================================================================================
+	// 
+	// - Event Listeners -
+	//
+	// ================================================================================
+
+
 	/**
 	 * Sets the visibility of the menu bar and the right click menus.
 	 * 
