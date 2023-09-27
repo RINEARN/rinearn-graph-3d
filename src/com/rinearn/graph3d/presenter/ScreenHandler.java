@@ -130,9 +130,17 @@ public final class ScreenHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
+
+			// Get the current size of the screen.
 			int screenWidth = (int)view.mainWindow.screenLabel.getSize().getWidth();
 			int screenHeight = (int)view.mainWindow.screenLabel.getSize().getHeight();
-			renderer.setScreenSize(screenWidth, screenHeight);
+
+			// Store the above size into the configuration container.
+			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			cameraConfig.setScreenSize(screenWidth, screenHeight);
+
+			// Reflect the updated screen size.
+			presenter.propagateConfiguration();
 
 			// Perform rendering on the rendering loop's thread asynchronously.
 			presenter.renderingLoop.requestRendering();
