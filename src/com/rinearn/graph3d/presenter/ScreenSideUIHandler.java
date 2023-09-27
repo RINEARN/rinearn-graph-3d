@@ -3,6 +3,9 @@ package com.rinearn.graph3d.presenter;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.view.View;
 
+import javax.swing.SwingUtilities;
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * The class handling events and API requests related to UI on the screen side panel.
  */
@@ -55,14 +58,60 @@ public final class ScreenSideUIHandler {
 	}
 
 
+
+
+
+	// ================================================================================
+	// 
+	// - API Listeners -
+	//
+	// ================================================================================
+
+
 	/**
 	 * Sets the visibility of the UI panel at the screen side.
 	 * 
 	 * @param visible Specify true for showing the UI panel at the screen side.
 	 */
 	public void setScreenSideUIVisible(boolean visible) {
-		view.mainWindow.setScreenSideUIVisible(visible);
-		view.mainWindow.forceUpdateWindowLayout();
-		presenter.renderingLoop.requestRendering();
+
+		// Handle the API on the event-dispatcher thread.
+		SetScreenSideUIVisibleAPIListener apiListener = new SetScreenSideUIVisibleAPIListener(visible);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setScreenSideUIVisible(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetScreenSideUIVisibleAPIListener implements Runnable {
+
+		/** The flag for switching the visibility of the screen-side UI panel. */
+		private final boolean visible;
+
+		/**
+		 * Create an instance handling setScreenSideUIVisible(-) API with the specified argument.
+		 * 
+		 * @param visible Specify true for showing the UI panel at the screen side.
+		 */
+		public SetScreenSideUIVisibleAPIListener(boolean visible) {
+			this.visible = visible;
+		}
+
+		@Override
+		public void run() {
+			view.mainWindow.setScreenSideUIVisible(visible);
+			view.mainWindow.forceUpdateWindowLayout();
+			presenter.renderingLoop.requestRendering();
+		}
 	}
 }
