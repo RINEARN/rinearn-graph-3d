@@ -16,6 +16,7 @@ import javax.swing.SwingUtilities;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -690,7 +691,7 @@ public final class MainWindow {
 	 */
 	public void setScreenSize(int width, int height) {
 
-		// Sets the bounds of this window, on event-dispatcher thread.
+		// Sets the size of the screen, on event-dispatcher thread.
 		ScreenSizeSetter sizeSetter = new ScreenSizeSetter(width, height);
 		if (SwingUtilities.isEventDispatchThread()) {
 			sizeSetter.run();
@@ -747,6 +748,58 @@ public final class MainWindow {
 
 			// Resize components on the window.
 			resize(windowWidth, windowHeight);
+		}
+	}
+
+
+	/**
+	 * Gets the current size of the graph screen.
+	 * 
+	 * @return The current size of the graph screen.
+	 */
+	public Dimension getScreenSize() {
+
+		// Gets the current size of the screen, on event-dispatcher thread.
+		ScreenSizeGetter sizeGetter = new ScreenSizeGetter();
+		if (SwingUtilities.isEventDispatchThread()) {
+			sizeGetter.run();
+			return sizeGetter.getSize();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(sizeGetter);
+				return sizeGetter.getSize();
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class for getting the size of the graph screen, on event-dispatcher thread.
+	 */
+	private final class ScreenSizeGetter implements Runnable {
+
+		/** The size of the screen. */
+		private volatile Dimension size = null;
+
+		@Override
+		public void run() {
+			if (!SwingUtilities.isEventDispatchThread()) {
+				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
+			}
+
+			// Gets the current screen size;
+			this.size = screenLabel.getSize();
+		}
+
+		/**
+		 * Returns the gotten screen size.
+		 * 
+		 * @return The gotten screen size.
+		 */
+		public synchronized Dimension getSize() {
+			return this.size;
 		}
 	}
 

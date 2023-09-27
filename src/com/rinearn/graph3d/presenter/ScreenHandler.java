@@ -113,6 +113,38 @@ public final class ScreenHandler {
 
 
 	/**
+	 * Sets the size of the screen.
+	 * 
+	 * @param screenWidth The width (pixels) of the screen.
+	 * @param screenHeight The height (pixels) of the screen.
+	 */
+	public synchronized void setScreenSize(int screenWidth, int screenHeight) {
+
+		// Store the above size into the configuration container.
+		CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+		cameraConfig.setScreenSize(screenWidth, screenHeight);
+
+		// Reflect the updated screen size.
+		presenter.propagateConfiguration();
+
+		// Perform rendering on the rendering loop's thread asynchronously.
+		presenter.renderingLoop.requestRendering();
+
+		// Update the screen center's coordinates.
+		screenCenterCoords[X] = screenWidth/2;
+		screenCenterCoords[Y] = screenHeight/2;
+	}
+
+	// !!! NOTE !!!
+	//
+	// APIも通常イベントも両方イベントディスパッチスレッド上で捌く案、
+	// ↑と↓みたいなのをうまいこと統一して共通化したい。
+	// 大まかにはフロントエンドのインターフェースが Listener か Runnable かの違い程度で済みそうな気がするが
+	// どうだろ
+	//
+	// !!! NOTE !!!
+
+	/**
 	 * The event listener handling resizing events of the graph screen.
 	 */
 	private class ResizeEventListener extends ComponentAdapter {
