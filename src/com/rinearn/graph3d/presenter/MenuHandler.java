@@ -43,7 +43,8 @@ public final class MenuHandler {
 		// Add the action listener to sub menu items in "Settings" menu.
 		window.rangeSettingMenuItem.addActionListener(new RangeSettingItemClickedEventListener());
 		window.labelSettingMenuItem.addActionListener(new LabelSettingItemClickedEventListener());
-		window.lightSettingMenuItem.addActionListener(new LightSettingParametersItemClickedEventListener());
+		window.cameraSettingMenuItem.addActionListener(new CameraSettingItemClickedEventListener());
+		window.lightSettingMenuItem.addActionListener(new LightSettingItemClickedEventListener());
 	}
 
 
@@ -118,9 +119,23 @@ public final class MenuHandler {
 
 
 	/**
-	 * The listener handling the event that "Settings" > "Set Lighting Parameters" menu item is clicked.
+	 * The listener handling the event that "Settings" > "Set Camera" menu item is clicked.
 	 */
-	private final class LightSettingParametersItemClickedEventListener implements ActionListener {
+	private final class CameraSettingItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			view.cameraSettingWindow.setWindowVisible(true);
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Settings" > "Set Camera" menu item is clicked.
+	 */
+	private final class LightSettingItemClickedEventListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			if (!isEventHandlingEnabled()) {
