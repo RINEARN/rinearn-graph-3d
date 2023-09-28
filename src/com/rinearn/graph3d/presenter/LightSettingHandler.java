@@ -236,9 +236,9 @@ public class LightSettingHandler {
 			horizontalAngle *= 2.0 * Math.PI; // Map the maximum horizontal angle to 2pi.
 			verticalAngle *= Math.PI; // Map the maximum vertical angle to pi.
 
-			// Compute light direction vector.
+			// Compute the light direction vector (facing to the light source).
 			// Note that, on this application, the light direction vector is defined on the view coordinate system.
-			// So the X axis faces to the right of the screen, Y faces to the upper side, and Z faces to the front side.
+			// So the X axis faces to the right side of the screen, Y faces to the upper side, and Z faces to the front side.
 			// The vertical angle is the angle between the vector and Y (NOT Z) axis.
 			// The horizontal angle is the angle between Z axis and the projected vector to the X-Z plane.
 			double lightY = Math.cos(verticalAngle);

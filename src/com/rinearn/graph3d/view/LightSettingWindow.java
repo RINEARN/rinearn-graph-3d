@@ -18,6 +18,13 @@ import javax.swing.JLabel;
 import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 
+import static java.lang.Math.sqrt;
+import static java.lang.Math.sin;
+import static java.lang.Math.cos;
+import static java.lang.Math.acos;
+import static java.lang.Math.atan2;
+import static java.lang.Math.PI;
+
 
 /**
  * The window of "Set Lighting Parameters" menu.
@@ -464,6 +471,58 @@ public class LightSettingWindow {
 			diffractiveBar.setValue(diffractiveScrollCount);
 			specularStrengthBar.setValue(specularStrengthScrollCount);
 			specularAngleBar.setValue(specularAngleScrollCount);
+
+			// -----
+			// Compute the horizontal/vertical angle of the light direction vector (facing to the light source).
+			// Note that, on this application, the light direction vector is defined on the view coordinate system.
+			// So the X axis faces to the right side of the screen, Y faces to the upper side, and Z faces to the front side.
+			// The vertical angle is the angle between the vector and Y (NOT Z) axis.
+			// The horizontal angle is the angle between Z axis and the projected vector to the X-Z plane.
+			// -----
+			double horizontalAngle = 0.0;
+			double verticalAngle = 0.0;
+			{
+				// Get the components of the light direction vector.
+				double lightX = lightConfig.getLightSourceDirectionX();
+				double lightY = lightConfig.getLightSourceDirectionY();
+				double lightZ = lightConfig.getLightSourceDirectionZ();
+				double vectorLength = sqrt(lightX * lightX + lightY * lightY + lightZ * lightZ);
+
+				if (vectorLength != 0.0) {
+
+					// Normalize the light direction vector.
+					lightX /= vectorLength;
+					lightY /= vectorLength;
+					lightZ /= vectorLength;
+
+					// Compute the vertical angle, which is the angle between the light direction vector and Y (NOT Z) axis.
+					verticalAngle = acos(lightY);
+
+					// If sin(verticalAngle) is 0, the vector is parallel with Y axis,
+					// so the dimension of horizontal angle is degenerated.
+					if (sin(verticalAngle) == 0.0) {
+						horizontalAngle = 0.0;
+
+					// If sin(verticalAngle) is non-zero, we can compute the horizontal angle from
+					// the direction of the light direction vector projected to the Z-X plane.
+					} else {
+						horizontalAngle = atan2(lightX, lightZ); // Be careful of the order of the arguments!
+						if (horizontalAngle < 0.0) {
+							horizontalAngle += 2.0 * PI;
+						}
+					}
+				}
+			}
+
+			// Convert the above values to the counts of the scroll bars.
+			double normalizedHorizontalAngle = horizontalAngle /= 2.0 * PI;
+			double normalizedVerticalAngle = verticalAngle /= PI;
+			int horizontalAngleScrollCount = (int)Math.round(normalizedHorizontalAngle * LightSettingWindow.SCROLL_BAR_MAX_COUNT);
+			int verticalAngleScrollCount = (int)Math.round(normalizedVerticalAngle * LightSettingWindow.SCROLL_BAR_MAX_COUNT);
+
+			// Set the aboves to the scroll bars.
+			horizontalAngleBar.setValue(horizontalAngleScrollCount);
+			verticalAngleBar.setValue(verticalAngleScrollCount);
 		}
 	}
 
