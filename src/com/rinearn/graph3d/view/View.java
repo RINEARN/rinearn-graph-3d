@@ -103,13 +103,16 @@ public final class View {
 	/** The main window of RINEARN Graph 3D (on which a 3D graph is displayed). */
 	public final MainWindow mainWindow = new MainWindow();
 
-	/** The label setting window. */
+	/** The setting window of "Settings" > "Set Labels" menu. */
 	public final LabelSettingWindow labelSettingWindow = new LabelSettingWindow();
 
-	/** The range setting window. */
+	/** The setting window of "Settings" > "Set Ranges" menu. */
 	public final RangeSettingWindow rangeSettingWindow = new RangeSettingWindow();
 
-	/** The light setting window. */
+	/** The setting window of "Settings" > "Set Camera" menu. */
+	public final CameraSettingWindow cameraSettingWindow = new CameraSettingWindow();
+
+	/** The setting window of "Settings" > "Set Light" menu. */
 	public final LightSettingWindow lightSettingWindow = new LightSettingWindow();
 
 
@@ -137,6 +140,7 @@ public final class View {
 		this.mainWindow.configure(configuration);
 		this.labelSettingWindow.configure(configuration);
 		this.rangeSettingWindow.configure(configuration);
+		this.cameraSettingWindow.configure(configuration);
 		this.lightSettingWindow.configure(configuration);
 	}
 }

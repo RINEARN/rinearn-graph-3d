@@ -12,7 +12,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollBar;
@@ -20,14 +19,13 @@ import javax.swing.SwingUtilities;
 
 import static java.lang.Math.sqrt;
 import static java.lang.Math.sin;
-import static java.lang.Math.cos;
 import static java.lang.Math.acos;
 import static java.lang.Math.atan2;
 import static java.lang.Math.PI;
 
 
 /**
- * The window of "Set Lighting Parameters" menu.
+ * The window of "Set Light" menu.
  */
 public class LightSettingWindow {
 
@@ -279,7 +277,7 @@ public class LightSettingWindow {
 			}
 
 
-			// Components for setting reflection parameters.
+			// Components for light direction parameters.
 			{
 				// Create the title label of "Light Parameters" section.
 				lightSectionLabel = new JLabel("Unconfigured");
@@ -404,15 +402,15 @@ public class LightSettingWindow {
 			specularStrengthLabel.setText("光沢の強さ:");
 			specularAngleLabel.setText("光沢の拡がり角:");
 			lightSectionLabel.setText("- 光源の方向 -");
-			horizontalAngleLabel.setText("水平角度:");
-			verticalAngleLabel.setText("垂直角度:");
+			horizontalAngleLabel.setText("水平方向の角度:");
+			verticalAngleLabel.setText("垂直方向の角度:");
 		}
 
 		/**
 		 * Sets English texts to the GUI components.
 		 */
 		private void setEnglishTexts() {
-			frame.setTitle("Set Lighting Parameters");
+			frame.setTitle("Set Light");
 			reflectionSectionLabel.setText("- Reflection Parameters -");
 			ambientLabel.setText("Ambient:");
 			diffuseLabel.setText("Diffuse:");
