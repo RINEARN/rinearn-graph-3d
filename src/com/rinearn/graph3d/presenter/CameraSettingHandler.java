@@ -1,13 +1,16 @@
 package com.rinearn.graph3d.presenter;
 
 import com.rinearn.graph3d.model.Model;
+import com.rinearn.graph3d.view.CameraSettingWindow;
 import com.rinearn.graph3d.view.View;
+import com.rinearn.graph3d.config.CameraConfiguration;
 
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.lang.reflect.InvocationTargetException;
-
 import javax.swing.SwingUtilities;
 
-import com.rinearn.graph3d.config.CameraConfiguration;
+import static java.lang.Math.PI;
 
 
 /**
@@ -39,6 +42,16 @@ public final class CameraSettingHandler {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;
+
+		// Add the action listener defined in this class, to the scroll bars in this setting window.
+		CameraSettingWindow window = this.view.cameraSettingWindow;
+		window.horizontalAngleBar.addAdjustmentListener(new HorizontalAngleScrolledEventListener());
+		window.verticalAngleBar.addAdjustmentListener(new VerticalAngleScrolledEventListener());
+		window.screwAngleBar.addAdjustmentListener(new ScrewAngleScrolledEventListener());
+		window.magnificationBar.addAdjustmentListener(new MagnificationScrolledEventListener());
+		window.distanceBar.addAdjustmentListener(new DistanceScrolledEventListener());
+		window.horizontalCenterOffsetBar.addAdjustmentListener(new HorizontalCenterOffsetScrolledEventListener());
+		window.verticalCenterOffsetBar.addAdjustmentListener(new VerticalCenterOffsetScrolledEventListener());
 	}
 
 
@@ -59,6 +72,210 @@ public final class CameraSettingHandler {
 	 */
 	public synchronized boolean isEventHandlingEnabled() {
 		return this.eventHandlingEnabled;
+	}
+
+
+
+
+
+	// ================================================================================
+	// 
+	// - Event Listeners -
+	//
+	// ================================================================================
+
+
+	/**
+	 * The event listener handling the event that the scroll bar of "Horizontal Angle" parameter is moved.
+	 */
+	private final class HorizontalAngleScrolledEventListener implements AdjustmentListener {
+		@Override
+		public void adjustmentValueChanged(AdjustmentEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			CameraSettingWindow window = view.cameraSettingWindow;
+			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+
+			// Get the modified value from the slider, and store it into the configuration container.
+			double angle = (double)window.horizontalAngleBar.getValue() / (double)CameraSettingWindow.BASIC_SCROLL_BAR_MAX_COUNT;
+			angle *= 2.0 * PI;
+			cameraConfig.setHorizontalAngle(angle);
+
+			// Propagate the above update of the configuration to the entire application.
+			setEventHandlingEnabled(false);
+			presenter.propagateConfiguration();
+			setEventHandlingEnabled(true);
+
+			// Perform rendering on the rendering loop's thread asynchronously.
+			presenter.renderingLoop.requestRendering();
+		}
+	}
+
+
+	/**
+	 * The event listener handling the event that the scroll bar of "Vertical Angle" parameter is moved.
+	 */
+	private final class VerticalAngleScrolledEventListener implements AdjustmentListener {
+		@Override
+		public void adjustmentValueChanged(AdjustmentEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			CameraSettingWindow window = view.cameraSettingWindow;
+			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+
+			// Get the modified value from the slider, and store it into the configuration container.
+			double angle = (double)window.verticalAngleBar.getValue() / (double)CameraSettingWindow.BASIC_SCROLL_BAR_MAX_COUNT;
+			angle *= PI;
+			cameraConfig.setVerticalAngle(angle);
+
+			// Propagate the above update of the configuration to the entire application.
+			setEventHandlingEnabled(false);
+			presenter.propagateConfiguration();
+			setEventHandlingEnabled(true);
+
+			// Perform rendering on the rendering loop's thread asynchronously.
+			presenter.renderingLoop.requestRendering();
+		}
+	}
+
+
+	/**
+	 * The event listener handling the event that the scroll bar of "Screw Angle" parameter is moved.
+	 */
+	private final class ScrewAngleScrolledEventListener implements AdjustmentListener {
+		@Override
+		public void adjustmentValueChanged(AdjustmentEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			CameraSettingWindow window = view.cameraSettingWindow;
+			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+
+			// Get the modified value from the slider, and store it into the configuration container.
+			double angle = (double)window.screwAngleBar.getValue() / (double)CameraSettingWindow.BASIC_SCROLL_BAR_MAX_COUNT;
+			angle *= 2.0 * PI;
+			cameraConfig.setScrewAngle(angle);
+
+			// Propagate the above update of the configuration to the entire application.
+			setEventHandlingEnabled(false);
+			presenter.propagateConfiguration();
+			setEventHandlingEnabled(true);
+
+			// Perform rendering on the rendering loop's thread asynchronously.
+			presenter.renderingLoop.requestRendering();
+		}
+	}
+
+
+	/**
+	 * The event listener handling the event that the scroll bar of "Magnification" parameter is moved.
+	 */
+	private final class MagnificationScrolledEventListener implements AdjustmentListener {
+		@Override
+		public void adjustmentValueChanged(AdjustmentEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			CameraSettingWindow window = view.cameraSettingWindow;
+			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+
+			// Get the modified value from the slider, and store it into the configuration container.
+			double magnification = (double)window.magnificationBar.getValue() / (double)CameraSettingWindow.BASIC_SCROLL_BAR_MAX_COUNT;
+			magnification *= CameraSettingWindow.MAX_MAGNIFICATION;
+			cameraConfig.setMagnification(magnification);
+
+			// Propagate the above update of the configuration to the entire application.
+			setEventHandlingEnabled(false);
+			presenter.propagateConfiguration();
+			setEventHandlingEnabled(true);
+
+			// Perform rendering on the rendering loop's thread asynchronously.
+			presenter.renderingLoop.requestRendering();
+		}
+	}
+
+
+	/**
+	 * The event listener handling the event that the scroll bar of "Distance" parameter is moved.
+	 */
+	private final class DistanceScrolledEventListener implements AdjustmentListener {
+		@Override
+		public void adjustmentValueChanged(AdjustmentEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			CameraSettingWindow window = view.cameraSettingWindow;
+			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+
+			// Get the modified value from the slider, and store it into the configuration container.
+			double distance = (double)window.distanceBar.getValue() / (double)CameraSettingWindow.BASIC_SCROLL_BAR_MAX_COUNT;
+			distance *= CameraSettingWindow.MAX_DISTANCE;
+			cameraConfig.setDistance(distance);
+
+			// Propagate the above update of the configuration to the entire application.
+			setEventHandlingEnabled(false);
+			presenter.propagateConfiguration();
+			setEventHandlingEnabled(true);
+
+			// Perform rendering on the rendering loop's thread asynchronously.
+			presenter.renderingLoop.requestRendering();
+		}
+	}
+
+
+	/**
+	 * The event listener handling the event that the scroll bar of "Horizontal Center Offset" parameter is moved.
+	 */
+	private final class HorizontalCenterOffsetScrolledEventListener implements AdjustmentListener {
+		@Override
+		public void adjustmentValueChanged(AdjustmentEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			CameraSettingWindow window = view.cameraSettingWindow;
+			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+
+			// Get the modified value from the slider, and store it into the configuration container.
+			int offset = window.horizontalCenterOffsetBar.getValue();
+			cameraConfig.setHorizontalCenterOffset(offset);
+
+			// Propagate the above update of the configuration to the entire application.
+			setEventHandlingEnabled(false);
+			presenter.propagateConfiguration();
+			setEventHandlingEnabled(true);
+
+			// Perform rendering on the rendering loop's thread asynchronously.
+			presenter.renderingLoop.requestRendering();
+		}
+	}
+
+
+	/**
+	 * The event listener handling the event that the scroll bar of "Vertical Center Offset" parameter is moved.
+	 */
+	private final class VerticalCenterOffsetScrolledEventListener implements AdjustmentListener {
+		@Override
+		public void adjustmentValueChanged(AdjustmentEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			CameraSettingWindow window = view.cameraSettingWindow;
+			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+
+			// Get the modified value from the slider, and store it into the configuration container.
+			int offset = window.verticalCenterOffsetBar.getValue();
+			cameraConfig.setVerticalCenterOffset(offset);
+
+			// Propagate the above update of the configuration to the entire application.
+			setEventHandlingEnabled(false);
+			presenter.propagateConfiguration();
+			setEventHandlingEnabled(true);
+
+			// Perform rendering on the rendering loop's thread asynchronously.
+			presenter.renderingLoop.requestRendering();
+		}
 	}
 
 
