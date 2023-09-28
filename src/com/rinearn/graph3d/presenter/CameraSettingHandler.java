@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.lang.reflect.InvocationTargetException;
-import java.math.BigDecimal;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -567,7 +566,7 @@ public final class CameraSettingHandler {
 			if (screenHeight < 1 || 10000 < screenHeight) {
 				String errorMessage = isJapanese ?
 						"「画面高さ」の入力値が、許容範囲外です。1 から 10000 までの範囲で入力してください。" :
-						"The value of \"Width\" is out of acceptable range.\nPlease input a number from 1 to 10000.";
+						"The value of \"Height\" is out of acceptable range.\nPlease input a number from 1 to 10000.";
 				JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
