@@ -28,7 +28,7 @@ public final class LabelSettingWindow {
 	public static final int DEFAULT_WINDOW_WIDTH = 360;
 
 	/** The default height [px] of the main window. */
-	public static final int DEFAULT_WINDOW_HEIGHT = 430;
+	public static final int DEFAULT_WINDOW_HEIGHT = 330;
 
 	/** The frame of this window. */
 	public volatile JFrame frame;
@@ -132,6 +132,7 @@ public final class LabelSettingWindow {
 			int topMargin = 5;
 			int bottomMargin = 5;
 			int leftMargin = 5;
+			int leftMarginOfFields = 20;
 			int rightMargin = 5;
 			int marginBetweenLabelAndField = 10;
 
@@ -146,7 +147,7 @@ public final class LabelSettingWindow {
 
 			// Create the text field for inputting the X label's text.
 			xLabelTextField = new JTextField("Unconfigured");
-			constraints.insets = new Insets(0, leftMargin, 0, rightMargin);
+			constraints.insets = new Insets(0, leftMarginOfFields, 0, rightMargin);
 			layour.setConstraints(xLabelTextField, constraints);
 			basePanel.add(xLabelTextField);
 
@@ -163,7 +164,7 @@ public final class LabelSettingWindow {
 
 			// Create the text field for inputting the Y label's text.
 			yLabelTextField = new JTextField("Unconfigured");
-			constraints.insets = new Insets(0, leftMargin, 0, rightMargin);
+			constraints.insets = new Insets(0, leftMarginOfFields, 0, rightMargin);
 			layour.setConstraints(yLabelTextField, constraints);
 			basePanel.add(yLabelTextField);
 
@@ -180,7 +181,7 @@ public final class LabelSettingWindow {
 
 			// Create the text field for inputting the Y label's text.
 			zLabelTextField = new JTextField("Unconfigured");
-			constraints.insets = new Insets(0, leftMargin, 0, rightMargin);
+			constraints.insets = new Insets(0, leftMarginOfFields, 0, rightMargin);
 			layour.setConstraints(zLabelTextField, constraints);
 			basePanel.add(zLabelTextField);
 

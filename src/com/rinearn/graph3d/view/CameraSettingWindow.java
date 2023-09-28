@@ -209,11 +209,11 @@ public class CameraSettingWindow {
 			constraints.fill = GridBagConstraints.BOTH;
 
 			// Define margines.
-			int topMargin = 5;
-			int bottomMargin = 15;
+			int topMargin = 0;
+			int bottomMargin = 2;
 			int leftMargin = 5;
 			int rightMargin = 5;
-			int bottomMarginUnderSectionTitile = 10;
+			int bottomMarginUnderSectionTitile = 8;
 			int bottomMarginUnderSection = 15;
 			int bottomMarginInSection = 3;
 			int leftMarginLabelInSection = 20;
@@ -422,6 +422,7 @@ public class CameraSettingWindow {
 					constraints.insets = new Insets(10, 0, bottomMarginUnderSection, rightMargin);
 					layour.setConstraints(sizeFieldsPanel, constraints);
 					basePanel.add(sizeFieldsPanel);
+
 					constraints.gridy++;
 
 					// Create the label of "Width" parameter.
@@ -446,7 +447,7 @@ public class CameraSettingWindow {
 			// Create "OK" button.
 			okButton = new JButton("Unconfigured");
 			constraints.insets = new Insets(0, leftMargin, bottomMargin, rightMargin);
-			//constraints.weighty = 20.0;
+			constraints.weighty = 12.0;
 			layour.setConstraints(okButton, constraints);
 			basePanel.add(okButton);
 		}
