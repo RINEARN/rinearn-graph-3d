@@ -10,6 +10,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
+
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import static java.lang.Math.PI;
@@ -55,6 +58,7 @@ public final class CameraSettingHandler {
 		window.distanceBar.addAdjustmentListener(new DistanceScrolledEventListener());
 		window.horizontalCenterOffsetBar.addAdjustmentListener(new HorizontalCenterOffsetScrolledEventListener());
 		window.verticalCenterOffsetBar.addAdjustmentListener(new VerticalCenterOffsetScrolledEventListener());
+		window.okButton.addActionListener(new OkButtonPressedEventListener());
 	}
 
 
@@ -507,6 +511,80 @@ public final class CameraSettingHandler {
 			cameraConfig.setMagnification(magnification);
 			presenter.propagateConfiguration();
 			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * The event listener handling the event that "OK" button is pressed.
+	 */
+	private final class OkButtonPressedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			CameraSettingWindow window = view.cameraSettingWindow;
+			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+
+			// Get screen-width/height parameters from their text fields.
+			String screenWidthText = window.widthField.getText();
+			String screenHeightText = window.heightField.getText();
+
+			// Detect whether the UI language is set to Japanese. (Necessary for generating error messages.)
+			boolean isJapanese = model.getConfiguration().getEnvironmentConfiguration().isLocaleJapanese();
+
+			// Parse the aboves to integer values.
+			int screenWidth;
+			int screenHeight;
+			try {
+				screenWidth = Integer.parseInt(screenWidthText);
+			} catch (NumberFormatException nfe) {
+				String errorMessage = isJapanese ?
+						"「画面幅」の入力値を解釈できません。\n正しい数値が入力されているか、確認してください。" :
+						"Can not parse \"Width\" value.\nPlease check that input value is a correct numeric value.";
+				JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			try {
+				screenHeight = Integer.parseInt(screenHeightText);
+			} catch (NumberFormatException nfe) {
+				String errorMessage = isJapanese ?
+						"「画面高さ」の入力値を解釈できません。\n正しい数値が入力されているか、確認してください。" :
+						"Can not parse \"Height\" value.\nPlease check that input value is a correct numeric value.";
+				JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+
+			// Check the range of the inputted width/height.
+			if (screenWidth < 1 || 10000 < screenWidth) {
+				String errorMessage = isJapanese ?
+						"「画面幅」の入力値が、許容範囲外です。1 から 10000 までの範囲で入力してください。" :
+						"The value of \"Width\" is out of acceptable range.\nPlease input a number from 1 to 10000.";
+				JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			if (screenHeight < 1 || 10000 < screenHeight) {
+				String errorMessage = isJapanese ?
+						"「画面高さ」の入力値が、許容範囲外です。1 から 10000 までの範囲で入力してください。" :
+						"The value of \"Width\" is out of acceptable range.\nPlease input a number from 1 to 10000.";
+				JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+
+			// Store the inputted values into the configuration container.
+			cameraConfig.setScreenSize(screenWidth, screenHeight);
+
+			// Propagate the above update of the configuration to the entire application.
+			// In addition, request the FrameHandler to resize the main window,
+			// into the size corresponding the screen size.
+			setEventHandlingEnabled(false);
+			presenter.propagateConfiguration();
+			presenter.frameHandler.setScreenSize(screenWidth, screenHeight);
+			setEventHandlingEnabled(true);
+
+			// Perform rendering on the rendering loop's thread asynchronously.
+			presenter.renderingLoop.requestRendering();
 		}
 	}
 
