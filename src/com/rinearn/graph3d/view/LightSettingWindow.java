@@ -29,10 +29,10 @@ import static java.lang.Math.PI;
  */
 public class LightSettingWindow {
 
-	/** The default width [px] of the main window. */
+	/** The default width [px] of this window. */
 	public static final int DEFAULT_WINDOW_WIDTH = 400;
 
-	/** The default height [px] of the main window. */
+	/** The default height [px] of this window. */
 	public static final int DEFAULT_WINDOW_HEIGHT = 570;
 
 	/** The the max value (integer count) of the scroll bars in this window. */

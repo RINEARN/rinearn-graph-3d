@@ -25,10 +25,10 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class RangeSettingWindow {
 
-	/** The default width [px] of the main window. */
+	/** The default width [px] of this window. */
 	public static final int DEFAULT_WINDOW_WIDTH = 400;
 
-	/** The default height [px] of the main window. */
+	/** The default height [px] of this window. */
 	public static final int DEFAULT_WINDOW_HEIGHT = 620;
 
 	/** The frame of this window. */

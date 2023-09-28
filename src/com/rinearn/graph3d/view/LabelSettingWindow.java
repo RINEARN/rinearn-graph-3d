@@ -24,10 +24,10 @@ import java.lang.reflect.InvocationTargetException;
  */
 public final class LabelSettingWindow {
 
-	/** The default width [px] of the main window. */
+	/** The default width [px] of this window. */
 	public static final int DEFAULT_WINDOW_WIDTH = 360;
 
-	/** The default height [px] of the main window. */
+	/** The default height [px] of this window. */
 	public static final int DEFAULT_WINDOW_HEIGHT = 330;
 
 	/** The frame of this window. */

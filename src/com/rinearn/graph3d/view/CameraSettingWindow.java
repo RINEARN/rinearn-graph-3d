@@ -24,20 +24,25 @@ import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.SwingUtilities;
 
+import static java.lang.Math.PI;
+
 
 /**
  * The window of "Set Camera" menu.
  */
 public class CameraSettingWindow {
 
-	/** The default width [px] of the main window. */
+	/** The default width [px] of this window. */
 	public static final int DEFAULT_WINDOW_WIDTH = 450;
 
-	/** The default height [px] of the main window. */
+	/** The default height [px] of this window. */
 	public static final int DEFAULT_WINDOW_HEIGHT = 620;
 
-	/** The the max value (integer count) of the scroll bars in this window. */
-	public static final int SCROLL_BAR_MAX_COUNT = 1000;
+	/** The the max value (integer count) of the scroll bars, excluding the bars of screen-center-offset parameters. */
+	public static final int BASIC_SCROLL_BAR_MAX_COUNT = 1000;
+
+	/** The the max value (integer count) of the scroll bars of screen-center-offset parameters. */
+	public static final int OFFSET_SCROLL_BAR_MAX_COUNT = 2000;
 
 	/** The color of the scroll bars in this window. */
 	public static final Color SCROLL_BAR_COLOR = new Color(100, 120, 200);
@@ -50,6 +55,12 @@ public class CameraSettingWindow {
 
 	/** The item of zenithAxisBox, representing Z axis. */
 	public static final String ZENITH_AXIS_BOX_ITEM_Z = "Z";
+
+	/** The max value of "Distance" parameter. */
+	public static final double MAX_DISTANCE = 100.0;
+
+	/** The max value of "Magnification" parameter. */
+	public static final double MAX_MAGNIFICATION = 10000.0;
 
 	/** The frame of this window. */
 	public volatile JFrame frame;
@@ -119,17 +130,17 @@ public class CameraSettingWindow {
 	/** The text field of "Height" parameter. */
 	public volatile JTextField heightField;
 
-	/** The title label of "Center Offset (X)" parameter. */
-	public volatile JLabel centerOffsetXLabel;
+	/** The title label of "Horizontal Center Offset" parameter. */
+	public volatile JLabel horizontalCenterOffsetLabel;
 
-	/** The scroll bar of "Center Offset (X)" parameter. */
-	public volatile JScrollBar centerOffsetXBar;
+	/** The scroll bar of "Horizontal Center Offset" parameter. */
+	public volatile JScrollBar horizontalCenterOffsetBar;
 
-	/** The title label of "Center Offset (Y)" parameter. */
-	public volatile JLabel centerOffsetYLabel;
+	/** The title label of "Vertical Center Offset" parameter. */
+	public volatile JLabel verticalCenterOffsetLabel;
 
-	/** The scroll bar of "Center Offset (Y)" parameter. */
-	public volatile JScrollBar centerOffsetYBar;
+	/** The scroll bar of "Vertical Center Offset" parameter. */
+	public volatile JScrollBar verticalCenterOffsetBar;
 
 	/** "OK" button. */
 	public volatile JButton okButton;
@@ -258,7 +269,7 @@ public class CameraSettingWindow {
 				constraints.gridy++;
 
 				// Create the scroll bar of "Horizontal Angle" section.
-				horizontalAngleBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, SCROLL_BAR_MAX_COUNT);
+				horizontalAngleBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, BASIC_SCROLL_BAR_MAX_COUNT);
 				horizontalAngleBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
 				layour.setConstraints(horizontalAngleBar, constraints);
@@ -275,7 +286,7 @@ public class CameraSettingWindow {
 				constraints.gridy++;
 
 				// Create the scroll bar of "Vertical Angle" section.
-				verticalAngleBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, SCROLL_BAR_MAX_COUNT);
+				verticalAngleBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, BASIC_SCROLL_BAR_MAX_COUNT);
 				verticalAngleBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
 				layour.setConstraints(verticalAngleBar, constraints);
@@ -292,7 +303,7 @@ public class CameraSettingWindow {
 				constraints.gridy++;
 
 				// Create the scroll bar of "Screw Angle" section.
-				screwAngleBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, SCROLL_BAR_MAX_COUNT);
+				screwAngleBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, BASIC_SCROLL_BAR_MAX_COUNT);
 				screwAngleBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginUnderSection, rightMargin);
 				layour.setConstraints(screwAngleBar, constraints);
@@ -322,7 +333,7 @@ public class CameraSettingWindow {
 				constraints.gridy++;
 
 				// Create the scroll bar of "Magnification" parameter.
-				magnificationBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, SCROLL_BAR_MAX_COUNT);
+				magnificationBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, BASIC_SCROLL_BAR_MAX_COUNT);
 				magnificationBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
 				layour.setConstraints(magnificationBar, constraints);
@@ -339,7 +350,7 @@ public class CameraSettingWindow {
 				constraints.gridy++;
 
 				// Create the scroll bar of "Distance" parameter.
-				distanceBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, SCROLL_BAR_MAX_COUNT);
+				distanceBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, BASIC_SCROLL_BAR_MAX_COUNT);
 				distanceBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
 				layour.setConstraints(distanceBar, constraints);
@@ -381,37 +392,41 @@ public class CameraSettingWindow {
 
 				constraints.gridy++;
 
-				// Create the label of "Center Offset (X)" parameter.
-				centerOffsetXLabel = new JLabel("Unconfigured");
+				// Create the label of "Horizontal Center Offset" parameter.
+				horizontalCenterOffsetLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(centerOffsetXLabel, constraints);
-				basePanel.add(centerOffsetXLabel);
+				layour.setConstraints(horizontalCenterOffsetLabel, constraints);
+				basePanel.add(horizontalCenterOffsetLabel);
 
 				constraints.gridy++;
 
-				// Create the scroll bar of "Center Offset (X)" parameter.
-				centerOffsetXBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, -SCROLL_BAR_MAX_COUNT, SCROLL_BAR_MAX_COUNT);
-				centerOffsetXBar.setBackground(SCROLL_BAR_COLOR);
+				// Create the scroll bar of "Horizontal Center Offset" parameter.
+				horizontalCenterOffsetBar = new JScrollBar(
+						JScrollBar.HORIZONTAL, 0, 0, -OFFSET_SCROLL_BAR_MAX_COUNT, OFFSET_SCROLL_BAR_MAX_COUNT
+				);
+				horizontalCenterOffsetBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(centerOffsetXBar, constraints);
-				basePanel.add(centerOffsetXBar);
+				layour.setConstraints(horizontalCenterOffsetBar, constraints);
+				basePanel.add(horizontalCenterOffsetBar);
 
 				constraints.gridy++;
 
-				// Create the label of "Center Offset (Y)" parameter.
-				centerOffsetYLabel = new JLabel("Unconfigured");
+				// Create the label of "Vertical Center Offset" parameter.
+				verticalCenterOffsetLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(centerOffsetYLabel, constraints);
-				basePanel.add(centerOffsetYLabel);
+				layour.setConstraints(verticalCenterOffsetLabel, constraints);
+				basePanel.add(verticalCenterOffsetLabel);
 
 				constraints.gridy++;
 
-				// Create the scroll bar of "Center Offset (Y)" parameter.
-				centerOffsetYBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, -SCROLL_BAR_MAX_COUNT, SCROLL_BAR_MAX_COUNT);
-				centerOffsetYBar.setBackground(SCROLL_BAR_COLOR);
+				// Create the scroll bar of "Vertical Center Offset" parameter.
+				verticalCenterOffsetBar = new JScrollBar(
+						JScrollBar.HORIZONTAL, 0, 0, -OFFSET_SCROLL_BAR_MAX_COUNT, OFFSET_SCROLL_BAR_MAX_COUNT
+				);
+				verticalCenterOffsetBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(centerOffsetYBar, constraints);
-				basePanel.add(centerOffsetYBar);
+				layour.setConstraints(verticalCenterOffsetBar, constraints);
+				basePanel.add(verticalCenterOffsetBar);
 
 				constraints.gridy++;
 
@@ -538,8 +553,8 @@ public class CameraSettingWindow {
 			screenSectionLabel.setText("- スクリーン -");
 			widthLabel.setText("画面幅: ");
 			heightLabel.setText("画面高さ: ");
-			centerOffsetXLabel.setText("中心オフセット(X):");
-			centerOffsetYLabel.setText("中心オフセット(Y):");
+			horizontalCenterOffsetLabel.setText("水平中心オフセット:");
+			verticalCenterOffsetLabel.setText("垂直中心オフセット:");
 			okButton.setText("OK");
 		}
 
@@ -562,8 +577,8 @@ public class CameraSettingWindow {
 			screenSectionLabel.setText("- Screen -");
 			widthLabel.setText("Width: ");
 			heightLabel.setText("Height: ");
-			centerOffsetXLabel.setText("Center Offset (X):");
-			centerOffsetYLabel.setText("Center Offset (Y):");
+			horizontalCenterOffsetLabel.setText("Horizontal Center Offset:");
+			verticalCenterOffsetLabel.setText("Vertical Center Offset:");
 			okButton.setText("OK");
 		}
 
@@ -591,8 +606,8 @@ public class CameraSettingWindow {
 			screenSectionLabel.setFont(uiBoldFont);
 			widthLabel.setFont(uiBoldFont);
 			heightLabel.setFont(uiBoldFont);
-			centerOffsetXLabel.setFont(uiBoldFont);
-			centerOffsetYLabel.setFont(uiBoldFont);
+			horizontalCenterOffsetLabel.setFont(uiBoldFont);
+			verticalCenterOffsetLabel.setFont(uiBoldFont);
 
 			widthField.setFont(uiPlainFont);
 			heightField.setFont(uiPlainFont);
@@ -606,7 +621,60 @@ public class CameraSettingWindow {
 		private void updateValuesByConfiguration() {
 			CameraConfiguration cameraConfig = this.configuration.getCameraConfiguration();
 
-			// To be implemented.
+			// Extract the current values of the camera parameters from the configuration container.
+			CameraConfiguration.AngleMode angleMode = cameraConfig.getAngleMode();
+			boolean isZenithAngleMode = (angleMode == CameraConfiguration.AngleMode.X_ZENITH) ||
+					(angleMode == CameraConfiguration.AngleMode.Y_ZENITH) ||
+					(angleMode == CameraConfiguration.AngleMode.Z_ZENITH);
+			double horizontalAngle = isZenithAngleMode ? cameraConfig.getHorizontalAngle() : 0.0;
+			double verticalAngle = isZenithAngleMode ? cameraConfig.getVerticalAngle() : 0.0;
+			double screwAngle = isZenithAngleMode ? cameraConfig.getScrewAngle() : 0.0;
+			double magnification = cameraConfig.getMagnification();
+			double distance = cameraConfig.getDistance();
+			int horizontalCenterOffset = cameraConfig.getHorizontalCenterOffset();
+			int verticalCenterOffset = cameraConfig.getVerticalCenterOffset();
+			int screenWidth = cameraConfig.getScreenWidth();
+			int screenHeight = cameraConfig.getScreenHeight();
+
+			// Convert the above values to the counts of the scroll bars.
+			double pi2 = 2.0 * PI;
+			int horizontalAngleScrollCount = (int)Math.round((horizontalAngle / pi2) * BASIC_SCROLL_BAR_MAX_COUNT);
+			int verticalAngleScrollCount = (int)Math.round((verticalAngle / PI) * BASIC_SCROLL_BAR_MAX_COUNT);
+			int screwAngleScrollCount = (int)Math.round((screwAngle / pi2) * BASIC_SCROLL_BAR_MAX_COUNT);
+			int magnificationScrollCount = (int)Math.round((magnification / MAX_MAGNIFICATION) * BASIC_SCROLL_BAR_MAX_COUNT);
+			int distanceScrollCount = (int)Math.round((distance / MAX_DISTANCE) * BASIC_SCROLL_BAR_MAX_COUNT);
+			int horizontalCenterOffsetScrollCount = horizontalCenterOffset;
+			int verticalCenterOffsetScrollCount = verticalCenterOffset;
+
+			// Set the aboves to the scroll bars.
+			horizontalAngleBar.setValue(horizontalAngleScrollCount);
+			verticalAngleBar.setValue(verticalAngleScrollCount);
+			screwAngleBar.setValue(screwAngleScrollCount);
+			magnificationBar.setValue(magnificationScrollCount);
+			distanceBar.setValue(distanceScrollCount);
+			horizontalCenterOffsetBar.setValue(horizontalCenterOffsetScrollCount);
+			verticalCenterOffsetBar.setValue(verticalCenterOffsetScrollCount);
+
+			// Set other values to other ui.
+			widthField.setText(Integer.toString(screenWidth));
+			heightField.setText(Integer.toString(screenHeight));
+			switch (angleMode) {
+				case X_ZENITH : {
+					zenithAxisBox.setSelectedItem(ZENITH_AXIS_BOX_ITEM_X);
+					break;
+				}
+				case Y_ZENITH : {
+					zenithAxisBox.setSelectedItem(ZENITH_AXIS_BOX_ITEM_Y);
+					break;
+				}
+				case Z_ZENITH : {
+					zenithAxisBox.setSelectedItem(ZENITH_AXIS_BOX_ITEM_Z);
+					break;
+				}
+				default : {
+					// Ignore on this window.
+				}
+			}
 		}
 	}
 
