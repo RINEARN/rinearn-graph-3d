@@ -5,6 +5,8 @@ import com.rinearn.graph3d.view.CameraSettingWindow;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.config.CameraConfiguration;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.lang.reflect.InvocationTargetException;
@@ -45,6 +47,7 @@ public final class CameraSettingHandler {
 
 		// Add the action listener defined in this class, to the scroll bars in this setting window.
 		CameraSettingWindow window = this.view.cameraSettingWindow;
+		window.zenithAxisBox.addActionListener(new ZenithAxisSelectedEventListener());
 		window.horizontalAngleBar.addAdjustmentListener(new HorizontalAngleScrolledEventListener());
 		window.verticalAngleBar.addAdjustmentListener(new VerticalAngleScrolledEventListener());
 		window.screwAngleBar.addAdjustmentListener(new ScrewAngleScrolledEventListener());
@@ -83,6 +86,51 @@ public final class CameraSettingHandler {
 	// - Event Listeners -
 	//
 	// ================================================================================
+
+
+	/**
+	 * The event listener handling the event that the combo box of "Zenith Axis" parameter is operated.
+	 */
+	private final class ZenithAxisSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			CameraSettingWindow window = view.cameraSettingWindow;
+			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+
+			// Get the selected zenith angle.
+			String zenithAngle = String.class.cast(window.zenithAxisBox.getSelectedItem());
+
+			// Set the angle mode corresponding the above, into the configuration container.
+			switch (zenithAngle) {
+				case CameraSettingWindow.ZENITH_AXIS_BOX_ITEM_X : {
+					cameraConfig.setAngleMode(CameraConfiguration.AngleMode.X_ZENITH);
+					break;
+				}
+				case CameraSettingWindow.ZENITH_AXIS_BOX_ITEM_Y : {
+					cameraConfig.setAngleMode(CameraConfiguration.AngleMode.Y_ZENITH);
+					break;
+				}
+				case CameraSettingWindow.ZENITH_AXIS_BOX_ITEM_Z : {
+					cameraConfig.setAngleMode(CameraConfiguration.AngleMode.Z_ZENITH);
+					break;
+				}
+				default : {
+					throw new IllegalStateException("Unexpected zenith angle: " + zenithAngle);
+				}
+			}
+
+			// Propagate the above update of the configuration to the entire application.
+			setEventHandlingEnabled(false);
+			presenter.propagateConfiguration();
+			setEventHandlingEnabled(true);
+
+			// Perform rendering on the rendering loop's thread asynchronously.
+			presenter.renderingLoop.requestRendering();
+		}
+	}
 
 
 	/**
