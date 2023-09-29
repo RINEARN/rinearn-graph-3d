@@ -1,0 +1,2 @@
+Manifest-Version: 1.0
+Main-Class: com.rinearn.graph3d.RinearnGraph3D
