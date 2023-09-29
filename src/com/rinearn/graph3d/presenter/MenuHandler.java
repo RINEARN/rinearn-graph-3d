@@ -43,6 +43,7 @@ public final class MenuHandler {
 		// Add the action listener to sub menu items in "Settings" menu.
 		window.rangeSettingMenuItem.addActionListener(new RangeSettingItemClickedEventListener());
 		window.labelSettingMenuItem.addActionListener(new LabelSettingItemClickedEventListener());
+		window.fontSettingMenuItem.addActionListener(new FontSettingItemClickedEventListener());
 		window.cameraSettingMenuItem.addActionListener(new CameraSettingItemClickedEventListener());
 		window.lightSettingMenuItem.addActionListener(new LightSettingItemClickedEventListener());
 	}
@@ -114,6 +115,20 @@ public final class MenuHandler {
 				return;
 			}
 			view.labelSettingWindow.setWindowVisible(true);
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Settings" > "Set Fonts" menu item is clicked.
+	 */
+	private final class FontSettingItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			view.fontSettingWindow.setWindowVisible(true);
 		}
 	}
 

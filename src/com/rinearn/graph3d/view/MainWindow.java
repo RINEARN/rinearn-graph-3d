@@ -99,6 +99,9 @@ public final class MainWindow {
 	/** "Settings" > "Set Labels" menu item on the menu bar. */
 	public volatile JMenuItem labelSettingMenuItem;
 
+	/** "Settings" > "Set Fonts" menu item on the menu bar. */
+	public volatile JMenuItem fontSettingMenuItem;
+
 	/** "Settings" > "Set Camera" menu item on the menu bar. */
 	public volatile JMenuItem cameraSettingMenuItem;
 
@@ -175,6 +178,10 @@ public final class MainWindow {
 				// "Settings" > "Set Labels" menu item:
 				labelSettingMenuItem = new JMenuItem("Unconfigured");
 				settingsMenu.add(labelSettingMenuItem);
+
+				// "Settings" > "Set Fonts" menu item:
+				fontSettingMenuItem = new JMenuItem("Unconfigured");
+				settingsMenu.add(fontSettingMenuItem);
 
 				// "Settings" > "Set Camera" menu item:
 				cameraSettingMenuItem = new JMenuItem("Unconfigured");
@@ -370,6 +377,7 @@ public final class MainWindow {
 				settingsMenu.setText("設定");
 				rangeSettingMenuItem.setText("範囲の設定");
 				labelSettingMenuItem.setText("ラベルの設定");
+				fontSettingMenuItem.setText("フォントの設定");
 				cameraSettingMenuItem.setText("カメラの設定");
 				lightSettingMenuItem.setText("光の設定");
 			}
@@ -395,6 +403,7 @@ public final class MainWindow {
 				settingsMenu.setText("Settings");
 				rangeSettingMenuItem.setText("Set Ranges");
 				labelSettingMenuItem.setText("Set Labels");
+				fontSettingMenuItem.setText("Set Fonts");
 				cameraSettingMenuItem.setText("Set Camera");
 				lightSettingMenuItem.setText("Set Light");
 			}
@@ -422,6 +431,7 @@ public final class MainWindow {
 				settingsMenu.setFont(uiBoldFont);
 				rangeSettingMenuItem.setFont(uiBoldFont);
 				labelSettingMenuItem.setFont(uiBoldFont);
+				fontSettingMenuItem.setFont(uiBoldFont);
 				cameraSettingMenuItem.setFont(uiBoldFont);
 				lightSettingMenuItem.setFont(uiBoldFont);
 			}
