@@ -16,6 +16,7 @@ com/rinearn/graph3d/event/RinearnGraph3DPlottingListener.java
 com/rinearn/graph3d/model/Model.java
 com/rinearn/graph3d/model/package-info.java
 com/rinearn/graph3d/presenter/CameraSettingHandler.java
+com/rinearn/graph3d/presenter/FontSettingHandler.java
 com/rinearn/graph3d/presenter/FrameHandler.java
 com/rinearn/graph3d/presenter/LabelSettingHandler.java
 com/rinearn/graph3d/presenter/LightSettingHandler.java

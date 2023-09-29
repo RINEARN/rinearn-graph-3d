@@ -192,7 +192,7 @@ public class FontSettingWindow {
 
 			constraints.gridy++;
 
-			// Create the components of "Zenith Axis".
+			// Create the components of "UI Font".
 			{
 				constraints.gridx = 0;
 				constraints.gridwidth = 1;
@@ -224,6 +224,9 @@ public class FontSettingWindow {
 				constraints.insets = new Insets(0, leftMarginOfCheckBoxesInSection, bottomMarginInSection, rightMargin);
 				layour.setConstraints(uiFontBoldBox, constraints);
 				basePanel.add(uiFontBoldBox);
+
+				// We don't use the following in this version.
+				uiFontBoldBox.setVisible(false);
 
 				constraints.gridx = 0;
 				constraints.gridy++;
@@ -454,7 +457,7 @@ public class FontSettingWindow {
 			uiFontLabel.setFont(uiBoldFont);
 			axisLabelFontLabel.setFont(uiBoldFont);
 			tickLabelFontLabel.setFont(uiBoldFont);
-			okButton.setText("OK");
+			okButton.setFont(uiBoldFont);
 
 			uiFontNameBox.setFont(uiBoldFont);
 			axisLabelFontNameBox.setFont(uiBoldFont);

@@ -590,6 +590,8 @@ public class CameraSettingWindow {
 			Font uiBoldFont = fontConfig.getUIBoldFont();
 			Font uiPlainFont = fontConfig.getUIPlainFont();
 
+			zenithAxisBox.setFont(uiBoldFont);
+
 			angleSectionLabel.setFont(uiBoldFont);
 			zenithAxisLabel.setFont(uiBoldFont);
 			screwAngleLabel.setFont(uiBoldFont);

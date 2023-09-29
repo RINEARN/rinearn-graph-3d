@@ -111,6 +111,9 @@ public final class Presenter {
 	/** The handler of events and API requests for setting labels. */
 	public final LabelSettingHandler labelSettingHandler;
 
+	/** The handler of events for setting fonts. */
+	public final FontSettingHandler fontSettingHandler;
+
 	/** The handler of events and API requests for setting camera-related parameters. */
 	public final CameraSettingHandler cameraSettingHandler;
 
@@ -156,6 +159,7 @@ public final class Presenter {
 		this.screenSideUIHandler = new ScreenSideUIHandler(model, view, this);
 		this.rangeSettingHandler = new RangeSettingHandler(model, view, this);
 		this.labelSettingHandler = new LabelSettingHandler(model, view, this);
+		this.fontSettingHandler = new FontSettingHandler(model, view, this);
 		this.cameraSettingHandler = new CameraSettingHandler(model, view, this);
 		this.scaleSettingHandler = new ScaleSettingHandler(model, view, this);
 		this.lightSettingHandler = new LightSettingHandler(model, view, this);
@@ -175,6 +179,7 @@ public final class Presenter {
 		this.screenSideUIHandler.setEventHandlingEnabled(enabled);
 		this.rangeSettingHandler.setEventHandlingEnabled(enabled);
 		this.labelSettingHandler.setEventHandlingEnabled(enabled);
+		this.fontSettingHandler.setEventHandlingEnabled(enabled);
 		this.cameraSettingHandler.setEventHandlingEnabled(enabled);
 		this.scaleSettingHandler.setEventHandlingEnabled(enabled);
 		this.lightSettingHandler.setEventHandlingEnabled(enabled);
