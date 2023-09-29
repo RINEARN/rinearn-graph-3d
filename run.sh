@@ -1,3 +1,4 @@
 #!/bin/sh
 
-java -cp bin temp.TempMain
+java -jar RinearnGraph3D.jar
+
