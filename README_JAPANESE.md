@@ -23,12 +23,12 @@ Microsoft Windows&reg; をご使用の場合は「 build.bat 」を実行して�
     sudo chmod +x ./build.sh
     ./build.sh
 
+成功すると、JARファイル「RinearnGraph3D.jar」が生成されます。
+
 定常的にビルドする場合は、上記スクリプトの内容を参考に、ご使用のビルドツールやIDEに合わせて設定を構築してください。
 
 
 ## 実行方法
-
-まだ開発の途中であるため、きちんとしたアプリケーションとしての起動方法は準備されていません。下記は開発作業のための実行方法です。
 
 Microsoft Windows&reg; をご使用の場合は「 run.bat 」を実行してください。その他のOSでは、以下のように「 run.sh 」を実行してください：
 
@@ -36,7 +36,24 @@ Microsoft Windows&reg; をご使用の場合は「 run.bat 」を実行してく
     sudo chmod +x ./run.sh
     ./run.sh
 
-どういう画面が起動されるかや、その上に何が表示されるかは、その時々に開発している内容によって異なります。
+
+## ライブラリとしての使用方法
+
+続いて、リニアングラフ3Dをライブラリとして用いるサンプルコードをコンパイルしてみましょう:
+
+    javac -cp ".;RinearnGraph3D.jar" TempExample.java    (for Windows)
+    javac -cp ".:RinearnGraph3D.jar" TempExample.java    (for Linux)
+
+(上記の2つの違いは、記号「;」と「:」のどちらを使うか、という点だけです。)
+
+コンパイルが成功したら、以下のように実行できます:
+
+    java -cp ".;RinearnGraph3D.jar" TempExample    (for Windows)
+    java -cp ".:RinearnGraph3D.jar" TempExample    (for Linux)
+
+このサンプルコードは、現在進行形で開発とデバッグの足場として使われているものです。
+従って、どういう画面が起動されるかや、その上に何が表示されるかは、その時々に開発している内容によって異なります。
+
 
 ## API仕様
 

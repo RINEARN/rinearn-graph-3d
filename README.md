@@ -20,6 +20,8 @@ Execute 'build.bat' on Microsoft Windows&reg;, or execute 'build.sh' on other OS
     sudo chmod +x ./build.sh
     ./build.sh
 
+As a result, a JAR file "RinearnGraph3D.jar" will be generated.
+
 ## How to Run
 
 Execute 'run.bat' on Microsoft Windows&reg;, or execute 'run.sh' on other OSes as follows:
@@ -27,6 +29,22 @@ Execute 'run.bat' on Microsoft Windows&reg;, or execute 'run.sh' on other OSes a
     cd <this_directory>
     sudo chmod +x ./run.sh
     ./run.sh
+
+## How to Use as a Library
+
+Also, Let's compile an example code which uses RINEARN Graph 3D as a library:
+
+    javac -cp ".;RinearnGraph3D.jar" TempExample.java    (for Windows)
+    javac -cp ".:RinearnGraph3D.jar" TempExample.java    (for Linux)
+
+(The difference between the above two lines is only a simbol ";" or ":".)
+
+And execute as follows:
+
+    java -cp ".;RinearnGraph3D.jar" TempExample    (for Windows)
+    java -cp ".:RinearnGraph3D.jar" TempExample    (for Linux)
+
+
 
 ## API References
 
