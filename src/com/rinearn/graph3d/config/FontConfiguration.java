@@ -15,10 +15,10 @@ public class FontConfiguration {
 	private volatile Font uiBoldFont = new Font("Dialog", Font.BOLD, 16);
 
 	/** The font for rendering axis labels. */
-	private volatile Font axisLabelFont = new Font("Dialog", Font.PLAIN, 30);
+	private volatile Font axisLabelFont = new Font("Dialog", Font.BOLD, 18);
 
 	/** The font for rendering tick labels. */
-	private volatile Font tickLabelFont = new Font("Dialog", Font.PLAIN, 20);
+	private volatile Font tickLabelFont = new Font("Dialog", Font.BOLD, 12);
 
 	// To be added: markerFont
 

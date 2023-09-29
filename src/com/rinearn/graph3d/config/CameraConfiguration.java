@@ -25,7 +25,7 @@ public class CameraConfiguration {
 	private volatile double magnification = 700.0;
 
 	/** The distance between the viewpoint and the origin of the graph. */
-	private volatile double distance = 4.0;
+	private volatile double distance = 6.0;
 
 	/** The horizontal offset amount of the graph center (= rotation center), from the screen center. */
 	private volatile int horizontalCenterOffset = 0;
@@ -56,10 +56,10 @@ public class CameraConfiguration {
 	private volatile AngleMode angleMode = AngleMode.Z_ZENITH;
 
 	/** The vertical angle, which is the angle between the zenith axis and the direction toward the camera. */
-	private volatile double verticalAngle = 0.0;
+	private volatile double verticalAngle = 1.04;
 
 	/** The horizontal angle, which is the rotation angle of the camera's location around the zenith axis. */
-	private volatile double horizontalAngle = 0.0;
+	private volatile double horizontalAngle = 0.65;
 
 	/** The screw angle, which is the rotation angle of the camera itself (not location) around the screen center. */
 	private volatile double screwAngle = 0.0;
@@ -71,6 +71,20 @@ public class CameraConfiguration {
  		{ 0.0, 0.0, 1.0 }
  	};
 
+ 
+ 	/**
+ 	 * Creates a new configuration storing default values.
+ 	 */
+ 	public CameraConfiguration() {
+
+ 		// Reflect the default horizontal/vertical/screw angles to the rotation matrix();
+ 		double defaultHorizontalAngele = horizontalAngle;
+ 		double defaultVerticalAngele = verticalAngle;
+ 		double defaultScrewAngele = screwAngle;
+ 		this.setHorizontalAngle(defaultHorizontalAngele);
+ 		this.setVerticalAngle(defaultVerticalAngele);
+ 		this.setScrewAngle(defaultScrewAngele);
+ 	}
  
  	/**
  	 * Sets the magnification of the graph screen.

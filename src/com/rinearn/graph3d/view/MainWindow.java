@@ -39,10 +39,10 @@ public final class MainWindow {
 	public static final int DEFAULT_WINDOW_Y = 50;
 
 	/** The default width [px] of the main window. */
-	public static final int DEFAULT_WINDOW_WIDTH = 1000;
+	public static final int DEFAULT_WINDOW_WIDTH = 770;
 
 	/** The default height [px] of the main window. */
-	public static final int DEFAULT_WINDOW_HEIGHT = 860;
+	public static final int DEFAULT_WINDOW_HEIGHT = 620;
 
 	/** The width of the left-side UI panel. */
 	public static final int LEFT_SIDE_UI_PANEL_WIDTH = 95;
