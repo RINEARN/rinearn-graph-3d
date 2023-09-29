@@ -115,22 +115,6 @@ public class RinearnGraph3D {
 		// !!! NOTE !!!
 
 
-		// Set the reference to the rendered image of the renderer,
-		// to the graph screen of the window for displaying it.
-		Image screenImage = this.renderer.getScreenImage();
-		this.view.mainWindow.setScreenImage(screenImage);
-
-		// First rendering and repainting.
-		this.renderer.drawScale();
-		this.renderer.drawLabel();
-		this.renderer.drawGrid();
-		this.renderer.drawFrame();
-		this.renderer.render();
-		//this.view.mainWindow.repaintScreen();
-
-		// Show the window.
-		this.view.mainWindow.setWindowVisible(true);
-
 		// Creates the event dispatcher, which manages listeners of RinearnGraph3DPlottingEvent and dispatches fired events.
 		// It is managed in Presenter, but instantiate here to specify this RinearnGraph3D instance as the event source.
 		// And then, pass it to the argument of the Presenter's constructor.
@@ -140,8 +124,28 @@ public class RinearnGraph3D {
 		// (The rendering loop is also running in this Presenter layer.)
 		this.presenter = new Presenter(this.model, this.view, this.renderer, plottingEventDispatcher);
 
+
+		// Update some parameters in the configuration.
+		Dimension screenSize = view.mainWindow.getScreenSize(); // The screen size depends on the default window size.
+		configuration.getCameraConfiguration().setScreenSize((int)screenSize.getWidth(), (int)screenSize.getHeight());
+
+		// !!! NOTE !!!
+		// ↑これ、というか逆に、config 内のスクリーンサイズに合わせてデフォルトウィンドウが決まるべきか？
+		//   起動後の挙動だと、config 内スクリーンサイズを呼んでリサイズするし。
+		//   現状のように MainWindow に定数としてデフォルトウィンドウサイズを決めてる事がむしろだめ？
+		//   そのせいで起動直後の初回レンダリングだけ、その後と非対称な特例処理になってるわけで。
+		//
+		// また要検討
+		//
+		// !!! NOTE !!!
+
+
 		// Propagate the configuration stored in Model, to the entire application.
 		this.presenter.propagateConfiguration();
+		this.presenter.plot();
+
+		// Show the window.
+		this.view.mainWindow.setWindowVisible(true);
 	}
 
 
