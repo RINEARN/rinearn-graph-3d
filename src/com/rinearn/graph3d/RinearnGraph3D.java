@@ -44,6 +44,16 @@ public class RinearnGraph3D {
 
 
 	/**
+	 * The entry-point when RINEARN Graph 3D is executed as an application (not a library).
+	 * 
+	 * @param args The command-line arguments.
+	 */
+	public static void main(String[] args) {
+		new RinearnGraph3D();
+	}
+
+
+	/**
 	 * <span class="lang-en">
 	 * Launch a new RINEARN Graph 3D window
 	 * </span>
