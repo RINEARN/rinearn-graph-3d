@@ -47,6 +47,7 @@ com/rinearn/graph3d/renderer/simple/SimpleRenderer.java
 com/rinearn/graph3d/renderer/simple/SpaceConverter.java
 com/rinearn/graph3d/RinearnGraph3D.java
 com/rinearn/graph3d/view/CameraSettingWindow.java
+com/rinearn/graph3d/view/FontSettingWindow.java
 com/rinearn/graph3d/view/LabelSettingWindow.java
 com/rinearn/graph3d/view/LightSettingWindow.java
 com/rinearn/graph3d/view/MainWindow.java

@@ -109,6 +109,9 @@ public final class View {
 	/** The setting window of "Settings" > "Set Ranges" menu. */
 	public final RangeSettingWindow rangeSettingWindow = new RangeSettingWindow();
 
+	/** The setting window of "Settings" > "Set Fonts" menu. */
+	public final FontSettingWindow fontSettingWindow = new FontSettingWindow();
+
 	/** The setting window of "Settings" > "Set Camera" menu. */
 	public final CameraSettingWindow cameraSettingWindow = new CameraSettingWindow();
 
@@ -140,6 +143,7 @@ public final class View {
 		this.mainWindow.configure(configuration);
 		this.labelSettingWindow.configure(configuration);
 		this.rangeSettingWindow.configure(configuration);
+		this.fontSettingWindow.configure(configuration);
 		this.cameraSettingWindow.configure(configuration);
 		this.lightSettingWindow.configure(configuration);
 	}
