@@ -20,6 +20,8 @@ public class FontConfiguration {
 	/** The font for rendering tick labels. */
 	private volatile Font tickLabelFont = new Font("Dialog", Font.PLAIN, 20);
 
+	// To be added: markerFont
+
 
 	/**
 	 * Sets the plain font for GUI components.
