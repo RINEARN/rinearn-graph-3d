@@ -3,17 +3,24 @@
 :: ==================================================
 
 :: --------------------------------------------------
-:: compile source files
+:: Build Vnano Engine
+:: --------------------------------------------------
+
+cd lib\app-dependencies\vnano-engine
+mkdir bin
+cd src
+javac @org/vcssl/nano/sourcelist.txt -d ../bin -encoding UTF-8
+cd ..
+jar cvfm Vnano.jar src/org/vcssl/nano/meta/main.mf -C bin org -C src/org/vcssl/nano/meta META-INF
+cd ..\..\..\
+
+:: --------------------------------------------------
+:: Build RINEARN Graph 3D
 :: --------------------------------------------------
 
 mkdir bin
 cd src
-javac @com/rinearn/graph3d/sourcelist.txt -d ../bin -encoding UTF-8
+javac @com/rinearn/graph3d/sourcelist.txt -cp "../lib/app-dependencies/vnano-engine/Vnano.jar" -d ../bin -encoding UTF-8
 cd ..
-
-:: --------------------------------------------------
-:: create a JAR file
-:: --------------------------------------------------
-
 jar cvfm RinearnGraph3D.jar src/com/rinearn/graph3d/meta/Manifest.mf -C bin com
 
