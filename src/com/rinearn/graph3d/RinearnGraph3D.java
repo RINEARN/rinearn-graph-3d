@@ -70,11 +70,6 @@ public class RinearnGraph3D {
 		// Check that dependencies (libraries) are available.
 		boolean allDependenciesAreAvailable = this.checkDependencies(configuration);
 		if (!allDependenciesAreAvailable) {
-			try {
-				// Sleep for popping-up the error message window.
-				Thread.sleep(300);
-			} catch (InterruptedException e) {
-			}
 			throw new IllegalStateException("Unavailable dependency has been detected.");
 		}
 
