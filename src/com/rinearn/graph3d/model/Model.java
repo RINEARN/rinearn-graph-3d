@@ -60,8 +60,8 @@ public final class Model {
 
 			// Enable the option to handle integers in expressions as floating-point numbers.
 			Map<String, Object> optionMap = new HashMap<String, Object>();
-	        optionMap.put("EVAL_INT_LITERAL_AS_FLOAT", true);
-	        engine.setOptionMap(optionMap);
+			optionMap.put("EVAL_INT_LITERAL_AS_FLOAT", true);
+			engine.setOptionMap(optionMap);
 
 			// Load plug-ins.
 			PluginLoader pluginLoader = new PluginLoader("UTF-8");
