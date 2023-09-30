@@ -1,0 +1,131 @@
+coding UTF-8;
+
+bool almostEquals(float a, float b) {
+	float diff = a - b;
+	if (diff < 0) {
+		diff = -diff;
+	}
+	return diff <= 1.0E-8;
+}
+
+
+// Test of sum(...)
+{
+	print("sum(...): ");
+	assert( almostEquals( sum(1.0, 2.5, 4.0), 7.5 ) );
+	println("OK.");
+}
+
+
+// Test of sum(float[])
+{
+	print("sum(float[]): ");
+	float args[3];
+	args[0] = 1.0;
+	args[1] = 2.5;
+	args[2] = 4.0;
+	assert( almostEquals( sum(args), 7.5 ) );
+	println("OK.");
+}
+
+
+// Test of mean(...)
+{
+	print("mean(...): ");
+	assert( almostEquals( mean(1.0, 2.5, 4.0), 2.5 ) );
+	println("OK.");
+}
+
+
+// Test of mean(float[])
+{
+	print("mean(float[]): ");
+	float args[3];
+	args[0] = 1.0;
+	args[1] = 2.5;
+	args[2] = 4.0;
+	assert( almostEquals( mean(args), 2.5 ) );
+	println("OK.");
+}
+
+
+// Test of van(...)
+{
+	print("van(...): ");
+	assert( almostEquals( van(1.0, 2.5, 4.0), 1.5 ) );
+	println("OK.");
+}
+
+
+// Test of van(float[])
+{
+	print("van(float[]): ");
+	float args[3];
+	args[0] = 1.0;
+	args[1] = 2.5;
+	args[2] = 4.0;
+	assert( almostEquals( van(args), 1.5 ) );
+	println("OK.");
+}
+
+
+// Test of van1(...)
+{
+	print("van1(...): ");
+	assert( almostEquals( van1(1.0, 2.5, 4.0), 2.25 ) );
+	println("OK.");
+}
+
+
+// Test of van(float[])
+{
+	print("van1(float[]): ");
+	float args[3];
+	args[0] = 1.0;
+	args[1] = 2.5;
+	args[2] = 4.0;
+	assert( almostEquals( van1(args), 2.25 ) );
+	println("OK.");
+}
+
+
+// Test of sdn(...)
+{
+	print("sdn(...): ");
+	assert( almostEquals( sdn(1.0, 2.5, 4.0), 1.224744871391589 ) );  // sqrt(1.5)
+	println("OK.");
+}
+
+
+// Test of sdn(float[])
+{
+	print("sdn(float[]): ");
+	float args[3];
+	args[0] = 1.0;
+	args[1] = 2.5;
+	args[2] = 4.0;
+	assert( almostEquals( sdn(args), 1.224744871391589 ) );  // sqrt(1.5)
+	println("OK.");
+}
+
+
+// Test of sdn1(...)
+{
+	print("sdn1(...): ");
+	assert( almostEquals( sdn1(1.0, 2.5, 4.0), 1.5 ) );
+	println("OK.");
+}
+
+
+// Test of sdn1(float[])
+{
+	print("sdn1(float[]): ");
+	float args[3];
+	args[0] = 1.0;
+	args[1] = 2.5;
+	args[2] = 4.0;
+	assert( almostEquals( sdn1(args), 1.5 ) );
+	println("OK.");
+}
+
+

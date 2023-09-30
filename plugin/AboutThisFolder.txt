@@ -1,0 +1,14 @@
+In this folder, plug-ins for Vnano Engine are located.
+Plug-ins provide functions and variables available in scripts.
+
+You can enable/disable each plug-in, or adding new plug-ins,
+by editing "VnanoPluginList.txt".
+
+In this app, all Vnano Standard Plug-ins are bundled by default.
+They are developed by RINEARN, released under CC0 (almost copyright-free).
+For the list of available functions and variables, see the following webpage:
+
+--------------------------------------------------------------------------------
+* Vnano Standard Plug-ins
+    https://www.vcssl.org/en-us/vnano/plugin/
+--------------------------------------------------------------------------------

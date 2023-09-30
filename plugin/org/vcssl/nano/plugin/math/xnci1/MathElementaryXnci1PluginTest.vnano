@@ -1,0 +1,579 @@
+coding UTF-8;
+
+bool almostEquals(float a, float b) {
+	float diff = a - b;
+	if (diff < 0) {
+		diff = -diff;
+	}
+	return diff <= 1.0E-8;
+}
+
+
+// Test of PI
+{
+	print("PI: ");
+	assert( almostEquals( PI, 3.141592653589793 ) );
+	println("OK.");
+}
+
+
+// Test of rad(degree)
+{
+	print("rad(degree): ");
+	
+	// Pass a scalar
+	assert( almostEquals( rad(30.0), PI/6.0 ) );
+	
+	// Pass a 1D array
+	float x1d[3];
+	x1d[0] = 30.0;
+	x1d[1] = 45.0;
+	x1d[2] = 90.0;
+	float y1d[] = rad(x1d);
+	assert( length(y1d,0) == 3 );
+	assert( almostEquals( y1d[0], PI/6.0 ) );
+	assert( almostEquals( y1d[1], PI/4.0 ) );
+	assert( almostEquals( y1d[2], PI/2.0 ) );
+	
+	// Pass a 2D Array
+	float x2d[2][3];
+	x2d[0][0] = 30.0;
+	x2d[0][1] = 45.0;
+	x2d[0][2] = 90.0;
+	x2d[1][0] = 180.0;
+	x2d[1][1] = 360.0;
+	x2d[1][2] = 720.0;
+	float y2d[][] = rad(x2d);
+	assert( length(y2d,0) == 2 );
+	assert( length(y2d,1) == 3 );
+	assert( almostEquals( y2d[0][0], PI/6.0 ) );
+	assert( almostEquals( y2d[0][1], PI/4.0 ) );
+	assert( almostEquals( y2d[0][2], PI/2.0 ) );
+	assert( almostEquals( y2d[1][0], PI ) );
+	assert( almostEquals( y2d[1][1], 2.0*PI ) );
+	assert( almostEquals( y2d[1][2], 4.0*PI ) );
+	
+	println("OK.");
+}
+
+
+// Test of deg(radian)
+{
+	print("deg(radian): ");
+	
+	// Pass a scalar
+	assert( almostEquals( deg(PI/6.0), 30.0 ) );
+	
+	// Pass a 1D array
+	float x1d[3];
+	x1d[0] = PI/6.0;
+	x1d[1] = PI/4.0;
+	x1d[2] = PI/2.0;
+	float y1d[] = deg(x1d);
+	assert( length(y1d,0) == 3 );
+	assert( almostEquals( y1d[0], 30.0 ) );
+	assert( almostEquals( y1d[1], 45.0 ) );
+	assert( almostEquals( y1d[2], 90.0 ) );
+	
+	// Pass a 2D Array
+	float x2d[2][3];
+	x2d[0][0] = PI/6.0;
+	x2d[0][1] = PI/4.0;
+	x2d[0][2] = PI/2.0;
+	x2d[1][0] = PI;
+	x2d[1][1] = 2.0*PI;
+	x2d[1][2] = 4.0*PI;
+	float y2d[][] = deg(x2d);
+	assert( length(y2d,0) == 2 );
+	assert( length(y2d,1) == 3 );
+	assert( almostEquals( y2d[0][0], 30.0 ) );
+	assert( almostEquals( y2d[0][1], 45.0 ) );
+	assert( almostEquals( y2d[0][2], 90.0 ) );
+	assert( almostEquals( y2d[1][0], 180.0 ) );
+	assert( almostEquals( y2d[1][1], 360.0 ) );
+	assert( almostEquals( y2d[1][2], 720.0 ) );
+	
+	println("OK.");
+}
+
+
+// Test of sin(x)
+{
+	print("sin(x): ");
+	
+	// Pass a scalar
+	assert( almostEquals( sin(1.23), 0.9424888019316975 ) );
+	
+	// Pass a 1D array
+	float x1d[3];
+	x1d[0] = 1.23;
+	x1d[1] = 2.23;
+	x1d[2] = 3.23;
+	float y1d[] = sin(x1d);
+	assert( length(y1d,0) == 3 );
+	assert( almostEquals( y1d[0], 0.9424888019316975 ) );
+	assert( almostEquals( y1d[1], 0.7904802223420048 ) );
+	assert( almostEquals( y1d[2], -0.0882922281826076 ) );
+	
+	// Pass a 2D Array
+	float x2d[2][3];
+	x2d[0][0] = 1.23;
+	x2d[0][1] = 2.23;
+	x2d[0][2] = 3.23;
+	x2d[1][0] = 4.23;
+	x2d[1][1] = 5.23;
+	x2d[1][2] = 6.23;
+	float y2d[][] = sin(x2d);
+	assert( length(y2d,0) == 2 );
+	assert( length(y2d,1) == 3 );
+	assert( almostEquals( y2d[0][0], 0.9424888019316975 ) );
+	assert( almostEquals( y2d[0][1], 0.7904802223420048 ) );
+	assert( almostEquals( y2d[0][2], -0.0882922281826076 ) );
+	assert( almostEquals( y2d[1][0], -0.8858892112966027 ) );
+	assert( almostEquals( y2d[1][1], -0.8690037390319161 ) );
+	assert( almostEquals( y2d[1][2], -0.05316023671735613 ) );
+	
+	println("OK.");
+}
+
+
+// Test of cos(x)
+{
+	print("cos(x): ");
+	
+	// Pass a scalar
+	assert( almostEquals( cos(1.23), 0.3342377271245026 ) );
+	
+	// Pass a 1D array
+	float x1d[3];
+	x1d[0] = 1.23;
+	x1d[1] = 2.23;
+	x1d[2] = 3.23;
+	float y1d[] = cos(x1d);
+	assert( length(y1d,0) == 3 );
+	assert( almostEquals( y1d[0], 0.3342377271245026 ) );
+	assert( almostEquals( y1d[1], -0.6124875656583851 ) );
+	assert( almostEquals( y1d[2], -0.9960946152060809 ) );
+	
+	// Pass a 2D Array
+	float x2d[2][3];
+	x2d[0][0] = 1.23;
+	x2d[0][1] = 2.23;
+	x2d[0][2] = 3.23;
+	x2d[1][0] = 4.23;
+	x2d[1][1] = 5.23;
+	x2d[1][2] = 6.23;
+	float y2d[][] = cos(x2d);
+	assert( length(y2d,0) == 2 );
+	assert( length(y2d,1) == 3 );
+	assert( almostEquals( y2d[0][0], 0.3342377271245026 ) );
+	assert( almostEquals( y2d[0][1], -0.6124875656583851 ) );
+	assert( almostEquals( y2d[0][2], -0.9960946152060809 ) );
+	assert( almostEquals( y2d[1][0], -0.4638968692589801 ) );
+	assert( almostEquals( y2d[1][1], 0.4948055189148051 ) );
+	assert( almostEquals( y2d[1][2], 0.9985859949108813 ) );
+	
+	println("OK.");
+}
+
+
+// Test of tan(x)
+{
+	print("tan(x): ");
+	
+	// Pass a scalar
+	assert( almostEquals( tan(1.23), 2.819815734268152 ) );
+	
+	// Pass a 1D array
+	float x1d[3];
+	x1d[0] = 1.23;
+	x1d[1] = 2.23;
+	x1d[2] = 3.23;
+	float y1d[] = tan(x1d);
+	assert( length(y1d,0) == 3 );
+	assert( almostEquals( y1d[0], 2.819815734268152 ) );
+	assert( almostEquals( y1d[1], -1.290606155395643 ) );
+	assert( almostEquals( y1d[2], 0.08863839522347072 ) );
+	
+	// Pass a 2D Array
+	float x2d[2][3];
+	x2d[0][0] = 1.23;
+	x2d[0][1] = 2.23;
+	x2d[0][2] = 3.23;
+	x2d[1][0] = 4.23;
+	x2d[1][1] = 5.23;
+	x2d[1][2] = 6.23;
+	float y2d[][] = tan(x2d);
+	assert( length(y2d,0) == 2 );
+	assert( length(y2d,1) == 3 );
+	assert( almostEquals( y2d[0][0], 2.819815734268152 ) );
+	assert( almostEquals( y2d[0][1], -1.290606155395643 ) );
+	assert( almostEquals( y2d[0][2], 0.08863839522347072 ) );
+	assert( almostEquals( y2d[1][0], 1.909668441418251 ) );
+	assert( almostEquals( y2d[1][1], -1.756253125344667 ) );
+	assert( almostEquals( y2d[1][2], -0.05323551200224914 ) );
+	
+	println("OK.");
+}
+
+
+// Test of asin(x)
+{
+	print("asin(x): ");
+	
+	// Pass a scalar
+	assert( almostEquals( asin(0.123), 0.123312275191872 ) );
+	
+	// Pass a 1D array
+	float x1d[3];
+	x1d[0] = 0.123;
+	x1d[1] = 0.223;
+	x1d[2] = 0.323;
+	float y1d[] = asin(x1d);
+	assert( length(y1d,0) == 3 );
+	assert( almostEquals( y1d[0], 0.123312275191872 ) );
+	assert( almostEquals( y1d[1], 0.2248908889547854 ) );
+	assert( almostEquals( y1d[2], 0.3288976902112301 ) );
+	
+	// Pass a 2D Array
+	float x2d[2][3];
+	x2d[0][0] = 0.123;
+	x2d[0][1] = 0.223;
+	x2d[0][2] = 0.323;
+	x2d[1][0] = 0.423;
+	x2d[1][1] = 0.523;
+	x2d[1][2] = 0.623;
+	float y2d[][] = asin(x2d);
+	assert( length(y2d,0) == 2 );
+	assert( length(y2d,1) == 3 );
+	assert( almostEquals( y2d[0][0], 0.123312275191872 ) );
+	assert( almostEquals( y2d[0][1], 0.2248908889547854 ) );
+	assert( almostEquals( y2d[0][2], 0.3288976902112301 ) );
+	assert( almostEquals( y2d[1][0], 0.4367535559493017 ) );
+	assert( almostEquals( y2d[1][1], 0.5503669176106641 ) );
+	assert( almostEquals( y2d[1][2], 0.6725721020536986 ) );
+	
+	println("OK.");
+}
+
+
+// Test of acos(x)
+{
+	print("acos(x): ");
+	
+	// Pass a scalar
+	assert( almostEquals( acos(0.123), 1.447484051603025 ) );
+	
+	// Pass a 1D array
+	float x1d[3];
+	x1d[0] = 0.123;
+	x1d[1] = 0.223;
+	x1d[2] = 0.323;
+	float y1d[] = acos(x1d);
+	assert( length(y1d,0) == 3 );
+	assert( almostEquals( y1d[0], 1.447484051603025 ) );
+	assert( almostEquals( y1d[1], 1.345905437840111 ) );
+	assert( almostEquals( y1d[2], 1.241898636583667 ) );
+	
+	// Pass a 2D Array
+	float x2d[2][3];
+	x2d[0][0] = 0.123;
+	x2d[0][1] = 0.223;
+	x2d[0][2] = 0.323;
+	x2d[1][0] = 0.423;
+	x2d[1][1] = 0.523;
+	x2d[1][2] = 0.623;
+	float y2d[][] = acos(x2d);
+	assert( length(y2d,0) == 2 );
+	assert( length(y2d,1) == 3 );
+	assert( almostEquals( y2d[0][0], 1.447484051603025 ) );
+	assert( almostEquals( y2d[0][1], 1.345905437840111 ) );
+	assert( almostEquals( y2d[0][2], 1.241898636583667 ) );
+	assert( almostEquals( y2d[1][0], 1.134042770845595 ) );
+	assert( almostEquals( y2d[1][1], 1.020429409184233 ) );
+	assert( almostEquals( y2d[1][2], 0.8982242247411981 ) );
+	
+	println("OK.");
+}
+
+
+// Test of atan(x)
+{
+	print("atan(x): ");
+	
+	// Pass a scalar
+	assert( almostEquals( atan(1.23), 0.8881737743776796 ) );
+	
+	// Pass a 1D array
+	float x1d[3];
+	x1d[0] = 1.23;
+	x1d[1] = 2.23;
+	x1d[2] = 3.23;
+	float y1d[] = atan(x1d);
+	assert( length(y1d,0) == 3 );
+	assert( almostEquals( y1d[0], 0.8881737743776796 ) );
+	assert( almostEquals( y1d[1], 1.149248370068741 ) );
+	assert( almostEquals( y1d[2], 1.270557888374411 ) );
+	
+	// Pass a 2D Array
+	float x2d[2][3];
+	x2d[0][0] = 1.23;
+	x2d[0][1] = 2.23;
+	x2d[0][2] = 3.23;
+	x2d[1][0] = 4.23;
+	x2d[1][1] = 5.23;
+	x2d[1][2] = 6.23;
+	float y2d[][] = atan(x2d);
+	assert( length(y2d,0) == 2 );
+	assert( length(y2d,1) == 3 );
+	assert( almostEquals( y2d[0][0], 0.8881737743776796 ) );
+	assert( almostEquals( y2d[0][1], 1.149248370068741 ) );
+	assert( almostEquals( y2d[0][2], 1.270557888374411 ) );
+	assert( almostEquals( y2d[1][0], 1.338651780394911 ) );
+	assert( almostEquals( y2d[1][1], 1.38187201918117 ) );
+	assert( almostEquals( y2d[1][2], 1.411640282177744 ) );
+	
+	println("OK.");
+}
+
+
+// Test of sqrt(x)
+{
+	print("sqrt(x): ");
+	
+	// Pass a scalar
+	assert( almostEquals( sqrt(1.23), 1.109053650640942 ) );
+	
+	// Pass a 1D array
+	float x1d[3];
+	x1d[0] = 1.23;
+	x1d[1] = 2.23;
+	x1d[2] = 3.23;
+	float y1d[] = sqrt(x1d);
+	assert( length(y1d,0) == 3 );
+	assert( almostEquals( y1d[0], 1.109053650640942 ) );
+	assert( almostEquals( y1d[1], 1.493318452306808 ) );
+	assert( almostEquals( y1d[2], 1.797220075561143 ) );
+	
+	// Pass a 2D Array
+	float x2d[2][3];
+	x2d[0][0] = 1.23;
+	x2d[0][1] = 2.23;
+	x2d[0][2] = 3.23;
+	x2d[1][0] = 4.23;
+	x2d[1][1] = 5.23;
+	x2d[1][2] = 6.23;
+	float y2d[][] = sqrt(x2d);
+	assert( length(y2d,0) == 2 );
+	assert( length(y2d,1) == 3 );
+	assert( almostEquals( y2d[0][0], 1.109053650640942 ) );
+	assert( almostEquals( y2d[0][1], 1.493318452306808 ) );
+	assert( almostEquals( y2d[0][2], 1.797220075561143 ) );
+	assert( almostEquals( y2d[1][0], 2.056696380120314 ) );
+	assert( almostEquals( y2d[1][1], 2.286919325205854 ) );
+	assert( almostEquals( y2d[1][2], 2.495996794869737 ) );
+	
+	println("OK.");
+}
+
+
+// Test of ln(x)
+{
+	print("ln(x): ");
+	
+	// Pass a scalar
+	assert( almostEquals( ln(1.23), 0.2070141693843261 ) );
+	
+	// Pass a 1D array
+	float x1d[3];
+	x1d[0] = 1.23;
+	x1d[1] = 2.23;
+	x1d[2] = 3.23;
+	float y1d[] = ln(x1d);
+	assert( length(y1d,0) == 3 );
+	assert( almostEquals( y1d[0], 0.2070141693843261 ) );
+	assert( almostEquals( y1d[1], 0.8020015854720274 ) );
+	assert( almostEquals( y1d[2], 1.172482137234565 ) );
+	
+	// Pass a 2D Array
+	float x2d[2][3];
+	x2d[0][0] = 1.23;
+	x2d[0][1] = 2.23;
+	x2d[0][2] = 3.23;
+	x2d[1][0] = 4.23;
+	x2d[1][1] = 5.23;
+	x2d[1][2] = 6.23;
+	float y2d[][] = ln(x2d);
+	assert( length(y2d,0) == 2 );
+	assert( length(y2d,1) == 3 );
+	assert( almostEquals( y2d[0][0], 0.2070141693843261 ) );
+	assert( almostEquals( y2d[0][1], 0.8020015854720274 ) );
+	assert( almostEquals( y2d[0][2], 1.172482137234565 ) );
+	assert( almostEquals( y2d[1][0], 1.442201993058187 ) );
+	assert( almostEquals( y2d[1][1], 1.654411278076832 ) );
+	assert( almostEquals( y2d[1][2], 1.829376332799362 ) );
+	
+	println("OK.");
+}
+
+
+// Test of log10(x)
+{
+	print("log10(x): ");
+	
+	// Pass a scalar
+	assert( almostEquals( log10(1.23), 0.08990511143939792 ) );
+	
+	// Pass a 1D array
+	float x1d[3];
+	x1d[0] = 1.23;
+	x1d[1] = 2.23;
+	x1d[2] = 3.23;
+	float y1d[] = log10(x1d);
+	assert( length(y1d,0) == 3 );
+	assert( almostEquals( y1d[0], 0.08990511143939792 ) );
+	assert( almostEquals( y1d[1], 0.3483048630481607 ) );
+	assert( almostEquals( y1d[2], 0.5092025223311027 ) );
+	
+	// Pass a 2D Array
+	float x2d[2][3];
+	x2d[0][0] = 1.23;
+	x2d[0][1] = 2.23;
+	x2d[0][2] = 3.23;
+	x2d[1][0] = 4.23;
+	x2d[1][1] = 5.23;
+	x2d[1][2] = 6.23;
+	float y2d[][] = log10(x2d);
+	assert( length(y2d,0) == 2 );
+	assert( length(y2d,1) == 3 );
+	assert( almostEquals( y2d[0][0], 0.08990511143939792 ) );
+	assert( almostEquals( y2d[0][1], 0.3483048630481607 ) );
+	assert( almostEquals( y2d[0][2], 0.5092025223311027 ) );
+	assert( almostEquals( y2d[1][0], 0.6263403673750423 ) );
+	assert( almostEquals( y2d[1][1], 0.7185016888672742 ) );
+	assert( almostEquals( y2d[1][2], 0.7944880466591695 ) );
+	
+	println("OK.");
+}
+
+
+// Test of pow(x, exponent)
+{
+	print("pow(x, exponent): ");
+	
+	// Pass a scalar
+	assert( almostEquals( pow(1.23, 1.23), 1.289980921001281 ) );
+	
+	// Pass a 1D array
+	float x1d[3];
+	x1d[0] = 1.23;
+	x1d[1] = 2.23;
+	x1d[2] = 3.23;
+	float y1d[] = pow(x1d, 1.23);
+	assert( length(y1d,0) == 3 );
+	assert( almostEquals( y1d[0], 1.289980921001281 ) );
+	assert( almostEquals( y1d[1], 2.681729574891459 ) );
+	assert( almostEquals( y1d[2], 4.229792886252217 ) );
+	
+	// Pass a 2D Array
+	float x2d[2][3];
+	x2d[0][0] = 1.23;
+	x2d[0][1] = 2.23;
+	x2d[0][2] = 3.23;
+	x2d[1][0] = 4.23;
+	x2d[1][1] = 5.23;
+	x2d[1][2] = 6.23;
+	float y2d[][] = pow(x2d, 1.23);
+	assert( length(y2d,0) == 2 );
+	assert( length(y2d,1) == 3 );
+	assert( almostEquals( y2d[0][0], 1.289980921001281 ) );
+	assert( almostEquals( y2d[0][1], 2.681729574891459 ) );
+	assert( almostEquals( y2d[0][2], 4.229792886252217 ) );
+	assert( almostEquals( y2d[1][0], 5.893844206817955 ) );
+	assert( almostEquals( y2d[1][1], 7.651684900620979 ) );
+	assert( almostEquals( y2d[1][2], 9.488996739120832 ) );
+	
+	println("OK.");
+}
+
+
+// Test of exp(exponent)
+{
+	print("exp(exponent): ");
+	
+	// Pass a scalar
+	assert( almostEquals( exp(1.23), 3.421229536289673 ) );
+	
+	// Pass a 1D array
+	float x1d[3];
+	x1d[0] = 1.23;
+	x1d[1] = 2.23;
+	x1d[2] = 3.23;
+	float y1d[] = exp(x1d);
+	assert( length(y1d,0) == 3 );
+	assert( almostEquals( y1d[0], 3.421229536289673 ) );
+	assert( almostEquals( y1d[1], 9.299866079483586 ) );
+	assert( almostEquals( y1d[2], 25.27965697096289 ) );
+	
+	// Pass a 2D Array
+	float x2d[2][3];
+	x2d[0][0] = 1.23;
+	x2d[0][1] = 2.23;
+	x2d[0][2] = 3.23;
+	x2d[1][0] = 4.23;
+	x2d[1][1] = 5.23;
+	x2d[1][2] = 6.23;
+	float y2d[][] = exp(x2d);
+	assert( length(y2d,0) == 2 );
+	assert( length(y2d,1) == 3 );
+	assert( almostEquals( y2d[0][0], 3.421229536289673 ) );
+	assert( almostEquals( y2d[0][1], 9.299866079483586 ) );
+	assert( almostEquals( y2d[0][2], 25.27965697096289 ) );
+	assert( almostEquals( y2d[1][0], 68.7172321738465 ) );
+	assert( almostEquals( y2d[1][1], 186.7928035201682 ) );
+	assert( almostEquals( y2d[1][2], 507.7554834957939 ) );
+	
+	println("OK.");
+}
+
+
+// Test of abs(x)
+{
+	print("abs(x): ");
+	
+	// Pass a scalar
+	assert( almostEquals( abs(-1.23), 1.23 ) );
+	
+	// Pass a 1D array
+	float x1d[3];
+	x1d[0] = -1.23;
+	x1d[1] = 2.23;
+	x1d[2] = -3.23;
+	float y1d[] = abs(x1d);
+	assert( length(y1d,0) == 3 );
+	assert( almostEquals( y1d[0], 1.23 ) );
+	assert( almostEquals( y1d[1], 2.23 ) );
+	assert( almostEquals( y1d[2], 3.23 ) );
+	
+	// Pass a 2D Array
+	float x2d[2][3];
+	x2d[0][0] = -1.23;
+	x2d[0][1] = 2.23;
+	x2d[0][2] = -3.23;
+	x2d[1][0] = 4.23;
+	x2d[1][1] = -5.23;
+	x2d[1][2] = 6.23;
+	float y2d[][] = abs(x2d);
+	assert( length(y2d,0) == 2 );
+	assert( length(y2d,1) == 3 );
+	assert( almostEquals( y2d[0][0], 1.23 ) );
+	assert( almostEquals( y2d[0][1], 2.23 ) );
+	assert( almostEquals( y2d[0][2], 3.23 ) );
+	assert( almostEquals( y2d[1][0], 4.23 ) );
+	assert( almostEquals( y2d[1][1], 5.23 ) );
+	assert( almostEquals( y2d[1][2], 6.23 ) );
+	
+	println("OK.");
+}
+
+

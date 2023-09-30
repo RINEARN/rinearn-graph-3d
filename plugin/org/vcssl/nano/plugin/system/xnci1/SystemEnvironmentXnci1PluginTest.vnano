@@ -1,0 +1,27 @@
+coding UTF-8;
+
+
+// Test of CR
+{
+	print("CR: ");
+	assert( CR == "\r" );
+	println("OK.");
+}
+
+
+// Test of LF
+{
+	print("LF: ");
+	assert( LF == "\n" );
+	println("OK.");
+}
+
+
+// Test of EOL
+{
+	print("EOL: ");
+	assert( EOL == "\r\n" || EOL == "\n" || EOL == "\r" );
+	println("OK.");
+}
+
+

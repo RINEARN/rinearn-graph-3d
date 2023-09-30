@@ -1,0 +1,451 @@
+coding UTF-8;
+
+
+// Test of INT_MAX
+{
+	print("INT_MAX: ");
+	assert( INT_MAX == 9223372036854775807 );
+	println("OK.");
+}
+
+
+// Test of INT_MIN
+{
+	print("INT_MIN: ");
+	
+	// The min value of 64-bit integer is -9223372036854775808.
+	// However, in code of the Vnano, "-9223372036854775808" will be parsed as 
+	// "-" (unary minus operator) and "9223372036854775808" (int literal), 
+	// and "9223...808" exceeds the max value of 64-bit integer (9223...807), 
+	// so we can't write the min value in code directly.
+	// Instead, write "-(max_value) - 1" as follows.
+	
+	int minValue = -9223372036854775807 - 1;
+	assert( INT_MIN == minValue );
+	println("OK.");
+}
+
+
+// Test of FLOAT_MAX
+{
+	print("FLOAT_MAX: ");
+	assert( FLOAT_MAX == 1.7976931348623157E308 );
+	println("OK.");
+}
+
+
+// Test of FLOAT_MIN_ABS_NORMAL
+{
+	print("FLOAT_MIN_ABS_NORMAL: ");
+	assert( FLOAT_MIN_ABS_NORMAL == 2.2250738585072014E-308 );
+	println("OK.");
+}
+
+
+// Test of FLOAT_MIN_ABS_DENORMAL
+{
+	print("FLOAT_MIN_ABS_DENORMAL: ");
+	assert( FLOAT_MIN_ABS_DENORMAL == 4.9E-324 );
+	println("OK.");
+}
+
+
+// Test of NAN
+{
+	print("NAN: ");
+	assert( nan(NAN) );
+	println("OK.");
+}
+
+
+// Test of INF
+{
+	print("INF: ");
+	assert( INF == 1.0/0.0 );
+	println("OK.");
+}
+
+
+// Test of nan(value)
+{
+	print("nan(value): ");
+	assert( nan( 0.0 / 0.0 ) );
+	assert( !nan( 1.0 ) );
+	println("OK.");
+}
+
+
+// Test of inf(value)
+{
+	print("nan(value): ");
+	assert( inf( 1.0 / 0.0 ) );
+	assert( !inf( 1.0 ) );
+	println("OK.");
+}
+
+
+// Test of length(value)
+{
+	print("length(array, dimIndex): ");
+	
+	int array1d[10];
+	assert( length(array1d, 0) == 10 );
+	
+	int array2d[10][11];
+	assert( length(array2d, 0) == 10 );
+	assert( length(array2d, 1) == 11 );
+	
+	int array3d[10][11][12];
+	assert( length(array3d, 0) == 10 );
+	assert( length(array3d, 1) == 11 );
+	assert( length(array3d, 2) == 12 );
+	
+	println("OK.");
+}
+
+
+// Test of arrayrank(value)
+{
+	print("arrayrank(array): ");
+	
+	int scalar;
+	assert( arrayrank(scalar) == 0 );
+	
+	int array1d[10];
+	assert( arrayrank(array1d) == 1 );
+	
+	int array2d[10][11];
+	assert( arrayrank(array2d) == 2 );
+	
+	int array3d[10][11][12];
+	assert( arrayrank(array3d) == 3 );
+	
+	println("OK.");
+}
+
+
+// The function comparing two float-type values, used in the test of round function.
+// Returns true is the error between a and b is smaller than or equals to minError.
+bool almostEquals(float a, float b, float minError) {
+	// Note: Don't use abs(x) function, because it is not provided by this plug-in,
+	//       and we don't want to require it for testing this plug-in.
+	float abs = a - b;
+	if (abs < 0) {
+		abs = -abs;
+	}
+	return abs <= minError;
+}
+
+
+// Test of round(floatValue, numberOfDigits, mode)
+{
+	println("round(floatValue, numberOfDigits, mode)");
+
+	// Note: for testing HALF_UP/HALF_DOWN/HALF_TO_EVEN mode for float type values, 
+	// be careful of the internal representation of float type values.
+	// For example, a float-type literal 12.345 has internal value 12.345000000000000639488462,
+	// because the value is expressed in binary, and 12.345 is indivisible in binary representation.
+	// Hence, we should use values divisible in binary representation, for example:
+	// nnn.5, nnn.25, nnn.125, nnn.0625, and so on.
+
+	// --------------------------------------------------------------------------------
+	// Tests for UP / DOWN/ HALF_UP / HALF_DOWN / HALF_TO_EVEN modes.
+	// In the above mode, specify the number of digits after the radix point.
+	// --------------------------------------------------------------------------------
+
+	assert( almostEquals( round(123.06251, 3, UP), 123.063, 1.0E-10) );
+	assert( almostEquals( round(123.06250, 3, UP), 123.063, 1.0E-10) );
+	assert( almostEquals( round(123.06249, 3, UP), 123.063, 1.0E-10) );
+
+	assert( almostEquals( round(-123.06251, 3, UP), -123.063, 1.0E-10) );
+	assert( almostEquals( round(-123.06250, 3, UP), -123.063, 1.0E-10) );
+	assert( almostEquals( round(-123.06249, 3, UP), -123.063, 1.0E-10) );
+
+	assert( almostEquals( round(123.06251, 3, DOWN), 123.062, 1.0E-10) );
+	assert( almostEquals( round(123.06250, 3, DOWN), 123.062, 1.0E-10) );
+	assert( almostEquals( round(123.06249, 3, DOWN), 123.062, 1.0E-10) );
+
+	assert( almostEquals( round(-123.06251, 3, DOWN), -123.062, 1.0E-10) );
+	assert( almostEquals( round(-123.06250, 3, DOWN), -123.062, 1.0E-10) );
+	assert( almostEquals( round(-123.06249, 3, DOWN), -123.062, 1.0E-10) );
+
+	assert( almostEquals( round(123.06251, 3, HALF_UP), 123.063, 1.0E-10) );
+	assert( almostEquals( round(123.06250, 3, HALF_UP), 123.063, 1.0E-10) );
+	assert( almostEquals( round(123.06249, 3, HALF_UP), 123.062, 1.0E-10) );
+
+	assert( almostEquals( round(-123.06251, 3, HALF_UP), -123.063, 1.0E-10) );
+	assert( almostEquals( round(-123.06250, 3, HALF_UP), -123.063, 1.0E-10) );
+	assert( almostEquals( round(-123.06249, 3, HALF_UP), -123.062, 1.0E-10) );
+
+	assert( almostEquals( round(123.06251, 3, HALF_DOWN), 123.063, 1.0E-10) );
+	assert( almostEquals( round(123.06250, 3, HALF_DOWN), 123.062, 1.0E-10) );
+	assert( almostEquals( round(123.06249, 3, HALF_DOWN), 123.062, 1.0E-10) );
+
+	assert( almostEquals( round(-123.06251, 3, HALF_DOWN), -123.063, 1.0E-10) );
+	assert( almostEquals( round(-123.06250, 3, HALF_DOWN), -123.062, 1.0E-10) );
+	assert( almostEquals( round(-123.06249, 3, HALF_DOWN), -123.062, 1.0E-10) );
+
+	assert( almostEquals( round(123.06251, 3, HALF_TO_EVEN), 123.063, 1.0E-10) );
+	assert( almostEquals( round(123.06250, 3, HALF_TO_EVEN), 123.062, 1.0E-10) );
+	assert( almostEquals( round(123.06249, 3, HALF_TO_EVEN), 123.062, 1.0E-10) );
+
+	assert( almostEquals( round(-123.06251, 3, HALF_TO_EVEN), -123.063, 1.0E-10) );
+	assert( almostEquals( round(-123.06250, 3, HALF_TO_EVEN), -123.062, 1.0E-10) );
+	assert( almostEquals( round(-123.06249, 3, HALF_TO_EVEN), -123.062, 1.0E-10) );
+
+	assert( almostEquals( round(125.5, 0, HALF_TO_EVEN), 126.0, 1.0E-10) );
+	assert( almostEquals( round(124.5, 0, HALF_TO_EVEN), 124.0, 1.0E-10) );
+	assert( almostEquals( round(123.5, 0, HALF_TO_EVEN), 124.0, 1.0E-10) );
+	assert( almostEquals( round(122.5, 0, HALF_TO_EVEN), 122.0, 1.0E-10) );
+	assert( almostEquals( round(121.5, 0, HALF_TO_EVEN), 122.0, 1.0E-10) );
+	assert( almostEquals( round(120.5, 0, HALF_TO_EVEN), 120.0, 1.0E-10) );
+
+	assert( almostEquals( round(-125.5, 0, HALF_TO_EVEN), -126.0, 1.0E-10) );
+	assert( almostEquals( round(-124.5, 0, HALF_TO_EVEN), -124.0, 1.0E-10) );
+	assert( almostEquals( round(-123.5, 0, HALF_TO_EVEN), -124.0, 1.0E-10) );
+	assert( almostEquals( round(-122.5, 0, HALF_TO_EVEN), -122.0, 1.0E-10) );
+	assert( almostEquals( round(-121.5, 0, HALF_TO_EVEN), -122.0, 1.0E-10) );
+	assert( almostEquals( round(-120.5, 0, HALF_TO_EVEN), -120.0, 1.0E-10) );
+
+
+
+	// --------------------------------------------------------------------------------
+	// Tests for UP_SIGNIF / DOWN_SIGNIF / HALF_UP_SIGNIF ... modes.
+	// In the above mode, specify the number of digits of the significand part.
+	// --------------------------------------------------------------------------------
+
+	assert( almostEquals( round(123.06251, 6, UP_SIGNIF), 123.063, 1.0E-10) );
+	assert( almostEquals( round(123.06250, 6, UP_SIGNIF), 123.063, 1.0E-10) );
+	assert( almostEquals( round(123.06249, 6, UP_SIGNIF), 123.063, 1.0E-10) );
+
+	assert( almostEquals( round(-123.06251, 6, UP_SIGNIF), -123.063, 1.0E-10) );
+	assert( almostEquals( round(-123.06250, 6, UP_SIGNIF), -123.063, 1.0E-10) );
+	assert( almostEquals( round(-123.06249, 6, UP_SIGNIF), -123.063, 1.0E-10) );
+
+	assert( almostEquals( round(1.2306251E12, 6, UP_SIGNIF), 1.23063E12, 1.0E-10) );
+	assert( almostEquals( round(1.2306250E12, 6, UP_SIGNIF), 1.23063E12, 1.0E-10) );
+	assert( almostEquals( round(1.2306249E12, 6, UP_SIGNIF), 1.23063E12, 1.0E-10) );
+
+	assert( almostEquals( round(123.06251, 6, DOWN_SIGNIF), 123.062, 1.0E-10) );
+	assert( almostEquals( round(123.06250, 6, DOWN_SIGNIF), 123.062, 1.0E-10) );
+	assert( almostEquals( round(123.06249, 6, DOWN_SIGNIF), 123.062, 1.0E-10) );
+
+	assert( almostEquals( round(-123.06251, 6, DOWN_SIGNIF), -123.062, 1.0E-10) );
+	assert( almostEquals( round(-123.06250, 6, DOWN_SIGNIF), -123.062, 1.0E-10) );
+	assert( almostEquals( round(-123.06249, 6, DOWN_SIGNIF), -123.062, 1.0E-10) );
+
+	assert( almostEquals( round(1.2306251E12, 6, DOWN_SIGNIF), 1.23062E12, 1.0E-10) );
+	assert( almostEquals( round(1.2306250E12, 6, DOWN_SIGNIF), 1.23062E12, 1.0E-10) );
+	assert( almostEquals( round(1.2306249E12, 6, DOWN_SIGNIF), 1.23062E12, 1.0E-10) );
+
+	assert( almostEquals( round(123.06251, 6, HALF_UP_SIGNIF), 123.063, 1.0E-10) );
+	assert( almostEquals( round(123.06250, 6, HALF_UP_SIGNIF), 123.063, 1.0E-10) );
+	assert( almostEquals( round(123.06249, 6, HALF_UP_SIGNIF), 123.062, 1.0E-10) );
+
+	assert( almostEquals( round(-123.06251, 6, HALF_UP_SIGNIF), -123.063, 1.0E-10) );
+	assert( almostEquals( round(-123.06250, 6, HALF_UP_SIGNIF), -123.063, 1.0E-10) );
+	assert( almostEquals( round(-123.06249, 6, HALF_UP_SIGNIF), -123.062, 1.0E-10) );
+
+	assert( almostEquals( round(1.2306251E12, 6, HALF_UP_SIGNIF), 1.23063E12, 1.0E-10) );
+	assert( almostEquals( round(1.2306250E12, 6, HALF_UP_SIGNIF), 1.23063E12, 1.0E-10) );
+	assert( almostEquals( round(1.2306249E12, 6, HALF_UP_SIGNIF), 1.23062E12, 1.0E-10) );
+
+	assert( almostEquals( round(123.06251, 6, HALF_DOWN_SIGNIF), 123.063, 1.0E-10) );
+	assert( almostEquals( round(123.06250, 6, HALF_DOWN_SIGNIF), 123.062, 1.0E-10) );
+	assert( almostEquals( round(123.06249, 6, HALF_DOWN_SIGNIF), 123.062, 1.0E-10) );
+
+	assert( almostEquals( round(-123.06251, 6, HALF_DOWN_SIGNIF), -123.063, 1.0E-10) );
+	assert( almostEquals( round(-123.06250, 6, HALF_DOWN_SIGNIF), -123.062, 1.0E-10) );
+	assert( almostEquals( round(-123.06249, 6, HALF_DOWN_SIGNIF), -123.062, 1.0E-10) );
+
+	assert( almostEquals( round(1.2306251E12, 6, HALF_DOWN_SIGNIF), 1.23063E12, 1.0E-10) );
+	assert( almostEquals( round(1.2306250E12, 6, HALF_DOWN_SIGNIF), 1.23062E12, 1.0E-10) );
+	assert( almostEquals( round(1.2306249E12, 6, HALF_DOWN_SIGNIF), 1.23062E12, 1.0E-10) );
+
+	assert( almostEquals( round(123.06251, 6, HALF_TO_EVEN_SIGNIF), 123.063, 1.0E-10) );
+	assert( almostEquals( round(123.06250, 6, HALF_TO_EVEN_SIGNIF), 123.062, 1.0E-10) );
+	assert( almostEquals( round(123.06249, 6, HALF_TO_EVEN_SIGNIF), 123.062, 1.0E-10) );
+
+	assert( almostEquals( round(-123.06251, 6, HALF_TO_EVEN_SIGNIF), -123.063, 1.0E-10) );
+	assert( almostEquals( round(-123.06250, 6, HALF_TO_EVEN_SIGNIF), -123.062, 1.0E-10) );
+	assert( almostEquals( round(-123.06249, 6, HALF_TO_EVEN_SIGNIF), -123.062, 1.0E-10) );
+
+	assert( almostEquals( round(1.2306251E12, 6, HALF_TO_EVEN_SIGNIF), 1.23063E12, 1.0E-10) );
+	assert( almostEquals( round(1.2306250E12, 6, HALF_TO_EVEN_SIGNIF), 1.23062E12, 1.0E-10) );
+	assert( almostEquals( round(1.2306249E12, 6, HALF_TO_EVEN_SIGNIF), 1.23062E12, 1.0E-10) );
+
+	assert( almostEquals( round(125.5, 3, HALF_TO_EVEN_SIGNIF), 126.0, 1.0E-10) );
+	assert( almostEquals( round(124.5, 3, HALF_TO_EVEN_SIGNIF), 124.0, 1.0E-10) );
+	assert( almostEquals( round(123.5, 3, HALF_TO_EVEN_SIGNIF), 124.0, 1.0E-10) );
+	assert( almostEquals( round(122.5, 3, HALF_TO_EVEN_SIGNIF), 122.0, 1.0E-10) );
+	assert( almostEquals( round(121.5, 3, HALF_TO_EVEN_SIGNIF), 122.0, 1.0E-10) );
+	assert( almostEquals( round(120.5, 3, HALF_TO_EVEN_SIGNIF), 120.0, 1.0E-10) );
+
+	assert( almostEquals( round(-125.5, 3, HALF_TO_EVEN_SIGNIF), -126.0, 1.0E-10) );
+	assert( almostEquals( round(-124.5, 3, HALF_TO_EVEN_SIGNIF), -124.0, 1.0E-10) );
+	assert( almostEquals( round(-123.5, 3, HALF_TO_EVEN_SIGNIF), -124.0, 1.0E-10) );
+	assert( almostEquals( round(-122.5, 3, HALF_TO_EVEN_SIGNIF), -122.0, 1.0E-10) );
+	assert( almostEquals( round(-121.5, 3, HALF_TO_EVEN_SIGNIF), -122.0, 1.0E-10) );
+	assert( almostEquals( round(-120.5, 3, HALF_TO_EVEN_SIGNIF), -120.0, 1.0E-10) );
+
+	assert( almostEquals( round(1.255E12, 3, HALF_TO_EVEN_SIGNIF), 1.26E12, 1.0E-10) );
+	assert( almostEquals( round(1.245E12, 3, HALF_TO_EVEN_SIGNIF), 1.24E12, 1.0E-10) );
+	assert( almostEquals( round(1.235E12, 3, HALF_TO_EVEN_SIGNIF), 1.24E12, 1.0E-10) );
+	assert( almostEquals( round(1.225E12, 3, HALF_TO_EVEN_SIGNIF), 1.22E12, 1.0E-10) );
+	assert( almostEquals( round(1.215E12, 3, HALF_TO_EVEN_SIGNIF), 1.22E12, 1.0E-10) );
+	assert( almostEquals( round(1.205E12, 3, HALF_TO_EVEN_SIGNIF), 1.2E12, 1.0E-10) );
+}
+
+
+// Test of round(stringValue, numberOfDigits, mode)
+{
+	println("round(stringValue, numberOfDigits, mode)");
+
+	// --------------------------------------------------------------------------------
+	// Tests for UP / DOWN/ HALF_UP / HALF_DOWN / HALF_TO_EVEN modes.
+	// In the above mode, specify the number of digits after the radix point.
+	// --------------------------------------------------------------------------------
+
+	assert( round("123.06251", 3, UP) == "123.063" );
+	assert( round("123.06250", 3, UP) == "123.063" );
+	assert( round("123.06249", 3, UP) == "123.063" );
+
+	assert( round("-123.06251", 3, UP) == "-123.063" );
+	assert( round("-123.06250", 3, UP) == "-123.063" );
+	assert( round("-123.06249", 3, UP) == "-123.063" );
+
+	assert( round("123.06251", 3, DOWN) == "123.062" );
+	assert( round("123.06250", 3, DOWN) == "123.062" );
+	assert( round("123.06249", 3, DOWN) == "123.062" );
+
+	assert( round("-123.06251", 3, DOWN) == "-123.062" );
+	assert( round("-123.06250", 3, DOWN) == "-123.062" );
+	assert( round("-123.06249", 3, DOWN) == "-123.062" );
+
+	assert( round("123.06251", 3, HALF_UP) == "123.063" );
+	assert( round("123.06250", 3, HALF_UP) == "123.063" );
+	assert( round("123.06249", 3, HALF_UP) == "123.062" );
+
+	assert( round("-123.06251", 3, HALF_UP) == "-123.063" );
+	assert( round("-123.06250", 3, HALF_UP) == "-123.063" );
+	assert( round("-123.06249", 3, HALF_UP) == "-123.062" );
+
+	assert( round("123.06251", 3, HALF_DOWN) == "123.063" );
+	assert( round("123.06250", 3, HALF_DOWN) == "123.062" );
+	assert( round("123.06249", 3, HALF_DOWN) == "123.062" );
+
+	assert( round("-123.06251", 3, HALF_DOWN) == "-123.063" );
+	assert( round("-123.06250", 3, HALF_DOWN) == "-123.062" );
+	assert( round("-123.06249", 3, HALF_DOWN) == "-123.062" );
+
+	assert( round("123.06251", 3, HALF_TO_EVEN) == "123.063" );
+	assert( round("123.06250", 3, HALF_TO_EVEN) == "123.062" );
+	assert( round("123.06249", 3, HALF_TO_EVEN) == "123.062" );
+
+	assert( round("-123.06251", 3, HALF_TO_EVEN) == "-123.063" );
+	assert( round("-123.06250", 3, HALF_TO_EVEN) == "-123.062" );
+	assert( round("-123.06249", 3, HALF_TO_EVEN) == "-123.062" );
+
+	assert( round("125.5", 0, HALF_TO_EVEN) == "126" );
+	assert( round("124.5", 0, HALF_TO_EVEN) == "124" );
+	assert( round("123.5", 0, HALF_TO_EVEN) == "124" );
+	assert( round("122.5", 0, HALF_TO_EVEN) == "122" );
+	assert( round("121.5", 0, HALF_TO_EVEN) == "122" );
+	assert( round("120.5", 0, HALF_TO_EVEN) == "120" );
+
+	assert( round("-125.5", 0, HALF_TO_EVEN) == "-126" );
+	assert( round("-124.5", 0, HALF_TO_EVEN) == "-124" );
+	assert( round("-123.5", 0, HALF_TO_EVEN) == "-124" );
+	assert( round("-122.5", 0, HALF_TO_EVEN) == "-122" );
+	assert( round("-121.5", 0, HALF_TO_EVEN) == "-122" );
+	assert( round("-120.5", 0, HALF_TO_EVEN) == "-120" );
+
+
+
+	// --------------------------------------------------------------------------------
+	// Tests for UP_SIGNIF / DOWN_SIGNIF / HALF_UP_SIGNIF ... modes.
+	// In the above mode, specify the number of digits of the significand part.
+	// --------------------------------------------------------------------------------
+
+	assert( round("123.06251", 6, UP_SIGNIF) == "123.063" );
+	assert( round("123.06250", 6, UP_SIGNIF) == "123.063" );
+	assert( round("123.06249", 6, UP_SIGNIF) == "123.063" );
+
+	assert( round("-123.06251", 6, UP_SIGNIF) == "-123.063" );
+	assert( round("-123.06250", 6, UP_SIGNIF) == "-123.063" );
+	assert( round("-123.06249", 6, UP_SIGNIF) == "-123.063" );
+
+	assert( round("1.2306251E12", 6, UP_SIGNIF) == "1.23063E12" );
+	assert( round("1.2306250E12", 6, UP_SIGNIF) == "1.23063E12" );
+	assert( round("1.2306249E12", 6, UP_SIGNIF) == "1.23063E12" );
+
+	assert( round("123.06251", 6, DOWN_SIGNIF) == "123.062" );
+	assert( round("123.06250", 6, DOWN_SIGNIF) == "123.062" );
+	assert( round("123.06249", 6, DOWN_SIGNIF) == "123.062" );
+
+	assert( round("-123.06251", 6, DOWN_SIGNIF) == "-123.062" );
+	assert( round("-123.06250", 6, DOWN_SIGNIF) == "-123.062" );
+	assert( round("-123.06249", 6, DOWN_SIGNIF) == "-123.062" );
+
+	assert( round("1.2306251E12", 6, DOWN_SIGNIF) == "1.23062E12" );
+	assert( round("1.2306250E12", 6, DOWN_SIGNIF) == "1.23062E12" );
+	assert( round("1.2306249E12", 6, DOWN_SIGNIF) == "1.23062E12" );
+
+	assert( round("123.06251", 6, HALF_UP_SIGNIF) == "123.063" );
+	assert( round("123.06250", 6, HALF_UP_SIGNIF) == "123.063" );
+	assert( round("123.06249", 6, HALF_UP_SIGNIF) == "123.062" );
+
+	assert( round("-123.06251", 6, HALF_UP_SIGNIF) == "-123.063" );
+	assert( round("-123.06250", 6, HALF_UP_SIGNIF) == "-123.063" );
+	assert( round("-123.06249", 6, HALF_UP_SIGNIF) == "-123.062" );
+
+	assert( round("1.2306251E12", 6, HALF_UP_SIGNIF) == "1.23063E12" );
+	assert( round("1.2306250E12", 6, HALF_UP_SIGNIF) == "1.23063E12" );
+	assert( round("1.2306249E12", 6, HALF_UP_SIGNIF) == "1.23062E12" );
+
+	assert( round("123.06251", 6, HALF_DOWN_SIGNIF) == "123.063" );
+	assert( round("123.06250", 6, HALF_DOWN_SIGNIF) == "123.062" );
+	assert( round("123.06249", 6, HALF_DOWN_SIGNIF) == "123.062" );
+
+	assert( round("-123.06251", 6, HALF_DOWN_SIGNIF) == "-123.063" );
+	assert( round("-123.06250", 6, HALF_DOWN_SIGNIF) == "-123.062" );
+	assert( round("-123.06249", 6, HALF_DOWN_SIGNIF) == "-123.062" );
+
+	assert( round("1.2306251E12", 6, HALF_DOWN_SIGNIF) == "1.23063E12" );
+	assert( round("1.2306250E12", 6, HALF_DOWN_SIGNIF) == "1.23062E12" );
+	assert( round("1.2306249E12", 6, HALF_DOWN_SIGNIF) == "1.23062E12" );
+
+	assert( round("123.06251", 6, HALF_TO_EVEN_SIGNIF) == "123.063" );
+	assert( round("123.06250", 6, HALF_TO_EVEN_SIGNIF) == "123.062" );
+	assert( round("123.06249", 6, HALF_TO_EVEN_SIGNIF) == "123.062" );
+
+	assert( round("-123.06251", 6, HALF_TO_EVEN_SIGNIF) == "-123.063" );
+	assert( round("-123.06250", 6, HALF_TO_EVEN_SIGNIF) == "-123.062" );
+	assert( round("-123.06249", 6, HALF_TO_EVEN_SIGNIF) == "-123.062" );
+
+	assert( round("1.2306251E12", 6, HALF_TO_EVEN_SIGNIF) == "1.23063E12" );
+	assert( round("1.2306250E12", 6, HALF_TO_EVEN_SIGNIF) == "1.23062E12" );
+	assert( round("1.2306249E12", 6, HALF_TO_EVEN_SIGNIF) == "1.23062E12" );
+
+	assert( round("125.5", 3, HALF_TO_EVEN_SIGNIF) == "126" );
+	assert( round("124.5", 3, HALF_TO_EVEN_SIGNIF) == "124" );
+	assert( round("123.5", 3, HALF_TO_EVEN_SIGNIF) == "124" );
+	assert( round("122.5", 3, HALF_TO_EVEN_SIGNIF) == "122" );
+	assert( round("121.5", 3, HALF_TO_EVEN_SIGNIF) == "122" );
+	assert( round("120.5", 3, HALF_TO_EVEN_SIGNIF) == "120" );
+
+	assert( round("-125.5", 3, HALF_TO_EVEN_SIGNIF) == "-126" );
+	assert( round("-124.5", 3, HALF_TO_EVEN_SIGNIF) == "-124" );
+	assert( round("-123.5", 3, HALF_TO_EVEN_SIGNIF) == "-124" );
+	assert( round("-122.5", 3, HALF_TO_EVEN_SIGNIF) == "-122" );
+	assert( round("-121.5", 3, HALF_TO_EVEN_SIGNIF) == "-122" );
+	assert( round("-120.5", 3, HALF_TO_EVEN_SIGNIF) == "-120" );
+
+	assert( round("1.255E12", 3, HALF_TO_EVEN_SIGNIF) == "1.26E12" );
+	assert( round("1.245E12", 3, HALF_TO_EVEN_SIGNIF) == "1.24E12" );
+	assert( round("1.235E12", 3, HALF_TO_EVEN_SIGNIF) == "1.24E12" );
+	assert( round("1.225E12", 3, HALF_TO_EVEN_SIGNIF) == "1.22E12" );
+	assert( round("1.215E12", 3, HALF_TO_EVEN_SIGNIF) == "1.22E12" );
+	assert( round("1.205E12", 3, HALF_TO_EVEN_SIGNIF) == "1.20E12" );
+}
+
