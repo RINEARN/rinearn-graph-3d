@@ -15,6 +15,15 @@ jar cvfm Vnano.jar src/org/vcssl/nano/meta/main.mf -C bin org -C src/org/vcssl/n
 cd ..\..\..\
 
 :: --------------------------------------------------
+:: Compile Vnano Standard Plug-ins
+:: --------------------------------------------------
+
+cd plugin
+javac -encoding UTF-8 @org/vcssl/connect/sourcelist.txt
+javac -encoding UTF-8 @org/vcssl/nano/plugin/sourcelist.txt
+cd ..
+
+:: --------------------------------------------------
 :: Build RINEARN Graph 3D
 :: --------------------------------------------------
 
