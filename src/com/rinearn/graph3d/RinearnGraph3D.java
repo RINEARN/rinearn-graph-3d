@@ -177,7 +177,7 @@ public class RinearnGraph3D {
 			e.printStackTrace();
 			String errorMessage = isJapanese ?
 					"Vnano Engine が見つかりません。\n\n「lib > app-dipendencies > vnano-engine」フォルダの中に\n「Vnano.jar」があるかどうかご確認ください。" :
-					"Can not parse \"Max\" value of Y axis.\n\nPlease check that Vnano.jar is located in \"lib > app-dependencies > vnano-engine\" folder.";
+					"Vnano Engine was not found.\n\nPlease check that Vnano.jar is located in \"lib > app-dependencies > vnano-engine\" folder.";
 			JOptionPane.showMessageDialog(null, errorMessage, "RINEARN Graph 3D", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
