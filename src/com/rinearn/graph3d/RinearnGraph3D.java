@@ -153,6 +153,13 @@ public class RinearnGraph3D {
 
 		// Show the window.
 		this.view.mainWindow.setWindowVisible(true);
+
+		// !!! TEMPORARY !!!
+		//
+		// Perform temporary code for development and debugging.
+		this.model.temporaryExam();
+		//
+		// !!! TEMPORARY !!!
 	}
 
 
