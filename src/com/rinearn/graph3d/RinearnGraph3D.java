@@ -9,10 +9,11 @@ import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.EnvironmentConfiguration;
 import com.rinearn.graph3d.config.CameraConfiguration;
 
-import java.awt.Image;
 import java.awt.Dimension;
+import javax.swing.JOptionPane;
 import java.math.BigDecimal;
 
 
@@ -65,6 +66,17 @@ public class RinearnGraph3D {
 
 		// Create the configuration container storing the default values for all configuration parameters.
 		RinearnGraph3DConfiguration configuration = RinearnGraph3DConfiguration.createDefaultConfiguration();
+
+		// Check that dependencies (libraries) are available.
+		boolean allDependenciesAreAvailable = this.checkDependencies(configuration);
+		if (!allDependenciesAreAvailable) {
+			try {
+				// Sleep for popping-up the error message window.
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+			}
+			throw new IllegalStateException("Unavailable dependency has been detected.");
+		}
 
 		// !!! NOTE !!!
 		//
@@ -146,6 +158,30 @@ public class RinearnGraph3D {
 
 		// Show the window.
 		this.view.mainWindow.setWindowVisible(true);
+	}
+
+
+	/**
+	 * Checks that dependencies (libraries) are available.
+	 * 
+	 * @param configuration The container storing configuration values.
+	 * @return Returns true if all dependencies are available.
+	 */
+	private boolean checkDependencies(RinearnGraph3DConfiguration configuration) {
+		boolean isJapanese = new EnvironmentConfiguration().isLocaleJapanese();
+
+		// Check that Vnano Engine is available.
+		try {
+			new org.vcssl.nano.VnanoEngine();
+		} catch (NoClassDefFoundError e) {
+			e.printStackTrace();
+			String errorMessage = isJapanese ?
+					"Vnano Engine が見つかりません。\n\n「lib > app-dipendencies > vnano-engine」フォルダの中に\n「Vnano.jar」があるかどうかご確認ください。" :
+					"Can not parse \"Max\" value of Y axis.\n\nPlease check that Vnano.jar is located in \"lib > app-dependencies > vnano-engine\" folder.";
+			JOptionPane.showMessageDialog(null, errorMessage, "RINEARN Graph 3D", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
 	}
 
 
