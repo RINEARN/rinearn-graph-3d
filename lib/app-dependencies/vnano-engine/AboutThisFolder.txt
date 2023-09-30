@@ -1,0 +1,15 @@
+In this folder, the scripting engine of Vnano is located.
+
+------------------------------------------------------------
+* About Vnano:
+    https://www.vcssl.org/en-us/vnano/
+    (Developed by RINEARN, released under the MIT license.)
+------------------------------------------------------------
+
+Source code of Vnano Engine is bundled in "src" folder.
+
+By the build script of RINEARN Graph 3D,
+the engine will be built from the above souce code
+and "Vnano.jar" will be generated in this folder.
+
+The above JAR file will be loaded from RINEARN Graph 3D.

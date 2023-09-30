@@ -37,7 +37,7 @@ Also, Let's compile an example code which uses RINEARN Graph 3D as a library:
     javac -cp ".;RinearnGraph3D.jar" TempExample.java    (for Windows)
     javac -cp ".:RinearnGraph3D.jar" TempExample.java    (for Linux)
 
-(The difference between the above two lines is only a simbol ";" or ":".)
+(The difference between the above two lines is only a symbol ";" or ":".)
 
 And execute as follows:
 
