@@ -31,5 +31,5 @@ mkdir bin
 cd src
 javac @com/rinearn/graph3d/sourcelist.txt -cp "../lib/app-dependencies/vnano-engine/Vnano.jar" -d ../bin -encoding UTF-8
 cd ..
-jar cvfm RinearnGraph3D.jar src/com/rinearn/graph3d/meta/Manifest.mf -C bin com
+jar cvfm RinearnGraph3D.jar src/com/rinearn/graph3d/Manifest.mf -C bin com
 
