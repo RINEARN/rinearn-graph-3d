@@ -84,7 +84,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	private volatile Graphics2D screenGraphics = null;
 
 	/** The converters of coordinates from the real space to the "scaled space". The index is [0:X, 1:Y, 2:Z]. */
-	private volatile SpaceConverter[] spaceConverters = {new SpaceConverter(), new SpaceConverter(), new SpaceConverter()};
+	private final SpaceConverter[] spaceConverters = {new SpaceConverter(), new SpaceConverter(), new SpaceConverter()};
 
 	/** The list storing geometric pieces to be rendered. */
 	private volatile List<GeometricPiece> geometricPieceList = new ArrayList<GeometricPiece>();
@@ -103,20 +103,20 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	int horizontalAlignThreshold = 32;
 
 	/** The object providing drawing process of scale ticks of X/Y/Z axes. */
-	private volatile ScaleTickDrawer scaleTickDrawer = new ScaleTickDrawer(
+	private final ScaleTickDrawer scaleTickDrawer = new ScaleTickDrawer(
 		this.verticalAlignThreshold, this.horizontalAlignThreshold
 	);
 
 	/** The object providing drawing process of axis labels. */
-	private volatile LabelDrawer labelDrawer = new LabelDrawer(
+	private final LabelDrawer labelDrawer = new LabelDrawer(
 		this.verticalAlignThreshold, this.horizontalAlignThreshold
 	);
 
 	/** The object providing drawing process of graph frames and grid lines. */
-	private volatile FrameDrawer frameDrawer = new FrameDrawer();
+	private final FrameDrawer frameDrawer = new FrameDrawer();
 
 	/** The color mixer, which generates colors of geometric pieces (points, lines, and so on). */
-	private volatile ColorMixer colorMixer = new ColorMixer();
+	private final ColorMixer colorMixer = new ColorMixer();
 
 	/** The flag representing whether the graph screen has been resized. */
 	private volatile boolean screenUpdated = false;
