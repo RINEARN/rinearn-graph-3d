@@ -65,11 +65,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The array index representing Z, in some array fields. */
 	public static final int Z = 2;
 
-	/** The container of configuration parameters (such as lighting/shading params, scales setting params, and so on). */
-	private final RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createDefaultConfiguration();
 
 	// !!! WARNING !!!
-	// - About the above "config" -
+	// - About the following field "config" -
 	//
 	//     Don't share the same configuration container with Model layer.
 	//     Because contents of the configuration container stored in this class
@@ -77,25 +75,11 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	//     If share the same config container with Model layer,
 	//     the changes of the config through the above propagates to the config of Model layer.
 
-	/** The Image instance storing the rendered image of the graph screen. */
-	private volatile BufferedImage screenImage = null;
-
-	/** The Graphics2D instance to draw the graph screen. */
-	private volatile Graphics2D screenGraphics = null;
+	/** The container of configuration parameters (such as lighting/shading params, scales setting params, and so on). */
+	private final RinearnGraph3DConfiguration config = RinearnGraph3DConfiguration.createDefaultConfiguration();
 
 	/** The converters of coordinates from the real space to the "scaled space". The index is [0:X, 1:Y, 2:Z]. */
 	private final SpaceConverter[] spaceConverters = {new SpaceConverter(), new SpaceConverter(), new SpaceConverter()};
-
-	/** The list storing geometric pieces to be rendered. */
-	private volatile List<GeometricPiece> geometricPieceList = new ArrayList<GeometricPiece>();
-
-	/** The transformation matrix from the graph coordinate system to the view coordinate system. */
-	private volatile double[][] transformationMatrix = {
-		{ 1.0, 0.0, 0.0, 0.0 },
-		{ 0.0, 1.0, 0.0, 0.0 },
-		{ 0.0, 0.0, 1.0, 0.0 },
-		{ 0.0, 0.0, 0.0, 1.0 }
-	};
 
 	// Temporary settings: Should be packed into this.config.scaleConfiguration?
 	//     -> No, because they vary dynamically depending on zoom in/out of magnification. They are not static settings.
@@ -118,11 +102,29 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The color mixer, which generates colors of geometric pieces (points, lines, and so on). */
 	private final ColorMixer colorMixer = new ColorMixer();
 
+
+	/** The Image instance storing the rendered image of the graph screen. */
+	private volatile BufferedImage screenImage = null;
+
+	/** The Graphics2D instance to draw the graph screen. */
+	private volatile Graphics2D screenGraphics = null;
+
 	/** The flag representing whether the graph screen has been resized. */
 	private volatile boolean screenUpdated = false;
 
 	/** The flag representing whether the content of the graph screen has been updated. */
 	private volatile boolean screenResized = false;
+
+	/** The list storing geometric pieces to be rendered. */
+	private volatile List<GeometricPiece> geometricPieceList = new ArrayList<GeometricPiece>();
+
+	/** The transformation matrix from the graph coordinate system to the view coordinate system. */
+	private volatile double[][] transformationMatrix = {
+		{ 1.0, 0.0, 0.0, 0.0 },
+		{ 0.0, 1.0, 0.0, 0.0 },
+		{ 0.0, 0.0, 1.0, 0.0 },
+		{ 0.0, 0.0, 0.0, 1.0 }
+	};
 
 
 	/**
