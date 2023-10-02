@@ -91,7 +91,7 @@ public class LightSettingHandler {
 				return;
 			}
 			LightSettingWindow window = view.lightSettingWindow;
-			LightConfiguration lightConfig = model.getConfiguration().getLightConfiguration();
+			LightConfiguration lightConfig = model.config.getLightConfiguration();
 
 			// Get the modified value from the slider, and store it into the configuration container.
 			double strength = (double)window.ambientBar.getValue() / (double)LightSettingWindow.SCROLL_BAR_MAX_COUNT;
@@ -118,7 +118,7 @@ public class LightSettingHandler {
 				return;
 			}
 			LightSettingWindow window = view.lightSettingWindow;
-			LightConfiguration lightConfig = model.getConfiguration().getLightConfiguration();
+			LightConfiguration lightConfig = model.config.getLightConfiguration();
 
 			// Get the modified value from the slider, and store it into the configuration container.
 			double strength = (double)window.diffuseBar.getValue() / (double)LightSettingWindow.SCROLL_BAR_MAX_COUNT;
@@ -145,7 +145,7 @@ public class LightSettingHandler {
 				return;
 			}
 			LightSettingWindow window = view.lightSettingWindow;
-			LightConfiguration lightConfig = model.getConfiguration().getLightConfiguration();
+			LightConfiguration lightConfig = model.config.getLightConfiguration();
 
 			// Get the modified value from the slider, and store it into the configuration container.
 			double strength = (double)window.diffractiveBar.getValue() / (double)LightSettingWindow.SCROLL_BAR_MAX_COUNT;
@@ -172,7 +172,7 @@ public class LightSettingHandler {
 				return;
 			}
 			LightSettingWindow window = view.lightSettingWindow;
-			LightConfiguration lightConfig = model.getConfiguration().getLightConfiguration();
+			LightConfiguration lightConfig = model.config.getLightConfiguration();
 
 			// Get the modified value from the slider, and store it into the configuration container.
 			double strength = (double)window.specularStrengthBar.getValue() / (double)LightSettingWindow.SCROLL_BAR_MAX_COUNT;
@@ -199,7 +199,7 @@ public class LightSettingHandler {
 				return;
 			}
 			LightSettingWindow window = view.lightSettingWindow;
-			LightConfiguration lightConfig = model.getConfiguration().getLightConfiguration();
+			LightConfiguration lightConfig = model.config.getLightConfiguration();
 
 			// Get the modified value from the slider, and store it into the configuration container.
 			double angle = (double)window.specularAngleBar.getValue() / (double)LightSettingWindow.SCROLL_BAR_MAX_COUNT;
@@ -228,7 +228,7 @@ public class LightSettingHandler {
 				return;
 			}
 			LightSettingWindow window = view.lightSettingWindow;
-			LightConfiguration lightConfig = model.getConfiguration().getLightConfiguration();
+			LightConfiguration lightConfig = model.config.getLightConfiguration();
 
 			// Get the modified values from the slider.
 			double horizontalAngle = (double)window.horizontalAngleBar.getValue() / (double)LightSettingWindow.SCROLL_BAR_MAX_COUNT;

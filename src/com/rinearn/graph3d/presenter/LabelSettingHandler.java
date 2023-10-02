@@ -96,7 +96,7 @@ public class LabelSettingHandler {
 			String zLabel = window.zLabelTextField.getText();
 
 			// Store the above into the configuration container.
-			LabelConfiguration labelConfig = model.getConfiguration().getLabelConfiguration();
+			LabelConfiguration labelConfig = model.config.getLabelConfiguration();
 			labelConfig.getXLabelConfiguration().setText(xLabel);
 			labelConfig.getYLabelConfiguration().setText(yLabel);
 			labelConfig.getZLabelConfiguration().setText(zLabel);
@@ -163,7 +163,7 @@ public class LabelSettingHandler {
 		@Override
 		public void run() {
 			LabelConfiguration.AxisLabelConfiguration xLabelConfig
-					= model.getConfiguration().getLabelConfiguration().getXLabelConfiguration();
+					= model.config.getLabelConfiguration().getXLabelConfiguration();
 			xLabelConfig.setText(xLabel);
 			presenter.propagateConfiguration();
 			presenter.plot();
@@ -214,7 +214,7 @@ public class LabelSettingHandler {
 		@Override
 		public void run() {
 			LabelConfiguration.AxisLabelConfiguration yLabelConfig
-					= model.getConfiguration().getLabelConfiguration().getYLabelConfiguration();
+					= model.config.getLabelConfiguration().getYLabelConfiguration();
 			yLabelConfig.setText(yLabel);
 			presenter.propagateConfiguration();
 			presenter.plot();
@@ -264,7 +264,7 @@ public class LabelSettingHandler {
 		@Override
 		public void run() {
 			LabelConfiguration.AxisLabelConfiguration zLabelConfig
-					= model.getConfiguration().getLabelConfiguration().getZLabelConfiguration();
+					= model.config.getLabelConfiguration().getZLabelConfiguration();
 			zLabelConfig.setText(zLabel);
 			presenter.propagateConfiguration();
 			presenter.plot();

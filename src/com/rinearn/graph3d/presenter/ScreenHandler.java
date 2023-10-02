@@ -150,7 +150,7 @@ public final class ScreenHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
-			CameraConfiguration cameraConfiguration = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfiguration = model.config.getCameraConfiguration();
 			double magnification = cameraConfiguration.getMagnification();
 
 			// Zoom-in or out, depending on the direction of the wheel rotation.
@@ -217,7 +217,7 @@ public final class ScreenHandler {
 			if (!SwingUtilities.isRightMouseButton(me)) {
 				return;
 			}
-			CameraConfiguration cameraConfiguration = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfiguration = model.config.getCameraConfiguration();
 
 			// Get the differential vector (dx, dy) from the last coordinate of the mouse pointer.
 			int currentMouseX = me.getX();
@@ -283,7 +283,7 @@ public final class ScreenHandler {
 			if (!SwingUtilities.isLeftMouseButton(me)) {
 				return;
 			}
-			CameraConfiguration cameraConfiguration = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfiguration = model.config.getCameraConfiguration();
 
 			// Short aliases.
 			int centerOffsetX = cameraConfiguration.getHorizontalCenterOffset();
@@ -571,7 +571,7 @@ public final class ScreenHandler {
 			}
 
 			// Store the above size into the configuration container.
-			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
 			cameraConfig.setScreenSize(this.screenWidth, this.screenHeight);
 
 			// Reflect the updated screen size.

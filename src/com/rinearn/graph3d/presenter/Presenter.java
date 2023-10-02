@@ -208,7 +208,7 @@ public final class Presenter {
 		this.setEventHandlingEnabled(false);
 
 		// Update the state of View layer and the renderer by the configuration.
-		RinearnGraph3DConfiguration config = this.model.getConfiguration();
+		RinearnGraph3DConfiguration config = this.model.config;
 		this.view.configure(config);
 		this.renderer.configure(config);
 

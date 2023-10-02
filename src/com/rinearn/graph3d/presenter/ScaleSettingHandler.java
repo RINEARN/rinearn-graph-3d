@@ -120,7 +120,7 @@ public class ScaleSettingHandler {
 		@Override
 		public void run() {
 			ScaleConfiguration.AxisScaleConfiguration xScaleConfig
-					= model.getConfiguration().getScaleConfiguration().getXScaleConfiguration();
+					= model.config.getScaleConfiguration().getXScaleConfiguration();
 
 			xScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
 			xScaleConfig.setTickCoordinates(tickCoordinates);
@@ -179,7 +179,7 @@ public class ScaleSettingHandler {
 		@Override
 		public void run() {
 			ScaleConfiguration.AxisScaleConfiguration yScaleConfig
-					= model.getConfiguration().getScaleConfiguration().getYScaleConfiguration();
+					= model.config.getScaleConfiguration().getYScaleConfiguration();
 
 			yScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
 			yScaleConfig.setTickCoordinates(tickCoordinates);
@@ -238,7 +238,7 @@ public class ScaleSettingHandler {
 		@Override
 		public void run() {
 			ScaleConfiguration.AxisScaleConfiguration zScaleConfig
-					= model.getConfiguration().getScaleConfiguration().getZScaleConfiguration();
+					= model.config.getScaleConfiguration().getZScaleConfiguration();
 
 			zScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
 			zScaleConfig.setTickCoordinates(tickCoordinates);

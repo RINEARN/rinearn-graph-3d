@@ -101,7 +101,7 @@ public final class CameraSettingHandler {
 				return;
 			}
 			CameraSettingWindow window = view.cameraSettingWindow;
-			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
 
 			// Get the selected zenith angle.
 			String zenithAngle = String.class.cast(window.zenithAxisBox.getSelectedItem());
@@ -146,7 +146,7 @@ public final class CameraSettingHandler {
 				return;
 			}
 			CameraSettingWindow window = view.cameraSettingWindow;
-			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
 
 			// Get the modified value from the slider, and store it into the configuration container.
 			double angle = (double)window.horizontalAngleBar.getValue() / (double)CameraSettingWindow.BASIC_SCROLL_BAR_MAX_COUNT;
@@ -174,7 +174,7 @@ public final class CameraSettingHandler {
 				return;
 			}
 			CameraSettingWindow window = view.cameraSettingWindow;
-			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
 
 			// Get the modified value from the slider, and store it into the configuration container.
 			double angle = (double)window.verticalAngleBar.getValue() / (double)CameraSettingWindow.BASIC_SCROLL_BAR_MAX_COUNT;
@@ -202,7 +202,7 @@ public final class CameraSettingHandler {
 				return;
 			}
 			CameraSettingWindow window = view.cameraSettingWindow;
-			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
 
 			// Get the modified value from the slider, and store it into the configuration container.
 			double angle = (double)window.screwAngleBar.getValue() / (double)CameraSettingWindow.BASIC_SCROLL_BAR_MAX_COUNT;
@@ -230,7 +230,7 @@ public final class CameraSettingHandler {
 				return;
 			}
 			CameraSettingWindow window = view.cameraSettingWindow;
-			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
 
 			// Get the modified value from the slider, and store it into the configuration container.
 			double magnification = (double)window.magnificationBar.getValue() / (double)CameraSettingWindow.BASIC_SCROLL_BAR_MAX_COUNT;
@@ -258,7 +258,7 @@ public final class CameraSettingHandler {
 				return;
 			}
 			CameraSettingWindow window = view.cameraSettingWindow;
-			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
 
 			// Get the modified value from the slider, and store it into the configuration container.
 			double distance = (double)window.distanceBar.getValue() / (double)CameraSettingWindow.BASIC_SCROLL_BAR_MAX_COUNT;
@@ -286,7 +286,7 @@ public final class CameraSettingHandler {
 				return;
 			}
 			CameraSettingWindow window = view.cameraSettingWindow;
-			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
 
 			// Get the modified value from the slider, and store it into the configuration container.
 			int offset = window.horizontalCenterOffsetBar.getValue();
@@ -313,7 +313,7 @@ public final class CameraSettingHandler {
 				return;
 			}
 			CameraSettingWindow window = view.cameraSettingWindow;
-			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
 
 			// Get the modified value from the slider, and store it into the configuration container.
 			int offset = window.verticalCenterOffsetBar.getValue();
@@ -404,7 +404,7 @@ public final class CameraSettingHandler {
 
 		@Override
 		public void run() {
-			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
 			cameraConfig.setAngleMode(angleMode);
 			cameraConfig.setHorizontalAngle(horizontalAngle);
 			cameraConfig.setVerticalAngle(verticalAngle);
@@ -457,7 +457,7 @@ public final class CameraSettingHandler {
 
 		@Override
 		public void run() {
-			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
 			cameraConfig.setDistance(distance);
 			presenter.propagateConfiguration();
 			presenter.plot();
@@ -506,7 +506,7 @@ public final class CameraSettingHandler {
 
 		@Override
 		public void run() {
-			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
 			cameraConfig.setMagnification(magnification);
 			presenter.propagateConfiguration();
 			presenter.plot();
@@ -524,14 +524,14 @@ public final class CameraSettingHandler {
 				return;
 			}
 			CameraSettingWindow window = view.cameraSettingWindow;
-			CameraConfiguration cameraConfig = model.getConfiguration().getCameraConfiguration();
+			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
 
 			// Get screen-width/height parameters from their text fields.
 			String screenWidthText = window.widthField.getText();
 			String screenHeightText = window.heightField.getText();
 
 			// Detect whether the UI language is set to Japanese. (Necessary for generating error messages.)
-			boolean isJapanese = model.getConfiguration().getEnvironmentConfiguration().isLocaleJapanese();
+			boolean isJapanese = model.config.getEnvironmentConfiguration().isLocaleJapanese();
 
 			// Parse the aboves to integer values.
 			int screenWidth;

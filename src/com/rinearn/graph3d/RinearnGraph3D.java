@@ -209,7 +209,7 @@ public class RinearnGraph3D {
 		// Some of them are set and others are not set,
 		// so extract only stored subpart configurations in the argument "configuration"
 		// and merge them to the configuration of this application, which is stored in Model.
-		this.model.getConfiguration().merge(configuration);
+		this.model.config.merge(configuration);
 
 		// Propagate the above modified configuration (stored in Model) to the entire application.
 		this.presenter.propagateConfiguration();

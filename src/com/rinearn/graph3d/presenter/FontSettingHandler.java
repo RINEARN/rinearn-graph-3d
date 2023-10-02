@@ -90,13 +90,13 @@ public class FontSettingHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
-			FontConfiguration fontConfig = model.getConfiguration().getFontConfiguration();
+			FontConfiguration fontConfig = model.config.getFontConfiguration();
 			FontSettingWindow window = view.fontSettingWindow;
 			String defaultNameJa = FontSettingWindow.DEFAULT_FONT_ITEM_JAPANESE;
 			String defaultNameEn = FontSettingWindow.DEFAULT_FONT_ITEM_ENGLISH;
 
 			// Detect whether the UI language is set to Japanese. (Necessary for generating error messages.)
-			boolean isJapanese = model.getConfiguration().getEnvironmentConfiguration().isLocaleJapanese();
+			boolean isJapanese = model.config.getEnvironmentConfiguration().isLocaleJapanese();
 
 			// Update UI plain/bold fonts.
 			{

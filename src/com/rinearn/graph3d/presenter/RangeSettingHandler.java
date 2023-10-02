@@ -92,13 +92,13 @@ public final class RangeSettingHandler {
 			RangeSettingWindow window = view.rangeSettingWindow;
 
 			// Get the references to the configuration containers to be modified.
-			RangeConfiguration rangeConfig = model.getConfiguration().getRangeConfiguration();
+			RangeConfiguration rangeConfig = model.config.getRangeConfiguration();
 			RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
 			RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
 			RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 
 			// Detect whether the UI language is set to Japanese. (Necessary for generating error messages.)
-			boolean isJapanese = model.getConfiguration().getEnvironmentConfiguration().isLocaleJapanese();
+			boolean isJapanese = model.config.getEnvironmentConfiguration().isLocaleJapanese();
 
 			// X range:
 			{
@@ -261,7 +261,7 @@ public final class RangeSettingHandler {
 		@Override
 		public void run() {
 			RangeConfiguration.AxisRangeConfiguration xRangeConfig
-					= model.getConfiguration().getRangeConfiguration().getXRangeConfiguration();
+					= model.config.getRangeConfiguration().getXRangeConfiguration();
 			xRangeConfig.setMinimum(min);
 			xRangeConfig.setMaximum(max);
 			presenter.propagateConfiguration();
@@ -313,7 +313,7 @@ public final class RangeSettingHandler {
 		@Override
 		public void run() {
 			RangeConfiguration.AxisRangeConfiguration xRangeConfig
-					= model.getConfiguration().getRangeConfiguration().getXRangeConfiguration();
+					= model.config.getRangeConfiguration().getXRangeConfiguration();
 			xRangeConfig.setAutoRangingEnabled(enabled);
 			presenter.propagateConfiguration();
 			// presenter.replot(); // Not necessary.
@@ -370,7 +370,7 @@ public final class RangeSettingHandler {
 		@Override
 		public void run() {
 			RangeConfiguration.AxisRangeConfiguration yRangeConfig
-					= model.getConfiguration().getRangeConfiguration().getYRangeConfiguration();
+					= model.config.getRangeConfiguration().getYRangeConfiguration();
 			yRangeConfig.setMinimum(min);
 			yRangeConfig.setMaximum(max);
 			presenter.propagateConfiguration();
@@ -421,7 +421,7 @@ public final class RangeSettingHandler {
 		@Override
 		public void run() {
 			RangeConfiguration.AxisRangeConfiguration yRangeConfig
-					= model.getConfiguration().getRangeConfiguration().getYRangeConfiguration();
+					= model.config.getRangeConfiguration().getYRangeConfiguration();
 			yRangeConfig.setAutoRangingEnabled(enabled);
 			presenter.propagateConfiguration();
 			// presenter.replot(); Not necessary.
@@ -478,7 +478,7 @@ public final class RangeSettingHandler {
 		@Override
 		public void run() {
 			RangeConfiguration.AxisRangeConfiguration zRangeConfig
-					= model.getConfiguration().getRangeConfiguration().getZRangeConfiguration();
+					= model.config.getRangeConfiguration().getZRangeConfiguration();
 			zRangeConfig.setMinimum(min);
 			zRangeConfig.setMaximum(max);
 			presenter.propagateConfiguration();
@@ -530,7 +530,7 @@ public final class RangeSettingHandler {
 		@Override
 		public void run() {
 			RangeConfiguration.AxisRangeConfiguration zRangeConfig
-					= model.getConfiguration().getRangeConfiguration().getZRangeConfiguration();
+					= model.config.getRangeConfiguration().getZRangeConfiguration();
 			zRangeConfig.setAutoRangingEnabled(enabled);
 			presenter.propagateConfiguration();
 			// presenter.replot(); Not necessary.

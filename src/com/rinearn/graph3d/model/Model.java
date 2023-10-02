@@ -64,16 +64,6 @@ public final class Model {
 
 
 	/**
-	 * Returns the container of configuration parameters.
-	 * 
-	 * @return The container of configuration parameters.
-	 */
-	public synchronized RinearnGraph3DConfiguration getConfiguration() {
-		return this.config;
-	}
-
-
-	/**
 	 * Perform temporary code for development and debugging.
 	 */
 	public synchronized void temporaryExam() {
