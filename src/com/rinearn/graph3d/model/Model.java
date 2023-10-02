@@ -17,10 +17,10 @@ import java.util.Locale;
 public final class Model {
 
 	/** The container of configuration parameters. */
-	private final RinearnGraph3DConfiguration config;
+	public final RinearnGraph3DConfiguration config;
 
-	/** The "engine-mount" object, initializing and retaining script engines in this application. */
-	private final ScriptEngineMount scriptEngineMount;
+	/** The "engine-mount" object, retaining script engines in this application, and wrapping I/O to/from them. */
+	public final ScriptEngineMount scriptEngineMount;
 
 
 	/**
