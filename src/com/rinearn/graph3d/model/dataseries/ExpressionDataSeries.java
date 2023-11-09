@@ -1,5 +1,8 @@
 package com.rinearn.graph3d.model.dataseries;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.model.ScriptEngineMount;
+
 /*
 [Inheritance tree]
 
@@ -17,6 +20,12 @@ package com.rinearn.graph3d.model.dataseries;
 
 public class ExpressionDataSeries extends AbstractDataSeries {
 
+	/** The "engine-mount" object, providing script engines for generating data from math expressions. */
+	private final ScriptEngineMount scriptEngineMount;
+
+	/** The configuration container (for referring the range configuration). */
+	private final RinearnGraph3DConfiguration config;
+
 	/** The X-coordinate values of the points of this data series. */
 	private volatile double[][] xCoordinates = null;
 
@@ -25,6 +34,18 @@ public class ExpressionDataSeries extends AbstractDataSeries {
 
 	/** The Z-coordinate values of the points of this data series. */
 	private volatile double[][] zCoordinates = null;
+
+
+	/**
+	 * Create an instance for generating data using the specified script engine, under the specified configuration.
+	 * 
+	 * @param scrioptEngineMount The "engine-mount" object, providing script engines for generating data from math expressions.
+	 * @param config The configuration container (for referring the range configuration).
+	 */
+	protected ExpressionDataSeries(ScriptEngineMount scriptEngineMount, RinearnGraph3DConfiguration config) {
+		this.scriptEngineMount = scriptEngineMount;
+		this.config = config;
+	}
 
 
 	/**
