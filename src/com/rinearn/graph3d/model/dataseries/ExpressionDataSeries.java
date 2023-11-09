@@ -18,9 +18,9 @@ import com.rinearn.graph3d.model.ScriptEngineMount;
  */
 
 
-public class ExpressionDataSeries extends AbstractDataSeries {
+public abstract class ExpressionDataSeries extends AbstractDataSeries {
 
-	/** The "engine-mount" object, providing script engines for generating data from math expressions. */
+	/** The "engine-mount", provides a script engine for computing coordinates from math expressions. */
 	private final ScriptEngineMount scriptEngineMount;
 
 	/** The configuration container (for referring the range configuration). */
@@ -39,13 +39,22 @@ public class ExpressionDataSeries extends AbstractDataSeries {
 	/**
 	 * Create an instance for generating data using the specified script engine, under the specified configuration.
 	 * 
-	 * @param scrioptEngineMount The "engine-mount" object, providing script engines for generating data from math expressions.
+	 * @param scrioptEngineMount The "engine-mount", provides a script engine for computing coordinates from math expressions.
 	 * @param config The configuration container (for referring the range configuration).
 	 */
 	protected ExpressionDataSeries(ScriptEngineMount scriptEngineMount, RinearnGraph3DConfiguration config) {
 		this.scriptEngineMount = scriptEngineMount;
 		this.config = config;
 	}
+
+
+	/**
+	 * Computes coordinate values from math expression(s) of this data series.
+	 * 
+	 * The computed coordinate values will be stored into the fields: xCoordinates, yCoordinates and zCoordinates.
+	 * This abstract method is implemented by subclasses: ZxyExpressionDataSeries and XtYtZtExpressionDataSeries.
+	 */
+	public abstract void computeCoordinates();
 
 
 	/**
