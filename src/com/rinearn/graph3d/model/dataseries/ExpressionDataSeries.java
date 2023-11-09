@@ -21,19 +21,19 @@ import com.rinearn.graph3d.model.ScriptEngineMount;
 public abstract class ExpressionDataSeries extends AbstractDataSeries {
 
 	/** The "engine-mount", provides a script engine for computing coordinates from math expressions. */
-	private final ScriptEngineMount scriptEngineMount;
+	protected final ScriptEngineMount scriptEngineMount;
 
 	/** The configuration container (for referring the range configuration). */
-	private final RinearnGraph3DConfiguration config;
+	protected final RinearnGraph3DConfiguration config;
 
 	/** The X-coordinate values of the points of this data series. */
-	private volatile double[][] xCoordinates = null;
+	protected volatile double[][] xCoordinates = null;
 
 	/** The Y-coordinate values of the points of this data series. */
-	private volatile double[][] yCoordinates = null;
+	protected volatile double[][] yCoordinates = null;
 
 	/** The Z-coordinate values of the points of this data series. */
-	private volatile double[][] zCoordinates = null;
+	protected volatile double[][] zCoordinates = null;
 
 
 	/**
