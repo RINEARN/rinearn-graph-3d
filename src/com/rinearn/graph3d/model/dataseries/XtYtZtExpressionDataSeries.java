@@ -3,6 +3,8 @@ package com.rinearn.graph3d.model.dataseries;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.model.ScriptEngineMount;
 
+import org.vcssl.nano.VnanoException;
+
 /*
 [Inheritance tree]
 
@@ -35,9 +37,11 @@ public class XtYtZtExpressionDataSeries extends ExpressionDataSeries {
 	 * Computes coordinate values from the math expressions of this data series.
 	 * 
 	 * The computed coordinate values will be stored into the fields: xCoordinates, yCoordinates and zCoordinates.
+	 * 
+	 * @throws Thrown when any (typically syntactic) error has been detected for calculating the math expressions.
 	 */
 	@Override
-	public synchronized void computeCoordinates() {
+	public synchronized void computeCoordinates() throws VnanoException {
 		throw new RuntimeException("Unimplemented yet.");
 	}
 }
