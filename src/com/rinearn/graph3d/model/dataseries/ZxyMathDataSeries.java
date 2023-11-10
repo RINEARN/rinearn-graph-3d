@@ -14,18 +14,18 @@ import java.math.BigDecimal;
       |
       +- ArrayDataSeries
       |
-      +- ExpressionDataSeries
+      +- MathDataSeries
           |
-          +- ZxyExpressionDataSeries < This Class
+          +- ZxyMathDataSeries < This Class
           |
-          +- XtYtZtExpressionDataSeries
+          +- XtYtZtMathDataSeries
  */
 
 
-public class ZxyExpressionDataSeries extends ExpressionDataSeries {
+public class ZxyMathDataSeries extends MathDataSeries {
 
 	/** The math expression of "z(x,y)". */
-	private final String zExpression;
+	private final String zMathExpression;
 
 	/** The number of discretized X-coordinates. */
 	private final int xDiscretizationCount;
@@ -43,12 +43,12 @@ public class ZxyExpressionDataSeries extends ExpressionDataSeries {
 	 * @param scrioptEngineMount The "engine-mount", provides a script engine for computing coordinates from math expressions.
 	 * @param config The configuration container (for referring the range configuration).
 	 */
-	public ZxyExpressionDataSeries(
-			String zExpression, int xDiscretizationCount, int yDiscretizationCount,
+	public ZxyMathDataSeries(
+			String zMathExpression, int xDiscretizationCount, int yDiscretizationCount,
 			ScriptEngineMount scriptEngineMount, RinearnGraph3DConfiguration config) {
 
 		super(scriptEngineMount, config);
-		this.zExpression = zExpression;
+		this.zMathExpression = zMathExpression;
 		this.xDiscretizationCount = xDiscretizationCount;
 		this.yDiscretizationCount = yDiscretizationCount;
 	}
@@ -84,7 +84,7 @@ public class ZxyExpressionDataSeries extends ExpressionDataSeries {
 			for (int iy=0; iy<yN; iy++) {
 				double x = (ix == xN - 1) ? xMax : (xMin + xDelta * ix);
 				double y = (iy == yN - 1) ? yMax : (yMin + yDelta * iy);
-				double z = super.scriptEngineMount.calculateMathExpression(this.zExpression, x, y);
+				double z = super.scriptEngineMount.calculateMathExpression(this.zMathExpression, x, y);
 
 				super.xCoordinates[ix][iy] = x;
 				super.yCoordinates[ix][iy] = y;

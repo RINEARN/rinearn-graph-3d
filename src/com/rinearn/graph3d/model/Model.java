@@ -1,7 +1,7 @@
 package com.rinearn.graph3d.model;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.model.dataseries.ExpressionDataSeries;
+import com.rinearn.graph3d.model.dataseries.MathDataSeries;
 
 import org.vcssl.nano.VnanoException;
 
@@ -27,8 +27,8 @@ public final class Model {
 	/** The "engine-mount" object, retaining script engines in this application, and wrapping I/O to/from them. */
 	public final ScriptEngineMount scriptEngineMount;
 
-	/** The list of expression data series. */
-	private final List<ExpressionDataSeries> expressionDataSeriesList = new ArrayList<ExpressionDataSeries>();
+	/** The list of math data series. */
+	private final List<MathDataSeries> mathDataSeriesList = new ArrayList<MathDataSeries>();
 
 
 	/**
@@ -72,49 +72,49 @@ public final class Model {
 
 
 	/**
-	 * Adds (registers) a new expression data series.
+	 * Adds (registers) a new math data series.
 	 * 
-	 * @param expressionDataSeries The expression data series to be added.
+	 * @param mathDataSeries The math data series to be added.
 	 */
-	public synchronized void addExpressionDataSeries(ExpressionDataSeries expressionDataSeries) {
-		this.expressionDataSeriesList.add(expressionDataSeries);
+	public synchronized void addMathDataSeries(MathDataSeries mathDataSeries) {
+		this.mathDataSeriesList.add(mathDataSeries);
 
 		// Note: update the graph range here? if necessary.
-		//   -> It is necessary for ArrayDataSeries, but it is not necessary for ExpressionDataSeries, probably.
+		//   -> It is necessary for ArrayDataSeries, but it is not necessary for MathDataSeries, probably.
 	}
 
 
 	/**
-	 * Remove the lastly registered expression data series.
+	 * Remove the lastly registered math data series.
 	 * 
-	 * If this method is called when no expression data series is registered, nothing occurs.
+	 * If this method is called when no math data series is registered, nothing occurs.
 	 */
-	public synchronized void removeLastExpressionDataSeries() {
-		if (this.expressionDataSeriesList.size() == 0) {
+	public synchronized void removeLastMathDataSeries() {
+		if (this.mathDataSeriesList.size() == 0) {
 			return;
 		}
-		this.expressionDataSeriesList.remove(this.expressionDataSeriesList.size() - 1);
+		this.mathDataSeriesList.remove(this.mathDataSeriesList.size() - 1);
 	}
 
 
 	/**
-	 * Clear all currently registered expression data series.
+	 * Clear all currently registered math data series.
 	 */
-	public synchronized void clearExpressionDataSeries() {
-		this.expressionDataSeriesList.clear();
+	public synchronized void clearMathDataSeries() {
+		this.mathDataSeriesList.clear();
 	}
 
 
 	/**
-	 * Gets the list of the currently registered expression data series.
+	 * Gets the list of the currently registered math data series.
 	 * 
 	 * The returned list is unmodifiable. For adding/removing elements, 
-	 * use the methods addExpressionDataSeries(...), removeLastExpressionDataSeries(), etc.
+	 * use the methods addMathDataSeries(...), removeLastMathDataSeries(), etc.
 	 * 
-	 * @return The (unmodifiable) list of the currently registered expression data series.
+	 * @return The (unmodifiable) list of the currently registered math data series.
 	 */
-	public synchronized List<ExpressionDataSeries> getExpressionDataSeriesList() {
-		return Collections.unmodifiableList(this.expressionDataSeriesList);
+	public synchronized List<MathDataSeries> getMathDataSeriesList() {
+		return Collections.unmodifiableList(this.mathDataSeriesList);
 	}
 
 

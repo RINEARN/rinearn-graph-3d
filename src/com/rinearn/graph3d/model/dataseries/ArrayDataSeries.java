@@ -7,11 +7,11 @@ package com.rinearn.graph3d.model.dataseries;
       |
       +- ArrayDataSeries < This Class
       |
-      +- ExpressionDataSeries
+      +- MathDataSeries
           |
-          +- ZxyExpressionDataSeries
+          +- ZxyMathDataSeries
           |
-          +- XtYtZtExpressionDataSeries
+          +- XtYtZtMathDataSeries
  */
 
 

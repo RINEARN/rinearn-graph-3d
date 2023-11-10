@@ -12,15 +12,15 @@ import org.vcssl.nano.VnanoException;
       |
       +- ArrayDataSeries
       |
-      +- ExpressionDataSeries
+      +- MathDataSeries
           |
-          +- ZxyExpressionDataSeries
+          +- ZxyMathDataSeries
           |
-          +- XtYtZtExpressionDataSeries < This Class
+          +- XtYtZtMathDataSeries < This Class
  */
 
 
-public class XtYtZtExpressionDataSeries extends ExpressionDataSeries {
+public class XtYtZtMathDataSeries extends MathDataSeries {
 
 	/**
 	 * Create an instance for generating data using the specified script engine, under the specified configuration.
@@ -28,7 +28,7 @@ public class XtYtZtExpressionDataSeries extends ExpressionDataSeries {
 	 * @param scrioptEngineMount The "engine-mount", provides a script engine for computing coordinates from math expressions.
 	 * @param config The configuration container (for referring the range configuration).
 	 */
-	public XtYtZtExpressionDataSeries(ScriptEngineMount scriptEngineMount, RinearnGraph3DConfiguration config) {
+	public XtYtZtMathDataSeries(ScriptEngineMount scriptEngineMount, RinearnGraph3DConfiguration config) {
 		super(scriptEngineMount, config);
 	}
 

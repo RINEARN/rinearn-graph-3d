@@ -12,15 +12,15 @@ import org.vcssl.nano.VnanoException;
       |
       +- ArrayDataSeries
       |
-      +- ExpressionDataSeries < This Class
+      +- MathDataSeries < This Class
           |
-          +- ZxyExpressionDataSeries
+          +- ZxyMathDataSeries
           |
-          +- XtYtZtExpressionDataSeries
+          +- XtYtZtMathDataSeries
  */
 
 
-public abstract class ExpressionDataSeries extends AbstractDataSeries {
+public abstract class MathDataSeries extends AbstractDataSeries {
 
 	/** The "engine-mount", provides a script engine for computing coordinates from math expressions. */
 	protected final ScriptEngineMount scriptEngineMount;
@@ -44,7 +44,7 @@ public abstract class ExpressionDataSeries extends AbstractDataSeries {
 	 * @param scrioptEngineMount The "engine-mount", provides a script engine for computing coordinates from math expressions.
 	 * @param config The configuration container (for referring the range configuration).
 	 */
-	protected ExpressionDataSeries(ScriptEngineMount scriptEngineMount, RinearnGraph3DConfiguration config) {
+	protected MathDataSeries(ScriptEngineMount scriptEngineMount, RinearnGraph3DConfiguration config) {
 		this.scriptEngineMount = scriptEngineMount;
 		this.config = config;
 	}
@@ -54,7 +54,7 @@ public abstract class ExpressionDataSeries extends AbstractDataSeries {
 	 * Computes coordinate values from math expression(s) of this data series.
 	 * 
 	 * The computed coordinate values will be stored into the fields: xCoordinates, yCoordinates and zCoordinates.
-	 * This abstract method is implemented by subclasses: ZxyExpressionDataSeries and XtYtZtExpressionDataSeries.
+	 * This abstract method is implemented by subclasses: ZxyMathDataSeries and XtYtZtMathDataSeries.
 	 * 
 	 * @throws VnanoException Thrown when any (typically syntactic) error has been detected for calculating math expression(s).
 	 */
