@@ -1,10 +1,15 @@
 package com.rinearn.graph3d.model;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.model.dataseries.ExpressionDataSeries;
+
 import org.vcssl.nano.VnanoException;
 
 import javax.swing.JOptionPane;
 import java.util.Locale;
+import java.util.Collections;
+import java.util.List;
+import java.util.ArrayList;
 
 
 /**
@@ -21,6 +26,9 @@ public final class Model {
 
 	/** The "engine-mount" object, retaining script engines in this application, and wrapping I/O to/from them. */
 	public final ScriptEngineMount scriptEngineMount;
+
+	/** The list of expression data series. */
+	private final List<ExpressionDataSeries> expressionDataSeriesList = new ArrayList<ExpressionDataSeries>();
 
 
 	/**
@@ -64,10 +72,57 @@ public final class Model {
 
 
 	/**
+	 * Adds (registers) a new expression data series.
+	 * 
+	 * @param expressionDataSeries The expression data series to be added.
+	 */
+	public synchronized void addExpressionDataSeries(ExpressionDataSeries expressionDataSeries) {
+		this.expressionDataSeriesList.add(expressionDataSeries);
+
+		// Note: update the graph range here? if necessary.
+		//   -> It is necessary for ArrayDataSeries, but it is not necessary for ExpressionDataSeries, probably.
+	}
+
+
+	/**
+	 * Remove the lastly registered expression data series.
+	 * 
+	 * If this method is called when no expression data series is registered, nothing occurs.
+	 */
+	public synchronized void removeLastExpressionDataSeries() {
+		if (this.expressionDataSeriesList.size() == 0) {
+			return;
+		}
+		this.expressionDataSeriesList.remove(this.expressionDataSeriesList.size() - 1);
+	}
+
+
+	/**
+	 * Clear all currently registered expression data series.
+	 */
+	public synchronized void clearExpressionDataSeries() {
+		this.expressionDataSeriesList.clear();
+	}
+
+
+	/**
+	 * Gets the list of the currently registered expression data series.
+	 * 
+	 * The returned list is unmodifiable. For adding/removing elements, 
+	 * use the methods addExpressionDataSeries(...), removeLastExpressionDataSeries(), etc.
+	 * 
+	 * @return The (unmodifiable) list of the currently registered expression data series.
+	 */
+	public synchronized List<ExpressionDataSeries> getExpressionDataSeriesList() {
+		return Collections.unmodifiableList(this.expressionDataSeriesList);
+	}
+
+
+	/**
 	 * Perform temporary code for development and debugging.
 	 */
 	public synchronized void temporaryExam() {
-
+		/*
 		// ======================================================================
 		// Calculate math expressions using Vnano Engine.
 		// ======================================================================
@@ -109,5 +164,6 @@ public final class Model {
 		} catch (VnanoException vne) {
 			vne.printStackTrace();
 		}
+		*/
 	}
 }

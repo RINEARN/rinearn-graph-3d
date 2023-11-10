@@ -59,7 +59,7 @@ public class ZxyExpressionDataSeries extends ExpressionDataSeries {
 	 * 
 	 * The computed coordinate values will be stored into the fields: xCoordinates, yCoordinates and zCoordinates.
 	 * 
-	 * @throws Thrown when any (typically syntactic) error has been detected for calculating the math expression.
+	 * @throws VnanoException Thrown when any (typically syntactic) error has been detected for calculating the math expression.
 	 */
 	@Override
 	public synchronized void computeCoordinates() throws VnanoException {

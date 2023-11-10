@@ -56,7 +56,7 @@ public abstract class ExpressionDataSeries extends AbstractDataSeries {
 	 * The computed coordinate values will be stored into the fields: xCoordinates, yCoordinates and zCoordinates.
 	 * This abstract method is implemented by subclasses: ZxyExpressionDataSeries and XtYtZtExpressionDataSeries.
 	 * 
-	 * @throws Thrown when any (typically syntactic) error has been detected for calculating math expression(s).
+	 * @throws VnanoException Thrown when any (typically syntactic) error has been detected for calculating math expression(s).
 	 */
 	public abstract void computeCoordinates() throws VnanoException;
 
