@@ -183,20 +183,20 @@ public final class MainWindow {
 				mathMenu = new JMenu("Unconfigured");
 				menuBar.add(mathMenu);
 
-				// "Math" > "Clear" menu item:
-				clearMathMenuItem = new JMenuItem("Unconfigured");
-				mathMenu.add(clearMathMenuItem);
+				// "Math" > "z(x,y)" menu item:
+				zxyMathMenuItem = new JMenuItem("Unconfigured");
+				mathMenu.add(zxyMathMenuItem);
+
+				// ---
+				mathMenu.addSeparator();
 
 				// "Math" > "RemoveLast" menu item:
 				removeLastMathMenuItem = new JMenuItem("Unconfigured");
 				mathMenu.add(removeLastMathMenuItem);
 
-				// ---
-				mathMenu.addSeparator();
-
-				// "Math" > "z(x,y)" menu item:
-				zxyMathMenuItem = new JMenuItem("Unconfigured");
-				mathMenu.add(zxyMathMenuItem);
+				// "Math" > "Clear" menu item:
+				clearMathMenuItem = new JMenuItem("Unconfigured");
+				mathMenu.add(clearMathMenuItem);
 			}
 
 			// "Settings" menu:
@@ -408,9 +408,9 @@ public final class MainWindow {
 			// "Math" menu and sub menu items.
 			{
 				mathMenu.setText("数式");
-				clearMathMenuItem.setText("クリア");
-				removeLastMathMenuItem.setText("最後のものを削除");
 				zxyMathMenuItem.setText("z(x,y)   [仮実装中]");
+				removeLastMathMenuItem.setText("最後のものを削除");
+				clearMathMenuItem.setText("クリア");
 			}
 
 			// "Settings" menu and sub menu items.
@@ -442,9 +442,9 @@ public final class MainWindow {
 			// "Math" menu and sub menu items.
 			{
 				mathMenu.setText("Math");
-				clearMathMenuItem.setText("Clear");
-				removeLastMathMenuItem.setText("Remove Last");
 				zxyMathMenuItem.setText("z(x,y)   [Temporary Implementation]");
+				removeLastMathMenuItem.setText("Remove Last");
+				clearMathMenuItem.setText("Clear");
 			}
 
 			// "Settings" menu and sub menu items.
