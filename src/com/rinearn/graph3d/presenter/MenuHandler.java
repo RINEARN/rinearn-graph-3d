@@ -1,6 +1,7 @@
 package com.rinearn.graph3d.presenter;
 
 import com.rinearn.graph3d.model.Model;
+import com.rinearn.graph3d.model.dataseries.ZxyMathDataSeries;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.view.MainWindow;
 
@@ -39,6 +40,11 @@ public final class MenuHandler {
 		this.presenter = presenter;
 
 		MainWindow window = this.view.mainWindow;
+
+		// Add the action listener to sub menu items in "Math" menu.
+		window.zxyMathMenuItem.addActionListener(new ZxyMathItemClickedEventListener());
+		window.removeLastMathMenuItem.addActionListener(new RemoveLastMathItemClickedEventListener());
+		window.clearMathMenuItem.addActionListener(new ClearMathItemClickedEventListener());
 
 		// Add the action listener to sub menu items in "Settings" menu.
 		window.rangeSettingMenuItem.addActionListener(new RangeSettingItemClickedEventListener());
@@ -88,6 +94,78 @@ public final class MenuHandler {
 		view.mainWindow.setMenuVisible(visible);
 		view.mainWindow.forceUpdateWindowLayout();
 		presenter.renderingLoop.requestRendering();
+	}
+
+
+	/**
+	 * The listener handling the event that "Math" > "z(x,y)" menu item is clicked.
+	 */
+	private final class ZxyMathItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// !!!!!
+			// TEMPORARY IMPLEMENTATION
+			// !!!!!
+
+			// Create temporary math data series, and register it.
+			String mathExpression = "x*x - y*y";
+			int xDiscretizationCount = 100;
+			int yDiscretizationCount = 100;
+			ZxyMathDataSeries mathDataSeries = new ZxyMathDataSeries(
+					mathExpression, xDiscretizationCount, yDiscretizationCount,
+					model.scriptEngineMount, model.config
+			);
+			model.addMathDataSeries(mathDataSeries);
+
+			// !!!!!
+			// TEMPORARY IMPLEMENTATION
+			// !!!!!
+
+			// Replot the graph.
+			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Math" > "Remove Last" menu item is clicked.
+	 */
+	private final class RemoveLastMathItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Cleare the lastly-registered math data series.
+			model.removeLastMathDataSeries();
+
+			// Replot the graph.
+			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Math" > "Clear" menu item is clicked.
+	 */
+	private final class ClearMathItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Cleare all currently-registered math data series.
+			model.clearMathDataSeries();
+
+			// Replot the graph.
+			presenter.plot();
+		}
 	}
 
 

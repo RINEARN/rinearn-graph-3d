@@ -5,7 +5,6 @@ import com.rinearn.graph3d.model.ScriptEngineMount;
 
 import org.vcssl.nano.VnanoException;
 
-import java.math.BigDecimal;
 
 /*
 [Inheritance tree]
