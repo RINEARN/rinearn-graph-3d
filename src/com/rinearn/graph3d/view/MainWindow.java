@@ -93,6 +93,18 @@ public final class MainWindow {
 	/** "File" menu on the menu bar. */
 	public volatile JMenu fileMenu;
 
+	/** "Math" menu on the menu bar. */
+	public volatile JMenu mathMenu;
+
+	/** "Math" > "Clear" menu on the menu bar. */
+	public volatile JMenuItem clearMathMenuItem;
+
+	/** "Math" > "z(x,y)" menu on the menu bar. */
+	public volatile JMenuItem zxyMathMenuItem;
+
+	/** "Settings" menu on the menu bar. */
+	public volatile JMenu settingsMenu;
+
 	/** "Settings" > "Set Ranges" menu item on the menu bar. */
 	public volatile JMenuItem rangeSettingMenuItem;
 
@@ -107,9 +119,6 @@ public final class MainWindow {
 
 	/** "Settings" > "Set Light" menu item on the menu bar. */
 	public volatile JMenuItem lightSettingMenuItem;
-
-	/** "Settings" menu on the menu bar. */
-	public volatile JMenu settingsMenu;
 
 	/** "Options" menu on the menu bar. */
 	public volatile JMenu optionsMenu;
@@ -165,6 +174,23 @@ public final class MainWindow {
 			// "File" menu:
 			fileMenu = new JMenu("Unconfigured");
 			menuBar.add(fileMenu);
+
+			// "Math" menu:
+			{
+				mathMenu = new JMenu("Unconfigured");
+				menuBar.add(mathMenu);
+
+				// "Math" > "Clear" menu item:
+				clearMathMenuItem = new JMenuItem("Unconfigured");
+				mathMenu.add(clearMathMenuItem);
+
+				// ---
+				mathMenu.addSeparator();
+
+				// "Math" > "z(x,y)" menu item:
+				zxyMathMenuItem = new JMenuItem("Unconfigured");
+				mathMenu.add(zxyMathMenuItem);
+			}
 
 			// "Settings" menu:
 			{
@@ -372,6 +398,13 @@ public final class MainWindow {
 				fileMenu.setText("ファイル");
 			}
 
+			// "Math" menu and sub menu items.
+			{
+				mathMenu.setText("数式");
+				clearMathMenuItem.setText("クリア");
+				zxyMathMenuItem.setText("z(x,y)   [仮実装中]");
+			}
+
 			// "Settings" menu and sub menu items.
 			{
 				settingsMenu.setText("設定");
@@ -396,6 +429,13 @@ public final class MainWindow {
 			// "File" menu and sub menu items.
 			{
 				fileMenu.setText("File");
+			}
+
+			// "Math" menu and sub menu items.
+			{
+				mathMenu.setText("Math");
+				clearMathMenuItem.setText("Clear");
+				zxyMathMenuItem.setText("z(x,y)   [Temporary Implementation]");
 			}
 
 			// "Settings" menu and sub menu items.
@@ -424,6 +464,13 @@ public final class MainWindow {
 			// "File" menu and sub menu items.
 			{
 				fileMenu.setFont(uiBoldFont);
+			}
+
+			// "Math" menu and sub menu items.
+			{
+				mathMenu.setFont(uiBoldFont);
+				clearMathMenuItem.setFont(uiBoldFont);
+				zxyMathMenuItem.setFont(uiBoldFont);
 			}
 
 			// "Settings" menu and sub menu items.
