@@ -1,11 +1,16 @@
 package com.rinearn.graph3d.presenter.plotter;
 
 import com.rinearn.graph3d.model.Model;
+import com.rinearn.graph3d.model.dataseries.AbstractDataSeries;
+import com.rinearn.graph3d.model.dataseries.MathDataSeries;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;
+
+import java.util.List;
+import java.awt.Color;
 
 
 /**
@@ -30,7 +35,10 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 	private final RinearnGraph3DRenderer renderer;
 
 	/** The flag for turning on/off this plotter. */
-	private volatile boolean plottingEnabled = true;
+	private volatile boolean plottingEnabled = true; // Temporary value
+
+	/** The radius of points plotted by this plotter. */
+	private volatile double pointRadius = 2.0; // Temporary value
 
 
 	/**
@@ -80,12 +88,46 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 			return;
 		}
 
-		// --------------------------------------------------
-		// TODO:
-		//     plot points on each coordinate point of data.
-		// --------------------------------------------------
+		// Plots all math data series.
+		List<MathDataSeries> mathDataSeriesList = this.model.getMathDataSeriesList();
+		for (AbstractDataSeries dataSeries: mathDataSeriesList) {
+			this.plotPoints(dataSeries);
+		}
+	}
 
-		System.out.println("called PointPlotter.plottingRequested");
+
+	/**
+	 * Plots points on each coordinate point of the specified data series.
+	 * 
+	 * @param dataSeries The data series to be plotted.
+	 */
+	private void plotPoints(AbstractDataSeries dataSeries) {
+
+		// Extract all coordinate points of the data series.
+		double[][] xCoords = dataSeries.getXCoordinates();
+		double[][] yCoords = dataSeries.getYCoordinates();
+		double[][] zCoords = dataSeries.getZCoordinates();
+
+		// Draw a point on each coordinate point in the above.
+		int leftDimLength = xCoords.length;
+		for (int iL=0; iL<leftDimLength; iL++) {
+
+			int rightDimLength = xCoords[iL].length;
+			for (int iR=0; iR<rightDimLength; iR++) {
+
+				double x = xCoords[iL][iR];
+				double y = yCoords[iL][iR];
+				double z = zCoords[iL][iR];
+
+				// Prepare the color of the point.
+				Color pointColor = Color.GREEN; // Temporary color
+
+				// Draw a point on the 3D graph.
+				this.renderer.drawPoint(
+						x, y, z, this.pointRadius, pointColor
+				);
+			}
+		}
 	}
 
 
