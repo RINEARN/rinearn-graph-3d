@@ -5,6 +5,7 @@ import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
+import com.rinearn.graph3d.presenter.plotter.PointPlotter;
 
 
 // !!! NOTE !!!
@@ -123,9 +124,12 @@ public final class Presenter {
 	/** The handler of events for lighting parameters. */
 	public final LightSettingHandler lightSettingHandler;
 
-
 	/** The flag for turning on/off the event handling feature of subcomponents in this instance. */
 	private volatile boolean eventHandlingEnabled = true;
+
+
+	/** The plotter to plot points. */
+	public final PointPlotter pointPlotter;
 
 
 	/**
@@ -163,11 +167,17 @@ public final class Presenter {
 		this.cameraSettingHandler = new CameraSettingHandler(model, view, this);
 		this.scaleSettingHandler = new ScaleSettingHandler(model, view, this);
 		this.lightSettingHandler = new LightSettingHandler(model, view, this);
+
+		// Create "plotter"s, which perform plottings/re-plottings in event-driven flow.
+		this.pointPlotter = new PointPlotter(model, view, this, renderer);
+		this.plottingEventDispatcher.addPlottingListener(this.pointPlotter);
 	}
 
 
 	/**
-	 * Turns on/off the event handling feature of subcomponents in this Presenter layer.
+	 * Turns on/off the GUI/API event handling feature of subcomponents in this Presenter layer.
+	 * 
+	 * Note that, the "plotter"s, the objects handling plotting/re-plotting events, cannot be disabled by this method.
 	 * 
 	 * @param enabled Specify false for turning off the event handling feature (enabled by default).
 	 */
@@ -187,7 +197,7 @@ public final class Presenter {
 
 
 	/**
-	 * Gets whether the event handling feature of this instance is enabled.
+	 * Gets whether the GUI/API event handling feature of this instance is enabled.
 	 * 
 	 * @return Returns true if the event handling feature is enabled.
 	 */
