@@ -2,10 +2,17 @@ package com.rinearn.graph3d.presenter;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.model.Model;
+import com.rinearn.graph3d.model.dataseries.MathDataSeries;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
 import com.rinearn.graph3d.presenter.plotter.PointPlotter;
+
+import org.vcssl.nano.VnanoException;
+
+import java.util.List;
+import javax.swing.JOptionPane;
+
 
 
 // !!! NOTE !!!
@@ -240,6 +247,9 @@ public final class Presenter {
 	 */
 	public synchronized void plot() {
 
+		// Update coordinate values of math data series.
+		this.updateMathDataSeriesCoordinates();
+
 		// Clear all currently drawn contents registered to the renderer.
 		this.renderer.clear();
 
@@ -299,4 +309,29 @@ public final class Presenter {
 		// Render the re-plotted contents on the screen.
 		this.renderer.render();
 	}
+
+
+	/**
+	 * Update coordinate values of math data series.
+	 */
+	private void updateMathDataSeriesCoordinates() {
+		List<MathDataSeries> mathDataSeriesList = this.model.getMathDataSeriesList();
+		for (MathDataSeries mathDataSeries: mathDataSeriesList) {
+
+			// Compute coordinate values from the math expression(s), using Vnano scripting engine.
+			try {
+				mathDataSeries.computeCoordinates();
+
+			// The scripting engine may throw exceptions, when the expression(s) contains syntax errors, and so on.
+			} catch (VnanoException vne) {
+				String expression = mathDataSeries.getDisplayedExpression();
+				String errorMessage = this.model.config.getEnvironmentConfiguration().isLocaleJapanese() ?
+						"数式「" + expression + "」のプロットでエラーが発生しました。\n詳細は標準エラー出力を参照してください。" :
+						"An error occurred for plotting the math expression \"" + expression + "\".\nSee the standard error output for datails.";
+				JOptionPane.showMessageDialog(this.view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+				vne.printStackTrace();
+			}
+		}
+	}
+
 }
