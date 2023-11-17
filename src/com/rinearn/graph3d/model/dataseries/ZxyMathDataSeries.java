@@ -54,6 +54,17 @@ public class ZxyMathDataSeries extends MathDataSeries {
 
 
 	/**
+	 * Returns a single-line string representing the math expression of this data series,
+	 * to be displayed on UI.
+	 */
+	@Override
+	public synchronized String getDisplayedExpression() {
+		String displayedExpression = "z(x,y)=" + this.zMathExpression;
+		return displayedExpression;
+	}
+
+
+	/**
 	 * Computes coordinate values from the math expression of this data series.
 	 * 
 	 * The computed coordinate values will be stored into the fields: xCoordinates, yCoordinates and zCoordinates.

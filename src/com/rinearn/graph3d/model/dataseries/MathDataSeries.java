@@ -51,6 +51,13 @@ public abstract class MathDataSeries extends AbstractDataSeries {
 
 
 	/**
+	 * Returns a single-line string representing the (may be multiple) math expression(s) of this data series,
+	 * to be displayed on UI.
+	 */
+	public abstract String getDisplayedExpression();
+
+
+	/**
 	 * Computes coordinate values from math expression(s) of this data series.
 	 * 
 	 * The computed coordinate values will be stored into the fields: xCoordinates, yCoordinates and zCoordinates.

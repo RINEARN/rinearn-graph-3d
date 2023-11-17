@@ -34,6 +34,16 @@ public class XtYtZtMathDataSeries extends MathDataSeries {
 
 
 	/**
+	 * Returns a single-line string representing the math expressions of this data series,
+	 * to be displayed on UI.
+	 */
+	@Override
+	public synchronized String getDisplayedExpression() {
+		throw new RuntimeException("Unimplemented yet.");
+	}
+
+
+	/**
 	 * Computes coordinate values from the math expressions of this data series.
 	 * 
 	 * The computed coordinate values will be stored into the fields: xCoordinates, yCoordinates and zCoordinates.
