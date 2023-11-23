@@ -1,5 +1,5 @@
 /*
- * Copyright(C) 2017-2022 RINEARN
+ * Copyright(C) 2017-2023 RINEARN
  * This software is released under the MIT License.
  */
 
@@ -17,7 +17,7 @@ public class EngineInformation {
 	public static final String ENGINE_NAME = "RINEARN Vnano Engine";
 
 	/** The version of this script engine. */
-	public static final String ENGINE_VERSION = "1.0.1";
+	public static final String ENGINE_VERSION = "1.0.1A";
 
 	/** The extension of script files which can run on this script engine. */
 	public static final String[] EXTENTIONS = { "vnano" };

@@ -1,5 +1,5 @@
 /*
- * Copyright(C) 2017-2022 RINEARN
+ * Copyright(C) 2017-2023 RINEARN
  * This software is released under the MIT License.
  */
 
@@ -286,18 +286,21 @@ public final class Memory {
 			throws VnanoException {
 
 		// Allocate REGISTER parition.
+		this.registerList.clear();
 		int maxRegisterAddress = vmObjectCode.getMaximumRegisterAddress();
 		for (int registerAddress=0; registerAddress<=maxRegisterAddress; registerAddress++) {
 			this.registerList.add(new DataContainer<Void>());
 		}
 
 		// Allocate LOCAL parition.
+		this.localList.clear();
 		int maxLocalAddress = vmObjectCode.getMaximumLocalAddress();
 		for (int localAddress=0; localAddress<=maxLocalAddress; localAddress++) {
 			this.localList.add(new DataContainer<Void>());
 		}
 
 		// Allocate GLOBAL parition.
+		this.globalList.clear();
 		int globalSize = globalVariableTable.getSize();
 		for (int globalIndex=0; globalIndex<globalSize; globalIndex++) {
 			AbstractVariable variable = globalVariableTable.getVariableByIndex(globalIndex);
@@ -305,10 +308,54 @@ public final class Memory {
 		}
 
 		// Allocate CONSTANT parition.
+		this.constantList.clear();
 		int maxConstantAddress = vmObjectCode.getMaximumConstantAddress();
 		DataContainer<?>[] constantDataContainers = vmObjectCode.getConstantDataContainers();
 		for (int constantAddress=0; constantAddress<=maxConstantAddress; constantAddress++) {
 			this.constantList.add(constantDataContainers[constantAddress]);
+		}
+	}
+
+
+	/**
+	 * Updates the data stored in the GLOBAL partition, without replacing DataContainer instances (references).
+	 * 
+	 * In GLOBAL partition, mainly the values of global (external) variables are stored.
+	 * When executing the same code repetitively on the same Memory instance,
+	 * it requires to reload data from all global variables to GLOBAL partition of the memory.
+	 * In such case, for reducing overheads of re-executions of the same code,
+	 * it is necessary to copy only data, without replacing DataContainer instances.
+	 * (Because references to DataContainer instances are embedded into some resources in an Accelerator instance.)
+	 * Hence this method performs it.
+	 * 
+	 * @param vmObjectCode The VM object code, executed with using this memory.
+	 * @param globalVariableTable The table of the global (external) variables.
+	 * @throws VnanoException Thrown when failed to get the data-container of a global (external) variable.
+	 */
+	public final void updateGlobalPartitionData(VirtualMachineObjectCode vmObjectCode, VariableTable globalVariableTable)
+			throws VnanoException {
+
+		int globalSize = globalVariableTable.getSize();
+		for (int globalIndex=0; globalIndex<globalSize; globalIndex++) {
+
+			// WARNING: Don't swap DataContainer instances stored in the memory.
+			//          Their references have also stored in AcceleratorExecutionNode instances,
+			//          and CacheSynchronizer instances (in AcceleratorDataManagementUnit).
+			//
+			//          If we swap DataContainer instances stored in the memory here,
+			//          we are required to re-instantiate the above resources.
+			//          It takes many overhead costs.
+
+			AbstractVariable variable = globalVariableTable.getVariableByIndex(globalIndex);
+			@SuppressWarnings("unchecked")
+			DataContainer<Object> varDataContainer = (DataContainer<Object>)variable.getDataContainer();
+			@SuppressWarnings("unchecked")
+			DataContainer<Object> memDataContainer = (DataContainer<Object>)this.globalList.get(globalIndex);
+
+			// Copy data, without swapping the instance.
+			memDataContainer.setArrayData(
+					varDataContainer.getArrayData(), varDataContainer.getArrayRank(), varDataContainer.getArrayLengths()
+			);
 		}
 	}
 }
