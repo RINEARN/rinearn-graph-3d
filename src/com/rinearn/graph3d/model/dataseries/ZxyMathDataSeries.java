@@ -89,6 +89,9 @@ public class ZxyMathDataSeries extends MathDataSeries {
 		super.yCoordinates = new double[xN][yN];
 		super.zCoordinates = new double[xN][yN];
 
+		// Activate the script engine (initialization procedures of all connected plug-ins are invoked).
+		super.scriptEngineMount.activateMathExpressionEngine();
+
 		// Compute coordinate values, and store them into the above coordinate arrays.
 		for (int ix=0; ix<xN; ix++) {
 			for (int iy=0; iy<yN; iy++) {
@@ -101,5 +104,8 @@ public class ZxyMathDataSeries extends MathDataSeries {
 				super.zCoordinates[ix][iy] = z;
 			}
 		}
+
+		// Deactivate the script engine (finalization procedures of all connected plug-ins are invoked).
+		super.scriptEngineMount.deactivateMathExpressionEngine();
 	}
 }

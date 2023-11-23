@@ -50,6 +50,36 @@ public final class ScriptEngineMount {
 
 
 	/**
+	 * Activates the script engine which is used for calculating values of math expressions.
+	 * 
+	 * This activations is required to be processed before calculating any expressions,
+	 * but it takes some overhead costs (required time) for initializing all plug-ins.
+	 * 
+	 * Hence, especially when calculate expressions repetitively in high frequency,
+	 * to avoid degradation of processing speed caused by the above costs,
+	 * the timing of this activation must be tuned appropriately.
+	 * 
+	 * @throws VnanoException Thrown when any error has occurred in the initialization procedure of any plug-in.
+	 */
+	public synchronized void activateMathExpressionEngine() throws VnanoException {
+		this.mathExpressionEngine.activateEngine();
+	}
+
+
+	/**
+	 * Deactivates the script engine which is used for calculating values of math expressions.
+	 * 
+	 * Finalization procedures of all connected plug-ins are invoked by this deactivation,
+	 * but it takes some overhead costs (required time) for initializing all plug-ins.
+	 * Hence, the timing of this deactivation must be tuned appropriately, same as the activation.
+	 * 
+	 * @throws VnanoException Thrown when any error has occurred in the finalization procedure of any plug-in.
+	 */
+	public synchronized void deactivateMathExpressionEngine() throws VnanoException {
+		this.mathExpressionEngine.deactivateEngine();
+	}
+
+	/**
 	 * Calculate the specified math expression having no parameters.
 	 * 
 	 * @param expression The math expression to be calculated.
@@ -123,6 +153,7 @@ public final class ScriptEngineMount {
 		optionMap.put("EVAL_INT_LITERAL_AS_FLOAT", true);
 		optionMap.put("EVAL_ONLY_EXPRESSION", true);
 		optionMap.put("EVAL_ONLY_FLOAT", true);
+		optionMap.put("AUTOMATIC_ACTIVATION_ENABLED", false);
 		optionMap.put("MAIN_SCRIPT_NAME", "Input_Expression");
 		this.mathExpressionEngine.setOptionMap(optionMap);
 
