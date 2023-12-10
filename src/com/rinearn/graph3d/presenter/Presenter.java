@@ -6,6 +6,17 @@ import com.rinearn.graph3d.model.dataseries.MathDataSeries;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
+
+import com.rinearn.graph3d.presenter.handler.CameraSettingHandler;
+import com.rinearn.graph3d.presenter.handler.FontSettingHandler;
+import com.rinearn.graph3d.presenter.handler.FrameHandler;
+import com.rinearn.graph3d.presenter.handler.LabelSettingHandler;
+import com.rinearn.graph3d.presenter.handler.LightSettingHandler;
+import com.rinearn.graph3d.presenter.handler.MenuHandler;
+import com.rinearn.graph3d.presenter.handler.RangeSettingHandler;
+import com.rinearn.graph3d.presenter.handler.ScaleSettingHandler;
+import com.rinearn.graph3d.presenter.handler.ScreenHandler;
+import com.rinearn.graph3d.presenter.handler.ScreenSideUIHandler;
 import com.rinearn.graph3d.presenter.plotter.PointPlotter;
 
 import org.vcssl.nano.VnanoException;

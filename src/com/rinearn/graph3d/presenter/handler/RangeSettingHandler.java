@@ -1,7 +1,8 @@
-package com.rinearn.graph3d.presenter;
+package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.model.Model;
+import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.RangeSettingWindow;
 import com.rinearn.graph3d.view.View;
 
