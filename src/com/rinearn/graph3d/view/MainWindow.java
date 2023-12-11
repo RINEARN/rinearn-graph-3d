@@ -408,7 +408,7 @@ public final class MainWindow {
 			// "Math" menu and sub menu items.
 			{
 				mathMenu.setText("数式");
-				zxyMathMenuItem.setText("z(x,y)   [仮実装中]");
+				zxyMathMenuItem.setText("z(x,y)");
 				removeLastMathMenuItem.setText("最後のものを削除");
 				clearMathMenuItem.setText("クリア");
 			}
@@ -442,7 +442,7 @@ public final class MainWindow {
 			// "Math" menu and sub menu items.
 			{
 				mathMenu.setText("Math");
-				zxyMathMenuItem.setText("z(x,y)   [Temporary Implementation]");
+				zxyMathMenuItem.setText("z(x,y)");
 				removeLastMathMenuItem.setText("Remove Last");
 				clearMathMenuItem.setText("Clear");
 			}

@@ -118,6 +118,9 @@ public final class View {
 	/** The setting window of "Settings" > "Set Light" menu. */
 	public final LightSettingWindow lightSettingWindow = new LightSettingWindow();
 
+	/** The window of "Math" > "z(x,y)" plot. */
+	public final ZxyMathWindow zxyMathWindow = new ZxyMathWindow();
+
 
 	// !!! IMPORTANT NOTE !!!
 	//   Don't store the configuration as a field of this instance or subcomponents. It is Model layer's role.
@@ -146,5 +149,6 @@ public final class View {
 		this.fontSettingWindow.configure(configuration);
 		this.cameraSettingWindow.configure(configuration);
 		this.lightSettingWindow.configure(configuration);
+		this.zxyMathWindow.configure(configuration);
 	}
 }

@@ -65,3 +65,4 @@ com/rinearn/graph3d/view/MainWindow.java
 com/rinearn/graph3d/view/package-info.java
 com/rinearn/graph3d/view/RangeSettingWindow.java
 com/rinearn/graph3d/view/View.java
+com/rinearn/graph3d/view/ZxyMathWindow.java

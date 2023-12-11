@@ -107,27 +107,7 @@ public final class MenuHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
-
-			// !!!!!
-			// TEMPORARY IMPLEMENTATION
-			// !!!!!
-
-			// Create temporary math data series, and register it.
-			String mathExpression = "x*x - y*y";
-			int xDiscretizationCount = 100;
-			int yDiscretizationCount = 100;
-			ZxyMathDataSeries mathDataSeries = new ZxyMathDataSeries(
-					mathExpression, xDiscretizationCount, yDiscretizationCount,
-					model.scriptEngineMount, model.config
-			);
-			model.addMathDataSeries(mathDataSeries);
-
-			// !!!!!
-			// TEMPORARY IMPLEMENTATION
-			// !!!!!
-
-			// Replot the graph.
-			presenter.plot();
+			view.zxyMathWindow.setWindowVisible(true);
 		}
 	}
 
