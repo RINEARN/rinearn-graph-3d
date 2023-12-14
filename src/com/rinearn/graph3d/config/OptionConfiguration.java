@@ -30,11 +30,78 @@ RinearnGraph3DOptionItem/OptionParameter というenum/コンテナオブジェ�
 /**
  * The class storing configuration values of plotting options.
  */
-public class OptionConfiguration {
+public final class OptionConfiguration {
 
 	/**
 	 * Creates a new configuration storing default values.
 	 */
 	public OptionConfiguration() {
+	}
+
+
+	/** Stores the configuration of "With Points" option. */
+	private volatile PointOptionConfiguration pointOptionConfiguration = new PointOptionConfiguration();
+
+	/**
+	 * Sets the configuration of "With Points" option.
+	 */
+	public synchronized void getPointOptionConfiguration(PointOptionConfiguration pointOptionConfiguration) {
+		this.pointOptionConfiguration = pointOptionConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of "With Points" option.
+	 */
+	public synchronized PointOptionConfiguration getPointOptionConfiguration() {
+		return this.pointOptionConfiguration;
+	}
+
+
+	/**
+	 * The class storing configuration values of "With Points" option.
+	 */
+	public static final class PointOptionConfiguration {
+
+		/** The flag representing whether this option is selected. */
+		private volatile boolean selected = true;
+
+		/** The radius (in pixels) of points plotted by this option. */
+		private volatile double pointRadius = 2.0;
+
+		/**
+		 * Selects or unselects this option. 
+		 * 
+		 * @param selected Specify true to select, false to unselect.
+		 */
+		public synchronized void setSelected(boolean selected) {
+			this.selected = selected;
+		}
+
+		/**
+		 * Checks whether this option is selected.
+		 * 
+		 * @return Returns true if this option is selected.
+		 */
+		public synchronized boolean isSelected() {
+			return this.selected;
+		}
+
+		/**
+		 * Sets the radius (in pixels) of points plotted by this option.
+		 * 
+		 * @param pointRadius The radius (in pixels) of points plotted by this option.
+		 */
+		public synchronized void setPointRadius(double pointRadius) {
+			this.pointRadius = pointRadius;
+		}
+
+		/**
+		 * Gets the radius (in pixels) of points plotted by this option.
+		 * 
+		 * @return The radius (in pixels) of this option.
+		 */
+		public synchronized double getPointRadius() {
+			return this.pointRadius;
+		}
 	}
 }
