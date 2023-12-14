@@ -4,13 +4,15 @@ import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.model.dataseries.AbstractDataSeries;
 import com.rinearn.graph3d.model.dataseries.MathDataSeries;
 import com.rinearn.graph3d.presenter.Presenter;
+import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;
+import com.rinearn.graph3d.config.OptionConfiguration;
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 
 import java.util.List;
-import java.awt.Color;
 
 
 /**
@@ -34,12 +36,6 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 	/** The rendering engine of 3D graphs. */
 	private final RinearnGraph3DRenderer renderer;
 
-	/** The flag for turning on/off this plotter. */
-	private volatile boolean plottingEnabled = true; // Temporary value
-
-	/** The radius of points plotted by this plotter. */
-	private volatile double pointRadius = 2.0; // Temporary value
-
 
 	/**
 	 * Create a new instance performing plottings using the specified resources.
@@ -58,40 +54,31 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 
 
 	/**
-	 * Turns on/off the plottings by this plotter.
-	 * 
-	 * @param enabled Specify false for turning off the plottings by this plotter.
-	 */
-	public synchronized void setPlottingEnabled(boolean enabled) {
-		this.plottingEnabled = enabled;
-	}
-
-
-	/**
-	 * Gets whether the plottings by this plotter is enabled.
-	 * 
-	 * @return Returns true if the plottings by this plotter is enabled.
-	 */
-	public synchronized boolean isPlottingEnabled() {
-		return this.plottingEnabled;
-	}
-
-
-	/**
 	 * Called when a plotting/re-plotting is requested.
 	 * 
 	 * @param event The plotting event.
 	 */
 	@Override
 	public synchronized void plottingRequested(RinearnGraph3DPlottingEvent event) {
-		if (!this.plottingEnabled) {
+
+		// Get the configuration of "With Points" option.
+		RinearnGraph3DConfiguration config = this.model.config;
+		OptionConfiguration optionConfig = config.getOptionConfiguration();
+		OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
+		double pointRadius = pointOptionConfig.getPointRadius();
+		boolean isPointOptionSelected = pointOptionConfig.isSelected();
+
+		// This plotter do nothing if "With Points" option is not selected.
+		if(!isPointOptionSelected) {
 			return;
 		}
 
 		// Plots all math data series.
-		List<MathDataSeries> mathDataSeriesList = this.model.getMathDataSeriesList();
-		for (AbstractDataSeries dataSeries: mathDataSeriesList) {
-			this.plotPoints(dataSeries);
+		List<MathDataSeries> mathSeriesList = this.model.getMathDataSeriesList();
+		int mathSeriesCount = mathSeriesList.size();
+		for (int mathSeriesIndex=0; mathSeriesIndex<mathSeriesCount; mathSeriesIndex++) {
+			AbstractDataSeries mathSeries = mathSeriesList.get(mathSeriesIndex);
+			this.plotPoints(mathSeries, mathSeriesIndex, pointRadius);
 		}
 	}
 
@@ -100,8 +87,13 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 	 * Plots points on each coordinate point of the specified data series.
 	 * 
 	 * @param dataSeries The data series to be plotted.
+	 * @param seriesIndex The index of the data series.
+	 * @param pointRadius The radius (in pixels) of points.
 	 */
-	private void plotPoints(AbstractDataSeries dataSeries) {
+	private void plotPoints(AbstractDataSeries dataSeries, int seriesIndex, double pointRadius) {
+		RinearnGraph3DDrawingParameter drawingParameter = new RinearnGraph3DDrawingParameter();
+		drawingParameter.setSeriesIndex(seriesIndex);
+		drawingParameter.setAutoColoringEnabled(true);
 
 		// Extract all coordinate points of the data series.
 		double[][] xCoords = dataSeries.getXCoordinates();
@@ -119,12 +111,9 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 				double y = yCoords[iL][iR];
 				double z = zCoords[iL][iR];
 
-				// Prepare the color of the point.
-				Color pointColor = Color.GREEN; // Temporary color
-
 				// Draw a point on the 3D graph.
 				this.renderer.drawPoint(
-						x, y, z, this.pointRadius, pointColor
+						x, y, z, pointRadius, drawingParameter
 				);
 			}
 		}
