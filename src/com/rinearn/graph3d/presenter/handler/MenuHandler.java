@@ -59,6 +59,7 @@ public final class MenuHandler {
 
 		// Add the action listeners to the sub menu items in "Option" menu.
 		window.pointOptionMenuItem.addActionListener(new PointOptionMenuItemSelectedEventListener());
+		window.membraneOptionMenuItem.addActionListener(new MembraneOptionMenuItemSelectedEventListener());
 	}
 
 
@@ -283,6 +284,33 @@ public final class MenuHandler {
 					break;
 				}
 			}
+
+			// Propagates the updated configuration, to the entire application.
+			presenter.propagateConfiguration();
+
+			// Replot the graph.
+			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Options" > "With Membranes" menu item is selected.
+	 */
+	private final class MembraneOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Get the configuration container for storing the states of this option.
+			OptionConfiguration optionConfig = model.config.getOptionConfiguration();
+			OptionConfiguration.MembraneOptionConfiguration membraneOptionConfig = optionConfig.getMembraneOptionConfiguration();
+
+			// Store the selection state of this option into the config container.
+			boolean isOptionSelected = view.mainWindow.membraneOptionMenuItem.isSelected();
+			membraneOptionConfig.setSelected(isOptionSelected);
 
 			// Propagates the updated configuration, to the entire application.
 			presenter.propagateConfiguration();

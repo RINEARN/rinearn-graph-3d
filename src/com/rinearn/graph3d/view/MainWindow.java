@@ -131,6 +131,9 @@ public final class MainWindow {
 	/** "Options" > "With Points" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem pointOptionMenuItem;
 
+	/** "Options" > "With Membranes" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem membraneOptionMenuItem;
+
 	/** The flag for switching the visibility of the UI panel at the screen side. */
 	public volatile boolean screenSideUIVisible = true;
 
@@ -238,6 +241,10 @@ public final class MainWindow {
 				// "Options" > "With Points" menu item:
 				pointOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
 				optionsMenu.add(pointOptionMenuItem);
+
+				// "Options" > "With Membranes" menu item:
+				membraneOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
+				optionsMenu.add(membraneOptionMenuItem);
 			}
 
 			// The label of the screen, on which a 3D graph is displayed:
@@ -441,6 +448,7 @@ public final class MainWindow {
 			{
 				optionsMenu.setText("オプション");
 				pointOptionMenuItem.setText("点プロット");
+				membraneOptionMenuItem.setText("曲面プロット");
 			}
 		}
 
@@ -476,6 +484,7 @@ public final class MainWindow {
 			{
 				optionsMenu.setText("Options");
 				pointOptionMenuItem.setText("With Points");
+				membraneOptionMenuItem.setText("With Membranes");
 			}
 		}
 
@@ -513,6 +522,7 @@ public final class MainWindow {
 			{
 				optionsMenu.setFont(uiBoldFont);
 				pointOptionMenuItem.setFont(uiBoldFont);
+				membraneOptionMenuItem.setFont(uiBoldFont);
 			}
 		}
 
@@ -522,6 +532,7 @@ public final class MainWindow {
 		private void setOptionStates() {
 			OptionConfiguration optionConfig = configuration.getOptionConfiguration();
 			pointOptionMenuItem.setSelected(optionConfig.getPointOptionConfiguration().isSelected());
+			membraneOptionMenuItem.setSelected(optionConfig.getMembraneOptionConfiguration().isSelected());
 		}
 	}
 

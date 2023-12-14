@@ -105,6 +105,51 @@ public final class OptionConfiguration {
 	}
 
 
+	/** Stores the configuration of "With Membranes" option. */
+	private volatile MembraneOptionConfiguration membraneOptionConfiguration = new MembraneOptionConfiguration();
+
+	/**
+	 * Sets the configuration of "With Membranes" option.
+	 */
+	public synchronized void getMembraneOptionConfiguration(MembraneOptionConfiguration membraneOptionConfiguration) {
+		this.membraneOptionConfiguration = membraneOptionConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of "With Membranes" option.
+	 */
+	public synchronized MembraneOptionConfiguration getMembraneOptionConfiguration() {
+		return this.membraneOptionConfiguration;
+	}
+
+	/**
+	 * The class storing configuration values of "With Membranes" option.
+	 */
+	public static final class MembraneOptionConfiguration {
+
+		/** The flag representing whether this option is selected. */
+		private volatile boolean selected = false;
+
+		/**
+		 * Selects or unselects this option. 
+		 * 
+		 * @param selected Specify true to select, false to unselect.
+		 */
+		public synchronized void setSelected(boolean selected) {
+			this.selected = selected;
+		}
+
+		/**
+		 * Checks whether this option is selected.
+		 * 
+		 * @return Returns true if this option is selected.
+		 */
+		public synchronized boolean isSelected() {
+			return this.selected;
+		}
+	}
+
+
 	/** Stores the configuration of "Gradient" option. */
 	private volatile GradientOptionConfiguration gradientOptionConfiguration = new GradientOptionConfiguration();
 
