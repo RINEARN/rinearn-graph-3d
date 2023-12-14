@@ -2,12 +2,14 @@ package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.FontConfiguration;
+import com.rinearn.graph3d.config.OptionConfiguration;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollBar;
@@ -126,6 +128,9 @@ public final class MainWindow {
 	/** "Options" menu on the menu bar. */
 	public volatile JMenu optionsMenu;
 
+	/** "Options" > "With Points" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem pointOptionMenuItem;
+
 	/** The flag for switching the visibility of the UI panel at the screen side. */
 	public volatile boolean screenSideUIVisible = true;
 
@@ -226,8 +231,14 @@ public final class MainWindow {
 			}
 
 			// "Options" menu:
-			optionsMenu = new JMenu("Unconfigured");
-			menuBar.add(optionsMenu);
+			{
+				optionsMenu = new JMenu("Unconfigured");
+				menuBar.add(optionsMenu);
+
+				// "Options" > "With Points" menu item:
+				pointOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
+				optionsMenu.add(pointOptionMenuItem);
+			}
 
 			// The label of the screen, on which a 3D graph is displayed:
 			screenLabel = new JLabel();
@@ -393,6 +404,9 @@ public final class MainWindow {
 
 			// Set fonts to the components.
 			this.setFonts();
+
+			// Set the selection-states of the menu items in "Option" menu.
+			this.setOptionStates();
 		}
 
 		/**
@@ -426,6 +440,7 @@ public final class MainWindow {
 			// "Options" menu and sub menu items.
 			{
 				optionsMenu.setText("オプション");
+				pointOptionMenuItem.setText("点プロット");
 			}
 		}
 
@@ -460,6 +475,7 @@ public final class MainWindow {
 			// "Options" menu and sub menu items.
 			{
 				optionsMenu.setText("Options");
+				pointOptionMenuItem.setText("With Points");
 			}
 		}
 
@@ -496,7 +512,16 @@ public final class MainWindow {
 			// "Options" menu and sub menu items.
 			{
 				optionsMenu.setFont(uiBoldFont);
+				pointOptionMenuItem.setFont(uiBoldFont);
 			}
+		}
+
+		/**
+		 * Sets the selection-states of the menu items in "Option" menu.
+		 */
+		private void setOptionStates() {
+			OptionConfiguration optionConfig = configuration.getOptionConfiguration();
+			pointOptionMenuItem.setSelected(optionConfig.getPointOptionConfiguration().isSelected());
 		}
 	}
 
