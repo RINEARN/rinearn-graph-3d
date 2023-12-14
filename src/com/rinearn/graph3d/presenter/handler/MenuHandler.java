@@ -5,9 +5,12 @@ import com.rinearn.graph3d.model.dataseries.ZxyMathDataSeries;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.view.MainWindow;
+import com.rinearn.graph3d.config.OptionConfiguration;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JOptionPane;
 
 
 /**
@@ -42,17 +45,20 @@ public final class MenuHandler {
 
 		MainWindow window = this.view.mainWindow;
 
-		// Add the action listener to sub menu items in "Math" menu.
+		// Add the action listeners to the sub menu items in "Math" menu.
 		window.zxyMathMenuItem.addActionListener(new ZxyMathItemClickedEventListener());
 		window.removeLastMathMenuItem.addActionListener(new RemoveLastMathItemClickedEventListener());
 		window.clearMathMenuItem.addActionListener(new ClearMathItemClickedEventListener());
 
-		// Add the action listener to sub menu items in "Settings" menu.
+		// Add the action listeners to the sub menu items in "Settings" menu.
 		window.rangeSettingMenuItem.addActionListener(new RangeSettingItemClickedEventListener());
 		window.labelSettingMenuItem.addActionListener(new LabelSettingItemClickedEventListener());
 		window.fontSettingMenuItem.addActionListener(new FontSettingItemClickedEventListener());
 		window.cameraSettingMenuItem.addActionListener(new CameraSettingItemClickedEventListener());
 		window.lightSettingMenuItem.addActionListener(new LightSettingItemClickedEventListener());
+
+		// Add the action listeners to the sub menu items in "Option" menu.
+		window.pointOptionMenuItem.addActionListener(new PointOptionMenuItemSelectedEventListener());
 	}
 
 
@@ -216,6 +222,73 @@ public final class MenuHandler {
 				return;
 			}
 			view.lightSettingWindow.setWindowVisible(true);
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Options" > "With Points" menu item is selected.
+	 */
+	private final class PointOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Get the configuration container for storing the states of this option.
+			OptionConfiguration optionConfig = model.config.getOptionConfiguration();
+			OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
+
+			// Store the selection state of this option into the config container.
+			boolean isOptionSelected = view.mainWindow.pointOptionMenuItem.isSelected();
+			pointOptionConfig.setSelected(isOptionSelected);
+
+			// When this option is turned on from off, pop-up the dialog to input the point size.
+			if(isOptionSelected) {
+				while (true) {
+					boolean isJapanese = model.config.getEnvironmentConfiguration().isLocaleJapanese();
+					String inputMessage = isJapanese ? "点の半径 =" : "Point Radius =";
+					String currentValue = Double.toString(pointOptionConfig.getPointRadius());
+					String radiusString = JOptionPane.showInputDialog(view.mainWindow.frame, inputMessage, currentValue);
+
+					// If "Cancel" button is clicked, turn off this option.
+					if (radiusString == null) {
+						pointOptionConfig.setSelected(false);
+						presenter.propagateConfiguration();
+						return;
+					}
+
+					// Parse the input value as a number.
+					double radius = Double.NaN;
+					try {
+						radius = Double.parseDouble(radiusString);
+					} catch (NumberFormatException nfe) {
+						String errorMessage = isJapanese ?
+								"入力値を解釈できませんでした。\n数値を入力してください。" :
+								"Can not parse the input value. Please input a number.";
+						JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+						continue;
+					}
+					if (radius <= 0.0 || 1000.0 < radius) {
+						String errorMessage = isJapanese ?
+								"入力値が想定の範囲外です。\n正の範囲で、1000 以下の数値を入力してください。" :
+								"The input value is out of expected range.\nPlease input a positive number, <= 1000.";
+						JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);						
+						continue;
+					}
+
+					// Store the point size into the config container.
+					pointOptionConfig.setPointRadius(radius);
+					break;
+				}
+			}
+
+			// Propagates the updated configuration, to the entire application.
+			presenter.propagateConfiguration();
+
+			// Replot the graph.
+			presenter.plot();
 		}
 	}
 }
