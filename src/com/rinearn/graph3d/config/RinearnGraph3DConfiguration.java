@@ -102,6 +102,9 @@ public final class RinearnGraph3DConfiguration {
 	/** The configuration of labels. */
 	private volatile LabelConfiguration labelConfiguration = null;
 
+	/** The configuration of plotting options. */
+	private volatile OptionConfiguration optionConfiguration = null;
+
 
 	/**
 	 * Creates a new configuration storing default values.
@@ -137,6 +140,7 @@ public final class RinearnGraph3DConfiguration {
 		configuration.setColorConfiguration(new ColorConfiguration());
 		configuration.setFontConfiguration(new FontConfiguration());
 		configuration.setLabelConfiguration(new LabelConfiguration());
+		configuration.setOptionConfiguration(new OptionConfiguration());
 
 		return configuration;
 	}
@@ -181,6 +185,9 @@ public final class RinearnGraph3DConfiguration {
 		}
 		if (mergedConfiguration.hasLabelConfiguration()) {
 			this.setLabelConfiguration(mergedConfiguration.getLabelConfiguration());
+		}
+		if (mergedConfiguration.hasOptionConfiguration()) {
+			this.setOptionConfiguration(mergedConfiguration.getOptionConfiguration());
 		}
 	}
 
@@ -500,5 +507,33 @@ public final class RinearnGraph3DConfiguration {
 	 */
 	public synchronized LabelConfiguration getLabelConfiguration() {
 		return this.labelConfiguration;
+	}
+
+
+	/**
+	 * Checks whether any plotting-option configuration is set to this instance.
+	 * 
+	 * @return Returns true if any plotting-option configuration is set to this instance.
+	 */
+	public synchronized boolean hasOptionConfiguration() {
+		return this.optionConfiguration != null;
+	}
+
+	/**
+	 * Sets the configuration of plotting-options.
+	 * 
+	 * @param scaleConfiguration The configuration of plotting-options.
+	 */
+	public synchronized void setOptionConfiguration(OptionConfiguration optionConfiguration) {
+		this.optionConfiguration = optionConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of plotting-options.
+	 * 
+	 * @return The configuration of plotting-options.
+	 */
+	public synchronized OptionConfiguration getOptionConfiguration() {
+		return this.optionConfiguration;
 	}
 }
