@@ -36,6 +36,7 @@ com/rinearn/graph3d/presenter/handler/ScreenHandler.java
 com/rinearn/graph3d/presenter/handler/ScreenSideUIHandler.java
 com/rinearn/graph3d/presenter/handler/ZxyMathHandler.java
 com/rinearn/graph3d/presenter/package-info.java
+com/rinearn/graph3d/presenter/plotter/MembranePlotter.java
 com/rinearn/graph3d/presenter/plotter/package-info.java
 com/rinearn/graph3d/presenter/plotter/PointPlotter.java
 com/rinearn/graph3d/presenter/Presenter.java

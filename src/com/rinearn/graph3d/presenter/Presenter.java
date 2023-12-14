@@ -19,6 +19,7 @@ import com.rinearn.graph3d.presenter.handler.ScreenHandler;
 import com.rinearn.graph3d.presenter.handler.ScreenSideUIHandler;
 import com.rinearn.graph3d.presenter.handler.ZxyMathHandler;
 import com.rinearn.graph3d.presenter.plotter.PointPlotter;
+import com.rinearn.graph3d.presenter.plotter.MembranePlotter;
 
 import org.vcssl.nano.VnanoException;
 
@@ -153,6 +154,9 @@ public final class Presenter {
 	/** The plotter to plot points. */
 	public final PointPlotter pointPlotter;
 
+	/** The plotter to plot membranes. */
+	public final MembranePlotter membranePlotter;
+
 
 	/**
 	 * Creates new Presenter layer of RINEARN Graph 3D.
@@ -194,6 +198,8 @@ public final class Presenter {
 		// Create "plotter"s, which perform plottings/re-plottings in event-driven flow.
 		this.pointPlotter = new PointPlotter(model, view, this, renderer);
 		this.plottingEventDispatcher.addPlottingListener(this.pointPlotter);
+		this.membranePlotter = new MembranePlotter(model, view, this, renderer);
+		this.plottingEventDispatcher.addPlottingListener(this.membranePlotter);
 	}
 
 
