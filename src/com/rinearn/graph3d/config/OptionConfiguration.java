@@ -56,7 +56,6 @@ public final class OptionConfiguration {
 		return this.pointOptionConfiguration;
 	}
 
-
 	/**
 	 * The class storing configuration values of "With Points" option.
 	 */
@@ -102,6 +101,56 @@ public final class OptionConfiguration {
 		 */
 		public synchronized double getPointRadius() {
 			return this.pointRadius;
+		}
+	}
+
+
+	/** Stores the configuration of "Gradient" option. */
+	private volatile GradientOptionConfiguration gradientOptionConfiguration = new GradientOptionConfiguration();
+
+	/**
+	 * Sets the configuration of "Gradient" option.
+	 */
+	public synchronized void getGradientOptionConfiguration(GradientOptionConfiguration gradientOptionConfiguration) {
+		this.gradientOptionConfiguration = gradientOptionConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of "Gradient" option.
+	 */
+	public synchronized GradientOptionConfiguration getGradientOptionConfiguration() {
+		return this.gradientOptionConfiguration;
+	}
+
+	/**
+	 * The class storing configuration values of "Gradient" option.
+	 */
+	public static final class GradientOptionConfiguration {
+
+		// !!! NOTE !!!
+		// On Ver.6, this "Gradient" option works as a short-cut UI
+		// for switching the current coloring mode selected in "Settings" > "Set Colors" menu.
+		// So we don't define detailed parameters here. They are defined in "ColorConfiguration" class.
+
+		/** The flag representing whether this option is selected. */
+		private volatile boolean selected = true;
+
+		/**
+		 * Selects or unselects this option. 
+		 * 
+		 * @param selected Specify true to select, false to unselect.
+		 */
+		public synchronized void setSelected(boolean selected) {
+			this.selected = selected;
+		}
+
+		/**
+		 * Checks whether this option is selected.
+		 * 
+		 * @return Returns true if this option is selected.
+		 */
+		public synchronized boolean isSelected() {
+			return this.selected;
 		}
 	}
 }
