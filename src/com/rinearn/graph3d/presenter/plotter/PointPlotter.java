@@ -99,6 +99,7 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 		double[][] xCoords = dataSeries.getXCoordinates();
 		double[][] yCoords = dataSeries.getYCoordinates();
 		double[][] zCoords = dataSeries.getZCoordinates();
+		boolean[][] visibilities = dataSeries.getVisibilities();
 
 		// Draw a point on each coordinate point in the above.
 		int leftDimLength = xCoords.length;
@@ -106,6 +107,9 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 
 			int rightDimLength = xCoords[iL].length;
 			for (int iR=0; iR<rightDimLength; iR++) {
+				if (!visibilities[iL][iR]) {
+					continue;
+				}
 
 				double x = xCoords[iL][iR];
 				double y = yCoords[iL][iR];

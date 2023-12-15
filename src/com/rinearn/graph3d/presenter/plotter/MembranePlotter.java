@@ -97,6 +97,7 @@ public class MembranePlotter implements RinearnGraph3DPlottingListener {
 		double[][] xCoords = dataSeries.getXCoordinates();
 		double[][] yCoords = dataSeries.getYCoordinates();
 		double[][] zCoords = dataSeries.getZCoordinates();
+		boolean[][] visibilities = dataSeries.getVisibilities();
 
 		// Draw a quadrangle for each adjacent coordinate points in the above.
 		int leftDimLength = xCoords.length;
@@ -104,6 +105,16 @@ public class MembranePlotter implements RinearnGraph3DPlottingListener {
 
 			int rightDimLength = xCoords[iL].length;
 			for (int iR=0; iR<rightDimLength - 1; iR++) {
+
+				// Draw a quadrangle only when all of its vertices are set to visible.
+				boolean isQuadrangleVisible = 
+						visibilities[iL    ][iR    ] &&
+						visibilities[iL + 1][iR    ] &&
+						visibilities[iL + 1][iR + 1] &&
+						visibilities[iL    ][iR + 1];
+				if (!isQuadrangleVisible) {
+					continue;
+				}
 
 				// Coords of the vertex A:
 				double xA = xCoords[iL][iR];
