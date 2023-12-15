@@ -29,7 +29,7 @@ public class ZxyMathWindow {
 	public static final int DEFAULT_WINDOW_HEIGHT = 300;
 
 	/** The default value of the text field of the math expression z(x,y). */
-	private static final String DEFAULT_Z_MATH_EXPRESSION = "x + y";
+	private static final String DEFAULT_Z_MATH_EXPRESSION = "( sin(3.2 * x) + cos(2.7 * y) ) / 2";
 
 	/** The default value of the text field of the X-resolution. */
 	private static final String DEFAULT_X_RESOLUTION = "80";
