@@ -131,6 +131,9 @@ public final class MainWindow {
 	/** "Options" > "With Points" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem pointOptionMenuItem;
 
+	/** "Options" > "With Lines" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem lineOptionMenuItem;
+
 	/** "Options" > "With Membranes" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem membraneOptionMenuItem;
 
@@ -241,6 +244,10 @@ public final class MainWindow {
 				// "Options" > "With Points" menu item:
 				pointOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
 				optionsMenu.add(pointOptionMenuItem);
+
+				// "Options" > "With Lines" menu item:
+				lineOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
+				optionsMenu.add(lineOptionMenuItem);
 
 				// "Options" > "With Membranes" menu item:
 				membraneOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
@@ -448,6 +455,7 @@ public final class MainWindow {
 			{
 				optionsMenu.setText("オプション");
 				pointOptionMenuItem.setText("点プロット");
+				lineOptionMenuItem.setText("線プロット");
 				membraneOptionMenuItem.setText("曲面プロット");
 			}
 		}
@@ -484,6 +492,7 @@ public final class MainWindow {
 			{
 				optionsMenu.setText("Options");
 				pointOptionMenuItem.setText("With Points");
+				lineOptionMenuItem.setText("With Lines");
 				membraneOptionMenuItem.setText("With Membranes");
 			}
 		}
@@ -522,6 +531,7 @@ public final class MainWindow {
 			{
 				optionsMenu.setFont(uiBoldFont);
 				pointOptionMenuItem.setFont(uiBoldFont);
+				lineOptionMenuItem.setFont(uiBoldFont);
 				membraneOptionMenuItem.setFont(uiBoldFont);
 			}
 		}
@@ -532,6 +542,7 @@ public final class MainWindow {
 		private void setOptionStates() {
 			OptionConfiguration optionConfig = configuration.getOptionConfiguration();
 			pointOptionMenuItem.setSelected(optionConfig.getPointOptionConfiguration().isSelected());
+			lineOptionMenuItem.setSelected(optionConfig.getLineOptionConfiguration().isSelected());
 			membraneOptionMenuItem.setSelected(optionConfig.getMembraneOptionConfiguration().isSelected());
 		}
 	}

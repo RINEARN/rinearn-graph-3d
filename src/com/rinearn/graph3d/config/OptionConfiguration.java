@@ -97,10 +97,76 @@ public final class OptionConfiguration {
 		/**
 		 * Gets the radius (in pixels) of points plotted by this option.
 		 * 
-		 * @return The radius (in pixels) of this option.
+		 * @return The radius (in pixels) of points plotted by this option.
 		 */
 		public synchronized double getPointRadius() {
 			return this.pointRadius;
+		}
+	}
+
+
+	/** Stores the configuration of "With Lines" option. */
+	private volatile LineOptionConfiguration lineOptionConfiguration = new LineOptionConfiguration();
+
+	/**
+	 * Sets the configuration of "With Lines" option.
+	 */
+	public synchronized void getLineOptionConfiguration(LineOptionConfiguration lineOptionConfiguration) {
+		this.lineOptionConfiguration = lineOptionConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of "With Lines" option.
+	 */
+	public synchronized LineOptionConfiguration getLineOptionConfiguration() {
+		return this.lineOptionConfiguration;
+	}
+
+	/**
+	 * The class storing configuration values of "With Lines" option.
+	 */
+	public static final class LineOptionConfiguration {
+
+		/** The flag representing whether this option is selected. */
+		private volatile boolean selected = false;
+
+		/** The width (in pixels) of lines plotted by this option. */
+		private volatile double lineWidth = 1.0;
+
+		/**
+		 * Selects or unselects this option. 
+		 * 
+		 * @param selected Specify true to select, false to unselect.
+		 */
+		public synchronized void setSelected(boolean selected) {
+			this.selected = selected;
+		}
+
+		/**
+		 * Checks whether this option is selected.
+		 * 
+		 * @return Returns true if this option is selected.
+		 */
+		public synchronized boolean isSelected() {
+			return this.selected;
+		}
+
+		/**
+		 * Sets the width (in pixels) of lines plotted by this option.
+		 * 
+		 * @param lineWidth The width (in pixels) of lines plotted by this option.
+		 */
+		public synchronized void setLineWidth(double lineWidth) {
+			this.lineWidth = lineWidth;
+		}
+
+		/**
+		 * Gets the width (in pixels) of lines plotted by this option.
+		 * 
+		 * @return The width (in pixels) of lines plotted by this option.
+		 */
+		public synchronized double getLineWidth() {
+			return this.lineWidth;
 		}
 	}
 
