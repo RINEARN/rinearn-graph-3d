@@ -171,6 +171,72 @@ public final class OptionConfiguration {
 	}
 
 
+	/** Stores the configuration of "With Meshes" option. */
+	private volatile MeshOptionConfiguration meshOptionConfiguration = new MeshOptionConfiguration();
+
+	/**
+	 * Sets the configuration of "With Meshes" option.
+	 */
+	public synchronized void getMeshOptionConfiguration(MeshOptionConfiguration meshOptionConfiguration) {
+		this.meshOptionConfiguration = meshOptionConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of "With Meshes" option.
+	 */
+	public synchronized MeshOptionConfiguration getMeshOptionConfiguration() {
+		return this.meshOptionConfiguration;
+	}
+
+	/**
+	 * The class storing configuration values of "With Meshes" option.
+	 */
+	public static final class MeshOptionConfiguration {
+
+		/** The flag representing whether this option is selected. */
+		private volatile boolean selected = false;
+
+		/** The width (in pixels) of lines composing meshes plotted by this option. */
+		private volatile double lineWidth = 1.0;
+
+		/**
+		 * Selects or unselects this option. 
+		 * 
+		 * @param selected Specify true to select, false to unselect.
+		 */
+		public synchronized void setSelected(boolean selected) {
+			this.selected = selected;
+		}
+
+		/**
+		 * Checks whether this option is selected.
+		 * 
+		 * @return Returns true if this option is selected.
+		 */
+		public synchronized boolean isSelected() {
+			return this.selected;
+		}
+
+		/**
+		 * Sets the width (in pixels) of lines composing meshes plotted by this option.
+		 * 
+		 * @param lineWidth The width (in pixels) of lines.
+		 */
+		public synchronized void setLineWidth(double lineWidth) {
+			this.lineWidth = lineWidth;
+		}
+
+		/**
+		 * Gets the width (in pixels) of lines composing meshes plotted by this option.
+		 * 
+		 * @return The width (in pixels) of lines.
+		 */
+		public synchronized double getLineWidth() {
+			return this.lineWidth;
+		}
+	}
+
+
 	/** Stores the configuration of "With Membranes" option. */
 	private volatile MembraneOptionConfiguration membraneOptionConfiguration = new MembraneOptionConfiguration();
 

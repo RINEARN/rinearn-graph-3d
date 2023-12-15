@@ -60,6 +60,7 @@ public final class MenuHandler {
 		// Add the action listeners to the sub menu items in "Option" menu.
 		window.pointOptionMenuItem.addActionListener(new PointOptionMenuItemSelectedEventListener());
 		window.lineOptionMenuItem.addActionListener(new LineOptionMenuItemSelectedEventListener());
+		window.meshOptionMenuItem.addActionListener(new MeshOptionMenuItemSelectedEventListener());
 		window.membraneOptionMenuItem.addActionListener(new MembraneOptionMenuItemSelectedEventListener());
 	}
 
@@ -349,6 +350,73 @@ public final class MenuHandler {
 
 					// Store the line width into the config container.
 					lineOptionConfig.setLineWidth(width);
+					break;
+				}
+			}
+
+			// Propagates the updated configuration, to the entire application.
+			presenter.propagateConfiguration();
+
+			// Replot the graph.
+			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Options" > "With Meshes" menu item is selected.
+	 */
+	private final class MeshOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Get the configuration container for storing the states of this option.
+			OptionConfiguration optionConfig = model.config.getOptionConfiguration();
+			OptionConfiguration.MeshOptionConfiguration meshOptionConfig = optionConfig.getMeshOptionConfiguration();
+
+			// Store the selection state of this option into the config container.
+			boolean isOptionSelected = view.mainWindow.meshOptionMenuItem.isSelected();
+			meshOptionConfig.setSelected(isOptionSelected);
+
+			// When this option is turned on from off, pop-up the dialog to input the line width.
+			if(isOptionSelected) {
+				while (true) {
+					boolean isJapanese = model.config.getEnvironmentConfiguration().isLocaleJapanese();
+					String inputMessage = isJapanese ? "線の幅 =" : "Line Width =";
+					String currentValue = Double.toString(meshOptionConfig.getLineWidth());
+					String radiusString = JOptionPane.showInputDialog(view.mainWindow.frame, inputMessage, currentValue);
+
+					// If "Cancel" button is clicked, turn off this option.
+					if (radiusString == null) {
+						meshOptionConfig.setSelected(false);
+						presenter.propagateConfiguration();
+						return;
+					}
+
+					// Parse the input value as a number.
+					double width = Double.NaN;
+					try {
+						width = Double.parseDouble(radiusString);
+					} catch (NumberFormatException nfe) {
+						String errorMessage = isJapanese ?
+								"入力値を解釈できませんでした。\n数値を入力してください。" :
+								"Can not parse the input value. Please input a number.";
+						JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+						continue;
+					}
+					if (width <= 0.0 || 1000.0 < width) {
+						String errorMessage = isJapanese ?
+								"入力値が想定の範囲外です。\n正の範囲で、1000 以下の数値を入力してください。" :
+								"The input value is out of expected range.\nPlease input a positive number, <= 1000.";
+						JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);						
+						continue;
+					}
+
+					// Store the line width into the config container.
+					meshOptionConfig.setLineWidth(width);
 					break;
 				}
 			}
