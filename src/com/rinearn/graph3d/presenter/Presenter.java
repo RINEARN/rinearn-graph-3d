@@ -20,6 +20,7 @@ import com.rinearn.graph3d.presenter.handler.ScreenSideUIHandler;
 import com.rinearn.graph3d.presenter.handler.ZxyMathHandler;
 import com.rinearn.graph3d.presenter.plotter.PointPlotter;
 import com.rinearn.graph3d.presenter.plotter.LinePlotter;
+import com.rinearn.graph3d.presenter.plotter.MeshPlotter;
 import com.rinearn.graph3d.presenter.plotter.MembranePlotter;
 
 import org.vcssl.nano.VnanoException;
@@ -158,6 +159,9 @@ public final class Presenter {
 	/** The plotter to plot lines. */
 	public final LinePlotter linePlotter;
 
+	/** The plotter to plot meshes. */
+	public final MeshPlotter meshPlotter;
+
 	/** The plotter to plot membranes. */
 	public final MembranePlotter membranePlotter;
 
@@ -204,6 +208,8 @@ public final class Presenter {
 		this.plottingEventDispatcher.addPlottingListener(this.pointPlotter);
 		this.linePlotter = new LinePlotter(model, view, this, renderer);
 		this.plottingEventDispatcher.addPlottingListener(this.linePlotter);
+		this.meshPlotter = new MeshPlotter(model, view, this, renderer);
+		this.plottingEventDispatcher.addPlottingListener(this.meshPlotter);
 		this.membranePlotter = new MembranePlotter(model, view, this, renderer);
 		this.plottingEventDispatcher.addPlottingListener(this.membranePlotter);
 	}
