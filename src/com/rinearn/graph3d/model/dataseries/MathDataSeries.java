@@ -37,6 +37,9 @@ public abstract class MathDataSeries extends AbstractDataSeries {
 	/** The Z-coordinate values of the points of this data series. */
 	protected volatile double[][] zCoordinates = null;
 
+	/** The array storing visibilities of the points of this data series. */
+	protected volatile boolean[][] visibilities;
+
 
 	/**
 	 * Create an instance for generating data using the specified script engine, under the specified configuration.
@@ -76,7 +79,7 @@ public abstract class MathDataSeries extends AbstractDataSeries {
 	@Override
 	public synchronized double[][] getXCoordinates() {
 		if (this.xCoordinates == null) {
-			throw new IllegalStateException("The X-coordinate values has not been generated yet.");
+			throw new IllegalStateException("The X-coordinate values have not been generated yet.");
 		}
 		return this.xCoordinates;
 	}
@@ -90,7 +93,7 @@ public abstract class MathDataSeries extends AbstractDataSeries {
 	@Override
 	public synchronized double[][] getYCoordinates() {
 		if (this.yCoordinates == null) {
-			throw new IllegalStateException("The Y-coordinate values has not been generated yet.");
+			throw new IllegalStateException("The Y-coordinate values have not been generated yet.");
 		}
 		return this.yCoordinates;		
 	}
@@ -104,8 +107,22 @@ public abstract class MathDataSeries extends AbstractDataSeries {
 	@Override
 	public synchronized double[][] getZCoordinates() {
 		if (this.zCoordinates == null) {
-			throw new IllegalStateException("The Z-coordinate values has not been generated yet.");
+			throw new IllegalStateException("The Z-coordinate values have not been generated yet.");
 		}
 		return this.zCoordinates;
+	}
+
+
+	/**
+	 * Gets the visibilities of the points of this data series.
+	 * 
+	 * @return The array storing visibilities of the points of this data series.
+	 */
+	@Override
+	public synchronized boolean[][] getVisibilities() {
+		if(this.visibilities == null) {
+			throw new IllegalStateException("The visibilities have not been initialized yet.");
+		}
+		return this.visibilities;		
 	}
 }

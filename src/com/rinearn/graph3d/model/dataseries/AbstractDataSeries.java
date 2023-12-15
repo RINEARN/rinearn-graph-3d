@@ -47,4 +47,10 @@ public abstract class AbstractDataSeries {
 	 * @return The Z-coordinate values.
 	 */
 	public abstract double[][] getZCoordinates();
+
+
+	/**
+	 * Gets the array storing visibilities of the points of this data series.
+	 */
+	public abstract boolean[][] getVisibilities();
 }

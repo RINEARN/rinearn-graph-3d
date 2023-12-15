@@ -88,6 +88,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 		super.xCoordinates = new double[xN][yN];
 		super.yCoordinates = new double[xN][yN];
 		super.zCoordinates = new double[xN][yN];
+		super.visibilities = new boolean[xN][yN];
 
 		// Activate the script engine (initialization procedures of all connected plug-ins are invoked).
 		super.scriptEngineMount.activateMathExpressionEngine();
@@ -102,6 +103,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 				super.xCoordinates[ix][iy] = x;
 				super.yCoordinates[ix][iy] = y;
 				super.zCoordinates[ix][iy] = z;
+				super.visibilities[ix][iy] = true;
 			}
 		}
 

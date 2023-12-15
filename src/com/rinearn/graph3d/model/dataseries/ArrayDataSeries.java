@@ -26,6 +26,9 @@ public class ArrayDataSeries extends AbstractDataSeries {
 	/** The Z-coordinate values of the points of this data series, in double-type. */
 	private volatile double[][] zDoubleCoordinates = null;
 
+	/** The array storing visibilities of the points of this data series. */
+	private volatile boolean[][] visibilities;
+
 
 	/**
 	 * Creates a new array data series.
@@ -51,7 +54,7 @@ public class ArrayDataSeries extends AbstractDataSeries {
 	@Override
 	public synchronized double[][] getXCoordinates() {
 		if (this.xDoubleCoordinates == null) {
-			throw new IllegalStateException("The X-coordinate values has not been initialized yet.");
+			throw new IllegalStateException("The X-coordinate values have not been initialized yet.");
 		}
 		return this.xDoubleCoordinates;
 	}
@@ -74,7 +77,7 @@ public class ArrayDataSeries extends AbstractDataSeries {
 	@Override
 	public synchronized double[][] getYCoordinates() {
 		if (this.yDoubleCoordinates == null) {
-			throw new IllegalStateException("The Y-coordinate values has not been initialized yet.");
+			throw new IllegalStateException("The Y-coordinate values have not been initialized yet.");
 		}
 		return this.yDoubleCoordinates;		
 	}
@@ -97,8 +100,31 @@ public class ArrayDataSeries extends AbstractDataSeries {
 	@Override
 	public synchronized double[][] getZCoordinates() {
 		if (this.zDoubleCoordinates == null) {
-			throw new IllegalStateException("The Z-coordinate values has not been initialized yet.");
+			throw new IllegalStateException("The Z-coordinate values have not been initialized yet.");
 		}
 		return this.zDoubleCoordinates;
+	}
+
+
+	/**
+	 * Sets the visibilities of the points of this data series.
+	 * 
+	 * @param visibilities The array storing visibilities of the points of this data series.
+	 */
+	public synchronized void setVisibilities(boolean[][] visibilities) {
+		this.visibilities = visibilities;
+	}
+
+	/**
+	 * Gets the visibilities of the points of this data series.
+	 * 
+	 * @return The array storing visibilities of the points of this data series.
+	 */
+	@Override
+	public synchronized boolean[][] getVisibilities() {
+		if(this.visibilities == null) {
+			throw new IllegalStateException("The visibilities have not been initialized yet.");
+		}
+		return this.visibilities;		
 	}
 }
