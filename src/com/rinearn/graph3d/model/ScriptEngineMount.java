@@ -40,7 +40,7 @@ public final class ScriptEngineMount {
 
 	/**
 	 * Create a new instance retaining a set of script engines, by the default settings.
-	 * 
+	 *
 	 * @param locale The locale of the user's environment, which determines the language of error messages.
 	 * @throws VnanoException Thrown when it failed to load/initialize plug-ins, etc.
 	 */
@@ -51,14 +51,14 @@ public final class ScriptEngineMount {
 
 	/**
 	 * Activates the script engine which is used for calculating values of math expressions.
-	 * 
+	 *
 	 * This activations is required to be processed before calculating any expressions,
 	 * but it takes some overhead costs (required time) for initializing all plug-ins.
-	 * 
+	 *
 	 * Hence, especially when calculate expressions repetitively in high frequency,
 	 * to avoid degradation of processing speed caused by the above costs,
 	 * the timing of this activation must be tuned appropriately.
-	 * 
+	 *
 	 * @throws VnanoException Thrown when any error has occurred in the initialization procedure of any plug-in.
 	 */
 	public synchronized void activateMathExpressionEngine() throws VnanoException {
@@ -68,11 +68,11 @@ public final class ScriptEngineMount {
 
 	/**
 	 * Deactivates the script engine which is used for calculating values of math expressions.
-	 * 
+	 *
 	 * Finalization procedures of all connected plug-ins are invoked by this deactivation,
 	 * but it takes some overhead costs (required time) for initializing all plug-ins.
 	 * Hence, the timing of this deactivation must be tuned appropriately, same as the activation.
-	 * 
+	 *
 	 * @throws VnanoException Thrown when any error has occurred in the finalization procedure of any plug-in.
 	 */
 	public synchronized void deactivateMathExpressionEngine() throws VnanoException {
@@ -81,7 +81,7 @@ public final class ScriptEngineMount {
 
 	/**
 	 * Calculate the specified math expression having no parameters.
-	 * 
+	 *
 	 * @param expression The math expression to be calculated.
 	 * @return The calculated value.
 	 * @throws VnanoException Throws if any syntax error is detected for the specified expression.
@@ -98,7 +98,7 @@ public final class ScriptEngineMount {
 
 	/**
 	 * Calculate the specified math expression of "f(x,y)" form.
-	 * 
+	 *
 	 * @param expression The math expression to be calculated.
 	 * @param x The parameter "x" of "f(x,y)".
 	 * @param y The parameter "y" of "f(x,y)".
@@ -116,7 +116,7 @@ public final class ScriptEngineMount {
 
 	/**
 	 * Calculate the specified math expression of "f(t)" form.
-	 * 
+	 *
 	 * @param expression The math expression to be calculated.
 	 * @param t The parameter "t" of "f(t)".
 	 * @return The calculated value.
@@ -132,7 +132,7 @@ public final class ScriptEngineMount {
 
 	/**
 	 * Create a new script engine of Vnano, and initialize it for calculating math expressions.
-	 * 
+	 *
 	 * @param locale The locale of the user's environment, which determines the language of error messages.
 	 * @return An initialized engine.
 	 * @throws VnanoException Thrown when it failed to load/initialize plug-ins, etc.

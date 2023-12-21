@@ -36,7 +36,7 @@ public interface RinearnGraph3DRenderer {
 	 * には反映されない事に注意してください。
 	 * 設定の変更を反映させるには、一旦 clear() メソッドでそれらをクリアして、再度描画してください。
 	 * <span class="lang-en">
-	 * 
+	 *
 	 * @param configuration
 	 *   <span class="lang-en">
 	 *   The container storing configuration values.
@@ -56,16 +56,16 @@ public interface RinearnGraph3DRenderer {
 	 * 現在のグラフ画面における描画内容を全て消去します
 	 * </span>
 	 * .
-	 * 
+	 *
 	 * <div class="lang-en">
-	 * Different from {@link com.rinearn.graph3d.RinearnGraph3D#clear RinearnGraph3D.clear} method, 
+	 * Different from {@link com.rinearn.graph3d.RinearnGraph3D#clear RinearnGraph3D.clear} method,
 	 * this method clears not only plotted data but also axes and scales (so this method clears everything on the graph).
 	 * If you want to clear only plotted data, use {@link com.rinearn.graph3d.RinearnGraph3D#clear RinearnGraph3D.clear} method instead.
 	 * </div>
-	 * 
+	 *
 	 * <div class="lang-ja">
-	 * {@link com.rinearn.graph3d.RinearnGraph3D#clear RinearnGraph3D.clear} とは異なり, 座標軸や目盛りなども消去され, 画面上に何も無い状態となります. 
-	 * それらを残したい場合は, 代わりに {@link com.rinearn.graph3d.RinearnGraph3D#clear RinearnGraph3D.clear} を使用してください. 
+	 * {@link com.rinearn.graph3d.RinearnGraph3D#clear RinearnGraph3D.clear} とは異なり, 座標軸や目盛りなども消去され, 画面上に何も無い状態となります.
+	 * それらを残したい場合は, 代わりに {@link com.rinearn.graph3d.RinearnGraph3D#clear RinearnGraph3D.clear} を使用してください.
 	 * </div>
 	 */
 	public void clear();
@@ -79,19 +79,19 @@ public interface RinearnGraph3DRenderer {
 	 * グラフ画面を描画します
 	 * </span>
 	 * .
-	 * 
+	 *
 	 * <div class="lang-en">
 	 * Basically, the renderer does not update the graph image until this method is called.
-	 * Hence, after using the drawing methods such as {@link RinearnGraph3DRenderer#drawPoint drawPoint} and {@link RinearnGraph3DRenderer#drawLine drawLine}, 
+	 * Hence, after using the drawing methods such as {@link RinearnGraph3DRenderer#drawPoint drawPoint} and {@link RinearnGraph3DRenderer#drawLine drawLine},
 	 * please call this method for rendering the drawn objects to the graph.
-	 * Note that, there are some certain timings that the graph image is updated automatically, 
+	 * Note that, there are some certain timings that the graph image is updated automatically,
 	 * e.g.: when the camera angle has changed by user's mouse dragging.
 	 * </div>
-	 * 
+	 *
 	 * <div class="lang-ja">
-	 * 通常は, このメソッドをコールするまでグラフ画面は更新されません. 
-	 * そのため, {@link RinearnGraph3DRenderer#drawPoint drawPoint} や {@link RinearnGraph3DRenderer#drawLine drawLine} 等で立体の描画を行った後, 最後にこのメソッドをコールしてください. 
-	 * ただし, マウス等で視点が操作された際など, 自動で再描画が行われる事もあります. 
+	 * 通常は, このメソッドをコールするまでグラフ画面は更新されません.
+	 * そのため, {@link RinearnGraph3DRenderer#drawPoint drawPoint} や {@link RinearnGraph3DRenderer#drawLine drawLine} 等で立体の描画を行った後, 最後にこのメソッドをコールしてください.
+	 * ただし, マウス等で視点が操作された際など, 自動で再描画が行われる事もあります.
 	 * </div>
 	 */
 	public void render();
@@ -132,7 +132,7 @@ public interface RinearnGraph3DRenderer {
 	 * 具体的には、フラグの値が引数 fromValue と等しかった場合に、引数 toValue の値へと変更します。
 	 * また、変更の有無に関わらず、元の値を戻り値として返します。
 	 * </span>
-	 * 
+	 *
 	 * <span class="lang-en">
 	 * The followings are typical examples using this method:
 	 * For referring the value of the flag, and resetting it to the false, do "flag = casScreenUpdated(true, false)".
@@ -145,7 +145,7 @@ public interface RinearnGraph3DRenderer {
 	 * リセットせずに参照のみ行うには "flag = casScreenUpdated(true, true)" または "...(false, false)" とします。
 	 * 外部からフラグを立てたい場合は "casScreenUpdated(false, true)" とします。
 	 * </span>
-	 * 
+	 *
 	 * <span class="lang-en">
 	 * An app-side thread refers this flag periodically, and updates the window if it is true, and then resets the flag to false.
 	 * However, user's code running on an other thread may call render() method,
@@ -157,15 +157,15 @@ public interface RinearnGraph3DRenderer {
 	 * 一方、APIを通して外部から（別スレッドで）render メソッド等が呼ばれ、それによるフラグ更新が上記に割り込む可能性があります。
 	 * 従って、フラグの参照とリセットの操作は、このメソッドを通してアトミック（不可分）な形で一括して行う必要があります。
 	 * </span>
-	 * 
+	 *
 	 * @param fromValue
 	 *   <span class="lang-en">The value to be swapped by "toValue"</span>
 	 *   <span class="lang-ja">"toValue" に変更されるべき場合の値</span>
-	 * 
+	 *
 	 * @param toValue
 	 *   <span class="lang-en">The swapped value</span>
 	 *   <span class="lang-ja">変更後の値</span>
-	 * 
+	 *
 	 * @return
 	 *   <span class="lang-en">Unmodified flag value (true if the content of the graph screen has been updated)</span>
 	 *   <span class="lang-ja">未変更のフラグの値（グラフ画面の内容が更新された場合に true）</span>
@@ -193,7 +193,7 @@ public interface RinearnGraph3DRenderer {
 	 * 具体的には、フラグの値が引数 fromValue と等しかった場合に、引数 toValue の値へと変更します。
 	 * また、変更の有無に関わらず、元の値を戻り値として返します。
 	 * </span>
-	 * 
+	 *
 	 * <span class="lang-en">
 	 * For usage examples, and why we design this flag's operations as a CAS operation,
 	 * see the description of "casScreenUpdated()" method.
@@ -201,15 +201,15 @@ public interface RinearnGraph3DRenderer {
 	 * <span class="lang-ja">
 	 * 使用例や、このフラグの操作をCAS操作としている理由については、casScreenUpdated() メソッドの説明を参照してください。
 	 * </span>
-	 * 
+	 *
 	 * @param fromValue
 	 *   <span class="lang-en">The value to be swapped by "toValue"</span>
 	 *   <span class="lang-ja">"toValue" に変更されるべき場合の値</span>
-	 * 
+	 *
 	 * @param toValue
 	 *   <span class="lang-en">The swapped value</span>
 	 *   <span class="lang-ja">変更後の値</span>
-	 * 
+	 *
 	 * @return
 	 *   <span class="lang-en">Unmodified flag value (true if the graph screen has been resized)</span>
 	 *   <span class="lang-ja">未変更のフラグの値（グラフ画面がリサイズされた場合に true）</span>

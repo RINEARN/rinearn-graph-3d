@@ -1,7 +1,6 @@
 package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.model.Model;
-import com.rinearn.graph3d.model.dataseries.ZxyMathDataSeries;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.view.MainWindow;
@@ -33,7 +32,7 @@ public final class MenuHandler {
 
 	/**
 	 * Create a new instance handling events and API requests using the specified resources.
-	 * 
+	 *
 	 * @param model The front-end class of "Model" layer, which provides internal logic procedures and so on.
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
@@ -67,7 +66,7 @@ public final class MenuHandler {
 
 	/**
 	 * Turns on/off the event handling feature of this instance.
-	 * 
+	 *
 	 * @param enabled Specify false for turning off the event handling feature (enabled by default).
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
@@ -77,7 +76,7 @@ public final class MenuHandler {
 
 	/**
 	 * Gets whether the event handling feature of this instance is enabled.
-	 * 
+	 *
 	 * @return Returns true if the event handling feature is enabled.
 	 */
 	public synchronized boolean isEventHandlingEnabled() {
@@ -89,7 +88,7 @@ public final class MenuHandler {
 
 
 	// ================================================================================
-	// 
+	//
 	// - Event Listeners -
 	//
 	// ================================================================================
@@ -97,7 +96,7 @@ public final class MenuHandler {
 
 	/**
 	 * Sets the visibility of the menu bar and the right click menus.
-	 * 
+	 *
 	 * @param visible Specify true for showing the menu bar and the right click menus.
 	 */
 	public synchronized void setMenuVisible(boolean visible) {
@@ -277,7 +276,7 @@ public final class MenuHandler {
 						String errorMessage = isJapanese ?
 								"入力値が想定の範囲外です。\n正の範囲で、1000 以下の数値を入力してください。" :
 								"The input value is out of expected range.\nPlease input a positive number, <= 1000.";
-						JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);						
+						JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
 						continue;
 					}
 
@@ -344,7 +343,7 @@ public final class MenuHandler {
 						String errorMessage = isJapanese ?
 								"入力値が想定の範囲外です。\n正の範囲で、1000 以下の数値を入力してください。" :
 								"The input value is out of expected range.\nPlease input a positive number, <= 1000.";
-						JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);						
+						JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
 						continue;
 					}
 
@@ -411,7 +410,7 @@ public final class MenuHandler {
 						String errorMessage = isJapanese ?
 								"入力値が想定の範囲外です。\n正の範囲で、1000 以下の数値を入力してください。" :
 								"The input value is out of expected range.\nPlease input a positive number, <= 1000.";
-						JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);						
+						JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
 						continue;
 					}
 

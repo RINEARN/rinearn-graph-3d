@@ -4,7 +4,6 @@ import com.rinearn.graph3d.config.FontConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -57,7 +56,7 @@ public final class LabelSettingWindow {
 
 	/**
 	 * Creates a new window.
-	 * 
+	 *
 	 * @param configuration The configuration of this application.
 	 */
 	public LabelSettingWindow() {
@@ -206,7 +205,7 @@ public final class LabelSettingWindow {
 
 	/**
 	 * Reflects the configuration parameters related to this window, such as the language of UI, fonts, and so on.
-	 * 
+	 *
 	 * @param configuration The configuration container.
 	 */
 	public void configure(RinearnGraph3DConfiguration configuration) {
@@ -236,7 +235,7 @@ public final class LabelSettingWindow {
 
 		/**
 		 * Creates a new instance to reflect the specified configuration.
-		 * 
+		 *
 		 * @param configuration The configuration to be reflected.
 		 */
 		public ConfigurationReflector(RinearnGraph3DConfiguration configuration) {
@@ -326,7 +325,7 @@ public final class LabelSettingWindow {
 
 	/**
 	 * Sets the visibility of this window.
-	 * 
+	 *
 	 * @param visible Specify true for showing this window, false for hiding the window.
 	 */
 	public void setWindowVisible(boolean visible) {
@@ -355,7 +354,7 @@ public final class LabelSettingWindow {
 
 		/**
 		 * Create an instance for switching visibility of this window.
-		 * 
+		 *
 		 * @param visible Specify true for showing this window, false for hiding the window.
 		 */
 		public WindowVisiblitySwitcher(boolean visible) {

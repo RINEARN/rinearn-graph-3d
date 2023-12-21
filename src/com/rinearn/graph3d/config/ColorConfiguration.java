@@ -2,8 +2,6 @@ package com.rinearn.graph3d.config;
 
 import java.awt.Color;
 
-import com.rinearn.graph3d.config.RangeConfiguration.AxisRangeConfiguration;
-
 /*
 !!!!!
 NOTE
@@ -60,7 +58,7 @@ NOTE
      （i % 1 = i for 任意の i なので）全系列が同じグラデになって、
      その場合デフォルト（系列ごと設定が無い場合の採用値）と同じように機能するでしょ。
      なので、そもそもデフォルトという概念が要らない。1個だけ登録っていう状態で兼ねられる。
- 
+
      んで、そのグラデ設定の1個を、現行版のデフォルトのやつにしとけばいい。
      ソリッドはデフォルトで8個くらい用意しといて。
      そうすりゃ「グラデONだと全系列デフォルトグラデ、OFFだと系列ごと彩色」という現行版の挙動を踏襲しつつ、
@@ -179,13 +177,13 @@ public final class ColorConfiguration {
 	/**
 	 * Creates new configuration storing default values.
 	 */
-	public ColorConfiguration() {		
+	public ColorConfiguration() {
 	}
 
 
 	/**
 	 * Sets the coloring modes, for determining the color of each data series.
-	 * 
+	 *
 	 * @param dataColoringModes The array storing a coloring mode for each data series.
 	 */
 	public synchronized void setDataColoringModes(DataColoringMode[] dataColoringModes) {
@@ -194,7 +192,7 @@ public final class ColorConfiguration {
 
 	/**
 	 * Gets the coloring modes, for determining the color of each data series.
-	 * 
+	 *
 	 * @return The array storing a coloring mode for each data series.
 	 */
 	public synchronized DataColoringMode[] getDataColoringModes() {
@@ -205,7 +203,7 @@ public final class ColorConfiguration {
 	// 以下のやつ、Series って付くのよくないんじゃない？
 	// ここで定義されるのはあくまでソリッド色やグラデ色のリストで、
 	// インデックスは別に系列インデックスではないよな？ 色番号だよな？
-	// 
+	//
 	// -> いや、mode があってればインデックスはそのまま系列インデックス（%N）に一致するよ。
 	//    %Nされるからといって、別に「 n個目のソリッド色 」みたいな感じでインクリメンタルに参照されるわけじゃない。のでこれでいい。
 	//
@@ -220,7 +218,7 @@ public final class ColorConfiguration {
 
 	/**
 	 * Sets solid colors used for drawing data series, applied when their coloring modes are SOLID.
-	 * 
+	 *
 	 * @param dataSolidColors The array storing a solid color for each data series.
 	 */
 	public synchronized void setDataSolidsColors(Color[] dataSolidColors) {
@@ -230,7 +228,7 @@ public final class ColorConfiguration {
 
 	/**
 	 * Gets solid colors used for drawing data series, applied when their coloring modes are SOLID.
-	 * 
+	 *
 	 * @return The array storing a solid color for each data series.
 	 */
 	public synchronized Color[] getDataSolidColors() {
@@ -240,7 +238,7 @@ public final class ColorConfiguration {
 
 	/**
 	 * Sets gradient colors used for drawing data series, applied when their coloring modes are GRADIENT.
-	 * 
+	 *
 	 * @param dataColorGradients The array storing a ColorGradient instance for each data series.
 	 */
 	public synchronized void setDataColorGradients(ColorGradient[] dataColorGradients) {
@@ -249,7 +247,7 @@ public final class ColorConfiguration {
 
 	/**
 	 * Gets color gradients used for drawing data series, applied when their coloring modes are GRADIENT.
-	 * 
+	 *
 	 * @return The array storing a ColorGradient instance for each data series.
 	 */
 	public synchronized ColorGradient[] getDataColorGradients() {
@@ -258,7 +256,7 @@ public final class ColorConfiguration {
 
 	/**
 	 * Sets the background color of the graph screen.
-	 * 
+	 *
 	 * @param backgroundColor The background color of the graph screen.
 	 */
 	public synchronized void setBackgroundColor(Color backgroundColor) {
@@ -267,7 +265,7 @@ public final class ColorConfiguration {
 
 	/**
 	 * Gets the background color of the graph screen.
-	 * 
+	 *
 	 * @return The background color of the graph screen.
 	 */
 	public synchronized Color getBackgroundColor() {
@@ -276,7 +274,7 @@ public final class ColorConfiguration {
 
 	/**
 	 * Sets the foreground color, which is a color of the outer frame of the graph, labels, and so on.
-	 * 
+	 *
 	 * @param foregroundColor The foreground color.
 	 */
 	public synchronized void setForegroundColor(Color foregroundColor) {
@@ -285,7 +283,7 @@ public final class ColorConfiguration {
 
 	/**
 	 * Gets the foreground color, which is a color of the outer frame of the graph, labels, and so on.
-	 * 
+	 *
 	 * @return The foreground color.
 	 */
 	public synchronized Color getForegroundColor() {
@@ -294,7 +292,7 @@ public final class ColorConfiguration {
 
 	/**
 	 * Sets the color of grid lines.
-	 * 
+	 *
 	 * @param gridColor The color of grid lines.
 	 */
 	public synchronized void setGridColor(Color gridColor) {
@@ -303,7 +301,7 @@ public final class ColorConfiguration {
 
 	/**
 	 * Gets the color of grid lines.
-	 * 
+	 *
 	 * @return The color of grid lines.
 	 */
 	public synchronized Color getGridColor() {
@@ -312,11 +310,11 @@ public final class ColorConfiguration {
 
 	/**
 	 * Validates correctness and consistency of configuration parameters stored in this instance.
-	 * 
+	 *
 	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
-	 * 
+	 *
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws IllegalStateException {

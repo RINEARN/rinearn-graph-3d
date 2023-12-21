@@ -46,13 +46,13 @@ public final class EnvironmentConfiguration {
 	/**
 	 * Creates a new configuration storing default values.
 	 */
-	public EnvironmentConfiguration() {	
+	public EnvironmentConfiguration() {
 	}
 
 
 	/**
 	 * Sets the Locale for switching the language of UI of this application.
-	 * 
+	 *
 	 * @param locale The Locale for switching the language of UI.
 	 */
 	public synchronized void setLocale(Locale locale) {
@@ -61,7 +61,7 @@ public final class EnvironmentConfiguration {
 
 	/**
 	 * Gets the currently set Locale, which determines the language of UI of this application.
-	 * 
+	 *
 	 * @param locale The currently set Locale.
 	 */
 	public synchronized Locale getLocale() {
@@ -70,7 +70,7 @@ public final class EnvironmentConfiguration {
 
 	/**
 	 * Checks whether the language/country code of the Locale of this instance represents the Japanese environment.
-	 * 
+	 *
 	 * @return Returns true only when the Locale represents the Japanese environment.
 	 */
 	public synchronized boolean isLocaleJapanese() {
@@ -81,11 +81,11 @@ public final class EnvironmentConfiguration {
 
 	/**
 	 * Validates correctness and consistency of configuration parameters stored in this instance.
-	 * 
+	 *
 	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
-	 * 
+	 *
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws IllegalStateException {

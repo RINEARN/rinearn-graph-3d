@@ -68,8 +68,8 @@ public final class OptionConfiguration {
 		private volatile double pointRadius = 2.0;
 
 		/**
-		 * Selects or unselects this option. 
-		 * 
+		 * Selects or unselects this option.
+		 *
 		 * @param selected Specify true to select, false to unselect.
 		 */
 		public synchronized void setSelected(boolean selected) {
@@ -78,7 +78,7 @@ public final class OptionConfiguration {
 
 		/**
 		 * Checks whether this option is selected.
-		 * 
+		 *
 		 * @return Returns true if this option is selected.
 		 */
 		public synchronized boolean isSelected() {
@@ -87,7 +87,7 @@ public final class OptionConfiguration {
 
 		/**
 		 * Sets the radius (in pixels) of points plotted by this option.
-		 * 
+		 *
 		 * @param pointRadius The radius (in pixels) of points plotted by this option.
 		 */
 		public synchronized void setPointRadius(double pointRadius) {
@@ -96,7 +96,7 @@ public final class OptionConfiguration {
 
 		/**
 		 * Gets the radius (in pixels) of points plotted by this option.
-		 * 
+		 *
 		 * @return The radius (in pixels) of points plotted by this option.
 		 */
 		public synchronized double getPointRadius() {
@@ -134,8 +134,8 @@ public final class OptionConfiguration {
 		private volatile double lineWidth = 1.0;
 
 		/**
-		 * Selects or unselects this option. 
-		 * 
+		 * Selects or unselects this option.
+		 *
 		 * @param selected Specify true to select, false to unselect.
 		 */
 		public synchronized void setSelected(boolean selected) {
@@ -144,7 +144,7 @@ public final class OptionConfiguration {
 
 		/**
 		 * Checks whether this option is selected.
-		 * 
+		 *
 		 * @return Returns true if this option is selected.
 		 */
 		public synchronized boolean isSelected() {
@@ -153,7 +153,7 @@ public final class OptionConfiguration {
 
 		/**
 		 * Sets the width (in pixels) of lines plotted by this option.
-		 * 
+		 *
 		 * @param lineWidth The width (in pixels) of lines plotted by this option.
 		 */
 		public synchronized void setLineWidth(double lineWidth) {
@@ -162,7 +162,7 @@ public final class OptionConfiguration {
 
 		/**
 		 * Gets the width (in pixels) of lines plotted by this option.
-		 * 
+		 *
 		 * @return The width (in pixels) of lines plotted by this option.
 		 */
 		public synchronized double getLineWidth() {
@@ -200,8 +200,8 @@ public final class OptionConfiguration {
 		private volatile double lineWidth = 1.0;
 
 		/**
-		 * Selects or unselects this option. 
-		 * 
+		 * Selects or unselects this option.
+		 *
 		 * @param selected Specify true to select, false to unselect.
 		 */
 		public synchronized void setSelected(boolean selected) {
@@ -210,7 +210,7 @@ public final class OptionConfiguration {
 
 		/**
 		 * Checks whether this option is selected.
-		 * 
+		 *
 		 * @return Returns true if this option is selected.
 		 */
 		public synchronized boolean isSelected() {
@@ -219,7 +219,7 @@ public final class OptionConfiguration {
 
 		/**
 		 * Sets the width (in pixels) of lines composing meshes plotted by this option.
-		 * 
+		 *
 		 * @param lineWidth The width (in pixels) of lines.
 		 */
 		public synchronized void setLineWidth(double lineWidth) {
@@ -228,7 +228,7 @@ public final class OptionConfiguration {
 
 		/**
 		 * Gets the width (in pixels) of lines composing meshes plotted by this option.
-		 * 
+		 *
 		 * @return The width (in pixels) of lines.
 		 */
 		public synchronized double getLineWidth() {
@@ -263,8 +263,8 @@ public final class OptionConfiguration {
 		private volatile boolean selected = false;
 
 		/**
-		 * Selects or unselects this option. 
-		 * 
+		 * Selects or unselects this option.
+		 *
 		 * @param selected Specify true to select, false to unselect.
 		 */
 		public synchronized void setSelected(boolean selected) {
@@ -273,7 +273,7 @@ public final class OptionConfiguration {
 
 		/**
 		 * Checks whether this option is selected.
-		 * 
+		 *
 		 * @return Returns true if this option is selected.
 		 */
 		public synchronized boolean isSelected() {
@@ -313,8 +313,8 @@ public final class OptionConfiguration {
 		private volatile boolean selected = true;
 
 		/**
-		 * Selects or unselects this option. 
-		 * 
+		 * Selects or unselects this option.
+		 *
 		 * @param selected Specify true to select, false to unselect.
 		 */
 		public synchronized void setSelected(boolean selected) {
@@ -323,7 +323,7 @@ public final class OptionConfiguration {
 
 		/**
 		 * Checks whether this option is selected.
-		 * 
+		 *
 		 * @return Returns true if this option is selected.
 		 */
 		public synchronized boolean isSelected() {

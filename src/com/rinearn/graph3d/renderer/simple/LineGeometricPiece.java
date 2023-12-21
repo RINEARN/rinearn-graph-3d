@@ -18,7 +18,7 @@ public final class LineGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Creates a new geometric piece representing a line between point A and point B.
-	 * 
+	 *
 	 * @param aX The x coordinate value of the point A, in the scaled space.
 	 * @param aY The y coordinate value of the point A, in the scaled space.
 	 * @param aZ The z coordinate value of the point A, in the scaled space.
@@ -40,7 +40,7 @@ public final class LineGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Transforms the coordinate values of this line.
-	 * 
+	 *
 	 * @param matrix The transformation matrix.
 	 */
 	@Override
@@ -68,7 +68,7 @@ public final class LineGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Shades the color.
-	 * 
+	 *
 	 * @param lightConfig The object storing parameters for lighting and shading.
 	 */
 	@Override
@@ -81,7 +81,7 @@ public final class LineGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Computes the projected screen coordinate values of this line.
-	 * 
+	 *
 	 * @param screenWidth The width (pixels) of the screen.
 	 * @param screenHeight The height (pixels) of the screen.
 	 * @param screenOffsetX The X-offset value (positive for shifting rightward) of the screen center.
@@ -111,7 +111,7 @@ public final class LineGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Draws this line.
-	 * 
+	 *
 	 * @param graphics The Graphics2D instance for drawing shapes to the screen image.
 	 */
 	@Override

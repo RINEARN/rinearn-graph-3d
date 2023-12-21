@@ -1,7 +1,6 @@
 package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.FontConfiguration;
-import com.rinearn.graph3d.config.EnvironmentConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 
 import java.awt.Container;
@@ -101,7 +100,7 @@ public class FontSettingWindow {
 
 	/**
 	 * Creates a new window.
-	 * 
+	 *
 	 * @param configuration The configuration of this application.
 	 */
 	public FontSettingWindow() {
@@ -344,7 +343,7 @@ public class FontSettingWindow {
 
 	/**
 	 * Reflects the configuration parameters related to this window, such as the language of UI, fonts, and so on.
-	 * 
+	 *
 	 * @param configuration The configuration container.
 	 */
 	public void configure(RinearnGraph3DConfiguration configuration) {
@@ -374,7 +373,7 @@ public class FontSettingWindow {
 
 		/**
 		 * Creates a new instance to reflect the specified configuration.
-		 * 
+		 *
 		 * @param configuration The configuration to be reflected.
 		 */
 		public ConfigurationReflector(RinearnGraph3DConfiguration configuration) {
@@ -563,7 +562,7 @@ public class FontSettingWindow {
 		/**
 		 * Generates the list of the available font names,
 		 * used as items of the combo boxes on this window.
-		 * 
+		 *
 		 * @param isJapanese Specifyt true if the locale of the environment is Japanese.
 		 * @return The list of the font names.
 		 */
@@ -574,7 +573,7 @@ public class FontSettingWindow {
 			if (isJapanese) {
 				fontNameList.add(DEFAULT_FONT_ITEM_JAPANESE);
 			} else {
-				fontNameList.add(DEFAULT_FONT_ITEM_ENGLISH);			
+				fontNameList.add(DEFAULT_FONT_ITEM_ENGLISH);
 			}
 
 			// Add the available fonts on this environment.
@@ -599,7 +598,7 @@ public class FontSettingWindow {
 
 	/**
 	 * Sets the visibility of this window.
-	 * 
+	 *
 	 * @param visible Specify true for showing this window, false for hiding the window.
 	 */
 	public void setWindowVisible(boolean visible) {
@@ -628,7 +627,7 @@ public class FontSettingWindow {
 
 		/**
 		 * Create an instance for switching visibility of this window.
-		 * 
+		 *
 		 * @param visible Specify true for showing this window, false for hiding the window.
 		 */
 		public WindowVisiblitySwitcher(boolean visible) {

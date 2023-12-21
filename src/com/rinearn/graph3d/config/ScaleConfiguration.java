@@ -37,7 +37,7 @@ import java.text.DecimalFormat;
 //     うっかり setXAxis... 的なやつを（他クラス含めて）作ってしまわないように要注意。
 //     これは、Axis付けると全部のX/Y/Zに付ける必要が生じて冗長過ぎる（＆既にいくつか略してるので手遅れ）なのと、
 //     そもそも Axis という抽象概念が使用者視点において少し難しいため（実装面ではくくり方として色々整って良いけれど）。
-// 
+//
 // !!!!!
 
 // !!!!!
@@ -59,7 +59,7 @@ import java.text.DecimalFormat;
 //NOTE
 //
 // dividedSectionCount は tickCount にしてMANUALモードでの個数 getter と合流させた方がいいかも？
-// でもあまり固まってない案なので、しない方がいいかも。 
+// でもあまり固まってない案なので、しない方がいいかも。
 // 後々で適当な時に振り返って要検討。
 //
 // -> そういえば、それ思った時、カラーグラデの config で section count ベースではなく境界本数ベースにしたので、
@@ -101,7 +101,7 @@ public final class ScaleConfiguration {
 
 	/**
 	 * Sets the configuration of X axis's scale.
-	 * 
+	 *
 	 * @param xAxisScaleConfiguration The configuration of X axis's scale.
 	 */
 	public synchronized void setXScaleConfiguration(AxisScaleConfiguration xAxisScaleConfiguration) {
@@ -110,7 +110,7 @@ public final class ScaleConfiguration {
 
 	/**
 	 * Gets the configuration of X axis's scale.
-	 * 
+	 *
 	 * @return The configuration of X axis's scale.
 	 */
 	public synchronized AxisScaleConfiguration getXScaleConfiguration() {
@@ -119,7 +119,7 @@ public final class ScaleConfiguration {
 
 	/**
 	 * Sets the configuration of Y axis's scale.
-	 * 
+	 *
 	 * @param yAxisScaleConfiguration The configuration of Y axis's scale.
 	 */
 	public synchronized void setYScaleConfiguration(AxisScaleConfiguration yAxisScaleConfiguration) {
@@ -128,7 +128,7 @@ public final class ScaleConfiguration {
 
 	/**
 	 * Gets the configuration of Y axis's scale.
-	 * 
+	 *
 	 * @return The configuration of Y axis's scale.
 	 */
 	public synchronized AxisScaleConfiguration getYScaleConfiguration() {
@@ -137,7 +137,7 @@ public final class ScaleConfiguration {
 
 	/**
 	 * Sets the configuration of Z axis's scale.
-	 * 
+	 *
 	 * @param zAxisScaleConfiguration The configuration of Z axis's scale.
 	 */
 	public synchronized void setZScaleConfiguration(AxisScaleConfiguration zAxisScaleConfiguration) {
@@ -146,7 +146,7 @@ public final class ScaleConfiguration {
 
 	/**
 	 * Gets the configuration of Z axis's scale.
-	 * 
+	 *
 	 * @return The configuration of Z axis's scale.
 	 */
 	public synchronized AxisScaleConfiguration getZScaleConfiguration() {
@@ -155,11 +155,11 @@ public final class ScaleConfiguration {
 
 	/**
 	 * Validates correctness and consistency of configuration parameters stored in this instance.
-	 * 
+	 *
 	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
-	 * 
+	 *
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() {
@@ -232,14 +232,14 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Sets the length of tick lines.
-		 * 
+		 *
 		 * The value is regarded as a projected length to a plane of the graph frame (X-Y plane, Y-Z plane, or Z-X plane).
 		 * Hence, if a tick line is not parallel with any above planes,
 		 * actual length of the line is longer than the specified value a little.
-		 * 
+		 *
 		 * Also, the unit of the specified length is regarded as "length in scaled space".
 		 * In this unit, the length of a edge line (e.g.: X axis line) of the graph frame is just 2.0.
-		 * 
+		 *
 		 * @param tickLineLength The length of tick lines.
 		 */
 		public synchronized void setTickLineLength(double tickLineLength) {
@@ -248,9 +248,9 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Gets the length of tick lines.
-		 * 
+		 *
 		 * About details of the value, see the description of setTickLineLength(double) method.
-		 * 
+		 *
 		 * @return The length of tick lines.
 		 */
 		public synchronized double getTickLineLength() {
@@ -260,13 +260,13 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Sets the margin between axes and tick labels.
-		 * 
-		 * The value is regarded as a projected length of the margin to a plane of the graph frame 
+		 *
+		 * The value is regarded as a projected length of the margin to a plane of the graph frame
 		 * (X-Y plane, Y-Z plane, or Z-X plane), as same as the setter of tick line length.
-		 * 
+		 *
 		 * The unit of the specified value is regarded as "length in scaled space".
 		 * In this unit, the length of a edge line (e.g.: X axis line) of the graph frame is just 2.0.
-		 * 
+		 *
 		 * @param tickLabelMargin The margin between axes and tick labels
 		 */
 		public synchronized void setTickLabelMargin(double tickLabelMargin) {
@@ -275,19 +275,19 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Gets the margin between axes and tick labels.
-		 * 
+		 *
 		 * About details of the value, see the description of setTickLabelMargin(double) method.
-		 * 
+		 *
 		 * @return The margin between axes and tick labels.
 		 */
 		public synchronized double getTickLabelMargin() {
 			return this.tickLabelMargin;
 		}
-	
+
 
 		/**
 		 * Sets the tick mode, which determines the alignment of ticks, of this axis's scale.
-		 * 
+		 *
 		 * @param tickMode The tick mode of this axis's scale.
 		 */
 		public synchronized void setTickMode(TickMode tickMode) {
@@ -296,7 +296,7 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Gets the tick mode, which determines the alignment of ticks, of this axis's scale.
-		 * 
+		 *
 		 * @return The tick mode of this axis's scale.
 		 */
 		public synchronized TickMode getTickMode() {
@@ -306,7 +306,7 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Sets the coordinates (locations) of the ticks, in MANUAL mode.
-		 * 
+		 *
 		 * @param tickCoordinates The coordinates of the ticks.
 		 */
 		public synchronized void setTickCoordinates(BigDecimal[] tickCoordinates) {
@@ -315,7 +315,7 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Gets the coordinates (locations) of the ticks, in MANUAL mode.
-		 * 
+		 *
 		 * @return The coordinates of the ticks.
 		 */
 		public synchronized BigDecimal[] getTickCoordinates() {
@@ -325,7 +325,7 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Sets the labels (displayed texts) of the ticks, in MANUAL mode.
-		 * 
+		 *
 		 * @param tickCoordinates The labels of the ticks.
 		 */
 		public synchronized void setTickLabels(String[] tickLabels) {
@@ -334,7 +334,7 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Gets the labels (displayed texts) of the ticks, in MANUAL mode.
-		 * 
+		 *
 		 * @return The labels of the ticks.
 		 */
 		public synchronized String[] getTickLabels() {
@@ -344,7 +344,7 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Sets the number of sections between ticks, in EQUAL_DIVISION mode.
-		 * 
+		 *
 		 * @param dividedSectionCount The number of sections between ticks.
 		 */
 		public synchronized void setDividedSectionCount(int dividedSectionCount) {
@@ -353,7 +353,7 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Gets the number of sections between ticks, in EQUAL_DIVISION mode.
-		 * 
+		 *
 		 * @return The number of sections between ticks.
 		 */
 		public synchronized int getDividedSectionCount() {
@@ -363,7 +363,7 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Sets the precision of internal calculations of the scale's coordinates.
-		 * 
+		 *
 		 * @param calculationPrecision The precision of internal calculations of the scale's coordinates.
 		 */
 		public synchronized void setCalculationPrecision(int calculationPrecision) {
@@ -372,7 +372,7 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Gets the precision of internal calculations of the scale's coordinates.
-		 * 
+		 *
 		 * @return The precision of internal calculations of the scale's coordinates.
 		 */
 		public synchronized int getCalculationPrecision() {
@@ -382,11 +382,11 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Sets the formatters of tick labels, applied when they are numeric values.
-		 * 
+		 *
 		 * To apply different format for different ranges on the axis, you can specify multiple formatters as an array.
 		 * When ranges of multiple formatter are overlapping,
 		 * the formatter stored at latter side in the array (having greater index) will be applied preferentially.
-		 * 
+		 *
 		 * @param numericTickLabelFormatters The formatters of numeric tick labels.
 		 */
 		public synchronized void setNumericTickLabelFormatters(NumericTickLabelFormatter[] numericTickLabelFormatters) {
@@ -395,7 +395,7 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Gets the formatters of tick labels, applied when they are numeric values.
-		 * 
+		 *
 		 * @return The formatters of numeric tick labels.
 		 */
 		public synchronized NumericTickLabelFormatter[] getNumericTickLabelFormatters() {
@@ -405,11 +405,11 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Validates correctness and consistency of configuration parameters stored in this instance.
-		 * 
+		 *
 		 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
 		 * If no issue is detected, nothing occurs.
 		 * If any issue is detected, throws IllegalStateException.
-		 * 
+		 *
 		 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 		 */
 		public synchronized void validate() {
@@ -420,7 +420,7 @@ public final class ScaleConfiguration {
 				throw new IllegalStateException("The margin of tick labels must be a positive value.");
 			}
 			if (this.tickMode == null) {
-				throw new IllegalStateException("The tick mode is null.");				
+				throw new IllegalStateException("The tick mode is null.");
 			}
 			if (this.calculationPrecision < 1) {
 				throw new IllegalStateException("The calculation precision must be greater than 1.");
@@ -517,7 +517,7 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Creates a new formatter for formatting any labels of ticks.
-		 * 
+		 *
 		 * @param format The format of labels.
 		 */
 		public NumericTickLabelFormatter(NumberFormat format) {
@@ -531,7 +531,7 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Creates a new formatter for formatting only labels of ticks in the specific range.
-		 * 
+		 *
 		 * @param format The displayed format of numeric labels.
 		 * @param minCoordinate The minimum coordinate of the range to which apply this formatter.
 		 * @param maxCoordinate The minimum coordinate of the range to which apply this formatter.
@@ -553,7 +553,7 @@ public final class ScaleConfiguration {
 
 		/**
 		 * Formats the specified coordinate value into a label text,
-		 * 
+		 *
 		 * @param tickCoordinate The coordinate of the numeric tick to be formatted.
 		 * @return The formatted tick label (or the specified label as it is).
 		 */
@@ -564,7 +564,7 @@ public final class ScaleConfiguration {
 		/**
 		 * Returns whether the specified coordinate is contained in the applicable range of this formatter.
 		 * If no applicable range is defined, always returns true.
-		 * 
+		 *
 		 * @param coordinate Returns if the specified coordinate is contained in the range.
 		 */
 		public synchronized boolean contains(BigDecimal coordinate) {

@@ -13,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 public final class ScreenSideUIHandler {
 
 	/** The front-end class of "Model" layer, which provides internal logic procedures and so on. */
+	@SuppressWarnings("unused")
 	private final Model model;
 
 	/** The front-end class of "View" layer, which provides visible part of GUI without event handling. */
@@ -27,7 +28,7 @@ public final class ScreenSideUIHandler {
 
 	/**
 	 * Create a new instance handling events and API requests using the specified resources.
-	 * 
+	 *
 	 * @param model The front-end class of "Model" layer, which provides internal logic procedures and so on.
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
@@ -41,7 +42,7 @@ public final class ScreenSideUIHandler {
 
 	/**
 	 * Turns on/off the event handling feature of this instance.
-	 * 
+	 *
 	 * @param enabled Specify false for turning off the event handling feature (enabled by default).
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
@@ -51,7 +52,7 @@ public final class ScreenSideUIHandler {
 
 	/**
 	 * Gets whether the event handling feature of this instance is enabled.
-	 * 
+	 *
 	 * @return Returns true if the event handling feature is enabled.
 	 */
 	public synchronized boolean isEventHandlingEnabled() {
@@ -63,7 +64,7 @@ public final class ScreenSideUIHandler {
 
 
 	// ================================================================================
-	// 
+	//
 	// - API Listeners -
 	//
 	// ================================================================================
@@ -71,7 +72,7 @@ public final class ScreenSideUIHandler {
 
 	/**
 	 * Sets the visibility of the UI panel at the screen side.
-	 * 
+	 *
 	 * @param visible Specify true for showing the UI panel at the screen side.
 	 */
 	public void setScreenSideUIVisible(boolean visible) {
@@ -101,7 +102,7 @@ public final class ScreenSideUIHandler {
 
 		/**
 		 * Create an instance handling setScreenSideUIVisible(-) API with the specified argument.
-		 * 
+		 *
 		 * @param visible Specify true for showing the UI panel at the screen side.
 		 */
 		public SetScreenSideUIVisibleAPIListener(boolean visible) {

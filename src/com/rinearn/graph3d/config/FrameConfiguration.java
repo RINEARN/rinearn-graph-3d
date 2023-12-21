@@ -39,7 +39,7 @@ public final class FrameConfiguration {
 
 	/**
 	 * Sets the mode of the graph frame.
-	 * 
+	 *
 	 * @param frameMode The mode of the graph frame.
 	 */
 	public synchronized void setFrameMode(FrameMode frameMode) {
@@ -48,7 +48,7 @@ public final class FrameConfiguration {
 
 	/**
 	 * Gets the mode of the graph frame.
-	 * 
+	 *
 	 * @return The mode of the graph frame.
 	 */
 	public synchronized FrameMode getFrameMode() {

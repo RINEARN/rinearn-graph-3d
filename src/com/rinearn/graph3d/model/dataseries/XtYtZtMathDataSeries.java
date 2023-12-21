@@ -24,7 +24,7 @@ public class XtYtZtMathDataSeries extends MathDataSeries {
 
 	/**
 	 * Create an instance for generating data using the specified script engine, under the specified configuration.
-	 * 
+	 *
 	 * @param scrioptEngineMount The "engine-mount", provides a script engine for computing coordinates from math expressions.
 	 * @param config The configuration container (for referring the range configuration).
 	 */
@@ -45,9 +45,9 @@ public class XtYtZtMathDataSeries extends MathDataSeries {
 
 	/**
 	 * Computes coordinate values from the math expressions of this data series.
-	 * 
+	 *
 	 * The computed coordinate values will be stored into the fields: xCoordinates, yCoordinates and zCoordinates.
-	 * 
+	 *
 	 * @throws VnanoException Thrown when any (typically syntactic) error has been detected for calculating the math expressions.
 	 */
 	@Override

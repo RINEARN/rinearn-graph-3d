@@ -2,7 +2,6 @@ package com.rinearn.graph3d.presenter;
 
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
-import com.rinearn.graph3d.view.MainWindow;
 import com.rinearn.graph3d.view.View;
 
 import java.awt.Image;
@@ -18,6 +17,7 @@ public final class RenderingLoop implements Runnable {
 	private static final int LOOP_WAIT = 30;
 
 	/** The front-end class of "Model" layer, which provides internal logic procedures and so on. */
+	@SuppressWarnings("unused")
 	private final Model model;
 
 	/** The front-end class of "View" layer, which provides visible part of GUI without event handling. */
@@ -44,7 +44,7 @@ public final class RenderingLoop implements Runnable {
 
 	/**
 	 * Creates new rendering loop.
-	 * 
+	 *
 	 * @param model The front-end class of "Model" layer, which provides internal logic procedures and so on.
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
@@ -69,7 +69,7 @@ public final class RenderingLoop implements Runnable {
 
 	/**
 	 * Request to exits the rendering loop.
-	 * 
+	 *
 	 * For checking that the rendering loop has exited successfully after this request,
 	 * use isExitedSuccessfully() method.
 	 */
@@ -80,7 +80,7 @@ public final class RenderingLoop implements Runnable {
 
 	/**
 	 * Returns whether the rendering loop had exited successfully.
-	 * 
+	 *
 	 * @return Returns true if the rendering loop had exited successfully.
 	 */
 	public synchronized boolean isExitedSuccessfully() {
@@ -90,7 +90,7 @@ public final class RenderingLoop implements Runnable {
 
 	/**
 	 * Requests invoking render() method of the renderer on the thread of this rendering loop.
-	 * 
+	 *
 	 * After requesting it by this method, render() method is performed asynchronously.
 	 * When the rendering is complete, the graph screen of the window is updated automatically.
 	 */
@@ -101,7 +101,7 @@ public final class RenderingLoop implements Runnable {
 
 	/**
 	 * Requests invoking replot() method of the Presenter on the thread of this rendering loop.
-	 * 
+	 *
 	 * After requesting it by this method, replot() method is performed asynchronously.
 	 * When the replotting is complete, the graph screen of the window is updated automatically.
 	 */

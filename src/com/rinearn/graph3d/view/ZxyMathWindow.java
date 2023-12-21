@@ -198,7 +198,7 @@ public class ZxyMathWindow {
 				layour.setConstraints(resolutionLabel, constraints);
 				basePanel.add(resolutionLabel);
 
-				constraints.gridy++;				
+				constraints.gridy++;
 				constraints.gridwidth = 1;
 
 				// Create the title label of the X-resolution.
@@ -255,7 +255,7 @@ public class ZxyMathWindow {
 
 	/**
 	 * Reflects the configuration parameters related to this window, such as the language of UI, fonts, and so on.
-	 * 
+	 *
 	 * @param configuration The configuration container.
 	 */
 	public void configure(RinearnGraph3DConfiguration configuration) {
@@ -285,7 +285,7 @@ public class ZxyMathWindow {
 
 		/**
 		 * Creates a new instance to reflect the specified configuration.
-		 * 
+		 *
 		 * @param configuration The configuration to be reflected.
 		 */
 		public ConfigurationReflector(RinearnGraph3DConfiguration configuration) {
@@ -370,7 +370,7 @@ public class ZxyMathWindow {
 
 	/**
 	 * Sets the visibility of this window.
-	 * 
+	 *
 	 * @param visible Specify true for showing this window, false for hiding the window.
 	 */
 	public void setWindowVisible(boolean visible) {
@@ -399,7 +399,7 @@ public class ZxyMathWindow {
 
 		/**
 		 * Create an instance for switching visibility of this window.
-		 * 
+		 *
 		 * @param visible Specify true for showing this window, false for hiding the window.
 		 */
 		public WindowVisiblitySwitcher(boolean visible) {

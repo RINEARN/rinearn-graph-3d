@@ -25,12 +25,12 @@ import java.util.EventObject;
  * <br />
  * なお、このイベントは、source としてイベント発生元の RinearnGraph3D クラスのインスタンスを保持しています。
  * </div>
- * 
+ *
  * <div class="lang-en">
  * You can receive this event by implementing RinearnGraph3DPlottingListener interface.
  * <br />
  * Replotting means the process rebuilding the 3D shape of the graph.
- * RINEARN Graph 3D performs the replotting when ranges of the axes have been modified, 
+ * RINEARN Graph 3D performs the replotting when ranges of the axes have been modified,
  * plotting options have been changed, and so on.
  * <br />
  * When the replotting is performed, all contents drawn by the drawing methods of RinearnGraph3DRenderer API are cleared.
@@ -40,7 +40,7 @@ import java.util.EventObject;
  * </div>
  */
 public class RinearnGraph3DPlottingEvent extends EventObject {
-	
+
 	/**
 	 * <span class="lang-ja">
 	 * 新しいプロットイベントを生成します

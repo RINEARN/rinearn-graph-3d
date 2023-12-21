@@ -33,14 +33,14 @@ import javax.swing.JOptionPane;
 // !!! NOTE !!!
 //
 // ・なんかやっぱりAPIリクエストも全てイベントディスパッチスレッド上で捌くようにした方が結局いいかも。
-// 
+//
 //   APIも通常イベントも共にconfigコンテナ操作 -> 全体伝搬のフローで統一したとしても、
 //   コンテナ操作から全体伝搬までがトランザクション的にアトミックでないと競合で不整合状態になるケースあり得るでしょ。
 //   コンテナパラメータの操作をアトミックにしていたとしても、伝搬まで包んでないと不意のタイミングで伝搬し得るでしょ。
-// 
+//
 //   んでそこまでアトミックにして大げさな更新伝搬構造を組むくらいなら
 //   APIリクエストと通常イベントを同じスレッドでシリアルに処理した方が簡単だしよくあるパターンだしずっとよさそうな。
-// 
+//
 //   無駄なラグは増えるけどどうせView層の更新を伴わない config 更新なんて稀なのでどうせ大抵どっかでラグ入るわけで。
 //
 //   -> 確かにそうすべき。↑を踏まえて ScreenHandler 改修してたらやっぱり確かにその通りだと思う。
@@ -91,10 +91,10 @@ import javax.swing.JOptionPane;
 /**
  * The front-end class of "Presenter" layer (com.rinearn.graph3d.presenter package)
  * of RINEARN Graph 3D.
- * 
+ *
  * Components in Presenter layer invokes "Model" layer's procedures triggered by user's action on GUI,
  * and updates the graph screen depending on the result.
- * 
+ *
  * Also, in addition to the above normal events, this presenter layer handles API requests,
  * through wrapper method defined in RinearnGraph3D class.
  */
@@ -168,7 +168,7 @@ public final class Presenter {
 
 	/**
 	 * Creates new Presenter layer of RINEARN Graph 3D.
-	 * 
+	 *
 	 * @param model The front-end class of Model layer, which provides internal logic procedures and so on.
 	 * @param view The front-end class of View layer, which provides visible part of GUI without event handling.
 	 * @param renderer The rendering engine of 3D graphs.
@@ -217,9 +217,9 @@ public final class Presenter {
 
 	/**
 	 * Turns on/off the GUI/API event handling feature of subcomponents in this Presenter layer.
-	 * 
+	 *
 	 * Note that, the "plotter"s, the objects handling plotting/re-plotting events, cannot be disabled by this method.
-	 * 
+	 *
 	 * @param enabled Specify false for turning off the event handling feature (enabled by default).
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
@@ -239,7 +239,7 @@ public final class Presenter {
 
 	/**
 	 * Gets whether the GUI/API event handling feature of this instance is enabled.
-	 * 
+	 *
 	 * @return Returns true if the event handling feature is enabled.
 	 */
 	public synchronized boolean isEventHandlingEnabled() {

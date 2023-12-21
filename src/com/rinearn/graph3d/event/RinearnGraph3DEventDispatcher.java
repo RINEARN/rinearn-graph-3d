@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * </span>
  * .
  * <div class="lang-ja">
- * このクラスの仕様は, 予告なく変更される可能性があります. 
+ * このクラスの仕様は, 予告なく変更される可能性があります.
  * </div>
  * <div class="lang-en">
  * Note that, the specifications of this class may change in future without any notice.

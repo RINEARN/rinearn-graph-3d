@@ -80,12 +80,12 @@ public final class DirectionalTextGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Creates a new text label piece representing a point.
-	 * 
+	 *
 	 * For the parameter "directionalVectors",
 	 * specify an array storing the vectors representing the directions from which this text label is visible.
 	 * Its array indices represents [vector index][dimension index], where dimension index is: 0=X, 1=Y, and 2=Z.
 	 * The text label is only visible when ALL vectors are facing toward the front-side of the screen (Z > 0).
-	 * 
+	 *
 	 * @param x The x coordinate value of the position of the text label, in the scaled space.
 	 * @param y The y coordinate value of the position of the text label, in the scaled space.
 	 * @param z The z coordinate value of the position of the text label, in the scaled space.
@@ -129,7 +129,7 @@ public final class DirectionalTextGeometricPiece extends GeometricPiece {
 		for (int ivec=0; ivec<directionalVectors.length; ivec++) {
 			System.arraycopy(directionalVectors[ivec], 0, this.scaledVertexArray[2 + ivec], 0, 3);
 
-			// For directional vectors, we should transform only the angle of the vectors, 
+			// For directional vectors, we should transform only the angle of the vectors,
 			// so we should ignore effects of the translational elements of the transformation matrix.
 			// So set W to 0.
 			this.scaledVertexArray[2 + ivec][W] = 0.0;
@@ -151,10 +151,10 @@ public final class DirectionalTextGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Sets the offset values [px] of the alignment.
-	 * 
+	 *
 	 * The offset directions (signs) depend on the alignment mode.
 	 * In the current implementation, this feature is available for only RADIAL alignment mode.
-	 * 
+	 *
 	 * @param verticalAlignmentOffset The offset for the vertical direction on the screen.
 	 * @param horizontalAlignmentOffset The offset for the horizontal direction on the screen.
 	 */
@@ -172,7 +172,7 @@ public final class DirectionalTextGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Transforms the coordinate values of this text label.
-	 * 
+	 *
 	 * @param matrix The transformation matrix.
 	 */
 	@Override
@@ -207,7 +207,7 @@ public final class DirectionalTextGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Shades the color.
-	 * 
+	 *
 	 * @param lightConfig The object storing parameters for lighting and shading.
 	 */
 	@Override
@@ -220,7 +220,7 @@ public final class DirectionalTextGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Computes the projected screen coordinate values of this text labels.
-	 * 
+	 *
 	 * @param screenWidth The width (pixels) of the screen.
 	 * @param screenHeight The height (pixels) of the screen.
 	 * @param screenOffsetX The X-offset value (positive for shifting rightward) of the screen center.
@@ -253,7 +253,7 @@ public final class DirectionalTextGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Draws this text label.
-	 * 
+	 *
 	 * @param graphics The Graphics2D instance for drawing shapes to the screen image.
 	 */
 	@Override

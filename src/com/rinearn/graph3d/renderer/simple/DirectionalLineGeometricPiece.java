@@ -22,12 +22,12 @@ public final class DirectionalLineGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Creates a new geometric piece representing a line between point A and point B.
-	 * 
+	 *
 	 * For the parameter "directionalVectors",
 	 * specify an array storing the vectors representing the directions from which this line is visible.
 	 * Its array indices represents [vector index][dimension index], where dimension index is: 0=X, 1=Y, and 2=Z.
 	 * The text label is only visible when ALL vectors are facing toward the front-side of the screen (Z > 0).
-	 * 
+	 *
 	 * @param aX The x coordinate value of the point A, in the scaled space.
 	 * @param aY The y coordinate value of the point A, in the scaled space.
 	 * @param aZ The z coordinate value of the point A, in the scaled space.
@@ -60,7 +60,7 @@ public final class DirectionalLineGeometricPiece extends GeometricPiece {
 		for (int ivec=0; ivec<directionalVectors.length; ivec++) {
 			System.arraycopy(directionalVectors[ivec], 0, this.scaledVertexArray[2 + ivec], 0, 3);
 
-			// For directional vectors, we should transform only the angle of the vectors, 
+			// For directional vectors, we should transform only the angle of the vectors,
 			// so we should ignore effects of the translational elements of the transformation matrix.
 			// So set W to 0.
 			this.scaledVertexArray[2 + ivec][W] = 0.0;
@@ -76,7 +76,7 @@ public final class DirectionalLineGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Transforms the coordinate values of this line.
-	 * 
+	 *
 	 * @param matrix The transformation matrix.
 	 */
 	@Override
@@ -112,7 +112,7 @@ public final class DirectionalLineGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Shades the color.
-	 * 
+	 *
 	 * @param lightConfig The object storing parameters for lighting and shading.
 	 */
 	@Override
@@ -125,7 +125,7 @@ public final class DirectionalLineGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Computes the projected screen coordinate values of this line.
-	 * 
+	 *
 	 * @param screenWidth The width (pixels) of the screen.
 	 * @param screenHeight The height (pixels) of the screen.
 	 * @param screenOffsetX The X-offset value (positive for shifting rightward) of the screen center.
@@ -156,7 +156,7 @@ public final class DirectionalLineGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Draws this line.
-	 * 
+	 *
 	 * @param graphics The Graphics2D instance for drawing shapes to the screen image.
 	 */
 	@Override

@@ -28,7 +28,7 @@ public final class ScaleTickGenerator {
 
 	/**
 	 * Creates a new instance for generating ticks under the specified configuration.
-	 * 
+	 *
 	 * @param configuration The configuration of this application.
 	 */
 	public ScaleTickGenerator(RinearnGraph3DConfiguration configuration) {
@@ -40,11 +40,11 @@ public final class ScaleTickGenerator {
 		}
 		this.config = configuration;
 	}
- 
+
 
 	/**
 	 * Extracts the configuration of the specified axis's scale, stored in scaleConfig field.
-	 * 
+	 *
 	 * @param dimensionIndex The index of the axis.
 	 * @return The configuration of the specified axis's scale.
 	 */
@@ -70,7 +70,7 @@ public final class ScaleTickGenerator {
 
 	/**
 	 * Extracts the configuration of the specified axis's range, stored in scaleConfig field.
-	 * 
+	 *
 	 * @param dimensionIndex The index of the axis.
 	 * s@return The configuration of the specified axis's range.
 	 */
@@ -96,16 +96,16 @@ public final class ScaleTickGenerator {
 
 	/**
 	 * Generates coordinates (positions) of ticks.
-	 * 
+	 *
 	 * @param dimensionIndex Specify 0 for X, 1 for Y, and 2 for Z axis.
 	 * @return The coordinates of the ticks.
 	 */
 	public BigDecimal[] generateScaleTickCoordinates(int dimensionIndex) {
 
 		// Extract the configurations of the scale & range of the specified axis (X, Y, or Z).
-		final ScaleConfiguration.AxisScaleConfiguration axisScaleConfig = 
+		final ScaleConfiguration.AxisScaleConfiguration axisScaleConfig =
 				this.getAxisScaleConfiguration(dimensionIndex);
-		final RangeConfiguration.AxisRangeConfiguration axisRangeConfig = 
+		final RangeConfiguration.AxisRangeConfiguration axisRangeConfig =
 				this.getAxisRangeConfiguration(dimensionIndex);
 
 		// Generate coordinates of ticks for the specified mode.
@@ -125,7 +125,7 @@ public final class ScaleTickGenerator {
 
 	/**
 	 * Generates coordinates (positions) of ticks for EQUAL_DIVISION mode.
-	 * 
+	 *
 	 * @param axisScaleConfig The configuration of the axis's scale.
 	 * @param axisRangeConfig The configuration of the axis's range.
 	 * @return The coordinates of the ticks.
@@ -170,7 +170,7 @@ public final class ScaleTickGenerator {
 
 	/**
 	 * Generates labels of ticks.
-	 * 
+	 *
 	 * @param dimensionIndex Specify 0 for X, 1 for Y, and 2 for Z axis.
 	 * @param tickCoords The coordinates (positions) of the ticks.
 	 * @return The labels of the ticks.
@@ -178,7 +178,7 @@ public final class ScaleTickGenerator {
 	public String[] generateScaleTickLabels(int dimensionIndex, BigDecimal[] tickCoords) {
 
 		// Extract the configuration of the scale of the specified axis (X, Y, or Z).
-		final ScaleConfiguration.AxisScaleConfiguration axisScaleConfig = 
+		final ScaleConfiguration.AxisScaleConfiguration axisScaleConfig =
 				this.getAxisScaleConfiguration(dimensionIndex);
 
 		// Generate the labels based on the tick mode.
@@ -211,7 +211,7 @@ public final class ScaleTickGenerator {
 						}
 					}
 				}
-				return tickLabels;				
+				return tickLabels;
 			}
 			default : {
 				throw new UnsupportedOperationException("Unknown tick mode: " + axisScaleConfig.getTickMode());

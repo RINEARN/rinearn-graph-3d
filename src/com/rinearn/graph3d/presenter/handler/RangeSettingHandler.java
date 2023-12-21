@@ -35,7 +35,7 @@ public final class RangeSettingHandler {
 
 	/**
 	 * Create a new instance handling events and API requests using the specified resources.
-	 * 
+	 *
 	 * @param model The front-end class of "Model" layer, which provides internal logic procedures and so on.
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
@@ -53,7 +53,7 @@ public final class RangeSettingHandler {
 
 	/**
 	 * Turns on/off the event handling feature of this instance.
-	 * 
+	 *
 	 * @param enabled Specify false for turning off the event handling feature (enabled by default).
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
@@ -63,7 +63,7 @@ public final class RangeSettingHandler {
 
 	/**
 	 * Gets whether the event handling feature of this instance is enabled.
-	 * 
+	 *
 	 * @return Returns true if the event handling feature is enabled.
 	 */
 	public synchronized boolean isEventHandlingEnabled() {
@@ -75,7 +75,7 @@ public final class RangeSettingHandler {
 
 
 	// ================================================================================
-	// 
+	//
 	// - Event Listeners -
 	//
 	// ================================================================================
@@ -207,7 +207,7 @@ public final class RangeSettingHandler {
 
 
 	// ================================================================================
-	// 
+	//
 	// - API Listeners -
 	//
 	// ================================================================================
@@ -216,7 +216,7 @@ public final class RangeSettingHandler {
 	/**
 	 * Sets the range of X axis.
 	 * (API Implementation)
-	 * 
+	 *
 	 * @param min The minimum coordinate value of X axis.
 	 * @param max The maximum coordinate value of X axis.
 	 */
@@ -250,7 +250,7 @@ public final class RangeSettingHandler {
 
 		/**
 		 * Create an instance handling setXRange(-) API with the specified argument.
-		 * 
+		 *
 		 * @param min The minimum coordinate value of X axis.
 		 * @param max The maximum coordinate value of X axis.
 		 */
@@ -274,7 +274,7 @@ public final class RangeSettingHandler {
 	/**
 	 * Turns on/off the auto-ranging feature for X axis.
 	 * (API Implementation)
-	 * 
+	 *
 	 * @param enabled Specify true/false for turning on/off (the default is on).
 	 */
 	public void setXAutoRangingEnabled(boolean enabled) {
@@ -304,7 +304,7 @@ public final class RangeSettingHandler {
 
 		/**
 		 * Create an instance handling setXAutoRangingEnabled(-) API with the specified argument.
-		 * 
+		 *
 		 * @param enabled Specify true/false for turning on/off (the default is on).
 		 */
 		public SetXAutoRangingEnabledAPIListener(boolean enabled) {
@@ -325,7 +325,7 @@ public final class RangeSettingHandler {
 	/**
 	 * Sets the range of Y axis.
 	 * (API Implementation)
-	 * 
+	 *
 	 * @param min The minimum coordinate value of Y axis.
 	 * @param max The maximum coordinate value of Y axis.
 	 */
@@ -359,7 +359,7 @@ public final class RangeSettingHandler {
 
 		/**
 		 * Create an instance handling setYRange(-) API with the specified argument.
-		 * 
+		 *
 		 * @param min The minimum coordinate value of Y axis.
 		 * @param max The maximum coordinate value of Y axis.
 		 */
@@ -382,7 +382,7 @@ public final class RangeSettingHandler {
 	/**
 	 * Turns on/off the auto-ranging feature for Y axis.
 	 * (API Implementation)
-	 * 
+	 *
 	 * @param enabled Specify true/false for turning on/off (the default is on).
 	 */
 	public void setYAutoRangingEnabled(boolean enabled) {
@@ -412,7 +412,7 @@ public final class RangeSettingHandler {
 
 		/**
 		 * Create an instance handling setYAutoRangingEnabled(-) API with the specified argument.
-		 * 
+		 *
 		 * @param enabled Specify true/false for turning on/off (the default is on).
 		 */
 		public SetYAutoRangingEnabledAPIListener(boolean enabled) {
@@ -433,7 +433,7 @@ public final class RangeSettingHandler {
 	/**
 	 * Sets the range of Z axis.
 	 * (API Implementation)
-	 * 
+	 *
 	 * @param min The minimum coordinate value of Z axis.
 	 * @param max The maximum coordinate value of Z axis.
 	 */
@@ -467,7 +467,7 @@ public final class RangeSettingHandler {
 
 		/**
 		 * Create an instance handling setZRange(-) API with the specified argument.
-		 * 
+		 *
 		 * @param min The minimum coordinate value of Z axis.
 		 * @param max The maximum coordinate value of Z axis.
 		 */
@@ -491,7 +491,7 @@ public final class RangeSettingHandler {
 	/**
 	 * Turns on/off the auto-ranging feature for Z axis.
 	 * (API Implementation)
-	 * 
+	 *
 	 * @param enabled Specify true/false for turning on/off (the default is on).
 	 */
 	public void setZAutoRangingEnabled(boolean enabled) {
@@ -521,7 +521,7 @@ public final class RangeSettingHandler {
 
 		/**
 		 * Create an instance handling setZAutoRangingEnabled(-) API with the specified argument.
-		 * 
+		 *
 		 * @param enabled Specify true/false for turning on/off (the default is on).
 		 */
 		public SetZAutoRangingEnabledAPIListener(boolean enabled) {

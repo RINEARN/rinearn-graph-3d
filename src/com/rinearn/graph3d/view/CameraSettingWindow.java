@@ -148,7 +148,7 @@ public class CameraSettingWindow {
 
 	/**
 	 * Creates a new window.
-	 * 
+	 *
 	 * @param configuration The configuration of this application.
 	 */
 	public CameraSettingWindow() {
@@ -471,7 +471,7 @@ public class CameraSettingWindow {
 
 	/**
 	 * Reflects the configuration parameters related to this window, such as the language of UI, fonts, and so on.
-	 * 
+	 *
 	 * @param configuration The configuration container.
 	 */
 	public void configure(RinearnGraph3DConfiguration configuration) {
@@ -501,7 +501,7 @@ public class CameraSettingWindow {
 
 		/**
 		 * Creates a new instance to reflect the specified configuration.
-		 * 
+		 *
 		 * @param configuration The configuration to be reflected.
 		 */
 		public ConfigurationReflector(RinearnGraph3DConfiguration configuration) {
@@ -683,7 +683,7 @@ public class CameraSettingWindow {
 
 	/**
 	 * Sets the visibility of this window.
-	 * 
+	 *
 	 * @param visible Specify true for showing this window, false for hiding the window.
 	 */
 	public void setWindowVisible(boolean visible) {
@@ -712,7 +712,7 @@ public class CameraSettingWindow {
 
 		/**
 		 * Create an instance for switching visibility of this window.
-		 * 
+		 *
 		 * @param visible Specify true for showing this window, false for hiding the window.
 		 */
 		public WindowVisiblitySwitcher(boolean visible) {

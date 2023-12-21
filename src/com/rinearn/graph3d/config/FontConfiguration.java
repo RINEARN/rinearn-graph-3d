@@ -25,7 +25,7 @@ public class FontConfiguration {
 
 	/**
 	 * Sets the plain font for GUI components.
-	 * 
+	 *
 	 * @param uiPlainFont The plain font for GUI components;
 	 */
 	public synchronized void setUIPlainFont(Font uiPlainFont) {
@@ -34,7 +34,7 @@ public class FontConfiguration {
 
 	/**
 	 * Gets the plain font for GUI components.
-	 * 
+	 *
 	 * @return The plain font for GUI components.
 	 */
 	public synchronized Font getUIPlainFont() {
@@ -44,7 +44,7 @@ public class FontConfiguration {
 
 	/**
 	 * Sets the bold font for GUI components.
-	 * 
+	 *
 	 * @param uiPlainFont The bold font for GUI components;
 	 */
 	public synchronized void setUIBoldFont(Font uiBoldFont) {
@@ -53,7 +53,7 @@ public class FontConfiguration {
 
 	/**
 	 * Gets the bold font for GUI components.
-	 * 
+	 *
 	 * @return The bold font for GUI components.
 	 */
 	public synchronized Font getUIBoldFont() {
@@ -63,7 +63,7 @@ public class FontConfiguration {
 
 	/**
 	 * Sets the font for rendering axis labels.
-	 * 
+	 *
 	 * @param axisLabelFont The font for rendering axis labels.
 	 */
 	public synchronized void setAxisLabelFont(Font axisLabelFont) {
@@ -72,7 +72,7 @@ public class FontConfiguration {
 
 	/**
 	 * Gets the font for rendering axis labels.
-	 * 
+	 *
 	 * @return The font for rendering axis labels.
 	 */
 	public synchronized Font getAxisLabelFont() {
@@ -82,7 +82,7 @@ public class FontConfiguration {
 
 	/**
 	 * Sets the font for rendering tick labels.
-	 * 
+	 *
 	 * @param tickLabelFont The font for rendering tick labels.
 	 */
 	public synchronized void setTickLabelFont(Font tickLabelFont) {
@@ -91,7 +91,7 @@ public class FontConfiguration {
 
 	/**
 	 * Gets the font for rendering tick labels.
-	 * 
+	 *
 	 * @return The font for rendering tick labels.
 	 */
 	public synchronized Font getTickLabelFont() {
@@ -101,11 +101,11 @@ public class FontConfiguration {
 
 	/**
 	 * Validates correctness and consistency of configuration parameters stored in this instance.
-	 * 
+	 *
 	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
-	 * 
+	 *
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws IllegalStateException {

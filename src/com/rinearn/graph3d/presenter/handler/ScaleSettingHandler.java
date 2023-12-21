@@ -20,6 +20,7 @@ public class ScaleSettingHandler {
 	private final Model model;
 
 	/** The front-end class of "View" layer, which provides visible part of GUI without event handling. */
+	@SuppressWarnings("unused")
 	private final View view;
 
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
@@ -31,7 +32,7 @@ public class ScaleSettingHandler {
 
 	/**
 	 * Create a new instance handling events and API requests using the specified resources.
-	 * 
+	 *
 	 * @param model The front-end class of "Model" layer, which provides internal logic procedures and so on.
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
@@ -45,7 +46,7 @@ public class ScaleSettingHandler {
 
 	/**
 	 * Turns on/off the event handling feature of this instance.
-	 * 
+	 *
 	 * @param enabled Specify false for turning off the event handling feature (enabled by default).
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
@@ -55,7 +56,7 @@ public class ScaleSettingHandler {
 
 	/**
 	 * Gets whether the event handling feature of this instance is enabled.
-	 * 
+	 *
 	 * @return Returns true if the event handling feature is enabled.
 	 */
 	public synchronized boolean isEventHandlingEnabled() {
@@ -67,7 +68,7 @@ public class ScaleSettingHandler {
 
 
 	// ================================================================================
-	// 
+	//
 	// - API Listeners -
 	//
 	// ================================================================================
@@ -75,7 +76,7 @@ public class ScaleSettingHandler {
 
 	/**
 	 * Sets the coordinates (locations) and the labels (displayed texts) of the scale ticks on X axis.
-	 * 
+	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
 	 * @param tickLabels The labels of the scale ticks.
 	 */
@@ -109,7 +110,7 @@ public class ScaleSettingHandler {
 
 		/**
 		 * Create an instance handling setXTicks(-) API with the specified argument.
-		 * 
+		 *
 		 * @param tickCoordinates The coordinates of the scale ticks.
 		 * @param tickLabels The labels of the scale ticks.
 		 */
@@ -134,7 +135,7 @@ public class ScaleSettingHandler {
 
 	/**
 	 * Sets the coordinates (locations) and the labels (displayed texts) of the scale ticks on Y axis.
-	 * 
+	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
 	 * @param tickLabels The labels of the scale ticks.
 	 */
@@ -168,7 +169,7 @@ public class ScaleSettingHandler {
 
 		/**
 		 * Create an instance handling setYTicks(-) API with the specified argument.
-		 * 
+		 *
 		 * @param tickCoordinates The coordinates of the scale ticks.
 		 * @param tickLabels The labels of the scale ticks.
 		 */
@@ -193,7 +194,7 @@ public class ScaleSettingHandler {
 
 	/**
 	 * Sets the coordinates (locations) and the labels (displayed texts) of the scale ticks on Y axis.
-	 * 
+	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
 	 * @param tickLabels The labels of the scale ticks.
 	 */
@@ -227,7 +228,7 @@ public class ScaleSettingHandler {
 
 		/**
 		 * Create an instance handling setZTicks(-) API with the specified argument.
-		 * 
+		 *
 		 * @param tickCoordinates The coordinates of the scale ticks.
 		 * @param tickLabels The labels of the scale ticks.
 		 */

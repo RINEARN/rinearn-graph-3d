@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * The "plotter" to plot each data series as a membrane.
- * 
+ *
  * A plotter is an object implementing RinearnGraph3DPlottingListener interface,
  * performs a part of plottings/re-plottings (e.g. plots points, or lines, etc),
  * in event-driven flow.
@@ -28,9 +28,11 @@ public class MembranePlotter implements RinearnGraph3DPlottingListener {
 	private final Model model;
 
 	/** The front-end class of "View" layer, which provides visible part of GUI without event handling. */
+	@SuppressWarnings("unused")
 	private final View view;
 
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
+	@SuppressWarnings("unused")
 	private final Presenter presenter;
 
 	/** The rendering engine of 3D graphs. */
@@ -39,7 +41,7 @@ public class MembranePlotter implements RinearnGraph3DPlottingListener {
 
 	/**
 	 * Create a new instance performing plottings using the specified resources.
-	 * 
+	 *
 	 * @param model The front-end class of "Model" layer, which provides internal logic procedures and so on.
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
@@ -55,7 +57,7 @@ public class MembranePlotter implements RinearnGraph3DPlottingListener {
 
 	/**
 	 * Called when a plotting/re-plotting is requested.
-	 * 
+	 *
 	 * @param event The plotting event.
 	 */
 	@Override
@@ -84,7 +86,7 @@ public class MembranePlotter implements RinearnGraph3DPlottingListener {
 
 	/**
 	 * Plots the specified data series as a membrane.
-	 * 
+	 *
 	 * @param dataSeries The data series to be plotted.
 	 * @param seriesIndex The index of the data series.
 	 */
@@ -107,7 +109,7 @@ public class MembranePlotter implements RinearnGraph3DPlottingListener {
 			for (int iR=0; iR<rightDimLength - 1; iR++) {
 
 				// Draw a quadrangle only when all of its vertices are set to visible.
-				boolean isQuadrangleVisible = 
+				boolean isQuadrangleVisible =
 						visibilities[iL    ][iR    ] &&
 						visibilities[iL + 1][iR    ] &&
 						visibilities[iL + 1][iR + 1] &&
@@ -151,7 +153,7 @@ public class MembranePlotter implements RinearnGraph3DPlottingListener {
 
 	/**
 	 * Called when the currently requested plotting/re-plotting has been canceled.
-	 * 
+	 *
 	 * @param event The plotting event.
 	 */
 	@Override
@@ -161,7 +163,7 @@ public class MembranePlotter implements RinearnGraph3DPlottingListener {
 
 	/**
 	 * Called when the currently requested plotting/re-plotting has completed.
-	 * 
+	 *
 	 * @param event The plotting event.
 	 */
 	@Override

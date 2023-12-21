@@ -39,7 +39,7 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Creates a new geometric piece representing a quadrangle consisting of points A, B, C and D.
-	 * 
+	 *
 	 * @param aX The x coordinate value of the point A, in the scaled space.
 	 * @param aY The y coordinate value of the point A, in the scaled space.
 	 * @param aZ The z coordinate value of the point A, in the scaled space.
@@ -64,13 +64,13 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 
 		// Detect whether there is a couple of points having the same coordinate values in {A, B, C}.
 		boolean existsSamePointInABC =
-				(aX==bX && aY==bY && aZ==bZ) || 
-				(aX==cX && aY==cY && aZ==cZ) || 
+				(aX==bX && aY==bY && aZ==bZ) ||
+				(aX==cX && aY==cY && aZ==cZ) ||
 				(bX==cX && bY==cY && bZ==cZ);
 
 		 // Basically, the normal vector will be calculated for the triangle consisting of the points A, B, and C.
-		 // When there is a couple of points which have the same coordinate values in the points {A, B, C}, 
-		 // the normal vector will be calculated for the triangle consisting of the points A, C, and D.		
+		 // When there is a couple of points which have the same coordinate values in the points {A, B, C},
+		 // the normal vector will be calculated for the triangle consisting of the points A, C, and D.
 		this.normalVectorVertices = existsSamePointInABC ? NormalVectorVertices.ACD : NormalVectorVertices.ABC;
 		double[] normalVector = this.computeNormalVector(
 			aX, aY, aZ , bX, bY, bZ, cX, cY, cZ, dX, dY, dZ, this.normalVectorVertices
@@ -84,7 +84,7 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 			{ cX, cY, cZ, 1.0 },
 			{ dX, dY, dZ, 1.0 },
 
-			// For the normal vector, we should transform only its angle, 
+			// For the normal vector, we should transform only its angle,
 			// so we should ignore effects of the translational elements of the transformation matrix.
 			// So set the value of W (the last element of the following) to 0.
 			{ normalVector[X], normalVector[Y], normalVector[Z], 0.0 },
@@ -100,7 +100,7 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Computes the normal vector of the quadrangle of which vertices is the points A, B, C, and D.
-	 * 
+	 *
 	 * @param aX The x coordinate value of the point A.
 	 * @param aY The y coordinate value of the point A.
 	 * @param aZ The z coordinate value of the point A.
@@ -165,7 +165,7 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Transforms the coordinate values of this quadrangle.
-	 * 
+	 *
 	 * @param matrix The transformation matrix.
 	 */
 	@Override
@@ -200,18 +200,18 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 	/**
 	 * Determines whether the normal vector of the specified quadrangle faces the depth direction,
 	 * CONSIDERING THE PERSPECTIVE EFFECT.
-	 * 
-	 * In the simplest way, you can determine whether a quadrangle faces the depth direction, 
+	 *
+	 * In the simplest way, you can determine whether a quadrangle faces the depth direction,
 	 * by checking the sign of the Z component of the transformed normal vector (without perspective effect).
-	 * 
+	 *
 	 * However, some error occures between directions of normal vectors with/without the perspective effect.
-	 * Hence, when we are required to determine precisely whether the quadrangle faces to the depth direction 
+	 * Hence, when we are required to determine precisely whether the quadrangle faces to the depth direction
 	 * from the viewpoint, it is necessary to consider the perspective effect.
 	 * This method is useful for such cases.
-	 * 
+	 *
 	 * @param vertexArray The array storing the transformed coordinates of the vertices of the quadrangle.
 	 * @param normalVertices Represents which vertices should be used for computing the normal vector.
-	 * @return Returns true if the normal vector computed from the specified array 
+	 * @return Returns true if the normal vector computed from the specified array
 	 *          (with considering the perspective effect) faces the depth direction.
 	 */
 	private boolean facesDepthDirection(double[][] vertexArray, NormalVectorVertices normalVertices) {
@@ -259,7 +259,7 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Shades the color.
-	 * 
+	 *
 	 * @param lightConfig The object storing parameters for lighting and shading.
 	 */
 	@Override
@@ -277,8 +277,8 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 		// Calculate the value of 'directional product',
 		// which is the inner product between the normal vector and the light vector.
 		double directionalProduct =
-				normalVector[X] * lightVector[X] + 
-				normalVector[Y] * lightVector[Y] + 
+				normalVector[X] * lightVector[X] +
+				normalVector[Y] * lightVector[Y] +
 				normalVector[Z] * lightVector[Z];
 
 		// Calculate the angle between the normal vector and the light vector,
@@ -290,7 +290,7 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 		double directionalProductPositive = (0 <= directionalProduct) ? directionalProduct : 0.0;
 
 		// Calculate the brightness contributed by ambient, diffuse, and diffractive reflections.
-		double baseBrightness = 
+		double baseBrightness =
 				lightConfig.getAmbientReflectionStrength() +
 				lightConfig.getDiffuseReflectionStrength() * directionalProductPositive +
 				lightConfig.getDiffractiveReflectionStrength() * (1.0 - normalizedDirectionalAngle);
@@ -306,7 +306,7 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 				specularReflectionVector[Y] * specularReflectionVector[Y] +
 				specularReflectionVector[Z] * specularReflectionVector[Z]
 		);
-		
+
 		// Calculate the angle between the above vector and the Z-axis (= direction of the user's gaze).
 		double specularReflectionVectorAngle = Math.acos(specularReflectionVector[Z] / specularReflectionVectorLength);
 
@@ -342,7 +342,7 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Computes the projected screen coordinate values of this quadrangle.
-	 * 
+	 *
 	 * @param screenWidth The width (pixels) of the screen.
 	 * @param screenHeight The height (pixels) of the screen.
 	 * @param screenOffsetX The X-offset value (positive for shifting rightward) of the screen center.
@@ -372,7 +372,7 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Draws this quadrangle.
-	 * 
+	 *
 	 * @param graphics The Graphics2D instance for drawing shapes to the screen image.
 	 */
 	@Override

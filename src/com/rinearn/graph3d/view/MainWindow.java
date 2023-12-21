@@ -367,7 +367,7 @@ public final class MainWindow {
 
 	/**
 	 * Reflects the configuration parameters related to this window, such as the language of UI, fonts, and so on.
-	 * 
+	 *
 	 * @param configuration The configuration container.
 	 */
 	public void configure(RinearnGraph3DConfiguration configuration) {
@@ -397,7 +397,7 @@ public final class MainWindow {
 
 		/**
 		 * Creates a new instance to reflect the specified configuration.
-		 * 
+		 *
 		 * @param configuration The configuration to be reflected.
 		 */
 		public ConfigurationReflector(RinearnGraph3DConfiguration configuration) {
@@ -570,14 +570,14 @@ public final class MainWindow {
 
 	/**
 	 * Resizes the components on this window, based on the specified window size.
-	 * 
+	 *
 	 * Please note that, there is some time-lag between calling setBounds(...) method of the window
 	 * and updating the window size actually.
-	 * 
+	 *
 	 * For avoiding the broken layout caused by the above time-lag,
 	 * specify the window width/height which were passed to the argument of setBounds(...),
 	 * to the arguments of this method.
-	 * 
+	 *
 	 * @param currentWindowWidth The current width of the window.
 	 * @param currentWindowHeight The current height of the window.
 	 */
@@ -611,14 +611,14 @@ public final class MainWindow {
 
 		/**
 		 * Create a new instance resizing the component based on the specified window size.
-		 * 
+		 *
 		 * Please note that, there is some time-lag between calling setBounds(...) method of the window
 		 * and updating the window size actually.
-		 * 
+		 *
 		 * For avoiding the broken layout caused by the above time-lag,
 		 * specify the window width/height which were passed to the argument of setBounds(...),
 		 * to the arguments of this constructor.
-		 * 
+		 *
 		 * @param currentWindowWidth The current width of the window.
 		 * @param currentWindowHeight The current height of the window.
 		 */
@@ -655,7 +655,7 @@ public final class MainWindow {
 			if (screenSideUIVisible) {
 				leftSideUIPanel.setBounds(0, 0, LEFT_SIDE_UI_PANEL_WIDTH, screenHeight);
 			} else {
-				leftSideUIPanel.setBounds(0, 0, 0, screenHeight);				
+				leftSideUIPanel.setBounds(0, 0, 0, screenHeight);
 			}
 		}
 	}
@@ -663,14 +663,14 @@ public final class MainWindow {
 
 	/**
 	 * Sets the instance of the graph image, to be displayed on the screen.
-	 * 
+	 *
 	 * It is not necessary to call this method every time after drawing something to the image.
 	 * You can reflect the drawn contents by calling only repaint() method.
-	 * 
+	 *
 	 * On the other hand, when the instance (reference) of the image has been changed,
 	 * (e.g.: when the screen has been resized),
 	 * it requires to call this method to update the reference to the image instance to be displayed.
-	 * 
+	 *
 	 * @param image The instance of the graph image to be displayed on the screen.
 	 */
 	public void setScreenImage(Image screenImage) {
@@ -699,7 +699,7 @@ public final class MainWindow {
 
 		/**
 		 * Creates an instance for setting the specified graph image to "screenIcon".
-		 * 
+		 *
 		 * @param screenImage The graph image to be set to "screenIcon".
 		 */
 		public ScreenImageSetter(Image graphImage) {
@@ -751,7 +751,7 @@ public final class MainWindow {
 
 	/**
 	 * Sets the location and the size of this window.
-	 * 
+	 *
 	 * @param x The X coordinate of the left-top edge of the window.
 	 * @param y The Y coordinate of the left-top edge of the window.
 	 * @param width The width of the window.
@@ -792,7 +792,7 @@ public final class MainWindow {
 
 		/**
 		 * Creates a new instance for setting the window to the specified location/size.
-		 * 
+		 *
 		 * @param x The X coordinate of the left-top edge of the window.
 		 * @param y The Y coordinate of the left-top edge of the window.
 		 * @param width The width of the window.
@@ -820,7 +820,7 @@ public final class MainWindow {
 
 	/**
 	 * Sets the size of the graph screen.
-	 * 
+	 *
 	 * @param width The width of the graph screen.
 	 * @param height The height of the graph screen.
 	 */
@@ -853,7 +853,7 @@ public final class MainWindow {
 
 		/**
 		 * Creates a new instance for setting the screen to the specified size.
-		 * 
+		 *
 		 * @param width The width of the screen.
 		 * @param height The height of the screen.
 		 */
@@ -889,7 +889,7 @@ public final class MainWindow {
 
 	/**
 	 * Gets the current size of the graph screen.
-	 * 
+	 *
 	 * @return The current size of the graph screen.
 	 */
 	public Dimension getScreenSize() {
@@ -930,7 +930,7 @@ public final class MainWindow {
 
 		/**
 		 * Returns the gotten screen size.
-		 * 
+		 *
 		 * @return The gotten screen size.
 		 */
 		public synchronized Dimension getSize() {
@@ -941,7 +941,7 @@ public final class MainWindow {
 
 	/**
 	 * Sets the visibility of the window.
-	 * 
+	 *
 	 * @param visible Specify true for showing the window, false for hiding the window.
 	 */
 	public void setWindowVisible(boolean visible) {
@@ -970,7 +970,7 @@ public final class MainWindow {
 
 		/**
 		 * Create an instance for switching visibility of the window.
-		 * 
+		 *
 		 * @param visible Specify true for showing the window, false for hiding the window.
 		 */
 		public WindowVisiblitySwitcher(boolean visible) {
@@ -988,7 +988,7 @@ public final class MainWindow {
 
 	/**
 	 * Sets the visibility of the menu bar and the right click menus.
-	 * 
+	 *
 	 * @param visible Specify true for showing the menu bar and the right click menus.
 	 */
 	public void setMenuVisible(boolean visible) {
@@ -1017,7 +1017,7 @@ public final class MainWindow {
 
 		/**
 		 * Create an instance for switching visibility of the menu bar and the right click menus.
-		 * 
+		 *
 		 * @param visible Specify true for showing the menu bar and the right-click menus.
 		 */
 		public MenuVisiblitySwitcher(boolean visible) {
@@ -1034,7 +1034,7 @@ public final class MainWindow {
 			if (menuVisible) {
 				frame.setJMenuBar(menuBar);
 			} else {
-				frame.setJMenuBar(null);				
+				frame.setJMenuBar(null);
 			}
 
 			// Update the location and the size of the screen.
@@ -1045,7 +1045,7 @@ public final class MainWindow {
 
 	/**
 	 * Sets the visibility of the UI panel at the screen side.
-	 * 
+	 *
 	 * @param visible Specify true for showing the UI panel at the screen side.
 	 */
 	public void setScreenSideUIVisible(boolean visible) {
@@ -1074,7 +1074,7 @@ public final class MainWindow {
 
 		/**
 		 * Create an instance for switching visibility of the menu bar and the right click menus.
-		 * 
+		 *
 		 * @param visible Specify true for showing the menu bar and the right-click menus.
 		 */
 		public ScreenSideUIVisiblitySwitcher(boolean visible) {

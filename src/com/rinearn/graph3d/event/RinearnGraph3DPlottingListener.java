@@ -16,16 +16,16 @@ import java.util.EventListener;
  * </span>
  * .
  * <div class="lang-ja">
- * 再プロットとは, グラフの3D形状の再構築処理の事で, グラフのプロット範囲の変更や, 
- * プロットオプションの選択状況の切り替えなどの際に必要となります. 
+ * 再プロットとは, グラフの3D形状の再構築処理の事で, グラフのプロット範囲の変更や,
+ * プロットオプションの選択状況の切り替えなどの際に必要となります.
  * <br />
- * 再プロットが行われると, RinearnGraph3DRenderer が提供するAPIによって描かれた3D形状は, 一旦全て消去されます. 
- * そのため, このリスナーを実装して再プロットイベントを受け取り, 必要に応じて再描画を行ってください. 
+ * 再プロットが行われると, RinearnGraph3DRenderer が提供するAPIによって描かれた3D形状は, 一旦全て消去されます.
+ * そのため, このリスナーを実装して再プロットイベントを受け取り, 必要に応じて再描画を行ってください.
  * </div>
- * 
+ *
  * <div class="lang-en">
  * Replotting means the process rebuilding the 3D shape of the graph.
- * RINEARN Graph 3D performs the replotting when ranges of the axes have been modified, 
+ * RINEARN Graph 3D performs the replotting when ranges of the axes have been modified,
  * plotting options have been changed, and so on.
  * <br />
  * When the replotting is performed, all contents drawn by the drawing methods of RinearnGraph3DRenderer are cleared.

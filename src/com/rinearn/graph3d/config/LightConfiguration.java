@@ -24,7 +24,7 @@ public final class LightConfiguration {
 	 * .
 	 */
 	public LightConfiguration() {
-		
+
 		// Initialize the reflection parameters by default values.
 		this.ambientReflectionStrength = 0.4;
 		this.diffuseReflectionStrength = 0.2;
@@ -37,7 +37,7 @@ public final class LightConfiguration {
 		double lightVectorLength = Math.sqrt(
 				lightSourceDirectionVector[0] * lightSourceDirectionVector[0] +
 				lightSourceDirectionVector[1] * lightSourceDirectionVector[1] +
-				lightSourceDirectionVector[2] * lightSourceDirectionVector[2]				
+				lightSourceDirectionVector[2] * lightSourceDirectionVector[2]
 		);
 		lightSourceDirectionVector[0] /= lightVectorLength;
 		lightSourceDirectionVector[1] /= lightVectorLength;

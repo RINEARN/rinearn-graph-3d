@@ -95,7 +95,7 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 /**
  * The front-end class of "View" layer (com.rinearn.graph3d.view package)
  * of RINEARN Graph 3D.
- * 
+ *
  * View layer provides visible part of GUI, without event handling.
  */
 public final class View {
@@ -139,7 +139,7 @@ public final class View {
 
 	/**
 	 * Reflects the configuration parameters related to the components in View layer.
-	 * 
+	 *
 	 * @param configuration The configuration container.
 	 */
 	public synchronized void configure(RinearnGraph3DConfiguration configuration) {

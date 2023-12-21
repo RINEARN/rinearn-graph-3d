@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * The front-end class of "Model" layer (com.rinearn.graph3d.model package)
  * of RINEARN Graph 3D.
- * 
+ *
  * Model layer provides internal components of this software,
  * such as various logic procedures and so on.
  */
@@ -33,7 +33,7 @@ public final class Model {
 
 	/**
 	 * Creates new Model layer of RINEARN Graph 3D.
-	 * 
+	 *
 	 * @param configuration The container of configuration parameters.
 	 * @throws IllegalStateException Thrown when it failed in initializing script engines, etc.
 	 */
@@ -73,7 +73,7 @@ public final class Model {
 
 	/**
 	 * Adds (registers) a new math data series.
-	 * 
+	 *
 	 * @param mathDataSeries The math data series to be added.
 	 */
 	public synchronized void addMathDataSeries(MathDataSeries mathDataSeries) {
@@ -86,7 +86,7 @@ public final class Model {
 
 	/**
 	 * Remove the lastly registered math data series.
-	 * 
+	 *
 	 * If this method is called when no math data series is registered, nothing occurs.
 	 */
 	public synchronized void removeLastMathDataSeries() {
@@ -107,10 +107,10 @@ public final class Model {
 
 	/**
 	 * Gets the list of the currently registered math data series.
-	 * 
-	 * The returned list is unmodifiable. For adding/removing elements, 
+	 *
+	 * The returned list is unmodifiable. For adding/removing elements,
 	 * use the methods addMathDataSeries(...), removeLastMathDataSeries(), etc.
-	 * 
+	 *
 	 * @return The (unmodifiable) list of the currently registered math data series.
 	 */
 	public synchronized List<MathDataSeries> getMathDataSeriesList() {

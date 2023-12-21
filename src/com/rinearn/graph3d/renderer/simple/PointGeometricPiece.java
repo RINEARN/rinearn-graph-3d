@@ -23,7 +23,7 @@ public final class PointGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Creates a new geometric piece representing a point.
-	 * 
+	 *
 	 * @param x The x coordinate value of the center of the point, in the scaled space.
 	 * @param y The y coordinate value of the center of the point, in the scaled space.
 	 * @param z The z coordinate value of the center of the point, in the scaled space.
@@ -36,7 +36,7 @@ public final class PointGeometricPiece extends GeometricPiece {
 		this.transformedVertexArray = new double[this.vertexCount][3]; // [3] is X/Y/Z
 		this.projectedVertexArray = new int[this.vertexCount][2];      // [2] is X/Y
 		this.originalColor = color;
-		
+
 		this.radius = (int)Math.round(radius);
 		this.diameter = (int)Math.round(radius * 2.0);
 	}
@@ -44,7 +44,7 @@ public final class PointGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Transforms the coordinate values of this point.
-	 * 
+	 *
 	 * @param matrix The transformation matrix.
 	 */
 	@Override
@@ -67,7 +67,7 @@ public final class PointGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Shades the color.
-	 * 
+	 *
 	 * @param lightConfig The object storing parameters for lighting and shading.
 	 */
 	@Override
@@ -80,7 +80,7 @@ public final class PointGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Computes the projected screen coordinate values of this point.
-	 * 
+	 *
 	 * @param screenWidth The width (pixels) of the screen.
 	 * @param screenHeight The height (pixels) of the screen.
 	 * @param screenOffsetX The X-offset value (positive for shifting rightward) of the screen center.
@@ -107,7 +107,7 @@ public final class PointGeometricPiece extends GeometricPiece {
 
 	/**
 	 * Draws this point.
-	 * 
+	 *
 	 * @param graphics The Graphics2D instance for drawing shapes to the screen image.
 	 */
 	@Override

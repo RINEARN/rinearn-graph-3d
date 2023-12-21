@@ -21,12 +21,14 @@ import javax.swing.SwingUtilities;
 public final class FrameHandler {
 
 	/** The front-end class of "Model" layer, which provides internal logic procedures and so on. */
+	@SuppressWarnings("unused")
 	private final Model model;
 
 	/** The front-end class of "View" layer, which provides visible part of GUI without event handling. */
 	private final View view;
 
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
+	@SuppressWarnings("unused")
 	private final Presenter presenter;
 
 	/** The flag for turning on/off the event handling feature of this instance. */
@@ -35,7 +37,7 @@ public final class FrameHandler {
 
 	/**
 	 * Create a new instance handling events and API requests using the specified resources.
-	 * 
+	 *
 	 * @param model The front-end class of "Model" layer, which provides internal logic procedures and so on.
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
@@ -58,7 +60,7 @@ public final class FrameHandler {
 
 	/**
 	 * Turns on/off the event handling feature of this instance.
-	 * 
+	 *
 	 * @param enabled Specify false for turning off the event handling feature (enabled by default).
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
@@ -68,7 +70,7 @@ public final class FrameHandler {
 
 	/**
 	 * Gets whether the event handling feature of this instance is enabled.
-	 * 
+	 *
 	 * @return Returns true if the event handling feature is enabled.
 	 */
 	public synchronized boolean isEventHandlingEnabled() {
@@ -80,7 +82,7 @@ public final class FrameHandler {
 
 
 	// ================================================================================
-	// 
+	//
 	// - Event Listeners -
 	//
 	// ================================================================================
@@ -120,7 +122,7 @@ public final class FrameHandler {
 
 
 	// ================================================================================
-	// 
+	//
 	// - API Listeners -
 	//
 	// ================================================================================
@@ -129,7 +131,7 @@ public final class FrameHandler {
 	/**
 	 * Sets the location and the size of the main window.
 	 * (API Implementation)
-	 * 
+	 *
 	 * @param x The X coordinate of the left-top edge of the window.
 	 * @param y The Y coordinate of the left-top edge of the window.
 	 * @param width The width of the window.
@@ -171,7 +173,7 @@ public final class FrameHandler {
 
 		/**
 		 * Creates a new instance for setting the window to the specified location/size.
-		 * 
+		 *
 		 * @param x The X coordinate of the left-top edge of the window.
 		 * @param y The Y coordinate of the left-top edge of the window.
 		 * @param width The width of the window.
@@ -195,7 +197,7 @@ public final class FrameHandler {
 	/**
 	 * Sets the size of the graph screen.
 	 * (API Implementation)
-	 * 
+	 *
 	 * @param width The width of the screen.
 	 * @param height The height of the screen.
 	 */
@@ -229,7 +231,7 @@ public final class FrameHandler {
 
 		/**
 		 * Creates a new instance for resizing the screen into the specified size.
-		 * 
+		 *
 		 * @param width The width of the screen.
 		 * @param height The height of the screen.
 		 */

@@ -46,7 +46,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * The entry-point when RINEARN Graph 3D is executed as an application (not a library).
-	 * 
+	 *
 	 * @param args The command-line arguments.
 	 */
 	public static void main(String[] args) {
@@ -165,7 +165,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Checks that dependencies (libraries) are available.
-	 * 
+	 *
 	 * @param configuration The container storing configuration values.
 	 * @return Returns true if all dependencies are available.
 	 */
@@ -242,19 +242,19 @@ public class RinearnGraph3D {
 	 * </span>
 	 * .
 	 * <span class="lang-ja">
-	 * 変更後のウィンドウのサイズに合わせて, グラフスクリーンのサイズも変更されます. 
-	 * なお, グラフスクリーンのサイズは, ウィンドウのサイズよりも若干小さくなり, 
-	 * その差はバージョンや環境に依存する事に注意してください. 
+	 * 変更後のウィンドウのサイズに合わせて, グラフスクリーンのサイズも変更されます.
+	 * なお, グラフスクリーンのサイズは, ウィンドウのサイズよりも若干小さくなり,
+	 * その差はバージョンや環境に依存する事に注意してください.
 	 * 画像出力用途などで, グラフスクリーンのサイズを明示的に指定したい場合は, 代わりに
-	 * {@link RinearnGraph3D#setScreenSize setScreenSize} メソッドを使用してください. 
+	 * {@link RinearnGraph3D#setScreenSize setScreenSize} メソッドを使用してください.
 	 * </span>
-	 * 
+	 *
 	 * <span class="lang-en">
-	 * Note that, the graph screen will be resized automatically, 
+	 * Note that, the graph screen will be resized automatically,
 	 * corresponding with the size of the modified graph window.
-	 * The size of the graph screen will be little smaller than the size of the graph window, 
+	 * The size of the graph screen will be little smaller than the size of the graph window,
 	 * and the difference between them depends on your environment and the version of RINEARN Graph 3D.
-	 * When you want to set the size of the graph screen precisely, 
+	 * When you want to set the size of the graph screen precisely,
 	 * use {@link RinearnGraph3D#setScreenSize setScreenSize} method instead.
 	 * </span>
 	 *
@@ -288,13 +288,13 @@ public class RinearnGraph3D {
 	 * <span class="lang-ja">
 	 * 変更後のスクリーンサイズに合わせて, グラフウィンドウのサイズも自動で変更されます.
 	 * グラフウィンドウのサイズを明示的に指定したい場合は, 代わりに
-	 * {@link RinearnGraph3D#setWindowBounds setWindowBounds} メソッドを使用してください. 
+	 * {@link RinearnGraph3D#setWindowBounds setWindowBounds} メソッドを使用してください.
 	 * </span>
-	 * 
+	 *
 	 * <span class="lang-en">
-	 * Note that, the graph window will be resized automatically, 
+	 * Note that, the graph window will be resized automatically,
 	 * corresponding with the size of the modified graph screen.
-	 * When you want to set the size of the graph window explicitly, 
+	 * When you want to set the size of the graph window explicitly,
 	 * use {@link RinearnGraph3D#setWindowBounds setWindowBounds} method instead.
 	 * </span>
 	 *
@@ -313,7 +313,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the range of X axis.
-	 * 
+	 *
 	 * @param min The minimum coordinate value of X axis.
 	 * @param max The maximum coordinate value of X axis.
 	 */
@@ -323,7 +323,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the range of X axis.
-	 * 
+	 *
 	 * @param min The minimum coordinate value of X axis.
 	 * @param max The maximum coordinate value of X axis.
 	 */
@@ -333,7 +333,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Turns on/off the auto-ranging feature for X axis.
-	 * 
+	 *
 	 * @param enabled Specify true/false for turning on/off (the default is on).
 	 */
 	public synchronized void setXAutoRangingEnabled(boolean enabled) {
@@ -343,7 +343,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the range of Y axis.
-	 * 
+	 *
 	 * @param min The minimum coordinate value of Y axis.
 	 * @param max The maximum coordinate value of Y axis.
 	 */
@@ -353,7 +353,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the range of Y axis.
-	 * 
+	 *
 	 * @param min The minimum coordinate value of Y axis.
 	 * @param max The maximum coordinate value of Y axis.
 	 */
@@ -363,7 +363,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Turns on/off the auto-ranging feature for Y axis.
-	 * 
+	 *
 	 * @param enabled Specify true/false for turning on/off (the default is on).
 	 */
 	public synchronized void setYAutoRangingEnabled(boolean enabled) {
@@ -373,7 +373,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the range of Z axis.
-	 * 
+	 *
 	 * @param min The minimum coordinate value of Z axis.
 	 * @param max The maximum coordinate value of Z axis.
 	 */
@@ -383,7 +383,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the range of Z axis.
-	 * 
+	 *
 	 * @param min The minimum coordinate value of Z axis.
 	 * @param max The maximum coordinate value of Z axis.
 	 */
@@ -393,7 +393,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Turns on/off the auto-ranging feature for Z axis.
-	 * 
+	 *
 	 * @param enabled Specify true/false for turning on/off (the default is on).
 	 */
 	public synchronized void setZAutoRangingEnabled(boolean enabled) {
@@ -403,7 +403,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Set the displayed text of X axis label.
-	 * 
+	 *
 	 * @param xLabel The text of X axis label.
 	 */
 	public synchronized void setXLabel(String xLabel) {
@@ -412,7 +412,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Set the displayed text of Y axis label.
-	 * 
+	 *
 	 * @param yLabel The text of Y axis label.
 	 */
 	public synchronized void setYLabel(String yLabel) {
@@ -421,7 +421,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Set the displayed text of Z axis label.
-	 * 
+	 *
 	 * @param zLabel The text of Z axis label.
 	 */
 	public synchronized void setZLabel(String zLabel) {
@@ -431,7 +431,7 @@ public class RinearnGraph3D {
 
  	/**
  	 * Sets the distance between the viewpoint and the origin of the graph.
- 	 * 
+ 	 *
  	 * @param distance The distance between the viewpoint and the origin of the graph.
  	 */
 	public void setCameraDistance(double distance) {
@@ -440,7 +440,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the magnification of the graph screen.
-	 * 
+	 *
 	 * @param magnification The magnification of the graph screen.
 	 */
 	public void setCameraMagnification(double magnification) {
@@ -450,10 +450,10 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the camera angle by two angular parameters, regarding X axis as the zenith axis.
-	 * 
+	 *
 	 * The "screw angle" is always set to zero by this method.
 	 * To set the screw angle together, use the overload of this method, having 3-arguments instead.
-	 * 
+	 *
 	 * @param horizontalAngle The horizontal angle, which is the rotation angle of the camera's location around the zenith axis.
 	 * @param verticalAngle The vertical angle, which is the angle between the zenith axis and the direction toward the camera.
 	 */
@@ -465,7 +465,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the camera angle by three angular parameters, regarding X axis as the zenith axis.
-	 * 
+	 *
 	 * @param horizontalAngle The horizontal angle, which is the rotation angle of the camera's location around the zenith axis.
 	 * @param verticalAngle The vertical angle, which is the angle between the zenith axis and the direction toward the camera.
 	 * @param screwAngle The screw angle, which is the rotation angle of the camera itself (not location) around the screen center.
@@ -479,10 +479,10 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the camera angle by two angular parameters, regarding Y axis as the zenith axis.
-	 * 
+	 *
 	 * The "screw angle" is always set to zero by this method.
 	 * To set the screw angle together, use the overload of this method, having 3-arguments instead.
-	 * 
+	 *
 	 * @param horizontalAngle The horizontal angle, which is the rotation angle of the camera's location around the zenith axis.
 	 * @param verticalAngle The vertical angle, which is the angle between the zenith axis and the direction toward the camera.
 	 */
@@ -494,7 +494,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the camera angle by three angular parameters, regarding Y axis as the zenith axis.
-	 * 
+	 *
 	 * @param horizontalAngle The horizontal angle, which is the rotation angle of the camera's location around the zenith axis.
 	 * @param verticalAngle The vertical angle, which is the angle between the zenith axis and the direction toward the camera.
 	 * @param screwAngle The screw angle, which is the rotation angle of the camera itself (not location) around the screen center.
@@ -508,10 +508,10 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the camera angle by two angular parameters, regarding Z axis as the zenith axis.
-	 * 
+	 *
 	 * The "screw angle" is always set to zero by this method.
 	 * To set the screw angle together, use the overload of this method, having 3-arguments instead.
-	 * 
+	 *
 	 * @param horizontalAngle The horizontal angle, which is the rotation angle of the camera's location around the zenith axis.
 	 * @param verticalAngle The vertical angle, which is the angle between the zenith axis and the direction toward the camera.
 	 */
@@ -523,7 +523,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the camera angle by three angular parameters, regarding Z axis as the zenith axis.
-	 * 
+	 *
 	 * @param horizontalAngle The horizontal angle, which is the rotation angle of the camera's location around the zenith axis.
 	 * @param verticalAngle The vertical angle, which is the angle between the zenith axis and the direction toward the camera.
 	 * @param screwAngle The screw angle, which is the rotation angle of the camera itself (not location) around the screen center.
@@ -537,7 +537,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the coordinates (locations) and the labels (displayed text) of the scale ticks on X axis.
-	 * 
+	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
 	 * @param tickLabels The labels of the scale ticks.
 	 */
@@ -547,7 +547,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the coordinates (locations) and the labels (displayed text) of the scale ticks on X axis.
-	 * 
+	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
 	 * @param tickLabels The labels of the scale ticks.
 	 */
@@ -562,7 +562,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the coordinates (locations) and the labels (displayed text) of the scale ticks on Y axis.
-	 * 
+	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
 	 * @param tickLabels The labels of the scale ticks.
 	 */
@@ -572,7 +572,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the coordinates (locations) and the labels (displayed text) of the scale ticks on Y axis.
-	 * 
+	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
 	 * @param tickLabels The labels of the scale ticks.
 	 */
@@ -587,7 +587,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the coordinates (locations) and the labels (displayed text) of the scale ticks on Z axis.
-	 * 
+	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
 	 * @param tickLabels The labels of the scale ticks.
 	 */
@@ -597,7 +597,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the coordinates (locations) and the labels (displayed text) of the scale ticks on Z axis.
-	 * 
+	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
 	 * @param tickLabels The labels of the scale ticks.
 	 */
@@ -612,7 +612,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the visibility of the menu bar and the right click menus.
-	 * 
+	 *
 	 * @param visible Specify true for showing the menu bar and the right click menus.
 	 */
 	public synchronized void setMenuVisible(boolean visible) {
@@ -622,7 +622,7 @@ public class RinearnGraph3D {
 
 	/**
 	 * Sets the visibility of the UI-panel at the left side of the screen.
-	 * 
+	 *
 	 * @param visible Specify true for showing the UI-panel at the left side of the screen.
 	 */
 	public synchronized void setScreenSideUIVisible(boolean visible) {
@@ -632,15 +632,15 @@ public class RinearnGraph3D {
 
 	/**
 	 * <span class="lang-ja">
-	 * 再プロットが必要になった際に発行される RinearnGraph3DPlottingEvent を受け取る, 
+	 * 再プロットが必要になった際に発行される RinearnGraph3DPlottingEvent を受け取る,
 	 * RinearnGraph3DPlottingListener インタフェースを実装したイベントリスナーを追加登録します
 	 * </span>
 	 * <span class="lang-en">
-	 * Adds the event listener implementing RinearnGraph3DPlottingListener, 
+	 * Adds the event listener implementing RinearnGraph3DPlottingListener,
 	 * for receiving RinearnGraph3DPlottingEvent which occurs when plotting/replotting is required.
 	 * </span>
 	 * .
-	 * @param plottingListener 
+	 * @param plottingListener
 	 *   <span class="lang-ja">登録するイベントリスナー</span>
 	 *   <span class="lang-en">The event listener to be added</span>
 	 */

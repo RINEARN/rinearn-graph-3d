@@ -115,7 +115,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Creates a new configuration storing nothing.
-	 * 
+	 *
 	 * @return The configuration storing nothing.
 	 */
 	public static RinearnGraph3DConfiguration createEmptyConfiguration() {
@@ -125,7 +125,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Creates a new configuration storing default values.
-	 * 
+	 *
 	 * @return The configuration storing default values.
 	 */
 	public static RinearnGraph3DConfiguration createDefaultConfiguration() {
@@ -148,14 +148,14 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Merges the specified configuration to this configuration.
-	 * 
+	 *
 	 * Practically, extracts subcategory configurations (range config, color config, and so on)
 	 * from the argument "mergedConfiguration", and stores them into this instance.
 	 * If the corresponding subcategory configs already exist in this instance, overwrites them.
-	 * 
+	 *
 	 * Also, there is no effect for the subcategory configs stored in this instance
 	 * but aren't stored in "mergedConfiguration".
-	 * 
+	 *
 	 * @param mergedConfiguration The configuration to be merged to this configuration.
 	 */
 	public synchronized void merge(RinearnGraph3DConfiguration mergedConfiguration) {
@@ -194,11 +194,11 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Validates correctness and consistency of configuration parameters stored in this instance.
-	 * 
+	 *
 	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
-	 * 
+	 *
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws IllegalStateException {
@@ -260,7 +260,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Checks whether any environment configuration is set to this instance.
-	 * 
+	 *
 	 * @return Returns true if any environment configuration is set to this instance.
 	 */
 	public synchronized boolean hasEnvironmentConfiguration() {
@@ -269,7 +269,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Sets the configuration related to the user's environment and basic preferences.
-	 * 
+	 *
 	 * @param scaleConfiguration The configuration related to the user's environment and basic preferences.
 	 */
 	public synchronized void setEnvironmentConfiguration(EnvironmentConfiguration environmentConfiguration) {
@@ -278,7 +278,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Gets the configuration related to the user's environment and basic preferences.
-	 * 
+	 *
 	 * @return The configuration related to the user's environment and basic preferences.
 	 */
 	public synchronized EnvironmentConfiguration getEnvironmentConfiguration() {
@@ -288,7 +288,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Checks whether any range configuration is set to this instance.
-	 * 
+	 *
 	 * @return Returns true if any range configuration is set to this instance.
 	 */
 	public synchronized boolean hasRangeConfiguration() {
@@ -297,7 +297,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Sets the configuration of the ranges of X/Y/Z axes.
-	 * 
+	 *
 	 * @param scaleConfiguration The configuration of the ranges of X/Y/Z axes.
 	 */
 	public synchronized void setRangeConfiguration(RangeConfiguration rangeConfiguration) {
@@ -306,7 +306,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Gets the configuration of the ranges of X/Y/Z axes.
-	 * 
+	 *
 	 * @return The configuration of the ranges of X/Y/Z axes.
 	 */
 	public synchronized RangeConfiguration getRangeConfiguration() {
@@ -316,7 +316,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Checks whether any scale configuration is set to this instance.
-	 * 
+	 *
 	 * @return Returns true if any scale configuration is set to this instance.
 	 */
 	public synchronized boolean hasScaleConfiguration() {
@@ -325,7 +325,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Sets the configuration of the scales of X/Y/Z axes.
-	 * 
+	 *
 	 * @param scaleConfiguration The configuration of the scales of X/Y/Z axes.
 	 */
 	public synchronized void setScaleConfiguration(ScaleConfiguration scaleConfiguration) {
@@ -334,7 +334,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Gets the configuration of the scales of X/Y/Z axes.
-	 * 
+	 *
 	 * @return The configuration of the scales of X/Y/Z axes.
 	 */
 	public synchronized ScaleConfiguration getScaleConfiguration() {
@@ -344,7 +344,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Checks whether any frame configuration is set to this instance.
-	 * 
+	 *
 	 * @return Returns true if any frame configuration is set to this instance.
 	 */
 	public synchronized boolean hasFrameConfiguration() {
@@ -353,7 +353,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Sets the configuration of the graph frame.
-	 * 
+	 *
 	 * @param frameConfiguration The configuration of the graph frame.
 	 */
 	public synchronized void setFrameConfiguration(FrameConfiguration frameConfiguration) {
@@ -362,7 +362,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Gets the configuration of the graph frame.
-	 * 
+	 *
 	 * @return The configuration of the graph frame.
 	 */
 	public synchronized FrameConfiguration getFrameConfiguration() {
@@ -372,7 +372,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Checks whether any light configuration is set to this instance.
-	 * 
+	 *
 	 * @return Returns true if any light configuration is set to this instance.
 	 */
 	public synchronized boolean hasLightConfiguration() {
@@ -381,7 +381,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Sets the configuration of the lighting/shading parameters.
-	 * 
+	 *
 	 * @param frameConfiguration The configuration of the lighting/shading parameters.
 	 */
 	public synchronized void setLightConfiguration(LightConfiguration lightConfiguration) {
@@ -390,7 +390,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Gets the configuration of the lighting/shading parameters.
-	 * 
+	 *
 	 * @return The configuration of the lighting/shading parameters.
 	 */
 	public synchronized LightConfiguration getLightConfiguration() {
@@ -400,7 +400,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Checks whether any camera configuration is set to this instance.
-	 * 
+	 *
 	 * @return Returns true if any camera configuration is set to this instance.
 	 */
 	public synchronized boolean hasCameraConfiguration() {
@@ -409,7 +409,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Sets the configuration of the camera (angles, magnification, and so on).
-	 * 
+	 *
 	 * @param frameConfiguration The configuration of the camera.
 	 */
 	public synchronized void setCameraConfiguration(CameraConfiguration cameraConfiguration) {
@@ -418,7 +418,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Gets the configuration of the camera (angles, magnification, and so on).
-	 * 
+	 *
 	 * @return The configuration of the camera.
 	 */
 	public synchronized CameraConfiguration getCameraConfiguration() {
@@ -428,7 +428,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Checks whether any color configuration is set to this instance.
-	 * 
+	 *
 	 * @return Returns true if any color configuration is set to this instance.
 	 */
 	public synchronized boolean hasColorConfiguration() {
@@ -437,7 +437,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Sets the configuration of colors.
-	 * 
+	 *
 	 * @param colorConfiguration The configuration of colors.
 	 */
 	public synchronized void setColorConfiguration(ColorConfiguration colorConfiguration) {
@@ -446,7 +446,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Gets the configuration of colors.
-	 * 
+	 *
 	 * @return The configuration of colors.
 	 */
 	public synchronized ColorConfiguration getColorConfiguration() {
@@ -456,7 +456,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Checks whether any font configuration is set to this instance.
-	 * 
+	 *
 	 * @return Returns true if any font configuration is set to this instance.
 	 */
 	public synchronized boolean hasFontConfiguration() {
@@ -465,7 +465,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Sets the configuration of fonts.
-	 * 
+	 *
 	 * @param fontConfiguration The configuration of fonts.
 	 */
 	public synchronized void setFontConfiguration(FontConfiguration fontConfiguration) {
@@ -474,7 +474,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Gets the configuration of fonts.
-	 * 
+	 *
 	 * @return The configuration of fonts.
 	 */
 	public synchronized FontConfiguration getFontConfiguration() {
@@ -484,7 +484,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Checks whether any label configuration is set to this instance.
-	 * 
+	 *
 	 * @return Returns true if any label configuration is set to this instance.
 	 */
 	public synchronized boolean hasLabelConfiguration() {
@@ -493,7 +493,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Sets the configuration of the labels of X/Y/Z axes.
-	 * 
+	 *
 	 * @param scaleConfiguration The configuration of the labels of X/Y/Z axes.
 	 */
 	public synchronized void setLabelConfiguration(LabelConfiguration labelConfiguration) {
@@ -502,7 +502,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Gets the configuration of the labels of X/Y/Z axes.
-	 * 
+	 *
 	 * @return The configuration of the labels of X/Y/Z axes.
 	 */
 	public synchronized LabelConfiguration getLabelConfiguration() {
@@ -512,7 +512,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Checks whether any plotting-option configuration is set to this instance.
-	 * 
+	 *
 	 * @return Returns true if any plotting-option configuration is set to this instance.
 	 */
 	public synchronized boolean hasOptionConfiguration() {
@@ -521,7 +521,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Sets the configuration of plotting-options.
-	 * 
+	 *
 	 * @param scaleConfiguration The configuration of plotting-options.
 	 */
 	public synchronized void setOptionConfiguration(OptionConfiguration optionConfiguration) {
@@ -530,7 +530,7 @@ public final class RinearnGraph3DConfiguration {
 
 	/**
 	 * Gets the configuration of plotting-options.
-	 * 
+	 *
 	 * @return The configuration of plotting-options.
 	 */
 	public synchronized OptionConfiguration getOptionConfiguration() {

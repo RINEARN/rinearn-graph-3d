@@ -39,7 +39,7 @@ public class ArrayDataSeries extends AbstractDataSeries {
 
 	/**
 	 * Sets the X-coordinate values of the points of this data series, in double-type.
-	 * 
+	 *
 	 * @param xCoordinate The X-coordinate values.
 	 */
 	public synchronized void setXCoordinates(double[][] xCoordinates) {
@@ -48,7 +48,7 @@ public class ArrayDataSeries extends AbstractDataSeries {
 
 	/**
 	 * Gets the X-coordinate values of the points of this data series, in double-type.
-	 * 
+	 *
 	 * @return The X-coordinate values.
 	 */
 	@Override
@@ -62,7 +62,7 @@ public class ArrayDataSeries extends AbstractDataSeries {
 
 	/**
 	 * Sets the Y-coordinate values of the points of this data series, in double-type.
-	 * 
+	 *
 	 * @param yCoordinate The Y-coordinate values.
 	 */
 	public synchronized void setYCoordinates(double[][] yCoordinates) {
@@ -71,7 +71,7 @@ public class ArrayDataSeries extends AbstractDataSeries {
 
 	/**
 	 * Gets the Y-coordinate values of the points of this data series, in double-type.
-	 * 
+	 *
 	 * @return The Y-coordinate values.
 	 */
 	@Override
@@ -79,13 +79,13 @@ public class ArrayDataSeries extends AbstractDataSeries {
 		if (this.yDoubleCoordinates == null) {
 			throw new IllegalStateException("The Y-coordinate values have not been initialized yet.");
 		}
-		return this.yDoubleCoordinates;		
+		return this.yDoubleCoordinates;
 	}
 
 
 	/**
 	 * Sets the Z-coordinate values of the points of this data series, in double-type.
-	 * 
+	 *
 	 * @param zCoordinate The Z-coordinate values.
 	 */
 	public synchronized void setZCoordinates(double[][] zCoordinates) {
@@ -94,7 +94,7 @@ public class ArrayDataSeries extends AbstractDataSeries {
 
 	/**
 	 * Gets the Z-coordinate values of the points of this data series, in double-type.
-	 * 
+	 *
 	 * @return The Z-coordinate values.
 	 */
 	@Override
@@ -108,7 +108,7 @@ public class ArrayDataSeries extends AbstractDataSeries {
 
 	/**
 	 * Sets the visibilities of the points of this data series.
-	 * 
+	 *
 	 * @param visibilities The array storing visibilities of the points of this data series.
 	 */
 	public synchronized void setVisibilities(boolean[][] visibilities) {
@@ -117,7 +117,7 @@ public class ArrayDataSeries extends AbstractDataSeries {
 
 	/**
 	 * Gets the visibilities of the points of this data series.
-	 * 
+	 *
 	 * @return The array storing visibilities of the points of this data series.
 	 */
 	@Override
@@ -125,6 +125,6 @@ public class ArrayDataSeries extends AbstractDataSeries {
 		if(this.visibilities == null) {
 			throw new IllegalStateException("The visibilities have not been initialized yet.");
 		}
-		return this.visibilities;		
+		return this.visibilities;
 	}
 }

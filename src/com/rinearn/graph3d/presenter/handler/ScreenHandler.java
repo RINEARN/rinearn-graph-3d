@@ -58,7 +58,7 @@ public final class ScreenHandler {
 
 	/**
 	 * Creates new instance for handling events occurred on the specified view, using the specified model.
-	 * 
+	 *
 	 * @param model The front-end class of "Model" layer, which provides internal logic procedures and so on.
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
@@ -96,7 +96,7 @@ public final class ScreenHandler {
 
 	/**
 	 * Turns on/off the event handling feature of this instance.
-	 * 
+	 *
 	 * @param enabled Specify false for turning off the event handling feature (enabled by default).
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
@@ -106,7 +106,7 @@ public final class ScreenHandler {
 
 	/**
 	 * Gets whether the event handling feature of this instance is enabled.
-	 * 
+	 *
 	 * @return Returns true if the event handling feature is enabled.
 	 */
 	public synchronized boolean isEventHandlingEnabled() {
@@ -118,7 +118,7 @@ public final class ScreenHandler {
 
 
 	// ================================================================================
-	// 
+	//
 	// - Event Listeners -
 	//
 	// ================================================================================
@@ -345,7 +345,7 @@ public final class ScreenHandler {
 			} else {
 				cameraConfiguration.rotateAroundX(radialDeltaVector[Y] * RADIAL_ROTATION_SPEED);
 				cameraConfiguration.rotateAroundY(radialDeltaVector[X] * RADIAL_ROTATION_SPEED);
-				cameraConfiguration.rotateAroundZ(circumferentialDeltaVectorLength * CIRCUMFERENTIAL_ROTATION_SPEED);					
+				cameraConfiguration.rotateAroundZ(circumferentialDeltaVectorLength * CIRCUMFERENTIAL_ROTATION_SPEED);
 			}
 
 			// Reflect the updated camera angles.
@@ -364,9 +364,9 @@ public final class ScreenHandler {
 		 * Checks whether we can define a "radial unit vector" under the current situation,
 		 * where the radial unit vector is a vector of which foot is the graph center,
 		 * and facing the direction toward the mouse pointer, and the length of the vector is 1.
-		 * 
+		 *
 		 * We can't define it when the mouse pointer is just on the graph center.
-		 * 
+		 *
 		 * @param mousePointerX The X coordinate of the mouse pointer.
 		 * @param mousePointerY The Y coordinate of the mouse pointer.
 		 * @param graphCenterX The X coordinate of the center of the graph.
@@ -383,7 +383,7 @@ public final class ScreenHandler {
 		 * Compute the value of the "radial unit vector" under the current situation,
 		 * where the radial unit vector is a vector of which foot is the graph center,
 		 * and facing the direction toward the mouse pointer, and the length of the vector is 1.
-		 * 
+		 *
 		 * @param mousePointerX The X coordinate of the mouse pointer.
 		 * @param mousePointerY The Y coordinate of the mouse pointer.
 		 * @param graphCenterX The X coordinate of the center of the graph.
@@ -412,7 +412,7 @@ public final class ScreenHandler {
 		 * Compute the value of the "radial delta vector" under the current situation,
 		 * which is a component vector of the differential vector (dx, dy),
 		 * facing the radial direction, of which center is the graph center.
-		 * 
+		 *
 		 * @param dx The X component of the differential vector of the dragged mouse pointer.
 		 * @param dy The Y component of the differential vector of the dragged mouse pointer.
 		 * @param existsRadialUnitVector The flag representing whether we can define a radial unit vector.
@@ -434,11 +434,11 @@ public final class ScreenHandler {
 		/**
 		 * Compute the length of the "circumferential delta vector" under the current situation,
 		 * which is a component vector facing the circumferential direction around the graph center.
-		 * 
+		 *
 		 * The length returned by this method is a "signed" value.
 		 * If the rotation direction of the circumferential delta vector is counterclockwise, the sign is positive.
 		 * If it is clockwise, the sign is negative.
-		 * 
+		 *
 		 * @param dx The X component of the differential vector of the dragged mouse pointer.
 		 * @param dy The Y component of the differential vector of the dragged mouse pointer.
 		 * @param existsRadialUnitVector The flag representing whether we can define a radial unit vector.
@@ -480,7 +480,7 @@ public final class ScreenHandler {
 
 
 	// ================================================================================
-	// 
+	//
 	// - API Listeners -
 	//
 	// ================================================================================
@@ -510,7 +510,7 @@ public final class ScreenHandler {
 	/**
 	 * Sets the size of the screen.
 	 * (API Implementation)
-	 * 
+	 *
 	 * @param screenWidth The screenWidth (pixels) of the screen.
 	 * @param screenHeight The screenHeight (pixels) of the screen.
 	 */
@@ -553,7 +553,7 @@ public final class ScreenHandler {
 
 		/**
 		 * Create a new instance for resizing size into the specified size.
-		 * 
+		 *
 		 * @param screenWidth The screenWidth of the screen.
 		 * @param screenHeight The screenHeight of the screen.
 		 */

@@ -43,7 +43,7 @@ public abstract class MathDataSeries extends AbstractDataSeries {
 
 	/**
 	 * Create an instance for generating data using the specified script engine, under the specified configuration.
-	 * 
+	 *
 	 * @param scrioptEngineMount The "engine-mount", provides a script engine for computing coordinates from math expressions.
 	 * @param config The configuration container (for referring the range configuration).
 	 */
@@ -62,10 +62,10 @@ public abstract class MathDataSeries extends AbstractDataSeries {
 
 	/**
 	 * Computes coordinate values from math expression(s) of this data series.
-	 * 
+	 *
 	 * The computed coordinate values will be stored into the fields: xCoordinates, yCoordinates and zCoordinates.
 	 * This abstract method is implemented by subclasses: ZxyMathDataSeries and XtYtZtMathDataSeries.
-	 * 
+	 *
 	 * @throws VnanoException Thrown when any (typically syntactic) error has been detected for calculating math expression(s).
 	 */
 	public abstract void computeCoordinates() throws VnanoException;
@@ -73,7 +73,7 @@ public abstract class MathDataSeries extends AbstractDataSeries {
 
 	/**
 	 * Gets the X-coordinate values of the points of this data series, in double-type.
-	 * 
+	 *
 	 * @return The X-coordinate values.
 	 */
 	@Override
@@ -87,7 +87,7 @@ public abstract class MathDataSeries extends AbstractDataSeries {
 
 	/**
 	 * Gets the Y-coordinate values of the points of this data series, in double-type.
-	 * 
+	 *
 	 * @return The Y-coordinate values.
 	 */
 	@Override
@@ -95,13 +95,13 @@ public abstract class MathDataSeries extends AbstractDataSeries {
 		if (this.yCoordinates == null) {
 			throw new IllegalStateException("The Y-coordinate values have not been generated yet.");
 		}
-		return this.yCoordinates;		
+		return this.yCoordinates;
 	}
 
 
 	/**
 	 * Gets the Z-coordinate values of the points of this data series, in double-type.
-	 * 
+	 *
 	 * @return The Z-coordinate values.
 	 */
 	@Override
@@ -115,7 +115,7 @@ public abstract class MathDataSeries extends AbstractDataSeries {
 
 	/**
 	 * Gets the visibilities of the points of this data series.
-	 * 
+	 *
 	 * @return The array storing visibilities of the points of this data series.
 	 */
 	@Override
@@ -123,6 +123,6 @@ public abstract class MathDataSeries extends AbstractDataSeries {
 		if(this.visibilities == null) {
 			throw new IllegalStateException("The visibilities have not been initialized yet.");
 		}
-		return this.visibilities;		
+		return this.visibilities;
 	}
 }

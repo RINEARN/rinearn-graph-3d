@@ -105,7 +105,7 @@ public class TempExample {
 	// A plotter class, which plots contents using the specified renderer, when the plotting is requested by the RINEARN Graph 3D.
 	private class Plotter implements RinearnGraph3DPlottingListener {
 		private final RinearnGraph3DRenderer renderer;
-		
+
 		public Plotter(RinearnGraph3DRenderer renderer) {
 			this.renderer = renderer;
 		}
@@ -327,7 +327,7 @@ public class TempExample {
 		double yMax = 2.0;
 		double xDelta = (xMax - xMin) / (double)(xCount - 1);
 		double yDelta = (yMax - yMin) / (double)(yCount - 1);
-		
+
 		double[][] x = new double[xCount][yCount];
 		double[][] y = new double[xCount][yCount];
 		double[][] z = new double[xCount][yCount];
@@ -339,7 +339,7 @@ public class TempExample {
 				z[ix][iy] = 0.5 * Math.sin(1.5 * x[ix][iy]) + 0.5 * Math.cos(2.0 * y[ix][iy]);
 			}
 		}
-		
+
 		MeshData meshData = new MeshData();
 		meshData.xCount = xCount;
 		meshData.yCount = yCount;

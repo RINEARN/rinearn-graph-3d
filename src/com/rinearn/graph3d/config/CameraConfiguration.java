@@ -71,7 +71,7 @@ public class CameraConfiguration {
  		{ 0.0, 0.0, 1.0 }
  	};
 
- 
+
  	/**
  	 * Creates a new configuration storing default values.
  	 */
@@ -85,20 +85,20 @@ public class CameraConfiguration {
  		this.setVerticalAngle(defaultVerticalAngele);
  		this.setScrewAngle(defaultScrewAngele);
  	}
- 
+
  	/**
  	 * Sets the magnification of the graph screen.
- 	 * 
+ 	 *
  	 * @param magnification The magnification of the graph screen.
  	 */
  	public synchronized void setMagnification(double magnification) {
 		this.magnification = magnification;
  	}
 
- 
+
  	/**
  	 * Gets the magnification of the graph screen.
- 	 * 
+ 	 *
  	 * @return The magnification of the graph screen.
  	 */
  	public synchronized double getMagnification() {
@@ -108,17 +108,17 @@ public class CameraConfiguration {
 
  	/**
  	 * Sets the distance between the viewpoint and the origin of the graph.
- 	 * 
+ 	 *
  	 * @param distance The distance between the viewpoint and the origin of the graph.
  	 */
  	public synchronized void setDistance(double distance) {
  		this.distance = distance;
  	}
 
- 
+
  	/**
  	 * Gets the distance between the viewpoint and the origin of the graph.
- 	 * 
+ 	 *
  	 * @return The distance between the viewpoint and the origin of the graph.
  	 */
  	public synchronized double getDistance() {
@@ -128,35 +128,35 @@ public class CameraConfiguration {
 
  	/**
  	 * Sets the horizontal offset amount of the graph center, from the screen center.
- 	 * 
+ 	 *
  	 * When the graph center matches with the screen center, the offset amount is 0.
  	 * If specify a positive value, the position of the graph is shifted to the right, from the screen center.
  	 * Also, the center of rotation always matches with the (shifted) graph center.
- 	 * 
+ 	 *
  	 * @param horizontalCenterOffset The horizontal offset amount of the graph center (in pixels).
  	 */
  	public synchronized void setHorizontalCenterOffset(int horizontalCenterOffset) {
  		this.horizontalCenterOffset = horizontalCenterOffset;
  	}
- 
- 
+
+
  	/**
  	 * Gets the horizontal offset amount of the graph center, on the screen, from the screen center.
- 	 * 
+ 	 *
  	 * @param horizontalCenterOffset The horizontal offset amount of the graph center (in pixels).
  	 */
  	public synchronized int getHorizontalCenterOffset() {
  		return this.horizontalCenterOffset;
  	}
 
- 
+
  	/**
  	 * Sets the vertical offset amount of the graph center, on the screen, from the screen center.
- 	 * 
+ 	 *
  	 * When the graph center matches with the screen center, the offset amount is 0.
  	 * If specify a positive value, the position of the graph is shifted up, from the screen center.
  	 * Also, the center of rotation always matches with the (shifted) graph center.
- 	 * 
+ 	 *
  	 * @param verticalCenterOffset The vertical offset amount of the graph center (in pixels).
  	 */
 	public synchronized void setVerticalCenterOffset(int verticalScreenCenterOffset) {
@@ -166,17 +166,17 @@ public class CameraConfiguration {
 
  	/**
  	 * Gets the vertical offset amount of the graph center, on the screen, from the screen center.
- 	 * 
+ 	 *
  	 * @param verticalCenterOffset The vertical offset amount of the graph center (in pixels).
  	 */
  	public synchronized int getVerticalCenterOffset() {
  		return this.verticalCenterOffset;
  	}
 
- 
+
  	/**
  	 * Sets the size of the screen.
- 	 * 
+ 	 *
  	 * @param screenWidth The width (pixels) of the screen.
  	 * @param screenHeight The height (pixels) of the screen.
  	 */
@@ -185,20 +185,20 @@ public class CameraConfiguration {
  		this.screenHeight = screenHeight;
  	}
 
- 
+
  	/**
  	 * Gets the width (pixels) of the screen.
- 	 * 
+ 	 *
  	 * @return The width (pixels) of the screen.
  	 */
  	public synchronized int getScreenWidth() {
  		return this.screenWidth;
  	}
- 
- 
+
+
  	/**
  	 * Gets the height (pixels) of the screen.
- 	 * 
+ 	 *
  	 * @return The height (pixels) of the screen.
  	 */
 	public synchronized int getScreenHeight() {
@@ -208,7 +208,7 @@ public class CameraConfiguration {
 
  	/**
  	 * Gets the matrix representing the rotation of the graph to the current state from the initial state.
- 	 * 
+ 	 *
  	 * @return The matrix representing the rotation of the graph.
  	 */
 	public synchronized double[][] getRotationMatrix() {
@@ -227,7 +227,7 @@ public class CameraConfiguration {
  	/**
  	 * Resets vertical/horizontal/screw angles to 0,
  	 * and resets the rotation of the graph to the state corresponding to the above angles.
- 	 * 
+ 	 *
  	 * Please note that, the state corresponding the above angles depends on the angle mode.
  	 */
 	public synchronized void cancelRotaion() {
@@ -294,12 +294,12 @@ public class CameraConfiguration {
 
 	/**
 	 * Rotates the graph around the X-axis of the camera (view) coordinate.
-	 * 
-	 * For the sign of the rotation angle, 
-	 * we define it as positive when a right-hand screw advances 
+	 *
+	 * For the sign of the rotation angle,
+	 * we define it as positive when a right-hand screw advances
 	 * towards the positive direction of the X-axis.
 	 * The unit of the angle is radian.
-	 * 
+	 *
 	 * @param angle The rotation angle.
 	 */
 	public synchronized void rotateAroundX(double angle) {
@@ -352,12 +352,12 @@ public class CameraConfiguration {
 
 	/**
 	 * Rotates the graph around the Y-axis of the camera (view) coordinate.
-	 * 
-	 * For the sign of the rotation angle, 
-	 * we define it as positive when a right-hand screw advances 
+	 *
+	 * For the sign of the rotation angle,
+	 * we define it as positive when a right-hand screw advances
 	 * towards the positive direction of the Y-axis.
 	 * The unit of the angle is radian.
-	 * 
+	 *
 	 * @param angle The rotation angle.
 	 */
 	public synchronized void rotateAroundY(double angle) {
@@ -410,12 +410,12 @@ public class CameraConfiguration {
 
 	/**
 	 * Rotates the graph around the Z-axis of the camera (view) coordinate.
-	 * 
-	 * For the sign of the rotation angle, 
-	 * we define it as positive when a right-hand screw advances 
+	 *
+	 * For the sign of the rotation angle,
+	 * we define it as positive when a right-hand screw advances
 	 * towards the positive direction of the Z-axis.
 	 * The unit of the angle is radian.
-	 * 
+	 *
 	 * @param angle The rotation angle.
 	 */
 	public synchronized void rotateAroundZ(double angle) {
@@ -468,10 +468,10 @@ public class CameraConfiguration {
 
 	/**
 	 * Sets the angle mode, for switching how specify the camera angle(s).
-	 * 
+	 *
 	 * Note that, when the angle mode is changed (by calling this method),
 	 * all camera angles are reset to 0.
-	 * 
+	 *
 	 * @param angleMode The angle mode.
 	 */
 	public synchronized void setAngleMode(AngleMode angleMode) {
@@ -482,7 +482,7 @@ public class CameraConfiguration {
 
 	/**
 	 * Gets the angle mode.
-	 * 
+	 *
 	 * @return The angle mode.
 	 */
 	public synchronized AngleMode getAngleMode() {
@@ -493,7 +493,7 @@ public class CameraConfiguration {
 	/**
 	 * Sets the vertical angle,
 	 * which is the angle between the zenith axis and the direction toward the camera.
-	 * 
+	 *
 	 * @param verticalAngle The vertical angle.
 	 */
 	public synchronized void setVerticalAngle(double verticalAngle) {
@@ -507,7 +507,7 @@ public class CameraConfiguration {
 	/**
 	 * Gets the vertical angle,
 	 * which is the angle between the zenith axis and the direction toward the camera.
-	 * 
+	 *
 	 * @return The verticcal angle.
 	 */
 	public synchronized double getVerticalAngle() {
@@ -518,7 +518,7 @@ public class CameraConfiguration {
 	/**
 	 * Sets the horizontal angle,
 	 * which is the rotation angle of the camera's location around the zenith axis.
-	 * 
+	 *
 	 * @param horizontalAngle The horizontal angle.
 	 */
 	public synchronized void setHorizontalAngle(double horizontalAngle) {
@@ -532,7 +532,7 @@ public class CameraConfiguration {
 	/**
 	 * Gets the horizontal angle,
 	 * which is the rotation angle of the camera's location around the zenith axis.
-	 * 
+	 *
 	 * @return The horizontal angle.
 	 */
 	public synchronized double getHorizontalAngle() {
@@ -543,7 +543,7 @@ public class CameraConfiguration {
 	/**
 	 * Sets the screw angle,
 	 * which is the rotation angle of the camera itself (not location) around the screen center.
-	 * 
+	 *
 	 * @param screwAngle The screw angle.
 	 */
 	public synchronized void setScrewAngle(double screwAngle) {
@@ -557,7 +557,7 @@ public class CameraConfiguration {
 	/**
 	 * Gets the screw angle,
 	 * which is the rotation angle of the camera itself (not location) around the screen center.
-	 * 
+	 *
 	 * @return The screw angle.
 	 */
 	public synchronized double getScrewAngle() {
@@ -567,7 +567,7 @@ public class CameraConfiguration {
 
 	/**
 	 * Shifts the value of the specified angle, into the range [0, 2pi].
-	 * 
+	 *
 	 * @param angle The angle to be shifted.
 	 * @return The shifted angle.
 	 */
@@ -611,7 +611,7 @@ public class CameraConfiguration {
 				this.verticalAngle = PI;
 				this.screwAngle = 0.0;
 				this.horizontalAngle = atan2(graphZAxis[Y], graphZAxis[X]) - 1.5 * Math.PI; // Don't use Y axis here. Otherwise it does not work under the situation that vertical angle = pi.
-				this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle); 
+				this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle);
 			}
 			return;
 		}
@@ -683,7 +683,7 @@ public class CameraConfiguration {
 				this.screwAngle = 0.0;
 				// Don't use Z axis here. Otherwise it does not work under the situation that vertical angle = pi.
 				this.horizontalAngle = atan2(graphXAxis[Y], graphXAxis[X]) - 1.5 * Math.PI;
-				this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle); 
+				this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle);
 			}
 			return;
 		}
@@ -754,7 +754,7 @@ public class CameraConfiguration {
 				this.screwAngle = 0.0;
 				this.horizontalAngle = atan2(graphYAxis[Y], graphYAxis[X]) - 1.5 * Math.PI; // Don't use X axis here. Otherwise it does not work under the situation that vertical angle = pi.
 				this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle);
-				
+
 			}
 			return;
 		}

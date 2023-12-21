@@ -35,7 +35,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 
 	/**
 	 * Create an instance for generating data using the specified script engine, under the specified configuration.
-	 * 
+	 *
 	 * @param zExpressionThe math expression of "z(x,y)".
 	 * @param xDiscretizationCount The number of discretized X-coordinates.
 	 * @param yDiscretizationCount The number of discretized Y-coordinates.
@@ -66,9 +66,9 @@ public class ZxyMathDataSeries extends MathDataSeries {
 
 	/**
 	 * Computes coordinate values from the math expression of this data series.
-	 * 
+	 *
 	 * The computed coordinate values will be stored into the fields: xCoordinates, yCoordinates and zCoordinates.
-	 * 
+	 *
 	 * @throws VnanoException Thrown when any (typically syntactic) error has been detected for calculating the math expression.
 	 */
 	@Override

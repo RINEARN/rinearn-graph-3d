@@ -34,7 +34,7 @@ public class LabelSettingHandler {
 
 	/**
 	 * Create a new instance handling events and API requests using the specified resources.
-	 * 
+	 *
 	 * @param model The front-end class of "Model" layer, which provides internal logic procedures and so on.
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
@@ -52,7 +52,7 @@ public class LabelSettingHandler {
 
 	/**
 	 * Turns on/off the event handling feature of this instance.
-	 * 
+	 *
 	 * @param enabled Specify false for turning off the event handling feature (enabled by default).
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
@@ -62,7 +62,7 @@ public class LabelSettingHandler {
 
 	/**
 	 * Gets whether the event handling feature of this instance is enabled.
-	 * 
+	 *
 	 * @return Returns true if the event handling feature is enabled.
 	 */
 	public synchronized boolean isEventHandlingEnabled() {
@@ -74,7 +74,7 @@ public class LabelSettingHandler {
 
 
 	// ================================================================================
-	// 
+	//
 	// - Event Listeners -
 	//
 	// ================================================================================
@@ -115,7 +115,7 @@ public class LabelSettingHandler {
 
 
 	// ================================================================================
-	// 
+	//
 	// - API Listeners -
 	//
 	// ================================================================================
@@ -124,7 +124,7 @@ public class LabelSettingHandler {
 	/**
 	 * Set the displayed text of X axis label.
 	 * (API Implementation)
-	 * 
+	 *
 	 * @param xLabel The text of X axis label.
 	 */
 	public void setXLabel(String xLabel) {
@@ -154,7 +154,7 @@ public class LabelSettingHandler {
 
 		/**
 		 * Create an instance handling setXLabel(-) API with the specified argument.
-		 * 
+		 *
 		 * @param xLabel The text of X axis label.
 		 */
 		public SetXLabelAPIListener(String xLabel) {
@@ -175,7 +175,7 @@ public class LabelSettingHandler {
 	/**
 	 * Set the displayed text of Y axis label.
 	 * (API Implementation)
-	 * 
+	 *
 	 * @param yLabel The text of Y axis label.
 	 */
 	public void setYLabel(String yLabel) {
@@ -205,7 +205,7 @@ public class LabelSettingHandler {
 
 		/**
 		 * Create an instance handling setYLabel(-) API with the specified argument.
-		 * 
+		 *
 		 * @param yLabel The text of Y axis label.
 		 */
 		public SetYLabelAPIListener(String yLabel) {
@@ -225,7 +225,7 @@ public class LabelSettingHandler {
 
 	/**
 	 * Set the displayed text of Z axis label.
-	 * 
+	 *
 	 * @param zLabel The text of Z axis label.
 	 */
 	public void setZLabel(String zLabel) {
@@ -255,7 +255,7 @@ public class LabelSettingHandler {
 
 		/**
 		 * Create an instance handling setZLabel(-) API with the specified argument.
-		 * 
+		 *
 		 * @param zLabel The text of Z axis label.
 		 */
 		public SetZLabelAPIListener(String zLabel) {

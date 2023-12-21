@@ -10,10 +10,10 @@ package com.rinearn.graph3d;
  * </span>
  * .
  * <div class="lang-ja">
- * この列挙型は、主にデータファイルを開く 
+ * この列挙型は、主にデータファイルを開く
  * {@link com.rinearn.graph3d.RinearnGraph3D#setOptionSelected RinearnGraph3D.setOptionSelected} メソッドの引数として使用します。
  * </div>
- * 
+ *
  * <div class="lang-en">
  * This enum is mainly used as an argument of {@link com.rinearn.graph3d.RinearnGraph3D#setOptionSelected RinearnGraph3D.setOptionSelected} method.
  * </div>
@@ -25,35 +25,35 @@ public enum RinearnGraph3DOptionItem {
 	 * <span class="lang-en">Represents "With Lines" option</span>
 	 * .
 	 */
-	LINE, 
+	LINE,
 
 	/**
 	 * <span class="lang-ja">「点プロット（With Points）」オプションです</span>
 	 * <span class="lang-en">Represents "With Points" option</span>
 	 * .
 	 */
-	POINT, 
+	POINT,
 
 	/**
 	 * <span class="lang-ja">「ドットプロット（With Dots）」オプションです</span>
 	 * <span class="lang-en">Represents "With Dots" option</span>
 	 * .
 	 */
-	DOT, 
+	DOT,
 
 	/**
 	 * <span class="lang-ja">「メッシュプロット（With Meshes）」オプションです</span>
 	 * <span class="lang-en">Represents "With Meshes" option</span>
 	 * .
 	 */
-	MESH, 
+	MESH,
 
 	/**
 	 * <span class="lang-ja">「曲面プロット（With Meshes）」オプションです</span>
 	 * <span class="lang-en">Represents "With Membranes" option</span>
 	 * .
 	 */
-	MEMBRANE, 
+	MEMBRANE,
 
 	/**
 	 * <span class="lang-ja">「等高線プロット（With Contours）」オプションです</span>

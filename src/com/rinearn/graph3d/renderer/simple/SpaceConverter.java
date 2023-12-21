@@ -69,7 +69,7 @@ public final class SpaceConverter {
 
 	/**
 	 * Sets the range of this axis.
-	 * 
+	 *
 	 * @param min The minimum value of the range of this axis.
 	 * @param max The maximum value of the range of this axis.
 	 */
@@ -91,13 +91,13 @@ public final class SpaceConverter {
 
 	/**
 	 * Determines whether the specified coordinate value is in the range of this axis.
-	 * 
+	 *
 	 * If true is specified to considersMargins,
-	 * this method regards a double-type coordinate value is in the range, 
-	 * if it is greater than or equals to rangeMinDoubleValue - rangeMinDoubleMargin, 
+	 * this method regards a double-type coordinate value is in the range,
+	 * if it is greater than or equals to rangeMinDoubleValue - rangeMinDoubleMargin,
 	 * and is less than or equals to rangneMaxDoubleValue + rangeMaxDoubleMargin.
 	 * This is the behavior to address tiny errors contained in double-type values.
-	 * 
+	 *
 	 * @param coordinate The coordinate value to be determined.
 	 * @param considersMargins Specify true if you enable margins to address tiny errors of coordinate values.
 	 * @return Returns true if the specified coordinate value is in the range.
@@ -118,16 +118,16 @@ public final class SpaceConverter {
 
 	/**
 	 * Scales the specified coordinate values, into the coordinate values in the "scaled space".
-	 * 
+	 *
 	 * In the scaled space,
 	 * the maximum value of the range of the axis is mapped to 1.0,
 	 * and the minimum value is mapped to -1.0.
-	 * 
+	 *
 	 * @param rawCoordinateValue The coordinate value to be scaled.
 	 * @return The scaled coordinate value.
 	 */
 	public synchronized double toScaledSpaceCoordinate(double rawCoordinate) {
-		
+
 		// Firstly, scale into the range [0.0, 1.0].
 		double axisLength = this.rangeMaxDoubleValue - this.rangeMinDoubleValue;
 		double scaledInto01 = (rawCoordinate - this.rangeMinDoubleValue) / axisLength;
@@ -140,11 +140,11 @@ public final class SpaceConverter {
 
 	/**
 	 * Scales the specified coordinate values, into the coordinate values in the "scaled space".
-	 * 
+	 *
 	 * In the scaled space,
 	 * the maximum value of the range of the axis is mapped to 1.0,
 	 * and the minimum value is mapped to -1.0.
-	 * 
+	 *
 	 * @param rawCoordinate The coordinate value to be scaled.
 	 * @return The scaled coordinate value.
 	 */
@@ -155,11 +155,11 @@ public final class SpaceConverter {
 
 	/**
 	 * Scales the specified coordinate values, into the coordinate values in the "scaled space".
-	 * 
+	 *
 	 * In the scaled space,
 	 * the maximum value of the range of the axis is mapped to 1.0,
 	 * and the minimum value is mapped to -1.0.
-	 * 
+	 *
 	 * @param rawCoordinate The coordinate value to be scaled.
 	 * @param precision The precision of the result.
 	 * @return The scaled coordinate value.

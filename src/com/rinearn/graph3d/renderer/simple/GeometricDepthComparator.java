@@ -11,7 +11,7 @@ public final class GeometricDepthComparator implements Comparator<GeometricPiece
 	/**
 	 * Returns 1 if piece1's depth is smaller than piece2's depth, or -1 if greater.
 	 * Also, if both depths are completely the same, or either one is NaN, returns 0.
-	 * 
+	 *
 	 * Note that, this comparator compares the square of the depths,
 	 * on the premise that depths don't take negative values.
 	 */

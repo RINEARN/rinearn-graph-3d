@@ -27,7 +27,7 @@ public abstract class AbstractDataSeries {
 
 	/**
 	 * Gets the X-coordinate values of the points of this data series.
-	 * 
+	 *
 	 * @return The X-coordinate values.
 	 */
 	public abstract double[][] getXCoordinates();
@@ -35,7 +35,7 @@ public abstract class AbstractDataSeries {
 
 	/**
 	 * Gets the Y-coordinate values of the points of this data series.
-	 * 
+	 *
 	 * @return The Y-coordinate values.
 	 */
 	public abstract double[][] getYCoordinates();
@@ -43,7 +43,7 @@ public abstract class AbstractDataSeries {
 
 	/**
 	 * Gets the Z-coordinate values of the points of this data series.
-	 * 
+	 *
 	 * @return The Z-coordinate values.
 	 */
 	public abstract double[][] getZCoordinates();

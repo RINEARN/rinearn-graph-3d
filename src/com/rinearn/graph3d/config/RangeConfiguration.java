@@ -29,7 +29,7 @@ public final class RangeConfiguration {
 
 	/**
 	 * Sets the configuration of the range of X axis.
-	 * 
+	 *
 	 * @param xRangeConfiguration The configuration of the range of X axis.
 	 */
 	public synchronized void setXRangeConfiguration(AxisRangeConfiguration xRangeConfiguration) {
@@ -38,7 +38,7 @@ public final class RangeConfiguration {
 
 	/**
 	 * Gets the configuration of the range of X axis.
-	 * 
+	 *
 	 * @return The configuration of the range of X axis.
 	 */
 	public synchronized AxisRangeConfiguration getXRangeConfiguration() {
@@ -47,7 +47,7 @@ public final class RangeConfiguration {
 
 	/**
 	 * Sets the configuration of the range of Y axis.
-	 * 
+	 *
 	 * @param yRangeConfiguration The configuration of the range of Y axis.
 	 */
 	public synchronized void setYRangeConfiguration(AxisRangeConfiguration yRangeConfiguration) {
@@ -56,7 +56,7 @@ public final class RangeConfiguration {
 
 	/**
 	 * Gets the configuration of the range of Y axis.
-	 * 
+	 *
 	 * @return The configuration of the range of Y axis.
 	 */
 	public synchronized AxisRangeConfiguration getYRangeConfiguration() {
@@ -65,7 +65,7 @@ public final class RangeConfiguration {
 
 	/**
 	 * Sets the configuration of the range of Z axis.
-	 * 
+	 *
 	 * @param zRangeConfiguration The configuration of the range of Z axis.
 	 */
 	public synchronized void setZRangeConfiguration(AxisRangeConfiguration zRangeConfiguration) {
@@ -74,7 +74,7 @@ public final class RangeConfiguration {
 
 	/**
 	 * Gets the configuration of the range of Z axis.
-	 * 
+	 *
 	 * @return The configuration of the range of Z axis.
 	 */
 	public synchronized AxisRangeConfiguration getZRangeConfiguration() {
@@ -83,7 +83,7 @@ public final class RangeConfiguration {
 
 	/**
 	 * Gets the total number of the extra dimensions.
-	 * 
+	 *
 	 * @return The total number of the extra dimensions.
 	 */
 	public synchronized int getExtraDimensionCount() {
@@ -92,7 +92,7 @@ public final class RangeConfiguration {
 
 	/**
 	 * Sets the configurations of the ranges of the extra dimensions.
-	 * 
+	 *
 	 * @param extraDimensionRangeConfigurations The configurations of the extra dimensions.
 	 */
 	public synchronized void setExtraDimensionRangeConfigurations(
@@ -102,7 +102,7 @@ public final class RangeConfiguration {
 
 	/**
 	 * Gets the configurations of the ranges of the extra dimensions.
-	 * 
+	 *
 	 * @return The configurations of the extra dimensions.
 	 */
 	public synchronized AxisRangeConfiguration[] getExtraDimensionRangeConfigurations() {
@@ -111,11 +111,11 @@ public final class RangeConfiguration {
 
 	/**
 	 * Validates correctness and consistency of configuration parameters stored in this instance.
-	 * 
+	 *
 	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
-	 * 
+	 *
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws IllegalStateException {
@@ -131,7 +131,7 @@ public final class RangeConfiguration {
 		}
 		for (AxisRangeConfiguration extraDimConfig: this.extraDimensionRangeConfigurations) {
 			if (extraDimConfig == null) {
-				throw new IllegalStateException("There is a null element in the extra dimension's range configurations.");			
+				throw new IllegalStateException("There is a null element in the extra dimension's range configurations.");
 			}
 			extraDimConfig.validate();
 		}
@@ -153,7 +153,7 @@ public final class RangeConfiguration {
 
 		/**
 		 * Sets the minimum value of this range.
-		 * 
+		 *
 		 * @param min The minimum value of this range.
 		 */
 		public synchronized void setMinimum(BigDecimal min) {
@@ -162,7 +162,7 @@ public final class RangeConfiguration {
 
 		/**
 		 * Gets the minimum value of this range.
-		 * 
+		 *
 		 * @return The minimum value of this range.
 		 */
 		public synchronized BigDecimal getMinimum() {
@@ -171,7 +171,7 @@ public final class RangeConfiguration {
 
 		/**
 		 * Sets the maximum value of this range.
-		 * 
+		 *
 		 * @param max The maximum value of this range.
 		 */
 		public synchronized void setMaximum(BigDecimal max) {
@@ -180,7 +180,7 @@ public final class RangeConfiguration {
 
 		/**
 		 * Gets the maximum value of this range.
-		 * 
+		 *
 		 * @return The maximum value of this range.
 		 */
 		public synchronized BigDecimal getMaximum() {
@@ -189,10 +189,10 @@ public final class RangeConfiguration {
 
 		/**
 		 * Turns on/off the auto-ranging feature.
-		 * 
-		 * When this feature is enabled, the range are set automatically 
+		 *
+		 * When this feature is enabled, the range are set automatically
 		 * from the minimum and the maximum coordinate values in the data, when plot it.
-		 * 
+		 *
 		 * @param enabled Specify true/false for turning on/off the auto-ranging feature (the default is on).
 		 */
 		public synchronized void setAutoRangingEnabled(boolean enabled) {
@@ -201,7 +201,7 @@ public final class RangeConfiguration {
 
 		/**
 		 * Gets whether the auto-ranging feature is enabled.
-		 * 
+		 *
 		 * @return Returns true if the auto-ranging feature is enabled.
 		 */
 		public synchronized boolean isAutoRangingEnabled() {
@@ -210,11 +210,11 @@ public final class RangeConfiguration {
 
 		/**
 		 * Validates correctness and consistency of configuration parameters stored in this instance.
-		 * 
+		 *
 		 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
 		 * If no issue is detected, nothing occurs.
 		 * If any issue is detected, throws IllegalStateException.
-		 * 
+		 *
 		 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 		 */
 		public synchronized void validate() throws IllegalStateException {

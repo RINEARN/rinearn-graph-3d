@@ -58,7 +58,7 @@ public class LabelDrawer {
 
 	/**
 	 * Creates a new instance for drawing graph frames under the specified configurations.
-	 * 
+	 *
 	 * @param vertcalAlignThreshold The vertical distance [px] from the reference point, at which the alignment of tick labels change.
 	 * @param horizontalAlignThreshold The horizontal distance [px] from the reference point, at which the alignment of tick labels change.
 	 */
@@ -70,7 +70,7 @@ public class LabelDrawer {
 
 	/**
 	 * Sets the configuration.
-	 * 
+	 *
 	 * @param config The configuration.
 	 */
 	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
@@ -78,10 +78,10 @@ public class LabelDrawer {
 			throw new IllegalArgumentException("No scale configuration is stored in the specified configuration.");
 		}
 		if (!configuration.hasLabelConfiguration()) {
-			throw new IllegalArgumentException("No label configuration is stored in the specified configuration.");			
+			throw new IllegalArgumentException("No label configuration is stored in the specified configuration.");
 		}
 		if (!configuration.hasColorConfiguration()) {
-			throw new IllegalArgumentException("No label configuration is stored in the specified configuration.");			
+			throw new IllegalArgumentException("No label configuration is stored in the specified configuration.");
 		}
 		this.config = configuration;
 	}
@@ -89,7 +89,7 @@ public class LabelDrawer {
 
 	/**
 	 * Sets the labels of the ticks on X, Y, and Z axes.
-	 * 
+	 *
 	 * @param xTickLabels The labels of the ticks on X axis.
 	 * @param yTickLabels The labels of the ticks on Y axis.
 	 * @param zTickLabels The labels of the ticks on Z axis.
@@ -105,7 +105,7 @@ public class LabelDrawer {
 
 	/**
 	 * Sets the threshold distances at which the alignment of labels change.
-	 * 
+	 *
 	 * @param verticalAlignThreshold The threshold of the vertical distance [px] from the reference point.
 	 * @param horizontalAlignThreshold The threshold of the horizontal distance [px] from the reference point.
 	 */
@@ -117,7 +117,7 @@ public class LabelDrawer {
 
 	/**
 	 * Draws axis labels on all axes.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param tickLabelFontMetrics The metrics of the font used for drawing tick labels.
 	 */
@@ -153,7 +153,7 @@ public class LabelDrawer {
 
 	/**
 	 * Gets the maximum rendering width of tick labels.
-	 * 
+	 *
 	 * @param tickLabels The tick label.
 	 * @param tickLabelFontMetrics The metrics of the font for rendering the tick labels.
 	 * @return The maximum rendering width of tick labels.
@@ -170,7 +170,7 @@ public class LabelDrawer {
 
 	/**
 	 * On all (four) X axis's scale, draws tick labels having the specified value.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param tickLabelFontMetrics The metrics of the font used for drawing tick labels.
 	 */
@@ -285,7 +285,7 @@ public class LabelDrawer {
 
 	/**
 	 * On all (four) Y axis's scale, draws tick labels having the specified value.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param tickLabelFontMetrics The metrics of the font used for drawing tick labels.
 	 */
@@ -398,7 +398,7 @@ public class LabelDrawer {
 
 	/**
 	 * On all (four) Z axis's scale, draws tick labels having the specified value.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param tickLabelFontMetrics The metrics of the font used for drawing tick labels.
 	 */
@@ -432,7 +432,7 @@ public class LabelDrawer {
 			);
 			piece.setAlignmentOffsets(vOffset, hOffset);
 			geometricPieceList.add(piece);
-			
+
 			piece = new DirectionalTextGeometricPiece(
 					1.0 + tickLabelMargin, 1.0 + tickLabelMargin, 0.0,
 					1.0, 1.0, 0.0,

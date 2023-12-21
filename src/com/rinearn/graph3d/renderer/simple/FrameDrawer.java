@@ -47,7 +47,7 @@ public final class FrameDrawer {
 
 	/**
 	 * Sets the configuration.
-	 * 
+	 *
 	 * @param config The configuration.
 	 */
 	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
@@ -55,10 +55,10 @@ public final class FrameDrawer {
 			throw new IllegalArgumentException("The frame configuration is stored in the specified configuration.");
 		}
 		if (!configuration.hasRangeConfiguration()) {
-			throw new IllegalArgumentException("The range configuration is stored in the specified configuration.");			
+			throw new IllegalArgumentException("The range configuration is stored in the specified configuration.");
 		}
 		if (!configuration.hasColorConfiguration()) {
-			throw new IllegalArgumentException("No color configuration is stored in the specified configuration.");			
+			throw new IllegalArgumentException("No color configuration is stored in the specified configuration.");
 		}
 		this.config = configuration;
 	}
@@ -66,7 +66,7 @@ public final class FrameDrawer {
 
 	/**
 	 * Sets the coordinates of the ticks on X, Y, and Z axes.
-	 * 
+	 *
 	 * @param xTickCoordinates The coordinates of the ticks on X axis.
 	 * @param yTickCoordinates The coordinates of the ticks on Y axis.
 	 * @param zTickCoordinates The coordinates of the ticks on Z axis.
@@ -82,7 +82,7 @@ public final class FrameDrawer {
 
 	/**
 	 * Draws the graph frame.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 */
 	public synchronized void drawFrame(List<GeometricPiece> geometricPieceList) {
@@ -106,7 +106,7 @@ public final class FrameDrawer {
 
 	/**
 	 * Draws the graph frame in BOX mode.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 */
 	private void drawBoxModeFrame(List<GeometricPiece> geometricPieceList) {
@@ -170,7 +170,7 @@ public final class FrameDrawer {
 
 	/**
 	 * Draws the grid lines on the backwalls of the graph.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param axes The array storing X axis at [0], Y axis at [1], and Z axis at [2].
 	 * @param xTickCoordinates The coordinates of the ticks on X axis.
@@ -193,7 +193,7 @@ public final class FrameDrawer {
 		// Draw ticks on X axis.
 		for (BigDecimal tickCoord: this.xTickCoordinates) {
 			double scaledCoord = xSpaceConverter.toScaledSpaceCoordinate(tickCoord.doubleValue());
-			this.drawXGridLines(geometricPieceList, scaledCoord);					
+			this.drawXGridLines(geometricPieceList, scaledCoord);
 		}
 
 		// Draw ticks on Y axis.
@@ -205,14 +205,14 @@ public final class FrameDrawer {
 		// Draw ticks on Z axis.
 		for (BigDecimal tickCoord: this.zTickCoordinates) {
 			double scaledCoord = zSpaceConverter.toScaledSpaceCoordinate(tickCoord.doubleValue());
-			this.drawZGridLines(geometricPieceList, scaledCoord);					
+			this.drawZGridLines(geometricPieceList, scaledCoord);
 		}
 	}
 
 
 	/**
 	 * Draw grid lines connecting specified ticks on four X axes.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param xCoord The scaled coordinate value of the tick to be connected by the grid line.
 	 */
@@ -255,7 +255,7 @@ public final class FrameDrawer {
 
 	/**
 	 * Draw grid lines connecting specified ticks on four Y axes.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param xCoord The scaled coordinate value of the tick to be connected by the grid line.
 	 */
@@ -298,7 +298,7 @@ public final class FrameDrawer {
 
 	/**
 	 * Draw grid lines connecting specified ticks on four Z axes.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param xCoord The scaled coordinate value of the tick to be connected by the grid line.
 	 */
@@ -341,7 +341,7 @@ public final class FrameDrawer {
 
 	/**
 	 * Draws a straight line consisting of multiple geometric pieces.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param aCoords The coordinate values of the edge point A, in the scaled space.
 	 * @param bCoords The coordinate values of the edge point B, in the scaled space.
@@ -357,7 +357,7 @@ public final class FrameDrawer {
 
 	/**
 	 * Draws a straight line visible only from the specific direction, consisting of multiple geometric pieces.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param aCoords The coordinate values of the edge point A, in the scaled space.
 	 * @param bCoords The coordinate values of the edge point B, in the scaled space.
@@ -368,7 +368,7 @@ public final class FrameDrawer {
 	private void drawMultiPieceDirectionalLine(List<GeometricPiece> geometricPieceList,
 			double[] aCoords, double[] bCoords, double[] visibleDirectionVector, int pieceCount, Color color) {
 
-		// Allocate an array for storing coordinates of nodes, 
+		// Allocate an array for storing coordinates of nodes,
 		// which are equally N-divided points between the points A and B, where N is the number of the pieces.
 		int nodeCount = pieceCount + 1;
 		double[][] nodeCoords = new double[nodeCount][3]; // 3 is X/Y/Z

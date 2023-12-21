@@ -1,13 +1,11 @@
 package com.rinearn.graph3d.config;
 
-import com.rinearn.graph3d.config.RangeConfiguration.AxisRangeConfiguration;
-
 // !!! NOTE !!!
 //
 // なんかこれ書いてて、あちこちの set...Labels 的なやつ（setTickLabelsとか）の命名を
 // set...LabelTexts とかに直したほうがいいような気がしてきたけど、
 // 一方で直さない方が良い気もする。
-// 
+//
 // ・直した方がいいと思う理由は、Label そのものには margin とかの要素もイメージ上の階層構造内に含んでて、
 // 　なので実際 set...LabelMargin とかが存在するので、
 // 　ラベルの表示文字列を設定するのは Text を付けないと曖昧な気がしてきたため。
@@ -17,7 +15,7 @@ import com.rinearn.graph3d.config.RangeConfiguration.AxisRangeConfiguration;
 //
 // ・そのままでいいと思う理由は、例えば普通に「 setXLabel 」とか見るとラベル文字列をセットする事は十分に明快で、
 // 　RinearnGraph3D のAPI上でも既にそうなってるし、たぶんそれで曖昧さを感じて混乱する事は実際には無さそうなので。
-// 
+//
 // 　とすると Config 類のラベル的なもののあちこちに Text が付くのは、イメージ上の階層構造では綺麗になるが、
 // 　そのために実用上は（微妙に面倒くさいという）不利益を生み出すだけになるのって方針としてどうなの？という。
 //
@@ -53,7 +51,7 @@ public final class LabelConfiguration {
 
 	/**
 	 * Set the configuration of X axis label.
-	 * 
+	 *
 	 * @param xLabelConfiguration The configuration of X axis label.
 	 */
 	public synchronized void setXLabelConfiguration(AxisLabelConfiguration xLabelConfiguration) {
@@ -62,7 +60,7 @@ public final class LabelConfiguration {
 
 	/**
 	 * Get the configuration of X axis label.
-	 * 
+	 *
 	 * @return The configuration of X axis label.
 	 */
 	public synchronized AxisLabelConfiguration getXLabelConfiguration() {
@@ -72,7 +70,7 @@ public final class LabelConfiguration {
 
 	/**
 	 * Set the configuration of Y axis label.
-	 * 
+	 *
 	 * @param yLabelConfiguration The configuration of Y axis label.
 	 */
 	public synchronized void setYLabelConfiguration(AxisLabelConfiguration yLabelConfiguration) {
@@ -81,7 +79,7 @@ public final class LabelConfiguration {
 
 	/**
 	 * Get the configuration of Y axis label.
-	 * 
+	 *
 	 * @return The configuration of Y axis label.
 	 */
 	public synchronized AxisLabelConfiguration getYLabelConfiguration() {
@@ -91,7 +89,7 @@ public final class LabelConfiguration {
 
 	/**
 	 * Set the configuration of Z axis label.
-	 * 
+	 *
 	 * @param zLabelConfiguration The configuration of Z axis label.
 	 */
 	public synchronized void setZLabelConfiguration(AxisLabelConfiguration zLabelConfiguration) {
@@ -100,7 +98,7 @@ public final class LabelConfiguration {
 
 	/**
 	 * Get the configuration of Z axis label.
-	 * 
+	 *
 	 * @return The configuration of Z axis label.
 	 */
 	public synchronized AxisLabelConfiguration getZLabelConfiguration() {
@@ -109,11 +107,11 @@ public final class LabelConfiguration {
 
 	/**
 	 * Validates correctness and consistency of configuration parameters stored in this instance.
-	 * 
+	 *
 	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
-	 * 
+	 *
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws IllegalStateException {
@@ -137,7 +135,7 @@ public final class LabelConfiguration {
 
 		/**
 		 * Sets the displayed text of this label.
-		 * 
+		 *
 		 * @param text The displayed text of this label.
 		 */
 		public synchronized void setText(String text) { // NOTEのText付ける案が却下になったらこいつは setLabel にする？ setValue はなんか曖昧すぎる
@@ -146,7 +144,7 @@ public final class LabelConfiguration {
 
 		/**
 		 * Gets the displayed text of this label.
-		 * 
+		 *
 		 * @return The displayed text of this label.
 		 */
 		public synchronized String getText() { // 上と同様、getLabel にする？ 要検討
@@ -155,11 +153,11 @@ public final class LabelConfiguration {
 
 		/**
 		 * Validates correctness and consistency of configuration parameters stored in this instance.
-		 * 
+		 *
 		 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
 		 * If no issue is detected, nothing occurs.
 		 * If any issue is detected, throws IllegalStateException.
-		 * 
+		 *
 		 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 		 */
 		public synchronized void validate() throws IllegalStateException {

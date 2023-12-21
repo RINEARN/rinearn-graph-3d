@@ -36,7 +36,7 @@ public class FontSettingHandler {
 
 	/**
 	 * Create a new instance handling events and API requests using the specified resources.
-	 * 
+	 *
 	 * @param model The front-end class of "Model" layer, which provides internal logic procedures and so on.
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
@@ -54,7 +54,7 @@ public class FontSettingHandler {
 
 	/**
 	 * Turns on/off the event handling feature of this instance.
-	 * 
+	 *
 	 * @param enabled Specify false for turning off the event handling feature (enabled by default).
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
@@ -64,7 +64,7 @@ public class FontSettingHandler {
 
 	/**
 	 * Gets whether the event handling feature of this instance is enabled.
-	 * 
+	 *
 	 * @return Returns true if the event handling feature is enabled.
 	 */
 	public synchronized boolean isEventHandlingEnabled() {
@@ -76,7 +76,7 @@ public class FontSettingHandler {
 
 
 	// ================================================================================
-	// 
+	//
 	// - Event Listeners -
 	//
 	// ================================================================================
@@ -123,12 +123,12 @@ public class FontSettingHandler {
 							"UIフォントのサイズが許容範囲外です。\n1 から 20 までの範囲の値を入力してください。" :
 							"The size of UI font is out of acceptable range.\nPlease input a number from 1 to 20.";
 					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;					
+					return;
 				}
 
 				// Get the on/off state of "Bold" check box.
 				//boolean isBold = window.uiFontBoldBox.isSelected();
-	
+
 				// Create a Font instance from the above, and store it into the font configuration container.
 				//Font uiFont = new Font(uiFontName, (isBold ? Font.BOLD : Font.PLAIN), fontSize);
 				Font uiBoldFont = new Font(uiFontName, Font.BOLD, fontSize);
@@ -161,13 +161,13 @@ public class FontSettingHandler {
 							"軸ラベルフォントのサイズが許容範囲外です。\n1 から 500 までの範囲の値を入力してください。" :
 							"The size of axis label font is out of acceptable range.\nPlease input a number from 1 to 500.";
 					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;					
+					return;
 				}
 
 
 				// Get the on/off state of "Bold" check box.
 				boolean isBold = window.axisLabelFontBoldBox.isSelected();
-	
+
 				// Create a Font instance from the above, and store it into the font configuration container.
 				Font axisLabelFont = new Font(axisLabelFontName, (isBold ? Font.BOLD : Font.PLAIN), fontSize);
 				fontConfig.setAxisLabelFont(axisLabelFont);
@@ -197,12 +197,12 @@ public class FontSettingHandler {
 							"目盛り数字フォントのサイズが許容範囲外です。\n1 から 500 までの範囲の値を入力してください。" :
 							"The size of scale tick font is out of acceptable range.\nPlease input a number from 1 to 500.";
 					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;					
+					return;
 				}
 
 				// Get the on/off state of "Bold" check box.
 				boolean isBold = window.tickLabelFontBoldBox.isSelected();
-	
+
 				// Create a Font instance from the above, and store it into the font configuration container.
 				Font tickLabelFont = new Font(tickLabelFontName, (isBold ? Font.BOLD : Font.PLAIN), fontSize);
 				fontConfig.setTickLabelFont(tickLabelFont);

@@ -62,7 +62,7 @@ public final class ScaleTickDrawer {
 
 	/**
 	 * Create an instance for drawing scale ticks under the specified settings.
-	 * 
+	 *
 	 * @param vertcalAlignThreshold The vertical distance [px] from the reference point, at which the alignment of tick labels change.
 	 * @param horizontalAlignThreshold The horizontal distance [px] from the reference point, at which the alignment of tick labels change.
 	 */
@@ -78,7 +78,7 @@ public final class ScaleTickDrawer {
 
 	/**
 	 * Sets the configuration.
-	 * 
+	 *
 	 * @param config The configuration.
 	 */
 	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
@@ -88,17 +88,17 @@ public final class ScaleTickDrawer {
 			throw new IllegalArgumentException("No scale configuration is stored in the specified configuration.");
 		}
 		if (!configuration.hasRangeConfiguration()) {
-			throw new IllegalArgumentException("No range configuration is stored in the specified configuration.");			
+			throw new IllegalArgumentException("No range configuration is stored in the specified configuration.");
 		}
 		if (!configuration.hasColorConfiguration()) {
-			throw new IllegalArgumentException("No color configuration is stored in the specified configuration.");			
+			throw new IllegalArgumentException("No color configuration is stored in the specified configuration.");
 		}
 	}
 
 
 	/**
 	 * Sets the coordinates of the ticks on X, Y, and Z axes.
-	 * 
+	 *
 	 * @param xTickCoordinates The coordinates of the ticks on X axis.
 	 * @param yTickCoordinates The coordinates of the ticks on Y axis.
 	 * @param zTickCoordinates The coordinates of the ticks on Z axis.
@@ -114,7 +114,7 @@ public final class ScaleTickDrawer {
 
 	/**
 	 * Sets the labels of the ticks on X, Y, and Z axes.
-	 * 
+	 *
 	 * @param xTickLabels The labels of the ticks on X axis.
 	 * @param yTickLabels The labels of the ticks on Y axis.
 	 * @param zTickLabels The labels of the ticks on Z axis.
@@ -130,7 +130,7 @@ public final class ScaleTickDrawer {
 
 	/**
 	 * Sets the threshold distances at which the alignment of tick labels change.
-	 * 
+	 *
 	 * @param verticalAlignThreshold The threshold of the vertical distance [px] from the reference point.
 	 * @param horizontalAlignThreshold The threshold of the horizontal distance [px] from the reference point.
 	 */
@@ -142,7 +142,7 @@ public final class ScaleTickDrawer {
 
 	/**
 	 * Draws tick lines and tick labels on all axes.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param axes The array storing X axis at [0], Y axis at [1], and Z axis at [2].
 	 */
@@ -187,7 +187,7 @@ public final class ScaleTickDrawer {
 
 	/**
 	 * On all (four) X axis's scale, draws tick labels having the specified value.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param scaledCoord The X coordinate value (position) of the tick labels.
 	 * @param tickLabel The label (displayed value) of the tick labels.
@@ -263,7 +263,7 @@ public final class ScaleTickDrawer {
 
 	/**
 	 * On all (four) X axis's scale, draws tick lines having the specified value.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param scaledCoord The X coordinate value (position) of the tick lines.
 	 */
@@ -333,7 +333,7 @@ public final class ScaleTickDrawer {
 
 	/**
 	 * On all (four) Y axis's scale, draws tick labels having the specified value.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param scaledCoord The Y coordinate value (position) of the tick labels.
 	 * @param tickLabel The label (displayed value) of the tick labels.
@@ -409,7 +409,7 @@ public final class ScaleTickDrawer {
 
 	/**
 	 * On all (four) X axis's scale, draws tick lines having the specified value.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param scaledCoord The Y coordinate value (position) of the tick lines.
 	 */
@@ -479,7 +479,7 @@ public final class ScaleTickDrawer {
 
 	/**
 	 * On all (four) Z axis's scale, draws tick labels having the specified value.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param scaledCoord The Z coordinate value (position) of the tick labels.
 	 * @param tickLabel The label (displayed value) of the tick labels.
@@ -555,7 +555,7 @@ public final class ScaleTickDrawer {
 
 	/**
 	 * On all (four) X axis's scale, draws tick lines having the specified value.
-	 * 
+	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 * @param scaledCoord The Z coordinate value (position) of the tick lines.
 	 */

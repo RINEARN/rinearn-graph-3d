@@ -51,7 +51,7 @@ import java.math.BigDecimal;
 // !!! NOTE !!!
 
 /**
- * The class providing a simple implementation of 
+ * The class providing a simple implementation of
  * the rendering engine (renderer) of RINEARN Graph 3D.
  */
 public final class SimpleRenderer implements RinearnGraph3DRenderer {
@@ -138,11 +138,11 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/**
 	 * Configures the state of this renderer, by parameters stored in the specified configuration container.
-	 * 
+	 *
 	 * Note that, the changes of the configuration (contains ranges of X/Y/Z axes)
 	 * does not affect to the currently drawn contents (points, lines, quadrangles, and so on).
 	 * To reflect the changes, please clear() and re-draw all contents again.
-	 * 
+	 *
 	 * @param configuration The container storing configuration parameters.
 	 * @throws IllegalArgumentException
 	 *     Thrown when incorrect or inconsistent settings are detected in the specified configuration.
@@ -378,7 +378,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public synchronized void drawPoint(double x, double y, double z, 
+	public synchronized void drawPoint(double x, double y, double z,
 			double radius) {
 
 		RinearnGraph3DDrawingParameter parameter = new RinearnGraph3DDrawingParameter();
@@ -389,7 +389,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public synchronized void drawPoint(double x, double y, double z, 
+	public synchronized void drawPoint(double x, double y, double z,
 			double radius, Color color) {
 
 		RinearnGraph3DDrawingParameter parameter = new RinearnGraph3DDrawingParameter();
@@ -401,7 +401,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/**
 	 * Draws a point with the specified parameter settings.
-	 * 
+	 *
 	 * @param x The X coordinate of the point.
 	 * @param y The Y coordinate of the point.
 	 * @param z The Z coordinate of the point.
@@ -409,7 +409,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * @param parameter The object storing the drawing parameters.
 	 */
 	@Override
-	public synchronized void drawPoint(double x, double y, double z, 
+	public synchronized void drawPoint(double x, double y, double z,
 			double radius, RinearnGraph3DDrawingParameter parameter) {
 
 		// Check whether the point is in ranges of X/Y/Z axes. If no, draw nothing.
@@ -418,7 +418,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 					this.spaceConverters[X].containsInRange(x, true) &&
 					this.spaceConverters[Y].containsInRange(y, true) &&
 					this.spaceConverters[Z].containsInRange(z, true);
-			
+
 			if (!isInRange) {
 				return;
 			}
@@ -442,8 +442,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public synchronized void drawLine(double aX, double aY, double aZ, 
-			double bX, double bY, double bZ, 
+	public synchronized void drawLine(double aX, double aY, double aZ,
+			double bX, double bY, double bZ,
 			double width) {
 
 		RinearnGraph3DDrawingParameter parameter = new RinearnGraph3DDrawingParameter();
@@ -454,8 +454,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public synchronized void drawLine(double aX, double aY, double aZ, 
-			double bX, double bY, double bZ, 
+	public synchronized void drawLine(double aX, double aY, double aZ,
+			double bX, double bY, double bZ,
 			double width, Color color) {
 
 		RinearnGraph3DDrawingParameter parameter = new RinearnGraph3DDrawingParameter();
@@ -466,8 +466,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public synchronized void drawLine(double aX, double aY, double aZ, 
-			double bX, double bY, double bZ, 
+	public synchronized void drawLine(double aX, double aY, double aZ,
+			double bX, double bY, double bZ,
 			double width, RinearnGraph3DDrawingParameter parameter) {
 
 		// Check whether the line is in ranges of X/Y/Z axes. If no, draw nothing.
@@ -512,8 +512,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public synchronized void drawTriangle(double aX, double aY, double aZ, 
-			double bX, double bY, double bZ, 
+	public synchronized void drawTriangle(double aX, double aY, double aZ,
+			double bX, double bY, double bZ,
 			double cX, double cY, double cZ) {
 
 		throw new RuntimeException("Unimplemented yet");
@@ -521,9 +521,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public synchronized void drawTriangle(double aX, double aY, double aZ, 
-			double bX, double bY, double bZ, 
-			double cX, double cY, double cZ, 
+	public synchronized void drawTriangle(double aX, double aY, double aZ,
+			double bX, double bY, double bZ,
+			double cX, double cY, double cZ,
 			Color color) {
 
 		throw new RuntimeException("Unimplemented yet");
@@ -531,9 +531,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public synchronized void drawTriangle(double aX, double aY, double aZ, 
-			double bX, double bY, double bZ, 
-			double cX, double cY, double cZ, 
+	public synchronized void drawTriangle(double aX, double aY, double aZ,
+			double bX, double bY, double bZ,
+			double cX, double cY, double cZ,
 			RinearnGraph3DDrawingParameter parameter) {
 
 		throw new RuntimeException("Unimplemented yet");
@@ -541,9 +541,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public synchronized void drawQuadrangle(double aX, double aY, double aZ, 
-			double bX, double bY, double bZ, 
-			double cX, double cY, double cZ, 
+	public synchronized void drawQuadrangle(double aX, double aY, double aZ,
+			double bX, double bY, double bZ,
+			double cX, double cY, double cZ,
 			double dX, double dY, double dZ) {
 
 		RinearnGraph3DDrawingParameter parameter = new RinearnGraph3DDrawingParameter();
@@ -554,10 +554,10 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public synchronized void drawQuadrangle(double aX, double aY, double aZ, 
-			double bX, double bY, double bZ, 
-			double cX, double cY, double cZ, 
-			double dX, double dY, double dZ, 
+	public synchronized void drawQuadrangle(double aX, double aY, double aZ,
+			double bX, double bY, double bZ,
+			double cX, double cY, double cZ,
+			double dX, double dY, double dZ,
 			Color color) {
 
 		RinearnGraph3DDrawingParameter parameter = new RinearnGraph3DDrawingParameter();
@@ -568,10 +568,10 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public synchronized void drawQuadrangle(double aX, double aY, double aZ, 
-			double bX, double bY, double bZ, 
-			double cX, double cY, double cZ, 
-			double dX, double dY, double dZ, 
+	public synchronized void drawQuadrangle(double aX, double aY, double aZ,
+			double bX, double bY, double bZ,
+			double cX, double cY, double cZ,
+			double dX, double dY, double dZ,
 			RinearnGraph3DDrawingParameter parameter) {
 
 		// Check whether the line is in ranges of X/Y/Z axes. If no, draw nothing.
@@ -632,7 +632,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public synchronized void drawText(double x, double y, double z, 
+	public synchronized void drawText(double x, double y, double z,
 			String text, Font font, Color color) {
 
 		throw new RuntimeException("Unimplemented yet");
@@ -640,7 +640,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	@Override
-	public synchronized void drawText(double x, double y, double z, 
+	public synchronized void drawText(double x, double y, double z,
 			String text, Font font, RinearnGraph3DDrawingParameter parameter) {
 
 		throw new RuntimeException("Unimplemented yet");
@@ -684,7 +684,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/**
 	 * Sets the size of the graph screen.
-	 * 
+	 *
 	 * @param screenWidth The width (pixels) of the screen.
 	 * @param screenHeight The height (pixels) of the screen.
 	 */
@@ -708,7 +708,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/**
 	 * Returns the Image instance storing the rendered image of the graph screen.
-	 * 
+	 *
 	 * @return The rendered image of the graph screen.
 	 */
 	@Override
@@ -720,22 +720,22 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/**
 	 * References the value of the flag representing whether the content of the graph screen has been updated,
 	 * in addition. and performs Compare-and-Swap (CAS) operation to it.
-	 * 
+	 *
 	 * Specifically, when the value of the flag equals to the value passed as "fromValue" argument,
 	 * overwrite the flag by the value passed as "toValue" argument.
 	 * In addition, regardless whether the above is performed,
 	 * this method returns the original (non modified) value of the flag as a return value.
-	 * 
+	 *
 	 * The followings are typical examples using this method:
 	 * For referring the value of the flag, and resetting it to the false, do "flag = casScreenUpdated(true, false)".
 	 * For referring the value of the flag, without resetting it, do "flag = casScreenUpdated(true, true)" or "...(false, false)".
 	 * For putting up the flag, do "casScreenUpdated(false, true)".
-	 * 
+	 *
 	 * An app-side thread refers this flag periodically, and updates the window if it is true, and then resets the flag to false.
 	 * However, user's code running on an other thread may call render() method,
 	 * and the updating of the flag caused by it may conflict to the above.
 	 * Hence, operations for referencing and changing the value of this flag must be performed atomically, through this method.
-	 * 
+	 *
 	 * @param fromValue The value to be swapped by "toValue"
 	 * @param toValue The swapped value
 	 * @return Unmodified flag value (true if the content of the graph screen has been updated)
@@ -754,15 +754,15 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * <span class="lang-en">
 	 * References the value of the flag representing whether the graph screen has been resized,
 	 * in addition. and performs Compare-and-Swap (CAS) operation to it.
-	 * 
+	 *
 	 * Specifically, when the value of the flag equals to the value passed as "fromValue" argument,
 	 * overwrite the flag by the value passed as "toValue" argument.
 	 * In addition, regardless whether the above is performed,
 	 * this method returns the original (non modified) value of the flag as a return value.
-	 * 
+	 *
 	 * For usage examples, and why we design this flag's operations as a CAS operation,
 	 * see the description of "casScreenUpdated()" method.
-	 * 
+	 *
 	 * @param fromValue The value to be swapped by "toValue"
 	 * @param toValue The swapped value
 	 * @return Unmodified flag value (true if the graph screen has been resized)
