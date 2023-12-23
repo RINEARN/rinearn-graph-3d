@@ -62,7 +62,7 @@ public final class ScriptEngineMount {
 	 * @throws VnanoException Thrown when any error has occurred in the initialization procedure of any plug-in.
 	 */
 	public synchronized void activateMathExpressionEngine() throws VnanoException {
-		this.mathExpressionEngine.activateEngine();
+		this.mathExpressionEngine.activate();
 	}
 
 
@@ -76,7 +76,7 @@ public final class ScriptEngineMount {
 	 * @throws VnanoException Thrown when any error has occurred in the finalization procedure of any plug-in.
 	 */
 	public synchronized void deactivateMathExpressionEngine() throws VnanoException {
-		this.mathExpressionEngine.deactivateEngine();
+		this.mathExpressionEngine.deactivate();
 	}
 
 	/**
