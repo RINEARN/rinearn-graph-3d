@@ -73,7 +73,7 @@ public final class VnanoEngine {
 		}
 
 		// If the input script is the same with the last executed script, we can re-execute it with less overheads, using caches.
-		if (this.lastScript != null || this.lastStateIsSame) {
+		if (this.lastScript != null && this.lastStateIsSame) {
 
 			// When the references of two String variables are the same, their values are also the same.
 			// (Because they point to the same String instance.)
@@ -158,11 +158,11 @@ public final class VnanoEngine {
 	/**
 	 * Re-execute the script which was executed last time,
 	 * in less overhead way using cached resources in the VM.
-	 * 
+	 *
 	 * @return
 	 *     The evaluated value of the expression, or the last expression statement in script code.
 	 *     If there is no evaluated value, returns null.
-	 * 
+	 *
 	 * @throws VnanoException Thrown when any error has detected for the content or the processing of the script.
 	 */
 	private Object reexecuteLastScript() throws VnanoException {
@@ -307,7 +307,7 @@ public final class VnanoEngine {
 	 * @throws VnanoException
 	 *       Thrown if any error has occurred in the initialization procedure of any plug-in.
 	 */
-	public void activateEngine() throws VnanoException {
+	public void activate() throws VnanoException {
 		this.interconnect.activate();
 	}
 
@@ -328,7 +328,7 @@ public final class VnanoEngine {
 	 * @throws VnanoException
 	 *       Thrown if any error has occurred in the finalization procedure of any plug-in.
 	 */
-	public void deactivateEngine() throws VnanoException {
+	public void deactivate() throws VnanoException {
 		this.interconnect.deactivate();
 	}
 

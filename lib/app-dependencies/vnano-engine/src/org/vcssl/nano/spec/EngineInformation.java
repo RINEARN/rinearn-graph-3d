@@ -17,7 +17,7 @@ public class EngineInformation {
 	public static final String ENGINE_NAME = "RINEARN Vnano Engine";
 
 	/** The version of this script engine. */
-	public static final String ENGINE_VERSION = "1.0.1A";
+	public static final String ENGINE_VERSION = "1.1.2";
 
 	/** The extension of script files which can run on this script engine. */
 	public static final String[] EXTENTIONS = { "vnano" };
@@ -57,7 +57,7 @@ public class EngineInformation {
 
 	/**
 	 * Returns the value of the engine information corresponding with the specified key.
-	 * 
+	 *
 	 * @param key The key of the engine information.
 	 * @return The value of the engine information corresponding with the specified key.
 	 */
