@@ -38,6 +38,21 @@ public class ArrayDataSeries extends AbstractDataSeries {
 
 
 	/**
+	 * Creates a new array data series consisting of the specified coordinates.
+	 *
+	 * @param xCoordinates The X-coordinate values of the points of this data series, in double-type.
+	 * @param yCoordinates The Y-coordinate values of the points of this data series, in double-type.
+	 * @param zCoordinates The Z-coordinate values of the points of this data series, in double-type.
+	 */
+	public ArrayDataSeries(double[][] xCoordinates, double[][] yCoordinates, double[][] zCoordinates) {
+		this.xDoubleCoordinates = xCoordinates;
+		this.yDoubleCoordinates = yCoordinates;
+		this.zDoubleCoordinates = zCoordinates;
+		this.setVisibilitiesFromCoordinates();
+	}
+
+
+	/**
 	 * Sets the X-coordinate values of the points of this data series, in double-type.
 	 *
 	 * @param xCoordinate The X-coordinate values.
@@ -113,6 +128,26 @@ public class ArrayDataSeries extends AbstractDataSeries {
 	 */
 	public synchronized void setVisibilities(boolean[][] visibilities) {
 		this.visibilities = visibilities;
+	}
+
+	/**
+	 * Sets the visibilities from the X/Y/Z coordinate values.
+	 *
+	 * If X/Y/Z coordinate values of a point contains NaN, the point is regarded as invisible.
+	 */
+	public synchronized void setVisibilitiesFromCoordinates() {
+		int leftDimLength = this.xDoubleCoordinates.length;
+		int rightDimLength = (0 < leftDimLength) ? xDoubleCoordinates[0].length : 0;
+		this.visibilities = new boolean[leftDimLength][rightDimLength];
+
+		for (int iL=0; iL<leftDimLength; iL++) {
+			for (int iR=0; iR<rightDimLength; iR++) {
+				boolean xIsNaN = Double.isNaN(this.xDoubleCoordinates[iL][iR]);
+				boolean yIsNaN = Double.isNaN(this.yDoubleCoordinates[iL][iR]);
+				boolean zIsNaN = Double.isNaN(this.zDoubleCoordinates[iL][iR]);
+				this.visibilities[iL][iR] = !xIsNaN && !yIsNaN && !zIsNaN;
+			}
+		}
 	}
 
 	/**
