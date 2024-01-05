@@ -90,6 +90,7 @@ public class TempExample {
 		graph3D.setCameraDistance(5.25);
 		graph3D.setCameraMagnification(800.0);
 
+		/*
 		// Gets the rendering engine of 3D graphs.
 		RinearnGraph3DRenderer renderer = graph3D.getRenderer();
 
@@ -99,6 +100,10 @@ public class TempExample {
 		// Register the above plotter to the graph, and perform the first plotting.
 		graph3D.addPlottingListener(plotter);
 		graph3D.plot();
+		*/
+
+		MeshData data = this.generateExamMeshData();
+		graph3D.appendData(data.x, data.y, data.z);
 	}
 
 

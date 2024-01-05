@@ -1,6 +1,7 @@
 package com.rinearn.graph3d;
 
 import com.rinearn.graph3d.model.Model;
+import com.rinearn.graph3d.model.dataseries.ArrayDataSeries;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
@@ -213,6 +214,47 @@ public class RinearnGraph3D {
 
 		// Propagate the above modified configuration (stored in Model) to the entire application.
 		this.presenter.propagateConfiguration();
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Appends the data to be plotted, to the currently plotted data
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフにプロットするデータを, 現在の内容を保持したまま追加します
+	 * </span>
+	 * .
+	 * @param x
+	 *   <span class="lang-en">
+	 *   The array storing the X-coordinates of the grid points of the mesh
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   メッシュ格子点における, X値を格納する配列
+	 *   </span>
+	 * @param y
+	 *   <span class="lang-en">
+	 *   The array storing the Y-coordinates of the grid points of the mesh
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   メッシュ格子点における, Y値を格納する配列
+	 *   </span>
+	 * @param z
+	 *   <span class="lang-en">
+	 *   The array storing the Z-coordinates of the grid points of the mesh
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   メッシュ格子点における, Z値を格納する配列
+	 *   </span>
+	 */
+	public synchronized void appendData(double[][] x, double[][] y, double[][] z) {
+
+		// TODO: Create a new "handler", and process the followings in it.
+
+		// !!! Temporary Implementation !!!
+		ArrayDataSeries arrayDataSeries = new ArrayDataSeries(x, y, z);
+		this.model.addArrayDataSeries(arrayDataSeries);
+		this.presenter.plot();
 	}
 
 
