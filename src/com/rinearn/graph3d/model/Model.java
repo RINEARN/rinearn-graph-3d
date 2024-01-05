@@ -1,6 +1,8 @@
 package com.rinearn.graph3d.model;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.model.dataseries.AbstractDataSeries;
+import com.rinearn.graph3d.model.dataseries.ArrayDataSeries;
 import com.rinearn.graph3d.model.dataseries.MathDataSeries;
 
 import org.vcssl.nano.VnanoException;
@@ -29,6 +31,9 @@ public final class Model {
 
 	/** The list of math data series. */
 	private final List<MathDataSeries> mathDataSeriesList = new ArrayList<MathDataSeries>();
+
+	/** The list of array data series. */
+	private final List<ArrayDataSeries> arrayDataSeriesList = new ArrayList<ArrayDataSeries>();
 
 
 	/**
@@ -115,6 +120,72 @@ public final class Model {
 	 */
 	public synchronized List<MathDataSeries> getMathDataSeriesList() {
 		return Collections.unmodifiableList(this.mathDataSeriesList);
+	}
+
+
+	/**
+	 * Adds (registers) a new array data series.
+	 *
+	 * @param arrayDataSeries The array data series to be added.
+	 */
+	public synchronized void addArrayDataSeries(ArrayDataSeries arrayDataSeries) {
+		this.arrayDataSeriesList.add(arrayDataSeries);
+
+		// TODO: Update the graph range here, before re-plotting.
+		// -> いや範囲変更は View 層にも伝搬させる必要があるから Presenter 層でやるべき。ここじゃなくて。
+System.out.println("!!! TODO @" + this);
+	}
+
+
+	/**
+	 * Remove the lastly registered array data series.
+	 *
+	 * If this method is called when no array data series is registered, nothing occurs.
+	 */
+	public synchronized void removeLastArrayDataSeries() {
+		if (this.arrayDataSeriesList.size() == 0) {
+			return;
+		}
+		this.arrayDataSeriesList.remove(this.arrayDataSeriesList.size() - 1);
+	}
+
+
+	/**
+	 * Clear all currently registered array data series.
+	 */
+	public synchronized void clearArrayDataSeries() {
+		this.arrayDataSeriesList.clear();
+	}
+
+
+	/**
+	 * Gets the list of the currently registered array data series.
+	 *
+	 * The returned list is unmodifiable. For adding/removing elements,
+	 * use the methods addArrayDataSeries(...), removeLastArrayDataSeries(), etc.
+	 *
+	 * @return The (unmodifiable) list of the currently registered array data series.
+	 */
+	public synchronized List<ArrayDataSeries> getArrayDataSeriesList() {
+		return Collections.unmodifiableList(this.arrayDataSeriesList);
+	}
+
+
+	/**
+	 * Gets the list storing the currently registered data series,
+	 * without distinction of the type of the data series (math or array).
+	 *
+	 * @return The (unmodifiable) list of the currently registered data series.
+	 */
+	public synchronized List<AbstractDataSeries> getDataSeriesList() {
+		List<AbstractDataSeries> dataSeriesList = new ArrayList<AbstractDataSeries>();
+		for (ArrayDataSeries dataSeries: this.arrayDataSeriesList) {
+			dataSeriesList.add(dataSeries);
+		}
+		for (MathDataSeries dataSeries: this.mathDataSeriesList) {
+			dataSeriesList.add(dataSeries);
+		}
+		return Collections.unmodifiableList(dataSeriesList);
 	}
 
 
