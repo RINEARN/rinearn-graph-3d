@@ -248,13 +248,7 @@ public class RinearnGraph3D {
 	 *   </span>
 	 */
 	public synchronized void appendData(double[][] x, double[][] y, double[][] z) {
-
-		// TODO: Create a new "handler", and process the followings in it.
-
-		// !!! Temporary Implementation !!!
-		ArrayDataSeries arrayDataSeries = new ArrayDataSeries(x, y, z);
-		this.model.addArrayDataSeries(arrayDataSeries);
-		this.presenter.plot();
+		this.presenter.dataArrayHandler.appendData(x, y, z);
 	}
 
 

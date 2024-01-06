@@ -24,6 +24,7 @@ com/rinearn/graph3d/model/Model.java
 com/rinearn/graph3d/model/package-info.java
 com/rinearn/graph3d/model/ScriptEngineMount.java
 com/rinearn/graph3d/presenter/handler/CameraSettingHandler.java
+com/rinearn/graph3d/presenter/handler/DataArrayHandler.java
 com/rinearn/graph3d/presenter/handler/FontSettingHandler.java
 com/rinearn/graph3d/presenter/handler/FrameHandler.java
 com/rinearn/graph3d/presenter/handler/LabelSettingHandler.java
