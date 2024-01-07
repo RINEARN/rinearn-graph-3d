@@ -46,7 +46,72 @@ public class DataArrayHandler {
 
 
 	/**
-	 * Appends the data to be plotted, to the currently plotted data.
+	 * Appends the data composing a line, to the currently plotted data
+	 *
+	 * @param x The array storing the X-coordinates of the node points of the line.
+	 * @param y The array storing the Y-coordinates of the node points of the line.
+	 * @param z The array storing the Z-coordinates of the node points of the line.
+	 */
+	public synchronized void appendData(double[] x, double[] y, double[] z) {
+
+		// Handle the API request on the event-dispatcher thread.
+		AppendData1RankAPIListener apiListener = new AppendData1RankAPIListener(x, y, z);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+
+	/**
+	 * The class handling API requests from appendData(double[] x, ...) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class AppendData1RankAPIListener implements Runnable {
+
+		// The array storing the X-coordinates of the node points of the line.
+		private volatile double[] x;
+
+		// The array storing the Y-coordinates of the node points of the line.
+		private volatile double[] y;
+
+		// The array storing the Z-coordinates of the node points of the line.
+		private volatile double[] z;
+
+		/**
+		 * Create an instance handling appendData(double[][]x, ...) API request with the specified argument.
+		 *
+		 * @param x The array storing the X-coordinates of the node points of the line.
+		 * @param y The array storing the Y-coordinates of the node points of the line.
+		 * @param z The array storing the Z-coordinates of the node points of the line.
+		 */
+		public AppendData1RankAPIListener(double[] x, double[] y, double[] z) {
+			this.x = x;
+			this.y = y;
+			this.z = z;
+		}
+
+		@Override
+		public void run() {
+			ArrayDataSeries arrayDataSeries = new ArrayDataSeries(
+					new double[][] { x },
+					new double[][] { y },
+					new double[][] { z }
+			);
+			model.addArrayDataSeries(arrayDataSeries);
+			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * Appends the data composing a mesh, to the currently plotted data
 	 *
 	 * @param x The array storing the X-coordinates of the grid points of the mesh.
 	 * @param y The array storing the Y-coordinates of the grid points of the mesh.
@@ -69,7 +134,7 @@ public class DataArrayHandler {
 	}
 
 	/**
-	 * The class handling API requests from appendData(double[][]x, ...) method,
+	 * The class handling API requests from appendData(double[][] x, ...) method,
 	 * on event-dispatcher thread.
 	 */
 	private final class AppendData2RanksAPIListener implements Runnable {

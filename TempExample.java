@@ -102,8 +102,11 @@ public class TempExample {
 		graph3D.plot();
 		*/
 
-		MeshData data = this.generateExamMeshData();
-		graph3D.appendData(data.x, data.y, data.z);
+		MeshData meshData = this.generateExamMeshData();
+		graph3D.appendData(meshData.x, meshData.y, meshData.z);
+
+		LineData lineData = this.generateExamLineData();
+		graph3D.appendData(lineData.x, lineData.y, lineData.z);
 	}
 
 
@@ -354,4 +357,29 @@ public class TempExample {
 		return meshData;
 	}
 
+	private static class LineData {
+		public int nodeCount;
+		public double[] x;
+		public double[] y;
+		public double[] z;
+	}
+	private static LineData generateExamLineData() {
+		int nodeCount = 5000;
+		double[] x = new double[nodeCount];
+		double[] y = new double[nodeCount];
+		double[] z = new double[nodeCount];
+
+		for (int inode=0; inode<nodeCount; inode++) {
+			z[inode] = 20.0 * (inode / (double)nodeCount) - 10.0;
+			x[inode] = Math.sin(20.0 * z[inode]);
+			y[inode] = Math.cos(10.0 * z[inode]);
+		}
+
+		LineData lineData = new LineData();
+		lineData.nodeCount = nodeCount;
+		lineData.x = x;
+		lineData.y = y;
+		lineData.z = z;
+		return lineData;
+	}
 }
