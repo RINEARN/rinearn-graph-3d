@@ -38,8 +38,8 @@ public final class RenderingLoop implements Runnable {
 	/** The flag representing that invoking render() on the loop thread has been requested. */
 	private volatile boolean renderingRequested = false;
 
-	/** The flag representing that invoking replot() on the loop thread has been requested. */
-	private volatile boolean replottingRequested = false;
+	/** The flag representing that invoking plot() on the loop thread has been requested. */
+	private volatile boolean plottingRequested = false;
 
 
 	/**
@@ -100,13 +100,13 @@ public final class RenderingLoop implements Runnable {
 
 
 	/**
-	 * Requests invoking replot() method of the Presenter on the thread of this rendering loop.
+	 * Requests invoking plot() method of the Presenter on the thread of this rendering loop.
 	 *
 	 * After requesting it by this method, replot() method is performed asynchronously.
 	 * When the replotting is complete, the graph screen of the window is updated automatically.
 	 */
-	public synchronized void requestReplotting() {
-		this.replottingRequested = true;
+	public synchronized void requestPlotting() {
+		this.plottingRequested = true;
 	}
 
 
@@ -118,8 +118,8 @@ public final class RenderingLoop implements Runnable {
 		while (this.continuing) {
 
 			synchronized (this) {
-				if (this.replottingRequested) {
-					this.replottingRequested = false;
+				if (this.plottingRequested) {
+					this.plottingRequested = false;
 					this.presenter.plot();
 				}
 			}
