@@ -219,32 +219,188 @@ public class RinearnGraph3D {
 
 	/**
 	 * <span class="lang-en">
+	 * Sets the data composing a line to be plotted
+	 * </span>
+	 * <span class="lang-ja">
+	 * プロット対象として, 線状のデータをセットします
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * Please note that, the currently registered data series are cleared.
+	 * If you don't want to clear them, use appendData(...) instead.
+	 * </span>
+	 * <span class="lang-ja">
+	 * なお, 現時点で登録されているデータ系列は, 全てクリアされる事にご注意ください.
+	 * クリアしたくない場合は, 代わりに appendData(...) を使用してください.
+	 * </span>
+	 *
+	 * @param x
+	 *   <span class="lang-en">
+	 *   The array storing the X-coordinates of the node points of a line,
+	 *   where its index is [nodeIndex]
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   線の節点における, X値を格納する配列
+	 *   （インデックスは [節点のインデックス]）
+	 *   </span>
+	 * @param y
+	 *   <span class="lang-en">
+	 *   The array storing the Y-coordinates of the node points of the line,
+	 *   where its index is [nodeIndex]
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   線の節点における, Y値を格納する配列
+	 *   （インデックスは [節点のインデックス]）
+	 *   </span>
+	 * @param z
+	 *   <span class="lang-en">
+	 *   The array storing the Z-coordinates of the node points of the line,
+	 *   where its index is [nodeIndex]
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   線の節点における, Z値を格納する配列
+	 *   （インデックスは [節点のインデックス]）
+	 *   </span>
+	 */
+	public synchronized void setData(double[] x, double[] y, double[] z) {
+		this.presenter.dataArrayHandler.setData(x, y, z);
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Sets the data composing a mesh to be plotted
+	 * </span>
+	 * <span class="lang-ja">
+	 * プロット対象として, メッシュ状のデータをセットします
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * Please note that, the currently registered data series are cleared.
+	 * If you don't want to clear them, use appendData(...) instead.
+	 * </span>
+	 * <span class="lang-ja">
+	 * なお, 現時点で登録されているデータ系列は, 全てクリアされる事にご注意ください.
+	 * クリアしたくない場合は, 代わりに appendData(...) を使用してください.
+	 * </span>
+	 *
+	 * @param x
+	 *   <span class="lang-en">
+	 *   The array storing the X-coordinates of the grid points of the mesh to be plotted,
+	 *   where its indices are [gridIndexA][gridIndexB]
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   メッシュ格子点における, X値を格納する配列
+	 *   （インデックスは [格子方向Aのインデックス][格子方向Bのインデックス]）
+	 *   </span>
+	 * @param y
+	 *   <span class="lang-en">
+	 *   The array storing the Y-coordinates of the grid points of the mesh to be plotted,
+	 *   where its indices are [gridIndexA][gridIndexB]
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   メッシュ格子点における, Y値を格納する配列
+	 *   （インデックスは [格子方向Aのインデックス][格子方向Bのインデックス]）
+	 *   </span>
+	 * @param z
+	 *   <span class="lang-en">
+	 *   The array storing the Z-coordinates of the grid points of the mesh to be plotted,
+	 *   where its indices are [gridIndexA][gridIndexB]
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   メッシュ格子点における, Z値を格納する配列
+	 *   （インデックスは [格子方向Aのインデックス][格子方向Bのインデックス]）
+	 *   </span>
+	 */
+	public synchronized void setData(double[][] x, double[][] y, double[][] z) {
+		this.presenter.dataArrayHandler.setData(x, y, z);
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Sets the multiple data series (composing multiple meshes or lines) to be plotted
+	 * </span>
+	 * <span class="lang-ja">
+	 * プロット対象として, 複数系列のデータ（複数のメッシュや線を構成）をセットします
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * Please note that, the currently registered data series are cleared.
+	 * If you don't want to clear them, use appendData(...) instead.
+	 * </span>
+	 * <span class="lang-ja">
+	 * なお, 現時点で登録されているデータ系列は, 全てクリアされる事にご注意ください.
+	 * クリアしたくない場合は, 代わりに appendData(...) を使用してください.
+	 * </span>
+	 *
+	 * @param x
+	 *   <span class="lang-en">
+	 *   The array storing the X-coordinates of the grid/node points of the multiple data series to be plotted,
+	 *   where its indices are [dataSeriesIndex][gridIndexA][gridIndexB]
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   各系列の、メッシュ格子点や線の節点における, X値を格納する配列
+	 *   （インデックスは [系列インデックス][格子方向Aのインデックス][格子方向Bのインデックス]）
+	 *   </span>
+	 * @param y
+	 *   <span class="lang-en">
+	 *   The array storing the Y-coordinates of the grid/node points of the multiple data series to be plotted,
+	 *   where its indices are [dataSeriesIndex][gridIndexA][gridIndexB]
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   各系列の、メッシュ格子点や線の節点における, Y値を格納する配列
+	 *   （インデックスは [系列インデックス][格子方向Aのインデックス][格子方向Bのインデックス]）
+	 *   </span>
+	 * @param z
+	 *   <span class="lang-en">
+	 *   The array storing the Z-coordinates of the grid/node points of the multiple data series to be plotted,
+	 *   where its indices are [dataSeriesIndex][gridIndexA][gridIndexB]
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   各系列の、メッシュ格子点や線の節点における, Z値を格納する配列
+	 *   （インデックスは [系列インデックス][格子方向Aのインデックス][格子方向Bのインデックス]）
+	 *   </span>
+	 */
+	public synchronized void setData(double[][][] x, double[][][] y, double[][][] z) {
+		this.presenter.dataArrayHandler.setData(x, y, z);
+	}
+
+
+	/**
+	 * <span class="lang-en">
 	 * Appends the data composing a line, to the currently plotted data
 	 * </span>
 	 * <span class="lang-ja">
-	 * 現在プロットされている内容に、線状のデータを追加します
+	 * 現在プロットされている内容に, 線状のデータを追加します
 	 * </span>
 	 * .
 	 * @param x
 	 *   <span class="lang-en">
-	 *   The array storing the X-coordinates of the node points of the line
+	 *   The array storing the X-coordinates of the node points of a line,
+	 *   where its index is [nodeIndex]
 	 *   </span>
 	 *   <span class="lang-ja">
 	 *   線の節点における, X値を格納する配列
+	 *   （インデックスは [節点のインデックス]）
 	 *   </span>
 	 * @param y
 	 *   <span class="lang-en">
-	 *   The array storing the Y-coordinates of the node points of the line
+	 *   The array storing the Y-coordinates of the node points of the line,
+	 *   where its index is [nodeIndex]
 	 *   </span>
 	 *   <span class="lang-ja">
 	 *   線の節点における, Y値を格納する配列
+	 *   （インデックスは [節点のインデックス]）
 	 *   </span>
 	 * @param z
 	 *   <span class="lang-en">
-	 *   The array storing the Z-coordinates of the node points of the line
+	 *   The array storing the Z-coordinates of the node points of the line,
+	 *   where its index is [nodeIndex]
 	 *   </span>
 	 *   <span class="lang-ja">
 	 *   線の節点における, Z値を格納する配列
+	 *   （インデックスは [節点のインデックス]）
 	 *   </span>
 	 */
 	public synchronized void appendData(double[] x, double[] y, double[] z) {
@@ -262,24 +418,30 @@ public class RinearnGraph3D {
 	 * .
 	 * @param x
 	 *   <span class="lang-en">
-	 *   The array storing the X-coordinates of the grid points of the mesh
+	 *   The array storing the X-coordinates of the grid points of the mesh to be plotted,
+	 *   where its indices are [gridIndexA][gridIndexB]
 	 *   </span>
 	 *   <span class="lang-ja">
 	 *   メッシュ格子点における, X値を格納する配列
+	 *   （インデックスは [格子方向Aのインデックス][格子方向Bのインデックス]）
 	 *   </span>
 	 * @param y
 	 *   <span class="lang-en">
-	 *   The array storing the Y-coordinates of the grid points of the mesh
+	 *   The array storing the Y-coordinates of the grid points of the mesh to be plotted,
+	 *   where its indices are [gridIndexA][gridIndexB]
 	 *   </span>
 	 *   <span class="lang-ja">
 	 *   メッシュ格子点における, Y値を格納する配列
+	 *   （インデックスは [格子方向Aのインデックス][格子方向Bのインデックス]）
 	 *   </span>
 	 * @param z
 	 *   <span class="lang-en">
-	 *   The array storing the Z-coordinates of the grid points of the mesh
+	 *   The array storing the Z-coordinates of the grid points of the mesh to be plotted,
+	 *   where its indices are [gridIndexA][gridIndexB]
 	 *   </span>
 	 *   <span class="lang-ja">
 	 *   メッシュ格子点における, Z値を格納する配列
+	 *   （インデックスは [格子方向Aのインデックス][格子方向Bのインデックス]）
 	 *   </span>
 	 */
 	public synchronized void appendData(double[][] x, double[][] y, double[][] z) {
@@ -297,24 +459,30 @@ public class RinearnGraph3D {
 	 * .
 	 * @param x
 	 *   <span class="lang-en">
-	 *   The array storing the X-coordinates of the grid/node points of the multiple data series
+	 *   The array storing the X-coordinates of the grid/node points of the multiple data series to be plotted,
+	 *   where its indices are [dataSeriesIndex][gridIndexA][gridIndexB]
 	 *   </span>
 	 *   <span class="lang-ja">
 	 *   各系列の、メッシュ格子点や線の節点における, X値を格納する配列
+	 *   （インデックスは [系列インデックス][格子方向Aのインデックス][格子方向Bのインデックス]）
 	 *   </span>
 	 * @param y
 	 *   <span class="lang-en">
-	 *   The array storing the Y-coordinates of the grid/node points of the multiple data series
+	 *   The array storing the Y-coordinates of the grid/node points of the multiple data series to be plotted,
+	 *   where its indices are [dataSeriesIndex][gridIndexA][gridIndexB]
 	 *   </span>
 	 *   <span class="lang-ja">
 	 *   各系列の、メッシュ格子点や線の節点における, Y値を格納する配列
+	 *   （インデックスは [系列インデックス][格子方向Aのインデックス][格子方向Bのインデックス]）
 	 *   </span>
 	 * @param z
 	 *   <span class="lang-en">
-	 *   The array storing the Z-coordinates of the grid/node points of the multiple data series
+	 *   The array storing the Z-coordinates of the grid/node points of the multiple data series to be plotted,
+	 *   where its indices are [dataSeriesIndex][gridIndexA][gridIndexB]
 	 *   </span>
 	 *   <span class="lang-ja">
 	 *   各系列の、メッシュ格子点や線の節点における, Z値を格納する配列
+	 *   （インデックスは [系列インデックス][格子方向Aのインデックス][格子方向Bのインデックス]）
 	 *   </span>
 	 */
 	public synchronized void appendData(double[][][] x, double[][][] y, double[][][] z) {
