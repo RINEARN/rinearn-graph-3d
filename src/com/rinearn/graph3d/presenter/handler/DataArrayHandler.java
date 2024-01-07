@@ -48,14 +48,14 @@ public class DataArrayHandler {
 	/**
 	 * Appends the data composing a line, to the currently plotted data.
 	 *
-	 * @param x The array storing the X-coordinates of the node points of the line.
-	 * @param y The array storing the Y-coordinates of the node points of the line.
-	 * @param z The array storing the Z-coordinates of the node points of the line.
+	 * @param x The array storing the X-coordinates of the node points of the line to be plotted.
+	 * @param y The array storing the Y-coordinates of the node points of the line to be plotted.
+	 * @param z The array storing the Z-coordinates of the node points of the line to be plotted.
 	 */
 	public synchronized void appendData(double[] x, double[] y, double[] z) {
 
 		// Handle the API request on the event-dispatcher thread.
-		AppendData1RankAPIListener apiListener = new AppendData1RankAPIListener(x, y, z);
+		AppendDataAPIListener apiListener = new AppendDataAPIListener(x, y, z);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -65,47 +65,6 @@ public class DataArrayHandler {
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
-		}
-	}
-
-
-	/**
-	 * The class handling API requests from appendData(double[] x, ...) method,
-	 * on event-dispatcher thread.
-	 */
-	private final class AppendData1RankAPIListener implements Runnable {
-
-		// The array storing the X-coordinates of the node points of the line.
-		private volatile double[] x;
-
-		// The array storing the Y-coordinates of the node points of the line.
-		private volatile double[] y;
-
-		// The array storing the Z-coordinates of the node points of the line.
-		private volatile double[] z;
-
-		/**
-		 * Create an instance handling appendData(double[] x, ...) API request with the specified argument.
-		 *
-		 * @param x The array storing the X-coordinates of the node points of the line.
-		 * @param y The array storing the Y-coordinates of the node points of the line.
-		 * @param z The array storing the Z-coordinates of the node points of the line.
-		 */
-		public AppendData1RankAPIListener(double[] x, double[] y, double[] z) {
-			this.x = x;
-			this.y = y;
-			this.z = z;
-		}
-
-		@Override
-		public void run() {
-			ArrayDataSeries arrayDataSeries = new ArrayDataSeries(
-					new double[][] { x },
-					new double[][] { y },
-					new double[][] { z }
-			);
-			model.addArrayDataSeries(arrayDataSeries);
-			presenter.plot();
 		}
 	}
 
@@ -113,14 +72,14 @@ public class DataArrayHandler {
 	/**
 	 * Appends the data composing a mesh, to the currently plotted data.
 	 *
-	 * @param x The array storing the X-coordinates of the grid points of the mesh.
-	 * @param y The array storing the Y-coordinates of the grid points of the mesh.
-	 * @param z The array storing the Z-coordinates of the grid points of the mesh.
+	 * @param x The array storing the X-coordinates of the grid points of the mesh to be plotted.
+	 * @param y The array storing the Y-coordinates of the grid points of the mesh to be plotted.
+	 * @param z The array storing the Z-coordinates of the grid points of the mesh to be plotted.
 	 */
 	public synchronized void appendData(double[][] x, double[][] y, double[][] z) {
 
 		// Handle the API request on the event-dispatcher thread.
-		AppendData2RanksAPIListener apiListener = new AppendData2RanksAPIListener(x, y, z);
+		AppendDataAPIListener apiListener = new AppendDataAPIListener(x, y, z);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -130,42 +89,6 @@ public class DataArrayHandler {
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
-		}
-	}
-
-	/**
-	 * The class handling API requests from appendData(double[][] x, ...) method,
-	 * on event-dispatcher thread.
-	 */
-	private final class AppendData2RanksAPIListener implements Runnable {
-
-		// The array storing the X-coordinates of the grid points of the mesh.
-		private volatile double[][] x;
-
-		// The array storing the Y-coordinates of the grid points of the mesh.
-		private volatile double[][] y;
-
-		// The array storing the Z-coordinates of the grid points of the mesh.
-		private volatile double[][] z;
-
-		/**
-		 * Create an instance handling appendData(double[][] x, ...) API request with the specified argument.
-		 *
-		 * @param x The array storing the X-coordinates of the grid points of the mesh.
-		 * @param y The array storing the Y-coordinates of the grid points of the mesh.
-		 * @param z The array storing the Z-coordinates of the grid points of the mesh.
-		 */
-		public AppendData2RanksAPIListener(double[][] x, double[][] y, double[][] z) {
-			this.x = x;
-			this.y = y;
-			this.z = z;
-		}
-
-		@Override
-		public void run() {
-			ArrayDataSeries arrayDataSeries = new ArrayDataSeries(x, y, z);
-			model.addArrayDataSeries(arrayDataSeries);
-			presenter.plot();
 		}
 	}
 
@@ -173,14 +96,14 @@ public class DataArrayHandler {
 	/**
 	 * Appends the multiple data series (composing multiple meshes or lines), to the currently plotted data.
 	 *
-	 * @param x The array storing the X-coordinates of the grid/node points of the multiple data series.
-	 * @param y The array storing the Y-coordinates of the grid/node points of the multiple data series.
-	 * @param z The array storing the Z-coordinates of the grid/node points of the multiple data series.
+	 * @param x The array storing the X-coordinates of the grid/node points of the multiple data series to be plotted.
+	 * @param y The array storing the Y-coordinates of the grid/node points of the multiple data series to be plotted.
+	 * @param z The array storing the Z-coordinates of the grid/node points of the multiple data series to be plotted.
 	 */
 	public synchronized void appendData(double[][][] x, double[][][] y, double[][][] z) {
 
 		// Handle the API request on the event-dispatcher thread.
-		AppendData3RanksAPIListener apiListener = new AppendData3RanksAPIListener(x, y, z);
+		AppendDataAPIListener apiListener = new AppendDataAPIListener(x, y, z);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -193,29 +116,82 @@ public class DataArrayHandler {
 		}
 	}
 
-	/**
-	 * The class handling API requests from appendData(double[][][] x, ...) method,
-	 * on event-dispatcher thread.
-	 */
-	private final class AppendData3RanksAPIListener implements Runnable {
 
-		// The array storing the X-coordinates of the grid/node points of the multiple data series.
+	/**
+	 * The class handling API requests from appendData(x,y,z) methods, on event-dispatcher thread.
+	 */
+	private final class AppendDataAPIListener implements Runnable {
+
+		/**
+		 * The array storing the X-coordinates of the grid/node points of the multiple data series,
+		 * where its indices are [dataSeriesIndex][gridIndexA][gridIndexB].
+		 */
 		private volatile double[][][] x;
 
-		// The array storing the Y-coordinates of the grid/node points of the multiple data series.
+		/**
+		 * The array storing the Y-coordinates of the grid/node points of the multiple data series,
+		 * where its indices are [dataSeriesIndex][gridIndexA][gridIndexB].
+		 */
 		private volatile double[][][] y;
 
-		// The array storing the Z-coordinates of the grid/node points of the multiple data series.
+		/**
+		 * The array storing the Z-coordinates of the grid/node points of the multiple data series,
+		 * where its indices are [dataSeriesIndex][gridIndexA][gridIndexB].
+		 */
 		private volatile double[][][] z;
+
+		/**
+		 * Create an instance handling appendData(double[] x, ...) API request with the specified argument.
+		 *
+		 * @param x
+		 *     The array storing the X-coordinates of the node points of a line,
+		 *     where its index is [nodeIndex].
+		 * @param y
+		 *     The array storing the Y-coordinates of the node points of a line,
+		 *     where its index is [nodeIndex].
+		 * @param z
+		 *     The array storing the Z-coordinates of the node points of a line,
+		 *     where its index is [nodeIndex].
+		 */
+		public AppendDataAPIListener(double[] x, double[] y, double[] z) {
+			this.x = new double[][][] { new double[][] { x } };
+			this.y = new double[][][] { new double[][] { y } };
+			this.z = new double[][][] { new double[][] { z } };
+		}
+
+		/**
+		 * Create an instance handling appendData(double[][] x, ...) API request with the specified argument.
+		 *
+		 * @param x
+		 *     The array storing the X-coordinates of the grid points of a mesh,
+		 *     where its indices are [gridIndexA][gridIndexB].
+		 * @param y
+		 *     The array storing the Y-coordinates of the grid points of a mesh,
+		 *     where its indices are [gridIndexA][gridIndexB].
+		 * @param z
+		 *     The array storing the Z-coordinates of the grid points of a mesh,
+		 *     where its indices are [gridIndexA][gridIndexB].
+		 */
+		public AppendDataAPIListener(double[][] x, double[][] y, double[][] z) {
+			this.x = new double[][][] { x };
+			this.y = new double[][][] { y };
+			this.z = new double[][][] { z };
+		}
 
 		/**
 		 * Create an instance handling appendData(double[][][] x, ...) API request with the specified argument.
 		 *
-		 * @param x The array storing the X-coordinates of the grid/node points of the multiple data series.
-		 * @param y The array storing the Y-coordinates of the grid/node points of the multiple data series.
-		 * @param z The array storing the Z-coordinates of the grid/node points of the multiple data series.
+		 * @param x
+		 *     The array storing the X-coordinates of the grid/node points of the multiple data series,
+		 *     where its indices are [dataSeriesIndex][gridIndexA][gridIndexB].
+		 * @param y
+		 *     The array storing the Y-coordinates of the grid/node points of the multiple data series,
+		 *     where its indices are [dataSeriesIndex][gridIndexA][gridIndexB].
+		 * @param z
+		 *     The array storing the Z-coordinates of the grid/node points of the multiple data series,
+		 *     where its indices are [dataSeriesIndex][gridIndexA][gridIndexB].
 		 */
-		public AppendData3RanksAPIListener(double[][][] x, double[][][] y, double[][][] z) {
+		public AppendDataAPIListener(double[][][] x, double[][][] y, double[][][] z) {
 			this.x = x;
 			this.y = y;
 			this.z = z;
