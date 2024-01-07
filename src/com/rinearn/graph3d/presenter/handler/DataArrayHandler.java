@@ -46,7 +46,7 @@ public class DataArrayHandler {
 
 
 	/**
-	 * Appends the data composing a line, to the currently plotted data
+	 * Appends the data composing a line, to the currently plotted data.
 	 *
 	 * @param x The array storing the X-coordinates of the node points of the line.
 	 * @param y The array storing the Y-coordinates of the node points of the line.
@@ -85,7 +85,7 @@ public class DataArrayHandler {
 		private volatile double[] z;
 
 		/**
-		 * Create an instance handling appendData(double[][]x, ...) API request with the specified argument.
+		 * Create an instance handling appendData(double[] x, ...) API request with the specified argument.
 		 *
 		 * @param x The array storing the X-coordinates of the node points of the line.
 		 * @param y The array storing the Y-coordinates of the node points of the line.
@@ -111,7 +111,7 @@ public class DataArrayHandler {
 
 
 	/**
-	 * Appends the data composing a mesh, to the currently plotted data
+	 * Appends the data composing a mesh, to the currently plotted data.
 	 *
 	 * @param x The array storing the X-coordinates of the grid points of the mesh.
 	 * @param y The array storing the Y-coordinates of the grid points of the mesh.
@@ -149,7 +149,7 @@ public class DataArrayHandler {
 		private volatile double[][] z;
 
 		/**
-		 * Create an instance handling appendData(double[][]x, ...) API request with the specified argument.
+		 * Create an instance handling appendData(double[][] x, ...) API request with the specified argument.
 		 *
 		 * @param x The array storing the X-coordinates of the grid points of the mesh.
 		 * @param y The array storing the Y-coordinates of the grid points of the mesh.
@@ -165,6 +165,69 @@ public class DataArrayHandler {
 		public void run() {
 			ArrayDataSeries arrayDataSeries = new ArrayDataSeries(x, y, z);
 			model.addArrayDataSeries(arrayDataSeries);
+			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * Appends the multiple data series (composing multiple meshes or lines), to the currently plotted data.
+	 *
+	 * @param x The array storing the X-coordinates of the grid/node points of the multiple data series.
+	 * @param y The array storing the Y-coordinates of the grid/node points of the multiple data series.
+	 * @param z The array storing the Z-coordinates of the grid/node points of the multiple data series.
+	 */
+	public synchronized void appendData(double[][][] x, double[][][] y, double[][][] z) {
+
+		// Handle the API request on the event-dispatcher thread.
+		AppendData3RanksAPIListener apiListener = new AppendData3RanksAPIListener(x, y, z);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from appendData(double[][][] x, ...) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class AppendData3RanksAPIListener implements Runnable {
+
+		// The array storing the X-coordinates of the grid/node points of the multiple data series.
+		private volatile double[][][] x;
+
+		// The array storing the Y-coordinates of the grid/node points of the multiple data series.
+		private volatile double[][][] y;
+
+		// The array storing the Z-coordinates of the grid/node points of the multiple data series.
+		private volatile double[][][] z;
+
+		/**
+		 * Create an instance handling appendData(double[][][] x, ...) API request with the specified argument.
+		 *
+		 * @param x The array storing the X-coordinates of the grid/node points of the multiple data series.
+		 * @param y The array storing the Y-coordinates of the grid/node points of the multiple data series.
+		 * @param z The array storing the Z-coordinates of the grid/node points of the multiple data series.
+		 */
+		public AppendData3RanksAPIListener(double[][][] x, double[][][] y, double[][][] z) {
+			this.x = x;
+			this.y = y;
+			this.z = z;
+		}
+
+		@Override
+		public void run() {
+			int dataSeriesCount = x.length;
+			for (int iseries=0; iseries<dataSeriesCount; iseries++) {
+				ArrayDataSeries arrayDataSeries = new ArrayDataSeries(x[iseries], y[iseries], z[iseries]);
+				model.addArrayDataSeries(arrayDataSeries);
+			}
 			presenter.plot();
 		}
 	}

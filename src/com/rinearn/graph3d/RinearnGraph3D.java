@@ -289,6 +289,41 @@ public class RinearnGraph3D {
 
 	/**
 	 * <span class="lang-en">
+	 * Appends the multiple data series (composing multiple meshes or lines), to the currently plotted data
+	 * </span>
+	 * <span class="lang-ja">
+	 * 現在プロットされている内容に、複数系列のデータ（複数のメッシュや線を構成）を追加します
+	 * </span>
+	 * .
+	 * @param x
+	 *   <span class="lang-en">
+	 *   The array storing the X-coordinates of the grid/node points of the multiple data series
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   各系列の、メッシュ格子点や線の節点における, X値を格納する配列
+	 *   </span>
+	 * @param y
+	 *   <span class="lang-en">
+	 *   The array storing the Y-coordinates of the grid/node points of the multiple data series
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   各系列の、メッシュ格子点や線の節点における, Y値を格納する配列
+	 *   </span>
+	 * @param z
+	 *   <span class="lang-en">
+	 *   The array storing the Z-coordinates of the grid/node points of the multiple data series
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   各系列の、メッシュ格子点や線の節点における, Z値を格納する配列
+	 *   </span>
+	 */
+	public synchronized void appendData(double[][][] x, double[][][] y, double[][][] z) {
+		this.presenter.dataArrayHandler.appendData(x, y, z);
+	}
+
+
+	/**
+	 * <span class="lang-en">
 	 * Returns the 3D renderer, which is being used for rendering the graph image in this instance
 	 * </span>
 	 * <span class="lang-ja">

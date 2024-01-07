@@ -103,10 +103,15 @@ public class TempExample {
 		*/
 
 		MeshData meshData = this.generateExamMeshData();
-		graph3D.appendData(meshData.x, meshData.y, meshData.z);
+		//graph3D.appendData(meshData.x, meshData.y, meshData.z);
 
 		LineData lineData = this.generateExamLineData();
-		graph3D.appendData(lineData.x, lineData.y, lineData.z);
+		//graph3D.appendData(lineData.x, lineData.y, lineData.z);
+
+		double[][][] multiDataSeriesX = new double[][][] { meshData.x, new double[][]{lineData.x} };
+		double[][][] multiDataSeriesY = new double[][][] { meshData.y, new double[][]{lineData.y} };
+		double[][][] multiDataSeriesZ = new double[][][] { meshData.z, new double[][]{lineData.z} };
+		graph3D.appendData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
 	}
 
 
