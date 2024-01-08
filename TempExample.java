@@ -116,6 +116,7 @@ public class TempExample {
 		//graph3D.appendData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
 		//graph3D.setData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
 
+		/*
 		graph3D.setAsynchronousPlottingEnabled(true);
 
 		long beginTime = System.nanoTime();
@@ -125,6 +126,10 @@ public class TempExample {
 		long endTime = System.nanoTime();
 		double requiredTime = (endTime - beginTime) * 1.0E-9;
 		System.out.println("requiredTime: " + requiredTime + " [sec]");
+		*/
+
+		graph3D.setData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
+		graph3D.clear();
 	}
 
 

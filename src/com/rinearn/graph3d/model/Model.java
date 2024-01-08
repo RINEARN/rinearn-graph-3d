@@ -77,6 +77,36 @@ public final class Model {
 
 
 	/**
+	 * Clear all the currently registered data series, without distinction of the type of the data series (math or array).
+	 *
+	 * The same operation can be performed by calling arrayDataSeriesList() and mathDataSeriesList() methods,
+	 * but in some situation, we must perform them as an "atomic" operation. This method is provided for such situation.
+	 */
+	public synchronized void clearDataSeries() {
+		this.arrayDataSeriesList.clear();
+		this.mathDataSeriesList.clear();
+	}
+
+
+	/**
+	 * Gets the List instance storing the currently registered data series,
+	 * without distinction of the type of the data series (math or array).
+	 *
+	 * @return The (unmodifiable) List storing the currently registered data series.
+	 */
+	public synchronized List<AbstractDataSeries> getDataSeriesList() {
+		List<AbstractDataSeries> dataSeriesList = new ArrayList<AbstractDataSeries>();
+		for (ArrayDataSeries dataSeries: this.arrayDataSeriesList) {
+			dataSeriesList.add(dataSeries);
+		}
+		for (MathDataSeries dataSeries: this.mathDataSeriesList) {
+			dataSeriesList.add(dataSeries);
+		}
+		return Collections.unmodifiableList(dataSeriesList);
+	}
+
+
+	/**
 	 * Adds (registers) a new math data series.
 	 *
 	 * @param mathDataSeries The math data series to be added.
@@ -207,24 +237,6 @@ System.out.println("!!! TODO @" + this);
 	 */
 	public synchronized List<ArrayDataSeries> getArrayDataSeriesList() {
 		return Collections.unmodifiableList(this.arrayDataSeriesList);
-	}
-
-
-	/**
-	 * Gets the List instance storing the currently registered data series,
-	 * without distinction of the type of the data series (math or array).
-	 *
-	 * @return The (unmodifiable) List storing the currently registered data series.
-	 */
-	public synchronized List<AbstractDataSeries> getDataSeriesList() {
-		List<AbstractDataSeries> dataSeriesList = new ArrayList<AbstractDataSeries>();
-		for (ArrayDataSeries dataSeries: this.arrayDataSeriesList) {
-			dataSeriesList.add(dataSeries);
-		}
-		for (MathDataSeries dataSeries: this.mathDataSeriesList) {
-			dataSeriesList.add(dataSeries);
-		}
-		return Collections.unmodifiableList(dataSeriesList);
 	}
 
 

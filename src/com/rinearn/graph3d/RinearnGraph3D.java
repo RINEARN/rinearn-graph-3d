@@ -218,6 +218,35 @@ public class RinearnGraph3D {
 
 	/**
 	 * <span class="lang-en">
+	 * Clears all the currently plotted data and math expressions
+	 * </span>
+	 * <span class="lang-ja">
+	 * 現在プロットされているデータや数式を、全てクリアします
+	 * </span>
+	 * .
+	 */
+	public synchronized void clear() {
+
+		// これ、プロットの重要なフロー内に割り込み得る処理だし、
+		// ちゃんとやるにはイベントスレッド上で捌く必要があるので、ハンドラ経由で呼ばないといけない。
+		//
+		// 例えばイベントキューに処理が複数乗っかってて、そこに「系列を追加するAPIリクエスト」が積まれた直後に、
+		// このAPIリクエストが発生した場合、こっちが先に処理されてしまう場合があり得る（系列追加がキュー待ちで遅延するので）。
+		// とすると、最終的にクリア状態になるべきグラフが、系列が残った状態になり得る。
+		//
+		// とすると実装は MenuHandler か？
+		// しかし、Ver.6 では数式のクリアとファイル系列のクリアを分けるので、全てをクリアするメニューはたぶん実装しない。
+		// ただまあ管轄的にはメニューハンドラが一番近い気がする。このためだけに独立のハンドラ作るのも冗長すぎるし。
+		//
+		//   要検討
+
+		this.model.clearDataSeries();
+		this.presenter.plot();
+	}
+
+
+	/**
+	 * <span class="lang-en">
 	 * Sets the data composing a line to be plotted
 	 * </span>
 	 * <span class="lang-ja">
