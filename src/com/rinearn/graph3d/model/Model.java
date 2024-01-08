@@ -111,15 +111,35 @@ public final class Model {
 
 
 	/**
-	 * Gets the list of the currently registered math data series.
+	 * Gets the List instance storing the currently registered math data series.
 	 *
-	 * The returned list is unmodifiable. For adding/removing elements,
+	 * The returned List instance is unmodifiable. For adding/removing elements,
 	 * use the methods addMathDataSeries(...), removeLastMathDataSeries(), etc.
 	 *
-	 * @return The (unmodifiable) list of the currently registered math data series.
+	 * @return The (unmodifiable) List storing the currently registered math data series.
 	 */
 	public synchronized List<MathDataSeries> getMathDataSeriesList() {
 		return Collections.unmodifiableList(this.mathDataSeriesList);
+	}
+
+
+	/**
+	 * Sets all the array data series to be plotted.
+	 *
+	 * At first glance, it seems that the completely same operation can performed
+	 * by using multiple calls of clearArrayDataSeries() and addArrayDataSeries(ArrayDataSeries) methods.
+	 *
+	 * However, this operation must be performed as an "atomic operation" in some situation,
+	 * especially when asynchronous-plotting feature is enabled.
+	 * This method is provided for such situation.
+	 *
+	 * @param allArrayDataSeries The array storing all the array data series to be plotted.
+	 */
+	public synchronized void setArrayDataSeries(ArrayDataSeries[] allArrayDataSeries) {
+		this.arrayDataSeriesList.clear();
+		for (ArrayDataSeries arrayDataSeries: allArrayDataSeries) {
+			this.arrayDataSeriesList.add(arrayDataSeries);
+		}
 	}
 
 
@@ -159,12 +179,12 @@ System.out.println("!!! TODO @" + this);
 
 
 	/**
-	 * Gets the list of the currently registered array data series.
+	 * Gets the List instance storing the currently registered array data series.
 	 *
-	 * The returned list is unmodifiable. For adding/removing elements,
+	 * The returned List is unmodifiable. For adding/removing elements,
 	 * use the methods addArrayDataSeries(...), removeLastArrayDataSeries(), etc.
 	 *
-	 * @return The (unmodifiable) list of the currently registered array data series.
+	 * @return The (unmodifiable) List storing the currently registered array data series.
 	 */
 	public synchronized List<ArrayDataSeries> getArrayDataSeriesList() {
 		return Collections.unmodifiableList(this.arrayDataSeriesList);
@@ -172,10 +192,10 @@ System.out.println("!!! TODO @" + this);
 
 
 	/**
-	 * Gets the list storing the currently registered data series,
+	 * Gets the List instance storing the currently registered data series,
 	 * without distinction of the type of the data series (math or array).
 	 *
-	 * @return The (unmodifiable) list of the currently registered data series.
+	 * @return The (unmodifiable) List storing the currently registered data series.
 	 */
 	public synchronized List<AbstractDataSeries> getDataSeriesList() {
 		List<AbstractDataSeries> dataSeriesList = new ArrayList<AbstractDataSeries>();
