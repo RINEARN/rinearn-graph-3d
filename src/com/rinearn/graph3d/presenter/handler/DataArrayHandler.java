@@ -18,6 +18,7 @@ public class DataArrayHandler {
 	private final Model model;
 
 	/** The front-end class of "View" layer, which provides visible part of GUI without event handling. */
+	@SuppressWarnings("unused")
 	private final View view;
 
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
@@ -87,8 +88,7 @@ public class DataArrayHandler {
 	public synchronized void setData(double[] x, double[] y, double[] z) {
 
 		// Handle the API request on the event-dispatcher thread.
-		boolean clearCurrentDataSeries = true;
-		SetDataAndAppendDataAPIListener apiListener = new SetDataAndAppendDataAPIListener(x, y, z, clearCurrentDataSeries);
+		DataAPIListener apiListener = new DataAPIListener(x, y, z, DataAPIListenerMode.SET);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -121,8 +121,7 @@ public class DataArrayHandler {
 	public synchronized void setData(double[][] x, double[][] y, double[][] z) {
 
 		// Handle the API request on the event-dispatcher thread.
-		boolean clearCurrentDataSeries = true;
-		SetDataAndAppendDataAPIListener apiListener = new SetDataAndAppendDataAPIListener(x, y, z, clearCurrentDataSeries);
+		DataAPIListener apiListener = new DataAPIListener(x, y, z, DataAPIListenerMode.SET);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -155,8 +154,7 @@ public class DataArrayHandler {
 	public synchronized void setData(double[][][] x, double[][][] y, double[][][] z) {
 
 		// Handle the API request on the event-dispatcher thread.
-		boolean clearCurrentDataSeries = true;
-		SetDataAndAppendDataAPIListener apiListener = new SetDataAndAppendDataAPIListener(x, y, z, clearCurrentDataSeries);
+		DataAPIListener apiListener = new DataAPIListener(x, y, z, DataAPIListenerMode.SET);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -186,8 +184,7 @@ public class DataArrayHandler {
 	public synchronized void appendData(double[] x, double[] y, double[] z) {
 
 		// Handle the API request on the event-dispatcher thread.
-		boolean clearCurrentDataSeries = false;
-		SetDataAndAppendDataAPIListener apiListener = new SetDataAndAppendDataAPIListener(x, y, z, clearCurrentDataSeries);
+		DataAPIListener apiListener = new DataAPIListener(x, y, z, DataAPIListenerMode.APPEND);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -217,8 +214,7 @@ public class DataArrayHandler {
 	public synchronized void appendData(double[][] x, double[][] y, double[][] z) {
 
 		// Handle the API request on the event-dispatcher thread.
-		boolean clearCurrentDataSeries = false;
-		SetDataAndAppendDataAPIListener apiListener = new SetDataAndAppendDataAPIListener(x, y, z, clearCurrentDataSeries);
+		DataAPIListener apiListener = new DataAPIListener(x, y, z, DataAPIListenerMode.APPEND);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -248,8 +244,7 @@ public class DataArrayHandler {
 	public synchronized void appendData(double[][][] x, double[][][] y, double[][][] z) {
 
 		// Handle the API request on the event-dispatcher thread.
-		boolean clearCurrentDataSeries = false;
-		SetDataAndAppendDataAPIListener apiListener = new SetDataAndAppendDataAPIListener(x, y, z, clearCurrentDataSeries);
+		DataAPIListener apiListener = new DataAPIListener(x, y, z, DataAPIListenerMode.APPEND);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -264,34 +259,47 @@ public class DataArrayHandler {
 
 
 	/**
+	 * The enum for specifying the mode of DataAPIListener.
+	 */
+	private enum DataAPIListenerMode {
+
+		/** The mode for handling setData(x,y,z) API. */
+		SET,
+
+		/** The mode for handling appendData(x,y,z) API. */
+		APPEND;
+	}
+
+
+	/**
 	 * The class handling API requests from setData(x,y,z) and appendData(x,y,z) methods,
 	 * on event-dispatcher thread.
 	 */
-	private final class SetDataAndAppendDataAPIListener implements Runnable {
+	private final class DataAPIListener implements Runnable {
 
 		/**
 		 * The array storing the X-coordinates of the grid/node points of the multiple data series,
 		 * where its indices are [dataSeriesIndex][gridIndexA][gridIndexB].
 		 */
-		private volatile double[][][] x;
+		private final double[][][] x;
 
 		/**
 		 * The array storing the Y-coordinates of the grid/node points of the multiple data series,
 		 * where its indices are [dataSeriesIndex][gridIndexA][gridIndexB].
 		 */
-		private volatile double[][][] y;
+		private final double[][][] y;
 
 		/**
 		 * The array storing the Z-coordinates of the grid/node points of the multiple data series,
 		 * where its indices are [dataSeriesIndex][gridIndexA][gridIndexB].
 		 */
-		private volatile double[][][] z;
+		private final double[][][] z;
 
 		/**
-		 * The flag to clear the currently registered data series before registering the specified data.
-		 * Set to true for handling setData(x,y,z) API, or set to false for handling appendData(x,y,z) API.
+		 * The mode of this listener,
+		 * specifying the API handled by this listener from setData(x,y,z) and appendData(x,y,z).
 		 */
-		private volatile boolean clears;
+		private final DataAPIListenerMode mode;
 
 		/**
 		 * Create an instance handling setData(double[] x, ...) or appendData(double[] x, ...)
@@ -306,15 +314,14 @@ public class DataArrayHandler {
 		 * @param z
 		 *     The array storing the Z-coordinates of the node points of a line,
 		 *     where its index is [nodeIndex].
-		 * @param clears
-		 *     The flag to clear the currently registered data series before registering the specified data.
-		 *     Specify true for handling setData(x,y,z) API, or specify false for handling appendData(x,y,z) API.
+		 * @param mode
+		 *     Specify SET for handling setData(x,y,z) API, or APPEND for handling appendData(x,y,z) API.
 		 */
-		public SetDataAndAppendDataAPIListener(double[] x, double[] y, double[] z, boolean clears) {
+		public DataAPIListener(double[] x, double[] y, double[] z, DataAPIListenerMode mode) {
 			this.x = new double[][][] { new double[][] { x } };
 			this.y = new double[][][] { new double[][] { y } };
 			this.z = new double[][][] { new double[][] { z } };
-			this.clears = clears;
+			this.mode = mode;
 		}
 
 		/**
@@ -330,19 +337,19 @@ public class DataArrayHandler {
 		 * @param z
 		 *     The array storing the Z-coordinates of the grid points of a mesh,
 		 *     where its indices are [gridIndexA][gridIndexB].
-		 * @param clears
-		 *     The flag to clear the currently registered data series before registering the specified data.
-		 *     Specify true for handling setData(x,y,z) API, or specify false for handling appendData(x,y,z) API.
+		 * @param mode
+		 *     Specify SET for handling setData(x,y,z) API, or APPEND for handling appendData(x,y,z) API.
 		 */
-		public SetDataAndAppendDataAPIListener(double[][] x, double[][] y, double[][] z, boolean clears) {
+		public DataAPIListener(double[][] x, double[][] y, double[][] z, DataAPIListenerMode mode) {
 			this.x = new double[][][] { x };
 			this.y = new double[][][] { y };
 			this.z = new double[][][] { z };
-			this.clears = clears;
+			this.mode = mode;
 		}
 
 		/**
-		 * Create an instance handling appendData(double[][][] x, ...) API request with the specified argument.
+		 * Create an instance handling setData(double[][][] x, ...) or appendData(double[][][] x, ...)
+		 * API request with the specified argument.
 		 *
 		 * @param x
 		 *     The array storing the X-coordinates of the grid/node points of the multiple data series,
@@ -353,57 +360,46 @@ public class DataArrayHandler {
 		 * @param z
 		 *     The array storing the Z-coordinates of the grid/node points of the multiple data series,
 		 *     where its indices are [dataSeriesIndex][gridIndexA][gridIndexB].
-		 * @param clears
-		 *     The flag to clear the currently registered data series before registering the specified data.
-		 *     Specify true for handling setData(x,y,z) API, or specify false for handling appendData(x,y,z) API.
+		 * @param mode
+		 *     Specify SET for handling setData(x,y,z) API, or APPEND for handling appendData(x,y,z) API.
 		 */
-		public SetDataAndAppendDataAPIListener(double[][][] x, double[][][] y, double[][][] z, boolean clears) {
+		public DataAPIListener(double[][][] x, double[][][] y, double[][][] z, DataAPIListenerMode mode) {
 			this.x = x;
 			this.y = y;
 			this.z = z;
-			this.clears = clears;
+			this.mode = mode;
 		}
 
 		@Override
 		public void run() {
 
-			// When this instance handles setData(...) API, not appendData(...) API,
-			// clear the currently registered data series before appending the specified data series.
-			if (clears) {
-				model.clearArrayDataSeries();
-			}
-
-			// Register the specified data series.
+			// Stores the specified (multiple) data series into an array.
 			int dataSeriesCount = x.length;
+			ArrayDataSeries[] multipleArrayDataSeries = new ArrayDataSeries[dataSeriesCount];
 			for (int iseries=0; iseries<dataSeriesCount; iseries++) {
 				ArrayDataSeries arrayDataSeries = new ArrayDataSeries(x[iseries], y[iseries], z[iseries]);
-				model.addArrayDataSeries(arrayDataSeries);
+				multipleArrayDataSeries[iseries] = arrayDataSeries;
+
+				// Don't do the following. We must register the multiple data series by an "atomic operation".
+				// (because the data series registered in the Model may be accessed from another thread asynchronously.)
+				// ---
+				// model.addArrayDataSeries(arrayDataSeries);
 			}
 
-			// ↑これ、非同期プロット時、add の複数連続コールの狭間にわずかな synchronized の切れ目ができるので、
-			//   その瞬間に Plotter が全系列データ get し得るのでまずい。やっぱ全系列を一気に置き換えるメソッドが無いと。
-			//   たぶん「高速アニメーションしてる時に、稀に5系列中の3系列しかプロットされてない絵が生成される」とか発生する。
-			//
-			//   -> 確かに setData をハンドルする場合はそう。
-			//      しかし appendData をハンドルする場合は本質的に add 挙動だし、
-			//      タイミングによって系列が追加されたか or まだされてないかが未知で、系列数が半端になるのは避けられない。
-			//
-			//      -> 非同期プロットで appendData する場合は、それはユーザー側が当然想定すべきで。
-			//         だってそれは「 系列追加の反映を非同期にやって」という事に他ならないので。
-			//
-			//         一方、非同期プロットで setData する場合、
-			//         それは「全系列をまとめてセットしたから、その反映を非同期にやって」という事になるので、
-			//         その描画結果のフレームで系列が半端に欠け得るのは許されないでしょ。
-			//         それは操作から自然に想定される事では全くない。むしろ実装知らなければ完全に謎挙動。防ぐべき。
-			//
-			//         -> じゃあもっと set と append とでごそっと分岐した処理にすべき？
-			//            clears でクリアするかどうかを制御するだけではなく。
-			//            それとも、そもそもやっぱりクラスも別で分けるべき？
-			//
-			//            -> やっぱり分けた方がいい気がする。そこまで分岐するなら。
-			//
-			//    要検討
-
+			// Set/add the above (multiple) data series to the Model layer.
+			switch (this.mode) {
+				case SET : {
+					model.setArrayDataSeries(multipleArrayDataSeries);
+					break;
+				}
+				case APPEND : {
+					model.addArrayDataSeries(multipleArrayDataSeries);
+					break;
+				}
+				default : {
+					throw new IllegalStateException("Unexpected mode: " + this.mode);
+				}
+			}
 
 			// Re-plot the graph.
 			if (asynchronousPlottingEnabled) {
