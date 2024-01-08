@@ -23,6 +23,13 @@ public class DataArrayHandler {
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
 
+	/**
+	 * The flag to perform the re-plotting asynchronously on rendering-loop thread, after updating data.
+	 * When this flag is set to false, the re-plotting is performed synchronously on the thread
+	 * on which setData(...) or appendData(...) is called.
+	 */
+	private volatile boolean asynchronousPlottingEnabled = false;
+
 
 	/**
 	 * Create a new instance handling events and API requests using the specified resources.
@@ -35,6 +42,22 @@ public class DataArrayHandler {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;
+	}
+
+
+	/**
+	 * Enables/disables the asynchronous-plotting feature.
+	 *
+	 * When this feature is enabled,
+	 * the re-plotting after updating data is performed asynchronously on rendering-loop thread.
+	 *
+	 * When this feature is disabled,
+	 * the re-plotting is performed synchronously on the thread on which setData(...) or appendData(...) is called.
+	 *
+	 * @param enabled Specify true to enable, false to disable.
+	 */
+	public synchronized void setAsynchronousPlottingEnabled(boolean enabled) {
+		this.asynchronousPlottingEnabled = enabled;
 	}
 
 
@@ -357,8 +380,37 @@ public class DataArrayHandler {
 				model.addArrayDataSeries(arrayDataSeries);
 			}
 
+			// ↑これ、非同期プロット時、add の複数連続コールの狭間にわずかな synchronized の切れ目ができるので、
+			//   その瞬間に Plotter が全系列データ get し得るのでまずい。やっぱ全系列を一気に置き換えるメソッドが無いと。
+			//   たぶん「高速アニメーションしてる時に、稀に5系列中の3系列しかプロットされてない絵が生成される」とか発生する。
+			//
+			//   -> 確かに setData をハンドルする場合はそう。
+			//      しかし appendData をハンドルする場合は本質的に add 挙動だし、
+			//      タイミングによって系列が追加されたか or まだされてないかが未知で、系列数が半端になるのは避けられない。
+			//
+			//      -> 非同期プロットで appendData する場合は、それはユーザー側が当然想定すべきで。
+			//         だってそれは「 系列追加の反映を非同期にやって」という事に他ならないので。
+			//
+			//         一方、非同期プロットで setData する場合、
+			//         それは「全系列をまとめてセットしたから、その反映を非同期にやって」という事になるので、
+			//         その描画結果のフレームで系列が半端に欠け得るのは許されないでしょ。
+			//         それは操作から自然に想定される事では全くない。むしろ実装知らなければ完全に謎挙動。防ぐべき。
+			//
+			//         -> じゃあもっと set と append とでごそっと分岐した処理にすべき？
+			//            clears でクリアするかどうかを制御するだけではなく。
+			//            それとも、そもそもやっぱりクラスも別で分けるべき？
+			//
+			//            -> やっぱり分けた方がいい気がする。そこまで分岐するなら。
+			//
+			//    要検討
+
+
 			// Re-plot the graph.
-			presenter.plot();
+			if (asynchronousPlottingEnabled) {
+				presenter.renderingLoop.requestPlotting();
+			} else {
+				presenter.plot();
+			}
 		}
 	}
 }

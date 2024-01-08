@@ -114,7 +114,17 @@ public class TempExample {
 		double[][][] multiDataSeriesY = new double[][][] { meshData.y, new double[][]{lineData.y} };
 		double[][][] multiDataSeriesZ = new double[][][] { meshData.z, new double[][]{lineData.z} };
 		//graph3D.appendData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
-		graph3D.setData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
+		//graph3D.setData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
+
+		graph3D.setAsynchronousPlottingEnabled(true);
+
+		long beginTime = System.nanoTime();
+		for (int i=0; i<100; i++) {
+			graph3D.setData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
+		}
+		long endTime = System.nanoTime();
+		double requiredTime = (endTime - beginTime) * 1.0E-9;
+		System.out.println("requiredTime: " + requiredTime + " [sec]");
 	}
 
 

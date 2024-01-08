@@ -492,6 +492,47 @@ public class RinearnGraph3D {
 
 	/**
 	 * <span class="lang-en">
+	 * Enables/disables the asynchronous plotting feature
+	 * </span>
+	 * <span class="lang-ja">
+	 * 非同期プロット機能の有効・無効を設定します
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * If this feature is disabled (default),
+	 * when you plot the data by calling setData(double[], double[], double[]) method,
+	 * the processing flow returns to the called-side after when the plotting has competed.
+	 * In the contrast, if this feature is enabled, the processing flow returns from
+	 * setData(double[], double[], double[]) method to the caller-side immediately with storing the data to the buffer.
+	 * Then, the plotting will be performed asynchronously on the other thread, at a suitable timing.
+	 * This feature is useful when you want to animate the graph by calling setData method repeatedly in high frequency.
+	 * In such case, with enabling this feature, you can reduce the load of the main thread, and also can make the animation smooth.
+	 * </span>
+	 * <span class="lang-ja">
+	 * この機能の有効・無効は, setData(double[], double[], double[]) メソッドなどを連続的に呼び出し続けて,
+	 * 大量の座標値データをグラフにプロットさせ続ける場合の振る舞いに影響します.
+	 * この機能が無効の場合は, 座標値データを渡した際, それがグラフにプロットされた後に, 呼び出し元に処理が戻ります.
+	 * 渡したデータが確実にプロットされるため, プロット結果を画像ファイルに出力するような場合に適しています.
+	 * それに対して, この機能が有効の場合は, 座標値データは一時的なバッファ領域に控えられるだけで, すぐに呼び出し元に処理が戻ります.
+	 * そして, バッファされたデータは, 後の適当なタイミングでグラフにプロットされます.
+	 * そのため, データを繰り返し高頻度で渡して, グラフをアニメーションさせてたいような場合には, この機能を有効化するのが適しています. そうする事で, メインスレッドの負荷を低減させると共に, アニメーションをスムーズにする事ができます.
+	 * </span>
+	 *
+	 * @param enabled
+	 *   <span class="lang-en">
+	 *   Specify true to enable, false to disable
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   有効化する場合に true, 無効化する場合に false を指定
+	 *   </span>
+	 */
+	public synchronized void setAsynchronousPlottingEnabled(boolean enabled) {
+		this.presenter.dataArrayHandler.setAsynchronousPlottingEnabled(enabled);
+	}
+
+
+	/**
+	 * <span class="lang-en">
 	 * Returns the 3D renderer, which is being used for rendering the graph image in this instance
 	 * </span>
 	 * <span class="lang-ja">
