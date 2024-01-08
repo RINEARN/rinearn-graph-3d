@@ -1,7 +1,6 @@
 package com.rinearn.graph3d;
 
 import com.rinearn.graph3d.model.Model;
-import com.rinearn.graph3d.model.dataseries.ArrayDataSeries;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
@@ -515,7 +514,8 @@ public class RinearnGraph3D {
 	 * 渡したデータが確実にプロットされるため, プロット結果を画像ファイルに出力するような場合に適しています.
 	 * それに対して, この機能が有効の場合は, 座標値データは一時的なバッファ領域に控えられるだけで, すぐに呼び出し元に処理が戻ります.
 	 * そして, バッファされたデータは, 後の適当なタイミングでグラフにプロットされます.
-	 * そのため, データを繰り返し高頻度で渡して, グラフをアニメーションさせてたいような場合には, この機能を有効化するのが適しています. そうする事で, メインスレッドの負荷を低減させると共に, アニメーションをスムーズにする事ができます.
+	 * そのため, データを繰り返し高頻度で渡して, グラフをアニメーションさせてたいような場合には, この機能を有効化するのが適しています.
+	 * そうする事で, メインスレッドの負荷を低減させると共に, アニメーションをスムーズにする事ができます.
 	 * </span>
 	 *
 	 * @param enabled

@@ -42,6 +42,18 @@ import java.util.EventObject;
 public class RinearnGraph3DPlottingEvent extends EventObject {
 
 	/**
+	 * <span class="lang-en">
+	 * The UID for checking compatibility of the serialized bytes of this class's instances,
+	 * re-generated when we modify the source code of this class
+	 * </span>
+	 * <span class="lang-ja">
+	 * このクラスのインスタンスがシリアライズされた際の, バイト列の互換性を確認するためのUIDであり,
+	 * このクラスのソースコードが変更される度に再生成されます
+	 * </span>
+	 */
+	private static final long serialVersionUID = 3568268593381777989L;
+
+	/**
 	 * <span class="lang-ja">
 	 * 新しいプロットイベントを生成します
 	 * </span>
