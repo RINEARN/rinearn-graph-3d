@@ -158,6 +158,25 @@ System.out.println("!!! TODO @" + this);
 
 
 	/**
+	 * Adds (registers) new multiple array data series.
+	 *
+	 * At first glance, it seems that the completely same operation can performed
+	 * by using multiple calls of addArrayDataSeries(ArrayDataSeries) method for each data series.
+	 *
+	 * However, this operation must be performed as an "atomic operation" in some situation,
+	 * especially when asynchronous-plotting feature is enabled.
+	 * This method is provided for such situation.
+	 *
+	 * @param multipleArrayDataSeries The array storing multiple array data series to be added.
+	 */
+	public synchronized void addArrayDataSeries(ArrayDataSeries[] multipleArrayDataSeries) {
+		for (ArrayDataSeries arrayDataSeries: multipleArrayDataSeries) {
+			this.arrayDataSeriesList.add(arrayDataSeries);
+		}
+	}
+
+
+	/**
 	 * Remove the lastly registered array data series.
 	 *
 	 * If this method is called when no array data series is registered, nothing occurs.
