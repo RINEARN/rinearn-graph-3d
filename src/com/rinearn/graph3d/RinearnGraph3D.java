@@ -54,7 +54,7 @@ public class RinearnGraph3D {
 
 		// When instantiated as a stand-alone application, not a library,
 		// enable the feature to exit the entire application when the graph window is closed.
-		graph3D.setAutoExittingEnabled(true);
+		graph3D.setAutoExitingEnabled(true);
 	}
 
 
@@ -275,8 +275,35 @@ public class RinearnGraph3D {
 	 *   有効化する場合にtrue, 無効化する場合に false を指定
 	 *   </span>
 	 */
-	public synchronized void setAutoExittingEnabled(boolean enabled) {
-		this.presenter.frameHandler.setAutoExittingEnabled(enabled);
+	public synchronized void setAutoExitingEnabled(boolean enabled) {
+		this.presenter.frameHandler.setAutoExitingEnabled(enabled);
+	}
+
+	/**
+	 * <span class="lang-en">
+	 * This method name contains a mis-spelling, so use setAutoExitingEnabled(boolean enabled) instead
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッド名にはスペルミスが含まれているため, 代わりに setAutoExitingEnabled(boolean enabled) を使用してください
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * This method is supported only for keeping compatibility of old code depending on this method.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドは, このメソッドに依存している古いコードの互換性を保つためだけにサポートされています.
+	 * </span>
+	 *
+	 * @param enabled
+	 *   <span class="lang-en">
+	 *   Same as setAutoExitingEnabled(boolean enabled)
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   setAutoExitingEnabled(boolean enabled) と同様
+	 *   </span>
+	 */
+	public void setAutoExittingEnabled(boolean enabled) {
+		this.setAutoExitingEnabled(enabled);
 	}
 
 

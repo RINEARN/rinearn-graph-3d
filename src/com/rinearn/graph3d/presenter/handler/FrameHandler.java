@@ -35,7 +35,7 @@ public final class FrameHandler {
 	private volatile boolean eventHandlingEnabled = true;
 
 	/** The flag to enable/disable the feature to exit the entire application automatically, performed when the graph window is closed. */
-	private volatile boolean autoExittingEnabled = false;
+	private volatile boolean autoExitingEnabled = false;
 
 	/** The flag to enable/disable the automatic resource disposal feature performed when the graph window is closed. */
 	private volatile boolean autoDisposingEnabled = true;
@@ -118,7 +118,7 @@ public final class FrameHandler {
 				return;
 			}
 
-			if (autoExittingEnabled) {
+			if (autoExitingEnabled) {
 				System.exit(0);
 			}
 			if (autoDisposingEnabled) {
@@ -264,10 +264,10 @@ public final class FrameHandler {
 	 *
 	 * @param enabled Specify true to enable, or false to disable.
 	 */
-	public void setAutoExittingEnabled(boolean enabled) {
+	public void setAutoExitingEnabled(boolean enabled) {
 
 		// Handle the API request on the event-dispatcher thread.
-		SetAutoExittingEnabledAPIListener apiListener = new SetAutoExittingEnabledAPIListener(enabled);
+		SetAutoExitingEnabledAPIListener apiListener = new SetAutoExitingEnabledAPIListener(enabled);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -281,26 +281,26 @@ public final class FrameHandler {
 	}
 
 	/**
-	 * The class handling API requests from setAutoExittingEnabled(boolean enabled) method,
+	 * The class handling API requests from setAutoExitingEnabled(boolean enabled) method,
 	 * on event-dispatcher thread.
 	 */
-	private final class SetAutoExittingEnabledAPIListener implements Runnable {
+	private final class SetAutoExitingEnabledAPIListener implements Runnable {
 
 		/** Set to true to enable, or false to disable. */
 		private final boolean enabled;
 
 		/**
-		 * Creates a new instance for enabling/disabling auto-exitting feature.
+		 * Creates a new instance for enabling/disabling auto-exiting feature.
 		 *
 		 * @param enabled Specify true to enable, or false to disable.
 		 */
-		public SetAutoExittingEnabledAPIListener(boolean enabled) {
+		public SetAutoExitingEnabledAPIListener(boolean enabled) {
 			this.enabled = enabled;
 		}
 
 		@Override
 		public void run() {
-			autoExittingEnabled = this.enabled;
+			autoExitingEnabled = this.enabled;
 		}
 	}
 
