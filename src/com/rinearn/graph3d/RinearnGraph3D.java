@@ -50,7 +50,11 @@ public class RinearnGraph3D {
 	 * @param args The command-line arguments.
 	 */
 	public static void main(String[] args) {
-		new RinearnGraph3D();
+		RinearnGraph3D graph3D = new RinearnGraph3D();
+
+		// When instantiated as a stand-alone application, not a library,
+		// enable the feature to exit the entire application when the graph window is closed.
+		graph3D.setAutoExittingEnabled(true);
 	}
 
 
