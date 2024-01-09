@@ -85,7 +85,7 @@ public class DataArrayHandler {
 	 *     The array storing the Z-coordinates of the node points of the line to be plotted,
 	 *     where its index is [nodeIndex].
 	 */
-	public synchronized void setData(double[] x, double[] y, double[] z) {
+	public void setData(double[] x, double[] y, double[] z) {
 
 		// Handle the API request on the event-dispatcher thread.
 		DataAPIListener apiListener = new DataAPIListener(x, y, z, DataAPIListenerMode.SET);
@@ -118,7 +118,7 @@ public class DataArrayHandler {
 	 *     The array storing the Z-coordinates of the grid points of the mesh to be plotted,
 	 *     where its indices are [gridIndexA][gridIndexB].
 	 */
-	public synchronized void setData(double[][] x, double[][] y, double[][] z) {
+	public void setData(double[][] x, double[][] y, double[][] z) {
 
 		// Handle the API request on the event-dispatcher thread.
 		DataAPIListener apiListener = new DataAPIListener(x, y, z, DataAPIListenerMode.SET);
@@ -151,7 +151,7 @@ public class DataArrayHandler {
 	 *     The array storing the Z-coordinates of the grid/node points of the multiple data series to be plotted,
 	 *     where its indices are [dataSeriesIndex][gridIndexA][gridIndexB].
 	 */
-	public synchronized void setData(double[][][] x, double[][][] y, double[][][] z) {
+	public void setData(double[][][] x, double[][][] y, double[][][] z) {
 
 		// Handle the API request on the event-dispatcher thread.
 		DataAPIListener apiListener = new DataAPIListener(x, y, z, DataAPIListenerMode.SET);
@@ -181,7 +181,7 @@ public class DataArrayHandler {
 	 *     The array storing the Z-coordinates of the node points of the line to be plotted,
 	 *     where its index is [nodeIndex].
 	 */
-	public synchronized void appendData(double[] x, double[] y, double[] z) {
+	public void appendData(double[] x, double[] y, double[] z) {
 
 		// Handle the API request on the event-dispatcher thread.
 		DataAPIListener apiListener = new DataAPIListener(x, y, z, DataAPIListenerMode.APPEND);
@@ -211,7 +211,7 @@ public class DataArrayHandler {
 	 *     The array storing the Z-coordinates of the grid points of the mesh to be plotted,
 	 *     where its indices are [gridIndexA][gridIndexB].
 	 */
-	public synchronized void appendData(double[][] x, double[][] y, double[][] z) {
+	public void appendData(double[][] x, double[][] y, double[][] z) {
 
 		// Handle the API request on the event-dispatcher thread.
 		DataAPIListener apiListener = new DataAPIListener(x, y, z, DataAPIListenerMode.APPEND);
@@ -241,7 +241,7 @@ public class DataArrayHandler {
 	 *     The array storing the Z-coordinates of the grid/node points of the multiple data series to be plotted,
 	 *     where its indices are [dataSeriesIndex][gridIndexA][gridIndexB].
 	 */
-	public synchronized void appendData(double[][][] x, double[][][] y, double[][][] z) {
+	public void appendData(double[][][] x, double[][][] y, double[][][] z) {
 
 		// Handle the API request on the event-dispatcher thread.
 		DataAPIListener apiListener = new DataAPIListener(x, y, z, DataAPIListenerMode.APPEND);
