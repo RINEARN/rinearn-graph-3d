@@ -129,12 +129,15 @@ public class TempExample {
 		*/
 
 		graph3D.setData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
-		graph3D.clear();
+		//graph3D.clear();
 
+		//graph3D.setAutoExittingEnabled(true);
 		//graph3D.setAutoExittingEnabled(false);
-		graph3D.setAutoExittingEnabled(false);
 
-		graph3D.dispose();
+		//graph3D.dispose();
+		//graph3D.setAutoDisposingEnabled(false);
+		graph3D.setAutoDisposingEnabled(true);
+
 	}
 
 

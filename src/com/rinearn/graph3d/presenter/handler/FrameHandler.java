@@ -37,6 +37,9 @@ public final class FrameHandler {
 	/** The flag to enable/disable the feature to exit the entire application automatically, performed when the graph window is closed. */
 	private volatile boolean autoExittingEnabled = false;
 
+	/** The flag to enable/disable the automatic resource disposal feature performed when the graph window is closed. */
+	private volatile boolean autoDisposingEnabled = true;
+
 
 	/**
 	 * Create a new instance handling events and API requests using the specified resources.
@@ -117,6 +120,9 @@ public final class FrameHandler {
 
 			if (autoExittingEnabled) {
 				System.exit(0);
+			}
+			if (autoDisposingEnabled) {
+				presenter.dispose();
 			}
 		}
 	}
@@ -275,7 +281,7 @@ public final class FrameHandler {
 	}
 
 	/**
-	 * The class handling API requests for setting the size of the graph screen,
+	 * The class handling API requests from setAutoExittingEnabled(boolean enabled) method,
 	 * on event-dispatcher thread.
 	 */
 	private final class SetAutoExittingEnabledAPIListener implements Runnable {
@@ -295,6 +301,53 @@ public final class FrameHandler {
 		@Override
 		public void run() {
 			autoExittingEnabled = this.enabled;
+		}
+	}
+
+
+	/**
+	 * Enables/disables the automatic resource disposal feature performed when the graph window is closed
+	 * (enabled by default) .
+	 *
+	 * @param enabled Specify true to enable, or false to disable.
+	 */
+	public void setAutoDisposingEnabled(boolean enabled) {
+
+		// Handle the API request on the event-dispatcher thread.
+		SetAutoDisposingEnabledAPIListener apiListener = new SetAutoDisposingEnabledAPIListener(enabled);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setAutoDisposingEnabled(boolean enabled) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetAutoDisposingEnabledAPIListener implements Runnable {
+
+		/** Set to true to enable, or false to disable. */
+		private final boolean enabled;
+
+		/**
+		 * Creates a new instance for enabling/disabling automatic resource disposal feature.
+		 *
+		 * @param enabled Specify true to enable, or false to disable.
+		 */
+		public SetAutoDisposingEnabledAPIListener(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		@Override
+		public void run() {
+			autoDisposingEnabled = this.enabled;
 		}
 	}
 }

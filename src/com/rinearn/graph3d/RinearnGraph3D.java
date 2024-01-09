@@ -240,6 +240,21 @@ public class RinearnGraph3D {
 
 	/**
 	 * <span class="lang-en">
+	 * Enables/disables the automatic resource disposal feature performed when the graph window is closed (enabled by default)
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフウィンドウを閉じた際に, 自動でリソースを破棄する機能の有効/無効を設定します（デフォルトで有効）
+	 * </span>
+	 * .
+	 * @param enabled Specify true to enable, or false to disable.
+	 */
+	public void setAutoDisposingEnabled(boolean enabled) {
+		this.presenter.frameHandler.setAutoDisposingEnabled(enabled);
+	}
+
+
+	/**
+	 * <span class="lang-en">
 	 * Enables/disables the feature to exit the entier application automatically,
 	 * performed when the graph window is closed (disabled by default)
 	 * </span>
