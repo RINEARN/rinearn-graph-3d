@@ -1051,6 +1051,74 @@ public class RinearnGraph3D {
 
 
 	/**
+	 * <span class="lang-en">
+	 * Enables/disables the default event listener handling key events on the graph screen
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフスクリーン上でのキーイベントを処理する, デフォルトのイベントリスナーの有効/無効を切り替えます
+	 * </span>
+	 *
+	 * @param enabled
+	 *   <span class="lang-en">Specify true to enable, or false to disable</span>
+	 *   <span class="lang-ja">有効化する場合は true, 無効化する場合は false を指定</span>
+	 */
+	public synchronized void setDefaultKeyListenerEnabled(boolean enabled) {
+		this.presenter.screenHandler.setDefaultKeyListenerEnabled(enabled);
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Enables/disables the default event listener handling mouse events on the graph screen
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフスクリーン上でのマウスイベントを処理する, デフォルトのイベントリスナーの有効/無効を切り替えます
+	 * </span>
+	 *
+	 * @param enabled
+	 *   <span class="lang-en">Specify true to enable, or false to disable</span>
+	 *   <span class="lang-ja">有効化する場合は true, 無効化する場合は false を指定</span>
+	 */
+	public synchronized void setDefaultMouseListenerEnabled(boolean enabled) {
+		this.presenter.screenHandler.setDefaultMouseListenerEnabled(enabled);
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Enables/disables the default event listener handling mouse-motion events on the graph screen
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフスクリーン上でのマウスモーションイベントを処理する, デフォルトのイベントリスナーの有効/無効を切り替えます
+	 * </span>
+	 *
+	 * @param enabled
+	 *   <span class="lang-en">Specify true to enable, or false to disable</span>
+	 *   <span class="lang-ja">有効化する場合は true, 無効化する場合は false を指定</span>
+	 */
+	public synchronized void setDefaultMouseMotionListenerEnabled(boolean enabled) {
+		this.presenter.screenHandler.setDefaultMouseMotionListenerEnabled(enabled);
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Enables/disables the default event listener handling mouse-wheel events on the graph screen
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフスクリーン上でのマウスホイールイベントを処理する, デフォルトのイベントリスナーの有効/無効を切り替えます
+	 * </span>
+	 *
+	 * @param enabled
+	 *   <span class="lang-en">Specify true to enable, or false to disable</span>
+	 *   <span class="lang-ja">有効化する場合は true, 無効化する場合は false を指定</span>
+	 */
+	public synchronized void setDefaultMouseWheelListenerEnabled(boolean enabled) {
+		this.presenter.screenHandler.setDefaultMouseWheelListenerEnabled(enabled);
+	}
+
+
+	/**
 	 * <span class="lang-ja">
 	 * 再プロットが必要になった際に発行される RinearnGraph3DPlottingEvent を受け取る,
 	 * RinearnGraph3DPlottingListener インタフェースを実装したイベントリスナーを追加登録します
@@ -1064,7 +1132,7 @@ public class RinearnGraph3D {
 	 *   <span class="lang-ja">登録するイベントリスナー</span>
 	 *   <span class="lang-en">The event listener to be added</span>
 	 */
-	public void addPlottingListener(RinearnGraph3DPlottingListener plottingListener) {
+	public synchronized void addPlottingListener(RinearnGraph3DPlottingListener plottingListener) {
 		this.presenter.plottingEventDispatcher.addPlottingListener(plottingListener);
 	}
 

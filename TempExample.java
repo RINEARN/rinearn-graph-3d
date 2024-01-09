@@ -138,6 +138,10 @@ public class TempExample {
 		//graph3D.setAutoDisposingEnabled(false);
 		//graph3D.setAutoDisposingEnabled(true);
 
+		//graph3D.setDefaultMouseListenerEnabled(false);
+		//graph3D.setDefaultMouseMotionListenerEnabled(false);
+		//graph3D.setDefaultMouseWheelListenerEnabled(false);
+
 	}
 
 

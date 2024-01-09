@@ -55,6 +55,19 @@ public final class ScreenHandler {
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
 
+	/** The flag for turning on/off the default event listener handling key events on the graph screen. */
+	@SuppressWarnings("unused")
+	private volatile boolean defaultKeyListenerEnabled = true;
+
+	/** The flag for turning on/off the default event listener handling mouse events on the graph screen. */
+	private volatile boolean defaultMouseListenerEnabled = true;
+
+	/** The flag for turning on/off the default event listener handling mouse-motion events on the graph screen. */
+	private volatile boolean defaultMouseMotionListenerEnabled = true;
+
+	/** The flag for turning on/off the default event listener handling mouse-wheel events on the graph screen. */
+	private volatile boolean defaultMouseWheelListenerEnabled = true;
+
 
 	/**
 	 * Creates new instance for handling events occurred on the specified view, using the specified model.
@@ -151,6 +164,9 @@ public final class ScreenHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
+			if (!defaultMouseWheelListenerEnabled) {
+				return;
+			}
 			CameraConfiguration cameraConfiguration = model.config.getCameraConfiguration();
 			double magnification = cameraConfiguration.getMagnification();
 
@@ -200,6 +216,9 @@ public final class ScreenHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
+			if (!defaultMouseListenerEnabled) {
+				return;
+			}
 			if (!SwingUtilities.isRightMouseButton(me)) {
 				return;
 			}
@@ -213,6 +232,9 @@ public final class ScreenHandler {
 		@Override
 		public void mouseDragged(MouseEvent me) {
 			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			if (!defaultMouseMotionListenerEnabled) {
 				return;
 			}
 			if (!SwingUtilities.isRightMouseButton(me)) {
@@ -266,6 +288,9 @@ public final class ScreenHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
+			if (!defaultMouseListenerEnabled) {
+				return;
+			}
 			if (!SwingUtilities.isLeftMouseButton(me)) {
 				return;
 			}
@@ -279,6 +304,9 @@ public final class ScreenHandler {
 		@Override
 		public void mouseDragged(MouseEvent me) {
 			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			if (!defaultMouseMotionListenerEnabled) {
 				return;
 			}
 			if (!SwingUtilities.isLeftMouseButton(me)) {
@@ -516,7 +544,7 @@ public final class ScreenHandler {
 	 */
 	public void setScreenSize(int screenWidth, int screenHeight) {
 
-		// Handle the API on the event-dispatcher thread.
+		// Handle the API request on the event-dispatcher thread.
 		SetScreenSizeAPIListener apiListener = new SetScreenSizeAPIListener(screenWidth, screenHeight);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
@@ -587,4 +615,192 @@ public final class ScreenHandler {
 		}
 	}
 
+
+	/**
+	 * Enables/disables the default event listener handling key events on the graph screen.
+	 * (API Implementation)
+	 *
+	 * @param enabled Specify true to enable, or false to disable.
+	 */
+	public void setDefaultKeyListenerEnabled(boolean enabled) {
+
+		// Handle the API request on the event-dispatcher thread.
+		SetDefaultKeyListenerEnabledAPIListener apiListener = new SetDefaultKeyListenerEnabledAPIListener(enabled);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setDefaultKeyListenerEnabled(boolean enabled) method,
+	 * on the event-dispatcher thread.
+	 */
+	private class SetDefaultKeyListenerEnabledAPIListener implements Runnable {
+
+		/** Set to true to enable, or false to disable. */
+		private final boolean enabled;
+
+		/**
+		 * Create a new instance for handling this API request with the specified argument.
+		 *
+		 * @param enabled Specify true to enable, or false to disable.
+		 */
+		public SetDefaultKeyListenerEnabledAPIListener(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		@Override
+		public void run() {
+			defaultKeyListenerEnabled = this.enabled;
+		}
+	}
+
+
+	/**
+	 * Enables/disables the default event listener handling mouse events on the graph screen.
+	 * (API Implementation)
+	 *
+	 * @param enabled Specify true to enable, or false to disable.
+	 */
+	public void setDefaultMouseListenerEnabled(boolean enabled) {
+
+		// Handle the API request on the event-dispatcher thread.
+		SetDefaultMouseListenerEnabledAPIListener apiListener = new SetDefaultMouseListenerEnabledAPIListener(enabled);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setDefaultMouseListenerEnabled(boolean enabled) method,
+	 * on the event-dispatcher thread.
+	 */
+	private class SetDefaultMouseListenerEnabledAPIListener implements Runnable {
+
+		/** Set to true to enable, or false to disable. */
+		private final boolean enabled;
+
+		/**
+		 * Create a new instance for handling this API request with the specified argument.
+		 *
+		 * @param enabled Specify true to enable, or false to disable.
+		 */
+		public SetDefaultMouseListenerEnabledAPIListener(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		@Override
+		public void run() {
+			defaultMouseListenerEnabled = this.enabled;
+		}
+	}
+
+
+	/**
+	 * Enables/disables the default event listener handling mouse-motion events on the graph screen.
+	 * (API Implementation)
+	 *
+	 * @param enabled Specify true to enable, or false to disable.
+	 */
+	public void setDefaultMouseMotionListenerEnabled(boolean enabled) {
+
+		// Handle the API request on the event-dispatcher thread.
+		SetDefaultMouseMotionListenerEnabledAPIListener apiListener = new SetDefaultMouseMotionListenerEnabledAPIListener(enabled);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setDefaultMouseMotionListenerEnabled(boolean enabled) method,
+	 * on the event-dispatcher thread.
+	 */
+	private class SetDefaultMouseMotionListenerEnabledAPIListener implements Runnable {
+
+		/** Set to true to enable, or false to disable. */
+		private final boolean enabled;
+
+		/**
+		 * Create a new instance for handling this API request with the specified argument.
+		 *
+		 * @param enabled Specify true to enable, or false to disable.
+		 */
+		public SetDefaultMouseMotionListenerEnabledAPIListener(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		@Override
+		public void run() {
+			defaultMouseMotionListenerEnabled = this.enabled;
+		}
+	}
+
+
+
+	/**
+	 * Enables/disables the default event listener handling mouse-wheel events on the graph screen.
+	 * (API Implementation)
+	 *
+	 * @param enabled Specify true to enable, or false to disable.
+	 */
+	public void setDefaultMouseWheelListenerEnabled(boolean enabled) {
+
+		// Handle the API request on the event-dispatcher thread.
+		SetDefaultMouseWheelListenerEnabledAPIListener apiListener = new SetDefaultMouseWheelListenerEnabledAPIListener(enabled);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setDefaultMouseWheelListenerEnabled(boolean enabled) method,
+	 * on the event-dispatcher thread.
+	 */
+	private class SetDefaultMouseWheelListenerEnabledAPIListener implements Runnable {
+
+		/** Set to true to enable, or false to disable. */
+		private final boolean enabled;
+
+		/**
+		 * Create a new instance for handling this API request with the specified argument.
+		 *
+		 * @param enabled Specify true to enable, or false to disable.
+		 */
+		public SetDefaultMouseWheelListenerEnabledAPIListener(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		@Override
+		public void run() {
+			defaultMouseWheelListenerEnabled = this.enabled;
+		}
+	}
 }
