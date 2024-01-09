@@ -28,6 +28,8 @@ import org.vcssl.nano.VnanoException;
 
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import java.lang.reflect.InvocationTargetException;
 
 
 
@@ -370,6 +372,64 @@ public final class Presenter {
 				JOptionPane.showMessageDialog(this.view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
 				vne.printStackTrace();
 			}
+		}
+	}
+
+
+	/**
+	 * Disposes all the disposable resources of this application.
+	 *
+	 * This processing is performed on the event-dispatcher thread,
+	 * because threre may be some reserved event/API processings on the event queue when this method is called.
+	 * In such situation,
+	 * this application will be disposed after when all the reserved event/API processings are completed.
+	 */
+	public synchronized void dispose() {
+
+		// The above "synchronized" modifier is necessary for avoiding conflicts with the processing of plot() method,
+		// because plot() may be run on threads different with the event-dispatcher thread,
+		// e.g.: the thread of the host application calling plot(),
+		// or screen-updater thread when asynchronous-plotting feature is enabled.
+
+		Disposer disposer = new Disposer();
+		if (SwingUtilities.isEventDispatchThread()) {
+			disposer.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(disposer);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The Runnable implementation to perform internal processing of dispose() method on the event-dispatcher thread.
+	 */
+	private final class Disposer implements Runnable {
+		@Override
+		public void run() {
+
+			// Terminate the rendering loop.
+			try {
+				renderingLoop.exit();
+
+				// The loop is running on another thread, so we must wait for termination of it.
+				while(!renderingLoop.isExitedSuccessfully()) {
+					Thread.sleep(100);
+				}
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+
+			// Dispose all the windows of View layer.
+			view.dispose();
+
+			// Dispose the resources in the renderer.
+			renderer.dispose();
 		}
 	}
 

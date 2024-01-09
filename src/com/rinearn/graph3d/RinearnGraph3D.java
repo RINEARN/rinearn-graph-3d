@@ -218,6 +218,28 @@ public class RinearnGraph3D {
 
 	/**
 	 * <span class="lang-en">
+	 * Disposes all the disposable resources of this instance
+	 * </span>
+	 * <span class="lang-ja">
+	 * このインスタンス内の, 破棄可能なリソースを全て破棄します
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * This instance is not available anyway after calling this method.
+	 * When you want to reuse it, create a new instance again.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドの呼び出し後は, このインスタンスは一切使用できなくなります.
+	 * 再び使用したい場合は, 新しいインスタンスを生成してください.
+	 * </span>
+	 */
+	public synchronized void dispose() {
+		this.presenter.dispose();
+	}
+
+
+	/**
+	 * <span class="lang-en">
 	 * Enables/disables the feature to exit the entier application automatically,
 	 * performed when the graph window is closed (disabled by default)
 	 * </span>
@@ -1017,6 +1039,17 @@ public class RinearnGraph3D {
 	 * Plots all contents composing the graph again (replot).
 	 */
 	public synchronized void plot() {
+
+		// これイベントスレッドでやるよう包むべきでは？今は他のAPIリクエストがイベントキューに積まれてシリアルに実行されるので。
+		// 下記をダイレクトに呼んでしまうと、先に記述している設定操作がイベントスレッド上で終わる前にプロットされる事が生じ得ない？
+		//
+		// -> 設定操作は invokeLater じゃなく invokeAndWait してるから順序は問題ないと思うが、まあ要検討かも。
+		//    全APIリクエストが一旦イベントキューに積まれてからシリアルに捌かれるよう統一した方が、確かに分かりやすいっちゃ分かりやすいし。
+		//
+		//    たぶん別に必須ではないので追い追い検討
+		//
+		//    （Presenter.plot 自体はイベントスレッド化すると他の依存場面でフロー変わるので、やるなら別メソッドを用意する方向で）
+
 		this.presenter.plot();
 	}
 }
