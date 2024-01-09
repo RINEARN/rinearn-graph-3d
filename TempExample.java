@@ -12,6 +12,16 @@ import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 import java.awt.Color;
 import java.math.BigDecimal;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+
 
 /**
  * A temporary example code using RINEARN Graph 3D as a library.
@@ -142,8 +152,35 @@ public class TempExample {
 		//graph3D.setDefaultMouseMotionListenerEnabled(false);
 		//graph3D.setDefaultMouseWheelListenerEnabled(false);
 
+		CustomMouseListener customMouseListener = new CustomMouseListener();
+		graph3D.addMouseListener(customMouseListener);
+		graph3D.addMouseMotionListener(customMouseListener);
+		graph3D.addMouseWheelListener(customMouseListener);
+
+		CustomKeyListener customKeyListener = new CustomKeyListener();
+		graph3D.addKeyListener(customKeyListener);
 	}
 
+	private class CustomMouseListener extends MouseAdapter {
+		@Override
+		public void mousePressed(MouseEvent e) {
+			System.out.println("mousePressed@" + this);
+		}
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			System.out.println("mouseDragged@" + this);
+		}
+		@Override
+		public void mouseWheelMoved(MouseWheelEvent e) {
+			System.out.println("mouseWheelMoved" + this);
+		}
+	}
+	private class CustomKeyListener extends KeyAdapter {
+		@Override
+		public void keyPressed(KeyEvent e) {
+			System.out.println("keyPressed@" + this);
+		}
+	}
 
 	// A plotter class, which plots contents using the specified renderer, when the plotting is requested by the RINEARN Graph 3D.
 	private class Plotter implements RinearnGraph3DPlottingListener {

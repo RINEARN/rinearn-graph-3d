@@ -13,6 +13,11 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelListener;
+import java.awt.event.KeyListener;
+
 import java.lang.reflect.InvocationTargetException;
 
 
@@ -617,7 +622,7 @@ public final class ScreenHandler {
 
 
 	/**
-	 * Enables/disables the default event listener handling key events on the graph screen.
+	 * Enables/disables the default event listener handling key events on the graph window.
 	 * (API Implementation)
 	 *
 	 * @param enabled Specify true to enable, or false to disable.
@@ -801,6 +806,195 @@ public final class ScreenHandler {
 		@Override
 		public void run() {
 			defaultMouseWheelListenerEnabled = this.enabled;
+		}
+	}
+
+
+	/**
+	 * Adds the event listener for handling key events on the graph window.
+	 * (API Implementation)
+	 *
+	 * @param listener The event listener to be added.
+	 */
+	public void addKeyListener(KeyListener listener) {
+
+		// Handle the API request on the event-dispatcher thread.
+		AddKeyListenerAPIListener apiListener = new AddKeyListenerAPIListener(listener);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from addKeyListener(KeyListener listener) method,
+	 * on the event-dispatcher thread.
+	 */
+	private class AddKeyListenerAPIListener implements Runnable {
+
+		/** The event listener to be added. */
+		private final KeyListener listener;
+
+		/**
+		 * Create a new instance for handling this API request with the specified argument.
+		 *
+		 * @param listener The event listener to be added.
+		 */
+		public AddKeyListenerAPIListener(KeyListener listener) {
+			this.listener = listener;
+		}
+
+		@Override
+		public void run() {
+			//view.mainWindow.screenLabel.addKeyListener(this.listener); // Don't work.
+			view.mainWindow.frame.addKeyListener(this.listener);
+		}
+	}
+
+
+	/**
+	 * Adds the event listener for handling mouse events on the graph screen.
+	 * (API Implementation)
+	 *
+	 * @param listener The event listener to be added.
+	 */
+	public void addMouseListener(MouseListener listener) {
+
+		// Handle the API request on the event-dispatcher thread.
+		AddMouseListenerAPIListener apiListener = new AddMouseListenerAPIListener(listener);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from addMouseListener(MouseListener listener) method,
+	 * on the event-dispatcher thread.
+	 */
+	private class AddMouseListenerAPIListener implements Runnable {
+
+		/** The event listener to be added. */
+		private final MouseListener listener;
+
+		/**
+		 * Create a new instance for handling this API request with the specified argument.
+		 *
+		 * @param listener The event listener to be added.
+		 */
+		public AddMouseListenerAPIListener(MouseListener listener) {
+			this.listener = listener;
+		}
+
+		@Override
+		public void run() {
+			view.mainWindow.screenLabel.addMouseListener(this.listener);
+		}
+	}
+
+
+	/**
+	 * Adds the event listener for handling mouse-motion events on the graph screen.
+	 * (API Implementation)
+	 *
+	 * @param listener The event listener to be added.
+	 */
+	public void addMouseMotionListener(MouseMotionListener listener) {
+
+		// Handle the API request on the event-dispatcher thread.
+		AddMouseMotionListenerAPIListener apiListener = new AddMouseMotionListenerAPIListener(listener);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from addMouseMotionListener(MouseMotionListener listener) method,
+	 * on the event-dispatcher thread.
+	 */
+	private class AddMouseMotionListenerAPIListener implements Runnable {
+
+		/** The event listener to be added. */
+		private final MouseMotionListener listener;
+
+		/**
+		 * Create a new instance for handling this API request with the specified argument.
+		 *
+		 * @param listener The event listener to be added.
+		 */
+		public AddMouseMotionListenerAPIListener(MouseMotionListener listener) {
+			this.listener = listener;
+		}
+
+		@Override
+		public void run() {
+			view.mainWindow.screenLabel.addMouseMotionListener(this.listener);
+		}
+	}
+
+
+	/**
+	 * Adds the event listener for handling mouse-wheel events on the graph screen.
+	 * (API Implementation)
+	 *
+	 * @param listener The event listener to be added.
+	 */
+	public void addMouseWheelListener(MouseWheelListener listener) {
+
+		// Handle the API request on the event-dispatcher thread.
+		AddMouseWheelListenerAPIListener apiListener = new AddMouseWheelListenerAPIListener(listener);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from addMouseMotionListener(MouseMotionListener listener) method,
+	 * on the event-dispatcher thread.
+	 */
+	private class AddMouseWheelListenerAPIListener implements Runnable {
+
+		/** The event listener to be added. */
+		private final MouseWheelListener listener;
+
+		/**
+		 * Create a new instance for handling this API request with the specified argument.
+		 *
+		 * @param listener The event listener to be added.
+		 */
+		public AddMouseWheelListenerAPIListener(MouseWheelListener listener) {
+			this.listener = listener;
+		}
+
+		@Override
+		public void run() {
+			view.mainWindow.screenLabel.addMouseWheelListener(this.listener);
 		}
 	}
 }

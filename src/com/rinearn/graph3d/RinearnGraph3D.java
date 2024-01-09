@@ -13,6 +13,10 @@ import com.rinearn.graph3d.config.EnvironmentConfiguration;
 import com.rinearn.graph3d.config.CameraConfiguration;
 
 import java.awt.Dimension;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelListener;
 import javax.swing.JOptionPane;
 import java.math.BigDecimal;
 
@@ -1052,10 +1056,10 @@ public class RinearnGraph3D {
 
 	/**
 	 * <span class="lang-en">
-	 * Enables/disables the default event listener handling key events on the graph screen
+	 * Enables/disables the default event listener handling key events on the graph window
 	 * </span>
 	 * <span class="lang-ja">
-	 * グラフスクリーン上でのキーイベントを処理する, デフォルトのイベントリスナーの有効/無効を切り替えます
+	 * グラフウィンドウ上でのキーイベントを処理する, デフォルトのイベントリスナーの有効/無効を切り替えます
 	 * </span>
 	 *
 	 * @param enabled
@@ -1115,6 +1119,74 @@ public class RinearnGraph3D {
 	 */
 	public synchronized void setDefaultMouseWheelListenerEnabled(boolean enabled) {
 		this.presenter.screenHandler.setDefaultMouseWheelListenerEnabled(enabled);
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Adds the event listener for handling key events on the graph window
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフウィンドウ上でのキーイベントを処理する, イベントリスナーを追加します
+	 * </span>
+	 *
+	 * @param enabled
+	 *   <span class="lang-en">The event listener to be added</span>
+	 *   <span class="lang-ja">追加するイベントリスナー</span>
+	 */
+	public synchronized void addKeyListener(KeyListener listener) {
+		this.presenter.screenHandler.addKeyListener(listener);
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Adds the event listener for handling mouse events on the graph screen
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフスクリーン上でのマウスイベントを処理する, イベントリスナーを追加します
+	 * </span>
+	 *
+	 * @param enabled
+	 *   <span class="lang-en">The event listener to be added</span>
+	 *   <span class="lang-ja">追加するイベントリスナー</span>
+	 */
+	public synchronized void addMouseListener(MouseListener listener) {
+		this.presenter.screenHandler.addMouseListener(listener);
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Adds the event listener for handling mouse-motion events on the graph screen
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフスクリーン上でのマウスモーションイベントを処理する, イベントリスナーを追加します
+	 * </span>
+	 *
+	 * @param enabled
+	 *   <span class="lang-en">The event listener to be added</span>
+	 *   <span class="lang-ja">追加するイベントリスナー</span>
+	 */
+	public synchronized void addMouseMotionListener(MouseMotionListener listener) {
+		this.presenter.screenHandler.addMouseMotionListener(listener);
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Adds the event listener for handling mouse-wheel events on the graph screen
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフスクリーン上でのマウスホイールイベントを処理する, イベントリスナーを追加します
+	 * </span>
+	 *
+	 * @param enabled
+	 *   <span class="lang-en">The event listener to be added</span>
+	 *   <span class="lang-ja">追加するイベントリスナー</span>
+	 */
+	public synchronized void addMouseWheelListener(MouseWheelListener listener) {
+		this.presenter.screenHandler.addMouseWheelListener(listener);
 	}
 
 
