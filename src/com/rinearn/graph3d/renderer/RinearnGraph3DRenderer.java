@@ -50,6 +50,26 @@ public interface RinearnGraph3DRenderer {
 
 	/**
 	 * <span class="lang-en">
+	 * Disposes all the disposable resources in this renderer instance
+	 * </span>
+	 * <span class="lang-ja">
+	 * このレンダラーのインスタンス内の、破棄可能なリソースを全て破棄します
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * This instance is not available anyway after calling this method.
+	 * When you want to reuse this renderer, create a new instance again.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドの呼び出し後は, このインスタンスは一切使用できなくなります.
+	 * 再び使用したい場合は, 新しいインスタンスを生成してください.
+	 * </span>
+	 */
+	public void dispose();
+
+
+	/**
+	 * <span class="lang-en">
 	 * Clears all currently rendered contents of the graph
 	 * </span>
 	 * <span class="lang-ja">
