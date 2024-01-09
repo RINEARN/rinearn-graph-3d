@@ -34,6 +34,9 @@ public final class FrameHandler {
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
 
+	/** The flag to enable/disable the feature to exit the entire application automatically, performed when the graph window is closed. */
+	private volatile boolean autoExittingEnabled = false;
+
 
 	/**
 	 * Create a new instance handling events and API requests using the specified resources.
@@ -112,8 +115,9 @@ public final class FrameHandler {
 				return;
 			}
 
-			// Temporary
-			System.exit(0);
+			if (autoExittingEnabled) {
+				System.exit(0);
+			}
 		}
 	}
 
@@ -139,7 +143,7 @@ public final class FrameHandler {
 	 */
 	public void setWindowBounds(int x, int y, int width, int height) {
 
-		// Handle the API on the event-dispatcher thread.
+		// Handle the API request on the event-dispatcher thread.
 		SetWindowBoundsAPIListener apiListener = new SetWindowBoundsAPIListener(x, y, width, height);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
@@ -203,7 +207,7 @@ public final class FrameHandler {
 	 */
 	public void setScreenSize(int width, int height) {
 
-		// Handle the API on the event-dispatcher thread.
+		// Handle the API request on the event-dispatcher thread.
 		SetScreenSizeAPIListener apiListener = new SetScreenSizeAPIListener(width, height);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
@@ -244,6 +248,53 @@ public final class FrameHandler {
 		public void run() {
 			MainWindow window = view.mainWindow;
 			window.setScreenSize(this.width, this.height);
+		}
+	}
+
+
+	/**
+	 * Enables/disables the feature to exit the entier application automatically,
+	 * performed when the graph window is closed (disabled by default) .
+	 *
+	 * @param enabled Specify true to enable, or false to disable.
+	 */
+	public void setAutoExittingEnabled(boolean enabled) {
+
+		// Handle the API request on the event-dispatcher thread.
+		SetAutoExittingEnabledAPIListener apiListener = new SetAutoExittingEnabledAPIListener(enabled);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests for setting the size of the graph screen,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetAutoExittingEnabledAPIListener implements Runnable {
+
+		/** Set to true to enable, or false to disable. */
+		private final boolean enabled;
+
+		/**
+		 * Creates a new instance for enabling/disabling auto-exitting feature.
+		 *
+		 * @param enabled Specify true to enable, or false to disable.
+		 */
+		public SetAutoExittingEnabledAPIListener(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		@Override
+		public void run() {
+			autoExittingEnabled = this.enabled;
 		}
 	}
 }

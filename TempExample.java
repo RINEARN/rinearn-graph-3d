@@ -130,6 +130,9 @@ public class TempExample {
 
 		graph3D.setData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
 		graph3D.clear();
+
+		//graph3D.setAutoExittingEnabled(false);
+		graph3D.setAutoExittingEnabled(true);
 	}
 
 

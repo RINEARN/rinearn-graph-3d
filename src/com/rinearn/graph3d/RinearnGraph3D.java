@@ -218,6 +218,29 @@ public class RinearnGraph3D {
 
 	/**
 	 * <span class="lang-en">
+	 * Enables/disables the feature to exit the entier application automatically,
+	 * performed when the graph window is closed (disabled by default)
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフウィンドウを閉じた際に,
+	 * 自動でアプリケーション全体を終了させる機能の有効/無効を設定します（デフォルトで無効）
+	 * </span>
+	 * .
+	 * @param enabled
+	 *   <span class="lang-en">
+	 *   Specify true to enable, false to disable
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   有効化する場合にtrue, 無効化する場合に false を指定
+	 *   </span>
+	 */
+	public synchronized void setAutoExittingEnabled(boolean enabled) {
+		this.presenter.frameHandler.setAutoExittingEnabled(enabled);
+	}
+
+
+	/**
+	 * <span class="lang-en">
 	 * Clears all the currently plotted data and math expressions
 	 * </span>
 	 * <span class="lang-ja">
