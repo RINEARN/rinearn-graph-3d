@@ -8,12 +8,14 @@ import com.rinearn.graph3d.config.OptionConfiguration;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 
 /**
- * The class handling events and API requests related to the menu bar and right-click menus.
+ * The class handling UI events related to menus, and also handling some menu-like API requests, such as clear().
  */
 public final class MenuHandler {
 
@@ -451,6 +453,47 @@ public final class MenuHandler {
 			presenter.propagateConfiguration();
 
 			// Replot the graph.
+			presenter.plot();
+		}
+	}
+
+
+
+
+
+	// ================================================================================
+	//
+	// - API Listeners -
+	//
+	// ================================================================================
+
+
+	/**
+	 * Clears all the currently plotted data and math expressions.
+	 */
+	public void clear() {
+
+		// Handle the API request on the event-dispatcher thread.
+		ClearAPIListener apiListener = new ClearAPIListener();
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from clear() method, on event-dispatcher thread.
+	 */
+	private final class ClearAPIListener implements Runnable {
+		@Override
+		public void run() {
+			model.clearDataSeries();
 			presenter.plot();
 		}
 	}
