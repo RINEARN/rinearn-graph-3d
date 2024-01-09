@@ -317,6 +317,20 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	/**
+	 * Disposes all the disposable resources in this renderer instance.
+	 */
+	@Override
+	public synchronized void dispose() {
+		this.screenImage = null;
+		this.screenGraphics.dispose();
+		this.geometricPieceList.clear();
+		this.transformationMatrix = null;
+
+		System.gc();
+	}
+
+
+	/**
 	 * Clears all currently rendered contents.
 	 */
 	@Override
