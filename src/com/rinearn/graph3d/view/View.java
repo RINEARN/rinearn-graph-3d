@@ -151,4 +151,17 @@ public final class View {
 		this.lightSettingWindow.configure(configuration);
 		this.zxyMathWindow.configure(configuration);
 	}
+
+	/**
+	 * Disposes all the disposable resources in View layer.
+	 */
+	public synchronized void dispose() {
+		this.mainWindow.dispose();
+		this.labelSettingWindow.dispose();
+		this.rangeSettingWindow.dispose();
+		this.fontSettingWindow.dispose();
+		this.cameraSettingWindow.dispose();
+		this.lightSettingWindow.dispose();
+		this.zxyMathWindow.dispose();
+	}
 }

@@ -1129,4 +1129,33 @@ public final class MainWindow {
 			frame.setVisible(true);
 		}
 	}
+
+
+	/**
+	 * Disposes this window.
+	 */
+	public void dispose() {
+		Disposer disposer = new Disposer();
+		if (SwingUtilities.isEventDispatchThread()) {
+			disposer.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(disposer);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class for disposing GUI components on the window, on event-dispatcher thread.
+	 */
+	private final class Disposer implements Runnable {
+		@Override
+		public void run() {
+			frame.setVisible(false);
+			frame.dispose();
+		}
+	}
 }
