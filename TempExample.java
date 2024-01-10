@@ -165,6 +165,7 @@ public class TempExample {
 		CustomKeyListener customKeyListener = new CustomKeyListener();
 		graph3D.addKeyListener(customKeyListener);
 
+		/*
 		BufferedImage screenImage = BufferedImage.class.cast(graph3D.getImage());
 		ImageIO.write(screenImage, "PNG", new File("./ScreenImage1.png"));
 		System.out.println("Saved: ./ScreenImage1.png");
@@ -178,6 +179,18 @@ public class TempExample {
 		screenImage = BufferedImage.class.cast(graph3D.getImage());
 		ImageIO.write(screenImage, "PNG", new File("./ScreenImage3.png"));
 		System.out.println("Saved: ./ScreenImage3.png");
+		*/
+
+		graph3D.exportImageFile(new File("./ScreenImage1.png"), 1.0);
+		System.out.println("Saved: ./ScreenImage1.png");
+
+		graph3D.setZZenithCameraAngle(0.8, 1.2, 0.0);
+		graph3D.exportImageFile(new File("./ScreenImage2.jpg"), 1.0);
+		System.out.println("Saved: ./ScreenImage2.jpg");
+
+		graph3D.setZZenithCameraAngle(1.2, 1.4, 0.0);
+		graph3D.exportImageFile(new File("./ScreenImage3.jpg"), 0.3); // 30% quality
+		System.out.println("Saved: ./ScreenImage1.jpg");
 	}
 
 	private class CustomMouseListener extends MouseAdapter {

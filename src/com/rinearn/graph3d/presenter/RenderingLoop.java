@@ -7,10 +7,21 @@ import com.rinearn.graph3d.view.View;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
-import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.SwingUtilities;
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
+
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
 
 
 /**
@@ -252,8 +263,174 @@ public final class RenderingLoop implements Runnable {
 		public void run() {
 
 			// Copy the current screen image to the buffer, and store the result to the "image" field.
-			externBuffer = bufferCurrentScreenImage(externBuffer);
+			externBuffer = bufferCurrentScreenImage(externBuffer, true);
 			this.image = externBuffer.image;
+		}
+	}
+
+
+	/**
+	 * Exports the current screen image to a image file.
+	 *
+	 * @param file The file to be written.
+	 * @param quality The quality of the image file (from 0.0 to 1.0, or from 1.0 to 100.0).
+	 * @throws IOException Thrown if any error occurred for writing the image file.
+	 */
+	public void exportImageFile(File file, double quality) throws IOException {
+
+		// There is no need to add "synchronized" here.
+		// The timing-critical processing to copy the screen image to the buffer
+		// is implemented as a "synchronized" method: bufferCurrentScreenImage(-).
+
+		// Handle the API on the event-dispatcher thread.
+		ExportImageAPIListener apiListener;
+		try {
+			apiListener = new ExportImageAPIListener(file, quality);
+		} catch (IllegalArgumentException e) {
+			throw new IOException(e);
+		}
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+		if (apiListener.hasIOException()) {
+			throw apiListener.getIOException();
+		}
+	}
+
+
+	/**
+	 * The class handling API requests from exportImage(-) method,
+	 * on the event-dispatcher thread.
+	 */
+	private class ExportImageAPIListener implements Runnable {
+
+		/** The file to be written. */
+		private final File file;
+
+		/** The name of the image format. */
+		private final String formatName;
+
+		/** The quality of the image file (from 0.0 to 1.0, or from 1.0 to 100.0). */
+		private final double quality;
+
+		/** Stores the IOException occurred when writing a image file. */
+		private volatile IOException ioException = null;
+
+		/**
+		 * Create a new instance writing the specified image file with the specified quality.
+		 *
+		 * @param file The file to be written.
+		 * @param quality The quality of the image file (from 0.0 to 1.0, or from 1.0 to 100.0).
+		 * @throws IllegalArgumentException Thrown if the specified format is unsupported, or the quality is out of range.
+		 */
+		public ExportImageAPIListener(File file, double quality) throws IllegalArgumentException {
+			this.file = file;
+			String fileName = file.getName().toLowerCase();
+
+			if (fileName.endsWith(".png")) {
+				this.formatName = "png";
+			} else if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
+				this.formatName = "jpg";
+			} else if (fileName.endsWith(".bmp")) {
+				this.formatName = "bmp";
+			} else {
+				throw new IllegalArgumentException("Unsupported Image Format: " + fileName);
+			}
+
+			if (quality < 0.0 || 100.0 < quality) {
+				throw new IllegalArgumentException("The specified quality is out of range: " + quality);
+			}
+			this.quality = (quality <= 1.0) ? quality : (quality / 100.0);
+		}
+
+		/**
+		 * Checks whether any IOException occurred when this instance wrote the image file.
+		 *
+		 * @return Returns true if any IOException occurred.
+		 */
+		public boolean hasIOException() {
+			return this.ioException != null;
+		}
+
+		/**
+		 * Gets the IOException which occurred when this instance wrote the image file.
+		 *
+		 * @return The IOException which occurred when this instance wrote the image file.
+		 */
+		public IOException getIOException() {
+			return this.ioException;
+		}
+
+		/**
+		 * Gets the Image instance from the renderer, on the event-dispatcher thread.
+		 */
+		@Override
+		public void run() {
+
+			// Check whether alpha-channel is available on the specified image format.
+			boolean usesAlphaChannel = this.formatName.equals("png");
+
+			// Copy the current screen image to a buffer, and store the result to the "image" field.
+			BufferedResources buffer = bufferCurrentScreenImage(null, usesAlphaChannel);
+
+			if (this.quality < 1.0 && this.formatName.equals("jpg")) {
+				boolean wrote = false;
+
+				// Get all the "ImageWriter"s which can write a JPEG image.
+				Iterator<ImageWriter> imageWriterIterator = ImageIO.getImageWritersByFormatName(this.formatName);
+				while (!wrote && imageWriterIterator.hasNext()) {
+					ImageWriter imageWriter = imageWriterIterator.next();
+					ImageWriteParam imageWriterParam = imageWriter.getDefaultWriteParam();
+
+					// If the above ImageWrite can write a JPEG image with the specified quality,
+					// write it and break from this loop.
+					if (imageWriterParam.canWriteCompressed()) {
+						imageWriterParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+						imageWriterParam.setCompressionQuality((float)this.quality);
+						IIOImage iioImage = new IIOImage(
+								(BufferedImage)buffer.image,
+								null, // A List of thumbnails: we can specify null.
+								null // IIOMetadata: we can specify null.
+						);
+						try (ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(this.file)) {
+							imageWriter.setOutput(imageOutputStream);
+							imageWriter.write(
+									null, // IIOMetadata: we can specify null, to use the default one.
+									iioImage,
+									imageWriterParam
+							);
+							wrote = true;
+						} catch (IOException e) {
+							this.ioException = e;
+						}
+					}
+					imageWriter.dispose();
+				}
+
+				// If no ImageWriter available for writing the JPEG image with the specified quality has been found:
+				if (!wrote && this.ioException == null) {
+					this.ioException = new IOException(
+							"Can not write the specified image file with the specified quality in this environment."
+					);
+				}
+				return;
+
+			// For other formats, we can simply write the image file by ImageIO.write(-).
+			} else {
+				try {
+					ImageIO.write(buffer.image, this.formatName, this.file);
+				} catch (IOException ioe) {
+					this.ioException = ioe;
+					return;
+				}
+			}
 		}
 	}
 
@@ -261,10 +438,12 @@ public final class RenderingLoop implements Runnable {
 	/**
 	 * Buffers (copies) the current screen image.
 	 *
-	 * @param lastBuffer The buffer used last time by this method (reused if possible).
+	 * @param lastBuffer The buffer used last time by this method (reused if possible), or specify null to allocate a new buffer.
+	 * @param usesAlphaChannel Specify true if the alpha channel is necessary (for expressing transparent colors).
 	 * @return The buffered image of the current screen image, and its graphics context.
 	 */
-	private synchronized BufferedResources bufferCurrentScreenImage(BufferedResources lastBuffer) {
+	private synchronized BufferedResources bufferCurrentScreenImage(
+			BufferedResources lastBuffer, boolean usesAlphaChannel) {
 
 		// Get the current screen image.
 		Image screenImage = this.renderer.getScreenImage();
@@ -278,7 +457,9 @@ public final class RenderingLoop implements Runnable {
 			if (buffer != null) {
 				buffer.graphics.dispose();
 			}
-			BufferedImage newImage = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
+			BufferedImage newImage = usesAlphaChannel ?
+					new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB):
+					new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_RGB);
 			Graphics2D newGraphics = newImage.createGraphics();
 			buffer = new BufferedResources(newImage, newGraphics);
 		}

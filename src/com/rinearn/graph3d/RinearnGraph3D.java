@@ -18,6 +18,10 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelListener;
+
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.JOptionPane;
 import java.math.BigDecimal;
 
@@ -351,6 +355,43 @@ public class RinearnGraph3D {
 	 */
 	public synchronized Image getImage() {
 		return this.presenter.renderingLoop.getImage();
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Exports the current screen image to a image file
+	 * </span>
+	 * <span class="lang-ja">
+	 * 現在のスクリーンの内容を, 画像ファイルとして保存します
+	 * </span>
+	 * .
+	 * @param file
+	 *   <span class="lang-en">
+	 *   The file to be written
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   保存するファイル
+	 *   </span>
+	 *
+	 * @param quality
+	 *   <span class="lang-en">
+	 *   The quality of the image file (from 0.0 to 1.0, or from 1.0 to 100.0)
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   画像ファイルの品質 (0.0 から 1.0, または 1.0から 100.0 の範囲で指定します)
+	 *   </span>
+	 *
+	 * @throws IOException
+	 *   <span class="lang-en">
+	 *   Thrown if any error occurred for writing the image file
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   画像ファイルの出力処理で何らかのエラーが発生した際にスローされます
+	 *   </span>
+	 */
+	public synchronized void exportImageFile(File file, double quality) throws IOException {
+		this.presenter.renderingLoop.exportImageFile(file, quality);
 	}
 
 
