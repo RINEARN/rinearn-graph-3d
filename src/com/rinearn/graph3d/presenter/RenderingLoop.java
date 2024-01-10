@@ -97,6 +97,17 @@ public final class RenderingLoop implements Runnable {
 
 
 	/**
+	 * Disposes the buffered resources.
+	 */
+	public synchronized void dispose() {
+		if (this.externBuffer != null) {
+			this.externBuffer.graphics.dispose();
+			this.externBuffer = null;
+		}
+	}
+
+
+	/**
 	 * Starts the rendering loop (on an independent thread).
 	 */
 	public synchronized void start() {
@@ -420,7 +431,6 @@ public final class RenderingLoop implements Runnable {
 							"Can not write the specified image file with the specified quality in this environment."
 					);
 				}
-				return;
 
 			// For other formats, we can simply write the image file by ImageIO.write(-).
 			} else {
@@ -428,9 +438,13 @@ public final class RenderingLoop implements Runnable {
 					ImageIO.write(buffer.image, this.formatName, this.file);
 				} catch (IOException ioe) {
 					this.ioException = ioe;
-					return;
 				}
 			}
+
+			// Dispose the buffer.
+			buffer.graphics.dispose();
+			buffer = null;
+			System.gc();
 		}
 	}
 

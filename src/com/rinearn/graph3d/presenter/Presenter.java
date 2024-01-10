@@ -430,6 +430,10 @@ public final class Presenter {
 
 			// Dispose the resources in the renderer.
 			renderer.dispose();
+
+			// Some subcomponents in Presenter layer having disposable resources (image buffers, etc.),
+			// so dispose them.
+			renderingLoop.dispose();
 		}
 	}
 
