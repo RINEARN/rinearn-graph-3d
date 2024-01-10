@@ -12,6 +12,7 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.EnvironmentConfiguration;
 import com.rinearn.graph3d.config.CameraConfiguration;
 
+import java.awt.Image;
 import java.awt.Dimension;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -308,6 +309,48 @@ public class RinearnGraph3D {
 	 */
 	public void setAutoExittingEnabled(boolean enabled) {
 		this.setAutoExitingEnabled(enabled);
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Gets an Image instance storing the current screen image
+	 * </span>
+	 * <span class="lang-ja">
+	 * 現在のスクリーンの内容を保持している Image インスタンスを取得します
+	 * </span>
+	 * .
+	 *
+	 * <span class="lang-en">
+	 * This method copies the current screen image to a buffer, and returns the reference to the buffer.
+	 * Hence, the content of the returned Image instance is NOT updated automatically when the screen is re-rendered.
+	 * To update the content of the image, re-call this method.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドは、現在のスクリーンの内容をバッファにコピーし, そのバッファの参照を返します.
+	 * 従って, 返される Image インスタンスの内容は, スクリーンが再描画されても, 自動で更新はされません.
+	 * 内容を更新するには, このメソッドを再度使用してください.
+	 * </span>
+	 *
+	 * <span class="lang-en">
+	 * Please note that, the returned Image instance changes when the screen is resized,
+	 * because it requires to reallocate the buffer.
+	 * </span>
+	 * <span class="lang-ja">
+	 * なお, スクリーンサイズが変わった際には, バッファ領域が再確保されるため,
+	 * このメソッドが返す Image インスタンスも変わる事に注意が必要です.
+	 * </span>
+	 *
+	 * @return
+	 *   <span class="lang-en">
+	 *   The Image instance storing the current screen image
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   現在のスクリーンの内容を保持している Image インスタンス
+	 *   </span>
+	 */
+	public synchronized Image getImage() {
+		return this.presenter.renderingLoop.getImage();
 	}
 
 

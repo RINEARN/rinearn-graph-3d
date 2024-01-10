@@ -9,6 +9,8 @@ import com.rinearn.graph3d.config.ColorGradient;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.math.BigDecimal;
 
@@ -22,6 +24,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
+import javax.imageio.ImageIO;
+import java.io.File;
+
 
 /**
  * A temporary example code using RINEARN Graph 3D as a library.
@@ -29,14 +34,14 @@ import java.awt.event.KeyEvent;
  */
 public class TempExample {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		System.out.println("Hello RINEARN Graph 3D Ver.6!");
 
 		TempExample tempMain = new TempExample();
 		tempMain.init();
 	}
 
-	public void init() {
+	public void init() throws Exception {
 
 		// Launch a new RINEARN Graph 3D window (to be implemented).
 		RinearnGraph3D graph3D = new RinearnGraph3D();
@@ -159,6 +164,20 @@ public class TempExample {
 
 		CustomKeyListener customKeyListener = new CustomKeyListener();
 		graph3D.addKeyListener(customKeyListener);
+
+		BufferedImage screenImage = BufferedImage.class.cast(graph3D.getImage());
+		ImageIO.write(screenImage, "PNG", new File("./ScreenImage1.png"));
+		System.out.println("Saved: ./ScreenImage1.png");
+
+		graph3D.setZZenithCameraAngle(0.8, 1.2, 0.0);
+		screenImage = BufferedImage.class.cast(graph3D.getImage());
+		ImageIO.write(screenImage, "PNG", new File("./ScreenImage2.png"));
+		System.out.println("Saved: ./ScreenImage2.png");
+
+		graph3D.setZZenithCameraAngle(1.2, 1.4, 0.0);
+		screenImage = BufferedImage.class.cast(graph3D.getImage());
+		ImageIO.write(screenImage, "PNG", new File("./ScreenImage3.png"));
+		System.out.println("Saved: ./ScreenImage3.png");
 	}
 
 	private class CustomMouseListener extends MouseAdapter {
