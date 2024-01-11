@@ -18,7 +18,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelListener;
-
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -1271,6 +1271,23 @@ public class RinearnGraph3D {
 	 */
 	public synchronized void addMouseWheelListener(MouseWheelListener listener) {
 		this.presenter.screenHandler.addMouseWheelListener(listener);
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Adds the event listener for handling window events on the graph window
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフ画面におけるウィンドウイベントを処理する、イベントリスナーを追加登録します
+	 * </span>
+	 * .
+	 * @param listener
+	 *   <span class="lang-en">The event listener to be added</span>
+	 *   <span class="lang-ja">追加するイベントリスナー</span>
+	 */
+	public void addWindowListener(WindowListener listener) {
+		this.presenter.frameHandler.addWindowListener(listener);
 	}
 
 

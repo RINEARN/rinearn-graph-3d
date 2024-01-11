@@ -23,6 +23,9 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowEvent;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -146,8 +149,9 @@ public class TempExample {
 		graph3D.setData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
 		//graph3D.clear();
 
-		graph3D.setAutoExitingEnabled(true);
-		//graph3D.setAutoExitingEnabled(false);
+		//graph3D.setAutoExitingEnabled(true);
+		graph3D.setAutoExitingEnabled(false);
+		graph3D.setAutoDisposingEnabled(true);
 
 		//graph3D.dispose();
 		//graph3D.setAutoDisposingEnabled(false);
@@ -164,6 +168,9 @@ public class TempExample {
 
 		CustomKeyListener customKeyListener = new CustomKeyListener();
 		graph3D.addKeyListener(customKeyListener);
+
+		CustomWindowListener customWindowListener = new CustomWindowListener();
+		graph3D.addWindowListener(customWindowListener);
 
 		/*
 		BufferedImage screenImage = BufferedImage.class.cast(graph3D.getImage());
@@ -191,6 +198,13 @@ public class TempExample {
 		graph3D.setZZenithCameraAngle(1.2, 1.4, 0.0);
 		graph3D.exportImageFile(new File("./ScreenImage3.jpg"), 0.3); // 30% quality
 		System.out.println("Saved: ./ScreenImage1.jpg");
+	}
+
+	private class CustomWindowListener extends WindowAdapter {
+		@Override
+		public void windowClosing(WindowEvent e) {
+			System.out.println("windowClosing@" + this);
+		}
 	}
 
 	private class CustomMouseListener extends MouseAdapter {
