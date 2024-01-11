@@ -43,6 +43,14 @@
 	</target>
 
 	<!-- Compile the source code of RINEARN Graph 3D. -->
+	<target name="compile-rinearn-graph-3d">
+		<mkdir dir="bin" />
+		<javac srcdir="src" destdir="bin" encoding="UTF-8" classpath="lib/app-dependencies/vnano-engine/Vnano.jar" includeantruntime="false" debug="true">
+			<exclude name="**/*Test.java"/>
+		</javac>
+	</target>
+
+	<!-- Create a JAR file of RINEARN Graph 3D compiled by the above. -->
 	<target name="archive-rinearn-graph-3d" depends="compile-rinearn-graph-3d">
 		<jar jarfile="RinearnGraph3D.jar" basedir="bin">
 			<manifest>
@@ -50,14 +58,6 @@
 				<attribute name="Class-Path" value="lib/app-dependencies/vnano-engine/Vnano.jar" />
 			</manifest>
 		</jar>
-	</target>
-
-	<!-- Create a JAR file of RINEARN Graph 3D compiled by the above. -->
-	<target name="compile-rinearn-graph-3d">
-		<mkdir dir="bin" />
-		<javac srcdir="src" destdir="bin" encoding="UTF-8" classpath="lib/app-dependencies/vnano-engine/Vnano.jar" includeantruntime="false" debug="true">
-			<exclude name="**/*Test.java"/>
-		</javac>
 	</target>
 
 	<!-- Compile the example files in this repository. -->
