@@ -446,4 +446,51 @@ public final class FrameHandler {
 			view.mainWindow.frame.addComponentListener(this.listener);
 		}
 	}
+
+
+	/**
+	 * Set the title of the graph window.
+	 * (API Implementation)
+	 *
+	 * @param title The title of the window.
+	 */
+	public void setWindowTitle(String title) {
+
+		// Handle the API request on the event-dispatcher thread.
+		SetWindowTitleAPIListener apiListener = new SetWindowTitleAPIListener(title);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setWindowTitle(String title) method,
+	 * on the event-dispatcher thread.
+	 */
+	private class SetWindowTitleAPIListener implements Runnable {
+
+		/** The event listener to be added. */
+		private final String title;
+
+		/**
+		 * Create a new instance for handling this API request with the specified argument.
+		 *
+		 * @param title The title of the window.
+		 */
+		public SetWindowTitleAPIListener(String title) {
+			this.title = title;
+		}
+
+		@Override
+		public void run() {
+			view.mainWindow.frame.setTitle(this.title);
+		}
+	}
 }

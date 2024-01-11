@@ -218,6 +218,8 @@ public class TempExample {
 		menuBar.add(new JMenu("Bar"));
 		menuBar.add(new JMenu("Yeah!!!"));
 		graph3D.setJMenuBar(menuBar);
+
+		graph3D.setWindowTitle("Window Title Is Customizable!");
 	}
 
 	private class CustomWindowListener extends WindowAdapter {

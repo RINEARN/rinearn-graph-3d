@@ -255,6 +255,27 @@ public class RinearnGraph3D {
 
 	/**
 	 * <span class="lang-en">
+	 * Set the window title of the graph window
+	 * </span>
+	 * <span class="lang-ha">
+	 * グラフ画面のウィンドウタイトルを設定します
+	 * </span>
+	 * .
+	 * @param title
+	 *   <span class="lang-en">
+	 *   The window title of the graph window
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   グラフ画面のウィンドウタイトル
+	 *   </span>
+	 */
+	public void setWindowTitle(String title) {
+		this.presenter.frameHandler.setWindowTitle(title);
+	}
+
+
+	/**
+	 * <span class="lang-en">
 	 * Enables/disables the automatic resource disposal feature performed when the graph window is closed (enabled by default)
 	 * </span>
 	 * <span class="lang-ja">
