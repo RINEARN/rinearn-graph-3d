@@ -7,6 +7,7 @@ import com.rinearn.graph3d.view.MainWindow;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -396,6 +397,53 @@ public final class FrameHandler {
 		@Override
 		public void run() {
 			view.mainWindow.frame.addWindowListener(this.listener);
+		}
+	}
+
+
+	/**
+	 * Adds the event listener for handling component events on the graph screen.
+	 * (API Implementation)
+	 *
+	 * @param listener The event listener to be added.
+	 */
+	public void addComponentListener(ComponentListener listener) {
+
+		// Handle the API request on the event-dispatcher thread.
+		AddComponentListenerAPIListener apiListener = new AddComponentListenerAPIListener(listener);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from addComponentListener(ComponentListener listener) method,
+	 * on the event-dispatcher thread.
+	 */
+	private class AddComponentListenerAPIListener implements Runnable {
+
+		/** The event listener to be added. */
+		private final ComponentListener listener;
+
+		/**
+		 * Create a new instance for handling this API request with the specified argument.
+		 *
+		 * @param listener The event listener to be added.
+		 */
+		public AddComponentListenerAPIListener(ComponentListener listener) {
+			this.listener = listener;
+		}
+
+		@Override
+		public void run() {
+			view.mainWindow.frame.addComponentListener(this.listener);
 		}
 	}
 }

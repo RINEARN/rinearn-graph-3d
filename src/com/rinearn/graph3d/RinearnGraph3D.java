@@ -14,6 +14,7 @@ import com.rinearn.graph3d.config.CameraConfiguration;
 
 import java.awt.Image;
 import java.awt.Dimension;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -1288,6 +1289,23 @@ public class RinearnGraph3D {
 	 */
 	public void addWindowListener(WindowListener listener) {
 		this.presenter.frameHandler.addWindowListener(listener);
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Adds the event listener for handling component events on the graph window
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフ画面におけるコンポーネントイベントを処理する、イベントリスナーを追加登録します
+	 * </span>
+	 * .
+	 * @param listener
+	 *   <span class="lang-en">The event listener to be added</span>
+	 *   <span class="lang-ja">追加するイベントリスナー</span>
+	 */
+	public void addComponentListener(ComponentListener listener) {
+		this.presenter.frameHandler.addComponentListener(listener);
 	}
 
 

@@ -26,6 +26,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowListener;
 import java.awt.event.WindowEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentListener;
+import java.awt.event.ComponentEvent;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -172,6 +175,9 @@ public class TempExample {
 		CustomWindowListener customWindowListener = new CustomWindowListener();
 		graph3D.addWindowListener(customWindowListener);
 
+		CustomComponentListener customComponentListener = new CustomComponentListener();
+		graph3D.addComponentListener(customComponentListener);
+
 		/*
 		BufferedImage screenImage = BufferedImage.class.cast(graph3D.getImage());
 		ImageIO.write(screenImage, "PNG", new File("./ScreenImage1.png"));
@@ -204,6 +210,13 @@ public class TempExample {
 		@Override
 		public void windowClosing(WindowEvent e) {
 			System.out.println("windowClosing@" + this);
+		}
+	}
+
+	private class CustomComponentListener extends ComponentAdapter {
+		@Override
+		public void componentResized(ComponentEvent e) {
+			System.out.println("componentResized" + this);
 		}
 	}
 
