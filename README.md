@@ -20,7 +20,12 @@ Execute 'build.bat' on Microsoft Windows&reg;, or execute 'build.sh' on other OS
     sudo chmod +x ./build.sh
     ./build.sh
 
-As a result, a JAR file "RinearnGraph3D.jar" will be generated.
+If Apache&reg; Ant&trade; is available on your environment, you can also build by Ant as follows:
+
+    cd <this_directory>
+    ant -f build.xml
+
+As a result of the building, a JAR file "RinearnGraph3D.jar" will be generated.
 
 ## How to Run
 
