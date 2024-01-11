@@ -535,4 +535,57 @@ public final class MenuHandler {
 			presenter.renderingLoop.requestRendering();
 		}
 	}
+
+
+	/**
+	 * Replaces the menu bar of the graph window to the specified menu bar.
+	 *
+	 * @param menuBar The menu bar to be displayed on the graph window.
+	 */
+	public void setJMenuBar(JMenuBar menuBar) {
+
+		// Handle the API request on the event-dispatcher thread.
+		SetJMenuBarAPIListener apiListener = new SetJMenuBarAPIListener(menuBar);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+
+	/**
+	 * The class handling API requests from setJMenuBar(JMenuBar menuBar) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetJMenuBarAPIListener implements Runnable {
+
+		/** The menu bar to be displayed on the graph window. */
+		private volatile JMenuBar menuBar;
+
+		/**
+		 * Create a new instance for handling setJMenuBar(-) API request with the specified argument.
+		 *
+		 * @param menuBar The menu bar to be displayed on the graph window.
+		 */
+		public SetJMenuBarAPIListener(JMenuBar menuBar) {
+			this.menuBar = menuBar;
+		}
+
+		@Override
+		public void run() {
+			boolean isMenuVisible = (view.mainWindow.frame.getJMenuBar() != null);
+
+			view.mainWindow.menuBar = this.menuBar;
+			if (isMenuVisible) {
+				view.mainWindow.frame.setJMenuBar(this.menuBar);
+				view.mainWindow.forceUpdateWindowLayout();
+			}
+		}
+	}
 }

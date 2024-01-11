@@ -33,6 +33,9 @@ import java.awt.event.ComponentEvent;
 import javax.imageio.ImageIO;
 import java.io.File;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+
 
 /**
  * A temporary example code using RINEARN Graph 3D as a library.
@@ -205,7 +208,16 @@ public class TempExample {
 		graph3D.exportImageFile(new File("./ScreenImage3.jpg"), 0.3); // 30% quality
 		System.out.println("Saved: ./ScreenImage1.jpg");
 
-		graph3D.setMenuVisible(false);
+		//graph3D.setMenuVisible(false);
+
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.add(new JMenu("This"));
+		menuBar.add(new JMenu("Is"));
+		menuBar.add(new JMenu("Customizable"));
+		menuBar.add(new JMenu("Menu"));
+		menuBar.add(new JMenu("Bar"));
+		menuBar.add(new JMenu("Yeah!!!"));
+		graph3D.setJMenuBar(menuBar);
 	}
 
 	private class CustomWindowListener extends WindowAdapter {

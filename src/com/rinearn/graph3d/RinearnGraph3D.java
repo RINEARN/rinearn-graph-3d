@@ -23,6 +23,7 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import java.math.BigDecimal;
 
@@ -1116,6 +1117,30 @@ public class RinearnGraph3D {
 			bdTickCoordinates[itick] = new BigDecimal(tickCoordinates[itick]);
 		}
 		this.presenter.scaleSettingHandler.setZTicks(bdTickCoordinates, tickLabels);
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Replaces the menu bar of the graph window to the specified (customizable) menu bar
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフ画面のメニューバーを, 指定された（自由にカスタマイズ可能な）メニューバーに置き換えます
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * This enables you to develop your original 3D visualization apps easily using RINEARN Graph 3D as a base.
+	 * </span>
+	 * <span class="lang-ja">
+	 * この機能は, リニアングラフ3Dをベースにして, 独自の3D可視化アプリを手短に開発したい際などに役立ちます.
+	 * </span>
+	 *
+	 * @param menuBar
+	 *   <span class="lang-en">The menu bar to be displayed on the graph window</span>
+	 *   <span class="lang-ja">グラフ画面に表示するメニューバー</span>
+	 */
+	public synchronized void setJMenuBar(JMenuBar menuBar) {
+		presenter.menuHandler.setJMenuBar(menuBar);
 	}
 
 
