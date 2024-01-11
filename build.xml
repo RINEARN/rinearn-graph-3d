@@ -8,7 +8,7 @@
 		ant -f build.xml
 -->
 
-<project name="RinearnProcessorNano" basedir="." default="main">
+<project name="RinearnGraph3D" basedir="." default="main">
 
 	<!-- The root (entry point) of this build process. -->
 	<target name="main" depends="compile-vnano-engine,archive-vnano-engine,compile-vnano-plugins,compile-rinearn-graph-3d,archive-rinearn-graph-3d,compile-examples">
