@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JOptionPane;
+import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
 
 
@@ -94,18 +95,6 @@ public final class MenuHandler {
 	// - Event Listeners -
 	//
 	// ================================================================================
-
-
-	/**
-	 * Sets the visibility of the menu bar and the right click menus.
-	 *
-	 * @param visible Specify true for showing the menu bar and the right click menus.
-	 */
-	public synchronized void setMenuVisible(boolean visible) {
-		view.mainWindow.setMenuVisible(visible);
-		view.mainWindow.forceUpdateWindowLayout();
-		presenter.renderingLoop.requestRendering();
-	}
 
 
 	/**
@@ -495,6 +484,55 @@ public final class MenuHandler {
 		public void run() {
 			model.clearDataSeries();
 			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * Sets the visibility of the menu bar and the right click menus.
+	 *
+	 * @param visible Specify true for showing the menu bar and the right click menus.
+	 */
+	public void setMenuVisible(boolean visible) {
+
+		// Handle the API request on the event-dispatcher thread.
+		SetMenuVisibleAPIListener apiListener = new SetMenuVisibleAPIListener(visible);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+
+	/**
+	 * The class handling API requests from setMenuVisible(boolean visible) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class SetMenuVisibleAPIListener implements Runnable {
+
+		/** Stores the visibility of the menus. */
+		private volatile boolean visible;
+
+		/**
+		 * Create a new instance for handling setMenuVisible(-) API request with the specified argument.
+		 *
+		 * @param visible Specify the visibility of menus.
+		 */
+		public SetMenuVisibleAPIListener(boolean visible) {
+			this.visible = visible;
+		}
+
+		@Override
+		public void run() {
+			view.mainWindow.setMenuVisible(this.visible);
+			view.mainWindow.forceUpdateWindowLayout();
+			presenter.renderingLoop.requestRendering();
 		}
 	}
 }

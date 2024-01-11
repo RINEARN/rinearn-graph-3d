@@ -204,6 +204,8 @@ public class TempExample {
 		graph3D.setZZenithCameraAngle(1.2, 1.4, 0.0);
 		graph3D.exportImageFile(new File("./ScreenImage3.jpg"), 0.3); // 30% quality
 		System.out.println("Saved: ./ScreenImage1.jpg");
+
+		graph3D.setMenuVisible(false);
 	}
 
 	private class CustomWindowListener extends WindowAdapter {
