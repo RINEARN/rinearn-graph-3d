@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+	The settings file for building this application by Apache Ant.
+	How to Use:
+
+		cd [this folder]
+		ant -f build.xml
+-->
+
+<project name="RinearnProcessorNano" basedir="." default="main">
+
+	<!-- The root (entry point) of this build process. -->
+	<target name="main" depends="compile-vnano-engine,archive-vnano-engine,compile-vnano-plugins,compile-rinearn-graph-3d,archive-rinearn-graph-3d,compile-examples">
+	</target>
+
+	<!-- Compile the source code of "Vnano Engine", which is a scripting engine embeddable in apps. ( Details: https://www.vcssl.org/en-us/vnano/ ) -->
+	<target name="compile-vnano-engine">
+		<mkdir dir="lib/app-dependencies/vnano-engine/bin" />
+		<javac srcdir="lib/app-dependencies/vnano-engine/src" destdir="lib/app-dependencies/vnano-engine/bin" encoding="UTF-8" includeantruntime="false" debug="true">
+			<exclude name="**/*Test.java"/>
+		</javac>
+	</target>
+
+	<!-- Create a JAR file of Vnano Engine compiled by the above. -->
+	<target name="archive-vnano-engine" depends="compile-vnano-engine">
+		<jar jarfile="lib/app-dependencies/vnano-engine/Vnano.jar" basedir="lib/app-dependencies/vnano-engine/bin">
+			<manifest>
+				<attribute name="Main-Class" value="org.vcssl.nano.main.VnanoCommandLineApplication" />
+			</manifest>
+			<fileset dir="lib/app-dependencies/vnano-engine/src/org/vcssl/nano/meta">
+				<include name="META-INF/services/*" />
+			</fileset>
+		</jar>
+	</target>
+
+	<!-- Compile plugins, which are loaded by Vnano Engine and provides built-in functions available in scripts. -->
+	<target name="compile-vnano-plugins">
+		<mkdir dir="plugin" />
+		<javac srcdir="plugin" destdir="plugin" encoding="UTF-8" includeantruntime="false" debug="true">
+			<exclude name="**/*Test.java"/>
+		</javac>
+	</target>
+
+	<!-- Compile the source code of RINEARN Graph 3D. -->
+	<target name="archive-rinearn-graph-3d" depends="compile-rinearn-graph-3d">
+		<jar jarfile="RinearnGraph3D.jar" basedir="bin">
+			<manifest>
+				<attribute name="Main-Class" value="com.rinearn.graph3d.RinearnGraph3D" />
+				<attribute name="Class-Path" value="lib/app-dependencies/vnano-engine/Vnano.jar" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- Create a JAR file of RINEARN Graph 3D compiled by the above. -->
+	<target name="compile-rinearn-graph-3d">
+		<mkdir dir="bin" />
+		<javac srcdir="src" destdir="bin" encoding="UTF-8" classpath="lib/app-dependencies/vnano-engine/Vnano.jar" includeantruntime="false" debug="true">
+			<exclude name="**/*Test.java"/>
+		</javac>
+	</target>
+
+	<!-- Compile the example files in this repository. -->
+	<target name="compile-examples">
+		<javac srcdir="." destdir="." encoding="UTF-8" classpath=".:RinearnGraph3D.jar" includeantruntime="false" debug="true">
+			<include name="*Example*.java"/>
+		</javac>
+	</target>
+
+</project>
