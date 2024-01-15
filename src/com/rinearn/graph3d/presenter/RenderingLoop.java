@@ -406,7 +406,7 @@ public final class RenderingLoop implements Runnable {
 						imageWriterParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
 						imageWriterParam.setCompressionQuality((float)this.quality);
 						IIOImage iioImage = new IIOImage(
-								(BufferedImage)buffer.image,
+								buffer.image,
 								null, // A List of thumbnails: we can specify null.
 								null // IIOMetadata: we can specify null.
 						);
