@@ -1,5 +1,5 @@
 /*
- * Copyright(C) 2017-2022 RINEARN
+ * Copyright(C) 2017-2024 RINEARN
  * This software is released under the MIT License.
  */
 
@@ -341,7 +341,7 @@ public class DispatchUnit {
 			case CALLX : {
 				int externalFunctionIndex = (int)( (long[])operands[1].getArrayData() )[0];
 				int argumentLength = operands.length - 2;
-				DataContainer<?>[] arguments = new DataContainer[argumentLength];
+				DataContainer<?>[] arguments = new DataContainer<?>[argumentLength];
 				System.arraycopy(operands, 2, arguments, 0, argumentLength);
 				interconnect.callExternalFunction(externalFunctionIndex, operands[0], arguments);
 				return programCounter + 1;

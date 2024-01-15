@@ -1,5 +1,5 @@
 /*
- * Copyright(C) 2017-2022 RINEARN
+ * Copyright(C) 2017-2024 RINEARN
  * This software is released under the MIT License.
  */
 
@@ -1428,6 +1428,7 @@ public class ExecutionUnit {
 				if (data.getArrayData() instanceof long[]) {
 					return;
 				}
+				break;
 			}
 			case FLOAT64 : {
 				if (data.getArrayData() instanceof double[]) {
