@@ -67,4 +67,25 @@
 		</javac>
 	</target>
 
+
+
+	<!-- ##### Optional Targets ##### -->
+
+	<!-- (Optional) Delete built files. -->
+	<target name="clean">
+		<delete file="RinearnGraph3D.jar" />
+		<delete dir="bin" />
+		<delete file="lib/app-dependencies/vnano-engine/Vnano.jar" />
+		<delete dir="lib/app-dependencies/vnano-engine/bin" />
+		<delete>
+			<fileset dir="plugin">
+				<include name="**/*.class" />
+			</fileset>
+		</delete>
+	</target>
+
+	<!-- (Optional) Delete ant re-build this application. -->
+	<target name="all" depends="clean,main">
+	</target>
+
 </project>
