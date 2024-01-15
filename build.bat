@@ -9,7 +9,7 @@
 cd lib\app-dependencies\vnano-engine
 mkdir bin
 cd src
-javac @org/vcssl/nano/sourcelist.txt -d ../bin -encoding UTF-8
+javac -d ../bin -encoding UTF-8  @org/vcssl/nano/sourcelist.txt
 cd ..
 jar cvfm Vnano.jar src/org/vcssl/nano/meta/main.mf -C bin org -C src/org/vcssl/nano/meta META-INF
 cd ..\..\..\
@@ -29,7 +29,7 @@ cd ..
 
 mkdir bin
 cd src
-javac @com/rinearn/graph3d/sourcelist.txt -cp "../lib/app-dependencies/vnano-engine/Vnano.jar" -d ../bin -encoding UTF-8
+javac -Xlint:all -cp "../lib/app-dependencies/vnano-engine/Vnano.jar" -d ../bin -encoding UTF-8 @com/rinearn/graph3d/sourcelist.txt
 cd ..
 jar cvfm RinearnGraph3D.jar src/com/rinearn/graph3d/Manifest.mf -C bin com
 

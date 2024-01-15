@@ -47,6 +47,7 @@
 		<mkdir dir="bin" />
 		<javac srcdir="src" destdir="bin" encoding="UTF-8" classpath="lib/app-dependencies/vnano-engine/Vnano.jar" includeantruntime="false" debug="true">
 			<exclude name="**/*Test.java"/>
+			<compilerarg value="-Xlint:all" />
 		</javac>
 	</target>
 
