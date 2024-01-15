@@ -15,7 +15,7 @@ package com.rinearn.graph3d.model.dataseries;
  */
 
 
-public class ArrayDataSeries extends AbstractDataSeries {
+public final class ArrayDataSeries extends AbstractDataSeries {
 
 	/** The X-coordinate values of the points of this data series, in double-type. */
 	private volatile double[][] xDoubleCoordinates = null;

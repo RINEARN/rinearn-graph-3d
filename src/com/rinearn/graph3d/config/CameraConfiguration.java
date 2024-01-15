@@ -10,7 +10,7 @@ import static java.lang.Math.atan2;
 /**
  * The class for storing configuration parameters of the camera.
  */
-public class CameraConfiguration {
+public final class CameraConfiguration {
 
 	/** The array index representing X coordinate, in 3-D vectors. */
 	private static final int X = 0;

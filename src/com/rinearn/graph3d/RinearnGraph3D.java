@@ -40,7 +40,7 @@ import java.math.BigDecimal;
  * </span>
  * .
  */
-public class RinearnGraph3D {
+public final class RinearnGraph3D {
 
 	/** The front-end class of "Model" layer, which provides internal logic procedures and so on. */
 	private final Model model;
