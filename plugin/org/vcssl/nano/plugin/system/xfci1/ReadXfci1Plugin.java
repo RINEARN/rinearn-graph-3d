@@ -155,7 +155,7 @@ public class ReadXfci1Plugin implements ExternalFunctionConnectorInterface1 {
 		// Store the read contents to the above container.
 		int offset = 0;
 		int[] lengths = new int[]{ contents.length };
-		returnContainer.setArrayData((String[])contents, offset, lengths);
+		returnContainer.setArrayData(contents, offset, lengths);
 		return null;
 	}
 

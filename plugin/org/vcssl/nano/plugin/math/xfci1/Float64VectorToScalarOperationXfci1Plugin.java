@@ -104,7 +104,7 @@ public class Float64VectorToScalarOperationXfci1Plugin implements ExternalFuncti
 		Float64ScalarDataAccessorInterface1 outputDataContainer = Float64ScalarDataAccessorInterface1.class.cast(arguments[0]);
 
 		// Get input data
-		double[] inputData = (double[])inputDataContainer.getArrayData();
+		double[] inputData = inputDataContainer.getArrayData();
 		int inputDataOffset = inputDataContainer.getArrayOffset();
 		int inputDataSize = inputDataContainer.getArraySize();
 

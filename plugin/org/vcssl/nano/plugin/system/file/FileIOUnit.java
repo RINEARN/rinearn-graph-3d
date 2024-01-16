@@ -27,7 +27,7 @@ import java.util.ArrayList;
 /**
  * A class performing file I/O from/to a file.
  */
-public class FileIOUnit {
+public final class FileIOUnit {
 
 	/** The file I/O mode. */
 	private FileIOMode mode = FileIOMode.UNOPEND_OR_CLOSED;

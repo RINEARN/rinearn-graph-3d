@@ -29,7 +29,7 @@ import java.util.Locale;
  * Our file ID will be assigned in ascending order, and the firstly opened file has the ID "1".
  * (If a file was closed, its index will be assigned (reused) to the nextly opened file.)
  */
-public class FileIOHub {
+public final class FileIOHub {
 
 	/** The list storing all FileIOUnit instances. The index of an element in this list is: "file ID".*/
 	private List<FileIOUnit> fileIOUnitList = null;

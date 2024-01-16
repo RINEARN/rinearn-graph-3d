@@ -113,7 +113,7 @@ public class Float64VectorizableOperationXfci1Plugin implements ExternalFunction
 		ArrayDataAccessorInterface1<double[]> outputDataContainer = (ArrayDataAccessorInterface1<double[]>)arguments[0];
 
 		// Get or allocate input data
-		double[] inputData = (double[])inputDataContainer.getArrayData();
+		double[] inputData = inputDataContainer.getArrayData();
 		int inputDataOffset = inputDataContainer.getArrayOffset();
 		int inputDataSize = inputDataContainer.getArraySize();
 
