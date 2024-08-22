@@ -10,6 +10,8 @@ com/rinearn/graph3d/config/OptionConfiguration.java
 com/rinearn/graph3d/config/RangeConfiguration.java
 com/rinearn/graph3d/config/RinearnGraph3DConfiguration.java
 com/rinearn/graph3d/config/ScaleConfiguration.java
+com/rinearn/graph3d/def/ErrorMessage.java
+com/rinearn/graph3d/def/ErrorType.java
 com/rinearn/graph3d/def/package-info.java
 com/rinearn/graph3d/event/package-info.java
 com/rinearn/graph3d/event/RinearnGraph3DEventDispatcher.java
