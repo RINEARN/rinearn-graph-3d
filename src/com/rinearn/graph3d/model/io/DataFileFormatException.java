@@ -8,25 +8,15 @@ import com.rinearn.graph3d.def.ErrorMessage;
  */
 public class DataFileFormatException extends Exception {
 
-	/** The type of the error cause.  */
-	private final ErrorType errorType;
+	private static final long serialVersionUID = 8061758703491486580L;
 
 	/**
 	 * Creates a new exception corresponding to the specified error type.
 	 *
 	 * @param errorType The type of the error cause.
+	 * @param errorWords The words to be embedded into the error message.
 	 */
-	public DataFileFormatException(ErrorType errorType) {
-		this.errorType = errorType;
-	}
-
-	/**
-	 * Generates the error message.
-	 *
-	 * @return The error message.
-	 */
-	@Override
-	public String getMessage() {
-		return ErrorMessage.generateErrorMessage(this.errorType);
+	public DataFileFormatException(ErrorType errorType, String ... errorWords) {
+		super(ErrorMessage.generateErrorMessage(errorType, errorWords));
 	}
 }

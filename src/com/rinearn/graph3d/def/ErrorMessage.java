@@ -52,6 +52,9 @@ public final class ErrorMessage {
 	public static String generateErrorMessageJaJP(ErrorType errorType, String[] words) {
 
 		switch (errorType) {
+			case UNSUPPORTED_DATA_FILE_FORMAT_FOR_THIS_DECODER : return "このデコーダは、指定されたデータファイル書式「" + words[0] + "」に対応していません。";
+			case INCORREDCT_NUMBER_OF_COLUMNS_IN_DATA_FILE : return "このデータの列数は " + words[0] + " であるべきですが、" + words[1] + " 列の行が含まれています。（データファイル書式: " + words[2] + "）";
+			case FAILED_TO_PARSE_NUMBER_IN_DATA_FILE : return "データ内に記述されている値「" + words[0] + "」を、数値として解釈できませんでした。";
 			default : return "不明なエラー種類：" + errorType;
 		}
 	}
@@ -67,6 +70,9 @@ public final class ErrorMessage {
 	public static String generateErrorMessageEnUS(ErrorType errorType, String[] words) {
 
 		switch (errorType) {
+			case UNSUPPORTED_DATA_FILE_FORMAT_FOR_THIS_DECODER : return "This decoder does not support the specified data file format: " + words[0] + ".";
+			case INCORREDCT_NUMBER_OF_COLUMNS_IN_DATA_FILE : return "The number of the columns in this data is expected to be \"" + words[0] + "\", but a line(s) having " + words[1] + "-columns is contained. (The data file format: " + words[2] + ")";
+			case FAILED_TO_PARSE_NUMBER_IN_DATA_FILE : return "Failed to parse the value \"" + words[0] + "\", which is described in the data, as a number.";
 			default : return "Unknown Error Type: " + errorType;
 		}
 	}

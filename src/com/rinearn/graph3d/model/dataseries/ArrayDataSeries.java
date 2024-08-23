@@ -18,16 +18,19 @@ package com.rinearn.graph3d.model.dataseries;
 public final class ArrayDataSeries extends AbstractDataSeries {
 
 	/** The X-coordinate values of the points of this data series, in double-type. */
-	private volatile double[][] xDoubleCoordinates = null;
+	private volatile double[][] xDoubleCoordinates = null; // [irow][icol]
 
 	/** The Y-coordinate values of the points of this data series, in double-type. */
-	private volatile double[][] yDoubleCoordinates = null;
+	private volatile double[][] yDoubleCoordinates = null; // [irow][icol]
 
 	/** The Z-coordinate values of the points of this data series, in double-type. */
-	private volatile double[][] zDoubleCoordinates = null;
+	private volatile double[][] zDoubleCoordinates = null; // [irow][icol]
+
+	/** The coordinate values of the extra dimensions, in double-type. */
+	private volatile double[][][] extraCoordinates = null; // [idim][irow][icol]
 
 	/** The array storing visibilities of the points of this data series. */
-	private volatile boolean[][] visibilities;
+	private volatile boolean[][] visibilities; // [irow][icol]
 
 
 	/**
@@ -40,14 +43,31 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	/**
 	 * Creates a new array data series consisting of the specified coordinates.
 	 *
-	 * @param xCoordinates The X-coordinate values of the points of this data series, in double-type.
-	 * @param yCoordinates The Y-coordinate values of the points of this data series, in double-type.
-	 * @param zCoordinates The Z-coordinate values of the points of this data series, in double-type.
+	 * @param xCoordinates The X-coordinate values of the points of this data series ([irow][icol]).
+	 * @param yCoordinates The Y-coordinate values of the points of this data series ([irow][icol]).
+	 * @param zCoordinates The Z-coordinate values of the points of this data series ([irow][icol]).
 	 */
 	public ArrayDataSeries(double[][] xCoordinates, double[][] yCoordinates, double[][] zCoordinates) {
 		this.xDoubleCoordinates = xCoordinates;
 		this.yDoubleCoordinates = yCoordinates;
 		this.zDoubleCoordinates = zCoordinates;
+		this.setVisibilitiesFromCoordinates();
+	}
+
+
+	/**
+	 * Creates a new array data series consisting of the specified coordinates.
+	 *
+	 * @param xCoordinates The X-coordinate values of the points of this data series ([irow][icol]).
+	 * @param yCoordinates The Y-coordinate values of the points of this data series ([irow][icol]).
+	 * @param zCoordinates The Z-coordinate values of the points of this data series ([irow][icol]).
+	 * @param extraCoordinates The coordinate values of the extra dimensions ([idim][irow][icol]).
+	 */
+	public ArrayDataSeries(double[][] xCoordinates, double[][] yCoordinates, double[][] zCoordinates, double[][][] extraCoordinates) {
+		this.xDoubleCoordinates = xCoordinates;
+		this.yDoubleCoordinates = yCoordinates;
+		this.zDoubleCoordinates = zCoordinates;
+		this.extraCoordinates = extraCoordinates;
 		this.setVisibilitiesFromCoordinates();
 	}
 

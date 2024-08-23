@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * The container class packing multiple data series.
  */
-public abstract class DataSeriesGroup {
+public final class DataSeriesGroup {
 
 	/** The list of the data series packed into this group. */
 	private final List<AbstractDataSeries> dataSeriesList;
