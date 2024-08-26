@@ -18,6 +18,7 @@ import com.rinearn.graph3d.presenter.handler.ScaleSettingHandler;
 import com.rinearn.graph3d.presenter.handler.ScreenHandler;
 import com.rinearn.graph3d.presenter.handler.ScreenSideUIHandler;
 import com.rinearn.graph3d.presenter.handler.ZxyMathHandler;
+import com.rinearn.graph3d.presenter.handler.DataFileHandler;
 import com.rinearn.graph3d.presenter.handler.DataArrayHandler;
 import com.rinearn.graph3d.presenter.plotter.PointPlotter;
 import com.rinearn.graph3d.presenter.plotter.LinePlotter;
@@ -152,6 +153,9 @@ public final class Presenter {
 	/** The handler of events and API requests for plotting math expressions of "z(x,y)" form. */
 	public final ZxyMathHandler zxyMathHandler;
 
+	/** The handler of events and API requests for plotting data files. */
+	public final DataFileHandler dataFileHandler;
+
 	/** The handler of API requests for plotting data stored in arrays. */
 	public final DataArrayHandler dataArrayHandler;
 
@@ -208,6 +212,7 @@ public final class Presenter {
 		this.scaleSettingHandler = new ScaleSettingHandler(model, view, this);
 		this.lightSettingHandler = new LightSettingHandler(model, view, this);
 		this.zxyMathHandler = new ZxyMathHandler(model, view, this);
+		this.dataFileHandler = new DataFileHandler(model, view, this);
 		this.dataArrayHandler = new DataArrayHandler(model, view, this);
 
 		// Create "plotter"s, which perform plottings/re-plottings in event-driven flow.
@@ -241,6 +246,7 @@ public final class Presenter {
 		this.cameraSettingHandler.setEventHandlingEnabled(enabled);
 		this.scaleSettingHandler.setEventHandlingEnabled(enabled);
 		this.lightSettingHandler.setEventHandlingEnabled(enabled);
+		this.dataFileHandler.setEventHandlingEnabled(enabled);
 	}
 
 
