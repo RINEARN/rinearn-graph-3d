@@ -59,3 +59,11 @@
 
     * 上記をもうちょっとひねって、「カンマで切ってみて左列にタブか空白が混じってなければCSV、混じってればCSVではない」→「CSVじゃなかった場合、タブで切ってみて左列に空白が混じってなければTSV、混じってればSTSV」みたいにいけるのでは？ カラム値が必ず数値である事を利用してはいるが、数値判定自体は行わずに軽い空白混入判定のみでいける。 → これを実装した
 
+
+## リファクタ: ArrayDataSeries[] 配列を引数にとってる箇所を DataSeriesGroup を使うようにする
+
+* Model層とかである。setArrayDataSeries(ArrayDataSeries[] allArrayDataSeries) とか。やっぱ Series が複数形でも同一語なのが少しややこしいし、今は別の事情で DataSeriesGroup というコンテナができたので、もう配列じゃやなくそっちに詰めたほうがわかりやすい。
+
+    ↑ しかし、DataSeriesGroup は abstract class な DataSeries を要素に持つので、型が少しゆるい。上記は Math プロット系じゃなくデータ配列やファイル由来の ArrayDataSeries をまとめたいので、DataSeriesGroup に詰めてしまうと要素参照で毎回型検査が要る。
+
+    ↑ なら DataSeriesGroup をジェネリックな型にするか？ → 明らかにそうした方がいいような。abstract で詰めたきゃ <DataSeries> して、Arrayに限定したけりゃ <ArrayDataSeries> にすりゃ済む話だし、たぶんやって得しかない。
