@@ -26,6 +26,7 @@ com/rinearn/graph3d/model/dataseries/XtYtZtMathDataSeries.java
 com/rinearn/graph3d/model/dataseries/ZxyMathDataSeries.java
 com/rinearn/graph3d/model/io/DataFileFormatException.java
 com/rinearn/graph3d/model/io/DataFileFormatInferencer.java
+com/rinearn/graph3d/model/io/DataFileIO.java
 com/rinearn/graph3d/model/io/decoder/package-info.java
 com/rinearn/graph3d/model/io/decoder/TemporaryDataDecoder.java
 com/rinearn/graph3d/model/io/package-info.java
