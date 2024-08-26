@@ -16,35 +16,20 @@ import java.io.BufferedReader;
 public final class DataFileIO {
 
 	/**
-	 * Loads the data file by inferring the data file format automatically.
-	 *
-	 * @param file The data file to be loaded.
-	 * @param format The data file format of the data file.
-	 * @return The loaded result, in which multiple data series are contained.
-	 * @throws IOException Thrown if any I/O error is occurred when reading the data file.
-	 * @throws DataFileFormatException Thrown if the content of the data file is syntactically incorrect.
-	 */
-	public DataSeriesGroup loadDataFile(File file) throws IOException, DataFileFormatException {
-
-		// Infer the data file format from the content of the data file.
-		RinearnGraph3DDataFileFormat format = new DataFileFormatInferencer().infer(file);
-
-		// Load the data file.
-		DataSeriesGroup dataSeriesGroup = this.loadDataFile(file, format);
-		return dataSeriesGroup;
-	}
-
-
-	/**
 	 * Loads the data file.
 	 *
 	 * @param file The data file to be loaded.
-	 * @param format The data file format of the data file.
+	 * @param format The data file format of the data file. Specify AUTO to infer the format from the file content.
 	 * @return The loaded result, in which multiple data series are contained.
 	 * @throws IOException Thrown if any I/O error is occurred when reading the data file.
 	 * @throws DataFileFormatException Thrown if the content of the data file is syntactically incorrect.
 	 */
 	public DataSeriesGroup loadDataFile(File file, RinearnGraph3DDataFileFormat format) throws IOException, DataFileFormatException {
+
+		// If the data file format is AUTO, infer the format from the content of the data file automatically.
+		if (format == RinearnGraph3DDataFileFormat.AUTO) {
+			format = new DataFileFormatInferencer().infer(file);
+		}
 
 		// Load the data file.
 		DataSeriesGroup dataSeriesGroup;
