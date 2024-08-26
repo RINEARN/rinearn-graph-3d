@@ -4,6 +4,7 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.model.dataseries.AbstractDataSeries;
 import com.rinearn.graph3d.model.dataseries.ArrayDataSeries;
 import com.rinearn.graph3d.model.dataseries.MathDataSeries;
+import com.rinearn.graph3d.model.dataseries.DataSeriesGroup;
 
 import org.vcssl.nano.VnanoException;
 
@@ -163,11 +164,11 @@ public final class Model {
 	 * especially when asynchronous-plotting feature is enabled.
 	 * This method is provided for such situation.
 	 *
-	 * @param allArrayDataSeries The array storing all the array data series to be plotted.
+	 * @param dataSeriesGroup The container in which all the array data series to be plotted are stored.
 	 */
-	public synchronized void setArrayDataSeries(ArrayDataSeries[] allArrayDataSeries) {
+	public synchronized void setArrayDataSeriesGroup(DataSeriesGroup<ArrayDataSeries> dataSeriesGroup) {
 		this.arrayDataSeriesList.clear();
-		for (ArrayDataSeries arrayDataSeries: allArrayDataSeries) {
+		for (ArrayDataSeries arrayDataSeries: dataSeriesGroup.getDataSeriesList()) {
 			this.arrayDataSeriesList.add(arrayDataSeries);
 		}
 	}
@@ -197,10 +198,10 @@ System.out.println("!!! TODO @" + this);
 	 * especially when asynchronous-plotting feature is enabled.
 	 * This method is provided for such situation.
 	 *
-	 * @param multipleArrayDataSeries The array storing multiple array data series to be added.
+	 * @param dataSeriesGroup The container in which all the array data series to be added are stored.
 	 */
-	public synchronized void addArrayDataSeries(ArrayDataSeries[] multipleArrayDataSeries) {
-		for (ArrayDataSeries arrayDataSeries: multipleArrayDataSeries) {
+	public synchronized void addArrayDataSeriesGroup(DataSeriesGroup<ArrayDataSeries> dataSeriesGroup) {
+		for (ArrayDataSeries arrayDataSeries: dataSeriesGroup.getDataSeriesList()) {
 			this.arrayDataSeriesList.add(arrayDataSeries);
 		}
 	}

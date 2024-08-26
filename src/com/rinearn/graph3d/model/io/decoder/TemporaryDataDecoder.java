@@ -80,13 +80,13 @@ public final class TemporaryDataDecoder {
 	 * @throw DataFileFormatException
 	 *   Thrown if the specified format is unsupported, or the contents is syntactically incorrect.
 	 */
-	public DataSeriesGroup decode(String dataString, RinearnGraph3DDataFileFormat format)
+	public DataSeriesGroup<ArrayDataSeries> decode(String dataString, RinearnGraph3DDataFileFormat format)
 			throws DataFileFormatException {
 
 		try (StringReader stringReader = new StringReader(dataString);
 				BufferedReader bufferedReader = new BufferedReader(stringReader)) {
 
-			DataSeriesGroup result = this.decode(bufferedReader, format);
+			DataSeriesGroup<ArrayDataSeries> result = this.decode(bufferedReader, format);
 			return result;
 
 		} catch (IOException ioe) {
@@ -104,11 +104,11 @@ public final class TemporaryDataDecoder {
 	 * @throw DataFileFormatException
 	 *   Thrown if the specified format is unsupported, or the contents is syntactically incorrect.
 	 */
-	public DataSeriesGroup decode(BufferedReader bufferedReader, RinearnGraph3DDataFileFormat format)
+	public DataSeriesGroup<ArrayDataSeries> decode(BufferedReader bufferedReader, RinearnGraph3DDataFileFormat format)
 			throws DataFileFormatException, IOException {
 
 		// Stores the decoded result to be returned.
-		DataSeriesGroup dataSeriesGroup = new DataSeriesGroup();
+		DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new DataSeriesGroup<ArrayDataSeries>();
 
 		// Define the decoding parameters depending on the data file format.
 		// If the format is unsupported by this decoder, DataFileFormatException occurs here.

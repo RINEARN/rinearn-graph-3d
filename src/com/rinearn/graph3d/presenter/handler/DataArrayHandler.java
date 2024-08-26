@@ -6,6 +6,7 @@ import javax.swing.SwingUtilities;
 
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.model.dataseries.ArrayDataSeries;
+import com.rinearn.graph3d.model.dataseries.DataSeriesGroup;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.View;
 
@@ -375,10 +376,10 @@ public class DataArrayHandler {
 
 			// Stores the specified (multiple) data series into an array.
 			int dataSeriesCount = x.length;
-			ArrayDataSeries[] multipleArrayDataSeries = new ArrayDataSeries[dataSeriesCount];
+			DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new DataSeriesGroup<ArrayDataSeries>();
 			for (int iseries=0; iseries<dataSeriesCount; iseries++) {
 				ArrayDataSeries arrayDataSeries = new ArrayDataSeries(x[iseries], y[iseries], z[iseries]);
-				multipleArrayDataSeries[iseries] = arrayDataSeries;
+				dataSeriesGroup.addDataSeries(arrayDataSeries);
 
 				// Don't do the following. We must register the multiple data series by an "atomic operation".
 				// (because the data series registered in the Model may be accessed from another thread asynchronously.)
@@ -389,11 +390,11 @@ public class DataArrayHandler {
 			// Set/add the above (multiple) data series to the Model layer.
 			switch (this.mode) {
 				case SET : {
-					model.setArrayDataSeries(multipleArrayDataSeries);
+					model.setArrayDataSeriesGroup(dataSeriesGroup);
 					break;
 				}
 				case APPEND : {
-					model.addArrayDataSeries(multipleArrayDataSeries);
+					model.addArrayDataSeriesGroup(dataSeriesGroup);
 					break;
 				}
 				default : {

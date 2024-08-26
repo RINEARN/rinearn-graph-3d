@@ -7,17 +7,17 @@ import java.util.ArrayList;
 /**
  * The container class packing multiple data series.
  */
-public final class DataSeriesGroup {
+public final class DataSeriesGroup<DataSeriesType> {
 
 	/** The list of the data series packed into this group. */
-	private final List<AbstractDataSeries> dataSeriesList;
+	private final List<DataSeriesType> dataSeriesList;
 
 
 	/**
 	 * Creates a new data series group.
 	 */
 	public DataSeriesGroup() {
-		this.dataSeriesList = new ArrayList<AbstractDataSeries>();
+		this.dataSeriesList = new ArrayList<DataSeriesType>();
 	}
 
 
@@ -26,7 +26,7 @@ public final class DataSeriesGroup {
 	 *
 	 * @param dataSeries The data series to be added.
 	 */
-	public void addDataSeries(AbstractDataSeries dataSeries) {
+	public synchronized void addDataSeries(DataSeriesType dataSeries) {
 		this.dataSeriesList.add(dataSeries);
 	}
 
@@ -36,28 +36,36 @@ public final class DataSeriesGroup {
 	 *
 	 * @return The number of the currently contained data series.
 	 */
-	public int getDataSeriesCount() {
+	public synchronized int getDataSeriesCount() {
 		return this.dataSeriesList.size();
 	}
 
 
 	/**
-	 * Gets the all data series registered to this group.
+	 * Gets the data series by the index.
 	 *
+	 * @param index The index of the data series.
 	 * @return The all data series registered to this group.
 	 */
-	public AbstractDataSeries[] getAllDataSeries() {
-		int length = this.dataSeriesList.size();
-		AbstractDataSeries[] dataSeriesArray = new AbstractDataSeries[length];
-		dataSeriesArray = this.dataSeriesList.toArray(dataSeriesArray);
-		return dataSeriesArray;
+	public synchronized DataSeriesType getDataSeriesAt(int index) {
+		return this.dataSeriesList.get(index);
+	}
+
+
+	/**
+	 * Gets the list of the currently registered data series.
+	 *
+	 * @return The list of the currently registered data series.
+	 */
+	public synchronized List<DataSeriesType> getDataSeriesList() {
+		return List.copyOf(this.dataSeriesList);
 	}
 
 
 	/**
 	 * Clears the all data series currently registered to this group.
 	 */
-	public void clearAllDataSeries() {
+	public synchronized void clearAllDataSeries() {
 		this.dataSeriesList.clear();
 	}
 }

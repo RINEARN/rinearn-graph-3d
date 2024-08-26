@@ -1,6 +1,7 @@
 package com.rinearn.graph3d.model.io;
 
 import com.rinearn.graph3d.RinearnGraph3DDataFileFormat;
+import com.rinearn.graph3d.model.dataseries.ArrayDataSeries;
 import com.rinearn.graph3d.model.dataseries.DataSeriesGroup;
 import com.rinearn.graph3d.model.io.decoder.TemporaryDataDecoder;
 
@@ -24,7 +25,8 @@ public final class DataFileIO {
 	 * @throws IOException Thrown if any I/O error is occurred when reading the data file.
 	 * @throws DataFileFormatException Thrown if the content of the data file is syntactically incorrect.
 	 */
-	public DataSeriesGroup loadDataFile(File file, RinearnGraph3DDataFileFormat format) throws IOException, DataFileFormatException {
+	public DataSeriesGroup<ArrayDataSeries> loadDataFile(File file, RinearnGraph3DDataFileFormat format)
+			throws IOException, DataFileFormatException {
 
 		// If the data file format is AUTO, infer the format from the content of the data file automatically.
 		if (format == RinearnGraph3DDataFileFormat.AUTO) {
@@ -32,7 +34,7 @@ public final class DataFileIO {
 		}
 
 		// Load the data file.
-		DataSeriesGroup dataSeriesGroup;
+		DataSeriesGroup<ArrayDataSeries> dataSeriesGroup;
 		try (FileReader fileReader = new FileReader(file);
 				BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 
