@@ -64,6 +64,14 @@ public final class DataSeriesGroup<DataSeriesType> {
 
 
 	/**
+	 * Removes the last registered data series.
+	 */
+	public synchronized void removeLastDataSeries() {
+		this.dataSeriesList.remove(this.dataSeriesList.size() - 1);
+	}
+
+
+	/**
 	 * Clears the all data series currently registered to this group.
 	 */
 	public synchronized void clearAllDataSeries() {

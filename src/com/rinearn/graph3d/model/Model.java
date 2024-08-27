@@ -30,11 +30,11 @@ public final class Model {
 	/** The "engine-mount" object, retaining script engines in this application, and wrapping I/O to/from them. */
 	public final ScriptEngineMount scriptEngineMount;
 
-	/** The list of math data series. */
-	private final List<MathDataSeries> mathDataSeriesList = new ArrayList<MathDataSeries>();
+	/** The group of math data series. */
+	private final DataSeriesGroup<MathDataSeries> mathDataSeriesGroup = new DataSeriesGroup<MathDataSeries>();
 
-	/** The list of array data series. */
-	private final List<ArrayDataSeries> arrayDataSeriesList = new ArrayList<ArrayDataSeries>();
+	/** The group of array data series. */
+	private final DataSeriesGroup<ArrayDataSeries> arrayDataSeriesGroup = new DataSeriesGroup<ArrayDataSeries>();
 
 
 	/**
@@ -84,8 +84,8 @@ public final class Model {
 	 * but in some situation, we must perform them as an "atomic" operation. This method is provided for such situation.
 	 */
 	public synchronized void clearDataSeries() {
-		this.arrayDataSeriesList.clear();
-		this.mathDataSeriesList.clear();
+		this.arrayDataSeriesGroup.clearAllDataSeries();
+		this.mathDataSeriesGroup.clearAllDataSeries();
 	}
 
 
@@ -97,10 +97,10 @@ public final class Model {
 	 */
 	public synchronized List<AbstractDataSeries> getDataSeriesList() {
 		List<AbstractDataSeries> dataSeriesList = new ArrayList<AbstractDataSeries>();
-		for (ArrayDataSeries dataSeries: this.arrayDataSeriesList) {
+		for (ArrayDataSeries dataSeries: this.arrayDataSeriesGroup.getDataSeriesList()) {
 			dataSeriesList.add(dataSeries);
 		}
-		for (MathDataSeries dataSeries: this.mathDataSeriesList) {
+		for (MathDataSeries dataSeries: this.mathDataSeriesGroup.getDataSeriesList()) {
 			dataSeriesList.add(dataSeries);
 		}
 		return Collections.unmodifiableList(dataSeriesList);
@@ -113,7 +113,7 @@ public final class Model {
 	 * @param mathDataSeries The math data series to be added.
 	 */
 	public synchronized void addMathDataSeries(MathDataSeries mathDataSeries) {
-		this.mathDataSeriesList.add(mathDataSeries);
+		this.mathDataSeriesGroup.addDataSeries(mathDataSeries);
 
 		// Note: update the graph range here? if necessary.
 		//   -> It is necessary for ArrayDataSeries, but it is not necessary for MathDataSeries, probably.
@@ -126,10 +126,10 @@ public final class Model {
 	 * If this method is called when no math data series is registered, nothing occurs.
 	 */
 	public synchronized void removeLastMathDataSeries() {
-		if (this.mathDataSeriesList.size() == 0) {
+		if (this.mathDataSeriesGroup.getDataSeriesCount() == 0) {
 			return;
 		}
-		this.mathDataSeriesList.remove(this.mathDataSeriesList.size() - 1);
+		this.mathDataSeriesGroup.removeLastDataSeries();
 	}
 
 
@@ -137,7 +137,7 @@ public final class Model {
 	 * Clear all currently registered math data series.
 	 */
 	public synchronized void clearMathDataSeries() {
-		this.mathDataSeriesList.clear();
+		this.mathDataSeriesGroup.clearAllDataSeries();
 	}
 
 
@@ -150,7 +150,7 @@ public final class Model {
 	 * @return The (unmodifiable) List storing the currently registered math data series.
 	 */
 	public synchronized List<MathDataSeries> getMathDataSeriesList() {
-		return Collections.unmodifiableList(this.mathDataSeriesList);
+		return this.mathDataSeriesGroup.getDataSeriesList();
 	}
 
 
@@ -167,9 +167,9 @@ public final class Model {
 	 * @param dataSeriesGroup The container in which all the array data series to be plotted are stored.
 	 */
 	public synchronized void setArrayDataSeriesGroup(DataSeriesGroup<ArrayDataSeries> dataSeriesGroup) {
-		this.arrayDataSeriesList.clear();
+		this.arrayDataSeriesGroup.clearAllDataSeries();
 		for (ArrayDataSeries arrayDataSeries: dataSeriesGroup.getDataSeriesList()) {
-			this.arrayDataSeriesList.add(arrayDataSeries);
+			this.arrayDataSeriesGroup.addDataSeries(arrayDataSeries);
 		}
 	}
 
@@ -180,7 +180,7 @@ public final class Model {
 	 * @param arrayDataSeries The array data series to be added.
 	 */
 	public synchronized void addArrayDataSeries(ArrayDataSeries arrayDataSeries) {
-		this.arrayDataSeriesList.add(arrayDataSeries);
+		this.arrayDataSeriesGroup.addDataSeries(arrayDataSeries);
 
 		// TODO: Update the graph range here, before re-plotting.
 		// -> いや範囲変更は View 層にも伝搬させる必要があるから Presenter 層でやるべき。ここじゃなくて。
@@ -202,7 +202,7 @@ System.out.println("!!! TODO @" + this);
 	 */
 	public synchronized void addArrayDataSeriesGroup(DataSeriesGroup<ArrayDataSeries> dataSeriesGroup) {
 		for (ArrayDataSeries arrayDataSeries: dataSeriesGroup.getDataSeriesList()) {
-			this.arrayDataSeriesList.add(arrayDataSeries);
+			this.arrayDataSeriesGroup.addDataSeries(arrayDataSeries);
 		}
 	}
 
@@ -213,10 +213,10 @@ System.out.println("!!! TODO @" + this);
 	 * If this method is called when no array data series is registered, nothing occurs.
 	 */
 	public synchronized void removeLastArrayDataSeries() {
-		if (this.arrayDataSeriesList.size() == 0) {
+		if (this.arrayDataSeriesGroup.getDataSeriesCount() == 0) {
 			return;
 		}
-		this.arrayDataSeriesList.remove(this.arrayDataSeriesList.size() - 1);
+		this.arrayDataSeriesGroup.removeLastDataSeries();
 	}
 
 
@@ -224,7 +224,7 @@ System.out.println("!!! TODO @" + this);
 	 * Clear all currently registered array data series.
 	 */
 	public synchronized void clearArrayDataSeries() {
-		this.arrayDataSeriesList.clear();
+		this.arrayDataSeriesGroup.clearAllDataSeries();
 	}
 
 
@@ -237,7 +237,7 @@ System.out.println("!!! TODO @" + this);
 	 * @return The (unmodifiable) List storing the currently registered array data series.
 	 */
 	public synchronized List<ArrayDataSeries> getArrayDataSeriesList() {
-		return Collections.unmodifiableList(this.arrayDataSeriesList);
+		return this.arrayDataSeriesGroup.getDataSeriesList();
 	}
 
 
