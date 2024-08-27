@@ -55,6 +55,22 @@ public class TempExample {
 		// Launch a new RINEARN Graph 3D window (to be implemented).
 		RinearnGraph3D graph3D = new RinearnGraph3D();
 
+		// Plot a sample data file: line plot
+		File linePlotSampleDataFile = new File("./sample/SampleDataFile/LinePlotSample.txt");
+		graph3D.openDataFile(linePlotSampleDataFile);
+
+		/*
+		// Plot a sample data file: surface plot
+		File surfacePlotSampleDataFile = new File("./sample/SampleDataFile/SurfacePlotSample.txt");
+		graph3D.openDataFile(surfacePlotSampleDataFile);
+		*/
+	}
+	
+	public void __OLD_init() throws Exception {
+
+		// Launch a new RINEARN Graph 3D window (to be implemented).
+		RinearnGraph3D graph3D = new RinearnGraph3D();
+
 		// Hide the menu bar.
 		//graph3D.setMenuVisible(false);
 
