@@ -125,40 +125,38 @@ public final class TemporaryDataDecoder {
 		// and is reset to zero if it is not an empty data line.
 		int emptyDataLineCount = 0;
 
-		// The flag to switch continuing or breaking from the following reading loop.
-		boolean continuesReading = true;
-
 		// Read the all lines in the file.
-		while (continuesReading) {
-			String line = bufferedReader.readLine().trim();
+		while (true) {
 
-			// The end of the file.
-			if (line == null) {
-				break;
-			}
+			// Read the next line.
+			String line = bufferedReader.readLine();
+			boolean isEndOfFile = (line == null);
 
-			// An empty data line: represents a separator of multiple "data series" or "sub data series".
-			if (this.isEmptyDataLine(line, decodingParam)) {
+			// An empty data line or EOF: represents a separator of multiple "data series" or "sub data series".
+			if (isEndOfFile || this.isEmptyDataLine(line, decodingParam)) {
 				emptyDataLineCount++;
 
-				// Single empty data lines: a separator of "sub data series".
-				if (emptyDataLineCount == 1) {
+				// Single empty data lines or EOL: a separator of "sub data series".
+				if (emptyDataLineCount == 1 || isEndOfFile) {
 					SubDataSeries subDataSeries = new SubDataSeries(columnsList);
 					subDataSeriesList.add(subDataSeries);
 					columnsList = new ArrayList<String[]>();
+				}
 
-				// Double empty data lines: a separator of "data series".
-				} else if (emptyDataLineCount == 2) {
+				// Double empty data lines or EOL: a separator of "data series".
+				if (emptyDataLineCount == 2 || isEndOfFile) {
 					ArrayDataSeries dataSeries = this.parseAndPackIntoDataSeries(subDataSeriesList);
 					dataSeriesGroup.addDataSeries(dataSeries);
 					subDataSeriesList = new ArrayList<SubDataSeries>();
 					columnsList = new ArrayList<String[]>();
-
-				// Triple or more empty data lines:
-				} else {
-					// Ignore.
 				}
-				continue;
+
+				// If the stream has reached to EOL, end reading. Otherwise continue reading.
+				if (isEndOfFile) {
+					break;
+				} else {
+					continue;
+				}
 
 			} else {
 				emptyDataLineCount = 0;
@@ -212,7 +210,7 @@ public final class TemporaryDataDecoder {
 				// Parse each column's coordinate value of this vertex.
 				for (int icolumn=0; icolumn<columnCount; icolumn++) {
 					try {
-						coords[icolumn][isub][ivertex] = Double.parseDouble(columns[0]);
+						coords[icolumn][isub][ivertex] = Double.parseDouble(columns[icolumn]);
 					} catch (NumberFormatException nfe) {
 						throw new DataFileFormatException(ErrorType.FAILED_TO_PARSE_NUMBER_IN_DATA_FILE, columns[0]);
 					}
