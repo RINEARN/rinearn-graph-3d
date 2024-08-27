@@ -5,6 +5,8 @@ import com.rinearn.graph3d.model.ScriptEngineMount;
 
 import org.vcssl.nano.VnanoException;
 
+import java.math.BigDecimal;
+
 
 /*
 [Inheritance tree]
@@ -23,6 +25,12 @@ import org.vcssl.nano.VnanoException;
 
 public class ZxyMathDataSeries extends MathDataSeries {
 
+	/** The "engine-mount", provides a script engine for computing coordinates from math expressions. */
+	protected final ScriptEngineMount scriptEngineMount;
+
+	/** The configuration container (for referring the range configuration). */
+	protected final RinearnGraph3DConfiguration config;
+
 	/** The math expression of "z(x,y)". */
 	private final String zMathExpression;
 
@@ -31,6 +39,18 @@ public class ZxyMathDataSeries extends MathDataSeries {
 
 	/** The number of discretized Y-coordinates. */
 	private final int yDiscretizationCount;
+
+	/** The X-coordinate values of the points of this data series. */
+	protected volatile double[][] xCoordinates = null;
+
+	/** The Y-coordinate values of the points of this data series. */
+	protected volatile double[][] yCoordinates = null;
+
+	/** The Z-coordinate values of the points of this data series. */
+	protected volatile double[][] zCoordinates = null;
+
+	/** The array storing visibilities of the points of this data series. */
+	protected volatile boolean[][] visibilities;
 
 
 	/**
@@ -46,10 +66,11 @@ public class ZxyMathDataSeries extends MathDataSeries {
 			String zMathExpression, int xDiscretizationCount, int yDiscretizationCount,
 			ScriptEngineMount scriptEngineMount, RinearnGraph3DConfiguration config) {
 
-		super(scriptEngineMount, config);
 		this.zMathExpression = zMathExpression;
 		this.xDiscretizationCount = xDiscretizationCount;
 		this.yDiscretizationCount = yDiscretizationCount;
+		this.scriptEngineMount = scriptEngineMount;
+		this.config = config;
 	}
 
 
@@ -77,37 +98,217 @@ public class ZxyMathDataSeries extends MathDataSeries {
 		// Prepare some values to discretize X and Y coordinates.
 		int xN = this.xDiscretizationCount;
 		int yN = this.yDiscretizationCount;
-		double xMax = super.config.getRangeConfiguration().getXRangeConfiguration().getMaximum().doubleValue();
-		double xMin = super.config.getRangeConfiguration().getXRangeConfiguration().getMinimum().doubleValue();
-		double yMax = super.config.getRangeConfiguration().getYRangeConfiguration().getMaximum().doubleValue();
-		double yMin = super.config.getRangeConfiguration().getYRangeConfiguration().getMinimum().doubleValue();
+		double xMax = this.config.getRangeConfiguration().getXRangeConfiguration().getMaximum().doubleValue();
+		double xMin = this.config.getRangeConfiguration().getXRangeConfiguration().getMinimum().doubleValue();
+		double yMax = this.config.getRangeConfiguration().getYRangeConfiguration().getMaximum().doubleValue();
+		double yMin = this.config.getRangeConfiguration().getYRangeConfiguration().getMinimum().doubleValue();
 		double xDelta = (xMax - xMin) / (xN - 1);
 		double yDelta = (yMax - yMin) / (yN - 1);
 
 		// Allocate coordinate arrays.
-		super.xCoordinates = new double[xN][yN];
-		super.yCoordinates = new double[xN][yN];
-		super.zCoordinates = new double[xN][yN];
-		super.visibilities = new boolean[xN][yN];
+		this.xCoordinates = new double[xN][yN];
+		this.yCoordinates = new double[xN][yN];
+		this.zCoordinates = new double[xN][yN];
+		this.visibilities = new boolean[xN][yN];
 
 		// Activate the script engine (initialization procedures of all connected plug-ins are invoked).
-		super.scriptEngineMount.activateMathExpressionEngine();
+		this.scriptEngineMount.activateMathExpressionEngine();
 
 		// Compute coordinate values, and store them into the above coordinate arrays.
 		for (int ix=0; ix<xN; ix++) {
 			for (int iy=0; iy<yN; iy++) {
 				double x = (ix == xN - 1) ? xMax : (xMin + xDelta * ix);
 				double y = (iy == yN - 1) ? yMax : (yMin + yDelta * iy);
-				double z = super.scriptEngineMount.calculateMathExpression(this.zMathExpression, x, y);
+				double z = this.scriptEngineMount.calculateMathExpression(this.zMathExpression, x, y);
 
-				super.xCoordinates[ix][iy] = x;
-				super.yCoordinates[ix][iy] = y;
-				super.zCoordinates[ix][iy] = z;
-				super.visibilities[ix][iy] = true;
+				this.xCoordinates[ix][iy] = x;
+				this.yCoordinates[ix][iy] = y;
+				this.zCoordinates[ix][iy] = z;
+				this.visibilities[ix][iy] = true;
 			}
 		}
 
 		// Deactivate the script engine (finalization procedures of all connected plug-ins are invoked).
-		super.scriptEngineMount.deactivateMathExpressionEngine();
+		this.scriptEngineMount.deactivateMathExpressionEngine();
 	}
+
+
+	/**
+	 * Gets the X-coordinate values of the points of this data series, in double-type.
+	 *
+	 * @return The X-coordinate values.
+	 */
+	@Override
+	public synchronized double[][] getXCoordinates() {
+		if (this.xCoordinates == null) {
+			throw new IllegalStateException("The X-coordinate values have not been generated yet.");
+		}
+		return this.xCoordinates;
+	}
+
+
+	/**
+	 * Gets the Y-coordinate values of the points of this data series, in double-type.
+	 *
+	 * @return The Y-coordinate values.
+	 */
+	@Override
+	public synchronized double[][] getYCoordinates() {
+		if (this.yCoordinates == null) {
+			throw new IllegalStateException("The Y-coordinate values have not been generated yet.");
+		}
+		return this.yCoordinates;
+	}
+
+
+	/**
+	 * Gets the Z-coordinate values of the points of this data series, in double-type.
+	 *
+	 * @return The Z-coordinate values.
+	 */
+	@Override
+	public synchronized double[][] getZCoordinates() {
+		if (this.zCoordinates == null) {
+			throw new IllegalStateException("The Z-coordinate values have not been generated yet.");
+		}
+		return this.zCoordinates;
+	}
+
+
+	/**
+	 * Gets the visibilities of the points of this data series.
+	 *
+	 * @return The array storing visibilities of the points of this data series.
+	 */
+	@Override
+	public synchronized boolean[][] getVisibilities() {
+		if(this.visibilities == null) {
+			throw new IllegalStateException("The visibilities have not been initialized yet.");
+		}
+		return this.visibilities;
+	}
+
+
+	/**
+	 * Checks whether the minimum value of the X-coordinate values exists.
+	 *
+	 * @return Returns true if the minimum value exists.
+	 */
+	@Override
+	public synchronized boolean haxXMin() {
+		return false;
+	}
+
+	/**
+	 * Gets the minimum value of the X-coordinate values.
+	 *
+	 * @return The minimum value of the X-coordinate values.
+	 */
+	@Override
+	public synchronized BigDecimal getXMin() {
+		return null;
+	}
+
+	/**
+	 * Checks whether the maximum value of the X-coordinate values exists.
+	 *
+	 * @return Returns true if the maximum value exists.
+	 */
+	@Override
+	public synchronized boolean haxXMax() {
+		return false;
+	}
+
+	/**
+	 * Gets the maximum value of the X-coordinate values.
+	 *
+	 * @return The maximum value of the X-coordinate values.
+	 */
+	@Override
+	public synchronized BigDecimal getXMax() {
+		return null;
+	}
+
+
+	/**
+	 * Checks whether the minimum value of the Y-coordinate values exists.
+	 *
+	 * @return Returns true if the minimum value exists.
+	 */
+	@Override
+	public synchronized boolean haxYMin() {
+		return false;
+	}
+
+	/**
+	 * Gets the minimum value of the Y-coordinate values.
+	 *
+	 * @return The minimum value of the Y-coordinate values.
+	 */
+	@Override
+	public synchronized BigDecimal getYMin() {
+		return null;
+	}
+
+	/**
+	 * Checks whether the maximum value of the Y-coordinate values exists.
+	 *
+	 * @return Returns true if the maximum value exists.
+	 */
+	@Override
+	public synchronized boolean haxYMax() {
+		return false;
+	}
+
+	/**
+	 * Gets the maximum value of the Y-coordinate values.
+	 *
+	 * @return The maximum value of the Y-coordinate values.
+	 */
+	@Override
+	public synchronized BigDecimal getYMax() {
+		return null;
+	}
+
+
+	/**
+	 * Checks whether the minimum value of the Z-coordinate values exists.
+	 *
+	 * @return Returns true if the minimum value exists.
+	 */
+	@Override
+	public synchronized boolean haxZMin() {
+		return false;
+	}
+
+	/**
+	 * Gets the minimum value of the Z-coordinate values.
+	 *
+	 * @return The minimum value of the Z-coordinate values.
+	 */
+	@Override
+	public synchronized BigDecimal getZMin() {
+		return null;
+	}
+
+	/**
+	 * Checks whether the maximum value of the Z-coordinate values exists.
+	 *
+	 * @return Returns true if the maximum value exists.
+	 */
+	@Override
+	public synchronized boolean haxZMax() {
+		return false;
+	}
+
+	/**
+	 * Gets the maximum value of the Z-coordinate values.
+	 *
+	 * @return The maximum value of the Z-coordinate values.
+	 */
+	@Override
+	public synchronized BigDecimal getZMax() {
+		return null;
+	}
+
 }
