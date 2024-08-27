@@ -14,6 +14,7 @@ import com.rinearn.graph3d.def.ErrorMessage;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.SwingUtilities;
@@ -83,9 +84,10 @@ public final class DataFileHandler {
 	 * Opens and plots the data file, by inferring the data file format from the file content.
 	 *
 	 * @param file The data file to be plotted.
+	 * @throw FileNotFoundException Thrown if the data file does not exist.
 	 * @throw IOException Thrown if it failed to load the data file, due to I/O errors, syntax errors, etc.
 	 */
-	public void openDataFile(File file) throws IOException {
+	public void openDataFile(File file) throws FileNotFoundException, IOException {
 
 		// Handle the API request on the event-dispatcher thread.
 		DataFileAPIListener apiListener = new DataFileAPIListener(file);
@@ -112,9 +114,10 @@ public final class DataFileHandler {
 	 *
 	 * @param file The data file to be plotted.
 	 * @param format The format of the data file.
+	 * @throw FileNotFoundException Thrown if the data file does not exist.
 	 * @throw IOException Thrown if it failed to load the data file, due to I/O errors, syntax errors, etc.
 	 */
-	public void openDataFile(File file, RinearnGraph3DDataFileFormat format) throws IOException {
+	public void openDataFile(File file, RinearnGraph3DDataFileFormat format) throws FileNotFoundException, IOException {
 
 		// Handle the API request on the event-dispatcher thread.
 		DataFileAPIListener apiListener = new DataFileAPIListener(file, format);
@@ -140,9 +143,10 @@ public final class DataFileHandler {
 	 * Opens and plots the multiple data files, by inferring the data file format from the file contents.
 	 *
 	 * @param file The data files to be plotted.
+	 * @throw FileNotFoundException Thrown if the data file(s) does not exist.
 	 * @throw IOException Thrown if it failed to load the data files, due to I/O errors, syntax errors, etc.
 	 */
-	public void openDataFile(File[] files) throws IOException {
+	public void openDataFiles(File[] files) throws FileNotFoundException, IOException {
 
 		// Handle the API request on the event-dispatcher thread.
 		DataFileAPIListener apiListener = new DataFileAPIListener(files);
@@ -169,9 +173,10 @@ public final class DataFileHandler {
 	 *
 	 * @param file The data files to be plotted.
 	 * @param format The formats of the data files.
+	 * @throw FileNotFoundException Thrown if the data file(s) does not exist.
 	 * @throw IOException Thrown if it failed to load the data files, due to I/O errors, syntax errors, etc.
 	 */
-	public void openDataFile(File[] files, RinearnGraph3DDataFileFormat[] formats) throws IOException {
+	public void openDataFiles(File[] files, RinearnGraph3DDataFileFormat[] formats) throws FileNotFoundException, IOException {
 
 		// Handle the API request on the event-dispatcher thread.
 		DataFileAPIListener apiListener = new DataFileAPIListener(files, formats);
@@ -285,6 +290,15 @@ public final class DataFileHandler {
 
 			// Clear the error info.
 			this.occurredException = null;
+
+			// Check that the data files exist.
+			for (File file: this.dataFiles) {
+				if (!file.exists()) {
+					String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.DATA_FILE_NOT_FOUND, file.getName());
+					this.occurredException = new FileNotFoundException(errorMessage);
+					return;
+				}
+			}
 
 			// Stores the all data series loaded from the multiple data files into the following data series group.
 			DataSeriesGroup<ArrayDataSeries> allDataSeriesGroup = new DataSeriesGroup<ArrayDataSeries>();

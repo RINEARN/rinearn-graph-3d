@@ -22,6 +22,7 @@ import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -429,6 +430,104 @@ public final class RinearnGraph3D {
 	 */
 	public synchronized void clear() {
 		this.presenter.menuHandler.clear();
+	}
+
+
+	/**
+	 * <span class="lang-ja">
+	 * 座標値データファイルを開き, その内容をグラフにプロットします
+	 * </span>
+	 * <span class="lang-en">
+	 * Opens a data file, and plots the data in it into the graph
+	 * </span>
+	 *
+	 * @param file
+	 *   <span class="lang-ja">プロットする座標値データファイル</span>
+	 *   <span class="lang-en">The data file to be plotted</span>
+	 * @throws java.io.FileNotFoundException
+	 *   <span class="lang-ja">指定されたファイルが存在しない場合にスローされます</span>
+	 *   <span class="lang-en">Thrown if the specified file does not exist</span>
+	 * @throws java.io.IOException
+	 *   <span class="lang-ja">ファイルの入出力時に問題が発生した場合にスローされる可能性があります(バージョン依存)</span>
+	 *   <span class="lang-en">Thrown if any I/O-related problem occurred (depends on the version)</span>
+	 */
+	public void openDataFile(File file) throws FileNotFoundException, IOException {
+		this.presenter.dataFileHandler.openDataFile(file);
+	}
+
+
+	/**
+	 * <span class="lang-ja">
+	 * 複数の座標値データファイルを開き, その内容をグラフにプロットします
+	 * </span>
+	 * <span class="lang-en">
+	 * Opens multiple data files, and plots the data in them into the graph
+	 * </span>
+	 *
+	 * @param files
+	 *   <span class="lang-ja">プロットする座標値データファイル</span>
+	 *   <span class="lang-en">The data files to be plotted</span>
+	 * @throws java.io.FileNotFoundException
+	 *   <span class="lang-ja">指定されたファイルが存在しない場合にスローされます</span>
+	 *   <span class="lang-en">Thrown if the specified file does not exist</span>
+	 * @throws java.io.IOException
+	 *   <span class="lang-ja">ファイルの入出力時に問題が発生した場合にスローされる可能性があります(バージョン依存)</span>
+	 *   <span class="lang-en">Thrown if any I/O-related problem occurred (depends on the version)</span>
+	 */
+	public void openDataFiles(File[] files) throws FileNotFoundException, IOException {
+		this.presenter.dataFileHandler.openDataFiles(files);
+	}
+
+
+	/**
+	 * <span class="lang-ja">
+	 * 座標値データファイルを, 指定された書式で開き, その内容をグラフにプロットします
+	 * </span>
+	 * <span class="lang-en">
+	 * Opens a data file in the specified format, and plots the data in it into the graph
+	 * </span>
+	 *
+	 * @param file
+	 *   <span class="lang-ja">プロットする座標値データファイル</span>
+	 *   <span class="lang-en">The data file to be plotted</span>
+	 * @param format
+	 *   <span class="lang-ja">座標値データファイルの書式</span>
+	 *   <span class="lang-en">The format of the data file</span>
+	 * @throws java.io.FileNotFoundException
+	 *   <span class="lang-ja">指定されたファイルが存在しない場合にスローされます</span>
+	 *   <span class="lang-en">Thrown if the specified file does not exist</span>
+	 * @throws java.io.IOException
+	 *   <span class="lang-ja">ファイルの入出力時に問題が発生した場合にスローされる可能性があります(バージョン依存)</span>
+	 *   <span class="lang-en">Thrown if any I/O-related problem occurred (depends on the version)</span>
+	 */
+	public void openDataFile(File file, RinearnGraph3DDataFileFormat format) throws FileNotFoundException, IOException {
+		this.presenter.dataFileHandler.openDataFile(file, format);
+	}
+
+
+	/**
+	 * <span class="lang-ja">
+	 * 複数の座標値データファイルを, 指定された書式で開き, その内容をグラフにプロットします
+	 * </span>
+	 * <span class="lang-en">
+	 * Opens multiple data files in the specified formats, and plots the data in them into the graph
+	 * </span>
+	 *
+	 * @param files
+	 *   <span class="lang-ja">プロットする座標値データファイル</span>
+	 *   <span class="lang-en">The data files to be plotted</span>
+	 * @param formats
+	 *   <span class="lang-ja">座標値データファイルの書式</span>
+	 *   <span class="lang-en">The formats of the data files</span>
+	 * @throws java.io.FileNotFoundException
+	 *   <span class="lang-ja">指定されたファイルが存在しない場合にスローされます</span>
+	 *   <span class="lang-en">Thrown if the specified file does not exist</span>
+	 * @throws java.io.IOException
+	 *   <span class="lang-ja">ファイルの入出力時に問題が発生した場合にスローされる可能性があります(バージョン依存)</span>
+	 *   <span class="lang-en">Thrown if any I/O-related problem occurred (depends on the version)</span>
+	 */
+	public void openDataFiles(File[] files, RinearnGraph3DDataFileFormat[] formats) throws FileNotFoundException, IOException {
+		this.presenter.dataFileHandler.openDataFiles(files, formats);
 	}
 
 
