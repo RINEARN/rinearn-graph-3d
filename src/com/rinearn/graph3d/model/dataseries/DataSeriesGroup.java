@@ -2,6 +2,7 @@ package com.rinearn.graph3d.model.dataseries;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -58,7 +59,7 @@ public final class DataSeriesGroup<DataSeriesType> {
 	 * @return The list of the currently registered data series.
 	 */
 	public synchronized List<DataSeriesType> getDataSeriesList() {
-		return List.copyOf(this.dataSeriesList);
+		return Collections.unmodifiableList(this.dataSeriesList);
 	}
 
 
