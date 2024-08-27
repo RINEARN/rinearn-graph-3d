@@ -247,6 +247,7 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 *
 	 * @return Returns true if the minimum value exists.
 	 */
+	@Override
 	public synchronized boolean haxXMin() {
 		return this.xMin != null;
 	}
@@ -256,6 +257,7 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 *
 	 * @return The minimum value of the X-coordinate values.
 	 */
+	@Override
 	public synchronized BigDecimal getXMin() {
 		return this.xMin;
 	}
@@ -265,6 +267,7 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 *
 	 * @return Returns true if the maximum value exists.
 	 */
+	@Override
 	public synchronized boolean haxXMax() {
 		return this.xMax != null;
 	}
@@ -274,6 +277,7 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 *
 	 * @return The maximum value of the X-coordinate values.
 	 */
+	@Override
 	public synchronized BigDecimal getXMax() {
 		return this.xMax;
 	}
@@ -310,6 +314,7 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 *
 	 * @return Returns true if the minimum value exists.
 	 */
+	@Override
 	public synchronized boolean haxYMin() {
 		return this.yMin != null;
 	}
@@ -319,6 +324,7 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 *
 	 * @return The minimum value of the Y-coordinate values.
 	 */
+	@Override
 	public synchronized BigDecimal getYMin() {
 		return this.yMin;
 	}
@@ -328,6 +334,7 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 *
 	 * @return Returns true if the maximum value exists.
 	 */
+	@Override
 	public synchronized boolean haxYMax() {
 		return this.yMax != null;
 	}
@@ -337,6 +344,7 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 *
 	 * @return The maximum value of the Y-coordinate values.
 	 */
+	@Override
 	public synchronized BigDecimal getYMax() {
 		return this.yMax;
 	}
@@ -373,6 +381,7 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 *
 	 * @return Returns true if the minimum value exists.
 	 */
+	@Override
 	public synchronized boolean haxZMin() {
 		return this.zMin != null;
 	}
@@ -382,6 +391,7 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 *
 	 * @return The minimum value of the Z-coordinate values.
 	 */
+	@Override
 	public synchronized BigDecimal getZMin() {
 		return this.zMin;
 	}
@@ -391,6 +401,7 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 *
 	 * @return Returns true if the maximum value exists.
 	 */
+	@Override
 	public synchronized boolean haxZMax() {
 		return this.zMax != null;
 	}
@@ -400,6 +411,7 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 *
 	 * @return The maximum value of the Z-coordinate values.
 	 */
+	@Override
 	public synchronized BigDecimal getZMax() {
 		return this.zMax;
 	}

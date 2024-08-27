@@ -3,6 +3,8 @@ package com.rinearn.graph3d.model.dataseries;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.model.ScriptEngineMount;
 
+import java.math.BigDecimal;
+
 import org.vcssl.nano.VnanoException;
 
 /*
@@ -125,4 +127,128 @@ public abstract class MathDataSeries extends AbstractDataSeries {
 		}
 		return this.visibilities;
 	}
+
+
+	/**
+	 * Checks whether the minimum value of the X-coordinate values exists.
+	 *
+	 * @return Returns true if the minimum value exists.
+	 */
+	@Override
+	public synchronized boolean haxXMin() {
+		return false;
+	}
+
+	/**
+	 * Gets the minimum value of the X-coordinate values.
+	 *
+	 * @return The minimum value of the X-coordinate values.
+	 */
+	@Override
+	public synchronized BigDecimal getXMin() {
+		return null;
+	}
+
+	/**
+	 * Checks whether the maximum value of the X-coordinate values exists.
+	 *
+	 * @return Returns true if the maximum value exists.
+	 */
+	@Override
+	public synchronized boolean haxXMax() {
+		return false;
+	}
+
+	/**
+	 * Gets the maximum value of the X-coordinate values.
+	 *
+	 * @return The maximum value of the X-coordinate values.
+	 */
+	@Override
+	public synchronized BigDecimal getXMax() {
+		return null;
+	}
+
+
+	/**
+	 * Checks whether the minimum value of the Y-coordinate values exists.
+	 *
+	 * @return Returns true if the minimum value exists.
+	 */
+	@Override
+	public synchronized boolean haxYMin() {
+		return false;
+	}
+
+	/**
+	 * Gets the minimum value of the Y-coordinate values.
+	 *
+	 * @return The minimum value of the Y-coordinate values.
+	 */
+	@Override
+	public synchronized BigDecimal getYMin() {
+		return null;
+	}
+
+	/**
+	 * Checks whether the maximum value of the Y-coordinate values exists.
+	 *
+	 * @return Returns true if the maximum value exists.
+	 */
+	@Override
+	public synchronized boolean haxYMax() {
+		return false;
+	}
+
+	/**
+	 * Gets the maximum value of the Y-coordinate values.
+	 *
+	 * @return The maximum value of the Y-coordinate values.
+	 */
+	@Override
+	public synchronized BigDecimal getYMax() {
+		return null;
+	}
+
+
+	/**
+	 * Checks whether the minimum value of the Z-coordinate values exists.
+	 *
+	 * @return Returns true if the minimum value exists.
+	 */
+	@Override
+	public synchronized boolean haxZMin() {
+		return false;
+	}
+
+	/**
+	 * Gets the minimum value of the Z-coordinate values.
+	 *
+	 * @return The minimum value of the Z-coordinate values.
+	 */
+	@Override
+	public synchronized BigDecimal getZMin() {
+		return null;
+	}
+
+	/**
+	 * Checks whether the maximum value of the Z-coordinate values exists.
+	 *
+	 * @return Returns true if the maximum value exists.
+	 */
+	@Override
+	public synchronized boolean haxZMax() {
+		return false;
+	}
+
+	/**
+	 * Gets the maximum value of the Z-coordinate values.
+	 *
+	 * @return The maximum value of the Z-coordinate values.
+	 */
+	@Override
+	public synchronized BigDecimal getZMax() {
+		return null;
+	}
+
 }

@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.model.dataseries;
 
+import java.math.BigDecimal;
+
 /*
 [Inheritance tree]
 
@@ -53,4 +55,92 @@ public abstract class AbstractDataSeries {
 	 * Gets the array storing visibilities of the points of this data series.
 	 */
 	public abstract boolean[][] getVisibilities();
+
+
+	/**
+	 * Checks whether the minimum value of the X-coordinate values exists.
+	 *
+	 * @return Returns true if the minimum value exists.
+	 */
+	public abstract boolean haxXMin();
+
+	/**
+	 * Gets the minimum value of the X-coordinate values.
+	 *
+	 * @return The minimum value of the X-coordinate values.
+	 */
+	public abstract BigDecimal getXMin();
+
+	/**
+	 * Checks whether the maximum value of the X-coordinate values exists.
+	 *
+	 * @return Returns true if the maximum value exists.
+	 */
+	public abstract boolean haxXMax();
+
+	/**
+	 * Gets the maximum value of the X-coordinate values.
+	 *
+	 * @return The maximum value of the X-coordinate values.
+	 */
+	public abstract BigDecimal getXMax();
+
+
+	/**
+	 * Checks whether the minimum value of the Y-coordinate values exists.
+	 *
+	 * @return Returns true if the minimum value exists.
+	 */
+	public abstract boolean haxYMin();
+
+	/**
+	 * Gets the minimum value of the Y-coordinate values.
+	 *
+	 * @return The minimum value of the Y-coordinate values.
+	 */
+	public abstract BigDecimal getYMin();
+
+	/**
+	 * Checks whether the maximum value of the Y-coordinate values exists.
+	 *
+	 * @return Returns true if the maximum value exists.
+	 */
+	public abstract boolean haxYMax();
+
+	/**
+	 * Gets the maximum value of the Y-coordinate values.
+	 *
+	 * @return The maximum value of the Y-coordinate values.
+	 */
+	public abstract BigDecimal getYMax();
+
+
+	/**
+	 * Checks whether the minimum value of the Z-coordinate values exists.
+	 *
+	 * @return Returns true if the minimum value exists.
+	 */
+	public abstract boolean haxZMin();
+
+	/**
+	 * Gets the minimum value of the Z-coordinate values.
+	 *
+	 * @return The minimum value of the Z-coordinate values.
+	 */
+	public abstract BigDecimal getZMin();
+
+	/**
+	 * Checks whether the maximum value of the Z-coordinate values exists.
+	 *
+	 * @return Returns true if the maximum value exists.
+	 */
+	public abstract boolean haxZMax();
+
+	/**
+	 * Gets the maximum value of the Z-coordinate values.
+	 *
+	 * @return The maximum value of the Z-coordinate values.
+	 */
+	public abstract BigDecimal getZMax();
+
 }
