@@ -26,10 +26,10 @@ import java.math.BigDecimal;
 public class ZxyMathDataSeries extends MathDataSeries {
 
 	/** The "engine-mount", provides a script engine for computing coordinates from math expressions. */
-	protected final ScriptEngineMount scriptEngineMount;
+	private final ScriptEngineMount scriptEngineMount;
 
 	/** The configuration container (for referring the range configuration). */
-	protected final RinearnGraph3DConfiguration config;
+	private final RinearnGraph3DConfiguration config;
 
 	/** The math expression of "z(x,y)". */
 	private final String zMathExpression;
@@ -51,6 +51,12 @@ public class ZxyMathDataSeries extends MathDataSeries {
 
 	/** The array storing visibilities of the points of this data series. */
 	protected volatile boolean[][] visibilities;
+
+	/** Stores the maximum value of the Z-coordinate values. */
+	private volatile BigDecimal zMin;
+
+	/** Stores the minimum value of the Z-coordinate values. */
+	private volatile BigDecimal zMax;
 
 
 	/**
@@ -104,6 +110,8 @@ public class ZxyMathDataSeries extends MathDataSeries {
 		double yMin = this.config.getRangeConfiguration().getYRangeConfiguration().getMinimum().doubleValue();
 		double xDelta = (xMax - xMin) / (xN - 1);
 		double yDelta = (yMax - yMin) / (yN - 1);
+		double zMinTentative = Double.POSITIVE_INFINITY;
+		double zMaxTentative = Double.NEGATIVE_INFINITY;
 
 		// Allocate coordinate arrays.
 		this.xCoordinates = new double[xN][yN];
@@ -117,15 +125,36 @@ public class ZxyMathDataSeries extends MathDataSeries {
 		// Compute coordinate values, and store them into the above coordinate arrays.
 		for (int ix=0; ix<xN; ix++) {
 			for (int iy=0; iy<yN; iy++) {
+
+				// Compute coordinates.
 				double x = (ix == xN - 1) ? xMax : (xMin + xDelta * ix);
 				double y = (iy == yN - 1) ? yMax : (yMin + yDelta * iy);
 				double z = this.scriptEngineMount.calculateMathExpression(this.zMathExpression, x, y);
 
+				// Store the computed coordinates.
 				this.xCoordinates[ix][iy] = x;
 				this.yCoordinates[ix][iy] = y;
 				this.zCoordinates[ix][iy] = z;
 				this.visibilities[ix][iy] = true;
+
+				// Update Z range.
+				if (z < zMinTentative) {
+					zMinTentative = z;
+				}
+				if (zMaxTentative < z) {
+					zMaxTentative = z;
+				}
 			}
+		}
+
+		// Stores the minimum and maximum Z-coordinates to the fields.
+		this.zMin = null;
+		if (zMinTentative != Double.POSITIVE_INFINITY) {
+			this.zMin = new BigDecimal(zMinTentative);
+		}
+		this.zMax = null;
+		if (zMaxTentative != Double.NEGATIVE_INFINITY) {
+			this.zMax = new BigDecimal(zMaxTentative);
 		}
 
 		// Deactivate the script engine (finalization procedures of all connected plug-ins are invoked).
@@ -196,7 +225,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized boolean haxXMin() {
-		return false;
+		return true;
 	}
 
 	/**
@@ -206,7 +235,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized BigDecimal getXMin() {
-		return null;
+		return this.config.getRangeConfiguration().getXRangeConfiguration().getMinimum();
 	}
 
 	/**
@@ -216,7 +245,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized boolean haxXMax() {
-		return false;
+		return true;
 	}
 
 	/**
@@ -226,7 +255,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized BigDecimal getXMax() {
-		return null;
+		return this.config.getRangeConfiguration().getXRangeConfiguration().getMaximum();
 	}
 
 
@@ -237,7 +266,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized boolean haxYMin() {
-		return false;
+		return true;
 	}
 
 	/**
@@ -247,7 +276,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized BigDecimal getYMin() {
-		return null;
+		return this.config.getRangeConfiguration().getYRangeConfiguration().getMinimum();
 	}
 
 	/**
@@ -257,7 +286,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized boolean haxYMax() {
-		return false;
+		return true;
 	}
 
 	/**
@@ -267,7 +296,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized BigDecimal getYMax() {
-		return null;
+		return this.config.getRangeConfiguration().getYRangeConfiguration().getMaximum();
 	}
 
 
@@ -278,7 +307,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized boolean haxZMin() {
-		return false;
+		return this.zMin != null;
 	}
 
 	/**
@@ -288,7 +317,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized BigDecimal getZMin() {
-		return null;
+		return this.zMin;
 	}
 
 	/**
@@ -298,7 +327,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized boolean haxZMax() {
-		return false;
+		return this.zMax != null;
 	}
 
 	/**
@@ -308,7 +337,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized BigDecimal getZMax() {
-		return null;
+		return this.zMax;
 	}
 
 }
