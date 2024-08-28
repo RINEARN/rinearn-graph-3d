@@ -223,22 +223,32 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	private void detectXRange() {
 		this.xMin = null;
 		this.xMax = null;
+		double xMinTentative = Double.POSITIVE_INFINITY;
+		double xMaxTentative = Double.NEGATIVE_INFINITY;
 
-		for (double[] xCoordsOfLine: xCoordinates) {
-			for (double x: xCoordsOfLine) {
-
-				if (Double.isNaN(x)) {
-					continue;
-				}
-				BigDecimal xBD = new BigDecimal(x);
-
-				if (xMin == null || xBD.compareTo(xMin) < 0) {
-					xMin = xBD;
-				}
-				if (xMax == null || 0 < xBD.compareTo(xMax)) {
-					xMax = xBD;
+		// Find the minimum and maximum coordinates.
+		for (int ixL=0; ixL<this.xCoordinates.length; ixL++) {
+			for (int ixR=0; ixR<this.xCoordinates[ixL].length; ixR++) {
+				if (this.visibilities[ixL][ixR]) {
+					double x = this.xCoordinates[ixL][ixR];
+					if (x < xMinTentative) {
+						xMinTentative = x;
+					}
+					if (xMaxTentative < x) {
+						xMaxTentative = x;
+					}
 				}
 			}
+		}
+
+		// Stores the minimum and maximum coordinates to the fields.
+		this.xMin = null;
+		if (xMinTentative != Double.POSITIVE_INFINITY) {
+			this.xMin = new BigDecimal(xMinTentative);
+		}
+		this.xMax = null;
+		if (xMaxTentative != Double.NEGATIVE_INFINITY) {
+			this.xMax = new BigDecimal(xMaxTentative);
 		}
 	}
 
@@ -290,22 +300,32 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	private void detectYRange() {
 		this.yMin = null;
 		this.yMax = null;
+		double yMinTentative = Double.POSITIVE_INFINITY;
+		double yMaxTentative = Double.NEGATIVE_INFINITY;
 
-		for (double[] yCoordsOfLine: yCoordinates) {
-			for (double y: yCoordsOfLine) {
-
-				if (Double.isNaN(y)) {
-					continue;
-				}
-				BigDecimal yBD = new BigDecimal(y);
-
-				if (yMin == null || yBD.compareTo(yMin) < 0) {
-					yMin = yBD;
-				}
-				if (yMax == null || 0 < yBD.compareTo(yMax)) {
-					yMax = yBD;
+		// Find the minimum and maximum coordinates.
+		for (int iyL=0; iyL<this.yCoordinates.length; iyL++) {
+			for (int iyR=0; iyR<this.yCoordinates[iyL].length; iyR++) {
+				if (this.visibilities[iyL][iyR]) {
+					double y = this.yCoordinates[iyL][iyR];
+					if (y < yMinTentative) {
+						yMinTentative = y;
+					}
+					if (yMaxTentative < y) {
+						yMaxTentative = y;
+					}
 				}
 			}
+		}
+
+		// Stores the minimum and maximum coordinates to the fields.
+		this.yMin = null;
+		if (yMinTentative != Double.POSITIVE_INFINITY) {
+			this.yMin = new BigDecimal(yMinTentative);
+		}
+		this.yMax = null;
+		if (yMaxTentative != Double.NEGATIVE_INFINITY) {
+			this.yMax = new BigDecimal(yMaxTentative);
 		}
 	}
 
@@ -357,22 +377,32 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	private void detectZRange() {
 		this.zMin = null;
 		this.zMax = null;
+		double zMinTentative = Double.POSITIVE_INFINITY;
+		double zMaxTentative = Double.NEGATIVE_INFINITY;
 
-		for (double[] zCoordsOfLine: zCoordinates) {
-			for (double z: zCoordsOfLine) {
-
-				if (Double.isNaN(z)) {
-					continue;
-				}
-				BigDecimal zBD = new BigDecimal(z);
-
-				if (zMin == null || zBD.compareTo(zMin) < 0) {
-					zMin = zBD;
-				}
-				if (zMax == null || 0 < zBD.compareTo(zMax)) {
-					zMax = zBD;
+		// Find the minimum and maximum coordinates.
+		for (int izL=0; izL<this.zCoordinates.length; izL++) {
+			for (int izR=0; izR<this.zCoordinates[izL].length; izR++) {
+				if (this.visibilities[izL][izR]) {
+					double z = this.zCoordinates[izL][izR];
+					if (z < zMinTentative) {
+						zMinTentative = z;
+					}
+					if (zMaxTentative < z) {
+						zMaxTentative = z;
+					}
 				}
 			}
+		}
+
+		// Stores the minimum and maximum coordinates to the fields.
+		this.zMin = null;
+		if (zMinTentative != Double.POSITIVE_INFINITY) {
+			this.zMin = new BigDecimal(zMinTentative);
+		}
+		this.zMax = null;
+		if (zMaxTentative != Double.NEGATIVE_INFINITY) {
+			this.zMax = new BigDecimal(zMaxTentative);
 		}
 	}
 

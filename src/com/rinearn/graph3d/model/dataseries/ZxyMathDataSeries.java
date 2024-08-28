@@ -138,11 +138,13 @@ public class ZxyMathDataSeries extends MathDataSeries {
 				this.visibilities[ix][iy] = true;
 
 				// Update Z range.
-				if (z < zMinTentative) {
-					zMinTentative = z;
-				}
-				if (zMaxTentative < z) {
-					zMaxTentative = z;
+				if (this.visibilities[ix][iy]) {
+					if (z < zMinTentative) {
+						zMinTentative = z;
+					}
+					if (zMaxTentative < z) {
+						zMaxTentative = z;
+					}
 				}
 			}
 		}

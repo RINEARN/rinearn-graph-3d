@@ -1,8 +1,5 @@
 package com.rinearn.graph3d.model.dataseries;
 
-import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.model.ScriptEngineMount;
-
 import org.vcssl.nano.VnanoException;
 
 /*
