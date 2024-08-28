@@ -74,7 +74,7 @@ public class LinePlotter implements RinearnGraph3DPlottingListener {
 		}
 
 		// Plots all data series.
-		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = this.model.dataStore.getDataSeriesGroup();
+		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = this.model.dataStore.getCombinedDataSeriesGroup();
 		int dataSeriesCount = dataSeriesGroup.getDataSeriesCount();
 		for (int dataSeriesIndex=0; dataSeriesIndex<dataSeriesCount; dataSeriesIndex++) {
 			AbstractDataSeries dataSeries = dataSeriesGroup.getDataSeriesAt(dataSeriesIndex);

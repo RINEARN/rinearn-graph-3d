@@ -39,17 +39,20 @@ public final class DataSeriesGroup<DataSeriesType extends AbstractDataSeries>
 
 	/**
 	 * Creates a new data series group in which all the data series in this and specified groups.
+	 * The order of the elements from this and the specified group will be preserved in the created group.
+	 * In the created group, the elements from this group will be located from the top,
+	 * and then the elements from the specified group will be located.
 	 *
 	 * @param <NewDataSeriesType> The type of the data series of the new group.
 	 * @param <ArgDataSeriesType> The type of the data series of the argument group.
 	 * @param argGroup The group of the data series to be concatenated to this group.
-	 * @return The new concatenated data group.
+	 * @return The new combined data group.
 	 * @throws ClassCastException
 	 *     Thrown if the types of the data series in this and argument group are incompatible with NewDataSeriesType.
 	 */
 	@SuppressWarnings("unchecked")
 	public synchronized <NewDataSeriesType extends AbstractDataSeries, ArgDataSeriesType extends AbstractDataSeries>
-			DataSeriesGroup<NewDataSeriesType> createConcatenatedGroup(DataSeriesGroup<ArgDataSeriesType> argGroup)
+			DataSeriesGroup<NewDataSeriesType> createCombinedGroup(DataSeriesGroup<ArgDataSeriesType> argGroup)
 					throws ClassCastException {
 
 		DataSeriesGroup<NewDataSeriesType> concatinatedGroup = new DataSeriesGroup<NewDataSeriesType>();
@@ -64,15 +67,16 @@ public final class DataSeriesGroup<DataSeriesType extends AbstractDataSeries>
 
 
 	/**
-	 * Adds all the data series stored in the argument group to this group.
+	 * Adds all the data series stored in the specified group into this group.
+	 * The order of the elements from the specified group will be preserved when added to this group.
 	 *
 	 * @param <ArgDataSeriesType> The type of the data series of the argument group.
-	 * @param argGroup The data series group to be concatenated to this group.
+	 * @param argGroup The data series group to be combined into this group.
 	 * @throws ClassCastException
 	 *     Thrown if the types of the data series in this and argument group are incompatible.
 	 */
 	@SuppressWarnings("unchecked")
-	public synchronized <ArgDataSeriesType extends AbstractDataSeries> void concatenate(DataSeriesGroup<ArgDataSeriesType> argGroup) {
+	public synchronized <ArgDataSeriesType extends AbstractDataSeries> void combine(DataSeriesGroup<ArgDataSeriesType> argGroup) {
 		for (ArgDataSeriesType dataSeries: argGroup) {
 			this.addDataSeries((DataSeriesType)dataSeries);
 		}

@@ -12,8 +12,6 @@ import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;
 import com.rinearn.graph3d.config.OptionConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 
-import java.util.List;
-
 
 /**
  * The "plotter" to plot a point on each coordinate point of data.
@@ -76,7 +74,7 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 		}
 
 		// Plots all data series.
-		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = this.model.dataStore.getDataSeriesGroup();
+		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = this.model.dataStore.getCombinedDataSeriesGroup();
 		int dataSeriesCount = dataSeriesGroup.getDataSeriesCount();
 		for (int dataSeriesIndex=0; dataSeriesIndex<dataSeriesCount; dataSeriesIndex++) {
 			AbstractDataSeries dataSeries = dataSeriesGroup.getDataSeriesAt(dataSeriesIndex);

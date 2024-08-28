@@ -36,10 +36,10 @@ public class DataStore {
 	 *
 	 * @return The group of all the currently registered data series.
 	 */
-	public synchronized DataSeriesGroup<AbstractDataSeries> getDataSeriesGroup() {
+	public synchronized DataSeriesGroup<AbstractDataSeries> getCombinedDataSeriesGroup() {
 		DataSeriesGroup<AbstractDataSeries> allDataSeriesGroup = new DataSeriesGroup<AbstractDataSeries>();
-		allDataSeriesGroup.concatenate(this.arrayDataSeriesGroup);
-		allDataSeriesGroup.concatenate(this.mathDataSeriesGroup);
+		allDataSeriesGroup.combine(this.arrayDataSeriesGroup);
+		allDataSeriesGroup.combine(this.mathDataSeriesGroup);
 		return allDataSeriesGroup;
 		// TODO: Should we return an unmodifiable copy here?
 	}
