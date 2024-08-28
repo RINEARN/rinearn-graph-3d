@@ -62,7 +62,7 @@ public abstract class AbstractDataSeries {
 	 *
 	 * @return Returns true if the minimum value exists.
 	 */
-	public abstract boolean haxXMin();
+	public abstract boolean hasXMin();
 
 	/**
 	 * Gets the minimum value of the X-coordinate values.
@@ -76,7 +76,7 @@ public abstract class AbstractDataSeries {
 	 *
 	 * @return Returns true if the maximum value exists.
 	 */
-	public abstract boolean haxXMax();
+	public abstract boolean hasXMax();
 
 	/**
 	 * Gets the maximum value of the X-coordinate values.
@@ -91,7 +91,7 @@ public abstract class AbstractDataSeries {
 	 *
 	 * @return Returns true if the minimum value exists.
 	 */
-	public abstract boolean haxYMin();
+	public abstract boolean hasYMin();
 
 	/**
 	 * Gets the minimum value of the Y-coordinate values.
@@ -105,7 +105,7 @@ public abstract class AbstractDataSeries {
 	 *
 	 * @return Returns true if the maximum value exists.
 	 */
-	public abstract boolean haxYMax();
+	public abstract boolean hasYMax();
 
 	/**
 	 * Gets the maximum value of the Y-coordinate values.
@@ -120,7 +120,7 @@ public abstract class AbstractDataSeries {
 	 *
 	 * @return Returns true if the minimum value exists.
 	 */
-	public abstract boolean haxZMin();
+	public abstract boolean hasZMin();
 
 	/**
 	 * Gets the minimum value of the Z-coordinate values.
@@ -134,7 +134,7 @@ public abstract class AbstractDataSeries {
 	 *
 	 * @return Returns true if the maximum value exists.
 	 */
-	public abstract boolean haxZMax();
+	public abstract boolean hasZMax();
 
 	/**
 	 * Gets the maximum value of the Z-coordinate values.

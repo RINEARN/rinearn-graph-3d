@@ -116,7 +116,7 @@ public class XtYtZtMathDataSeries extends MathDataSeries {
 	 * @return Returns true if the minimum value exists.
 	 */
 	@Override
-	public synchronized boolean haxXMin() {
+	public synchronized boolean hasXMin() {
 		throw new RuntimeException("Unimplemented yet.");
 	}
 
@@ -136,7 +136,7 @@ public class XtYtZtMathDataSeries extends MathDataSeries {
 	 * @return Returns true if the maximum value exists.
 	 */
 	@Override
-	public synchronized boolean haxXMax() {
+	public synchronized boolean hasXMax() {
 		throw new RuntimeException("Unimplemented yet.");
 	}
 
@@ -157,7 +157,7 @@ public class XtYtZtMathDataSeries extends MathDataSeries {
 	 * @return Returns true if the minimum value exists.
 	 */
 	@Override
-	public synchronized boolean haxYMin() {
+	public synchronized boolean hasYMin() {
 		throw new RuntimeException("Unimplemented yet.");
 	}
 
@@ -177,7 +177,7 @@ public class XtYtZtMathDataSeries extends MathDataSeries {
 	 * @return Returns true if the maximum value exists.
 	 */
 	@Override
-	public synchronized boolean haxYMax() {
+	public synchronized boolean hasYMax() {
 		throw new RuntimeException("Unimplemented yet.");
 	}
 
@@ -198,7 +198,7 @@ public class XtYtZtMathDataSeries extends MathDataSeries {
 	 * @return Returns true if the minimum value exists.
 	 */
 	@Override
-	public synchronized boolean haxZMin() {
+	public synchronized boolean hasZMin() {
 		throw new RuntimeException("Unimplemented yet.");
 	}
 
@@ -218,7 +218,7 @@ public class XtYtZtMathDataSeries extends MathDataSeries {
 	 * @return Returns true if the maximum value exists.
 	 */
 	@Override
-	public synchronized boolean haxZMax() {
+	public synchronized boolean hasZMax() {
 		throw new RuntimeException("Unimplemented yet.");
 	}
 

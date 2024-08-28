@@ -226,7 +226,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 * @return Returns true if the minimum value exists.
 	 */
 	@Override
-	public synchronized boolean haxXMin() {
+	public synchronized boolean hasXMin() {
 		return true;
 	}
 
@@ -246,7 +246,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 * @return Returns true if the maximum value exists.
 	 */
 	@Override
-	public synchronized boolean haxXMax() {
+	public synchronized boolean hasXMax() {
 		return true;
 	}
 
@@ -267,7 +267,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 * @return Returns true if the minimum value exists.
 	 */
 	@Override
-	public synchronized boolean haxYMin() {
+	public synchronized boolean hasYMin() {
 		return true;
 	}
 
@@ -287,7 +287,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 * @return Returns true if the maximum value exists.
 	 */
 	@Override
-	public synchronized boolean haxYMax() {
+	public synchronized boolean hasYMax() {
 		return true;
 	}
 
@@ -308,7 +308,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 * @return Returns true if the minimum value exists.
 	 */
 	@Override
-	public synchronized boolean haxZMin() {
+	public synchronized boolean hasZMin() {
 		return this.zMin != null;
 	}
 
@@ -328,7 +328,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 * @return Returns true if the maximum value exists.
 	 */
 	@Override
-	public synchronized boolean haxZMax() {
+	public synchronized boolean hasZMax() {
 		return this.zMax != null;
 	}
 
