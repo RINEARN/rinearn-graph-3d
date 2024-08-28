@@ -309,7 +309,7 @@ public final class DataFileHandler {
 
 					// Load the ifile-th data file, and store the result into "allDataSeriesGroup".
 					DataSeriesGroup<ArrayDataSeries> loadedDataFromFile = dataFileIO.loadDataFile(dataFiles[ifile], formats[ifile]);
-					for (ArrayDataSeries dataSeries: loadedDataFromFile.getDataSeriesList()) {
+					for (ArrayDataSeries dataSeries: loadedDataFromFile) {
 						allDataSeriesGroup.addDataSeries(dataSeries);
 					}
 

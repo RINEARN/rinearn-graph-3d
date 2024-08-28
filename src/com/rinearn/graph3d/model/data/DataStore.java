@@ -5,10 +5,6 @@ import com.rinearn.graph3d.model.data.series.ArrayDataSeries;
 import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
 import com.rinearn.graph3d.model.data.series.MathDataSeries;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 
 /**
  * The class storing and managing data to be plotted.
@@ -35,20 +31,17 @@ public class DataStore {
 
 
 	/**
-	 * Gets the List instance storing the currently registered data series,
+	 * Gets the group of all the currently registered data series,
 	 * without distinction of the type of the data series (math or array).
 	 *
-	 * @return The (unmodifiable) List storing the currently registered data series.
+	 * @return The group of all the currently registered data series.
 	 */
-	public synchronized List<AbstractDataSeries> getDataSeriesList() {
-		List<AbstractDataSeries> dataSeriesList = new ArrayList<AbstractDataSeries>();
-		for (ArrayDataSeries dataSeries: this.arrayDataSeriesGroup.getDataSeriesList()) {
-			dataSeriesList.add(dataSeries);
-		}
-		for (MathDataSeries dataSeries: this.mathDataSeriesGroup.getDataSeriesList()) {
-			dataSeriesList.add(dataSeries);
-		}
-		return Collections.unmodifiableList(dataSeriesList);
+	public synchronized DataSeriesGroup<AbstractDataSeries> getDataSeriesGroup() {
+		DataSeriesGroup<AbstractDataSeries> allDataSeriesGroup = new DataSeriesGroup<AbstractDataSeries>();
+		allDataSeriesGroup.concatenate(this.arrayDataSeriesGroup);
+		allDataSeriesGroup.concatenate(this.mathDataSeriesGroup);
+		return allDataSeriesGroup;
+		// TODO: Should we return an unmodifiable copy here?
 	}
 
 
@@ -87,15 +80,16 @@ public class DataStore {
 
 
 	/**
-	 * Gets the List instance storing the currently registered math data series.
+	 * Gets the group of the currently registered math data series.
 	 *
-	 * The returned List instance is unmodifiable. For adding/removing elements,
+	 * The returned group instance is unmodifiable. For adding/removing elements,
 	 * use the methods addMathDataSeries(...), removeLastMathDataSeries(), etc.
 	 *
-	 * @return The (unmodifiable) List storing the currently registered math data series.
+	 * @return The group of the currently registered math data series.
 	 */
-	public synchronized List<MathDataSeries> getMathDataSeriesList() {
-		return this.mathDataSeriesGroup.getDataSeriesList();
+	public synchronized DataSeriesGroup<MathDataSeries> getMathDataSeriesGroup() {
+		return this.mathDataSeriesGroup;
+		// TODO: Should we return an unmodifiable copy here?
 	}
 
 
@@ -113,7 +107,7 @@ public class DataStore {
 	 */
 	public synchronized void setArrayDataSeriesGroup(DataSeriesGroup<ArrayDataSeries> dataSeriesGroup) {
 		this.arrayDataSeriesGroup.clearAllDataSeries();
-		for (ArrayDataSeries arrayDataSeries: dataSeriesGroup.getDataSeriesList()) {
+		for (ArrayDataSeries arrayDataSeries: dataSeriesGroup) {
 			this.arrayDataSeriesGroup.addDataSeries(arrayDataSeries);
 		}
 	}
@@ -146,7 +140,7 @@ System.out.println("!!! TODO @" + this);
 	 * @param dataSeriesGroup The container in which all the array data series to be added are stored.
 	 */
 	public synchronized void addArrayDataSeriesGroup(DataSeriesGroup<ArrayDataSeries> dataSeriesGroup) {
-		for (ArrayDataSeries arrayDataSeries: dataSeriesGroup.getDataSeriesList()) {
+		for (ArrayDataSeries arrayDataSeries: dataSeriesGroup) {
 			this.arrayDataSeriesGroup.addDataSeries(arrayDataSeries);
 		}
 	}
@@ -174,15 +168,16 @@ System.out.println("!!! TODO @" + this);
 
 
 	/**
-	 * Gets the List instance storing the currently registered array data series.
+	 * Gets the group of the currently registered array data series.
 	 *
-	 * The returned List is unmodifiable. For adding/removing elements,
+	 * The returned group is unmodifiable. For adding/removing elements,
 	 * use the methods addArrayDataSeries(...), removeLastArrayDataSeries(), etc.
 	 *
-	 * @return The (unmodifiable) List storing the currently registered array data series.
+	 * @return The group of the currently registered array data series.
 	 */
-	public synchronized List<ArrayDataSeries> getArrayDataSeriesList() {
-		return this.arrayDataSeriesGroup.getDataSeriesList();
+	public synchronized DataSeriesGroup<ArrayDataSeries> getArrayDataSeriesGroup() {
+		return this.arrayDataSeriesGroup;
+		// TODO: Should we return an unmodifiable copy here?
 	}
 
 }

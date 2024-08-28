@@ -2,6 +2,7 @@ package com.rinearn.graph3d.presenter.plotter;
 
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.model.data.series.AbstractDataSeries;
+import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
@@ -75,10 +76,10 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 		}
 
 		// Plots all data series.
-		List<AbstractDataSeries> dataSeriesList = this.model.dataStore.getDataSeriesList();
-		int dataSeriesCount = dataSeriesList.size();
+		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = this.model.dataStore.getDataSeriesGroup();
+		int dataSeriesCount = dataSeriesGroup.getDataSeriesCount();
 		for (int dataSeriesIndex=0; dataSeriesIndex<dataSeriesCount; dataSeriesIndex++) {
-			AbstractDataSeries dataSeries = dataSeriesList.get(dataSeriesIndex);
+			AbstractDataSeries dataSeries = dataSeriesGroup.getDataSeriesAt(dataSeriesIndex);
 			this.plotPoints(dataSeries, dataSeriesIndex, pointRadius);
 		}
 	}

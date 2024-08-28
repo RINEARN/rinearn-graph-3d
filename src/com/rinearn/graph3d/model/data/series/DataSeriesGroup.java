@@ -1,9 +1,9 @@
 package com.rinearn.graph3d.model.data.series;
 
+import java.util.Iterator;
 import java.util.List;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.math.BigDecimal;
 
 
 /**
@@ -11,7 +11,8 @@ import java.util.Collections;
  *
  * @param <DataSeriesType> The type of the data series stored in this group.
  */
-public final class DataSeriesGroup<DataSeriesType extends AbstractDataSeries> {
+public final class DataSeriesGroup<DataSeriesType extends AbstractDataSeries>
+		implements Iterable<DataSeriesType> {
 
 	/** The list of the data series packed into this group. */
 	private final List<DataSeriesType> dataSeriesList;
@@ -22,6 +23,17 @@ public final class DataSeriesGroup<DataSeriesType extends AbstractDataSeries> {
 	 */
 	public DataSeriesGroup() {
 		this.dataSeriesList = new ArrayList<DataSeriesType>();
+	}
+
+
+	/**
+	 * Returns the iterator to access to each data series sequentially, used in enhanced for-statements.
+	 *
+	 * @return The iterator to access to each data series sequentially.
+	 */
+	@Override
+	public synchronized Iterator<DataSeriesType> iterator() {
+		return this.dataSeriesList.iterator();
 	}
 
 
@@ -44,7 +56,7 @@ public final class DataSeriesGroup<DataSeriesType extends AbstractDataSeries> {
 		for (DataSeriesType dataSeries: this.dataSeriesList) {
 			concatinatedGroup.addDataSeries((NewDataSeriesType)dataSeries);  // Can throws ClassCastException
 		}
-		for (ArgDataSeriesType dataSeries: argGroup.getDataSeriesList()) {
+		for (ArgDataSeriesType dataSeries: argGroup) {
 			concatinatedGroup.addDataSeries((NewDataSeriesType)dataSeries);  // Can throws ClassCastException
 		}
 		return concatinatedGroup;
@@ -54,11 +66,15 @@ public final class DataSeriesGroup<DataSeriesType extends AbstractDataSeries> {
 	/**
 	 * Adds all the data series stored in the argument group to this group.
 	 *
+	 * @param <ArgDataSeriesType> The type of the data series of the argument group.
 	 * @param argGroup The data series group to be concatenated to this group.
+	 * @throws ClassCastException
+	 *     Thrown if the types of the data series in this and argument group are incompatible.
 	 */
-	public synchronized void concatenate(DataSeriesGroup<DataSeriesType> argGroup) {
-		for (DataSeriesType dataSeries: argGroup.getDataSeriesList()) {
-			this.addDataSeries(dataSeries);
+	@SuppressWarnings("unchecked")
+	public synchronized <ArgDataSeriesType extends AbstractDataSeries> void concatenate(DataSeriesGroup<ArgDataSeriesType> argGroup) {
+		for (ArgDataSeriesType dataSeries: argGroup) {
+			this.addDataSeries((DataSeriesType)dataSeries);
 		}
 	}
 
@@ -91,16 +107,6 @@ public final class DataSeriesGroup<DataSeriesType extends AbstractDataSeries> {
 	 */
 	public synchronized DataSeriesType getDataSeriesAt(int index) {
 		return this.dataSeriesList.get(index);
-	}
-
-
-	/**
-	 * Gets the list of the currently registered data series.
-	 *
-	 * @return The list of the currently registered data series.
-	 */
-	public synchronized List<DataSeriesType> getDataSeriesList() {
-		return Collections.unmodifiableList(this.dataSeriesList);
 	}
 
 

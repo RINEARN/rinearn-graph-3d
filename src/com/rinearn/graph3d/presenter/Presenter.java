@@ -3,6 +3,7 @@ package com.rinearn.graph3d.presenter;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.model.data.series.MathDataSeries;
+import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
@@ -27,7 +28,6 @@ import com.rinearn.graph3d.presenter.plotter.MembranePlotter;
 
 import org.vcssl.nano.VnanoException;
 
-import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import java.lang.reflect.InvocationTargetException;
@@ -362,8 +362,8 @@ public final class Presenter {
 	 * Update coordinate values of math data series.
 	 */
 	private void updateMathDataSeriesCoordinates() {
-		List<MathDataSeries> mathDataSeriesList = this.model.dataStore.getMathDataSeriesList();
-		for (MathDataSeries mathDataSeries: mathDataSeriesList) {
+		DataSeriesGroup<MathDataSeries> mathDataSeriesGroup = this.model.dataStore.getMathDataSeriesGroup();
+		for (MathDataSeries mathDataSeries: mathDataSeriesGroup) {
 
 			// Compute coordinate values from the math expression(s), using Vnano scripting engine.
 			try {
