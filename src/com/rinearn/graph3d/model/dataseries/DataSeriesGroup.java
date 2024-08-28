@@ -8,6 +8,8 @@ import java.util.Collections;
 
 /**
  * The container class packing multiple data series.
+ *
+ * @param <DataSeriesType> The type of the data series stored in this group.
  */
 public final class DataSeriesGroup<DataSeriesType extends AbstractDataSeries> {
 
@@ -20,6 +22,44 @@ public final class DataSeriesGroup<DataSeriesType extends AbstractDataSeries> {
 	 */
 	public DataSeriesGroup() {
 		this.dataSeriesList = new ArrayList<DataSeriesType>();
+	}
+
+
+	/**
+	 * Creates a new data series group in which all the data series in this and specified groups.
+	 *
+	 * @param <NewDataSeriesType> The type of the data series of the new group.
+	 * @param <ArgDataSeriesType> The type of the data series of the argument group.
+	 * @param argGroup The group of the data series to be concatenated to this group.
+	 * @return The new concatenated data group.
+	 * @throws ClassCastException
+	 *     Thrown if the types of the data series in this and argument group are incompatible with NewDataSeriesType.
+	 */
+	@SuppressWarnings("unchecked")
+	public synchronized <NewDataSeriesType extends AbstractDataSeries, ArgDataSeriesType extends AbstractDataSeries>
+			DataSeriesGroup<NewDataSeriesType> createConcatenatedGroup(DataSeriesGroup<ArgDataSeriesType> argGroup)
+					throws ClassCastException {
+
+		DataSeriesGroup<NewDataSeriesType> concatinatedGroup = new DataSeriesGroup<NewDataSeriesType>();
+		for (DataSeriesType dataSeries: this.dataSeriesList) {
+			concatinatedGroup.addDataSeries((NewDataSeriesType)dataSeries);  // Can throws ClassCastException
+		}
+		for (ArgDataSeriesType dataSeries: argGroup.getDataSeriesList()) {
+			concatinatedGroup.addDataSeries((NewDataSeriesType)dataSeries);  // Can throws ClassCastException
+		}
+		return concatinatedGroup;
+	}
+
+
+	/**
+	 * Adds all the data series stored in the argument group to this group.
+	 *
+	 * @param argGroup The data series group to be concatenated to this group.
+	 */
+	public synchronized void concatenate(DataSeriesGroup<DataSeriesType> argGroup) {
+		for (DataSeriesType dataSeries: argGroup.getDataSeriesList()) {
+			this.addDataSeries(dataSeries);
+		}
 	}
 
 
