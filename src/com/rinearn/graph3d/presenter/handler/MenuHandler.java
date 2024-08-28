@@ -122,7 +122,7 @@ public final class MenuHandler {
 			}
 
 			// Cleare the lastly-registered math data series.
-			model.removeLastMathDataSeries();
+			model.dataStore.removeLastMathDataSeries();
 
 			// Replot the graph.
 			presenter.plot();
@@ -141,7 +141,7 @@ public final class MenuHandler {
 			}
 
 			// Cleare all currently-registered math data series.
-			model.clearMathDataSeries();
+			model.dataStore.clearMathDataSeries();
 
 			// Replot the graph.
 			presenter.plot();
@@ -482,7 +482,7 @@ public final class MenuHandler {
 	private final class ClearAPIListener implements Runnable {
 		@Override
 		public void run() {
-			model.clearDataSeries();
+			model.dataStore.clearDataSeries();
 			presenter.plot();
 		}
 	}

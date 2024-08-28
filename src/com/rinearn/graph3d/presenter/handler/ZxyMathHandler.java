@@ -112,7 +112,7 @@ public class ZxyMathHandler {
 					zMathExpression, xDiscretizationCount, yDiscretizationCount,
 					model.scriptEngineMount, model.config
 			);
-			model.addMathDataSeries(mathDataSeries);
+			model.dataStore.addMathDataSeries(mathDataSeries);
 
 			// Replot the graph.
 			presenter.plot();

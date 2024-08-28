@@ -362,7 +362,7 @@ public final class Presenter {
 	 * Update coordinate values of math data series.
 	 */
 	private void updateMathDataSeriesCoordinates() {
-		List<MathDataSeries> mathDataSeriesList = this.model.getMathDataSeriesList();
+		List<MathDataSeries> mathDataSeriesList = this.model.dataStore.getMathDataSeriesList();
 		for (MathDataSeries mathDataSeries: mathDataSeriesList) {
 
 			// Compute coordinate values from the math expression(s), using Vnano scripting engine.

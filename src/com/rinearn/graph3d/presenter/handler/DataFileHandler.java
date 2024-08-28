@@ -326,7 +326,7 @@ public final class DataFileHandler {
 			}
 
 			// Set the loaded data to Model.
-			model.setArrayDataSeriesGroup(allDataSeriesGroup);
+			model.dataStore.setArrayDataSeriesGroup(allDataSeriesGroup);
 
 			// Don't do the following. We must register the multiple data series by an "atomic operation".
 			// (because the data series registered in the Model may be accessed from another thread asynchronously.)

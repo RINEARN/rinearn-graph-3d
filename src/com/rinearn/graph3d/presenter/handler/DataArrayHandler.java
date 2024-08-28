@@ -390,11 +390,11 @@ public class DataArrayHandler {
 			// Set/add the above (multiple) data series to the Model layer.
 			switch (this.mode) {
 				case SET : {
-					model.setArrayDataSeriesGroup(dataSeriesGroup);
+					model.dataStore.setArrayDataSeriesGroup(dataSeriesGroup);
 					break;
 				}
 				case APPEND : {
-					model.addArrayDataSeriesGroup(dataSeriesGroup);
+					model.dataStore.addArrayDataSeriesGroup(dataSeriesGroup);
 					break;
 				}
 				default : {

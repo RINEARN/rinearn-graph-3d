@@ -75,7 +75,7 @@ public class MeshPlotter implements RinearnGraph3DPlottingListener {
 		}
 
 		// Plots all data series.
-		List<AbstractDataSeries> dataSeriesList = this.model.getDataSeriesList();
+		List<AbstractDataSeries> dataSeriesList = this.model.dataStore.getDataSeriesList();
 		int dataSeriesCount = dataSeriesList.size();
 		for (int dataSeriesIndex=0; dataSeriesIndex<dataSeriesCount; dataSeriesIndex++) {
 			AbstractDataSeries dataSeries = dataSeriesList.get(dataSeriesIndex);
