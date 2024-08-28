@@ -1,14 +1,14 @@
 package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.model.Model;
+import com.rinearn.graph3d.model.data.series.ArrayDataSeries;
+import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.View;
 
 import com.rinearn.graph3d.RinearnGraph3DDataFileFormat;
 import com.rinearn.graph3d.model.io.DataFileIO;
 import com.rinearn.graph3d.model.io.DataFileFormatException;
-import com.rinearn.graph3d.model.dataseries.DataSeriesGroup;
-import com.rinearn.graph3d.model.dataseries.ArrayDataSeries;
 import com.rinearn.graph3d.def.ErrorType;
 import com.rinearn.graph3d.def.ErrorMessage;
 

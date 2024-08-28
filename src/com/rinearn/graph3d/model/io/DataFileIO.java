@@ -1,8 +1,8 @@
 package com.rinearn.graph3d.model.io;
 
 import com.rinearn.graph3d.RinearnGraph3DDataFileFormat;
-import com.rinearn.graph3d.model.dataseries.ArrayDataSeries;
-import com.rinearn.graph3d.model.dataseries.DataSeriesGroup;
+import com.rinearn.graph3d.model.data.series.ArrayDataSeries;
+import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
 import com.rinearn.graph3d.model.io.decoder.TemporaryDataDecoder;
 
 import java.io.File;

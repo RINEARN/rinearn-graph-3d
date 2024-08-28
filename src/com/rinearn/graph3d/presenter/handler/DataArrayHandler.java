@@ -5,8 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.SwingUtilities;
 
 import com.rinearn.graph3d.model.Model;
-import com.rinearn.graph3d.model.dataseries.ArrayDataSeries;
-import com.rinearn.graph3d.model.dataseries.DataSeriesGroup;
+import com.rinearn.graph3d.model.data.series.ArrayDataSeries;
+import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.View;
 

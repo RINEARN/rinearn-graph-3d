@@ -2,7 +2,7 @@ package com.rinearn.graph3d.presenter;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.model.Model;
-import com.rinearn.graph3d.model.dataseries.MathDataSeries;
+import com.rinearn.graph3d.model.data.series.MathDataSeries;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;

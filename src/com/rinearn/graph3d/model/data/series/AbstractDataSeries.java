@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.model.dataseries;
+package com.rinearn.graph3d.model.data.series;
 
 import java.math.BigDecimal;
 

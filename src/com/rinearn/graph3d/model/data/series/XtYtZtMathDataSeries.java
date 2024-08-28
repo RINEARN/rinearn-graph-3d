@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.model.dataseries;
+package com.rinearn.graph3d.model.data.series;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.model.ScriptEngineMount;

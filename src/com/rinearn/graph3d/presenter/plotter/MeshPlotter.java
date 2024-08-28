@@ -1,7 +1,7 @@
 package com.rinearn.graph3d.presenter.plotter;
 
 import com.rinearn.graph3d.model.Model;
-import com.rinearn.graph3d.model.dataseries.AbstractDataSeries;
+import com.rinearn.graph3d.model.data.series.AbstractDataSeries;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;

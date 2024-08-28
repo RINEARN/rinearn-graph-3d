@@ -1,8 +1,8 @@
 package com.rinearn.graph3d.model.io.decoder;
 
+import com.rinearn.graph3d.model.data.series.ArrayDataSeries;
+import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
 import com.rinearn.graph3d.model.io.DataFileFormatException;
-import com.rinearn.graph3d.model.dataseries.DataSeriesGroup;
-import com.rinearn.graph3d.model.dataseries.ArrayDataSeries;
 import com.rinearn.graph3d.def.ErrorType;
 import com.rinearn.graph3d.RinearnGraph3DDataFileFormat;
 

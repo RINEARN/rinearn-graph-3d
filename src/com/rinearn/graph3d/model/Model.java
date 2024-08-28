@@ -1,10 +1,10 @@
 package com.rinearn.graph3d.model;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.model.dataseries.AbstractDataSeries;
-import com.rinearn.graph3d.model.dataseries.ArrayDataSeries;
-import com.rinearn.graph3d.model.dataseries.MathDataSeries;
-import com.rinearn.graph3d.model.dataseries.DataSeriesGroup;
+import com.rinearn.graph3d.model.data.series.AbstractDataSeries;
+import com.rinearn.graph3d.model.data.series.ArrayDataSeries;
+import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
+import com.rinearn.graph3d.model.data.series.MathDataSeries;
 
 import org.vcssl.nano.VnanoException;
 
@@ -30,10 +30,14 @@ public final class Model {
 	/** The "engine-mount" object, retaining script engines in this application, and wrapping I/O to/from them. */
 	public final ScriptEngineMount scriptEngineMount;
 
-	/** The group of math data series. */
+	// ↓ 以下の2つ、もう public にして外からそこに追加/削除していった方がシンプルなのでは？
+	//    → しかし、系列登録時にフックしたい処理とか後々で生じない？
+	//       → 思い浮かぶのは範囲更新とかだけど、それは View 層にも影響するから Presenter 層でやる必用があるし。
+
+	/** The group of math data series to be plotted. */
 	private final DataSeriesGroup<MathDataSeries> mathDataSeriesGroup = new DataSeriesGroup<MathDataSeries>();
 
-	/** The group of array data series. */
+	/** The group of array data series to be plotted. */
 	private final DataSeriesGroup<ArrayDataSeries> arrayDataSeriesGroup = new DataSeriesGroup<ArrayDataSeries>();
 
 
