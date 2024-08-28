@@ -33,6 +33,11 @@ public final class Model {
 	// ↓ 以下の2つ、もう public にして外からそこに追加/削除していった方がシンプルなのでは？
 	//    → しかし、系列登録時にフックしたい処理とか後々で生じない？
 	//       → 思い浮かぶのは範囲更新とかだけど、それは View 層にも影響するから Presenter 層でやる必用があるし。
+	//
+	// → なんかそもそもデータ系列をこの階層で直で持つのがよくないような。
+	//    データストア的なオブジェクトを作ってそれをここで public で持つのはあり。
+	//    データ系列の setter / getter がこの階層に生えまくっているのが煩雑なので。
+	//    データストアを介して各系列へのアクセスをどうやるかは（setterかpublicか）はまたデータストア側で考える。
 
 	/** The group of math data series to be plotted. */
 	private final DataSeriesGroup<MathDataSeries> mathDataSeriesGroup = new DataSeriesGroup<MathDataSeries>();
