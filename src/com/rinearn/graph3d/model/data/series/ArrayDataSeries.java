@@ -67,11 +67,17 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 * @param yCoordinates The Y-coordinate values of the points of this data series ([irow][icol]).
 	 * @param zCoordinates The Z-coordinate values of the points of this data series ([irow][icol]).
 	 */
-	public ArrayDataSeries(double[][] xCoordinates, double[][] yCoordinates, double[][] zCoordinates) {
-		this.setXCoordinates(xCoordinates);
-		this.setYCoordinates(yCoordinates);
-		this.setZCoordinates(zCoordinates);
-		this.setVisibilitiesFromCoordinates();
+	public ArrayDataSeries(double[][] xCoordinates, double[][] yCoordinates, double[][] zCoordinates,
+			boolean[][] visibilities) {
+
+		this.xCoordinates = xCoordinates;
+		this.yCoordinates = yCoordinates;
+		this.zCoordinates = zCoordinates;
+		this.visibilities = visibilities;
+
+		this.detectXRange();
+		this.detectYRange();
+		this.detectZRange();
 	}
 
 
@@ -83,12 +89,18 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 * @param zCoordinates The Z-coordinate values of the points of this data series ([irow][icol]).
 	 * @param extraCoordinates The coordinate values of the extra dimensions ([idim][irow][icol]).
 	 */
-	public ArrayDataSeries(double[][] xCoordinates, double[][] yCoordinates, double[][] zCoordinates, double[][][] extraCoordinates) {
-		this.setXCoordinates(xCoordinates);
-		this.setYCoordinates(yCoordinates);
-		this.setZCoordinates(zCoordinates);
+	public ArrayDataSeries(double[][] xCoordinates, double[][] yCoordinates, double[][] zCoordinates, double[][][] extraCoordinates,
+			boolean[][] visibilities) {
+
+		this.xCoordinates = xCoordinates;
+		this.yCoordinates = yCoordinates;
+		this.zCoordinates = zCoordinates;
 		this.extraCoordinates = extraCoordinates;
-		this.setVisibilitiesFromCoordinates();
+		this.visibilities = visibilities;
+
+		this.detectXRange();
+		this.detectYRange();
+		this.detectZRange();
 	}
 
 
@@ -180,26 +192,6 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 */
 	public synchronized void setVisibilities(boolean[][] visibilities) {
 		this.visibilities = visibilities;
-	}
-
-	/**
-	 * Sets the visibilities from the X/Y/Z coordinate values.
-	 *
-	 * If X/Y/Z coordinate values of a point contains NaN, the point is regarded as invisible.
-	 */
-	public synchronized void setVisibilitiesFromCoordinates() {
-		int leftDimLength = this.xCoordinates.length;
-		int rightDimLength = (0 < leftDimLength) ? xCoordinates[0].length : 0;
-		this.visibilities = new boolean[leftDimLength][rightDimLength];
-
-		for (int iL=0; iL<leftDimLength; iL++) {
-			for (int iR=0; iR<rightDimLength; iR++) {
-				boolean xIsNaN = Double.isNaN(this.xCoordinates[iL][iR]);
-				boolean yIsNaN = Double.isNaN(this.yCoordinates[iL][iR]);
-				boolean zIsNaN = Double.isNaN(this.zCoordinates[iL][iR]);
-				this.visibilities[iL][iR] = !xIsNaN && !yIsNaN && !zIsNaN;
-			}
-		}
 	}
 
 	/**

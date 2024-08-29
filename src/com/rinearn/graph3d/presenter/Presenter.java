@@ -1,7 +1,9 @@
 package com.rinearn.graph3d.presenter;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.model.Model;
+import com.rinearn.graph3d.model.data.series.AbstractDataSeries;
 import com.rinearn.graph3d.model.data.series.MathDataSeries;
 import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
 import com.rinearn.graph3d.view.View;
@@ -297,6 +299,9 @@ public final class Presenter {
 		// Update coordinate values of math data series.
 		this.updateMathDataSeriesCoordinates();
 
+		// Adjust the ranges to fit to the currently registered data (containing the data added above).
+		this.adjustRanges();
+
 		// Clear all currently drawn contents registered to the renderer.
 		this.renderer.clear();
 
@@ -379,6 +384,55 @@ public final class Presenter {
 				vne.printStackTrace();
 			}
 		}
+	}
+
+
+	/**
+	 * Adjusts the ranges of each axis for witch auto-ranging feature is enabled, to fit to the currently registered data.
+	 */
+	private synchronized void adjustRanges() {
+
+		// Get the group of all the registered data series.
+		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = model.dataStore.getCombinedDataSeriesGroup();
+
+		// Get the configurations of each axis's range.
+		RangeConfiguration rangeConfig = model.config.getRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
+
+		// Auto-adjust the X range to fit to the data, if enabled.
+		if (xRangeConfig.isAutoRangingEnabled()) {
+			if (dataSeriesGroup.hasXMin()) {
+				xRangeConfig.setMinimum(dataSeriesGroup.getXMin());
+			}
+			if (dataSeriesGroup.hasXMax()) {
+				xRangeConfig.setMaximum(dataSeriesGroup.getXMax());
+			}
+		}
+
+		// Auto-adjust the Y range to fit to the data, if enabled.
+		if (yRangeConfig.isAutoRangingEnabled()) {
+			if (dataSeriesGroup.hasYMin()) {
+				yRangeConfig.setMinimum(dataSeriesGroup.getYMin());
+			}
+			if (dataSeriesGroup.hasYMax()) {
+				yRangeConfig.setMaximum(dataSeriesGroup.getYMax());
+			}
+		}
+
+		// Auto-adjust the Z range to fit to the data, if enabled.
+		if (zRangeConfig.isAutoRangingEnabled()) {
+			if (dataSeriesGroup.hasZMin()) {
+				zRangeConfig.setMinimum(dataSeriesGroup.getZMin());
+			}
+			if (dataSeriesGroup.hasZMax()) {
+				zRangeConfig.setMaximum(dataSeriesGroup.getZMax());
+			}
+		}
+
+		// Propagates the updated range configurations to the entire application.
+		this.propagateConfiguration();
 	}
 
 

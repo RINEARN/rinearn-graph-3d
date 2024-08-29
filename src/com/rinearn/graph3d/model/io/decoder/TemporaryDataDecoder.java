@@ -193,6 +193,7 @@ public final class TemporaryDataDecoder {
 		int subSeriesCount = subDataSeriesList.size();
 		int columnCount = subDataSeriesList.get(0).columnsList.get(0).length;
 		double[][][] coords = new double[columnCount][subSeriesCount][]; // [icolumn][isub][ivertex]
+		boolean[][] visibilities = new boolean[subSeriesCount][];
 
 		// Parse all sub series.
 		for (int isub=0; isub<subSeriesCount; isub++) {
@@ -201,16 +202,21 @@ public final class TemporaryDataDecoder {
 			int vertexCount = subSeries.columnsList.size();
 			for (int icolumn=0; icolumn<columnCount; icolumn++) {
 				coords[icolumn][isub] = new double[vertexCount];
+				visibilities[isub] = new boolean[vertexCount];
 			}
 
 			// Parse all the vertex coordinates.
 			for (int ivertex=0; ivertex<vertexCount; ivertex++) {
 				String[] columns = subSeries.columnsList.get(ivertex);
+				visibilities[isub][ivertex] = true;
 
 				// Parse each column's coordinate value of this vertex.
 				for (int icolumn=0; icolumn<columnCount; icolumn++) {
 					try {
-						coords[icolumn][isub][ivertex] = Double.parseDouble(columns[icolumn]);
+						double value = Double.parseDouble(columns[icolumn]);
+						coords[icolumn][isub][ivertex] = value;
+						visibilities[isub][ivertex] &= !Double.isNaN(value);
+
 					} catch (NumberFormatException nfe) {
 						throw new DataFileFormatException(ErrorType.FAILED_TO_PARSE_NUMBER_IN_DATA_FILE, columns[0]);
 					}
@@ -229,14 +235,16 @@ public final class TemporaryDataDecoder {
 		double[][][] extraCoords = new double[extraDimCount][][];
 		for (int iexdim=0; iexdim<extraDimCount; iexdim++) {
 			extraCoords[iexdim] = coords[iexdim + 3];
+			// NOTE: Should we make invisible this point if its extraCoords[iexdim] is NaN? Or not?
+			//       -> Probably it should be decided in plotter-side, because it depends on how this dimension is visualized.
 		}
 
 		// Pack the parsed result into an ArrayDataSeries instance.
 		ArrayDataSeries dataSeries;
 		if (columnCount == 3) {
-			dataSeries = new ArrayDataSeries(xCoords, yCoords, zCoords);
+			dataSeries = new ArrayDataSeries(xCoords, yCoords, zCoords, visibilities);
 		} else {
-			dataSeries = new ArrayDataSeries(xCoords, yCoords, zCoords, extraCoords);
+			dataSeries = new ArrayDataSeries(xCoords, yCoords, zCoords, extraCoords, visibilities);
 		}
 		return dataSeries;
 	}

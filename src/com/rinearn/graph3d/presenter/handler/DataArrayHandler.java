@@ -371,6 +371,33 @@ public class DataArrayHandler {
 			this.mode = mode;
 		}
 
+
+		/**
+		 * Generates an array in which the visibilities of coordinate points of the specified data series are stored.
+		 *
+		 * @param dataSeriesIndex The index of the data series for which generating visibilities.
+		 * @return The created visibility array.
+		 */
+		private boolean[][] generateVisibilities(int dataSeriesIndex) {
+			int nLeft = this.x[dataSeriesIndex].length;
+			boolean[][] visibilities = new boolean[nLeft][];
+
+			for (int iLeft=0; iLeft<nLeft; iLeft++) {
+					int nRight = this.x[dataSeriesIndex][iLeft].length;
+					visibilities[iLeft] = new boolean[nRight];
+
+					for (int iRight=0; iRight<nRight; iRight++) {
+						double xOfThisPoint = this.x[dataSeriesIndex][iLeft][iRight];
+						double yOfThisPoint = this.y[dataSeriesIndex][iLeft][iRight];
+						double zOfThisPoint = this.z[dataSeriesIndex][iLeft][iRight];
+						boolean containsNaN = Double.isNaN(xOfThisPoint) || Double.isNaN(yOfThisPoint) || Double.isNaN(zOfThisPoint);
+						visibilities[iLeft][iRight] = !containsNaN;
+					}
+			}
+			return visibilities;
+		}
+
+
 		@Override
 		public void run() {
 
@@ -378,7 +405,10 @@ public class DataArrayHandler {
 			int dataSeriesCount = x.length;
 			DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new DataSeriesGroup<ArrayDataSeries>();
 			for (int iseries=0; iseries<dataSeriesCount; iseries++) {
-				ArrayDataSeries arrayDataSeries = new ArrayDataSeries(x[iseries], y[iseries], z[iseries]);
+
+				ArrayDataSeries arrayDataSeries = new ArrayDataSeries(
+						this.x[iseries], this.y[iseries], this.z[iseries], this.generateVisibilities(iseries)
+				);
 				dataSeriesGroup.addDataSeries(arrayDataSeries);
 
 				// Don't do the following. We must register the multiple data series by an "atomic operation".
