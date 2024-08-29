@@ -227,7 +227,12 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized boolean hasXMin() {
-		return true;
+
+		// Don't return true.
+		// Mathematically, the X/Y ranges of z(x,y) plotting is "unbounded",
+		// so it should not affect to the range detection of X/Y axes.
+		// See also the comment in the next method.
+		return false;
 	}
 
 	/**
@@ -237,7 +242,13 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized BigDecimal getXMin() {
-		return this.config.getRangeConfiguration().getXRangeConfiguration().getMinimum();
+		return null;
+
+		// Don't return the following.
+		// Otherwise, when we want to fits the X range to the currently plotted data (containing other data series),
+		// the range can not shrink smaller than the currently configured range.
+		//
+		// return this.config.getRangeConfiguration().getXRangeConfiguration().getMinimum();
 	}
 
 	/**
@@ -247,7 +258,12 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized boolean hasXMax() {
-		return true;
+
+		// Don't return true.
+		// Mathematically, the X/Y ranges of z(x,y) plotting is "unbounded",
+		// so it should not affect to the range detection of X/Y axes.
+		// See also the comment in the next method.
+		return false;
 	}
 
 	/**
@@ -257,7 +273,13 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized BigDecimal getXMax() {
-		return this.config.getRangeConfiguration().getXRangeConfiguration().getMaximum();
+		return null;
+
+		// Don't return the following.
+		// Otherwise, when we want to fits the X range to the currently plotted data (containing other data series),
+		// the range can not shrink smaller than the currently configured range.
+		//
+		// return this.config.getRangeConfiguration().getXRangeConfiguration().getMaximum();
 	}
 
 
@@ -268,7 +290,12 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized boolean hasYMin() {
-		return true;
+
+		// Don't return true.
+		// Mathematically, the X/Y ranges of z(x,y) plotting is "unbounded",
+		// so it should not affect to the range detection of X/Y axes.
+		// See also the comment in the next method.
+		return false;
 	}
 
 	/**
@@ -278,7 +305,13 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized BigDecimal getYMin() {
-		return this.config.getRangeConfiguration().getYRangeConfiguration().getMinimum();
+		return null;
+
+		// Don't return the following.
+		// Otherwise, when we want to fits the Y range to the currently plotted data (containing other data series),
+		// the range can not shrink smaller than the currently configured range.
+		//
+		// return this.config.getRangeConfiguration().getYRangeConfiguration().getMinimum();
 	}
 
 	/**
@@ -288,7 +321,12 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized boolean hasYMax() {
-		return true;
+
+		// Don't return true.
+		// Mathematically, the X/Y ranges of z(x,y) plotting is "unbounded",
+		// so it should not affect to the range detection of X/Y axes.
+		// See also the comment in the next method.
+		return false;
 	}
 
 	/**
@@ -298,7 +336,13 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized BigDecimal getYMax() {
-		return this.config.getRangeConfiguration().getYRangeConfiguration().getMaximum();
+		return null;
+
+		// Don't return the following.
+		// Otherwise, when we want to fits the Y range to the currently plotted data (containing other data series),
+		// the range can not shrink smaller than the currently configured range.
+		//
+		// return this.config.getRangeConfiguration().getYRangeConfiguration().getMaximum();
 	}
 
 
