@@ -3,6 +3,7 @@ package com.rinearn.graph3d.model.data.series;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.math.BigDecimal;
 
 
@@ -23,6 +24,30 @@ public final class DataSeriesGroup<DataSeriesType extends AbstractDataSeries>
 	 */
 	public DataSeriesGroup() {
 		this.dataSeriesList = new ArrayList<DataSeriesType>();
+	}
+
+
+	/**
+	 * Creates a new data series group, which uses the specified List instance for storing/managing data series.
+	 * This constructor is used only for creating unmodifiable clones,by specifying unmodifiable List instances to the argument.
+	 *
+	 * @ The List instance for storing/managing data series.
+	 */
+	private DataSeriesGroup(List<DataSeriesType> dataSeriesList) {
+		this.dataSeriesList = dataSeriesList;
+	}
+
+
+	/**
+	 * Clones this group as an "unmodifiable" group which does not allow adding/removing data series.
+	 *
+	 * @return The unmodifiable clone instance.
+	 */
+	public DataSeriesGroup<DataSeriesType> createUnmodifiableClone() {
+		DataSeriesGroup<DataSeriesType> unmodifiableClone = new DataSeriesGroup<DataSeriesType>(
+				Collections.unmodifiableList(this.dataSeriesList)
+		);
+		return unmodifiableClone;
 	}
 
 

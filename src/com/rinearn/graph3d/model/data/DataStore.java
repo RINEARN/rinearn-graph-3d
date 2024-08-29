@@ -40,8 +40,7 @@ public class DataStore {
 		DataSeriesGroup<AbstractDataSeries> allDataSeriesGroup = new DataSeriesGroup<AbstractDataSeries>();
 		allDataSeriesGroup.combine(this.arrayDataSeriesGroup);
 		allDataSeriesGroup.combine(this.mathDataSeriesGroup);
-		return allDataSeriesGroup;
-		// TODO: Should we return an unmodifiable copy here?
+		return allDataSeriesGroup.createUnmodifiableClone();
 	}
 
 
@@ -88,8 +87,7 @@ public class DataStore {
 	 * @return The group of the currently registered math data series.
 	 */
 	public synchronized DataSeriesGroup<MathDataSeries> getMathDataSeriesGroup() {
-		return this.mathDataSeriesGroup;
-		// TODO: Should we return an unmodifiable copy here?
+		return this.mathDataSeriesGroup.createUnmodifiableClone();
 	}
 
 
@@ -176,8 +174,7 @@ System.out.println("!!! TODO @" + this);
 	 * @return The group of the currently registered array data series.
 	 */
 	public synchronized DataSeriesGroup<ArrayDataSeries> getArrayDataSeriesGroup() {
-		return this.arrayDataSeriesGroup;
-		// TODO: Should we return an unmodifiable copy here?
+		return this.arrayDataSeriesGroup.createUnmodifiableClone();
 	}
 
 }
