@@ -92,8 +92,13 @@ public final class MainWindow {
 	/** The menu bar at the top of the window. */
 	public volatile JMenuBar menuBar;
 
+
 	/** "File" menu on the menu bar. */
 	public volatile JMenu fileMenu;
+
+	/** "File" > "Open File" menu on the menu bar. */
+	public volatile JMenuItem openDataFileMenuItem;
+
 
 	/** "Math" menu on the menu bar. */
 	public volatile JMenu mathMenu;
@@ -106,6 +111,7 @@ public final class MainWindow {
 
 	/** "Math" > "z(x,y)" menu on the menu bar. */
 	public volatile JMenuItem zxyMathMenuItem;
+
 
 	/** "Settings" menu on the menu bar. */
 	public volatile JMenu settingsMenu;
@@ -189,8 +195,14 @@ public final class MainWindow {
 			frame.setJMenuBar(menuBar);
 
 			// "File" menu:
-			fileMenu = new JMenu("Unconfigured");
-			menuBar.add(fileMenu);
+			{
+				fileMenu = new JMenu("Unconfigured");
+				menuBar.add(fileMenu);
+
+				// "File" > "Open File"
+				openDataFileMenuItem = new JMenuItem("Unconfigured");
+				fileMenu.add(openDataFileMenuItem);
+			}
 
 			// "Math" menu:
 			{
@@ -438,6 +450,7 @@ public final class MainWindow {
 			// "File" menu and sub menu items.
 			{
 				fileMenu.setText("ファイル");
+				openDataFileMenuItem.setText("ファイルを開く");
 			}
 
 			// "Math" menu and sub menu items.
@@ -476,6 +489,7 @@ public final class MainWindow {
 			// "File" menu and sub menu items.
 			{
 				fileMenu.setText("File");
+				openDataFileMenuItem.setText("Open File");
 			}
 
 			// "Math" menu and sub menu items.
@@ -516,6 +530,7 @@ public final class MainWindow {
 			// "File" menu and sub menu items.
 			{
 				fileMenu.setFont(uiBoldFont);
+				openDataFileMenuItem.setFont(uiBoldFont);
 			}
 
 			// "Math" menu and sub menu items.

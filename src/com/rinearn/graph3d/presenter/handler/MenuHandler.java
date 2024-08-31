@@ -6,6 +6,10 @@ import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.view.MainWindow;
 import com.rinearn.graph3d.config.OptionConfiguration;
 
+import java.io.File;
+import java.io.IOException;
+
+import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
@@ -46,6 +50,9 @@ public final class MenuHandler {
 		this.presenter = presenter;
 
 		MainWindow window = this.view.mainWindow;
+
+		// Add the action listeners to the sub menu items in "File" menu.
+		window.openDataFileMenuItem.addActionListener(new OpenDataFileItemClickedEventListener());
 
 		// Add the action listeners to the sub menu items in "Math" menu.
 		window.zxyMathMenuItem.addActionListener(new ZxyMathItemClickedEventListener());
@@ -95,6 +102,67 @@ public final class MenuHandler {
 	// - Event Listeners -
 	//
 	// ================================================================================
+
+
+	/**
+	 * (Temporary Implementation) The listener handling the event that "File" > "Open File" menu item is clicked.
+	 */
+	private final class OpenDataFileItemClickedEventListener implements ActionListener {
+
+		/** Stores the directory in which the last opened file is contained. */
+		private volatile File lastDirectory = new File(".");
+
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Temporary implementation
+
+			// Prepare message (window title) of the file-chooser window.
+			boolean isJapanese = model.config.getEnvironmentConfiguration().isLocaleJapanese();
+			String message = isJapanese ?
+					"データファイルを選択:（Ctrlキーを押しながら複数選択できます）" :
+		            "Choose the Data Files to be Opend: (By Presssing \"Ctrl\" Key, You Can Choose Multiple Files)";
+
+			// Choose the files to be opened.
+			FileDialog fileDialog = new FileDialog(view.mainWindow.frame, message, FileDialog.LOAD);
+			fileDialog.setDirectory(this.lastDirectory.getPath());
+			fileDialog.setMultipleMode(true);
+			fileDialog.setVisible(true);
+			File[] files = fileDialog.getFiles();
+
+			// If canceled without choosing any file.
+			if (files.length == 0) {
+				return;
+			}
+
+			// Clear the currently registered data files.
+			model.dataStore.clearArrayDataSeries();
+			presenter.plot();
+
+			// Plot the data files.
+			try {
+				DataFileHandler dataFileHandler = presenter.dataFileHandler;
+				dataFileHandler.openDataFiles(files);
+				this.lastDirectory = files[0].getParentFile();
+
+			// If any error occurred, show the error message on a pop-up window.
+			} catch (IOException ioe) {
+				String errorMessage = ioe.getMessage();
+				Throwable cause = ioe.getCause();
+				if (cause != null) {
+					if (isJapanese) {
+						errorMessage += "\n\n[詳細]\n" + cause.getMessage();
+					} else {
+						errorMessage += "\n\n[Details]\n" + cause.getMessage();
+					}
+				}
+				JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
 
 
 	/**

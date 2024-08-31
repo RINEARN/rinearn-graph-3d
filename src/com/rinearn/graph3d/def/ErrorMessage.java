@@ -69,6 +69,7 @@ public final class ErrorMessage {
 			case FAILED_TO_PARSE_NUMBER_IN_DATA_FILE : return "データ内に記述されている値「" + words[0] + "」を、数値として解釈できませんでした。";
 			case FAILED_TO_LOAD_DATA_FILE: return "データファイル「" + words[0] + "」の読み込みに失敗しました。";
 			case DATA_FILE_NOT_FOUND: return "データファイル「" + words[0] + "」が見つかりません。";
+			case FAILED_TO_INFER_DELIMITER_OF_DATA_FILE: return "データファイル内の区切り文字（コンマや空白など）を自動判定できませんでした。";
 			default : return "不明なエラー種類：" + errorType;
 		}
 	}
@@ -89,6 +90,7 @@ public final class ErrorMessage {
 			case FAILED_TO_PARSE_NUMBER_IN_DATA_FILE : return "Failed to parse the value \"" + words[0] + "\", which is described in the data, as a number.";
 			case FAILED_TO_LOAD_DATA_FILE: return "Failed to load the data file \"" + words[0] + "\".";
 			case DATA_FILE_NOT_FOUND: return "The data file \"" + words[0] + "\" is not found.";
+			case FAILED_TO_INFER_DELIMITER_OF_DATA_FILE: return "Failed to infer the delimiter (comma, space, etc.) of data from the content of the file.";
 			default : return "Unknown Error Type: " + errorType;
 		}
 	}

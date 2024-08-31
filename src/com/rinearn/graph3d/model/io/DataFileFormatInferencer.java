@@ -1,6 +1,7 @@
 package com.rinearn.graph3d.model.io;
 
 import com.rinearn.graph3d.RinearnGraph3DDataFileFormat;
+import com.rinearn.graph3d.def.ErrorType;
 
 import java.io.File;
 import java.io.FileReader;
@@ -59,8 +60,9 @@ public class DataFileFormatInferencer {
 	 * @param file The file for which the data file format is to be inferred.
 	 * @return The inferred data file format.
 	 * @throws IOException Thrown if it failed to read the contents of the file by any I/O error.
+	 * @throws DataFileFormatException Thrown if the content of the file is syntactically incorrect.
 	 */
-	public RinearnGraph3DDataFileFormat infer(File file) throws IOException {
+	public RinearnGraph3DDataFileFormat infer(File file) throws IOException, DataFileFormatException {
 		try (FileReader fileReader = new FileReader(file);
 				BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 
@@ -78,8 +80,10 @@ public class DataFileFormatInferencer {
 	 * @param bufferedReader The reader for reading the content from the data file.
 	 * @return The inferred data file format.
 	 * @throws IOException Thrown if it failed to read the contents of the file by any I/O error.
+	 * @throws DataFileFormatException Thrown if the content of the file is syntactically incorrect.
 	 */
-	public RinearnGraph3DDataFileFormat infer(BufferedReader bufferedReader) throws IOException {
+	public RinearnGraph3DDataFileFormat infer(BufferedReader bufferedReader)
+			throws IOException, DataFileFormatException {
 
 		// Extract the first line in the data file, excluding empty lines and comment lines.
 		String effectiveFirstLine = null;
@@ -148,9 +152,10 @@ public class DataFileFormatInferencer {
 	 * Infers the delimiter, which is the separator of the columns, in the data file.
 	 *
 	 * @param effectiveFirstLine The first line in the data file, excluding empty/comment lines.
-	 * @return The inferred delimiter.
+	 * @return The inferred delimiter.]
+	 * @throw DataFileFormatException Thrown if it can not infer the delimiter.
 	 */
-	private Delimiter inferDelimiter(String effectiveFirstLine) {
+	private Delimiter inferDelimiter(String effectiveFirstLine) throws DataFileFormatException {
 
 		// If the number of columns separated by comma is 3 or more,
 		// and the first three column's values don't contain either tabs or spaces,
@@ -189,7 +194,7 @@ public class DataFileFormatInferencer {
 			}
 		}
 
-		return null;
+		throw new DataFileFormatException(ErrorType.FAILED_TO_INFER_DELIMITER_OF_DATA_FILE);
 	}
 
 
