@@ -138,17 +138,21 @@ public final class TemporaryDataDecoder {
 
 				// Single empty data lines or EOL: a separator of "sub data series".
 				if (emptyDataLineCount == 1 || isEndOfFile) {
-					SubDataSeries subDataSeries = new SubDataSeries(columnsList);
-					subDataSeriesList.add(subDataSeries);
-					columnsList = new ArrayList<String[]>();
+					if (columnsList.size() != 0) {
+						SubDataSeries subDataSeries = new SubDataSeries(columnsList);
+						subDataSeriesList.add(subDataSeries);
+						columnsList = new ArrayList<String[]>();
+					}
 				}
 
 				// Double empty data lines or EOL: a separator of "data series".
 				if (emptyDataLineCount == 2 || isEndOfFile) {
-					ArrayDataSeries dataSeries = this.parseAndPackIntoDataSeries(subDataSeriesList);
-					dataSeriesGroup.addDataSeries(dataSeries);
-					subDataSeriesList = new ArrayList<SubDataSeries>();
-					columnsList = new ArrayList<String[]>();
+					if (subDataSeriesList.size() != 0) {
+						ArrayDataSeries dataSeries = this.parseAndPackIntoDataSeries(subDataSeriesList);
+						dataSeriesGroup.addDataSeries(dataSeries);
+						subDataSeriesList = new ArrayList<SubDataSeries>();
+						columnsList = new ArrayList<String[]>();
+					}
 				}
 
 				// If the stream has reached to EOL, end reading. Otherwise continue reading.
