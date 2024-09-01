@@ -136,8 +136,9 @@ public class MeshPlotter implements RinearnGraph3DPlottingListener {
 		// Draw lines for the direction of the left-side dimension.
 		for (int iL=0; iL<leftDimLength - 1; iL++) {
 
-			int rightDimLength = xCoords[iL].length;
-			for (int iR=0; iR<rightDimLength; iR++) {
+			int currentRightDimLength = xCoords[iL].length;
+			int nextRightDimLength = xCoords[iL + 1].length;
+			for (int iR=0; iR<currentRightDimLength && iR<nextRightDimLength; iR++) {
 
 				// Draw a line only when both of its edge points are set to visible.
 				boolean isLineVisible = visibilities[iL][iR] && visibilities[iL + 1][iR];

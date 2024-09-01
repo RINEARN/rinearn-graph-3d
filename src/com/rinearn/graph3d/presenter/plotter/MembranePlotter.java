@@ -103,8 +103,9 @@ public class MembranePlotter implements RinearnGraph3DPlottingListener {
 		int leftDimLength = xCoords.length;
 		for (int iL=0; iL<leftDimLength - 1; iL++) {
 
-			int rightDimLength = xCoords[iL].length;
-			for (int iR=0; iR<rightDimLength - 1; iR++) {
+			int currentRightDimLength = xCoords[iL].length;
+			int nextRightDimLength = xCoords[iL + 1].length;
+			for (int iR=0; iR < currentRightDimLength - 1 && iR < nextRightDimLength - 1; iR++) {
 
 				// Draw a quadrangle only when all of its vertices are set to visible.
 				boolean isQuadrangleVisible =
