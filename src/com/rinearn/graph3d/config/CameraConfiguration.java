@@ -71,6 +71,21 @@ public final class CameraConfiguration {
  		{ 0.0, 0.0, 1.0 }
  	};
 
+ 	/** The enum representing each rendering mode. */
+ 	public static enum RenderingMode {
+
+ 		/** Prioritizes quality of rendered images, than rendering speed. */
+ 		QUALITY,
+
+ 		/** Prioritizes rendering speed, than quality of rendered images. */
+ 		SPEED;
+
+ 		// CUSTOM; // For future. Refers an detailed renderer-optimization container instance.
+ 	}
+
+ 	/** The rendering mode, */
+ 	private volatile RenderingMode renderingMode = RenderingMode.QUALITY;
+
 
  	/**
  	 * Creates a new configuration storing default values.
@@ -884,5 +899,24 @@ public final class CameraConfiguration {
 				m[i][j] = updatedMatrix[i][j];
 			}
 		}
+	}
+
+
+	/**
+	 * Sets the rendering mode.
+	 *
+	 * @param renderingMode The rendering mode.
+	 */
+	public synchronized void setRenderingMode(RenderingMode renderingMode) {
+		this.renderingMode = renderingMode;
+	}
+
+	/**
+	 * Gets the current rendering mode.
+	 *
+	 * @param renderingMode The current rendering mode.
+	 */
+	public synchronized RenderingMode getRenderingMode() {
+		return this.renderingMode;
 	}
 }
