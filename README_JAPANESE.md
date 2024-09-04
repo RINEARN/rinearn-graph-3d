@@ -2,6 +2,8 @@
 
 ( &raquo; [English README](./README.md) )
 
+![Signboard](./img/example_graph_images.png)
+
 次期版リニアングラフ（Ver.6）を開発するためのリポジトリです。
 
 なお、現行版（Ver.5.6）は以下のサイトからダウンロードできます：

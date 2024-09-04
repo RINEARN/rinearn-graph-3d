@@ -1,6 +1,7 @@
 # RINEARN Graph 3D / Ver. 6
-
 ( &raquo; [Japanese README](./README_JAPANESE.md) )
+
+![Signboard](./img/example_graph_images.png)
 
 The repository for developing the next major version of RINEARN Graph 3D.
 
