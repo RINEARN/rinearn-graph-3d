@@ -16,6 +16,7 @@ import java.awt.FontMetrics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.math.BigDecimal;
 
 
@@ -355,6 +356,15 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	@Override
 	public synchronized void render() {
 
+		// Gets the quality mode, and turn on/off text-antialiasing option.
+		CameraConfiguration.RenderingMode renderingMode = this.config.getCameraConfiguration().getRenderingMode();
+		boolean isQualityMode = renderingMode == CameraConfiguration.RenderingMode.QUALITY;
+		if (isQualityMode) {
+			this.screenGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		} else {
+			this.screenGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+		}
+
 		// Update the screen dimension.
 		int screenWidth = this.screenImage.getWidth();
 		int screenHeight = this.screenImage.getHeight();
@@ -382,6 +392,13 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 		// Draw each geometric piece on the screen.
 		for (GeometricPiece piece: this.geometricPieceList) {
+
+			// Turn on/off antialiasing option for drawing geometric shape, depending on the kind of the piece.
+			if (isQualityMode && piece.isAntialiasingAvailable()) {
+				this.screenGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			} else {
+				this.screenGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+			}
 			piece.project(screenWidth, screenHeight, screenOffsetX, screenOffsetY, magnification);
 			piece.draw(this.screenGraphics);
 		}

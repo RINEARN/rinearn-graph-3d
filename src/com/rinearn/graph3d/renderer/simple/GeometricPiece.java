@@ -94,4 +94,17 @@ public abstract class GeometricPiece {
 	public double getDepthSquaredValue() {
 		return this.depthSquaredValue;
 	}
+
+
+	/**
+	 * Returns whether antialiasing is available for drawing this piece.
+	 *
+	 * Antialiasing can be cause of noise for drawing some kind of pieces, e.g.: conterminous multiple quadrangles.
+	 * Such pieces returns false for the return value of this method.
+	 *
+	 * @return Return true if antialiasing is available.
+	 */
+	public boolean isAntialiasingAvailable() {
+		return true;
+	}
 }

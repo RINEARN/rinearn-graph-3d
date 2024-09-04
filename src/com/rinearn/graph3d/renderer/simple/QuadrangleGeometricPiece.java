@@ -384,4 +384,18 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 		int[] yArray = { pv[0][Y], pv[1][Y], pv[2][Y], pv[3][Y] };
 		graphics.fillPolygon(xArray, yArray, 4);
 	}
+
+
+	/**
+	 * Returns whether antialiasing is available for drawing this piece.
+	 *
+	 * When drawing this piece, antialiasing should be false,
+	 * otherwise the boudaries of conterminous multiple quadrangles become noisy.
+	 * Therefore, this method always returns false.
+	 *
+	 * @return Always returns false.
+	 */
+	public boolean isAntialiasingAvailable() {
+		return false;
+	}
 }
