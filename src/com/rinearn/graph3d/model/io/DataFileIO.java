@@ -3,7 +3,7 @@ package com.rinearn.graph3d.model.io;
 import com.rinearn.graph3d.RinearnGraph3DDataFileFormat;
 import com.rinearn.graph3d.model.data.series.ArrayDataSeries;
 import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
-import com.rinearn.graph3d.model.io.decoder.TemporaryDataDecoder;
+import com.rinearn.graph3d.model.io.decoder.ColumnDataDecoder;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +38,7 @@ public final class DataFileIO {
 		try (FileReader fileReader = new FileReader(file);
 				BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 
-			dataSeriesGroup = new TemporaryDataDecoder().decode(bufferedReader, format);
+			dataSeriesGroup = new ColumnDataDecoder().decode(bufferedReader, format);
 
 		// Don't remove the following catch-and-rethrowing steps.
 		// Maybe it seems to be meaningless, but is to close the resources.

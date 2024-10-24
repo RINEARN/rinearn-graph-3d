@@ -15,13 +15,12 @@ import java.util.ArrayList;
 
 
 /**
- * The temporary implementation of a decoder, decoding strings loaded from data files.
- * This decoder currently supports only three-columns and four-columns data file format.
+ * The decoder for decoding strings loaded from n-columns-format data files.
  */
-public final class TemporaryDataDecoder {
+public final class ColumnDataDecoder {
 
 	/**
-	 * Stores the parameters depending on data file formats.
+	 * Stores the parameters depending on a data file.
 	 */
 	private final class DecodingParam {
 
@@ -67,7 +66,7 @@ public final class TemporaryDataDecoder {
 	/**
 	 * Creates a new decoder.
 	 */
-	public TemporaryDataDecoder() {
+	public ColumnDataDecoder() {
 	}
 
 
