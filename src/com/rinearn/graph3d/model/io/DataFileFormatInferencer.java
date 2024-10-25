@@ -168,6 +168,14 @@ public class DataFileFormatInferencer {
 					|| commaSeparatedColumns[2].contains(" ") || commaSeparatedColumns[2].contains("\t");
 
 			if (containsTabsOrSpaces) {
+
+				// The first 3 columns are always numerical value columns for both matrix and columns format,
+				// so it is strange that they contain spaces or tabs, to infer this file is a CSV file.
+				// On the other hand, if we infer this file is a TSV or STSV file, this situation can occur,
+				// when it has a comment column and many comma characters are used in comments.
+				// So we should infer this file is a TSV or STSV file in this case.
+
+			} else {
 				return Delimiter.CSV;
 			}
 		}
