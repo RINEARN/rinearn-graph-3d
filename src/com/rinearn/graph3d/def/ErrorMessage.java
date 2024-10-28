@@ -70,6 +70,10 @@ public final class ErrorMessage {
 			case FAILED_TO_LOAD_DATA_FILE: return "データファイル「" + words[0] + "」の読み込みに失敗しました。";
 			case DATA_FILE_NOT_FOUND: return "データファイル「" + words[0] + "」が見つかりません。";
 			case FAILED_TO_INFER_DELIMITER_OF_DATA_FILE: return "データファイル内の区切り文字（コンマや空白など）を自動判定できませんでした。";
+			case TOO_SHORT_DATA_FILE: return "データファイルの行数が短すぎます。";
+			case DEFICIENT_COLUMNS_IN_DATA_FILE: return "データファイルの列数が少なすぎます。";
+			case INVARID_MATRIX_SERIES_INDEX: return "複数系列のマトリックス書式において、解釈不能の系列インデックス \"" + words[0] + "\" が使用されています。";
+			case SINGLE_EMPTY_LINE_SEPARATED_MATRICES_IS_NOT_SUPPORTED : return "マトリックス書式で、空白行によって系列を区切る場合は、1連続ではなく2連続の空白で区切る必要があります。";
 			default : return "不明なエラー種類：" + errorType;
 		}
 	}
@@ -91,6 +95,10 @@ public final class ErrorMessage {
 			case FAILED_TO_LOAD_DATA_FILE: return "Failed to load the data file \"" + words[0] + "\".";
 			case DATA_FILE_NOT_FOUND: return "The data file \"" + words[0] + "\" is not found.";
 			case FAILED_TO_INFER_DELIMITER_OF_DATA_FILE: return "Failed to infer the delimiter (comma, space, etc.) of data from the content of the file.";
+			case TOO_SHORT_DATA_FILE: return "The length (line count) of the data file is too short.";
+			case DEFICIENT_COLUMNS_IN_DATA_FILE: return "The number of columns of the data file is deficient.";
+			case INVARID_MATRIX_SERIES_INDEX: return "Invarid data series index \"" + words[0] + "\" is used in the multi-series matrix format data file.";
+			case SINGLE_EMPTY_LINE_SEPARATED_MATRICES_IS_NOT_SUPPORTED : return "To split data series in matrix format, use double empty lines, not a single empty line.";
 			default : return "Unknown Error Type: " + errorType;
 		}
 	}

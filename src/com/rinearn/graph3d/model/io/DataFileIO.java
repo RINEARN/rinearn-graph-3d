@@ -4,6 +4,7 @@ import com.rinearn.graph3d.RinearnGraph3DDataFileFormat;
 import com.rinearn.graph3d.model.data.series.ArrayDataSeries;
 import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
 import com.rinearn.graph3d.model.io.decoder.ColumnDataDecoder;
+import com.rinearn.graph3d.model.io.decoder.MatrixDataDecoder;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +39,11 @@ public final class DataFileIO {
 		try (FileReader fileReader = new FileReader(file);
 				BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 
-			dataSeriesGroup = new ColumnDataDecoder().decode(bufferedReader, format);
+			if (format == RinearnGraph3DDataFileFormat.MATRIX_CSV || format == RinearnGraph3DDataFileFormat.MATRIX_STSV) {
+				dataSeriesGroup = new MatrixDataDecoder().decode(bufferedReader, format);
+			} else {
+				dataSeriesGroup = new ColumnDataDecoder().decode(bufferedReader, format);
+			}
 
 		// Don't remove the following catch-and-rethrowing steps.
 		// Maybe it seems to be meaningless, but is to close the resources.
