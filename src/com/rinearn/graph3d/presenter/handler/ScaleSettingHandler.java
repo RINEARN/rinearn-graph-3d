@@ -124,7 +124,7 @@ public class ScaleSettingHandler {
 			ScaleConfiguration.AxisScaleConfiguration xScaleConfig
 					= model.config.getScaleConfiguration().getXScaleConfiguration();
 
-			xScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
+			xScaleConfig.setTickerMode(ScaleConfiguration.TickerMode.MANUAL);
 			xScaleConfig.setTickCoordinates(tickCoordinates);
 			xScaleConfig.setTickLabels(tickLabels);
 			presenter.propagateConfiguration();
@@ -183,7 +183,7 @@ public class ScaleSettingHandler {
 			ScaleConfiguration.AxisScaleConfiguration yScaleConfig
 					= model.config.getScaleConfiguration().getYScaleConfiguration();
 
-			yScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
+			yScaleConfig.setTickerMode(ScaleConfiguration.TickerMode.MANUAL);
 			yScaleConfig.setTickCoordinates(tickCoordinates);
 			yScaleConfig.setTickLabels(tickLabels);
 			presenter.propagateConfiguration();
@@ -242,7 +242,7 @@ public class ScaleSettingHandler {
 			ScaleConfiguration.AxisScaleConfiguration zScaleConfig
 					= model.config.getScaleConfiguration().getZScaleConfiguration();
 
-			zScaleConfig.setTickMode(ScaleConfiguration.TickMode.MANUAL);
+			zScaleConfig.setTickerMode(ScaleConfiguration.TickerMode.MANUAL);
 			zScaleConfig.setTickCoordinates(tickCoordinates);
 			zScaleConfig.setTickLabels(tickLabels);
 			presenter.propagateConfiguration();

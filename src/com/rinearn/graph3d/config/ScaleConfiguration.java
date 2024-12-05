@@ -1,5 +1,8 @@
 package com.rinearn.graph3d.config;
 
+import com.rinearn.graph3d.config.scale.TickLabelFormatter;
+import com.rinearn.graph3d.config.scale.NumericTickLabelFormatter;
+
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.DecimalFormat;
@@ -202,7 +205,7 @@ public final class ScaleConfiguration {
 		private volatile double tickLabelMargin = 0.06;
 
 		/** Represents the mode for specifying alignment of ticks of a scale. */
-		private volatile TickMode tickMode = TickMode.EQUAL_DIVISION; // Temporary setting to this, but will set to AUTOMATIC in future.
+		private volatile TickerMode tickerMode = TickerMode.EQUAL_DIVISION; // Temporary setting to this, but will set to AUTOMATIC in future.
 
 		/** The coordinates (locations) of ticks, in MANUAL mode. */
 		private volatile BigDecimal[] tickCoordinates = new BigDecimal[0];
@@ -314,21 +317,21 @@ public final class ScaleConfiguration {
 
 
 		/**
-		 * Sets the tick mode, which determines the alignment of ticks, of this axis's scale.
+		 * Sets the ticker mode, which determines the alignment of ticks, of this axis's scale.
 		 *
-		 * @param tickMode The tick mode of this axis's scale.
+		 * @param tickerMode The tick mode of this axis's scale.
 		 */
-		public synchronized void setTickMode(TickMode tickMode) {
-			this.tickMode = tickMode;
+		public synchronized void setTickerMode(TickerMode tickMode) {
+			this.tickerMode = tickMode;
 		}
 
 		/**
-		 * Gets the tick mode, which determines the alignment of ticks, of this axis's scale.
+		 * Gets the ticker mode, which determines the alignment of ticks, of this axis's scale.
 		 *
 		 * @return The tick mode of this axis's scale.
 		 */
-		public synchronized TickMode getTickMode() {
-			return this.tickMode;
+		public synchronized TickerMode getTickerMode() {
+			return this.tickerMode;
 		}
 
 
@@ -447,7 +450,7 @@ public final class ScaleConfiguration {
 			if (this.tickLabelMargin < 0.0) {
 				throw new IllegalStateException("The margin of tick labels must be a positive value.");
 			}
-			if (this.tickMode == null) {
+			if (this.tickerMode == null) {
 				throw new IllegalStateException("The tick mode is null.");
 			}
 			if (this.calculationPrecision < 1) {
@@ -455,7 +458,7 @@ public final class ScaleConfiguration {
 			}
 
 			// Validate parameters for each mode.
-			switch (this.tickMode) {
+			switch (this.tickerMode) {
 				case MANUAL : {
 					if (this.tickCoordinates == null) {
 						throw new IllegalStateException("The tick coordinates are null (mandatory in MANUAL mode).");
@@ -475,7 +478,7 @@ public final class ScaleConfiguration {
 					break;
 				}
 				default : {
-					throw new UnsupportedOperationException("Unknown tick mode: " + this.tickMode);
+					throw new UnsupportedOperationException("Unknown tick mode: " + this.tickerMode);
 				}
 			}
 		}
@@ -485,7 +488,7 @@ public final class ScaleConfiguration {
 	/**
 	 * The enum representing each mode for specifying alignment of ticks of a scale.
 	 */
-	public static enum TickMode {
+	public static enum TickerMode {
 
 		/** Divides an axis's range (from min to max) equally by scale ticks. */
 		EQUAL_DIVISION,
