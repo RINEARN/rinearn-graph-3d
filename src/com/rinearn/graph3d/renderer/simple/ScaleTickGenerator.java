@@ -3,6 +3,7 @@ package com.rinearn.graph3d.renderer.simple;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.config.ScaleConfiguration;
+import com.rinearn.graph3d.config.scale.TickLabelFormatter;
 import com.rinearn.graph3d.config.scale.NumericTickLabelFormatter;
 
 import java.math.BigDecimal;
@@ -182,6 +183,22 @@ public final class ScaleTickGenerator {
 		final ScaleConfiguration.AxisScaleConfiguration axisScaleConfig =
 				this.getAxisScaleConfiguration(dimensionIndex);
 
+		// Get the formatter of the tick labels.
+		TickLabelFormatter formatter = null;
+		switch (axisScaleConfig.getTickLabelFormatterMode()) {
+			case NUMERIC: {
+				formatter = axisScaleConfig.getNumericTickLabelFormatter();
+				break;
+			}
+			case CUSTOM: {
+				formatter = axisScaleConfig.getCustomTickLabelFormatter();
+				break;
+			}
+			default: {
+				throw new UnsupportedOperationException("Unknown tick label formatter mode: " + axisScaleConfig.getTickLabelFormatterMode());
+			}
+		}
+
 		// Generate the labels based on the tick mode.
 		switch (axisScaleConfig.getTickerMode()) {
 			case MANUAL : {
@@ -191,25 +208,12 @@ public final class ScaleTickGenerator {
 				int tickCount = tickCoords.length;
 				String[] tickLabels = new String[tickCount];
 
-				// Get the formatters of the tick labels.
-				NumericTickLabelFormatter[] formatters =
-						axisScaleConfig.getNumericTickLabelFormatters();
-
-				// Generate tick labels from their coordinate values, and format them.
+				// Generate tick labels from their coordinate values.
 				for (int itick=0; itick<tickCount; itick++) {
-
-					// Firstly, define the label text of the tick,
-					// as String representation of its coordinate value in full precision.
-					tickLabels[itick] = tickCoords[itick].toString();
-
-					// Next, replace the label by the text formatted by the formatter
-					// of which range contains the coordinate, if it exists.
-					int formatterCount = formatters.length;
-					for (int iformatter=0; iformatter<formatterCount; iformatter++) {
-
-						if (formatters[iformatter].isFormattable(tickCoords[itick])) {
-							tickLabels[itick] = formatters[iformatter].format(tickCoords[itick]);
-						}
+					if (formatter != null && formatter.isFormattable(tickCoords[itick])) {
+						tickLabels[itick] = formatter.format(tickCoords[itick]);
+					} else {
+						tickLabels[itick] = "";
 					}
 				}
 				return tickLabels;

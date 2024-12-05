@@ -230,33 +230,17 @@ public final class ScaleConfiguration {
 		private volatile TickLabelFormatterMode tickLabelFormatterMode = TickLabelFormatterMode.NUMERIC;
 
 		/**
-		 * The formatters of tick labels, applied when they are numeric values.
+		 * The formatter of tick labels, used in NUMERIC mode.
 		 */
-		private volatile NumericTickLabelFormatter[] numericTickLabelFormatters = {
-
-				// !!!!!
-				// この仕様、見直した方がいいよ。塩漬けを経ていま見ると直観で分かり辛いし、思い出さないと納得できない。
-				// しかも配列順序で意味持たせてるのもやっぱり良くない。
-				// 現状のUIの通りで構造化したらいい気がする。というかあれで駄目ならMANUALモード使って割り当てればいいんだし。
-				// MANUALモードがある以上、あんまりこの自動フォーマットの仕様を汎用性のため複雑化するのも本末転倒で。
-				// ほどよいシンプルさとほどよい実用性があればそれでいい。現状のUIはそのへんよくバランスとって収束してる。
-
-				// The base format, applied to any ticks
-				// excluding if their coordinates are contained in the range of formatters defined latter.
-				new NumericTickLabelFormatter(new DecimalFormat("0.0#E0")),
-
-				// The format applied to only for the range (0.1, 10), which does not contain 0.1 and 10.
-				new NumericTickLabelFormatter(new DecimalFormat("0.0#"), new BigDecimal("0.1"), BigDecimal.TEN, false, false),
-
-				// The format applied to only for the range (-10, -0.1), which does not contain -10 and -0.1.
-				new NumericTickLabelFormatter(new DecimalFormat("0.0#"), BigDecimal.TEN.negate(), new BigDecimal("0.1").negate(), false, false),
-
-				// The format applied to only zero.
-				new NumericTickLabelFormatter(new DecimalFormat("0"), BigDecimal.ZERO, BigDecimal.ZERO, true, true)
-		};
+		private volatile NumericTickLabelFormatter numericTickLabelFormatter = new NumericTickLabelFormatter(
+			new DecimalFormat("0"),      // For: |coordinate| = 0
+			new DecimalFormat("0.0#E0"), // For: |coordinate| < 0.1
+			new DecimalFormat("0.0#"),   // For: 0.1 <= |coordinate| <= 10
+			new DecimalFormat("0.0#E0")  // For: 10 < |coordinate|
+		);
 
 		/** The formmatter of tick labels implemented by users or third party developers, used in CUSTOM mode. */
-		private volatile TickLabelFormatter customTickLabelFormatter;
+		private volatile TickLabelFormatter customTickLabelFormatter = null;
 
 
 		/**
@@ -438,14 +422,10 @@ public final class ScaleConfiguration {
 		/**
 		 * Sets the formatters of tick labels, applied when the tick-label-formatter mode is NUMERIC.
 		 *
-		 * To apply different format for different ranges on the axis, you can specify multiple formatters as an array.
-		 * When ranges of multiple formatter are overlapping,
-		 * the formatter stored at latter side in the array (having greater index) will be applied preferentially.
-		 *
 		 * @param numericTickLabelFormatters The formatters of numeric tick labels.
 		 */
-		public synchronized void setNumericTickLabelFormatters(NumericTickLabelFormatter[] numericTickLabelFormatters) {
-			this.numericTickLabelFormatters = numericTickLabelFormatters;
+		public synchronized void setNumericTickLabelFormatter(NumericTickLabelFormatter numericTickLabelFormatter) {
+			this.numericTickLabelFormatter = numericTickLabelFormatter;
 		}
 
 		/**
@@ -453,8 +433,8 @@ public final class ScaleConfiguration {
 		 *
 		 * @return The formatters of numeric tick labels.
 		 */
-		public synchronized NumericTickLabelFormatter[] getNumericTickLabelFormatters() {
-			return this.numericTickLabelFormatters;
+		public synchronized NumericTickLabelFormatter getNumericTickLabelFormatter() {
+			return this.numericTickLabelFormatter;
 		}
 
 
@@ -463,7 +443,7 @@ public final class ScaleConfiguration {
 		 *
 		 * @param customTickLabelFormatters The formatters of tick labels.
 		 */
-		public synchronized void setCustomTickLabelFormatters(TickLabelFormatter customTickLabelFormatter) {
+		public synchronized void setCustomTickLabelFormatter(TickLabelFormatter customTickLabelFormatter) {
 			this.customTickLabelFormatter = customTickLabelFormatter;
 		}
 
@@ -472,7 +452,7 @@ public final class ScaleConfiguration {
 		 *
 		 * @return The formatters of tick labels.
 		 */
-		public synchronized TickLabelFormatter getCustomTickLabelFormatters() {
+		public synchronized TickLabelFormatter getCustomTickLabelFormatter() {
 			return this.customTickLabelFormatter;
 		}
 
