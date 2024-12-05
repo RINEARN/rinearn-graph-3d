@@ -91,6 +91,9 @@ public final class ScaleConfiguration {
 	/** The configuration of Z axis's scale. */
 	private volatile AxisScaleConfiguration zScaleConfiguration = new AxisScaleConfiguration();
 
+	/** The configuration of the color-bar's scale. */
+	private volatile AxisScaleConfiguration colorBarScaleConfiguration = new AxisScaleConfiguration();
+
 
 	/**
 	 * Creates a new configuration storing default values.
@@ -154,6 +157,24 @@ public final class ScaleConfiguration {
 	}
 
 	/**
+	 * Sets the configuration of the color-bat's scale.
+	 *
+	 * @param colorBarAxisScaleConfiguration The configuration of Z axis's scale.
+	 */
+	public synchronized void setColorBarScaleConfiguration(AxisScaleConfiguration colorBarAxisScaleConfiguration) {
+		this.colorBarScaleConfiguration = colorBarAxisScaleConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of the color-bat's scale.
+	 *
+	 * @return The configuration of the color-bar's scale.
+	 */
+	public synchronized AxisScaleConfiguration getColorBarScaleConfiguration() {
+		return this.colorBarScaleConfiguration;
+	}
+
+	/**
 	 * Validates correctness and consistency of configuration parameters stored in this instance.
 	 *
 	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
@@ -166,6 +187,7 @@ public final class ScaleConfiguration {
 		this.xScaleConfiguration.validate();
 		this.yScaleConfiguration.validate();
 		this.zScaleConfiguration.validate();
+		this.colorBarScaleConfiguration.validate();
 	}
 
 
