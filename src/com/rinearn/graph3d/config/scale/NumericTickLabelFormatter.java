@@ -94,7 +94,7 @@ public final class NumericTickLabelFormatter {
 	 *
 	 * @param coordinate Returns if the specified coordinate is contained in the range.
 	 */
-	public synchronized boolean contains(BigDecimal coordinate) {
+	public synchronized boolean isFormattable(BigDecimal coordinate) {
 		if (!this.hasRange) {
 			return true;
 		}

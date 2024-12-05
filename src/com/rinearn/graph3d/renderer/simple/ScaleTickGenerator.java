@@ -206,7 +206,7 @@ public final class ScaleTickGenerator {
 					int formatterCount = formatters.length;
 					for (int iformatter=0; iformatter<formatterCount; iformatter++) {
 
-						if (formatters[iformatter].contains(tickCoords[itick])) {
+						if (formatters[iformatter].isFormattable(tickCoords[itick])) {
 							tickLabels[itick] = formatters[iformatter].format(tickCoords[itick]);
 						}
 					}
