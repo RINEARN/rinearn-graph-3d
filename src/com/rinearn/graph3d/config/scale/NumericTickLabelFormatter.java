@@ -7,7 +7,7 @@ import java.text.NumberFormat;
 /**
  * The formatter of displayed values of numeric tick labels.
  */
-public final class NumericTickLabelFormatter {
+public final class NumericTickLabelFormatter extends TickLabelFormatter {
 
 	/** The displayed format of numeric tick labels. */
 	private final NumberFormat format;
@@ -77,23 +77,19 @@ public final class NumericTickLabelFormatter {
 	 * Formats the specified coordinate value into a label text,
 	 *
 	 * @param tickCoordinate The coordinate of the numeric tick to be formatted.
-	 * @return The formatted tick label (or the specified label as it is).
+	 * @return The formatted tick label.
 	 */
+	@Override
 	public synchronized String format(BigDecimal tickCoordinate) {
 		return this.format.format(tickCoordinate);
 	}
 
-	// !!!!! NOTE:
-	//   この層でこういうのが必用になるのは、管轄が切り方がおかしい。
-	//   日付とかその他文字列とか色々なフォーマット実装を考えると、
-	//   レンジ分岐が要るなら、それは複数レンジをこのクラス内で持って内部でやるべき。
-	//   もっと一般化して、特定座標がフォーマット可能かどうかを検査するなら、名前を isFormattable とかにすべき。
 	/**
-	 * Returns whether the specified coordinate is contained in the applicable range of this formatter.
-	 * If no applicable range is defined, always returns true.
+	 * Returns whether the specified coordinate is formattable by this formatter.
 	 *
-	 * @param coordinate Returns if the specified coordinate is contained in the range.
+	 * @param tickCoordinate Returns if the specified coordinate is formattable.
 	 */
+	@Override
 	public synchronized boolean isFormattable(BigDecimal coordinate) {
 		if (!this.hasRange) {
 			return true;

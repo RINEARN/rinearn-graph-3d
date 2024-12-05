@@ -3,6 +3,7 @@ package com.rinearn.graph3d.renderer.simple;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.config.ScaleConfiguration;
+import com.rinearn.graph3d.config.scale.NumericTickLabelFormatter;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -109,7 +110,7 @@ public final class ScaleTickGenerator {
 				this.getAxisRangeConfiguration(dimensionIndex);
 
 		// Generate coordinates of ticks for the specified mode.
-		switch (axisScaleConfig.getTickMode()) {
+		switch (axisScaleConfig.getTickerMode()) {
 			case EQUAL_DIVISION : {
 				return this.generateScaleTickCoordsByEqualDivision(axisScaleConfig, axisRangeConfig);
 			}
@@ -117,7 +118,7 @@ public final class ScaleTickGenerator {
 				return axisScaleConfig.getTickCoordinates();
 			}
 			default : {
-				throw new RuntimeException("The specified tick mode is unimplemented yet: " + axisScaleConfig.getTickMode());
+				throw new RuntimeException("The specified tick mode is unimplemented yet: " + axisScaleConfig.getTickerMode());
 			}
 		}
 	}
@@ -182,7 +183,7 @@ public final class ScaleTickGenerator {
 				this.getAxisScaleConfiguration(dimensionIndex);
 
 		// Generate the labels based on the tick mode.
-		switch (axisScaleConfig.getTickMode()) {
+		switch (axisScaleConfig.getTickerMode()) {
 			case MANUAL : {
 				return axisScaleConfig.getTickLabels();
 			}
@@ -191,7 +192,7 @@ public final class ScaleTickGenerator {
 				String[] tickLabels = new String[tickCount];
 
 				// Get the formatters of the tick labels.
-				ScaleConfiguration.NumericTickLabelFormatter[] formatters =
+				NumericTickLabelFormatter[] formatters =
 						axisScaleConfig.getNumericTickLabelFormatters();
 
 				// Generate tick labels from their coordinate values, and format them.
@@ -214,7 +215,7 @@ public final class ScaleTickGenerator {
 				return tickLabels;
 			}
 			default : {
-				throw new UnsupportedOperationException("Unknown tick mode: " + axisScaleConfig.getTickMode());
+				throw new UnsupportedOperationException("Unknown tick mode: " + axisScaleConfig.getTickerMode());
 			}
 		}
 	}
