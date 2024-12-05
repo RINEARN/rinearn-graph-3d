@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.config;
 
+import com.rinearn.graph3d.config.color.ColorGradient;
+
 // !!!!!
 // NOTE
 //

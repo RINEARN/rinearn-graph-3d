@@ -2,7 +2,7 @@ package com.rinearn.graph3d.renderer.simple;
 
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.config.ColorConfiguration;
-import com.rinearn.graph3d.config.ColorGradient;
+import com.rinearn.graph3d.config.color.ColorGradient;
 
 import java.awt.Color;
 import java.math.BigDecimal;

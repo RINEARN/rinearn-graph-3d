@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.config;
+package com.rinearn.graph3d.config.color;
 
 import java.awt.Color;
 import java.math.BigDecimal;

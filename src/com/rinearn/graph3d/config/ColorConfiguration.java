@@ -2,6 +2,8 @@ package com.rinearn.graph3d.config;
 
 import java.awt.Color;
 
+import com.rinearn.graph3d.config.color.ColorGradient;
+
 /*
 !!!!!
 NOTE
