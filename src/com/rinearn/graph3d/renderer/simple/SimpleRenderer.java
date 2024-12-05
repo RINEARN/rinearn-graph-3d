@@ -5,6 +5,7 @@ import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.color.ColorGradient;
 import com.rinearn.graph3d.config.RangeConfiguration;
+import com.rinearn.graph3d.config.ScaleConfiguration;
 import com.rinearn.graph3d.config.CameraConfiguration;
 import com.rinearn.graph3d.config.ColorConfiguration;
 
@@ -205,13 +206,38 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * Updates the tick coordinates and tick labels, from the current configuration.
 	 */
 	private void updateTicks() {
-		ScaleTickGenerator scaleTickGenerator = new ScaleTickGenerator(this.config);
-		BigDecimal[] xTickCoords = scaleTickGenerator.generateScaleTickCoordinates(X);
-		BigDecimal[] yTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Y);
-		BigDecimal[] zTickCoords = scaleTickGenerator.generateScaleTickCoordinates(Z);
-		String[] xTickLabels = scaleTickGenerator.generateScaleTickLabels(X, xTickCoords);
-		String[] yTickLabels = scaleTickGenerator.generateScaleTickLabels(Y, yTickCoords);
-		String[] zTickLabels = scaleTickGenerator.generateScaleTickLabels(Z, zTickCoords);
+
+		boolean isLogPlot = false; // Temporary
+
+		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
+
+		ScaleConfiguration scaleConfig = this.config.getScaleConfiguration();
+		ScaleConfiguration.AxisScaleConfiguration xScaleConfig = scaleConfig.getXScaleConfiguration();
+		ScaleConfiguration.AxisScaleConfiguration yScaleConfig = scaleConfig.getYScaleConfiguration();
+		ScaleConfiguration.AxisScaleConfiguration zScaleConfig = scaleConfig.getZScaleConfiguration();
+
+		BigDecimal[] xTickCoords = xScaleConfig.getTicker().generateTickCoordinates(
+				xRangeConfig.getMinimum(), xRangeConfig.getMaximum(), isLogPlot
+		);
+		BigDecimal[] yTickCoords = yScaleConfig.getTicker().generateTickCoordinates(
+				yRangeConfig.getMinimum(), yRangeConfig.getMaximum(), isLogPlot
+		);
+		BigDecimal[] zTickCoords = zScaleConfig.getTicker().generateTickCoordinates(
+				zRangeConfig.getMinimum(), zRangeConfig.getMaximum(), isLogPlot
+		);
+
+		String[] xTickLabels = xScaleConfig.getTicker().generateTickLabels(
+				xTickCoords, xScaleConfig.getTickLabelFormatter()
+		);
+		String[] yTickLabels = yScaleConfig.getTicker().generateTickLabels(
+				yTickCoords, yScaleConfig.getTickLabelFormatter()
+		);
+		String[] zTickLabels = zScaleConfig.getTicker().generateTickLabels(
+				zTickCoords, zScaleConfig.getTickLabelFormatter()
+		);
 
 		this.frameDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
 		this.labelDrawer.setTickLabels(xTickLabels, yTickLabels, zTickLabels);
