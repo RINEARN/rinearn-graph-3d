@@ -8,6 +8,27 @@ import java.math.BigDecimal;
  */
 public abstract class Ticker {
 
+	/** The precision of the internal calculation of the tick coordinates. **/
+	protected volatile int calculationPrecision = 128;
+
+	/**
+	 * Sets the precision of internal calculations of the tick coordinates.
+	 *
+	 * @param calculationPrecision The precision of internal calculations of the tick coordinates.
+	 */
+	public synchronized void setCalculationPrecision(int calculationPrecision) {
+		this.calculationPrecision = calculationPrecision;
+	}
+
+	/**
+	 * Gets the precision of internal calculations of the tick coordinates.
+	 *
+	 * @return The precision of internal calculations of the tick coordinates.
+	 */
+	public synchronized int getCalculationPrecision() {
+		return this.calculationPrecision;
+	}
+
 	/**
 	 * Generates the coordinates (locations) of the ticks.
 	 *
@@ -25,5 +46,16 @@ public abstract class Ticker {
 	 * @param formatter
 	 * @return The generated tick labels.
 	 */
-	public abstract BigDecimal[] generateTickLabels(BigDecimal[] tickCoordinates, TickLabelFormatter formatter);
+	public synchronized String[] generateTickLabels(BigDecimal[] tickCoordinates, TickLabelFormatter formatter) {
+		int tickCount = tickCoordinates.length;
+		String[] tickLabels = new String[tickCount];
+		for (int itick=0; itick<tickCount; itick++) {
+			if (formatter.isFormattable(tickCoordinates[itick])) {
+				tickLabels[itick] = formatter.format(tickCoordinates[itick]);
+			} else {
+				tickLabels[itick] = "";
+			}
+		}
+		return tickLabels;
+	}
 }

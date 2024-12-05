@@ -2,6 +2,8 @@ package com.rinearn.graph3d.config;
 
 import com.rinearn.graph3d.config.scale.TickLabelFormatter;
 import com.rinearn.graph3d.config.scale.NumericTickLabelFormatter;
+import com.rinearn.graph3d.config.scale.Ticker;
+import com.rinearn.graph3d.config.scale.EqualDivisionTicker;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
@@ -207,21 +209,14 @@ public final class ScaleConfiguration {
 		/** Represents the mode for specifying alignment of ticks of a scale. */
 		private volatile TickerMode tickerMode = TickerMode.EQUAL_DIVISION; // Temporary setting to this, but will set to AUTOMATIC in future.
 
+		/** The ticker to generate ticks at the N-equal-division points of the range of the axis, used in EQUAL_DIVISION mode. */
+		private volatile EqualDivisionTicker equalDivisionTicker = new EqualDivisionTicker();
+
 		/** The coordinates (locations) of ticks, in MANUAL mode. */
 		private volatile BigDecimal[] tickCoordinates = new BigDecimal[0];
 
 		/** The labels (displayed texts) of ticks, in MANUAL mode. */
 		private volatile String[] tickLabels = new String[0];
-
-		/** Number of sections between ticks, in EQUAL_DIVISION mode. */
-		private volatile int dividedSectionCount = 4;
-		// ↑ 区間の訳の命名、interval は長さ値的なニュアンスを含むので、個数に注目しているここでは section の方がいい。
-		//    前者のニュアンスを含む個所では interval を使うよう注意。
-
-		// -> MANUAL モードとかとの統一性を考えたら tickCount の方がいいのでは？
-		//    Color gradient の方でも boundaryCount にしてるし、そっちとの対応的にも。
-		//    利用上は sectionCount ベースの方が便利かもだが、それはUI層でどうとでもなるし、
-		//    config 層では内部処理的に綺麗な方がしておいた方がいいかも。
 
 
 		/** The precision of the internal calculation of the scale's coordinates. */
@@ -325,6 +320,45 @@ public final class ScaleConfiguration {
 
 
 		/**
+		 * Gets the Ticker instance corresponding to the current ticker mode.
+		 *
+		 * @return The Ticker instance corresponding to the current ticker mode.
+		 */
+		public synchronized Ticker getTicker() {
+			switch (this.tickerMode) {
+				case EQUAL_DIVISION: {
+					return this.equalDivisionTicker;
+				}
+				case MANUAL: {
+					return null; // To be impled
+				}
+				default: {
+					throw new IllegalStateException("Unexpected ticker mode: " + this.tickerMode);
+				}
+			}
+		}
+
+
+		/**
+		 * Sets the ticker to generate ticks at the N-equal-division points of the range of the axis, used in EQUAL_DIVISION mode.
+		 *
+		 * @param equalDivisionTicker Sets the ticker for EQUAL_DIVISION mode.
+		 */
+		public synchronized void setDividedSectionCount(EqualDivisionTicker equalDivisionTicker) {
+			this.equalDivisionTicker = equalDivisionTicker;
+		}
+
+		/**
+		 * Gets the ticker to generate ticks at the N-equal-division points of the range of the axis, used in EQUAL_DIVISION mode.
+		 *
+		 * @return The ticker for EQUAL_DIVISION mode.
+		 */
+		public synchronized EqualDivisionTicker getDividedSectionCount() {
+			return this.equalDivisionTicker;
+		}
+
+
+		/**
 		 * Sets the coordinates (locations) of the ticks, in MANUAL mode.
 		 *
 		 * @param tickCoordinates The coordinates of the ticks.
@@ -363,25 +397,6 @@ public final class ScaleConfiguration {
 
 
 		/**
-		 * Sets the number of sections between ticks, in EQUAL_DIVISION mode.
-		 *
-		 * @param dividedSectionCount The number of sections between ticks.
-		 */
-		public synchronized void setDividedSectionCount(int dividedSectionCount) {
-			this.dividedSectionCount = dividedSectionCount;
-		}
-
-		/**
-		 * Gets the number of sections between ticks, in EQUAL_DIVISION mode.
-		 *
-		 * @return The number of sections between ticks.
-		 */
-		public synchronized int getDividedSectionCount() {
-			return this.dividedSectionCount;
-		}
-
-
-		/**
 		 * Sets the precision of internal calculations of the scale's coordinates.
 		 *
 		 * @param calculationPrecision The precision of internal calculations of the scale's coordinates.
@@ -416,6 +431,26 @@ public final class ScaleConfiguration {
 		 */
 		public synchronized TickLabelFormatterMode getTickLabelFormatterMode() {
 			return this.tickLabelFormatterMode;
+		}
+
+
+		/**
+		 * Gets the TickLabelFormatter instance corresponding to the current tick-label-formatter mode.
+		 *
+		 * @return The TickLabelFormatter instance corresponding to the current ticker mode.
+		 */
+		public synchronized TickLabelFormatter getTickLabelFormatter() {
+			switch (this.tickLabelFormatterMode) {
+				case NUMERIC: {
+					return this.numericTickLabelFormatter;
+				}
+				case CUSTOM: {
+					return this.customTickLabelFormatter;
+				}
+				default: {
+					throw new IllegalStateException("Unexpected tick-label-formatter mode: " + this.tickLabelFormatterMode);
+				}
+			}
 		}
 
 
@@ -495,7 +530,7 @@ public final class ScaleConfiguration {
 					break;
 				}
 				case EQUAL_DIVISION : {
-					if (dividedSectionCount < 1) {
+					if (this.equalDivisionTicker.getDividedSectionCount() < 1) {
 						throw new IllegalStateException("The length of tick lines must be greater than 1.");
 					}
 					break;

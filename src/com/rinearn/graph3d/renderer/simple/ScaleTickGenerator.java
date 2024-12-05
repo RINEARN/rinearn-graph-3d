@@ -4,11 +4,8 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.config.ScaleConfiguration;
 import com.rinearn.graph3d.config.scale.TickLabelFormatter;
-import com.rinearn.graph3d.config.scale.NumericTickLabelFormatter;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 
 
 /**
@@ -110,63 +107,11 @@ public final class ScaleTickGenerator {
 		final RangeConfiguration.AxisRangeConfiguration axisRangeConfig =
 				this.getAxisRangeConfiguration(dimensionIndex);
 
-		// Generate coordinates of ticks for the specified mode.
-		switch (axisScaleConfig.getTickerMode()) {
-			case EQUAL_DIVISION : {
-				return this.generateScaleTickCoordsByEqualDivision(axisScaleConfig, axisRangeConfig);
-			}
-			case MANUAL : {
-				return axisScaleConfig.getTickCoordinates();
-			}
-			default : {
-				throw new RuntimeException("The specified tick mode is unimplemented yet: " + axisScaleConfig.getTickerMode());
-			}
-		}
-	}
-
-
-	/**
-	 * Generates coordinates (positions) of ticks for EQUAL_DIVISION mode.
-	 *
-	 * @param axisScaleConfig The configuration of the axis's scale.
-	 * @param axisRangeConfig The configuration of the axis's range.
-	 * @return The coordinates of the ticks.
-	 */
-	private BigDecimal[] generateScaleTickCoordsByEqualDivision(
-			ScaleConfiguration.AxisScaleConfiguration axisScaleConfig,
-			RangeConfiguration.AxisRangeConfiguration axisRangeConfig) {
-
-		// Creates a MathContext instance for specifying the precision and rounding mode of the calculations.
-		int precision = axisScaleConfig.getCalculationPrecision();
-		MathContext mathContext = new MathContext(precision, RoundingMode.HALF_EVEN);
-
-		// Get the number of sections between the ticks to be generated.
-		int sectionCount = axisScaleConfig.getDividedSectionCount();
-		BigDecimal sectionCountBD = new BigDecimal(sectionCount);
-
-		// Calculate the interval between the ticks to be generated.
-		BigDecimal min = axisRangeConfig.getMinimum();
-		BigDecimal max = axisRangeConfig.getMaximum();
-		BigDecimal interval = max.subtract(min).divide(sectionCountBD, mathContext);
-
-		// We can return the result without calculations if the number of sections is smaller than 3.
-		if (sectionCount == 0) {
-			return new BigDecimal[0];
-		} else if (sectionCount == 1) {
-			return new BigDecimal[] { min };
-		} else if (sectionCount == 2) {
-			return new BigDecimal[] { min, max };
-		}
-
-		// Calculate coordinates of the ticks at the equally divided point on the axis, and return it.
-		BigDecimal[] tickCoords = new BigDecimal[sectionCount + 1];
-		tickCoords[0] = min;
-		tickCoords[sectionCount] = max;
-		for (int itick=1; itick<sectionCount; itick++) {
-			BigDecimal distanceFromMin = interval.multiply(new BigDecimal(itick));
-			tickCoords[itick] = min.add(distanceFromMin);
-		}
-		return tickCoords;
+		// Generate tick coords and return it.
+		boolean isLogPlot = false; // temporary
+		return axisScaleConfig.getTicker().generateTickCoordinates(
+				axisRangeConfig.getMinimum(), axisRangeConfig.getMaximum(), isLogPlot
+		);
 	}
 
 
@@ -184,43 +129,9 @@ public final class ScaleTickGenerator {
 				this.getAxisScaleConfiguration(dimensionIndex);
 
 		// Get the formatter of the tick labels.
-		TickLabelFormatter formatter = null;
-		switch (axisScaleConfig.getTickLabelFormatterMode()) {
-			case NUMERIC: {
-				formatter = axisScaleConfig.getNumericTickLabelFormatter();
-				break;
-			}
-			case CUSTOM: {
-				formatter = axisScaleConfig.getCustomTickLabelFormatter();
-				break;
-			}
-			default: {
-				throw new UnsupportedOperationException("Unknown tick label formatter mode: " + axisScaleConfig.getTickLabelFormatterMode());
-			}
-		}
+		TickLabelFormatter formatter = axisScaleConfig.getTickLabelFormatter();
 
-		// Generate the labels based on the tick mode.
-		switch (axisScaleConfig.getTickerMode()) {
-			case MANUAL : {
-				return axisScaleConfig.getTickLabels();
-			}
-			case EQUAL_DIVISION : {
-				int tickCount = tickCoords.length;
-				String[] tickLabels = new String[tickCount];
-
-				// Generate tick labels from their coordinate values.
-				for (int itick=0; itick<tickCount; itick++) {
-					if (formatter != null && formatter.isFormattable(tickCoords[itick])) {
-						tickLabels[itick] = formatter.format(tickCoords[itick]);
-					} else {
-						tickLabels[itick] = "";
-					}
-				}
-				return tickLabels;
-			}
-			default : {
-				throw new UnsupportedOperationException("Unknown tick mode: " + axisScaleConfig.getTickerMode());
-			}
-		}
+		// Generate tick labels and return it.
+		return axisScaleConfig.getTicker().generateTickLabels(tickCoords, formatter);
 	}
 }
