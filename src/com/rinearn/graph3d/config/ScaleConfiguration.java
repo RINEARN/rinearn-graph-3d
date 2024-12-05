@@ -227,6 +227,8 @@ public final class ScaleConfiguration {
 		/** The precision of the internal calculation of the scale's coordinates. */
 		private volatile int calculationPrecision = 128;
 
+		private volatile TickLabelFormatterMode tickLabelFormatterMode = TickLabelFormatterMode.NUMERIC;
+
 		/**
 		 * The formatters of tick labels, applied when they are numeric values.
 		 */
@@ -252,6 +254,9 @@ public final class ScaleConfiguration {
 				// The format applied to only zero.
 				new NumericTickLabelFormatter(new DecimalFormat("0"), BigDecimal.ZERO, BigDecimal.ZERO, true, true)
 		};
+
+		/** The formmatter of tick labels implemented by users or third party developers, used in CUSTOM mode. */
+		private volatile TickLabelFormatter customTickLabelFormatter;
 
 
 		/**
@@ -412,7 +417,26 @@ public final class ScaleConfiguration {
 
 
 		/**
-		 * Sets the formatters of tick labels, applied when they are numeric values.
+		 * Sets the tick-label-formatter mode, which determines how the format of the tick labels of this axis's scale.
+		 *
+		 * @param tickerMode The tick-label-formatter mode of this axis's scale.
+		 */
+		public synchronized void setTickLabelFormatterMode(TickLabelFormatterMode tickLabelFormatterMode) {
+			this.tickLabelFormatterMode = tickLabelFormatterMode;
+		}
+
+		/**
+		 * Gets the tick-label-formatter mode, which determines how the format of the tick labels of this axis's scale.
+		 *
+		 * @return The tick-label-formatter mode of this axis's scale.
+		 */
+		public synchronized TickLabelFormatterMode getTickLabelFormatterMode() {
+			return this.tickLabelFormatterMode;
+		}
+
+
+		/**
+		 * Sets the formatters of tick labels, applied when the tick-label-formatter mode is NUMERIC.
 		 *
 		 * To apply different format for different ranges on the axis, you can specify multiple formatters as an array.
 		 * When ranges of multiple formatter are overlapping,
@@ -425,12 +449,31 @@ public final class ScaleConfiguration {
 		}
 
 		/**
-		 * Gets the formatters of tick labels, applied when they are numeric values.
+		 * Gets the formatters of tick labels, applied when the tick-label-formatter mode is NUMERIC.
 		 *
 		 * @return The formatters of numeric tick labels.
 		 */
 		public synchronized NumericTickLabelFormatter[] getNumericTickLabelFormatters() {
 			return this.numericTickLabelFormatters;
+		}
+
+
+		/**
+		 * Sets the formatters of tick labels, applied when the tick-label-formatter mode is CUSTOM.
+		 *
+		 * @param customTickLabelFormatters The formatters of tick labels.
+		 */
+		public synchronized void setCustomTickLabelFormatters(TickLabelFormatter customTickLabelFormatter) {
+			this.customTickLabelFormatter = customTickLabelFormatter;
+		}
+
+		/**
+		 * Gets the formatters of tick labels, applied when the tick-label-formatter mode is CUSTOM.
+		 *
+		 * @return The formatters of tick labels.
+		 */
+		public synchronized TickLabelFormatter getCustomTickLabelFormatters() {
+			return this.customTickLabelFormatter;
 		}
 
 
@@ -506,4 +549,15 @@ public final class ScaleConfiguration {
 		MANUAL,
 	}
 
+	/**
+	 * The enum representing each mode to format tick labels.
+	 */
+	public static enum TickLabelFormatterMode {
+
+		/** Formats the coordinates of the ticks into the numeric labels.  */
+		NUMERIC,
+
+		/** Uses the custom formmatter implemented by users or third party developers. */
+		CUSTOM,
+	}
 }
