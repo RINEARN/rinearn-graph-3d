@@ -65,6 +65,7 @@ public final class MenuHandler {
 		window.fontSettingMenuItem.addActionListener(new FontSettingItemClickedEventListener());
 		window.cameraSettingMenuItem.addActionListener(new CameraSettingItemClickedEventListener());
 		window.lightSettingMenuItem.addActionListener(new LightSettingItemClickedEventListener());
+		window.scaleSettingMenuItem.addActionListener(new ScaleSettingItemClickedEventListener());
 
 		// Add the action listeners to the sub menu items in "Option" menu.
 		window.pointOptionMenuItem.addActionListener(new PointOptionMenuItemSelectedEventListener());
@@ -283,6 +284,20 @@ public final class MenuHandler {
 				return;
 			}
 			view.lightSettingWindow.setWindowVisible(true);
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Settings" > "Set Scale" menu item is clicked.
+	 */
+	private final class ScaleSettingItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			view.scaleSettingWindow.setWindowVisible(true);
 		}
 	}
 

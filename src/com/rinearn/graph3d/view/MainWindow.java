@@ -131,6 +131,10 @@ public final class MainWindow {
 	/** "Settings" > "Set Light" menu item on the menu bar. */
 	public volatile JMenuItem lightSettingMenuItem;
 
+	/** "Settings" > "Set Scale" menu item on the menu bar. */
+	public volatile JMenuItem scaleSettingMenuItem;
+
+
 	/** "Options" menu on the menu bar. */
 	public volatile JMenu optionsMenu;
 
@@ -249,6 +253,10 @@ public final class MainWindow {
 				// "Settings" > "Set Light" menu item:
 				lightSettingMenuItem = new JMenuItem("Unconfigured");
 				settingsMenu.add(lightSettingMenuItem);
+
+				// "Settings" > "Set Scale" menu item:
+				scaleSettingMenuItem = new JMenuItem("Unconfigured");
+				settingsMenu.add(scaleSettingMenuItem);
 			}
 
 			// "Options" menu:
@@ -469,6 +477,7 @@ public final class MainWindow {
 				fontSettingMenuItem.setText("フォントの設定");
 				cameraSettingMenuItem.setText("カメラの設定");
 				lightSettingMenuItem.setText("光の設定");
+				scaleSettingMenuItem.setText("目盛りの設定");
 			}
 
 			// "Options" menu and sub menu items.
@@ -508,6 +517,7 @@ public final class MainWindow {
 				fontSettingMenuItem.setText("Set Fonts");
 				cameraSettingMenuItem.setText("Set Camera");
 				lightSettingMenuItem.setText("Set Light");
+				scaleSettingMenuItem.setText("Set Scale");
 			}
 
 			// "Options" menu and sub menu items.
@@ -549,6 +559,7 @@ public final class MainWindow {
 				fontSettingMenuItem.setFont(uiBoldFont);
 				cameraSettingMenuItem.setFont(uiBoldFont);
 				lightSettingMenuItem.setFont(uiBoldFont);
+				scaleSettingMenuItem.setFont(uiBoldFont);
 			}
 
 			// "Options" menu and sub menu items.

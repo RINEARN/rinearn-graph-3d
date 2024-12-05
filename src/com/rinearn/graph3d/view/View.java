@@ -118,6 +118,9 @@ public final class View {
 	/** The setting window of "Settings" > "Set Light" menu. */
 	public final LightSettingWindow lightSettingWindow = new LightSettingWindow();
 
+	/** The setting window of "Settings" > "Set Scale" menu. */
+	public final ScaleSettingWindow scaleSettingWindow = new ScaleSettingWindow();
+
 	/** The window of "Math" > "z(x,y)" plot. */
 	public final ZxyMathWindow zxyMathWindow = new ZxyMathWindow();
 
@@ -149,6 +152,7 @@ public final class View {
 		this.fontSettingWindow.configure(configuration);
 		this.cameraSettingWindow.configure(configuration);
 		this.lightSettingWindow.configure(configuration);
+		this.scaleSettingWindow.configure(configuration);
 		this.zxyMathWindow.configure(configuration);
 	}
 
@@ -162,6 +166,7 @@ public final class View {
 		this.fontSettingWindow.dispose();
 		this.cameraSettingWindow.dispose();
 		this.lightSettingWindow.dispose();
+		this.scaleSettingWindow.dispose();
 		this.zxyMathWindow.dispose();
 	}
 }
