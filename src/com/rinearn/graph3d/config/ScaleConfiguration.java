@@ -4,9 +4,8 @@ import com.rinearn.graph3d.config.scale.TickLabelFormatter;
 import com.rinearn.graph3d.config.scale.NumericTickLabelFormatter;
 import com.rinearn.graph3d.config.scale.Ticker;
 import com.rinearn.graph3d.config.scale.EqualDivisionTicker;
+import com.rinearn.graph3d.config.scale.ManualTicker;
 
-import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.text.DecimalFormat;
 
 // !!!!!
@@ -212,17 +211,15 @@ public final class ScaleConfiguration {
 		/** The ticker to generate ticks at the N-equal-division points of the range of the axis, used in EQUAL_DIVISION mode. */
 		private volatile EqualDivisionTicker equalDivisionTicker = new EqualDivisionTicker();
 
-		/** The coordinates (locations) of ticks, in MANUAL mode. */
-		private volatile BigDecimal[] tickCoordinates = new BigDecimal[0];
-
-		/** The labels (displayed texts) of ticks, in MANUAL mode. */
-		private volatile String[] tickLabels = new String[0];
-
+		/** The ticker to render the tick coordinates and the tick labels specified directly by the user, used in MANUAL mode. */
+		private volatile ManualTicker manualTicker = new ManualTicker();
 
 		/** The precision of the internal calculation of the scale's coordinates. */
 		private volatile int calculationPrecision = 128;
 
+		/** The mode of the formatter, which formats tick coordinates to tick labels.  */
 		private volatile TickLabelFormatterMode tickLabelFormatterMode = TickLabelFormatterMode.NUMERIC;
+
 
 		/**
 		 * The formatter of tick labels, used in NUMERIC mode.
@@ -344,7 +341,7 @@ public final class ScaleConfiguration {
 		 *
 		 * @param equalDivisionTicker Sets the ticker for EQUAL_DIVISION mode.
 		 */
-		public synchronized void setDividedSectionCount(EqualDivisionTicker equalDivisionTicker) {
+		public synchronized void setDividedSectionTicker(EqualDivisionTicker equalDivisionTicker) {
 			this.equalDivisionTicker = equalDivisionTicker;
 		}
 
@@ -353,46 +350,27 @@ public final class ScaleConfiguration {
 		 *
 		 * @return The ticker for EQUAL_DIVISION mode.
 		 */
-		public synchronized EqualDivisionTicker getDividedSectionCount() {
+		public synchronized EqualDivisionTicker getDividedSectionTicker() {
 			return this.equalDivisionTicker;
 		}
 
 
 		/**
-		 * Sets the coordinates (locations) of the ticks, in MANUAL mode.
+		 * Sets the ticker to render the tick coordinates and the tick labels specified directly by the user, used in MANUAL mode.
 		 *
-		 * @param tickCoordinates The coordinates of the ticks.
+		 * @param manualTicker The ticker for MANUAL mode.
 		 */
-		public synchronized void setTickCoordinates(BigDecimal[] tickCoordinates) {
-			this.tickCoordinates = tickCoordinates;
+		public synchronized void setManualTicker(ManualTicker manualTicker) {
+			this.manualTicker = manualTicker;
 		}
 
 		/**
-		 * Gets the coordinates (locations) of the ticks, in MANUAL mode.
+		 * Sets the ticker to render the tick coordinates and the tick labels specified directly by the use, used in MANUAL mode.
 		 *
-		 * @return The coordinates of the ticks.
+		 * @return  The ticker for MANUAL mode.
 		 */
-		public synchronized BigDecimal[] getTickCoordinates() {
-			return this.tickCoordinates;
-		}
-
-
-		/**
-		 * Sets the labels (displayed texts) of the ticks, in MANUAL mode.
-		 *
-		 * @param tickCoordinates The labels of the ticks.
-		 */
-		public synchronized void setTickLabels(String[] tickLabels) {
-			this.tickLabels = tickLabels;
-		}
-
-		/**
-		 * Gets the labels (displayed texts) of the ticks, in MANUAL mode.
-		 *
-		 * @return The labels of the ticks.
-		 */
-		public synchronized String[] getTickLabels() {
-			return this.tickLabels;
+		public synchronized ManualTicker getManualTicker() {
+			return this.manualTicker;
 		}
 
 
@@ -515,30 +493,9 @@ public final class ScaleConfiguration {
 				throw new IllegalStateException("The calculation precision must be greater than 1.");
 			}
 
-			// Validate parameters for each mode.
-			switch (this.tickerMode) {
-				case MANUAL : {
-					if (this.tickCoordinates == null) {
-						throw new IllegalStateException("The tick coordinates are null (mandatory in MANUAL mode).");
-					}
-					if (this.tickLabels == null) {
-						throw new IllegalStateException("The tick labels are null (mandatory in MANUAL mode).");
-					}
-					if (this.tickCoordinates.length != this.tickLabels.length) {
-						throw new IllegalStateException("The number of the tick coordinates does not match with the number of the tick labels.");
-					}
-					break;
-				}
-				case EQUAL_DIVISION : {
-					if (this.equalDivisionTicker.getDividedSectionCount() < 1) {
-						throw new IllegalStateException("The length of tick lines must be greater than 1.");
-					}
-					break;
-				}
-				default : {
-					throw new UnsupportedOperationException("Unknown tick mode: " + this.tickerMode);
-				}
-			}
+			// Validate parameters of tickers.
+			this.manualTicker.validate();
+			this.equalDivisionTicker.validate();
 		}
 	}
 

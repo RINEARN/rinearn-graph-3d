@@ -92,4 +92,21 @@ public class EqualDivisionTicker extends Ticker {
 		}
 		return tickCoords;
 	}
+
+
+	/**
+	 * Validates correctness and consistency of parameters stored in this instance.
+	 *
+	 * This method is called when the ScaleConfiguration having this instance is specified to RinearnGraph3D or its renderer.
+	 * If no issue is detected, nothing occurs.
+	 * If any issue is detected, throws IllegalStateException.
+	 *
+	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 */
+	@Override
+	public void validate() throws IllegalStateException {
+		if (this.getDividedSectionCount() < 1) {
+			throw new IllegalStateException("The length of tick lines must be greater than 1.");
+		}
+	}
 }

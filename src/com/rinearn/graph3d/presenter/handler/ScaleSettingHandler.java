@@ -125,8 +125,8 @@ public class ScaleSettingHandler {
 					= model.config.getScaleConfiguration().getXScaleConfiguration();
 
 			xScaleConfig.setTickerMode(ScaleConfiguration.TickerMode.MANUAL);
-			xScaleConfig.setTickCoordinates(tickCoordinates);
-			xScaleConfig.setTickLabels(tickLabels);
+			xScaleConfig.getManualTicker().setTickCoordinates(tickCoordinates);
+			xScaleConfig.getManualTicker().setTickLabels(tickLabels);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -184,8 +184,8 @@ public class ScaleSettingHandler {
 					= model.config.getScaleConfiguration().getYScaleConfiguration();
 
 			yScaleConfig.setTickerMode(ScaleConfiguration.TickerMode.MANUAL);
-			yScaleConfig.setTickCoordinates(tickCoordinates);
-			yScaleConfig.setTickLabels(tickLabels);
+			yScaleConfig.getManualTicker().setTickCoordinates(tickCoordinates);
+			yScaleConfig.getManualTicker().setTickLabels(tickLabels);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -243,8 +243,8 @@ public class ScaleSettingHandler {
 					= model.config.getScaleConfiguration().getZScaleConfiguration();
 
 			zScaleConfig.setTickerMode(ScaleConfiguration.TickerMode.MANUAL);
-			zScaleConfig.setTickCoordinates(tickCoordinates);
-			zScaleConfig.setTickLabels(tickLabels);
+			zScaleConfig.getManualTicker().setTickCoordinates(tickCoordinates);
+			zScaleConfig.getManualTicker().setTickLabels(tickLabels);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
