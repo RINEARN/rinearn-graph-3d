@@ -485,9 +485,11 @@ public final class ScaleConfiguration {
 				throw new IllegalStateException("The calculation precision must be greater than 1.");
 			}
 
-			// Validate parameters of tickers.
+			// Validate parameters of tickers and formatters.
 			this.manualTicker.validate();
 			this.equalDivisionTicker.validate();
+			this.numericTickLabelFormatter.validate();
+			this.customTickLabelFormatter.validate();
 		}
 	}
 

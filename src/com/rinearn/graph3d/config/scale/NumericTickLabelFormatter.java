@@ -26,10 +26,10 @@ public final class NumericTickLabelFormatter extends TickLabelFormatter {
 	private volatile NumberFormat longRangeFormat = new DecimalFormat("0.0#E0");
 
 	/** The threshold value between the 'short' range and the 'medium' range. */
-	private volatile BigDecimal shortMediumThreshold = new BigDecimal("0.1");
+	private volatile BigDecimal shortMediumRangeThreshold = new BigDecimal("0.1");
 
 	/** The threshold value between the 'medium' range and the 'long' range. */
-	private volatile BigDecimal mediumLongThreshold = BigDecimal.TEN;
+	private volatile BigDecimal mediumLongRangeThreshold = BigDecimal.TEN;
 
 
 	/**
@@ -119,38 +119,38 @@ public final class NumericTickLabelFormatter extends TickLabelFormatter {
 	/**
 	 * Sets the threshold value between the 'short' range and the 'medium' range.
 	 *
-	 * @param shortMediumThreshold The threshold value between the 'short' range and the 'medium' range.
+	 * @param shortMediumRangeThreshold The threshold value between the 'short' range and the 'medium' range.
 	 */
-	public void setShortMediumThreshold(BigDecimal shortMediumThreshold) {
-		this.shortMediumThreshold = shortMediumThreshold;
+	public void setShortMediumRangeThreshold(BigDecimal shortMediumRangeThreshold) {
+		this.shortMediumRangeThreshold = shortMediumRangeThreshold;
 	}
 
 	/**
 	 * Gets the threshold value between the 'short' range and the 'medium' range.
 	 *
-	 * @return shortMediumThreshold The threshold value between the 'short' range and the 'medium' range.
+	 * @return shortMediumRangeThreshold The threshold value between the 'short' range and the 'medium' range.
 	 */
-	public BigDecimal getShortMediumThreshold() {
-		return this.shortMediumThreshold;
+	public BigDecimal getShortMediumRangeThreshold() {
+		return this.shortMediumRangeThreshold;
 	}
 
 
 	/**
 	 * Sets the threshold value between the 'medium' range and the 'long' range.
 	 *
-	 * @param mediumLongThreshold The threshold value between the 'medium' range and the 'long' range.
+	 * @param mediumLongRangeThreshold The threshold value between the 'medium' range and the 'long' range.
 	 */
-	public void setMediumLongThreshold(BigDecimal mediumLongThreshold) {
-		this.mediumLongThreshold = mediumLongThreshold;
+	public void setMediumLongRangeThreshold(BigDecimal mediumLongRangeThreshold) {
+		this.mediumLongRangeThreshold = mediumLongRangeThreshold;
 	}
 
 	/**
 	 * Gets the threshold value between the 'medium' range and the 'long' range.
 	 *
-	 * @return shortMediumThreshold The threshold value between the 'medium' range and the 'long' range.
+	 * @return shortMediumRangeThreshold The threshold value between the 'medium' range and the 'long' range.
 	 */
-	public BigDecimal getMediumLongThreshold() {
-		return this.mediumLongThreshold;
+	public BigDecimal getMediumLongRangeThreshold() {
+		return this.mediumLongRangeThreshold;
 	}
 
 
@@ -167,10 +167,10 @@ public final class NumericTickLabelFormatter extends TickLabelFormatter {
 		if (absCoordinate.compareTo(BigDecimal.ZERO) == 0) {
 			return this.zeroRangeFormat.format(tickCoordinate);
 		}
-		if (absCoordinate.compareTo(this.shortMediumThreshold) < 0) {
+		if (absCoordinate.compareTo(this.shortMediumRangeThreshold) < 0) {
 			return this.shortRangeFormat.format(tickCoordinate);
 		}
-		if (0 < absCoordinate.compareTo(this.mediumLongThreshold)) {
+		if (0 < absCoordinate.compareTo(this.mediumLongRangeThreshold)) {
 			return this.longRangeFormat.format(tickCoordinate);
 		}
 		return this.mediumRangeFormat.format(tickCoordinate);
@@ -184,5 +184,46 @@ public final class NumericTickLabelFormatter extends TickLabelFormatter {
 	@Override
 	public synchronized boolean isFormattable(BigDecimal coordinate) {
 		return true;
+	}
+
+
+	/**
+	 * Validates correctness and consistency of parameters stored in this instance.
+	 *
+	 * This method is called when the ScaleConfiguration having this instance is specified to RinearnGraph3D or its renderer.
+	 * If no issue is detected, nothing occurs.
+	 * If any issue is detected, throws IllegalStateException.
+	 *
+	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 */
+	@Override
+	public void validate() throws IllegalStateException {
+		if (this.zeroRangeFormat == null) {
+			throw new IllegalStateException("zeroRangeFormat is null");
+		}
+		if (this.shortRangeFormat == null) {
+			throw new IllegalStateException("shortRangeFormat is null");
+		}
+		if (this.mediumRangeFormat == null) {
+			throw new IllegalStateException("mediumRangeFormat is null");
+		}
+		if (this.longRangeFormat == null) {
+			throw new IllegalStateException("longRangeFormat is null");
+		}
+		if (this.shortMediumRangeThreshold == null) {
+			throw new IllegalStateException("shortMediumRangeThreshold is null");
+		}
+		if (this.mediumLongRangeThreshold == null) {
+			throw new IllegalStateException("mediumLongRangeThreshold is null");
+		}
+		if (0 <= this.shortMediumRangeThreshold.compareTo(this.mediumLongRangeThreshold)) {
+			throw new IllegalStateException("mediumLongRangeThreshold must be grater than shortMediumRangeThreshold");
+		}
+		if (this.shortMediumRangeThreshold.compareTo(BigDecimal.ZERO) <= 0) {
+			throw new IllegalStateException("shortMediumRangeThreshold must be a positive value (excluding zero).");
+		}
+		if (this.mediumLongRangeThreshold.compareTo(BigDecimal.ZERO) <= 0) {
+			throw new IllegalStateException("mediumLongRangeThreshold must be a positive value (excluding zero).");
+		}
 	}
 }

@@ -21,4 +21,15 @@ public abstract class TickLabelFormatter {
 	 * @param tickCoordinate Returns if the specified coordinate is formattable.
 	 */
 	public abstract boolean isFormattable(BigDecimal tickCoordinate);
+
+	/**
+	 * Validates correctness and consistency of parameters stored in this instance.
+	 *
+	 * This method is called when the ScaleConfiguration having this instance is specified to RinearnGraph3D or its renderer.
+	 * If no issue is detected, nothing occurs.
+	 * If any issue is detected, throws IllegalStateException.
+	 *
+	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 */
+	public abstract void validate() throws IllegalStateException;
 }
