@@ -86,6 +86,12 @@ import java.text.DecimalFormat;
  */
 public final class ScaleConfiguration {
 
+	/** The visibility of the grid. */
+	private volatile boolean gridVisible;
+
+	/** The visibility of the tick lines and tick labels. */
+	private volatile boolean tickVisible;
+
 	/** The configuration of X axis's scale. */
 	private volatile AxisScaleConfiguration xScaleConfiguration = new AxisScaleConfiguration();
 
@@ -103,6 +109,44 @@ public final class ScaleConfiguration {
 	 * Creates a new configuration storing default values.
 	 */
 	public ScaleConfiguration() {
+	}
+
+
+	/**
+	 * Sets the visibility of the grid.
+	 *
+	 * @param gridVisible Specify true for setting the grid visible.
+	 */
+	public synchronized void setGridVisible(boolean gridVisible) {
+		this.gridVisible = gridVisible;
+	}
+
+	/**
+	 * Gets the visibility of the grid.
+	 *
+	 * @return Returns true if the grid is visible.
+	 */
+	public synchronized boolean isGridVisible() {
+		return this.gridVisible;
+	}
+
+
+	/**
+	 * Sets the visibility of the tick lines and tick labels.
+	 *
+	 * @param tickVisible Specify true for setting the tick lines/labels visible.
+	 */
+	public synchronized void setTickVisible(boolean tickVisible) {
+		this.tickVisible = tickVisible;
+	}
+
+	/**
+	 * Gets the visibility of the tick lines and tick labels.
+	 *
+	 * @return Returns true if the tick lines/labels are visible.
+	 */
+	public synchronized boolean isTickVisible() {
+		return this.tickVisible;
 	}
 
 
@@ -233,6 +277,18 @@ public final class ScaleConfiguration {
 	 */
 	public static class AxisScaleConfiguration {
 
+		/** The visibility of 'tick series A' of this axis's scale. */
+		private volatile boolean tickSeriesAVisible;
+
+		/** The visibility of 'tick series B' of this axis's scale. */
+		private volatile boolean tickSeriesBVisible;
+
+		/** The visibility of 'tick series C' of this axis's scale. */
+		private volatile boolean tickSeriesCVisible;
+
+		/** The visibility of 'tick series D' of this axis's scale. */
+		private volatile boolean tickSeriesDVisible;
+
 		/** The length of tick lines. */
 		private volatile double tickLineLength = 0.05;
 
@@ -265,6 +321,82 @@ public final class ScaleConfiguration {
 		 * Creates a new configuration storing default values.
 		 */
 		public AxisScaleConfiguration() {
+		}
+
+
+		/**
+		 * Sets the visibility of 'tick series A' of this axis.
+		 *
+		 * @param gridVisible Specify true for setting 'tick series A' visible.
+		 */
+		public synchronized void setTickSeriesAVisible(boolean tickSeriesAVisible) {
+			this.tickSeriesAVisible = tickSeriesAVisible;
+		}
+
+		/**
+		 * Gets the visibility of 'tick series A' of this axis.
+		 *
+		 * @return Returns true if 'tick series A'is visible.
+		 */
+		public synchronized boolean isTickSeriesAVisible() {
+			return this.tickSeriesAVisible;
+		}
+
+
+		/**
+		 * Sets the visibility of 'tick series B' of this axis.
+		 *
+		 * @param gridVisible Specify true for setting 'tick series B' visible.
+		 */
+		public synchronized void setTickSeriesBVisible(boolean tickSeriesBVisible) {
+			this.tickSeriesBVisible = tickSeriesBVisible;
+		}
+
+		/**
+		 * Gets the visibility of 'tick series B' of this axis.
+		 *
+		 * @return Returns true if 'tick series B'is visible.
+		 */
+		public synchronized boolean isTickSeriesBVisible() {
+			return this.tickSeriesBVisible;
+		}
+
+
+		/**
+		 * Sets the visibility of 'tick series C' of this axis.
+		 *
+		 * @param gridVisible Specify true for setting 'tick series C' visible.
+		 */
+		public synchronized void setTickSeriesCVisible(boolean tickSeriesCVisible) {
+			this.tickSeriesCVisible = tickSeriesCVisible;
+		}
+
+		/**
+		 * Gets the visibility of 'tick series C' of this axis.
+		 *
+		 * @return Returns true if 'tick series C'is visible.
+		 */
+		public synchronized boolean isTickSeriesCVisible() {
+			return this.tickSeriesCVisible;
+		}
+
+
+		/**
+		 * Sets the visibility of 'tick series D' of this axis.
+		 *
+		 * @param gridVisible Specify true for setting 'tick series D' visible.
+		 */
+		public synchronized void setTickSeriesDVisible(boolean tickSeriesDVisible) {
+			this.tickSeriesDVisible = tickSeriesDVisible;
+		}
+
+		/**
+		 * Gets the visibility of 'tick series D' of this axis.
+		 *
+		 * @return Returns true if 'tick series D'is visible.
+		 */
+		public synchronized boolean isTickSeriesDVisible() {
+			return this.tickSeriesDVisible;
 		}
 
 
@@ -523,7 +655,12 @@ public final class ScaleConfiguration {
 			this.manualTicker.validate();
 			this.equalDivisionTicker.validate();
 			this.numericTickLabelFormatter.validate();
-			this.customTickLabelFormatter.validate();
+			if (this.tickLabelFormatterMode == TickLabelFormatterMode.CUSTOM) {
+				if (this.tickLabelFormatterMode == null) {
+					throw new IllegalStateException("The custom tick label formatter is null although the formatter mode is set to CUSTOM.");
+				}
+				this.customTickLabelFormatter.validate();
+			}
 		}
 	}
 }

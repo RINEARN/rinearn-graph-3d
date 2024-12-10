@@ -6,7 +6,7 @@ package com.rinearn.graph3d.config;
  */
 public final class FrameConfiguration {
 
-	// To be added: grid-lines, images, etc.
+	// To be added: grid-lines, images, etc. -> grid-lines は描かれ方が ticks に依存するし、ScaleConfig への依存性が生じてしまうのでこっちにあるべきではない。あっちにあるべき。
 
 	/**
 	 * The enum representing each mode of the graph frame.
