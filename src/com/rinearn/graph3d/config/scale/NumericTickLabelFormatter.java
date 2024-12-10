@@ -1,6 +1,7 @@
 package com.rinearn.graph3d.config.scale;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 
@@ -10,75 +11,146 @@ import java.text.NumberFormat;
 public final class NumericTickLabelFormatter extends TickLabelFormatter {
 
 	/** The format of numeric tick labels, applied when |coordinate| = 0. */
-	private final NumberFormat zeroRangeFormat;
+	private volatile NumberFormat zeroRangeFormat = new DecimalFormat("0");
 	// Note: Why we don't declare the above as DecimalFormat-type field is,
 	//       some people may want to implement original format by extending NumberFormat.
 	//       (NumberFormat is an abstract class, and DecimalFormat is one of its implementation.)
 
 	/** The format of numeric tick labels, applied when |coordinate| < 0.1. */
-	private final NumberFormat shortRangeFormat;
+	private volatile NumberFormat shortRangeFormat = new DecimalFormat("0.0#E0");
 
 	/** The format of numeric tick labels, applied when 0.1 <= |coordinate| <= 10. */
-	private final NumberFormat mediumRangeFormat;
+	private volatile NumberFormat mediumRangeFormat = new DecimalFormat("0.0#");
 
 	/** The format of numeric tick labels, applied when 10 < |coordinate|. */
-	private final NumberFormat longRangeFormat;
+	private volatile NumberFormat longRangeFormat = new DecimalFormat("0.0#E0");
 
 	/** The threshold value between the 'short' range and the 'medium' range. */
-	private final BigDecimal shortMediumThreshold;
+	private volatile BigDecimal shortMediumThreshold = new BigDecimal("0.1");
 
 	/** The threshold value between the 'medium' range and the 'long' range. */
-	private final BigDecimal mediumLongThreshold;
+	private volatile BigDecimal mediumLongThreshold = BigDecimal.TEN;
 
 
 	/**
 	 * Creates a new formatter for formatting tick coordinates into numeric tick labels.
-	 *
-	 * @param format The format of numeric tick labels.
 	 */
-	public NumericTickLabelFormatter(NumberFormat format) {
-		this(format, format, format, format);
+	public NumericTickLabelFormatter() {
 	}
 
 
 	/**
-	 * Creates a new formatter for formatting tick coordinates into numeric tick labels,
-	 * using multiple formats defined for different coordinate ranges (zero, short, medium, long).
+	 * Sets the format for the coordinate zero (0).
 	 *
-	 * @param shortRangeFormat The format of numeric tick labels, applied when |coordinate| < 0.1.
-	 * @param mediumRangeFormat The format of numeric tick labels, applied when 0.1 <= |coordinate| <= 10.
-	 * @param longRangeFormat The format of numeric tick labels, applied when 10 < |coordinate|.
+	 * @param zeroRangeFormat The format for the coordinate zero (0).
 	 */
-	public NumericTickLabelFormatter(
-			NumberFormat zeroRangeFormat, NumberFormat shortRangeFormat, NumberFormat mediumRangeFormat, NumberFormat longRangeFormat) {
-
+	public void setZeroRangeFormat(NumberFormat zeroRangeFormat) {
 		this.zeroRangeFormat = zeroRangeFormat;
-		this.shortRangeFormat = shortRangeFormat;
-		this.mediumRangeFormat = mediumRangeFormat;
-		this.longRangeFormat = longRangeFormat;
-		this.shortMediumThreshold = new BigDecimal(0.1);
-		this.mediumLongThreshold = new BigDecimal(10);
 	}
 
 	/**
-	 * Creates a new formatter for formatting tick coordinates into numeric tick labels,
-	 * using multiple formats defined for different coordinate ranges (zero, short, medium, long),
-	 * separated by the specified threshold coordinates.
+	 * Gets the format for the coordinate zero (0).
 	 *
-	 * @param shortRangeFormat The format of numeric tick labels, applied when |coordinate| < shortMediumThreshold.
-	 * @param mediumRangeFormat The format of numeric tick labels, applied when shortMediumThreshold <= |coordinate| <= mediumLongThreshold.
-	 * @param longRangeFormat The format of numeric tick labels, applied when mediumLongThreshold < |coordinate|.
+	 * @return The format for the coordinate zero (0).
 	 */
-	public NumericTickLabelFormatter(
-			NumberFormat zeroRangeFormat, NumberFormat shortRangeFormat, NumberFormat mediumRangeFormat, NumberFormat longRangeFormat,
-				BigDecimal shortMediumThreshold, BigDecimal mediumLongThreshold) {
+	public NumberFormat getZeroRangeFormat() {
+		return this.zeroRangeFormat;
+	}
 
-		this.zeroRangeFormat = zeroRangeFormat;
+
+	/**
+	 * Sets the format for coordinates in the short-range (|coordinate| < 0.1, by default).
+	 *
+	 * @param shortRangeFormat The format for coordinates in the short-range.
+	 */
+	public void setShorRangeFormat(NumberFormat shortRangeFormat) {
 		this.shortRangeFormat = shortRangeFormat;
+	}
+
+	/**
+	 * Gets the format for coordinates in the short-range (|coordinate| < 0.1, by default).
+	 *
+	 * @return The format for coordinates in the short-range.
+	 */
+	public NumberFormat getShorRangeFormat() {
+		return this.shortRangeFormat;
+	}
+
+
+	/**
+	 * Sets the format for coordinates in the medium-range (0.1 <= |coordinate| <= 10, by default).
+	 *
+	 * @param shortRangeFormat The format for coordinates in the medium-range.
+	 */
+	public void setMediumRangeFormat(NumberFormat mediumRangeFormat) {
 		this.mediumRangeFormat = mediumRangeFormat;
+	}
+
+	/**
+	 * Gets the format for coordinates in the medium-range (0.1 <= |coordinate| <= 10, by default).
+	 *
+	 * @return The format for coordinates in the medium-range.
+	 */
+	public NumberFormat getMediumRangeFormat() {
+		return this.mediumRangeFormat;
+	}
+
+
+
+	/**
+	 * Sets the format for coordinates in the long-range (10 < |coordinate|, by default).
+	 *
+	 * @param longRangeFormat The format for coordinates in the long-range.
+	 */
+	public void setLongRangeFormat(NumberFormat longRangeFormat) {
 		this.longRangeFormat = longRangeFormat;
+	}
+
+	/**
+	 * Gets the format for coordinates in the long-range (10 < |coordinate|, by default).
+	 *
+	 * @return The format for coordinates in the long-range.
+	 */
+	public NumberFormat getLongRangeFormat() {
+		return this.longRangeFormat;
+	}
+
+
+	/**
+	 * Sets the threshold value between the 'short' range and the 'medium' range.
+	 *
+	 * @param shortMediumThreshold The threshold value between the 'short' range and the 'medium' range.
+	 */
+	public void setShortMediumThreshold(BigDecimal shortMediumThreshold) {
 		this.shortMediumThreshold = shortMediumThreshold;
+	}
+
+	/**
+	 * Gets the threshold value between the 'short' range and the 'medium' range.
+	 *
+	 * @return shortMediumThreshold The threshold value between the 'short' range and the 'medium' range.
+	 */
+	public BigDecimal getShortMediumThreshold() {
+		return this.shortMediumThreshold;
+	}
+
+
+	/**
+	 * Sets the threshold value between the 'medium' range and the 'long' range.
+	 *
+	 * @param mediumLongThreshold The threshold value between the 'medium' range and the 'long' range.
+	 */
+	public void setMediumLongThreshold(BigDecimal mediumLongThreshold) {
 		this.mediumLongThreshold = mediumLongThreshold;
+	}
+
+	/**
+	 * Gets the threshold value between the 'medium' range and the 'long' range.
+	 *
+	 * @return shortMediumThreshold The threshold value between the 'medium' range and the 'long' range.
+	 */
+	public BigDecimal getMediumLongThreshold() {
+		return this.mediumLongThreshold;
 	}
 
 

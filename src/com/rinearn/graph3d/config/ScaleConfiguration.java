@@ -220,16 +220,8 @@ public final class ScaleConfiguration {
 		/** The mode of the formatter, which formats tick coordinates to tick labels.  */
 		private volatile TickLabelFormatterMode tickLabelFormatterMode = TickLabelFormatterMode.NUMERIC;
 
-
-		/**
-		 * The formatter of tick labels, used in NUMERIC mode.
-		 */
-		private volatile NumericTickLabelFormatter numericTickLabelFormatter = new NumericTickLabelFormatter(
-			new DecimalFormat("0"),      // For: |coordinate| = 0
-			new DecimalFormat("0.0#E0"), // For: |coordinate| < 0.1
-			new DecimalFormat("0.0#"),   // For: 0.1 <= |coordinate| <= 10
-			new DecimalFormat("0.0#E0")  // For: 10 < |coordinate|
-		);
+		/** The formatter of tick labels, used in NUMERIC mode. */
+		private volatile NumericTickLabelFormatter numericTickLabelFormatter = new NumericTickLabelFormatter();
 
 		/** The formmatter of tick labels implemented by users or third party developers, used in CUSTOM mode. */
 		private volatile TickLabelFormatter customTickLabelFormatter = null;
