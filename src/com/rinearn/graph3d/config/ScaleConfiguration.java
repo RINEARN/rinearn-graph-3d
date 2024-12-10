@@ -194,6 +194,40 @@ public final class ScaleConfiguration {
 		this.colorBarScaleConfiguration.validate();
 	}
 
+
+	/**
+	 * The enum representing each mode for specifying alignment of ticks of a scale.
+	 */
+	public static enum TickerMode {
+
+		/** Divides an axis's range (from min to max) equally by scale ticks. */
+		EQUAL_DIVISION,
+
+		/** Align scale ticks as an arithmetic sequence. */
+		ARITHMETIC_PROGRESSION,
+
+		/** Align scale ticks as a geometric sequence. */
+		GEOMETRIC_PROGRESSION,
+
+		/** Align scale ticks automatically. */
+		AUTOMATIC,
+
+		/** Align scale ticks manually, and also specify arbitrary tick labels. */
+		MANUAL,
+	}
+
+	/**
+	 * The enum representing each mode to format tick labels.
+	 */
+	public static enum TickLabelFormatterMode {
+
+		/** Formats the coordinates of the ticks into the numeric labels.  */
+		NUMERIC,
+
+		/** Uses the custom formmatter implemented by users or third party developers. */
+		CUSTOM,
+	}
+
 	/**
 	 * The class storing configuration values of the scale of an axis (X, Y, or Z).
 	 */
@@ -491,39 +525,5 @@ public final class ScaleConfiguration {
 			this.numericTickLabelFormatter.validate();
 			this.customTickLabelFormatter.validate();
 		}
-	}
-
-
-	/**
-	 * The enum representing each mode for specifying alignment of ticks of a scale.
-	 */
-	public static enum TickerMode {
-
-		/** Divides an axis's range (from min to max) equally by scale ticks. */
-		EQUAL_DIVISION,
-
-		/** Align scale ticks as an arithmetic sequence. */
-		ARITHMETIC_PROGRESSION,
-
-		/** Align scale ticks as a geometric sequence. */
-		GEOMETRIC_PROGRESSION,
-
-		/** Align scale ticks automatically. */
-		AUTOMATIC,
-
-		/** Align scale ticks manually, and also specify arbitrary tick labels. */
-		MANUAL,
-	}
-
-	/**
-	 * The enum representing each mode to format tick labels.
-	 */
-	public static enum TickLabelFormatterMode {
-
-		/** Formats the coordinates of the ticks into the numeric labels.  */
-		NUMERIC,
-
-		/** Uses the custom formmatter implemented by users or third party developers. */
-		CUSTOM,
 	}
 }
