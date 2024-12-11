@@ -18,9 +18,9 @@ import javax.swing.SwingUtilities;
 
 
 /**
- * The class handling events of the frame of the main window.
+ * The class handling events of (the frame of) the main window.
  */
-public final class FrameHandler {
+public final class WindowHandler {
 
 	/** The front-end class of "Model" layer, which provides internal logic procedures and so on. */
 	@SuppressWarnings("unused")
@@ -50,19 +50,19 @@ public final class FrameHandler {
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
 	 */
-	public FrameHandler(Model model, View view, Presenter presenter) {
+	public WindowHandler(Model model, View view, Presenter presenter) {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;
-		JFrame frame = this.view.mainWindow.frame;
+		JFrame windowFrame = this.view.mainWindow.frame;
 
 		// Add the event listener handling resizing events of the frame.
 		ResizeEventListener resizeListener = new ResizeEventListener();
-		frame.addComponentListener(resizeListener);
+		windowFrame.addComponentListener(resizeListener);
 
 		// Add the event listener handling resizing events of the frame.
 		CloseEventListener closeListener = new CloseEventListener();
-		frame.addWindowListener(closeListener);
+		windowFrame.addWindowListener(closeListener);
 	}
 
 

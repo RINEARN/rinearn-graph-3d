@@ -12,7 +12,7 @@ import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
 
 import com.rinearn.graph3d.presenter.handler.CameraSettingHandler;
 import com.rinearn.graph3d.presenter.handler.FontSettingHandler;
-import com.rinearn.graph3d.presenter.handler.FrameHandler;
+import com.rinearn.graph3d.presenter.handler.WindowHandler;
 import com.rinearn.graph3d.presenter.handler.LabelSettingHandler;
 import com.rinearn.graph3d.presenter.handler.LightSettingHandler;
 import com.rinearn.graph3d.presenter.handler.MenuHandler;
@@ -122,8 +122,8 @@ public final class Presenter {
 	/** The loop which performs rendering and updates the screen, on an independent thread. */
 	public final RenderingLoop renderingLoop;
 
-	/** The handler of events of the frame of the main window. */
-	public final FrameHandler frameHandler;
+	/** The handler of events of (the frame of) the main window. */
+	public final WindowHandler windowHandler;
 
 	/** The handler of events of the graph screen, such as mouse-dragging events for rotate a graph, etc. */
 	public final ScreenHandler screenHandler;
@@ -199,7 +199,7 @@ public final class Presenter {
 		this.renderingLoop.start();
 
 		// Create a handler of events of the frame of the main window.
-		this.frameHandler = new FrameHandler(model, view, this);
+		this.windowHandler = new WindowHandler(model, view, this);
 
 		// Create a handler of events of the graph screen, handling mouse-dragging events for rotate a graph, etc.
 		this.screenHandler = new ScreenHandler(model, view, this);
@@ -238,7 +238,7 @@ public final class Presenter {
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
-		this.frameHandler.setEventHandlingEnabled(enabled);
+		this.windowHandler.setEventHandlingEnabled(enabled);
 		this.screenHandler.setEventHandlingEnabled(enabled);
 		this.menuHandler.setEventHandlingEnabled(enabled);
 		this.screenSideUIHandler.setEventHandlingEnabled(enabled);

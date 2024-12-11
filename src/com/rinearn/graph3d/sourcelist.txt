@@ -45,7 +45,6 @@ com/rinearn/graph3d/presenter/handler/CameraSettingHandler.java
 com/rinearn/graph3d/presenter/handler/DataArrayHandler.java
 com/rinearn/graph3d/presenter/handler/DataFileHandler.java
 com/rinearn/graph3d/presenter/handler/FontSettingHandler.java
-com/rinearn/graph3d/presenter/handler/FrameHandler.java
 com/rinearn/graph3d/presenter/handler/LabelSettingHandler.java
 com/rinearn/graph3d/presenter/handler/LightSettingHandler.java
 com/rinearn/graph3d/presenter/handler/MenuHandler.java
@@ -54,6 +53,7 @@ com/rinearn/graph3d/presenter/handler/RangeSettingHandler.java
 com/rinearn/graph3d/presenter/handler/ScaleSettingHandler.java
 com/rinearn/graph3d/presenter/handler/ScreenHandler.java
 com/rinearn/graph3d/presenter/handler/ScreenSideUIHandler.java
+com/rinearn/graph3d/presenter/handler/WindowHandler.java
 com/rinearn/graph3d/presenter/handler/ZxyMathHandler.java
 com/rinearn/graph3d/presenter/package-info.java
 com/rinearn/graph3d/presenter/plotter/LinePlotter.java
