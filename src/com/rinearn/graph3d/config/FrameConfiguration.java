@@ -205,6 +205,26 @@ public final class FrameConfiguration {
 		return this.zxUpperFrameConfiguration;
 	}
 
+	/**
+	 * Validates correctness and consistency of configuration parameters stored in this instance.
+	 *
+	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
+	 * If no issue is detected, nothing occurs.
+	 * If any issue is detected, throws IllegalStateException.
+	 *
+	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 */
+	public synchronized void validate() throws IllegalStateException {
+
+		// Validate each plane's configurations.
+		this.xyLowerFrameConfiguration.validate();
+		this.xyUpperFrameConfiguration.validate();
+		this.yzLowerFrameConfiguration.validate();
+		this.yzUpperFrameConfiguration.validate();
+		this.zxLowerFrameConfiguration.validate();
+		this.zxUpperFrameConfiguration.validate();
+	}
+
 
 	/**
 	 * The enum representing each image displaying mode on the frame of a plane.
@@ -341,6 +361,44 @@ public final class FrameConfiguration {
 		 */
 		public synchronized int getImageRasolutionConversionHeight() {
 			return this.imageResolutionConversionHeight;
+		}
+
+
+		/**
+		 * Validates correctness and consistency of configuration parameters stored in this instance.
+		 *
+		 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
+		 * If no issue is detected, nothing occurs.
+		 * If any issue is detected, throws IllegalStateException.
+		 *
+		 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+		 */
+		public synchronized void validate() throws IllegalStateException {
+
+			// Check the image file/instance depending the specified image mode.
+			if (this.imageMode == ImageMode.FILE) {
+				if (this.imageFile == null) {
+					throw new IllegalStateException("The image mode is set to FILE but the image file has not been set.");
+				}
+			} else if (this.imageMode == ImageMode.CUSTOM) {
+				if (this.imageFile == null) {
+					throw new IllegalStateException("The image mode is set to CUSTOM but the custom Image instance has not been set.");
+				}
+			}
+
+			// Check the resolution conversion size.
+			if (this.imageResolutionConversionWidth < 0) {
+				throw new IllegalStateException("The width of the resolution-conversion must be a positive value, excluding zero.");
+			}
+			if (this.imageResolutionConversionHeight < 0) {
+				throw new IllegalStateException("The height of the resolution-conversion must be a positive value, excluding zero.");
+			}
+			if (10000 < this.imageResolutionConversionWidth) {
+				throw new IllegalStateException("The width of the resolution-conversion is too large (must be <= 10000).");
+			}
+			if (10000 < this.imageResolutionConversionHeight) {
+				throw new IllegalStateException("The height of the resolution-conversion is too large (must be <= 10000).");
+			}
 		}
 	}
 
