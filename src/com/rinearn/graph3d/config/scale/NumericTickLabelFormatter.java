@@ -2,7 +2,6 @@ package com.rinearn.graph3d.config.scale;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 
 /**
@@ -11,19 +10,19 @@ import java.text.NumberFormat;
 public final class NumericTickLabelFormatter extends TickLabelFormatter {
 
 	/** The format of numeric tick labels, applied when |coordinate| = 0. */
-	private volatile NumberFormat zeroRangeFormat = new DecimalFormat("0");
+	private volatile DecimalFormat zeroRangeFormat = new DecimalFormat("0");
 	// Note: Why we don't declare the above as DecimalFormat-type field is,
 	//       some people may want to implement original format by extending NumberFormat.
 	//       (NumberFormat is an abstract class, and DecimalFormat is one of its implementation.)
 
 	/** The format of numeric tick labels, applied when |coordinate| < 0.1. */
-	private volatile NumberFormat shortRangeFormat = new DecimalFormat("0.0#E0");
+	private volatile DecimalFormat shortRangeFormat = new DecimalFormat("0.0#E0");
 
 	/** The format of numeric tick labels, applied when 0.1 <= |coordinate| <= 10. */
-	private volatile NumberFormat mediumRangeFormat = new DecimalFormat("0.0#");
+	private volatile DecimalFormat mediumRangeFormat = new DecimalFormat("#0.0#");
 
 	/** The format of numeric tick labels, applied when 10 < |coordinate|. */
-	private volatile NumberFormat longRangeFormat = new DecimalFormat("0.0#E0");
+	private volatile DecimalFormat longRangeFormat = new DecimalFormat("0.0#E0");
 
 	/** The threshold value between the 'short' range and the 'medium' range. */
 	private volatile BigDecimal shortMediumRangeThreshold = new BigDecimal("0.1");
@@ -44,7 +43,7 @@ public final class NumericTickLabelFormatter extends TickLabelFormatter {
 	 *
 	 * @param zeroRangeFormat The format for the coordinate zero (0).
 	 */
-	public void setZeroRangeFormat(NumberFormat zeroRangeFormat) {
+	public void setZeroRangeFormat(DecimalFormat zeroRangeFormat) {
 		this.zeroRangeFormat = zeroRangeFormat;
 	}
 
@@ -53,7 +52,7 @@ public final class NumericTickLabelFormatter extends TickLabelFormatter {
 	 *
 	 * @return The format for the coordinate zero (0).
 	 */
-	public NumberFormat getZeroRangeFormat() {
+	public DecimalFormat getZeroRangeFormat() {
 		return this.zeroRangeFormat;
 	}
 
@@ -63,7 +62,7 @@ public final class NumericTickLabelFormatter extends TickLabelFormatter {
 	 *
 	 * @param shortRangeFormat The format for coordinates in the short-range.
 	 */
-	public void setShorRangeFormat(NumberFormat shortRangeFormat) {
+	public void setShortRangeFormat(DecimalFormat shortRangeFormat) {
 		this.shortRangeFormat = shortRangeFormat;
 	}
 
@@ -72,7 +71,7 @@ public final class NumericTickLabelFormatter extends TickLabelFormatter {
 	 *
 	 * @return The format for coordinates in the short-range.
 	 */
-	public NumberFormat getShorRangeFormat() {
+	public DecimalFormat getShortRangeFormat() {
 		return this.shortRangeFormat;
 	}
 
@@ -82,7 +81,7 @@ public final class NumericTickLabelFormatter extends TickLabelFormatter {
 	 *
 	 * @param shortRangeFormat The format for coordinates in the medium-range.
 	 */
-	public void setMediumRangeFormat(NumberFormat mediumRangeFormat) {
+	public void setMediumRangeFormat(DecimalFormat mediumRangeFormat) {
 		this.mediumRangeFormat = mediumRangeFormat;
 	}
 
@@ -91,7 +90,7 @@ public final class NumericTickLabelFormatter extends TickLabelFormatter {
 	 *
 	 * @return The format for coordinates in the medium-range.
 	 */
-	public NumberFormat getMediumRangeFormat() {
+	public DecimalFormat getMediumRangeFormat() {
 		return this.mediumRangeFormat;
 	}
 
@@ -102,7 +101,7 @@ public final class NumericTickLabelFormatter extends TickLabelFormatter {
 	 *
 	 * @param longRangeFormat The format for coordinates in the long-range.
 	 */
-	public void setLongRangeFormat(NumberFormat longRangeFormat) {
+	public void setLongRangeFormat(DecimalFormat longRangeFormat) {
 		this.longRangeFormat = longRangeFormat;
 	}
 
@@ -111,7 +110,7 @@ public final class NumericTickLabelFormatter extends TickLabelFormatter {
 	 *
 	 * @return The format for coordinates in the long-range.
 	 */
-	public NumberFormat getLongRangeFormat() {
+	public DecimalFormat getLongRangeFormat() {
 		return this.longRangeFormat;
 	}
 
