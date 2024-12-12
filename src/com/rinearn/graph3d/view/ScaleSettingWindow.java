@@ -2,6 +2,7 @@ package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.FontConfiguration;
+import com.rinearn.graph3d.config.ScaleConfiguration;
 
 import java.awt.Container;
 import java.awt.Font;
@@ -392,43 +393,43 @@ public class ScaleSettingWindow {
 	 */
 	public class ImagesTabItems {
 
-		/** The label of the X-Y plane (Floor, Z-min side) section. */
-		public volatile JLabel xyFloorPlaneLabel;
+		/** The label of the X-Y plane (Lower, Z-min side) section. */
+		public volatile JLabel xyLowerPlaneLabel;
 
-		/** The container of the setting items of the X-Y plane (Floor, Z-min side) section. */
-		public volatile ImagesPlaneItems xyFloorPlaneItems;
+		/** The container of the setting items of the X-Y plane (Lower, Z-min side) section. */
+		public volatile ImagesPlaneItems xyLowerPlaneItems;
 
-		/** The label of the X-Y plane (Ceil, Z-max side) section. */
-		public volatile JLabel xyCeilPlaneLabel;
+		/** The label of the X-Y plane (Upper, Z-max side) section. */
+		public volatile JLabel xyUpperPlaneLabel;
 
-		/** The container of the setting items of the X-Y plane (Ceil, Z-max side) section. */
-		public volatile ImagesPlaneItems xyCeilPlaneItems;
-
-
-		/** The label of the Y-Z plane (Floor, X-min side) section. */
-		public volatile JLabel yzFloorPlaneLabel;
-
-		/** The container of the setting items of the Y-Z plane (Floor, X-min side) section. */
-		public volatile ImagesPlaneItems yzFloorPlaneItems;
-
-		/** The label of the Y-Z plane (Ceil, X-max side) section. */
-		public volatile JLabel yzCeilPlaneLabel;
-
-		/** The container of the setting items of the Y-Z plane (Ceil, X-max side) section. */
-		public volatile ImagesPlaneItems yzCeilPlaneItems;
+		/** The container of the setting items of the X-Y plane (Upper, Z-max side) section. */
+		public volatile ImagesPlaneItems xyUpperPlaneItems;
 
 
-		/** The label of the Z-X plane (Floor, Y-min side) section. */
-		public volatile JLabel zxFloorPlaneLabel;
+		/** The label of the Y-Z plane (Lower, X-min side) section. */
+		public volatile JLabel yzLowerPlaneLabel;
 
-		/** The container of the setting items of the Z-X plane (Floor, Y-min side) section. */
-		public volatile ImagesPlaneItems zxFloorPlaneItems;
+		/** The container of the setting items of the Y-Z plane (Lower, X-min side) section. */
+		public volatile ImagesPlaneItems yzLowerPlaneItems;
 
-		/** The label of the Z-X plane (Ceil, Y-max side) section. */
-		public volatile JLabel zxCeilPlaneLabel;
+		/** The label of the Y-Z plane (Upper, X-max side) section. */
+		public volatile JLabel yzUpperPlaneLabel;
 
-		/** The container of the setting items of the Z-X plane (Ceil, Y-max side) section. */
-		public volatile ImagesPlaneItems zxCeilPlaneItems;
+		/** The container of the setting items of the Y-Z plane (Upper, X-max side) section. */
+		public volatile ImagesPlaneItems yzUpperPlaneItems;
+
+
+		/** The label of the Z-X plane (Lower, Y-min side) section. */
+		public volatile JLabel zxLowerPlaneLabel;
+
+		/** The container of the setting items of the Z-X plane (Lower, Y-min side) section. */
+		public volatile ImagesPlaneItems zxLowerPlaneItems;
+
+		/** The label of the Z-X plane (Upper, Y-max side) section. */
+		public volatile JLabel zxUpperPlaneLabel;
+
+		/** The container of the setting items of the Z-X plane (Upper, Y-max side) section. */
+		public volatile ImagesPlaneItems zxUpperPlaneItems;
 
 		/** The checkbox to draw images only inside of the graph. **/
 		public volatile JCheckBox insideBox;
@@ -736,19 +737,19 @@ public class ScaleSettingWindow {
 
 			tabbedPane.setTitleAt(4, "画像");
 			{
-				imagesTabItems.xyFloorPlaneLabel.setText("- X-Y平面（床、Z最小側）-");
-				imagesTabItems.xyCeilPlaneLabel.setText("- X-Y平面（天井、Z最大側）-");
-				imagesTabItems.yzFloorPlaneLabel.setText("- Y-Z平面（X最小側）-");
-				imagesTabItems.yzCeilPlaneLabel.setText("- Y-Z平面（X最大側）-");
-				imagesTabItems.zxFloorPlaneLabel.setText("- Z-X平面（Y最小側）-");
-				imagesTabItems.zxCeilPlaneLabel.setText("- Z-X平面（Y最大側）-");
+				imagesTabItems.xyLowerPlaneLabel.setText("- X-Y平面（床面、Z最小側）-");
+				imagesTabItems.xyUpperPlaneLabel.setText("- X-Y平面（天井、Z最大側）-");
+				imagesTabItems.yzLowerPlaneLabel.setText("- Y-Z平面（X最小側）-");
+				imagesTabItems.yzUpperPlaneLabel.setText("- Y-Z平面（X最大側）-");
+				imagesTabItems.zxLowerPlaneLabel.setText("- Z-X平面（Y最小側）-");
+				imagesTabItems.zxUpperPlaneLabel.setText("- Z-X平面（Y最大側）-");
 
-				imagesTabItems.xyFloorPlaneItems.openFileButton.setText("開く");
-				imagesTabItems.xyCeilPlaneItems.openFileButton.setText("開く");
-				imagesTabItems.yzFloorPlaneItems.openFileButton.setText("開く");
-				imagesTabItems.yzCeilPlaneItems.openFileButton.setText("開く");
-				imagesTabItems.zxFloorPlaneItems.openFileButton.setText("開く");
-				imagesTabItems.zxCeilPlaneItems.openFileButton.setText("開く");
+				imagesTabItems.xyLowerPlaneItems.openFileButton.setText("開く");
+				imagesTabItems.xyUpperPlaneItems.openFileButton.setText("開く");
+				imagesTabItems.yzLowerPlaneItems.openFileButton.setText("開く");
+				imagesTabItems.yzUpperPlaneItems.openFileButton.setText("開く");
+				imagesTabItems.zxLowerPlaneItems.openFileButton.setText("開く");
+				imagesTabItems.zxUpperPlaneItems.openFileButton.setText("開く");
 
 				imagesTabItems.insideBox.setText("内側のみ表示");
 			}
@@ -845,19 +846,19 @@ public class ScaleSettingWindow {
 
 			tabbedPane.setTitleAt(4, "Images");
 			{
-				imagesTabItems.xyFloorPlaneLabel.setText("- X-Y Plane (Floor, Z-min side) -");
-				imagesTabItems.xyCeilPlaneLabel.setText("- X-Y Plane (Ceil, Z-max side) -");
-				imagesTabItems.yzFloorPlaneLabel.setText("- Y-Z Plane (X-min) -");
-				imagesTabItems.yzCeilPlaneLabel.setText("- Y-Z Plane (X-max) -");
-				imagesTabItems.zxFloorPlaneLabel.setText("- Z-X Plane (Y-min) -");
-				imagesTabItems.zxCeilPlaneLabel.setText("- Z-X Plane (Y-max) -");
+				imagesTabItems.xyLowerPlaneLabel.setText("- X-Y Plane (Lower, Z-min side) -");
+				imagesTabItems.xyUpperPlaneLabel.setText("- X-Y Plane (Upper, Z-max side) -");
+				imagesTabItems.yzLowerPlaneLabel.setText("- Y-Z Plane (X-min side) -");
+				imagesTabItems.yzUpperPlaneLabel.setText("- Y-Z Plane (X-max side) -");
+				imagesTabItems.zxLowerPlaneLabel.setText("- Z-X Plane (Y-min side) -");
+				imagesTabItems.zxUpperPlaneLabel.setText("- Z-X Plane (Y-max side) -");
 
-				imagesTabItems.xyFloorPlaneItems.openFileButton.setText("Open");
-				imagesTabItems.xyCeilPlaneItems.openFileButton.setText("Open");
-				imagesTabItems.yzFloorPlaneItems.openFileButton.setText("Open");
-				imagesTabItems.yzCeilPlaneItems.openFileButton.setText("Open");
-				imagesTabItems.zxFloorPlaneItems.openFileButton.setText("Open");
-				imagesTabItems.zxCeilPlaneItems.openFileButton.setText("Open");
+				imagesTabItems.xyLowerPlaneItems.openFileButton.setText("Open");
+				imagesTabItems.xyUpperPlaneItems.openFileButton.setText("Open");
+				imagesTabItems.yzLowerPlaneItems.openFileButton.setText("Open");
+				imagesTabItems.yzUpperPlaneItems.openFileButton.setText("Open");
+				imagesTabItems.zxLowerPlaneItems.openFileButton.setText("Open");
+				imagesTabItems.zxUpperPlaneItems.openFileButton.setText("Open");
 
 				imagesTabItems.insideBox.setText("Inside Only");
 			}
@@ -977,26 +978,26 @@ public class ScaleSettingWindow {
 			}
 
 			{
-				imagesTabItems.xyFloorPlaneLabel.setFont(uiBoldFont);
-				imagesTabItems.xyCeilPlaneLabel.setFont(uiBoldFont);
-				imagesTabItems.yzFloorPlaneLabel.setFont(uiBoldFont);
-				imagesTabItems.yzCeilPlaneLabel.setFont(uiBoldFont);
-				imagesTabItems.zxFloorPlaneLabel.setFont(uiBoldFont);
-				imagesTabItems.zxCeilPlaneLabel.setFont(uiBoldFont);
+				imagesTabItems.xyLowerPlaneLabel.setFont(uiBoldFont);
+				imagesTabItems.xyUpperPlaneLabel.setFont(uiBoldFont);
+				imagesTabItems.yzLowerPlaneLabel.setFont(uiBoldFont);
+				imagesTabItems.yzUpperPlaneLabel.setFont(uiBoldFont);
+				imagesTabItems.zxLowerPlaneLabel.setFont(uiBoldFont);
+				imagesTabItems.zxUpperPlaneLabel.setFont(uiBoldFont);
 
-				imagesTabItems.xyFloorPlaneItems.filePathField.setFont(uiPlainFont);
-				imagesTabItems.xyCeilPlaneItems.filePathField.setFont(uiPlainFont);
-				imagesTabItems.yzFloorPlaneItems.filePathField.setFont(uiPlainFont);
-				imagesTabItems.yzCeilPlaneItems.filePathField.setFont(uiPlainFont);
-				imagesTabItems.zxFloorPlaneItems.filePathField.setFont(uiPlainFont);
-				imagesTabItems.zxCeilPlaneItems.filePathField.setFont(uiPlainFont);
+				imagesTabItems.xyLowerPlaneItems.filePathField.setFont(uiPlainFont);
+				imagesTabItems.xyUpperPlaneItems.filePathField.setFont(uiPlainFont);
+				imagesTabItems.yzLowerPlaneItems.filePathField.setFont(uiPlainFont);
+				imagesTabItems.yzUpperPlaneItems.filePathField.setFont(uiPlainFont);
+				imagesTabItems.zxLowerPlaneItems.filePathField.setFont(uiPlainFont);
+				imagesTabItems.zxUpperPlaneItems.filePathField.setFont(uiPlainFont);
 
-				imagesTabItems.xyFloorPlaneItems.openFileButton.setFont(uiBoldFont);
-				imagesTabItems.xyCeilPlaneItems.openFileButton.setFont(uiBoldFont);
-				imagesTabItems.yzFloorPlaneItems.openFileButton.setFont(uiBoldFont);
-				imagesTabItems.yzCeilPlaneItems.openFileButton.setFont(uiBoldFont);
-				imagesTabItems.zxFloorPlaneItems.openFileButton.setFont(uiBoldFont);
-				imagesTabItems.zxCeilPlaneItems.openFileButton.setFont(uiBoldFont);
+				imagesTabItems.xyLowerPlaneItems.openFileButton.setFont(uiBoldFont);
+				imagesTabItems.xyUpperPlaneItems.openFileButton.setFont(uiBoldFont);
+				imagesTabItems.yzLowerPlaneItems.openFileButton.setFont(uiBoldFont);
+				imagesTabItems.yzUpperPlaneItems.openFileButton.setFont(uiBoldFont);
+				imagesTabItems.zxLowerPlaneItems.openFileButton.setFont(uiBoldFont);
+				imagesTabItems.zxUpperPlaneItems.openFileButton.setFont(uiBoldFont);
 
 				imagesTabItems.insideBox.setFont(uiBoldFont);
 			}
@@ -1008,7 +1009,23 @@ public class ScaleSettingWindow {
 		 * Updates the values of text fields, by the values stored in the configuration.
 		 */
 		private void updateValuesByConfiguration() {
+			ScaleConfiguration scaleConfig = this.configuration.getScaleConfiguration();
+			/*
+			RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+			RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+			RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 
+			xMaxField.setText(xRangeConfig.getMaximum().toString());
+			xMinField.setText(xRangeConfig.getMinimum().toString());
+			yMaxField.setText(yRangeConfig.getMaximum().toString());
+			yMinField.setText(yRangeConfig.getMinimum().toString());
+			zMaxField.setText(zRangeConfig.getMaximum().toString());
+			zMinField.setText(zRangeConfig.getMinimum().toString());
+
+			xAutoRangingBox.setSelected(xRangeConfig.isAutoRangingEnabled());
+			yAutoRangingBox.setSelected(yRangeConfig.isAutoRangingEnabled());
+			zAutoRangingBox.setSelected(zRangeConfig.isAutoRangingEnabled());
+			*/
 			// To be implemented
 
 			System.out.println("To be implemented: ScaleSettingWindow.ConfigurationReflector.updateValuesByConfiguration()");
@@ -2086,124 +2103,124 @@ public class ScaleSettingWindow {
 		double labelWeight = 1.0;
 		double panelWeight = 8.0;
 
-		// X-Y Plane (Floor, Z-min side)
+		// X-Y Plane (Lower, Z-min side)
 		{
 			constraints.gridy = 0;
 
 			// The title label of the section of this Plane.
-			imagesTabItems.xyFloorPlaneLabel = new JLabel("Unconfigured");
+			imagesTabItems.xyLowerPlaneLabel = new JLabel("Unconfigured");
 			constraints.weighty = labelWeight;
 			constraints.insets = new Insets(topMarginHead, leftMargin, bottomMargin, rightMargin);
-			layout.setConstraints(imagesTabItems.xyFloorPlaneLabel, constraints);
-			imagesTabPanel.add(imagesTabItems.xyFloorPlaneLabel);
+			layout.setConstraints(imagesTabItems.xyLowerPlaneLabel, constraints);
+			imagesTabPanel.add(imagesTabItems.xyLowerPlaneLabel);
 
 			constraints.gridy++;
 
 			// The panel on which the setting items for this Plane.
 			constraints.weighty = panelWeight;
 			constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMargin, rightMargin);
-			layout.setConstraints(imagesTabItems.xyFloorPlaneItems.panel, constraints);
-			imagesTabPanel.add(imagesTabItems.xyFloorPlaneItems.panel);
+			layout.setConstraints(imagesTabItems.xyLowerPlaneItems.panel, constraints);
+			imagesTabPanel.add(imagesTabItems.xyLowerPlaneItems.panel);
 		}
 
-		// X-Y Plane (Ceil, Z-max side)
+		// X-Y Plane (Upper, Z-max side)
 		{
 			constraints.gridy++;
 
 			// The title label of the section of this Plane.
-			imagesTabItems.xyCeilPlaneLabel = new JLabel("Unconfigured");
+			imagesTabItems.xyUpperPlaneLabel = new JLabel("Unconfigured");
 			constraints.weighty = labelWeight;
 			constraints.insets = new Insets(topMarginHead, leftMargin, bottomMargin, rightMargin);
-			layout.setConstraints(imagesTabItems.xyCeilPlaneLabel, constraints);
-			imagesTabPanel.add(imagesTabItems.xyCeilPlaneLabel);
+			layout.setConstraints(imagesTabItems.xyUpperPlaneLabel, constraints);
+			imagesTabPanel.add(imagesTabItems.xyUpperPlaneLabel);
 
 			constraints.gridy++;
 
 			// The panel on which the setting items for this Plane.
 			constraints.weighty = panelWeight;
 			constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMargin, rightMargin);
-			layout.setConstraints(imagesTabItems.xyCeilPlaneItems.panel, constraints);
-			imagesTabPanel.add(imagesTabItems.xyCeilPlaneItems.panel);
+			layout.setConstraints(imagesTabItems.xyUpperPlaneItems.panel, constraints);
+			imagesTabPanel.add(imagesTabItems.xyUpperPlaneItems.panel);
 		}
 
-		// Y-Z Plane (Floor, X-min side)
+		// Y-Z Plane (Lower, X-min side)
 		{
 			constraints.gridy++;
 
 			// The title label of the section of this Plane.
-			imagesTabItems.yzFloorPlaneLabel = new JLabel("Unconfigured");
+			imagesTabItems.yzLowerPlaneLabel = new JLabel("Unconfigured");
 			constraints.weighty = labelWeight;
 			constraints.insets = new Insets(topMarginHead, leftMargin, bottomMargin, rightMargin);
-			layout.setConstraints(imagesTabItems.yzFloorPlaneLabel, constraints);
-			imagesTabPanel.add(imagesTabItems.yzFloorPlaneLabel);
+			layout.setConstraints(imagesTabItems.yzLowerPlaneLabel, constraints);
+			imagesTabPanel.add(imagesTabItems.yzLowerPlaneLabel);
 
 			constraints.gridy++;
 
 			// The panel on which the setting items for this Plane.
 			constraints.weighty = panelWeight;
 			constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMargin, rightMargin);
-			layout.setConstraints(imagesTabItems.yzFloorPlaneItems.panel, constraints);
-			imagesTabPanel.add(imagesTabItems.yzFloorPlaneItems.panel);
+			layout.setConstraints(imagesTabItems.yzLowerPlaneItems.panel, constraints);
+			imagesTabPanel.add(imagesTabItems.yzLowerPlaneItems.panel);
 		}
 
-		// Y-Z Plane (Ceil, X-max side)
+		// Y-Z Plane (Upper, X-max side)
 		{
 			constraints.gridy++;
 
 			// The title label of the section of this Plane.
-			imagesTabItems.yzCeilPlaneLabel = new JLabel("Unconfigured");
+			imagesTabItems.yzUpperPlaneLabel = new JLabel("Unconfigured");
 			constraints.weighty = labelWeight;
 			constraints.insets = new Insets(topMarginHead, leftMargin, bottomMargin, rightMargin);
-			layout.setConstraints(imagesTabItems.yzCeilPlaneLabel, constraints);
-			imagesTabPanel.add(imagesTabItems.yzCeilPlaneLabel);
+			layout.setConstraints(imagesTabItems.yzUpperPlaneLabel, constraints);
+			imagesTabPanel.add(imagesTabItems.yzUpperPlaneLabel);
 
 			constraints.gridy++;
 
 			// The panel on which the setting items for this Plane.
 			constraints.weighty = panelWeight;
 			constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMargin, rightMargin);
-			layout.setConstraints(imagesTabItems.yzCeilPlaneItems.panel, constraints);
-			imagesTabPanel.add(imagesTabItems.yzCeilPlaneItems.panel);
+			layout.setConstraints(imagesTabItems.yzUpperPlaneItems.panel, constraints);
+			imagesTabPanel.add(imagesTabItems.yzUpperPlaneItems.panel);
 		}
 
-		// Z-X Plane (Floor, Y-min side)
+		// Z-X Plane (Lower, Y-min side)
 		{
 			constraints.gridy++;
 
 			// The title label of the section of this Plane.
 			constraints.weighty = labelWeight;
-			imagesTabItems.zxFloorPlaneLabel = new JLabel("Unconfigured");
+			imagesTabItems.zxLowerPlaneLabel = new JLabel("Unconfigured");
 			constraints.insets = new Insets(topMarginHead, leftMargin, bottomMargin, rightMargin);
-			layout.setConstraints(imagesTabItems.zxFloorPlaneLabel, constraints);
-			imagesTabPanel.add(imagesTabItems.zxFloorPlaneLabel);
+			layout.setConstraints(imagesTabItems.zxLowerPlaneLabel, constraints);
+			imagesTabPanel.add(imagesTabItems.zxLowerPlaneLabel);
 
 			constraints.gridy++;
 
 			// The panel on which the setting items for this Plane.
 			constraints.weighty = panelWeight;
 			constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMargin, rightMargin);
-			layout.setConstraints(imagesTabItems.zxFloorPlaneItems.panel, constraints);
-			imagesTabPanel.add(imagesTabItems.zxFloorPlaneItems.panel);
+			layout.setConstraints(imagesTabItems.zxLowerPlaneItems.panel, constraints);
+			imagesTabPanel.add(imagesTabItems.zxLowerPlaneItems.panel);
 		}
 
-		// Z-X Plane (Ceil, Y-max side)
+		// Z-X Plane (Upper, Y-max side)
 		{
 			constraints.gridy++;
 
 			// The title label of the section of this Plane.
-			imagesTabItems.zxCeilPlaneLabel = new JLabel("Unconfigured");
+			imagesTabItems.zxUpperPlaneLabel = new JLabel("Unconfigured");
 			constraints.weighty = labelWeight;
 			constraints.insets = new Insets(topMarginHead, leftMargin, bottomMargin, rightMargin);
-			layout.setConstraints(imagesTabItems.zxCeilPlaneLabel, constraints);
-			imagesTabPanel.add(imagesTabItems.zxCeilPlaneLabel);
+			layout.setConstraints(imagesTabItems.zxUpperPlaneLabel, constraints);
+			imagesTabPanel.add(imagesTabItems.zxUpperPlaneLabel);
 
 			constraints.gridy++;
 
 			// The panel on which the setting items for this Plane.
 			constraints.weighty = panelWeight;
 			constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMargin, rightMargin);
-			layout.setConstraints(imagesTabItems.zxCeilPlaneItems.panel, constraints);
-			imagesTabPanel.add(imagesTabItems.zxCeilPlaneItems.panel);
+			layout.setConstraints(imagesTabItems.zxUpperPlaneItems.panel, constraints);
+			imagesTabPanel.add(imagesTabItems.zxUpperPlaneItems.panel);
 		}
 
 		// The checkbox to draw images only inside of the graph.
@@ -2227,17 +2244,17 @@ public class ScaleSettingWindow {
 		for (int iplane=0; iplane<=5; iplane++) {
 			ImagesPlaneItems items = new ImagesPlaneItems();
 			if (iplane == 0) {
-				imagesTabItems.xyFloorPlaneItems = items;
+				imagesTabItems.xyLowerPlaneItems = items;
 			} else if (iplane == 1) {
-				imagesTabItems.xyCeilPlaneItems = items;
+				imagesTabItems.xyUpperPlaneItems = items;
 			} else if (iplane == 2) {
-				imagesTabItems.yzFloorPlaneItems = items;
+				imagesTabItems.yzLowerPlaneItems = items;
 			} else if (iplane == 3) {
-				imagesTabItems.yzCeilPlaneItems = items;
+				imagesTabItems.yzUpperPlaneItems = items;
 			} else if (iplane == 4) {
-				imagesTabItems.zxFloorPlaneItems = items;
+				imagesTabItems.zxLowerPlaneItems = items;
 			} else if (iplane == 5) {
-				imagesTabItems.zxCeilPlaneItems = items;
+				imagesTabItems.zxUpperPlaneItems = items;
 			}
 			items.panel = new JPanel();
 
