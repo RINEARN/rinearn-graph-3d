@@ -54,6 +54,9 @@ public final class FrameConfiguration {
 	/** Stores the mode of the graph frame. */
 	private volatile FrameMode frameMode = FrameMode.BOX;
 
+	/** The width of the frame lines. */
+	private volatile double lineWidth = 1.0;
+
 	/** The configuration of the lower (Z-min) side X-Y plane's frame. */
 	private volatile PlaneFrameConfiguration xyLowerFrameConfiguration = new PlaneFrameConfiguration();
 
@@ -89,6 +92,25 @@ public final class FrameConfiguration {
 	 */
 	public synchronized FrameMode getFrameMode() {
 		return this.frameMode;
+	}
+
+
+	/**
+	 * Sets the width of the frame lines.
+	 *
+	 * @param lineWidth The width of the frame lines.
+	 */
+	public synchronized void setLineWidth(double lineWidth) {
+		this.lineWidth = lineWidth;
+	}
+
+	/**
+	 * Gets the width of the frame lines.
+	 *
+	 * @return The width of the frame lines.
+	 */
+	public synchronized double getLineWidth() {
+		return this.lineWidth;
 	}
 
 
@@ -215,6 +237,9 @@ public final class FrameConfiguration {
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws IllegalStateException {
+		if (this.lineWidth < 0.0) {
+			throw new IllegalStateException("The width of the frame lines must be a positive value.");
+		}
 
 		// Validate each plane's configurations.
 		this.xyLowerFrameConfiguration.validate();

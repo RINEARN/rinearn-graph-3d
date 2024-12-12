@@ -92,6 +92,9 @@ public final class ScaleConfiguration {
 	/** The visibility of the tick lines and tick labels. */
 	private volatile boolean tickVisible;
 
+	/** The flag to set the direction of the ticks inward. */
+	private volatile boolean tickInward;
+
 	/** The configuration of X axis's scale. */
 	private volatile AxisScaleConfiguration xScaleConfiguration = new AxisScaleConfiguration();
 
@@ -147,6 +150,25 @@ public final class ScaleConfiguration {
 	 */
 	public synchronized boolean isTickVisible() {
 		return this.tickVisible;
+	}
+
+
+	/**
+	 * Sets the value of the flag to draw the ticks inward.
+	 *
+	 * @param tickInward Specify true to set the ticks inward.
+	 */
+	public synchronized void setTickInward(boolean tickInward) {
+		this.tickInward = tickInward;
+	}
+
+	/**
+	 * Gets the value of the flag to draw the ticks inward.
+	 *
+	 * @return Returns true if the ticks is set inward.
+	 */
+	public synchronized boolean isTickInward() {
+		return this.tickInward;
 	}
 
 
@@ -265,7 +287,10 @@ public final class ScaleConfiguration {
 	 */
 	public static enum TickLabelFormatterMode {
 
-		/** Formats the coordinates of the ticks into the numeric labels.  */
+		/** Formats the tick coordinates into the numeric labels in the default format.  */
+		AUTO,
+
+		/** Formats the tick coordinates into the numeric labels in the user-specified format.  */
 		NUMERIC,
 
 		/** Uses the custom formmatter implemented by users or third party developers. */
@@ -308,7 +333,10 @@ public final class ScaleConfiguration {
 		private volatile int calculationPrecision = 128;
 
 		/** The mode of the formatter, which formats tick coordinates to tick labels.  */
-		private volatile TickLabelFormatterMode tickLabelFormatterMode = TickLabelFormatterMode.NUMERIC;
+		private volatile TickLabelFormatterMode tickLabelFormatterMode = TickLabelFormatterMode.AUTO;
+
+		/** The formatter of tick labels, used in AUTO mode. */
+		private final NumericTickLabelFormatter autoTickLabelFormatter = new NumericTickLabelFormatter();
 
 		/** The formatter of tick labels, used in NUMERIC mode. */
 		private volatile NumericTickLabelFormatter numericTickLabelFormatter = new NumericTickLabelFormatter();
@@ -577,6 +605,9 @@ public final class ScaleConfiguration {
 		 */
 		public synchronized TickLabelFormatter getTickLabelFormatter() {
 			switch (this.tickLabelFormatterMode) {
+				case AUTO: {
+					return autoTickLabelFormatter;
+				}
 				case NUMERIC: {
 					return this.numericTickLabelFormatter;
 				}
