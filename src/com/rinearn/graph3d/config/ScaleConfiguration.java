@@ -336,7 +336,7 @@ public final class ScaleConfiguration {
 		private volatile TickLabelFormatterMode tickLabelFormatterMode = TickLabelFormatterMode.AUTO;
 
 		/** The formatter of tick labels, used in AUTO mode. */
-		private final NumericTickLabelFormatter autoTickLabelFormatter = new NumericTickLabelFormatter();
+		private final TickLabelFormatter autoTickLabelFormatter = new NumericTickLabelFormatter().createUnmodifiableClone();
 
 		/** The formatter of tick labels, used in NUMERIC mode. */
 		private volatile NumericTickLabelFormatter numericTickLabelFormatter = new NumericTickLabelFormatter();

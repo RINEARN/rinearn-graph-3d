@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 /**
  * The formatter of displayed values of numeric tick labels.
  */
-public final class NumericTickLabelFormatter extends TickLabelFormatter {
+public final class NumericTickLabelFormatter extends TickLabelFormatter implements Cloneable {
 
 	/** The format of numeric tick labels, applied when |coordinate| = 0. */
 	private volatile DecimalFormat zeroRangeFormat = new DecimalFormat("0");
@@ -30,11 +30,44 @@ public final class NumericTickLabelFormatter extends TickLabelFormatter {
 	/** The threshold value between the 'medium' range and the 'long' range. */
 	private volatile BigDecimal mediumLongRangeThreshold = BigDecimal.TEN;
 
+	/** The flag to create unmodifiable instance. */
+	private volatile boolean modifiable = true;
+
 
 	/**
 	 * Creates a new formatter for formatting tick coordinates into numeric tick labels.
 	 */
 	public NumericTickLabelFormatter() {
+	}
+
+
+	/**
+	 * Creates a clone of this instance;
+	 *
+	 * @return The clone of this instance.
+	 */
+	@Override
+	public Object clone() {
+		NumericTickLabelFormatter clonedInstance = new NumericTickLabelFormatter();
+		clonedInstance.zeroRangeFormat = this.zeroRangeFormat;
+		clonedInstance.shortRangeFormat = this.shortRangeFormat;
+		clonedInstance.mediumRangeFormat = this.mediumRangeFormat;
+		clonedInstance.longRangeFormat = this.longRangeFormat;
+		clonedInstance.shortMediumRangeThreshold = this.shortMediumRangeThreshold;
+		clonedInstance.mediumLongRangeThreshold = this.mediumLongRangeThreshold;
+		clonedInstance.modifiable = this.modifiable;
+		return clonedInstance;
+	}
+
+	/**
+	 * Creates an unmodifiable clone of this instance.
+	 *
+	 * @return The unmodifiable clone of this instance.
+	 */
+	public NumericTickLabelFormatter createUnmodifiableClone() {
+		NumericTickLabelFormatter clonedInstance = NumericTickLabelFormatter.class.cast(this.clone());
+		clonedInstance.modifiable = false;
+		return clonedInstance;
 	}
 
 
