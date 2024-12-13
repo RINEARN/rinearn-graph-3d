@@ -546,9 +546,9 @@ public final class ScaleConfiguration {
 		/**
 		 * Sets the ticker to generate ticks at the N-equal-division points of the range of the axis, used in EQUAL_DIVISION mode.
 		 *
-		 * @param equalDivisionTicker Sets the ticker for EQUAL_DIVISION mode.
+		 * @param equalDivisionTicker The ticker for EQUAL_DIVISION mode.
 		 */
-		public synchronized void setDividedSectionTicker(EqualDivisionTicker equalDivisionTicker) {
+		public synchronized void setEqualDivisionTicker(EqualDivisionTicker equalDivisionTicker) {
 			this.equalDivisionTicker = equalDivisionTicker;
 		}
 
@@ -557,7 +557,7 @@ public final class ScaleConfiguration {
 		 *
 		 * @return The ticker for EQUAL_DIVISION mode.
 		 */
-		public synchronized EqualDivisionTicker getDividedSectionTicker() {
+		public synchronized EqualDivisionTicker getEqualDivisionTicker() {
 			return this.equalDivisionTicker;
 		}
 
