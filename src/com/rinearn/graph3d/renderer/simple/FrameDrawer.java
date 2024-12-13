@@ -89,7 +89,7 @@ public final class FrameDrawer {
 		if (this.config == null) {
 			throw new IllegalArgumentException("This drawer instance has not been configured yet.");
 		}
-		switch (this.config.getFrameConfiguration().getFrameMode()) {
+		switch (this.config.getFrameConfiguration().getShapeMode()) {
 			case NONE : {
 				return;
 			}
@@ -98,7 +98,7 @@ public final class FrameDrawer {
 				return;
 			}
 			default : {
-				throw new RuntimeException("Unexpected frame mode: " + this.config.getFrameConfiguration().getFrameMode());
+				throw new RuntimeException("Unexpected frame mode: " + this.config.getFrameConfiguration().getShapeMode());
 			}
 		}
 	}

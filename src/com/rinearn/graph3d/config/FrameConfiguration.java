@@ -21,14 +21,10 @@ import java.awt.Image;
  */
 public final class FrameConfiguration {
 
-	// !!!!! NOTE
-	// FrameMode ってのはちょっと粒度が大きすぎるかも。FrameConfiguration っていう設定単位がある前提だと。FrameShapeMode とかの方がいいかな？
-	// -> むしろ FrameConfiguration 内なのでもう Frame は省略して ShapeMode でいい。カメラアングルも CameraConfiguration.AngleMode なので。
-
 	/**
-	 * The enum representing each mode of the graph frame.
+	 * The enum representing each shape mode of the graph frame.
 	 */
-	public static enum FrameMode {
+	public static enum ShapeMode {
 
 		/** Represents the mode drawing no frame. */
 		NONE,
@@ -51,8 +47,8 @@ public final class FrameConfiguration {
 	}
 
 
-	/** Stores the mode of the graph frame. */
-	private volatile FrameMode frameMode = FrameMode.BOX;
+	/** Stores the shape mode of the graph frame. */
+	private volatile ShapeMode shapeMode = ShapeMode.BOX;
 
 	/** The width of the frame lines. */
 	private volatile double lineWidth = 1.0;
@@ -77,21 +73,21 @@ public final class FrameConfiguration {
 
 
 	/**
-	 * Sets the mode of the graph frame.
+	 * Sets the shape mode of the graph frame.
 	 *
-	 * @param frameMode The mode of the graph frame.
+	 * @param shapeMode The shape mode of the graph frame.
 	 */
-	public synchronized void setFrameMode(FrameMode frameMode) {
-		this.frameMode = frameMode;
+	public synchronized void setShapeMode(ShapeMode frameMode) {
+		this.shapeMode = frameMode;
 	}
 
 	/**
-	 * Gets the mode of the graph frame.
+	 * Gets the shape mode of the graph frame.
 	 *
-	 * @return The mode of the graph frame.
+	 * @return The shape mode of the graph frame.
 	 */
-	public synchronized FrameMode getFrameMode() {
-		return this.frameMode;
+	public synchronized ShapeMode getShapeMode() {
+		return this.shapeMode;
 	}
 
 
