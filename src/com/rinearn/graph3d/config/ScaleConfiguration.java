@@ -280,6 +280,9 @@ public final class ScaleConfiguration {
 
 		/** Align scale ticks manually, and also specify arbitrary tick labels. */
 		MANUAL,
+
+		/** Uses the custom ticker implemented by users or third party developers. */
+		CUSTOM,
 	}
 
 	/**
@@ -349,6 +352,9 @@ public final class ScaleConfiguration {
 
 		/** The ticker to render the tick coordinates and the tick labels specified directly by the user, used in MANUAL mode. */
 		private volatile ManualTicker manualTicker = new ManualTicker();
+
+		/** The ticker implemented by users or third party developers, used in CUSTOM mode. */
+		private volatile Ticker customTicker = null;
 
 		/** The precision of the internal calculation of the scale's coordinates. */
 		private volatile int calculationPrecision = 128;
@@ -534,7 +540,10 @@ public final class ScaleConfiguration {
 					return this.equalDivisionTicker;
 				}
 				case MANUAL: {
-					return null; // To be impled
+					return this.manualTicker;
+				}
+				case CUSTOM: {
+					return this.customTicker;
 				}
 				default: {
 					throw new IllegalStateException("Unexpected ticker mode: " + this.tickerMode);
@@ -578,6 +587,25 @@ public final class ScaleConfiguration {
 		 */
 		public synchronized ManualTicker getManualTicker() {
 			return this.manualTicker;
+		}
+
+
+		/**
+		 * Sets the ticker implemented by users or third party developers, used in CUSTOM mode.
+		 *
+		 * @param manualTicker The ticker for CUSTOM mode.
+		 */
+		public synchronized void setCustomTicker(Ticker customTicker) {
+			this.customTicker = customTicker;
+		}
+
+		/**
+		 * Sets the ticker implemented by users or third party developers, used in CUSTOM mode.
+		 *
+		 * @return  The ticker for CUSTOM mode.
+		 */
+		public synchronized Ticker getCustomTicker() {
+			return this.customTicker;
 		}
 
 
@@ -707,8 +735,14 @@ public final class ScaleConfiguration {
 			this.manualTicker.validate();
 			this.equalDivisionTicker.validate();
 			this.numericTickLabelFormatter.validate();
+			if (this.tickerMode == TickerMode.CUSTOM) {
+				if (this.customTicker == null) {
+					throw new IllegalStateException("The custom ticker is null although the ticker mode is set to CUSTOM.");
+				}
+				this.customTickLabelFormatter.validate();
+			}
 			if (this.tickLabelFormatterMode == TickLabelFormatterMode.CUSTOM) {
-				if (this.tickLabelFormatterMode == null) {
+				if (this.customTickLabelFormatter == null) {
 					throw new IllegalStateException("The custom tick label formatter is null although the formatter mode is set to CUSTOM.");
 				}
 				this.customTickLabelFormatter.validate();
