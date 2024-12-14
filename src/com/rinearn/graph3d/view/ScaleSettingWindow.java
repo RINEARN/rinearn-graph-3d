@@ -3,6 +3,10 @@ package com.rinearn.graph3d.view;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.FontConfiguration;
 import com.rinearn.graph3d.config.ScaleConfiguration;
+import com.rinearn.graph3d.config.FrameConfiguration;
+import com.rinearn.graph3d.config.scale.NumericTickLabelFormatter;
+import com.rinearn.graph3d.config.scale.ManualTicker;
+import com.rinearn.graph3d.config.scale.EqualDivisionTicker;
 
 import java.awt.Container;
 import java.awt.Font;
@@ -21,6 +25,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.JCheckBox;
 
+import java.text.NumberFormat;
+import java.text.DecimalFormat;
+
+import java.math.BigDecimal;
+
 import java.lang.reflect.InvocationTargetException;
 
 
@@ -34,6 +43,49 @@ public class ScaleSettingWindow {
 
 	/** The default height [px] of this window. */
 	public static final int DEFAULT_WINDOW_HEIGHT = 680;
+
+	/** The displayed name of the TickerMode.MANUAL on UI in Japanese. */
+	private static final String TICKER_MODE_MANUAL_JA = "手動";
+
+	/** The displayed name of the TickerMode.MANUAL on UI in English. */
+	private static final String TICKER_MODE_MANUAL_EN = "MANUAL";
+
+	/** The displayed name of the TickerMode.EQUAL_DIVISION on UI in Japanese. */
+	private static final String TICKER_MODE_EQUAL_DIVISION_JA = "等分割";
+
+	/** The displayed name of the TickerMode.EQUAL_DIVISION on UI in English. */
+	private static final String TICKER_MODE_EQUAL_DIVISION_EN = "EQUAL_DIVISION";
+
+	/** The displayed name of the TickerMode.CUSTOM on UI in Japanese. */
+	private static final String TICKER_MODE_CUSTOM_JA = "カスタム";
+
+	/** The displayed name of the TickerMode.CUSTOM on UI in English. */
+	private static final String TICKER_MODE_CUSTOM_EN = "CUSTOM";
+
+	/** The displayed name of the ShapeMode.BOX on UI in Japanese. */
+	private static final String SHAPE_MODE_BOX_JA = "箱型";
+
+	/** The displayed name of the ShapeMode.BOX on UI in English. */
+	private static final String SHAPE_MODE_BOX_EN = "BOX";
+
+	/** The displayed name of the ShapeMode.BACKWALL on UI in Japanese. */
+	private static final String SHAPE_MODE_BACKWALL_JA = "背面のみ";
+
+	/** The displayed name of the ShapeMode.BACKWALL on UI in English. */
+	private static final String SHAPE_MODE_BACKWALL_EN = "BACKWALL";
+
+	/** The displayed name of the ShapeMode.FLOOR on UI in Japanese. */
+	private static final String SHAPE_MODE_FLOOR_JA = "床面のみ";
+
+	/** The displayed name of the ShapeMode.FLOOR on UI in Japanese. */
+	private static final String SHAPE_MODE_FLOOR_EN = "FLOOR";
+
+	/** The displayed name of the ShapeMode.NONE on UI in Japanese. */
+	private static final String SHAPE_MODE_NONE_JA = "なし";
+
+	/** The displayed name of the ShapeMode.NONE on UI in Japanese. */
+	private static final String SHAPE_MODE_NONE_EN = "NONE";
+
 
 	/** The frame of this window. */
 	public volatile JFrame frame;
@@ -82,10 +134,22 @@ public class ScaleSettingWindow {
 	public class DesignTabItems {
 
 		/** The label of the combo box to select the type of the outer frame. */
-		public volatile JLabel frameTypeLabel;
+		public volatile JLabel frameShapeModeLabel;
 
 		/** The combo box to select the type of the outer frame. */
-		public volatile JComboBox<String> frameTypeBox;
+		public volatile JComboBox<MultilingualItem> frameShapeModeBox;
+
+		/** The item of the frame shape box: BOX. */
+		public volatile MultilingualItem boxModeItem;
+
+		/** The item of the frame shape box: BACKWALL. */
+		public volatile MultilingualItem backwallModeItem;
+
+		/** The item of the frame shape box: FLOOR. */
+		public volatile MultilingualItem floorModeItem;
+
+		/** The item of the frame shape box: NONE. */
+		public volatile MultilingualItem noneModeItem;
 
 		/** The label of the text field of the line width of the outer frame. */
 		public volatile JLabel frameLineWidthLabel;
@@ -93,11 +157,11 @@ public class ScaleSettingWindow {
 		/** The text field of the line width of the outer frame. */
 		public volatile JTextField frameLineWidthField;
 
-		/** The label of the text field of the margin between tick lines and numbers. */
-		public volatile JLabel tickLineMarginLabel;
+		/** The label of the text field of the margin between tick lines and labels. */
+		public volatile JLabel tickLabelMarginLabel;
 
-		/** The text field of the margin between tick lines and numbers. */
-		public volatile JTextField tickLineMarginField;
+		/** The text field of the margin between tick lines and labels. */
+		public volatile JTextField tickLabelMarginField;
 
 		/** The label of the text field of the length of the tick lines. */
 		public volatile JLabel tickLineLengthLabel;
@@ -106,7 +170,7 @@ public class ScaleSettingWindow {
 		public volatile JTextField tickLineLengthField;
 
 		/** The check box of the option to draw the ticks towards inside of the outer frame. */
-		public volatile JCheckBox tickInsideBox;
+		public volatile JCheckBox tickInwardBox;
 	}
 
 
@@ -140,16 +204,52 @@ public class ScaleSettingWindow {
 		public volatile JLabel colorBarModeLabel;
 
 		/** The combo box to select the mode of X-ticks. */
-		public volatile JComboBox<String> xModeBox;
+		public volatile JComboBox<MultilingualItem> xModeBox;
 
 		/** The combo box to select the mode of Y-ticks. */
-		public volatile JComboBox<String> yModeBox;
+		public volatile JComboBox<MultilingualItem> yModeBox;
 
 		/** The combo box to select the mode of Z-ticks. */
-		public volatile JComboBox<String> zModeBox;
+		public volatile JComboBox<MultilingualItem> zModeBox;
 
 		/** The combo box to select the mode of color-bar-ticks. */
-		public volatile JComboBox<String> colorBarModeBox;
+		public volatile JComboBox<MultilingualItem> colorBarModeBox;
+
+		/** The item of the X-ticks mode box: EQUAL-DIVISION. */
+		public volatile MultilingualItem xEqualDivisionModeItem;
+
+		/** The item of the Y-ticks mode box: EQUAL-DIVISION. */
+		public volatile MultilingualItem yEqualDivisionModeItem;
+
+		/** The item of the Z-ticks mode box: EQUAL-DIVISION. */
+		public volatile MultilingualItem zEqualDivisionModeItem;
+
+		/** The item of the color-bar-ticks mode box: EQUAL-DIVISION. */
+		public volatile MultilingualItem colorBarEqualDivisionModeItem;
+
+		/** The item of the X-ticks mode box: MANUAL. */
+		public volatile MultilingualItem xManualModeItem;
+
+		/** The item of the Y-ticks mode box: MANUAL. */
+		public volatile MultilingualItem yManualModeItem;
+
+		/** The item of the Z-ticks mode box: MANUAL. */
+		public volatile MultilingualItem zManualModeItem;
+
+		/** The item of the color-bar-ticks mode box: MANUAL. */
+		public volatile MultilingualItem colorBarManualModeItem;
+
+		/** The item of the X-ticks mode box: CUSTOM. */
+		public volatile MultilingualItem xCustomModeItem;
+
+		/** The item of the Y-ticks mode box: CUSTOM. */
+		public volatile MultilingualItem yCustomModeItem;
+
+		/** The item of the Z-ticks mode box: CUSTOM. */
+		public volatile MultilingualItem zCustomModeItem;
+
+		/** The item of the color-bar-ticks mode box: CUSTOM. */
+		public volatile MultilingualItem colorBarCustomModeItem;
 
 		/** The panel on which xEqualDivisionPanel or xEqualDivisionItems is mounted (swappable). */
 		public volatile JPanel xSwappablePanel;
@@ -656,35 +756,53 @@ public class ScaleSettingWindow {
 
 			tabbedPane.setTitleAt(0, "デザイン");
 			{
-				designTabItems.frameTypeLabel.setText("フレーム:");
+				designTabItems.frameShapeModeLabel.setText("フレーム:");
+				{
+					designTabItems.boxModeItem.setText(SHAPE_MODE_BOX_JA);
+					designTabItems.backwallModeItem.setText(SHAPE_MODE_BACKWALL_JA);
+					designTabItems.floorModeItem.setText(SHAPE_MODE_FLOOR_JA);
+					designTabItems.noneModeItem.setText(SHAPE_MODE_NONE_JA);;
+				}
 				designTabItems.frameLineWidthLabel.setText("フレーム線の幅:");
-				designTabItems.tickLineMarginLabel.setText("目盛り数値の余白:");
+				designTabItems.tickLabelMarginLabel.setText("目盛り数値の余白:");
 				designTabItems.tickLineLengthLabel.setText("目盛り線の長さ:");
-				designTabItems.tickInsideBox.setText("内向きに描画");
+				designTabItems.tickInwardBox.setText("目盛りを内向きに描画");
 			}
 
 			tabbedPane.setTitleAt(1, "刻み");
 			{
 				ticksTabItems.xAxisLabel.setText("- X軸 -");
 				ticksTabItems.xModeLabel.setText("モード: ");
+				ticksTabItems.xEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_JA);
+				ticksTabItems.xManualModeItem.setText(TICKER_MODE_MANUAL_JA);
+				ticksTabItems.xCustomModeItem.setText(TICKER_MODE_CUSTOM_JA);
 				ticksTabItems.xEqualDivisionItems.divisionCountLabel.setText("区間の数: ");
 				ticksTabItems.xManualItems.coordinatesLabel.setText("位置: ");
 				ticksTabItems.xManualItems.labelsLabel.setText("表記: ");
 
 				ticksTabItems.yAxisLabel.setText("- Y軸 -");
 				ticksTabItems.yModeLabel.setText("モード: ");
+				ticksTabItems.yEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_JA);
+				ticksTabItems.yManualModeItem.setText(TICKER_MODE_MANUAL_JA);
+				ticksTabItems.yCustomModeItem.setText(TICKER_MODE_CUSTOM_JA);
 				ticksTabItems.yEqualDivisionItems.divisionCountLabel.setText("区間の数: ");
 				ticksTabItems.yManualItems.coordinatesLabel.setText("位置: ");
 				ticksTabItems.yManualItems.labelsLabel.setText("表記: ");
 
 				ticksTabItems.zAxisLabel.setText("- Z軸 -");
 				ticksTabItems.zModeLabel.setText("モード: ");
+				ticksTabItems.zEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_JA);
+				ticksTabItems.zManualModeItem.setText(TICKER_MODE_MANUAL_JA);
+				ticksTabItems.zCustomModeItem.setText(TICKER_MODE_CUSTOM_JA);
 				ticksTabItems.zEqualDivisionItems.divisionCountLabel.setText("区間の数: ");
 				ticksTabItems.zManualItems.coordinatesLabel.setText("位置: ");
 				ticksTabItems.zManualItems.labelsLabel.setText("表記: ");
 
 				ticksTabItems.colorBarLabel.setText("- カラーバー -");
 				ticksTabItems.colorBarModeLabel.setText("モード: ");
+				ticksTabItems.colorBarEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_JA);
+				ticksTabItems.colorBarManualModeItem.setText(TICKER_MODE_MANUAL_JA);
+				ticksTabItems.colorBarCustomModeItem.setText(TICKER_MODE_CUSTOM_JA);
 				ticksTabItems.colorBarEqualDivisionItems.divisionCountLabel.setText("区間の数: ");
 				ticksTabItems.colorBarManualItems.coordinatesLabel.setText("位置: ");
 				ticksTabItems.colorBarManualItems.labelsLabel.setText("表記: ");
@@ -765,35 +883,53 @@ public class ScaleSettingWindow {
 
 			tabbedPane.setTitleAt(0, "Design");
 			{
-				designTabItems.frameTypeLabel.setText("Frame:");
+				designTabItems.frameShapeModeLabel.setText("Frame:");
+				{
+					designTabItems.boxModeItem.setText(SHAPE_MODE_BOX_EN);
+					designTabItems.backwallModeItem.setText(SHAPE_MODE_BACKWALL_EN);
+					designTabItems.floorModeItem.setText(SHAPE_MODE_FLOOR_EN);
+					designTabItems.noneModeItem.setText(SHAPE_MODE_NONE_EN);;
+				}
 				designTabItems.frameLineWidthLabel.setText("Width of Frame Lines:");
-				designTabItems.tickLineMarginLabel.setText("Margin of Tick Lines:");
+				designTabItems.tickLabelMarginLabel.setText("Margin of Tick Lines:");
 				designTabItems.tickLineLengthLabel.setText("Length of Tick Lines:");
-				designTabItems.tickInsideBox.setText("Draw Inside");
+				designTabItems.tickInwardBox.setText("Draw Ticks Inward");
 			}
 
 			tabbedPane.setTitleAt(1, "Ticks");
 			{
 				ticksTabItems.xAxisLabel.setText("- X Axis -");
 				ticksTabItems.xModeLabel.setText("Mode: ");
+				ticksTabItems.xEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_EN);
+				ticksTabItems.xManualModeItem.setText(TICKER_MODE_MANUAL_EN);
+				ticksTabItems.xCustomModeItem.setText(TICKER_MODE_CUSTOM_EN);
 				ticksTabItems.xEqualDivisionItems.divisionCountLabel.setText("Number of Sections: ");
 				ticksTabItems.xManualItems.coordinatesLabel.setText("Coords: ");
 				ticksTabItems.xManualItems.labelsLabel.setText("Labels: ");
 
 				ticksTabItems.yAxisLabel.setText("- Y Axis -");
 				ticksTabItems.yModeLabel.setText("Mode: ");
+				ticksTabItems.yEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_EN);
+				ticksTabItems.yManualModeItem.setText(TICKER_MODE_MANUAL_EN);
+				ticksTabItems.yCustomModeItem.setText(TICKER_MODE_CUSTOM_EN);
 				ticksTabItems.yEqualDivisionItems.divisionCountLabel.setText("Number of Sections: ");
 				ticksTabItems.yManualItems.coordinatesLabel.setText("Coords: ");
 				ticksTabItems.yManualItems.labelsLabel.setText("Labels: ");
 
 				ticksTabItems.zAxisLabel.setText("- Z Axis -");
 				ticksTabItems.zModeLabel.setText("Mode: ");
+				ticksTabItems.zEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_EN);
+				ticksTabItems.zManualModeItem.setText(TICKER_MODE_MANUAL_EN);
+				ticksTabItems.zCustomModeItem.setText(TICKER_MODE_CUSTOM_EN);
 				ticksTabItems.zEqualDivisionItems.divisionCountLabel.setText("Number of Sections: ");
 				ticksTabItems.zManualItems.coordinatesLabel.setText("Coords: ");
 				ticksTabItems.zManualItems.labelsLabel.setText("Labels: ");
 
 				ticksTabItems.colorBarLabel.setText("- Color Bar -");
 				ticksTabItems.colorBarModeLabel.setText("Mode: ");
+				ticksTabItems.colorBarEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_EN);
+				ticksTabItems.colorBarManualModeItem.setText(TICKER_MODE_MANUAL_EN);
+				ticksTabItems.colorBarCustomModeItem.setText(TICKER_MODE_CUSTOM_EN);
 				ticksTabItems.colorBarEqualDivisionItems.divisionCountLabel.setText("Number of Sections: ");
 				ticksTabItems.colorBarManualItems.coordinatesLabel.setText("Coords: ");
 				ticksTabItems.colorBarManualItems.labelsLabel.setText("Labels: ");
@@ -877,14 +1013,14 @@ public class ScaleSettingWindow {
 			frame.setFont(uiBoldFont);
 
 			{
-				designTabItems.frameTypeLabel.setFont(uiBoldFont);
+				designTabItems.frameShapeModeLabel.setFont(uiBoldFont);
 				designTabItems.frameLineWidthLabel.setFont(uiBoldFont);
 				designTabItems.frameLineWidthField.setFont(uiPlainFont);
-				designTabItems.tickLineMarginLabel.setFont(uiBoldFont);
-				designTabItems.tickLineMarginField.setFont(uiPlainFont);
+				designTabItems.tickLabelMarginLabel.setFont(uiBoldFont);
+				designTabItems.tickLabelMarginField.setFont(uiPlainFont);
 				designTabItems.tickLineLengthLabel.setFont(uiBoldFont);
 				designTabItems.tickLineLengthField.setFont(uiPlainFont);
-				designTabItems.tickInsideBox.setFont(uiBoldFont);
+				designTabItems.tickInwardBox.setFont(uiBoldFont);
 			}
 
 			{
@@ -1010,25 +1146,239 @@ public class ScaleSettingWindow {
 		 */
 		private void updateValuesByConfiguration() {
 			ScaleConfiguration scaleConfig = this.configuration.getScaleConfiguration();
-			/*
-			RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
-			RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
-			RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
+			FrameConfiguration frameConfig = this.configuration.getFrameConfiguration();
+			ScaleConfiguration.AxisScaleConfiguration xScaleConfig = scaleConfig.getXScaleConfiguration();
+			ScaleConfiguration.AxisScaleConfiguration yScaleConfig = scaleConfig.getYScaleConfiguration();
+			ScaleConfiguration.AxisScaleConfiguration zScaleConfig = scaleConfig.getZScaleConfiguration();
+			ScaleConfiguration.AxisScaleConfiguration cScaleConfig = scaleConfig.getColorBarScaleConfiguration();
 
-			xMaxField.setText(xRangeConfig.getMaximum().toString());
-			xMinField.setText(xRangeConfig.getMinimum().toString());
-			yMaxField.setText(yRangeConfig.getMaximum().toString());
-			yMinField.setText(yRangeConfig.getMinimum().toString());
-			zMaxField.setText(zRangeConfig.getMaximum().toString());
-			zMinField.setText(zRangeConfig.getMinimum().toString());
+			// "Design" tab:
+			{
+				switch (frameConfig.getShapeMode()) {
+					case BOX : {
+						designTabItems.frameShapeModeBox.setSelectedItem(designTabItems.boxModeItem);
+						break;
+					}
+					case BACKWALL : {
+						designTabItems.frameShapeModeBox.setSelectedItem(designTabItems.backwallModeItem);
+						break;
+					}
+					case FLOOR : {
+						designTabItems.frameShapeModeBox.setSelectedItem(designTabItems.floorModeItem);
+						break;
+					}
+					case NONE : {
+						designTabItems.frameShapeModeBox.setSelectedItem(designTabItems.noneModeItem);
+						break;
+					}
+					default : {
+						throw new IllegalStateException("Unexpected frame shape mode: " + frameConfig.getShapeMode());
+					}
+				}
 
-			xAutoRangingBox.setSelected(xRangeConfig.isAutoRangingEnabled());
-			yAutoRangingBox.setSelected(yRangeConfig.isAutoRangingEnabled());
-			zAutoRangingBox.setSelected(zRangeConfig.isAutoRangingEnabled());
-			*/
-			// To be implemented
+				double frameLineWidth = frameConfig.getLineWidth();
+				designTabItems.frameLineWidthField.setText(Double.toString(frameLineWidth));
+
+				double scaleLabelMargin = scaleConfig.getXScaleConfiguration().getTickLabelMargin();
+				designTabItems.tickLabelMarginField.setText(Double.toString(scaleLabelMargin));
+
+				double scaleLineLength = scaleConfig.getXScaleConfiguration().getTickLineLength();
+				designTabItems.tickLineLengthField.setText(Double.toString(scaleLineLength));
+
+				boolean tickInward = scaleConfig.isTickInward();
+				designTabItems.tickInwardBox.setSelected(tickInward);
+			}
+
+			// "Ticks" tab:
+			{
+				ticksTabItems.xSwappablePanel.removeAll();
+				switch (xScaleConfig.getTickerMode()) {
+					case EQUAL_DIVISION : {
+						ticksTabItems.xModeBox.setSelectedItem(ticksTabItems.xEqualDivisionModeItem);
+						ticksTabItems.xSwappablePanel.add(ticksTabItems.xEqualDivisionItems.panel);
+						break;
+					}
+					case MANUAL : {
+						ticksTabItems.xModeBox.setSelectedItem(ticksTabItems.xManualModeItem);
+						ticksTabItems.xSwappablePanel.add(ticksTabItems.xManualItems.panel);
+						break;
+					}
+					case CUSTOM : {
+						ticksTabItems.xModeBox.setSelectedItem(ticksTabItems.xCustomModeItem);
+						break;
+					}
+					default : {
+						throw new IllegalStateException("Unexpected ticker mode (X): " + xScaleConfig.getTickerMode());
+					}
+				}
+
+				ticksTabItems.ySwappablePanel.removeAll();
+				switch (yScaleConfig.getTickerMode()) {
+					case EQUAL_DIVISION : {
+						ticksTabItems.yModeBox.setSelectedItem(ticksTabItems.yEqualDivisionModeItem);
+						ticksTabItems.ySwappablePanel.add(ticksTabItems.yEqualDivisionItems.panel);
+						break;
+					}
+					case MANUAL : {
+						ticksTabItems.yModeBox.setSelectedItem(ticksTabItems.yManualModeItem);
+						ticksTabItems.ySwappablePanel.add(ticksTabItems.yManualItems.panel);
+						break;
+					}
+					case CUSTOM : {
+						ticksTabItems.yModeBox.setSelectedItem(ticksTabItems.yCustomModeItem);
+						break;
+					}
+					default : {
+						throw new IllegalStateException("Unexpected ticker mode (Y): " + yScaleConfig.getTickerMode());
+					}
+				}
+
+				ticksTabItems.zSwappablePanel.removeAll();
+				switch (zScaleConfig.getTickerMode()) {
+					case EQUAL_DIVISION : {
+						ticksTabItems.zModeBox.setSelectedItem(ticksTabItems.zEqualDivisionModeItem);
+						ticksTabItems.zSwappablePanel.add(ticksTabItems.zEqualDivisionItems.panel);
+						break;
+					}
+					case MANUAL : {
+						ticksTabItems.zModeBox.setSelectedItem(ticksTabItems.zManualModeItem);
+						ticksTabItems.zSwappablePanel.add(ticksTabItems.zManualItems.panel);
+						break;
+					}
+					case CUSTOM : {
+						ticksTabItems.zModeBox.setSelectedItem(ticksTabItems.zCustomModeItem);
+						break;
+					}
+					default : {
+						throw new IllegalStateException("Unexpected ticker mode (Z): " + zScaleConfig.getTickerMode());
+					}
+				}
+
+				ticksTabItems.colorBarSwappablePanel.removeAll();
+				switch (cScaleConfig.getTickerMode()) {
+					case EQUAL_DIVISION : {
+						ticksTabItems.colorBarModeBox.setSelectedItem(ticksTabItems.colorBarEqualDivisionModeItem);
+						ticksTabItems.colorBarSwappablePanel.add(ticksTabItems.colorBarEqualDivisionItems.panel);
+						break;
+					}
+					case MANUAL : {
+						ticksTabItems.colorBarModeBox.setSelectedItem(ticksTabItems.colorBarManualModeItem);
+						ticksTabItems.colorBarSwappablePanel.add(ticksTabItems.colorBarManualItems.panel);
+						break;
+					}
+					case CUSTOM : {
+						ticksTabItems.colorBarModeBox.setSelectedItem(ticksTabItems.colorBarCustomModeItem);
+						break;
+					}
+					default : {
+						throw new IllegalStateException("Unexpected ticker mode (Color-bar): " + cScaleConfig.getTickerMode());
+					}
+				}
+
+				EqualDivisionTicker xEqualDivisionTicker = xScaleConfig.getEqualDivisionTicker();
+				EqualDivisionTicker yEqualDivisionTicker = yScaleConfig.getEqualDivisionTicker();
+				EqualDivisionTicker zEqualDivisionTicker = zScaleConfig.getEqualDivisionTicker();
+				EqualDivisionTicker cEqualDivisionTicker = cScaleConfig.getEqualDivisionTicker();
+
+				ticksTabItems.xEqualDivisionItems.divisionCountField.setText(Integer.toString(xEqualDivisionTicker.getDividedSectionCount()));
+				ticksTabItems.yEqualDivisionItems.divisionCountField.setText(Integer.toString(yEqualDivisionTicker.getDividedSectionCount()));
+				ticksTabItems.zEqualDivisionItems.divisionCountField.setText(Integer.toString(zEqualDivisionTicker.getDividedSectionCount()));
+				ticksTabItems.colorBarEqualDivisionItems.divisionCountField.setText(Integer.toString(cEqualDivisionTicker.getDividedSectionCount()));
+
+				ManualTicker xManualTicker = xScaleConfig.getManualTicker();
+				ManualTicker yManualTicker = yScaleConfig.getManualTicker();
+				ManualTicker zManualTicker = zScaleConfig.getManualTicker();
+				ManualTicker cManualTicker = cScaleConfig.getManualTicker();
+
+				ticksTabItems.xManualItems.coordinatesField.setText(this.tickCoordinatesToUIText(xManualTicker.getTickCoordinates()));
+				ticksTabItems.yManualItems.coordinatesField.setText(this.tickCoordinatesToUIText(yManualTicker.getTickCoordinates()));
+				ticksTabItems.zManualItems.coordinatesField.setText(this.tickCoordinatesToUIText(zManualTicker.getTickCoordinates()));
+				ticksTabItems.colorBarManualItems.coordinatesField.setText(this.tickCoordinatesToUIText(cManualTicker.getTickCoordinates()));
+
+				ticksTabItems.xManualItems.labelsField.setText(this.tickLabelsToUIText(xManualTicker.getTickLabels()));
+				ticksTabItems.yManualItems.labelsField.setText(this.tickLabelsToUIText(yManualTicker.getTickLabels()));
+				ticksTabItems.zManualItems.labelsField.setText(this.tickLabelsToUIText(zManualTicker.getTickLabels()));
+				ticksTabItems.colorBarManualItems.labelsField.setText(this.tickLabelsToUIText(cManualTicker.getTickLabels()));
+			}
+
+			// "Formats" tab:
+			{
+				ScaleConfiguration.TickLabelFormatterMode xFormatterMode = xScaleConfig.getTickLabelFormatterMode();
+				ScaleConfiguration.TickLabelFormatterMode yFormatterMode = yScaleConfig.getTickLabelFormatterMode();
+				ScaleConfiguration.TickLabelFormatterMode zFormatterMode = zScaleConfig.getTickLabelFormatterMode();
+				formatsTabItems.xAutoBox.setSelected(xFormatterMode == ScaleConfiguration.TickLabelFormatterMode.AUTO);
+				formatsTabItems.yAutoBox.setSelected(yFormatterMode == ScaleConfiguration.TickLabelFormatterMode.AUTO);
+				formatsTabItems.zAutoBox.setSelected(zFormatterMode == ScaleConfiguration.TickLabelFormatterMode.AUTO);
+
+				NumericTickLabelFormatter xFormatter = xScaleConfig.getNumericTickLabelFormatter();
+				NumberFormat xShortRangeFormat = xFormatter.getShortRangeFormat();
+				NumberFormat xMediumRangeFormat = xFormatter.getMediumRangeFormat();
+				NumberFormat xLongRangeFormat = xFormatter.getLongRangeFormat();
+				formatsTabItems.xShortFormatField.setText(DecimalFormat.class.cast(xShortRangeFormat).toPattern());
+				formatsTabItems.xMediumFormatField.setText(DecimalFormat.class.cast(xMediumRangeFormat).toPattern());
+				formatsTabItems.xLongFormatField.setText(DecimalFormat.class.cast(xLongRangeFormat).toPattern());
+
+				NumericTickLabelFormatter yFormatter = yScaleConfig.getNumericTickLabelFormatter();
+				NumberFormat yShortRangeFormat = yFormatter.getShortRangeFormat();
+				NumberFormat yMediumRangeFormat = yFormatter.getMediumRangeFormat();
+				NumberFormat yLongRangeFormat = yFormatter.getLongRangeFormat();
+				formatsTabItems.yShortFormatField.setText(DecimalFormat.class.cast(yShortRangeFormat).toPattern());
+				formatsTabItems.yMediumFormatField.setText(DecimalFormat.class.cast(yMediumRangeFormat).toPattern());
+				formatsTabItems.yLongFormatField.setText(DecimalFormat.class.cast(yLongRangeFormat).toPattern());
+
+				NumericTickLabelFormatter zFormatter = zScaleConfig.getNumericTickLabelFormatter();
+				NumberFormat zShortRangeFormat = zFormatter.getShortRangeFormat();
+				NumberFormat zMediumRangeFormat = zFormatter.getMediumRangeFormat();
+				NumberFormat zLongRangeFormat = zFormatter.getLongRangeFormat();
+				formatsTabItems.zShortFormatField.setText(DecimalFormat.class.cast(zShortRangeFormat).toPattern());
+				formatsTabItems.zMediumFormatField.setText(DecimalFormat.class.cast(zMediumRangeFormat).toPattern());
+				formatsTabItems.zLongFormatField.setText(DecimalFormat.class.cast(zLongRangeFormat).toPattern());
+			}
 
 			System.out.println("To be implemented: ScaleSettingWindow.ConfigurationReflector.updateValuesByConfiguration()");
+		}
+
+		/**
+		 * Converts the array storing the tick coordinates to a text value to be set to UI.
+		 *
+		 * @param tickCoords The array storing the tick coordinates.
+		 * @return A text value to be set to UI.
+		 */
+		private String tickCoordinatesToUIText(BigDecimal[] tickCoordinates) {
+			int tickCount = tickCoordinates.length;
+			StringBuilder uiTextBuilder = new StringBuilder();
+			for (int itick=0; itick<tickCount; itick++) {
+
+				// Append the tick coordinate to the UI text, and also append a comma (,) as the delimiter between values.
+				uiTextBuilder.append(tickCoordinates[itick].toString());
+				if (itick != tickCount - 1) {
+					uiTextBuilder.append(", ");
+				}
+			}
+			return uiTextBuilder.toString();
+		}
+
+		/**
+		 * Converts the array storing the tick labels to a text value to be set to UI.
+		 *
+		 * @param tickLabels The array storing the tick labels.
+		 * @return A text value to be set to UI.
+		 */
+		private String tickLabelsToUIText(String[] tickLabels) {
+			int tickCount = tickLabels.length;
+			StringBuilder uiTextBuilder = new StringBuilder();
+			for (int itick=0; itick<tickCount; itick++) {
+
+				// If the tick label contains comma (,) characters, escape them.
+				String escapedLabel = tickLabels[itick].contains(",") ? tickLabels[itick].replaceAll(",", "\\,") : tickLabels[itick];
+
+				// Append the escaped tick label to the UI text, and also append a comma (,) as the delimiter between values.
+				uiTextBuilder.append(escapedLabel);
+				if (itick != tickCount - 1) {
+					uiTextBuilder.append(", ");
+				}
+			}
+			return uiTextBuilder.toString();
 		}
 	}
 
@@ -1147,19 +1497,28 @@ public class ScaleSettingWindow {
 		int bottomMarginOfEnd = 210;
 
 		// The label of the combo box to select the type of the outer frame.
-		designTabItems.frameTypeLabel = new JLabel("Unconfigured");
+		designTabItems.frameShapeModeLabel = new JLabel("Unconfigured");
 		constraints.gridy = 0;
 		constraints.insets = new Insets(topMargin, leftMargin, bottomMarginBetweenLabelAndField, rightMargin);
-		layout.setConstraints(designTabItems.frameTypeLabel, constraints);
-		designTabPanel.add(designTabItems.frameTypeLabel);
+		layout.setConstraints(designTabItems.frameShapeModeLabel, constraints);
+		designTabPanel.add(designTabItems.frameShapeModeLabel);
 
 		// The combo box to select the type of the outer frame.
-		designTabItems.frameTypeBox = new JComboBox<String>();
+		designTabItems.frameShapeModeBox = new JComboBox<MultilingualItem>();
 		constraints.gridy++;
 		constraints.insets = new Insets(topMarginBetweenLabelAndField, leftMarginLong, bottomMargin, rightMargin);
-		layout.setConstraints(designTabItems.frameTypeBox, constraints);
-		designTabPanel.add(designTabItems.frameTypeBox);
-
+		layout.setConstraints(designTabItems.frameShapeModeBox, constraints);
+		designTabPanel.add(designTabItems.frameShapeModeBox);
+		{
+			designTabItems.boxModeItem = new MultilingualItem();
+			designTabItems.frameShapeModeBox.addItem(designTabItems.boxModeItem);
+			designTabItems.backwallModeItem = new MultilingualItem();
+			designTabItems.frameShapeModeBox.addItem(designTabItems.backwallModeItem);
+			designTabItems.floorModeItem = new MultilingualItem();
+			designTabItems.frameShapeModeBox.addItem(designTabItems.floorModeItem);
+			designTabItems.noneModeItem = new MultilingualItem();
+			designTabItems.frameShapeModeBox.addItem(designTabItems.noneModeItem);
+		}
 
 		// The label of the text field of the line width of the outer frame.
 		designTabItems.frameLineWidthLabel = new JLabel("Unconfigured");
@@ -1176,19 +1535,19 @@ public class ScaleSettingWindow {
 		designTabPanel.add(designTabItems.frameLineWidthField);
 
 
-		// The label of the text field of the margin between tick lines and numbers.
-		designTabItems.tickLineMarginLabel = new JLabel("Unconfigured");
+		// The label of the text field of the margin between tick lines and labels.
+		designTabItems.tickLabelMarginLabel = new JLabel("Unconfigured");
 		constraints.gridy++;
 		constraints.insets = new Insets(topMargin, leftMargin, bottomMarginBetweenLabelAndField, rightMargin);
-		layout.setConstraints(designTabItems.tickLineMarginLabel, constraints);
-		designTabPanel.add(designTabItems.tickLineMarginLabel);
+		layout.setConstraints(designTabItems.tickLabelMarginLabel, constraints);
+		designTabPanel.add(designTabItems.tickLabelMarginLabel);
 
-		// The text field of the margin between tick lines and numbers.
-		designTabItems.tickLineMarginField = new JTextField();
+		// The text field of the margin between tick lines and labels.
+		designTabItems.tickLabelMarginField = new JTextField();
 		constraints.gridy++;
 		constraints.insets = new Insets(topMarginBetweenLabelAndField, leftMarginLong, bottomMargin, rightMargin);
-		layout.setConstraints(designTabItems.tickLineMarginField, constraints);
-		designTabPanel.add(designTabItems.tickLineMarginField);
+		layout.setConstraints(designTabItems.tickLabelMarginField, constraints);
+		designTabPanel.add(designTabItems.tickLabelMarginField);
 
 
 		// The label of the text field of the length of the tick lines.
@@ -1207,11 +1566,11 @@ public class ScaleSettingWindow {
 
 
 		// The check box of the option to draw the ticks towards inside of the outer frame.
-		designTabItems.tickInsideBox = new JCheckBox("Unconfigured");
+		designTabItems.tickInwardBox = new JCheckBox("Unconfigured");
 		constraints.gridy++;
 		constraints.insets = new Insets(topMargin, leftMargin, bottomMarginOfEnd, rightMargin);
-		layout.setConstraints(designTabItems.tickInsideBox, constraints);
-		designTabPanel.add(designTabItems.tickInsideBox);
+		layout.setConstraints(designTabItems.tickInwardBox, constraints);
+		designTabPanel.add(designTabItems.tickInwardBox);
 	}
 
 
@@ -1269,12 +1628,20 @@ public class ScaleSettingWindow {
 			ticksTabPanel.add(ticksTabItems.xModeLabel);
 
 			// The label of the combo box to select the tick mode.
-			ticksTabItems.xModeBox = new JComboBox<String>();
+			ticksTabItems.xModeBox = new JComboBox<MultilingualItem>();
 			constraints.gridx++;
 			constraints.weightx = rightColumnWeight;
 			constraints.insets = new Insets(topMarginInSection, 0, bottomMarginInSection, rightMargin);
 			layout.setConstraints(ticksTabItems.xModeBox, constraints);
 			ticksTabPanel.add(ticksTabItems.xModeBox);
+			{
+				ticksTabItems.xEqualDivisionModeItem = new MultilingualItem();
+				ticksTabItems.xModeBox.addItem(ticksTabItems.xEqualDivisionModeItem);
+				ticksTabItems.xManualModeItem = new MultilingualItem();
+				ticksTabItems.xModeBox.addItem(ticksTabItems.xManualModeItem);
+				ticksTabItems.xCustomModeItem = new MultilingualItem();
+				ticksTabItems.xModeBox.addItem(ticksTabItems.xCustomModeItem);
+			}
 
 			constraints.gridy++;
 			constraints.gridx = 0;
@@ -1315,12 +1682,20 @@ public class ScaleSettingWindow {
 			ticksTabPanel.add(ticksTabItems.yModeLabel);
 
 			// The label of the combo box to select the tick mode.
-			ticksTabItems.yModeBox = new JComboBox<String>();
+			ticksTabItems.yModeBox = new JComboBox<MultilingualItem>();
 			constraints.gridx++;
 			constraints.weightx = rightColumnWeight;
 			constraints.insets = new Insets(topMarginInSection, 0, bottomMarginInSection, rightMargin);
 			layout.setConstraints(ticksTabItems.yModeBox, constraints);
 			ticksTabPanel.add(ticksTabItems.yModeBox);
+			{
+				ticksTabItems.yEqualDivisionModeItem = new MultilingualItem();
+				ticksTabItems.yModeBox.addItem(ticksTabItems.yEqualDivisionModeItem);
+				ticksTabItems.yManualModeItem = new MultilingualItem();
+				ticksTabItems.yModeBox.addItem(ticksTabItems.yManualModeItem);
+				ticksTabItems.yCustomModeItem = new MultilingualItem();
+				ticksTabItems.yModeBox.addItem(ticksTabItems.yCustomModeItem);
+			}
 
 			constraints.gridy++;
 			constraints.gridx = 0;
@@ -1361,12 +1736,20 @@ public class ScaleSettingWindow {
 			ticksTabPanel.add(ticksTabItems.zModeLabel);
 
 			// The label of the combo box to select the tick mode.
-			ticksTabItems.zModeBox = new JComboBox<String>();
+			ticksTabItems.zModeBox = new JComboBox<MultilingualItem>();
 			constraints.gridx++;
 			constraints.weightx = rightColumnWeight;
 			constraints.insets = new Insets(topMarginInSection, 0, bottomMarginInSection, rightMargin);
 			layout.setConstraints(ticksTabItems.zModeBox, constraints);
 			ticksTabPanel.add(ticksTabItems.zModeBox);
+			{
+				ticksTabItems.zEqualDivisionModeItem = new MultilingualItem();
+				ticksTabItems.zModeBox.addItem(ticksTabItems.zEqualDivisionModeItem);
+				ticksTabItems.zManualModeItem = new MultilingualItem();
+				ticksTabItems.zModeBox.addItem(ticksTabItems.zManualModeItem);
+				ticksTabItems.zCustomModeItem = new MultilingualItem();
+				ticksTabItems.zModeBox.addItem(ticksTabItems.zCustomModeItem);
+			}
 
 			constraints.gridy++;
 			constraints.gridx = 0;
@@ -1407,12 +1790,20 @@ public class ScaleSettingWindow {
 			ticksTabPanel.add(ticksTabItems.colorBarModeLabel);
 
 			// The label of the combo box to select the tick mode.
-			ticksTabItems.colorBarModeBox = new JComboBox<String>();
+			ticksTabItems.colorBarModeBox = new JComboBox<MultilingualItem>();
 			constraints.gridx++;
 			constraints.weightx = rightColumnWeight;
 			constraints.insets = new Insets(topMarginInSection, 0, bottomMarginInSection, rightMargin);
 			layout.setConstraints(ticksTabItems.colorBarModeBox, constraints);
 			ticksTabPanel.add(ticksTabItems.colorBarModeBox);
+			{
+				ticksTabItems.colorBarEqualDivisionModeItem = new MultilingualItem();
+				ticksTabItems.colorBarModeBox.addItem(ticksTabItems.colorBarEqualDivisionModeItem);
+				ticksTabItems.colorBarManualModeItem = new MultilingualItem();
+				ticksTabItems.colorBarModeBox.addItem(ticksTabItems.colorBarManualModeItem);
+				ticksTabItems.colorBarCustomModeItem = new MultilingualItem();
+				ticksTabItems.colorBarModeBox.addItem(ticksTabItems.colorBarCustomModeItem);
+			}
 
 			constraints.gridy++;
 			constraints.gridx = 0;
