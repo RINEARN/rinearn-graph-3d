@@ -28,6 +28,7 @@ import javax.swing.JCheckBox;
 import java.text.NumberFormat;
 import java.text.DecimalFormat;
 
+import java.io.File;
 import java.math.BigDecimal;
 
 import java.lang.reflect.InvocationTargetException;
@@ -1335,6 +1336,45 @@ public class ScaleSettingWindow {
 				formatsTabItems.zLongFormatField.setText(DecimalFormat.class.cast(zLongRangeFormat).toPattern());
 			}
 
+			// "Images" tab:
+			{
+				FrameConfiguration.PlaneFrameConfiguration xyLowerFrameConfig = frameConfig.getXyLowerFrameConfiguration();
+				FrameConfiguration.PlaneFrameConfiguration xyUpperFrameConfig = frameConfig.getXyUpperFrameConfiguration();
+				FrameConfiguration.PlaneFrameConfiguration yzLowerFrameConfig = frameConfig.getYzLowerFrameConfiguration();
+				FrameConfiguration.PlaneFrameConfiguration yzUpperFrameConfig = frameConfig.getYzUpperFrameConfiguration();
+				FrameConfiguration.PlaneFrameConfiguration zxLowerFrameConfig = frameConfig.getZxLowerFrameConfiguration();
+				FrameConfiguration.PlaneFrameConfiguration zxUpperFrameConfig = frameConfig.getZxUpperFrameConfiguration();
+
+				File xyLowerImageFile = xyLowerFrameConfig.getImageFile();
+				File xyUpperImageFile = xyUpperFrameConfig.getImageFile();
+				File yzLowerImageFile = yzLowerFrameConfig.getImageFile();
+				File yzUpperImageFile = yzUpperFrameConfig.getImageFile();
+				File zxLowerImageFile = zxLowerFrameConfig.getImageFile();
+				File zxUpperImageFile = zxUpperFrameConfig.getImageFile();
+
+				imagesTabItems.xyLowerPlaneItems.filePathField.setText(xyLowerImageFile == null ? "" : xyLowerImageFile.getPath());
+				imagesTabItems.xyUpperPlaneItems.filePathField.setText(xyUpperImageFile == null ? "" : xyUpperImageFile.getPath());
+				imagesTabItems.yzLowerPlaneItems.filePathField.setText(yzLowerImageFile == null ? "" : yzLowerImageFile.getPath());
+				imagesTabItems.yzUpperPlaneItems.filePathField.setText(yzUpperImageFile == null ? "" : yzUpperImageFile.getPath());
+				imagesTabItems.zxLowerPlaneItems.filePathField.setText(zxLowerImageFile == null ? "" : zxLowerImageFile.getPath());
+				imagesTabItems.zxUpperPlaneItems.filePathField.setText(zxUpperImageFile == null ? "" : zxUpperImageFile.getPath());
+
+				imagesTabItems.xyLowerPlaneItems.imageWidthField.setText(Integer.toString(xyLowerFrameConfig.getImageResolutionConversionWidth()));
+				imagesTabItems.xyUpperPlaneItems.imageWidthField.setText(Integer.toString(xyUpperFrameConfig.getImageResolutionConversionWidth()));
+				imagesTabItems.yzLowerPlaneItems.imageWidthField.setText(Integer.toString(yzLowerFrameConfig.getImageResolutionConversionWidth()));
+				imagesTabItems.yzUpperPlaneItems.imageWidthField.setText(Integer.toString(yzUpperFrameConfig.getImageResolutionConversionWidth()));
+				imagesTabItems.zxLowerPlaneItems.imageWidthField.setText(Integer.toString(zxLowerFrameConfig.getImageResolutionConversionWidth()));
+				imagesTabItems.zxUpperPlaneItems.imageWidthField.setText(Integer.toString(zxUpperFrameConfig.getImageResolutionConversionWidth()));
+
+				imagesTabItems.xyLowerPlaneItems.imageHeightField.setText(Integer.toString(xyLowerFrameConfig.getImageResolutionConversionHeight()));
+				imagesTabItems.xyUpperPlaneItems.imageHeightField.setText(Integer.toString(xyUpperFrameConfig.getImageResolutionConversionHeight()));
+				imagesTabItems.yzLowerPlaneItems.imageHeightField.setText(Integer.toString(yzLowerFrameConfig.getImageResolutionConversionHeight()));
+				imagesTabItems.yzUpperPlaneItems.imageHeightField.setText(Integer.toString(yzUpperFrameConfig.getImageResolutionConversionHeight()));
+				imagesTabItems.zxLowerPlaneItems.imageHeightField.setText(Integer.toString(zxLowerFrameConfig.getImageResolutionConversionHeight()));
+				imagesTabItems.zxUpperPlaneItems.imageHeightField.setText(Integer.toString(zxUpperFrameConfig.getImageResolutionConversionHeight()));
+
+				imagesTabItems.insideBox.setSelected(frameConfig.getImageDirectionMode() == FrameConfiguration.ImageDirectionMode.INSIDE);
+			}
 			System.out.println("To be implemented: ScaleSettingWindow.ConfigurationReflector.updateValuesByConfiguration()");
 		}
 
@@ -1828,12 +1868,6 @@ public class ScaleSettingWindow {
 			ticksTabItems.ySwappablePanel.add(ticksTabItems.yEqualDivisionItems.panel);
 			ticksTabItems.zSwappablePanel.add(ticksTabItems.zEqualDivisionItems.panel);
 			ticksTabItems.colorBarSwappablePanel.add(ticksTabItems.colorBarEqualDivisionItems.panel);
-			/*
-			ticksTabItems.xSwappablePanel.add(ticksTabItems.xManualItems.panel);
-			ticksTabItems.ySwappablePanel.add(ticksTabItems.yManualItems.panel);
-			ticksTabItems.zSwappablePanel.add(ticksTabItems.zManualItems.panel);
-			ticksTabItems.colorBarSwappablePanel.add(ticksTabItems.colorBarManualItems.panel);
-			*/
 		}
 	}
 

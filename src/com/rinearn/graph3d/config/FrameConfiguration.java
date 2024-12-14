@@ -39,6 +39,21 @@ public final class FrameConfiguration {
 		FLOOR;
 	}
 
+	/**
+	 * The enum representing each direction mode of images displayed on the graph frame.
+	 */
+	public static enum ImageDirectionMode {
+
+		/** Representing the mode drawing images only on the inside of the graph frame. */
+		INSIDE,
+
+		/** Representing the mode drawing images only on the outside of the graph frame. */
+		OUTSIDE,
+
+		/** Representing the mode drawing images on both the inside and outside of the graph frame. */
+		BOTH;
+	}
+
 
 	/**
 	 * Creates new configuration storing default values.
@@ -49,6 +64,9 @@ public final class FrameConfiguration {
 
 	/** Stores the shape mode of the graph frame. */
 	private volatile ShapeMode shapeMode = ShapeMode.BOX;
+
+	/** Stores the direction mode of images displayed on the graph frame. */
+	private volatile ImageDirectionMode imageDirectionMode = ImageDirectionMode.INSIDE;
 
 	/** The width of the frame lines. */
 	private volatile double lineWidth = 1.0;
@@ -88,6 +106,25 @@ public final class FrameConfiguration {
 	 */
 	public synchronized ShapeMode getShapeMode() {
 		return this.shapeMode;
+	}
+
+
+	/**
+	 * Sets the direction mode of the images displayed on the graph frame.
+	 *
+	 * @param shapeMode The direction mode of the images.
+	 */
+	public synchronized void setImageDirectionMode(ImageDirectionMode imageDirectionMode) {
+		this.imageDirectionMode = imageDirectionMode;
+	}
+
+	/**
+	 * Gets the direction mode of the images displayed on the graph frame.
+	 *
+	 * @return The direction mode of the images.
+	 */
+	public synchronized ImageDirectionMode getImageDirectionMode() {
+		return this.imageDirectionMode;
 	}
 
 
@@ -274,7 +311,7 @@ public final class FrameConfiguration {
 		private ImageMode imageMode = ImageMode.NONE;
 
 		/** The file from which the image to be displayed on this plane's frame is loaded. */
-		private volatile File imageFile = null; // The loaded image will be drawn to the buffer in Renderer, so no Image instance here.
+		private volatile File imageFile = new File("temp/hoge.txt"); // The loaded image will be drawn to the buffer in Renderer, so no Image instance here.
 
 		// private volatile int subplotIndex; // Maybe supported in future. Probably we should have subplot index here, not Image instance.
 
@@ -352,7 +389,7 @@ public final class FrameConfiguration {
 		 *
 		 * @param width The width (pixel count) of the re-rasterized image rendered on the plane's frame.
 		 */
-		public synchronized void setImageRasolutionConversionWidth(int width) {
+		public synchronized void setImageResolutionConversionWidth(int width) {
 			this.imageResolutionConversionWidth = width;
 		}
 
@@ -361,7 +398,7 @@ public final class FrameConfiguration {
 		 *
 		 * @return The width (pixel count) of the re-rasterized image rendered on the plane's frame.
 		 */
-		public synchronized int getImageRasolutionConversionWidth() {
+		public synchronized int getImageResolutionConversionWidth() {
 			return this.imageResolutionConversionWidth;
 		}
 
@@ -371,7 +408,7 @@ public final class FrameConfiguration {
 		 *
 		 * @param width The height (pixel count) of the re-rasterized image rendered on the plane's frame.
 		 */
-		public synchronized void setImageRasolutionConversionHeight(int height) {
+		public synchronized void setImageResolutionConversionHeight(int height) {
 			this.imageResolutionConversionHeight = height;
 		}
 
@@ -380,7 +417,7 @@ public final class FrameConfiguration {
 		 *
 		 * @return The height (pixel count) of the re-rasterized image rendered on the plane's frame.
 		 */
-		public synchronized int getImageRasolutionConversionHeight() {
+		public synchronized int getImageResolutionConversionHeight() {
 			return this.imageResolutionConversionHeight;
 		}
 
