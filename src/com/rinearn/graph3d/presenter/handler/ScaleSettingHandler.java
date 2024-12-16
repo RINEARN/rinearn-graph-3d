@@ -2,9 +2,13 @@ package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
+import com.rinearn.graph3d.view.ScaleSettingWindow;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.config.ScaleConfiguration;
+import com.rinearn.graph3d.config.FrameConfiguration;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 
@@ -41,6 +45,10 @@ public class ScaleSettingHandler {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;
+
+		// Add the action listener defined in this class, to the OK button of label setting window.
+		ScaleSettingWindow window = this.view.scaleSettingWindow;
+		window.okButton.addActionListener(new OkPressedEventListener());
 	}
 
 
@@ -61,6 +69,82 @@ public class ScaleSettingHandler {
 	 */
 	public synchronized boolean isEventHandlingEnabled() {
 		return this.eventHandlingEnabled;
+	}
+
+
+
+
+
+	// ================================================================================
+	//
+	// - Event Listeners -
+	//
+	// ================================================================================
+
+
+	/**
+	 * The event listener handling the event that OK button is pressed.
+	 */
+	private final class OkPressedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Get the configuration containers.
+			ScaleConfiguration scaleConfig = model.config.getScaleConfiguration();
+			FrameConfiguration frameConfig = model.config.getFrameConfiguration();
+
+			// Get the inputteds, and store them into the configuration containers.
+			ScaleSettingWindow window = view.scaleSettingWindow;
+
+			// "Frame" tab:
+			{
+				// Frame shape mode
+				FrameConfiguration.ShapeMode frameShapeMode = window.designTabItems.getSelectedFrameShapeMode();
+				frameConfig.setShapeMode(frameShapeMode);
+
+				// Frame line length
+				String frameLineWidthText = window.designTabItems.frameLineWidthField.getText();
+				try {
+					double frameLineWidth = Double.parseDouble(frameLineWidthText);
+					frameConfig.setLineWidth(frameLineWidth);
+				} catch (NumberFormatException nfe) {
+				}
+
+				// Tick label margin
+				String tickLabelMarginText = window.designTabItems.tickLabelMarginField.getText();
+				try {
+					double tickLabelMargin = Double.parseDouble(tickLabelMarginText);
+					scaleConfig.getXScaleConfiguration().setTickLabelMargin(tickLabelMargin);
+					scaleConfig.getYScaleConfiguration().setTickLabelMargin(tickLabelMargin);
+					scaleConfig.getZScaleConfiguration().setTickLabelMargin(tickLabelMargin);
+				} catch (NumberFormatException nfe) {
+				}
+
+				// Tick line length
+				String tickLineLengthText = window.designTabItems.tickLineLengthField.getText();
+				try {
+					double tickLineLength = Double.parseDouble(tickLineLengthText);
+					scaleConfig.getXScaleConfiguration().setTickLineLength(tickLineLength);
+					scaleConfig.getYScaleConfiguration().setTickLineLength(tickLineLength);
+					scaleConfig.getZScaleConfiguration().setTickLineLength(tickLineLength);
+				} catch (NumberFormatException nfe) {
+				}
+
+				// "Inward" box
+				boolean isTickInward = window.designTabItems.tickInwardBox.isSelected();
+				scaleConfig.setTickInward(isTickInward);
+			}
+
+
+			// Propagate the above update of the configuration to the entire application.
+			presenter.propagateConfiguration();
+
+			// Replot the graph.
+			presenter.plot();
+		}
 	}
 
 

@@ -172,6 +172,36 @@ public class ScaleSettingWindow {
 
 		/** The check box of the option to draw the ticks towards inside of the outer frame. */
 		public volatile JCheckBox tickInwardBox;
+
+		/**
+		 * Gets the selected item of frameShapeModeBox field as an element of FrameConfiguration.ShapeMode enum.
+		 *
+		 * @return The ShapeMode enum element corresponding to the selected item of frameShapeModeBox.
+		 */
+		public FrameConfiguration.ShapeMode getSelectedFrameShapeMode() {
+			String selectedItemText = this.frameShapeModeBox.getSelectedItem().toString();
+			switch (selectedItemText) {
+				case SHAPE_MODE_BOX_EN :
+				case SHAPE_MODE_BOX_JA : {
+					return FrameConfiguration.ShapeMode.BOX;
+				}
+				case SHAPE_MODE_BACKWALL_EN :
+				case SHAPE_MODE_BACKWALL_JA : {
+					return FrameConfiguration.ShapeMode.BACKWALL;
+				}
+				case SHAPE_MODE_FLOOR_EN :
+				case SHAPE_MODE_FLOOR_JA : {
+					return FrameConfiguration.ShapeMode.FLOOR;
+				}
+				case SHAPE_MODE_NONE_EN :
+				case SHAPE_MODE_NONE_JA : {
+					return FrameConfiguration.ShapeMode.NONE;
+				}
+				default : {
+					throw new IllegalStateException("Unexpected frame shape mode: " + selectedItemText);
+				}
+			}
+		}
 	}
 
 
