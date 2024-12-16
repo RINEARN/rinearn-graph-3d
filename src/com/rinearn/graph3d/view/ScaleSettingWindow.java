@@ -1336,6 +1336,90 @@ public class ScaleSettingWindow {
 				formatsTabItems.zLongFormatField.setText(DecimalFormat.class.cast(zLongRangeFormat).toPattern());
 			}
 
+			// "Visibilities" tab:
+			{
+				ScaleConfiguration.VisibilityMode xAVisibilityMode = xScaleConfig.getScaleAVisibilityMode();
+				ScaleConfiguration.VisibilityMode xBVisibilityMode = xScaleConfig.getScaleBVisibilityMode();
+				ScaleConfiguration.VisibilityMode xCVisibilityMode = xScaleConfig.getScaleCVisibilityMode();
+				ScaleConfiguration.VisibilityMode xDVisibilityMode = xScaleConfig.getScaleDVisibilityMode();
+
+				ScaleConfiguration.VisibilityMode yAVisibilityMode = yScaleConfig.getScaleAVisibilityMode();
+				ScaleConfiguration.VisibilityMode yBVisibilityMode = yScaleConfig.getScaleBVisibilityMode();
+				ScaleConfiguration.VisibilityMode yCVisibilityMode = yScaleConfig.getScaleCVisibilityMode();
+				ScaleConfiguration.VisibilityMode yDVisibilityMode = yScaleConfig.getScaleDVisibilityMode();
+
+				ScaleConfiguration.VisibilityMode zAVisibilityMode = zScaleConfig.getScaleAVisibilityMode();
+				ScaleConfiguration.VisibilityMode zBVisibilityMode = zScaleConfig.getScaleBVisibilityMode();
+				ScaleConfiguration.VisibilityMode zCVisibilityMode = zScaleConfig.getScaleCVisibilityMode();
+				ScaleConfiguration.VisibilityMode zDVisibilityMode = zScaleConfig.getScaleDVisibilityMode();
+
+				boolean isXVisibilityAuto = xAVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
+						&& xBVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
+						&& xCVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
+						&& xDVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO;
+
+				boolean isYVisibilityAuto = yAVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
+						&& yBVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
+						&& yCVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
+						&& yDVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO;
+
+				boolean isZVisibilityAuto = zAVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
+						&& zBVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
+						&& zCVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
+						&& zDVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO;
+
+				visibilitiesTabItems.xAutoBox.setSelected(isXVisibilityAuto);
+				visibilitiesTabItems.xABox.setEnabled(!isXVisibilityAuto);
+				visibilitiesTabItems.xBBox.setEnabled(!isXVisibilityAuto);
+				visibilitiesTabItems.xCBox.setEnabled(!isXVisibilityAuto);
+				visibilitiesTabItems.xDBox.setEnabled(!isXVisibilityAuto);
+				if (isXVisibilityAuto) {
+					visibilitiesTabItems.xABox.setSelected(false);
+					visibilitiesTabItems.xBBox.setSelected(false);
+					visibilitiesTabItems.xCBox.setSelected(false);
+					visibilitiesTabItems.xDBox.setSelected(false);
+				} else {
+					visibilitiesTabItems.xABox.setSelected(xAVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.xBBox.setSelected(xBVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.xCBox.setSelected(xCVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.xDBox.setSelected(xDVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
+				}
+
+				visibilitiesTabItems.yAutoBox.setSelected(isYVisibilityAuto);
+				visibilitiesTabItems.yABox.setEnabled(!isYVisibilityAuto);
+				visibilitiesTabItems.yBBox.setEnabled(!isYVisibilityAuto);
+				visibilitiesTabItems.yCBox.setEnabled(!isYVisibilityAuto);
+				visibilitiesTabItems.yDBox.setEnabled(!isYVisibilityAuto);
+				if (isYVisibilityAuto) {
+					visibilitiesTabItems.yABox.setSelected(false);
+					visibilitiesTabItems.yBBox.setSelected(false);
+					visibilitiesTabItems.yCBox.setSelected(false);
+					visibilitiesTabItems.yDBox.setSelected(false);
+				} else {
+					visibilitiesTabItems.yABox.setSelected(yAVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.yBBox.setSelected(yBVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.yCBox.setSelected(yCVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.yDBox.setSelected(yDVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
+				}
+
+				visibilitiesTabItems.zAutoBox.setSelected(isZVisibilityAuto);
+				visibilitiesTabItems.zABox.setEnabled(!isZVisibilityAuto);
+				visibilitiesTabItems.zBBox.setEnabled(!isZVisibilityAuto);
+				visibilitiesTabItems.zCBox.setEnabled(!isZVisibilityAuto);
+				visibilitiesTabItems.zDBox.setEnabled(!isZVisibilityAuto);
+				if (isZVisibilityAuto) {
+					visibilitiesTabItems.zABox.setSelected(false);
+					visibilitiesTabItems.zBBox.setSelected(false);
+					visibilitiesTabItems.zCBox.setSelected(false);
+					visibilitiesTabItems.zDBox.setSelected(false);
+				} else {
+					visibilitiesTabItems.zABox.setSelected(zAVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.zBBox.setSelected(zBVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.zCBox.setSelected(zCVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.zDBox.setSelected(zDVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
+				}
+			}
+
 			// "Images" tab:
 			{
 				FrameConfiguration.PlaneFrameConfiguration xyLowerFrameConfig = frameConfig.getXyLowerFrameConfiguration();
@@ -1375,7 +1459,6 @@ public class ScaleSettingWindow {
 
 				imagesTabItems.insideBox.setSelected(frameConfig.getImageDirectionMode() == FrameConfiguration.ImageDirectionMode.INSIDE);
 			}
-			System.out.println("To be implemented: ScaleSettingWindow.ConfigurationReflector.updateValuesByConfiguration()");
 		}
 
 		/**
