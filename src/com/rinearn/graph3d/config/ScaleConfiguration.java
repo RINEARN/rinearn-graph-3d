@@ -6,8 +6,6 @@ import com.rinearn.graph3d.config.scale.Ticker;
 import com.rinearn.graph3d.config.scale.EqualDivisionTicker;
 import com.rinearn.graph3d.config.scale.ManualTicker;
 
-import java.text.DecimalFormat;
-
 // !!!!!
 // NOTE
 //
@@ -78,6 +76,14 @@ import java.text.DecimalFormat;
 // tickLabel は tickLabelTexts にすべきでは？
 // tickLabel 自体には tickLabelMargin とかのテキスト以外の属性があるし、
 // LabelConfig での軸ラベルも setText にしてるし。
+//
+// -> しかしあっちは AxisLabelConfiguration って粒度階層を一枚かませてるからなあ。だからこその .setText & .getText で。
+//    tickLabel も、たとえば単一の TickLabel をクラスに包んで、それに .setMargin とかするなら .setText になると思う。
+//    が、それはあまりにも冗長過ぎるし…
+//    しかし確かに tickLabelText にすべきってのは一利あるか。要検討。
+//
+//    -> ところでそれは今の実装だとこのクラスじゃなくて Ticker の管轄か。あっちに書かんと。でもあっちだと読まんだろうしこっちに残しとくか。
+//
 // !!! NOTE !!!
 
 
@@ -275,6 +281,8 @@ public final class ScaleConfiguration {
 		/** Align scale ticks as a geometric sequence. */
 		GEOMETRIC_PROGRESSION,
 
+		// !!!!! Note !!!!!  Should be renamed to 'AUTO' ?
+		// -> このソフトでは setAutoRangingEnabled とか、短縮形接頭語の auto を既に結構使ってるので、auto で統一してもいいんじゃない？ ここだけ厳格にしてもなぁって感じ。要検討
 		/** Align scale ticks automatically. */
 		AUTOMATIC,
 
@@ -290,6 +298,8 @@ public final class ScaleConfiguration {
 	 */
 	public static enum TickLabelFormatterMode {
 
+		// !!!!! Note !!!!!  Should be renamed to 'AUTOMATIC' ?
+		// -> 上の enum の AUTOMATIC のコメント参照。少なくともどっちかに統一はしておきたい。今のところは AUTO が有力かな。要検討。
 		/** Formats the tick coordinates into the numeric labels in the default format.  */
 		AUTO,
 
@@ -298,6 +308,26 @@ public final class ScaleConfiguration {
 
 		/** Uses the custom formmatter implemented by users or third party developers. */
 		CUSTOM,
+	}
+
+	/**
+	 * The enum representing each mode to control the visibility of the scales.
+	 */
+	public static enum VisibilityMode {
+
+		/** Switches the visibility automatically, depending on the angle of the graph.  */
+		AUTO,
+
+		/** Always keeps the scale visible.  */
+		ALWAYS_VISIBLE,
+		// !!!!! NOTE !!!!!  ちょっと冗長すぎる？ VISIBLE だけでいい？
+		// -> もし後々でモードが増えていった時に、単に VISIBLE/INVISIBLE では微妙になる可能性もあるが…それでも分かるかな？
+		//    -> 逆に微妙になるパターンを思い浮かぶかどうか。現実的にありそうなやつで。
+		//       -> まあ微妙っちゃ AUTO がある時点で既に VISIBLE/INVISIBLE は微妙でもある。
+		//          これら3つだけなら、VISIBLE/INVISIBLE の切り替えを自動でやるのが AUTO って解釈でギリ許容でも、あと1つ生えると難解化するかも。
+
+		/** Always keeps the scale invisible. */
+		ALWAYS_INVISIBLE,
 	}
 
 	/**
@@ -325,18 +355,36 @@ public final class ScaleConfiguration {
 		//    -> ↑ができるかどうかは置いといて、判断材料についてはコンテナクラスを作ってそこに必用に応じてsetter/getter生やしていけば済む。というかたぶん必須。
 		//
 		//       ・確かに。むしろ Ticker もそう改修すべきかも。確か range 以外にも対数プロットかどうかのフラグを単発でとってるけど、粒度的にそのへん微妙だし。
+		//
+		// -> 目盛り系列の可視性を動的にコントロールするオブジェクトはさすがに大げさすぎるので、
+		//    折衷案として各目盛り系列の挙動を boolean ではなく enum のモードで切り分ける事にした。
+		//    それぞれのモードの挙動はグラフソフト側の実装管轄で。
+		//
+		//    だって、そこまで描画時のベクトルとか変換行列とかを色々意識させつつ
+		//    目盛りの可視性コントロールオブジェクトを独自実装してもらうくらいなら、
+		//    もう描画エンジンAPI経由で自由に目盛りを描いてもらった方が良くない？ って話になるし。
+		//    目盛り描画に使えそうな文字列ポリゴンの種類を色々増やしつつ。そっちの方法の方がたぶん筋が良い。
+		//
+		//    その方法と比べると、目盛りの可視性管理オブジェクト用に中途半端に抽象化した概念を理解する方がむしろ面倒でしょ。
+		//    そもそも機会も相当レアだし。しかも決めた仕様が将来の拡張の足も引っ張るし。なのでそんなオブジェクトは要らん。
+		//
+		//    以上の理由により、実装をグラフソフト側に任せてしまって enum で選択する方がたぶんいいと思う。ここはさすがに。
+		//
+		// 少し塩漬けにしてまた要再検討。
 
-		/** The visibility of 'tick series A' of this axis's scale. */
-		private volatile boolean tickSeriesAVisible;
+		/** The visibility of 'scale A' of this axis's scale. */
+		private volatile VisibilityMode scaleAVisibilityMode = VisibilityMode.AUTO;
+		// private volatile VisibilityMode tickSeriesAVisiblityMode = VisibilityMode.AUTO;
+		// NOTE: ↑やっぱ tickSeriesA っての変だよ。scaleA の方がいいよ。scale 単独なら概念粒度的に大きすぎるけど scale 'A' なんだしいいでしょ。
 
-		/** The visibility of 'tick series B' of this axis's scale. */
-		private volatile boolean tickSeriesBVisible;
+		/** The visibility of 'scale B' of this axis's scale. */
+		private volatile VisibilityMode scaleBVisibilityMode = VisibilityMode.AUTO;
 
-		/** The visibility of 'tick series C' of this axis's scale. */
-		private volatile boolean tickSeriesCVisible;
+		/** The visibility of 'scale C' of this axis's scale. */
+		private volatile VisibilityMode scaleCVisibilityMode = VisibilityMode.AUTO;
 
-		/** The visibility of 'tick series D' of this axis's scale. */
-		private volatile boolean tickSeriesDVisible;
+		/** The visibility of 'scale D' of this axis's scale. */
+		private volatile VisibilityMode scaleDVisibilityMode = VisibilityMode.AUTO;
 
 		/** The length of tick lines. */
 		private volatile double tickLineLength = 0.05;
@@ -380,78 +428,79 @@ public final class ScaleConfiguration {
 
 
 		/**
-		 * Sets the visibility of 'tick series A' of this axis.
+		 * Sets the visibility mode of the 'scale A' of this axis.
 		 *
-		 * @param gridVisible Specify true for setting 'tick series A' visible.
+		 * @param scaleAVisibilityMode The visibility mode of the 'scale A' of this axis.
 		 */
-		public synchronized void setTickSeriesAVisible(boolean tickSeriesAVisible) {
-			this.tickSeriesAVisible = tickSeriesAVisible;
+		public synchronized void setScaleAVisibilityMode(VisibilityMode scaleAVisibilityMode) {
+			this.scaleAVisibilityMode = scaleAVisibilityMode;
 		}
 
 		/**
-		 * Gets the visibility of 'tick series A' of this axis.
+		 * Gets the visibility mode of the 'scale A' of this axis.
 		 *
-		 * @return Returns true if 'tick series A'is visible.
+		 * @return The visibility mode of the 'scale A' of this axis.
 		 */
-		public synchronized boolean isTickSeriesAVisible() {
-			return this.tickSeriesAVisible;
-		}
-
-
-		/**
-		 * Sets the visibility of 'tick series B' of this axis.
-		 *
-		 * @param gridVisible Specify true for setting 'tick series B' visible.
-		 */
-		public synchronized void setTickSeriesBVisible(boolean tickSeriesBVisible) {
-			this.tickSeriesBVisible = tickSeriesBVisible;
-		}
-
-		/**
-		 * Gets the visibility of 'tick series B' of this axis.
-		 *
-		 * @return Returns true if 'tick series B'is visible.
-		 */
-		public synchronized boolean isTickSeriesBVisible() {
-			return this.tickSeriesBVisible;
+		public synchronized VisibilityMode getScaleAVisibilityMode() {
+			return this.scaleAVisibilityMode;
 		}
 
 
 		/**
-		 * Sets the visibility of 'tick series C' of this axis.
+		 * Sets the visibility mode of the 'scale B' of this axis.
 		 *
-		 * @param gridVisible Specify true for setting 'tick series C' visible.
+		 * @param scaleBVisibilityMode The visibility mode of the 'scale B' of this axis.
 		 */
-		public synchronized void setTickSeriesCVisible(boolean tickSeriesCVisible) {
-			this.tickSeriesCVisible = tickSeriesCVisible;
+		public synchronized void setScaleBVisibilityMode(VisibilityMode scaleBVisibilityMode) {
+			this.scaleBVisibilityMode = scaleBVisibilityMode;
 		}
 
 		/**
-		 * Gets the visibility of 'tick series C' of this axis.
+		 * Gets the visibility mode of the 'scale B' of this axis.
 		 *
-		 * @return Returns true if 'tick series C'is visible.
+		 * @return The visibility mode of the 'scale B' of this axis.
 		 */
-		public synchronized boolean isTickSeriesCVisible() {
-			return this.tickSeriesCVisible;
+		public synchronized VisibilityMode getScaleBVisibilityMode() {
+			return this.scaleBVisibilityMode;
 		}
 
 
 		/**
-		 * Sets the visibility of 'tick series D' of this axis.
+		 * Sets the visibility mode of the 'scale C' of this axis.
 		 *
-		 * @param gridVisible Specify true for setting 'tick series D' visible.
+		 * @param scaleBVisibilityMode The visibility mode of the 'scale C' of this axis.
 		 */
-		public synchronized void setTickSeriesDVisible(boolean tickSeriesDVisible) {
-			this.tickSeriesDVisible = tickSeriesDVisible;
+		public synchronized void setScaleCVisibilityMode(VisibilityMode scaleCVisibilityMode) {
+			this.scaleCVisibilityMode = scaleCVisibilityMode;
 		}
 
 		/**
-		 * Gets the visibility of 'tick series D' of this axis.
+		 * Gets the visibility mode of the 'scale C' of this axis.
 		 *
-		 * @return Returns true if 'tick series D'is visible.
+		 * @return The visibility mode of the 'scale C' of this axis.
 		 */
-		public synchronized boolean isTickSeriesDVisible() {
-			return this.tickSeriesDVisible;
+		public synchronized VisibilityMode getScaleCVisibilityMode() {
+			return this.scaleCVisibilityMode;
+		}
+
+
+
+		/**
+		 * Sets the visibility mode of the 'scale D' of this axis.
+		 *
+		 * @param scaleBVisibilityMode The visibility mode of the 'scale D' of this axis.
+		 */
+		public synchronized void setScaleDVisibilityMode(VisibilityMode scaleDVisibilityMode) {
+			this.scaleDVisibilityMode = scaleDVisibilityMode;
+		}
+
+		/**
+		 * Gets the visibility mode of the 'scale D' of this axis.
+		 *
+		 * @return The visibility mode of the 'scale D' of this axis.
+		 */
+		public synchronized VisibilityMode getScaleDVisibilityMode() {
+			return this.scaleDVisibilityMode;
 		}
 
 
@@ -746,6 +795,21 @@ public final class ScaleConfiguration {
 					throw new IllegalStateException("The custom tick label formatter is null although the formatter mode is set to CUSTOM.");
 				}
 				this.customTickLabelFormatter.validate();
+			}
+
+			// The visibility mode "AUTO" can not be used together with other modes in one axis, so check them.
+			boolean containsAutoVisibilityMode = this.scaleAVisibilityMode == VisibilityMode.AUTO
+					|| this.scaleBVisibilityMode == VisibilityMode.AUTO
+					|| this.scaleCVisibilityMode == VisibilityMode.AUTO
+					|| this.scaleDVisibilityMode == VisibilityMode.AUTO;
+			boolean containsOtherVisibilityMode = this.scaleAVisibilityMode != VisibilityMode.AUTO
+					|| this.scaleBVisibilityMode != VisibilityMode.AUTO
+					|| this.scaleCVisibilityMode != VisibilityMode.AUTO
+					|| this.scaleDVisibilityMode != VisibilityMode.AUTO;
+			if (containsAutoVisibilityMode && containsOtherVisibilityMode) {
+				throw new IllegalStateException(
+						"On the current version, the visibility mode 'AUTO' can not be used together with the other modes, in one axis."
+				);
 			}
 		}
 	}
