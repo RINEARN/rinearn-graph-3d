@@ -175,10 +175,14 @@ public class ScaleSettingWindow {
 
 		/**
 		 * Gets the selected item of frameShapeModeBox field as an element of FrameConfiguration.ShapeMode enum.
+		 * This method is invokable only on the event-dispatch thread.
 		 *
 		 * @return The ShapeMode enum element corresponding to the selected item of frameShapeModeBox.
 		 */
 		public FrameConfiguration.ShapeMode getSelectedFrameShapeMode() {
+			if (!SwingUtilities.isEventDispatchThread()) {
+				throw new IllegalStateException("This method is invokable only on the event-dispatch thread.");
+			}
 			String selectedItemText = this.frameShapeModeBox.getSelectedItem().toString();
 			switch (selectedItemText) {
 				case SHAPE_MODE_BOX_EN :
@@ -317,6 +321,76 @@ public class ScaleSettingWindow {
 
 		/** The container of the setting items of color-bar-ticks in EQUAL-DIVISION mode. */
 		public volatile TicksAxisManualItems colorBarManualItems;
+
+		/**
+		 * Gets the selected item of xModeBox as an element of ScaleConfiguration.TickerMode enum.
+		 * This method is invokable only on the event-dispatch thread.
+		 *
+		 * @return The TickerMode enum element corresponding to the selected item of xModeBox.
+		 */
+		public ScaleConfiguration.TickerMode getXTickerMode() {
+			return this.getSelectedTickerModeOf(this.xModeBox);
+		}
+
+		/**
+		 * Gets the selected item of yModeBox as an element of ScaleConfiguration.TickerMode enum.
+		 * This method is invokable only on the event-dispatch thread.
+		 *
+		 * @return The TickerMode enum element corresponding to the selected item of yModeBox.
+		 */
+		public ScaleConfiguration.TickerMode getYTickerMode() {
+			return this.getSelectedTickerModeOf(this.yModeBox);
+		}
+
+		/**
+		 * Gets the selected item of zModeBox as an element of ScaleConfiguration.TickerMode enum.
+		 * This method is invokable only on the event-dispatch thread.
+		 *
+		 * @return The TickerMode enum element corresponding to the selected item of zModeBox.
+		 */
+		public ScaleConfiguration.TickerMode getZTickerMode() {
+			return this.getSelectedTickerModeOf(this.zModeBox);
+		}
+
+		/**
+		 * Gets the selected item of colorBarModeBox as an element of ScaleConfiguration.TickerMode enum.
+		 * This method is invokable only on the event-dispatch thread.
+		 *
+		 * @return The TickerMode enum element corresponding to the selected item of colorBarModeBox.
+		 */
+		public ScaleConfiguration.TickerMode getColorBarTickerMode() {
+			return this.getSelectedTickerModeOf(this.colorBarModeBox);
+		}
+
+		/**
+		 * Gets the selected item of the specified JComboBox as an element of ScaleConfiguration.TickerMode enum.
+		 * This method is invokable only on the event-dispatch thread.
+		 *
+		 * @return The TickerMode enum element corresponding to the selected item of the specified JComboBox.
+		 */
+		private ScaleConfiguration.TickerMode getSelectedTickerModeOf(JComboBox<MultilingualItem> comboBox) {
+			if (!SwingUtilities.isEventDispatchThread()) {
+				throw new IllegalStateException("This method is invokable only on the event-dispatch thread.");
+			}
+			String selectedItemText = comboBox.getSelectedItem().toString();
+			switch (selectedItemText) {
+				case TICKER_MODE_EQUAL_DIVISION_EN :
+				case TICKER_MODE_EQUAL_DIVISION_JA : {
+					return ScaleConfiguration.TickerMode.EQUAL_DIVISION;
+				}
+				case TICKER_MODE_MANUAL_EN :
+				case TICKER_MODE_MANUAL_JA : {
+					return ScaleConfiguration.TickerMode.MANUAL;
+				}
+				case TICKER_MODE_CUSTOM_EN :
+				case TICKER_MODE_CUSTOM_JA : {
+					return ScaleConfiguration.TickerMode.CUSTOM;
+				}
+				default : {
+					throw new IllegalStateException("Unexpected ticker mode: " + selectedItemText);
+				}
+			}
+		}
 	}
 
 	/** The container class of the tick setting items of each axis in EQUAL-DIVISION mode. */
@@ -325,11 +399,11 @@ public class ScaleSettingWindow {
 		/** The panel on which the setting items for EQUAL-DIVISION mode are mounted. */
 		public volatile JPanel panel;
 
-		/** The label of the text field of the division count. */
-		public volatile JLabel divisionCountLabel;
+		/** The label of the text field of the divided section count. */
+		public volatile JLabel sectionCountLabel;
 
-		/** The text field of the division count. */
-		public volatile JTextField divisionCountField;
+		/** The text field of the divided section count. */
+		public volatile JTextField sectionCountField;
 	}
 
 	/** The container class of the tick setting items of each axis in MANUAL mode. */
@@ -807,7 +881,7 @@ public class ScaleSettingWindow {
 				ticksTabItems.xEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_JA);
 				ticksTabItems.xManualModeItem.setText(TICKER_MODE_MANUAL_JA);
 				ticksTabItems.xCustomModeItem.setText(TICKER_MODE_CUSTOM_JA);
-				ticksTabItems.xEqualDivisionItems.divisionCountLabel.setText("区間の数: ");
+				ticksTabItems.xEqualDivisionItems.sectionCountLabel.setText("区間の数: ");
 				ticksTabItems.xManualItems.coordinatesLabel.setText("位置: ");
 				ticksTabItems.xManualItems.labelsLabel.setText("表記: ");
 
@@ -816,7 +890,7 @@ public class ScaleSettingWindow {
 				ticksTabItems.yEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_JA);
 				ticksTabItems.yManualModeItem.setText(TICKER_MODE_MANUAL_JA);
 				ticksTabItems.yCustomModeItem.setText(TICKER_MODE_CUSTOM_JA);
-				ticksTabItems.yEqualDivisionItems.divisionCountLabel.setText("区間の数: ");
+				ticksTabItems.yEqualDivisionItems.sectionCountLabel.setText("区間の数: ");
 				ticksTabItems.yManualItems.coordinatesLabel.setText("位置: ");
 				ticksTabItems.yManualItems.labelsLabel.setText("表記: ");
 
@@ -825,7 +899,7 @@ public class ScaleSettingWindow {
 				ticksTabItems.zEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_JA);
 				ticksTabItems.zManualModeItem.setText(TICKER_MODE_MANUAL_JA);
 				ticksTabItems.zCustomModeItem.setText(TICKER_MODE_CUSTOM_JA);
-				ticksTabItems.zEqualDivisionItems.divisionCountLabel.setText("区間の数: ");
+				ticksTabItems.zEqualDivisionItems.sectionCountLabel.setText("区間の数: ");
 				ticksTabItems.zManualItems.coordinatesLabel.setText("位置: ");
 				ticksTabItems.zManualItems.labelsLabel.setText("表記: ");
 
@@ -834,7 +908,7 @@ public class ScaleSettingWindow {
 				ticksTabItems.colorBarEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_JA);
 				ticksTabItems.colorBarManualModeItem.setText(TICKER_MODE_MANUAL_JA);
 				ticksTabItems.colorBarCustomModeItem.setText(TICKER_MODE_CUSTOM_JA);
-				ticksTabItems.colorBarEqualDivisionItems.divisionCountLabel.setText("区間の数: ");
+				ticksTabItems.colorBarEqualDivisionItems.sectionCountLabel.setText("区間の数: ");
 				ticksTabItems.colorBarManualItems.coordinatesLabel.setText("位置: ");
 				ticksTabItems.colorBarManualItems.labelsLabel.setText("表記: ");
 			}
@@ -934,7 +1008,7 @@ public class ScaleSettingWindow {
 				ticksTabItems.xEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_EN);
 				ticksTabItems.xManualModeItem.setText(TICKER_MODE_MANUAL_EN);
 				ticksTabItems.xCustomModeItem.setText(TICKER_MODE_CUSTOM_EN);
-				ticksTabItems.xEqualDivisionItems.divisionCountLabel.setText("Number of Sections: ");
+				ticksTabItems.xEqualDivisionItems.sectionCountLabel.setText("Number of Sections: ");
 				ticksTabItems.xManualItems.coordinatesLabel.setText("Coords: ");
 				ticksTabItems.xManualItems.labelsLabel.setText("Labels: ");
 
@@ -943,7 +1017,7 @@ public class ScaleSettingWindow {
 				ticksTabItems.yEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_EN);
 				ticksTabItems.yManualModeItem.setText(TICKER_MODE_MANUAL_EN);
 				ticksTabItems.yCustomModeItem.setText(TICKER_MODE_CUSTOM_EN);
-				ticksTabItems.yEqualDivisionItems.divisionCountLabel.setText("Number of Sections: ");
+				ticksTabItems.yEqualDivisionItems.sectionCountLabel.setText("Number of Sections: ");
 				ticksTabItems.yManualItems.coordinatesLabel.setText("Coords: ");
 				ticksTabItems.yManualItems.labelsLabel.setText("Labels: ");
 
@@ -952,7 +1026,7 @@ public class ScaleSettingWindow {
 				ticksTabItems.zEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_EN);
 				ticksTabItems.zManualModeItem.setText(TICKER_MODE_MANUAL_EN);
 				ticksTabItems.zCustomModeItem.setText(TICKER_MODE_CUSTOM_EN);
-				ticksTabItems.zEqualDivisionItems.divisionCountLabel.setText("Number of Sections: ");
+				ticksTabItems.zEqualDivisionItems.sectionCountLabel.setText("Number of Sections: ");
 				ticksTabItems.zManualItems.coordinatesLabel.setText("Coords: ");
 				ticksTabItems.zManualItems.labelsLabel.setText("Labels: ");
 
@@ -961,7 +1035,7 @@ public class ScaleSettingWindow {
 				ticksTabItems.colorBarEqualDivisionModeItem.setText(TICKER_MODE_EQUAL_DIVISION_EN);
 				ticksTabItems.colorBarManualModeItem.setText(TICKER_MODE_MANUAL_EN);
 				ticksTabItems.colorBarCustomModeItem.setText(TICKER_MODE_CUSTOM_EN);
-				ticksTabItems.colorBarEqualDivisionItems.divisionCountLabel.setText("Number of Sections: ");
+				ticksTabItems.colorBarEqualDivisionItems.sectionCountLabel.setText("Number of Sections: ");
 				ticksTabItems.colorBarManualItems.coordinatesLabel.setText("Coords: ");
 				ticksTabItems.colorBarManualItems.labelsLabel.setText("Labels: ");
 			}
@@ -1057,8 +1131,8 @@ public class ScaleSettingWindow {
 			{
 				ticksTabItems.xAxisLabel.setFont(uiBoldFont);
 				ticksTabItems.xModeLabel.setFont(uiBoldFont);
-				ticksTabItems.xEqualDivisionItems.divisionCountLabel.setFont(uiBoldFont);
-				ticksTabItems.xEqualDivisionItems.divisionCountField.setFont(uiPlainFont);
+				ticksTabItems.xEqualDivisionItems.sectionCountLabel.setFont(uiBoldFont);
+				ticksTabItems.xEqualDivisionItems.sectionCountField.setFont(uiPlainFont);
 				ticksTabItems.xManualItems.coordinatesLabel.setFont(uiBoldFont);
 				ticksTabItems.xManualItems.coordinatesField.setFont(uiPlainFont);
 				ticksTabItems.xManualItems.labelsLabel.setFont(uiBoldFont);
@@ -1066,8 +1140,8 @@ public class ScaleSettingWindow {
 
 				ticksTabItems.yAxisLabel.setFont(uiBoldFont);
 				ticksTabItems.yModeLabel.setFont(uiBoldFont);
-				ticksTabItems.yEqualDivisionItems.divisionCountLabel.setFont(uiBoldFont);
-				ticksTabItems.yEqualDivisionItems.divisionCountField.setFont(uiPlainFont);
+				ticksTabItems.yEqualDivisionItems.sectionCountLabel.setFont(uiBoldFont);
+				ticksTabItems.yEqualDivisionItems.sectionCountField.setFont(uiPlainFont);
 				ticksTabItems.yManualItems.coordinatesLabel.setFont(uiBoldFont);
 				ticksTabItems.yManualItems.coordinatesField.setFont(uiPlainFont);
 				ticksTabItems.yManualItems.labelsLabel.setFont(uiBoldFont);
@@ -1075,8 +1149,8 @@ public class ScaleSettingWindow {
 
 				ticksTabItems.zAxisLabel.setFont(uiBoldFont);
 				ticksTabItems.zModeLabel.setFont(uiBoldFont);
-				ticksTabItems.zEqualDivisionItems.divisionCountLabel.setFont(uiBoldFont);
-				ticksTabItems.zEqualDivisionItems.divisionCountField.setFont(uiPlainFont);
+				ticksTabItems.zEqualDivisionItems.sectionCountLabel.setFont(uiBoldFont);
+				ticksTabItems.zEqualDivisionItems.sectionCountField.setFont(uiPlainFont);
 				ticksTabItems.zManualItems.coordinatesLabel.setFont(uiBoldFont);
 				ticksTabItems.zManualItems.coordinatesField.setFont(uiPlainFont);
 				ticksTabItems.zManualItems.labelsLabel.setFont(uiBoldFont);
@@ -1084,8 +1158,8 @@ public class ScaleSettingWindow {
 
 				ticksTabItems.colorBarLabel.setFont(uiBoldFont);
 				ticksTabItems.colorBarModeLabel.setFont(uiBoldFont);
-				ticksTabItems.colorBarEqualDivisionItems.divisionCountLabel.setFont(uiBoldFont);
-				ticksTabItems.colorBarEqualDivisionItems.divisionCountField.setFont(uiPlainFont);
+				ticksTabItems.colorBarEqualDivisionItems.sectionCountLabel.setFont(uiBoldFont);
+				ticksTabItems.colorBarEqualDivisionItems.sectionCountField.setFont(uiPlainFont);
 				ticksTabItems.colorBarManualItems.coordinatesLabel.setFont(uiBoldFont);
 				ticksTabItems.colorBarManualItems.coordinatesField.setFont(uiPlainFont);
 				ticksTabItems.colorBarManualItems.labelsLabel.setFont(uiBoldFont);
@@ -1311,10 +1385,10 @@ public class ScaleSettingWindow {
 				EqualDivisionTicker zEqualDivisionTicker = zScaleConfig.getEqualDivisionTicker();
 				EqualDivisionTicker cEqualDivisionTicker = cScaleConfig.getEqualDivisionTicker();
 
-				ticksTabItems.xEqualDivisionItems.divisionCountField.setText(Integer.toString(xEqualDivisionTicker.getDividedSectionCount()));
-				ticksTabItems.yEqualDivisionItems.divisionCountField.setText(Integer.toString(yEqualDivisionTicker.getDividedSectionCount()));
-				ticksTabItems.zEqualDivisionItems.divisionCountField.setText(Integer.toString(zEqualDivisionTicker.getDividedSectionCount()));
-				ticksTabItems.colorBarEqualDivisionItems.divisionCountField.setText(Integer.toString(cEqualDivisionTicker.getDividedSectionCount()));
+				ticksTabItems.xEqualDivisionItems.sectionCountField.setText(Integer.toString(xEqualDivisionTicker.getDividedSectionCount()));
+				ticksTabItems.yEqualDivisionItems.sectionCountField.setText(Integer.toString(yEqualDivisionTicker.getDividedSectionCount()));
+				ticksTabItems.zEqualDivisionItems.sectionCountField.setText(Integer.toString(zEqualDivisionTicker.getDividedSectionCount()));
+				ticksTabItems.colorBarEqualDivisionItems.sectionCountField.setText(Integer.toString(cEqualDivisionTicker.getDividedSectionCount()));
 
 				ManualTicker xManualTicker = xScaleConfig.getManualTicker();
 				ManualTicker yManualTicker = yScaleConfig.getManualTicker();
@@ -2022,17 +2096,17 @@ public class ScaleSettingWindow {
 			constraints.insets = new Insets(topMargin, leftMargin, bottomMargin, rightMargin);
 
 			// The label of the text field of the number of divided sections in EQUAL-DIVISION mode.
-			items.divisionCountLabel = new JLabel("Unconfigured");
+			items.sectionCountLabel = new JLabel("Unconfigured");
 			constraints.weightx = leftColumnWeight;
-			layout.setConstraints(items.divisionCountLabel, constraints);
-			items.panel.add(items.divisionCountLabel);
+			layout.setConstraints(items.sectionCountLabel, constraints);
+			items.panel.add(items.sectionCountLabel);
 
 			// The text field of the number of divided sections in EQUAL-DIVISION mode.
-			items.divisionCountField = new JTextField();
+			items.sectionCountField = new JTextField();
 			constraints.gridx++;
 			constraints.weightx = rightColumnWeight;
-			layout.setConstraints(items.divisionCountField, constraints);
-			items.panel.add(items.divisionCountField);
+			layout.setConstraints(items.sectionCountField, constraints);
+			items.panel.add(items.sectionCountField);
 
 			// The empty line.
 			constraints.gridy++;
