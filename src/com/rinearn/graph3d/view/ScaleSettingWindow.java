@@ -1296,10 +1296,10 @@ public class ScaleSettingWindow {
 				ticksTabItems.zManualItems.coordinatesField.setText(this.tickCoordinatesToUIText(zManualTicker.getTickCoordinates()));
 				ticksTabItems.colorBarManualItems.coordinatesField.setText(this.tickCoordinatesToUIText(cManualTicker.getTickCoordinates()));
 
-				ticksTabItems.xManualItems.labelsField.setText(this.tickLabelsToUIText(xManualTicker.getTickLabels()));
-				ticksTabItems.yManualItems.labelsField.setText(this.tickLabelsToUIText(yManualTicker.getTickLabels()));
-				ticksTabItems.zManualItems.labelsField.setText(this.tickLabelsToUIText(zManualTicker.getTickLabels()));
-				ticksTabItems.colorBarManualItems.labelsField.setText(this.tickLabelsToUIText(cManualTicker.getTickLabels()));
+				ticksTabItems.xManualItems.labelsField.setText(this.tickLabelsToUIText(xManualTicker.getTickLabelTexts()));
+				ticksTabItems.yManualItems.labelsField.setText(this.tickLabelsToUIText(yManualTicker.getTickLabelTexts()));
+				ticksTabItems.zManualItems.labelsField.setText(this.tickLabelsToUIText(zManualTicker.getTickLabelTexts()));
+				ticksTabItems.colorBarManualItems.labelsField.setText(this.tickLabelsToUIText(cManualTicker.getTickLabelTexts()));
 			}
 
 			// "Formats" tab:

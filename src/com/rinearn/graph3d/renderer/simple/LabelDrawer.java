@@ -46,14 +46,14 @@ public class LabelDrawer {
 	/** The horizontal distance [px] from the reference point, at which the alignment of tick labels change. */
 	private int horizontalAlignThreshold;
 
-	/** The labels of the ticks on X axis. */
-	private String[] xTickLabels = {};
+	/** The texts of the tick labels on X axis. */
+	private String[] xTickLabelTexts = {};
 
-	/** The labels of the ticks on Y axis. */
-	private String[] yTickLabels = {};
+	/** The texts of the tick labels on Y axis. */
+	private String[] yTickLabelTexts = {};
 
-	/** The labels of the ticks on Z axis. */
-	private String[] zTickLabels = {};
+	/** The texts of the tick labels on Z axis. */
+	private String[] zTickLabelTexts = {};
 
 
 	/**
@@ -88,18 +88,18 @@ public class LabelDrawer {
 
 
 	/**
-	 * Sets the labels of the ticks on X, Y, and Z axes.
+	 * Sets the texts of the tick labels on X, Y, and Z axes.
 	 *
-	 * @param xTickLabels The labels of the ticks on X axis.
-	 * @param yTickLabels The labels of the ticks on Y axis.
-	 * @param zTickLabels The labels of the ticks on Z axis.
+	 * @param xTickLabelTexts The texts of the tick labels on X axis.
+	 * @param yTickLabelTexts The texts of the tick labels on Y axis.
+	 * @param zTickLabelTexts The texts of the tick labels on Z axis.
 	 */
-	public synchronized void setTickLabels(
-			String[] xTickLabels, String[] yTickLabels, String[] zTickLabels) {
+	public synchronized void setTickLabelTexts(
+			String[] xTickLabelTexts, String[] yTickLabelTexts, String[] zTickLabelTexts) {
 
-		this.xTickLabels = xTickLabels;
-		this.yTickLabels = yTickLabels;
-		this.zTickLabels = zTickLabels;
+		this.xTickLabelTexts = xTickLabelTexts;
+		this.yTickLabelTexts = yTickLabelTexts;
+		this.zTickLabelTexts = zTickLabelTexts;
 	}
 
 
@@ -154,14 +154,14 @@ public class LabelDrawer {
 	/**
 	 * Gets the maximum rendering width of tick labels.
 	 *
-	 * @param tickLabels The tick label.
+	 * @param tickLabelTexts The text of the tick label.
 	 * @param tickLabelFontMetrics The metrics of the font for rendering the tick labels.
 	 * @return The maximum rendering width of tick labels.
 	 */
-	private int getTickLabelMaxWidth(String[] tickLabels, FontMetrics tickLabelFontMetrics) {
+	private int getTickLabelMaxWidth(String[] tickLabelTexts, FontMetrics tickLabelFontMetrics) {
 		int maxWidth = 0;
-		for (String tickLabel: tickLabels) {
-			int width = tickLabelFontMetrics.stringWidth(tickLabel);
+		for (String tickLabelText: tickLabelTexts) {
+			int width = tickLabelFontMetrics.stringWidth(tickLabelText);
 			maxWidth = Math.max(width, maxWidth);
 		}
 		return maxWidth;
@@ -182,10 +182,10 @@ public class LabelDrawer {
 		int vThreshold   = this.verticalAlignThreshold;
 		int hThreshold = this.horizontalAlignThreshold;
 		double tickLabelMargin = this.config.getScaleConfiguration().getXScaleConfiguration().getTickLabelMargin();
-		String[] tickLabels = this.xTickLabels;
+		String[] tickLabelTexts = this.xTickLabelTexts;
 		String axisLabel = this.config.getLabelConfiguration().getXLabelConfiguration().getText();
 
-		int hOffset = this.getTickLabelMaxWidth(tickLabels, tickLabelFontMetrics);
+		int hOffset = this.getTickLabelMaxWidth(tickLabelTexts, tickLabelFontMetrics);
 		int vOffset = tickLabelFontMetrics.getHeight();
 		hOffset = (int)(hOffset * 1.5);
 		vOffset = (int)(vOffset * 1.5);
@@ -297,7 +297,7 @@ public class LabelDrawer {
 		int vThreshold   = this.verticalAlignThreshold;
 		int hThreshold = this.horizontalAlignThreshold;
 		double tickLabelMargin = this.config.getScaleConfiguration().getYScaleConfiguration().getTickLabelMargin();
-		String[] tickLabels = this.yTickLabels;
+		String[] tickLabels = this.yTickLabelTexts;
 		String axisLabel = this.config.getLabelConfiguration().getYLabelConfiguration().getText();
 
 		int hOffset = this.getTickLabelMaxWidth(tickLabels, tickLabelFontMetrics);
@@ -410,7 +410,7 @@ public class LabelDrawer {
 		int vThreshold   = this.verticalAlignThreshold;
 		int hThreshold = this.horizontalAlignThreshold;
 		double tickLabelMargin = this.config.getScaleConfiguration().getZScaleConfiguration().getTickLabelMargin();
-		String[] tickLabels = this.zTickLabels;
+		String[] tickLabels = this.zTickLabelTexts;
 		String axisLabel = this.config.getLabelConfiguration().getZLabelConfiguration().getText();
 
 		int hOffset = this.getTickLabelMaxWidth(tickLabels, tickLabelFontMetrics);

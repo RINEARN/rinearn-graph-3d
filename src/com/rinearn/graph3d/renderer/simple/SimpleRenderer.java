@@ -229,20 +229,20 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 				zRangeConfig.getMinimum(), zRangeConfig.getMaximum(), isLogPlot
 		);
 
-		String[] xTickLabels = xScaleConfig.getTicker().generateTickLabels(
+		String[] xTickLabelTexts = xScaleConfig.getTicker().generateTickLabelTexts(
 				xTickCoords, xScaleConfig.getTickLabelFormatter()
 		);
-		String[] yTickLabels = yScaleConfig.getTicker().generateTickLabels(
+		String[] yTickLabelTexts = yScaleConfig.getTicker().generateTickLabelTexts(
 				yTickCoords, yScaleConfig.getTickLabelFormatter()
 		);
-		String[] zTickLabels = zScaleConfig.getTicker().generateTickLabels(
+		String[] zTickLabelTexts = zScaleConfig.getTicker().generateTickLabelTexts(
 				zTickCoords, zScaleConfig.getTickLabelFormatter()
 		);
 
 		this.frameDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
-		this.labelDrawer.setTickLabels(xTickLabels, yTickLabels, zTickLabels);
+		this.labelDrawer.setTickLabelTexts(xTickLabelTexts, yTickLabelTexts, zTickLabelTexts);
 		this.scaleTickDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
-		this.scaleTickDrawer.setTickLabels(xTickLabels, yTickLabels, zTickLabels);
+		this.scaleTickDrawer.setTickLabels(xTickLabelTexts, yTickLabelTexts, zTickLabelTexts);
 	}
 
 	/**

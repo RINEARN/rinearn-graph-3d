@@ -13,8 +13,8 @@ public class ManualTicker extends Ticker {
 			BigDecimal.ONE.negate(), new BigDecimal("-0.5"), BigDecimal.ZERO, new BigDecimal("0.5"), BigDecimal.ONE
 	};
 
-	/** The labels of the ticks. */
-	private volatile String[] tickLabels = { "-1.0", "-0.5", "0", "0.5", "1.0" };
+	/** The texts of the tick labels. */
+	private volatile String[] tickLabelTexts = { "-1.0", "-0.5", "0", "0.5", "1.0" };
 
 	/**
 	 * Create a new instance.
@@ -40,22 +40,34 @@ public class ManualTicker extends Ticker {
 		return this.tickCoordinates;
 	}
 
+	// !!!!! NOTE !!!!!
+	// The following method was originally named as "setTickLabels", but renamed to "setTickLabelTexts"
+	// for the consistency with LabelConfiguration.AxisLabelConfiguration.setText(),
+	// and considering that we may add tick-label related methods, e.g.: setTickLabelAngles().
+	// !!!!! NOTE !!!!!
+
 	/**
 	 * Sets the labels of the ticks.
 	 *
 	 * @param The labels of the ticks.
 	 */
-	public void setTickLabels(String[] tickLabels) {
-		this.tickLabels = tickLabels;
+	public void setTickLabelTexts(String[] tickLabelTexts) {
+		this.tickLabelTexts = tickLabelTexts;
 	}
 
+	// !!!!! NOTE !!!!!
+	// The following method was originally named as "getTickLabels", but renamed to "getTickLabelTexts"
+	// for the consistency with LabelConfiguration.AxisLabelConfiguration.setText(),
+	// and considering that we may add tick-label related methods, e.g.: getTickLabelAngles().
+	// !!!!! NOTE !!!!!
+
 	/**
-	 * Gets the labels of the ticks.
+	 * Gets the texts of the tick labels.
 	 *
-	 * @return The labels of the ticks.
+	 * @return The texts of the tick labels.
 	 */
-	public String[] getTickLabels() {
-		return this.tickLabels;
+	public String[] getTickLabelTexts() {
+		return this.tickLabelTexts;
 	}
 
 
@@ -65,8 +77,8 @@ public class ManualTicker extends Ticker {
 	}
 
 	@Override
-	public String[] generateTickLabels(BigDecimal[] tickCoordinates, TickLabelFormatter formatter) {
-		return this.tickLabels;
+	public String[] generateTickLabelTexts(BigDecimal[] tickCoordinates, TickLabelFormatter formatter) {
+		return this.tickLabelTexts;
 	}
 
 
@@ -81,7 +93,7 @@ public class ManualTicker extends Ticker {
 	 */
 	@Override
 	public void validate() throws IllegalStateException {
-		if (this.tickCoordinates.length != this.tickLabels.length) {
+		if (this.tickCoordinates.length != this.tickLabelTexts.length) {
 			throw new IllegalStateException("The number of the tick coordinates does not match with the number of the tick labels.");
 		}
 		for (BigDecimal coord: this.tickCoordinates) {
@@ -89,7 +101,7 @@ public class ManualTicker extends Ticker {
 				throw new IllegalStateException("Null value is contained in the tick coordinates.");
 			}
 		}
-		for (String label: this.tickLabels) {
+		for (String label: this.tickLabelTexts) {
 			if (label == null) {
 				throw new IllegalStateException("Null label is contained in the tick labels.");
 			}

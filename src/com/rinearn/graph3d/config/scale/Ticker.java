@@ -39,24 +39,30 @@ public abstract class Ticker {
 	 */
 	public abstract BigDecimal[] generateTickCoordinates(BigDecimal rangeMin, BigDecimal rangeMax, boolean isLogPlot);
 
+	// !!!!! NOTE !!!!!
+	// The following method was originally named as "generateTickLabels", but renamed to "generateTickLabelTexts"
+	// for the consistency with LabelConfiguration.AxisLabelConfiguration.setText(),
+	// and considering that we may add tick-label related methods, e.g.: generateTickLabelAngles().
+	// !!!!! NOTE !!!!!
+
 	/**
-	 * Generates the tick labels.
+	 * Generates the texts of the tick labels.
 	 *
-	 * @param tickCoordinates
-	 * @param formatter
-	 * @return The generated tick labels.
+	 * @param tickCoordinates The coordinates of the ticks.
+	 * @param formatter The formatter of the tick labels.
+	 * @return The generated texts of the tick labels.
 	 */
-	public synchronized String[] generateTickLabels(BigDecimal[] tickCoordinates, TickLabelFormatter formatter) {
+	public synchronized String[] generateTickLabelTexts(BigDecimal[] tickCoordinates, TickLabelFormatter formatter) {
 		int tickCount = tickCoordinates.length;
-		String[] tickLabels = new String[tickCount];
+		String[] tickLabelTexts = new String[tickCount];
 		for (int itick=0; itick<tickCount; itick++) {
 			if (formatter.isFormattable(tickCoordinates[itick])) {
-				tickLabels[itick] = formatter.format(tickCoordinates[itick]);
+				tickLabelTexts[itick] = formatter.format(tickCoordinates[itick]);
 			} else {
-				tickLabels[itick] = "";
+				tickLabelTexts[itick] = "";
 			}
 		}
-		return tickLabels;
+		return tickLabelTexts;
 	}
 
 	/**

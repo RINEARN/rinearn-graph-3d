@@ -311,7 +311,7 @@ public final class FrameConfiguration {
 		private ImageMode imageMode = ImageMode.NONE;
 
 		/** The file from which the image to be displayed on this plane's frame is loaded. */
-		private volatile File imageFile = new File("temp/hoge.txt"); // The loaded image will be drawn to the buffer in Renderer, so no Image instance here.
+		private volatile File imageFile = null; // The loaded image will be drawn to the buffer in Renderer, so no Image instance here.
 
 		// private volatile int subplotIndex; // Maybe supported in future. Probably we should have subplot index here, not Image instance.
 

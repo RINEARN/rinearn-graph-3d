@@ -1169,24 +1169,24 @@ public final class RinearnGraph3D {
 	 * Sets the coordinates (locations) and the labels (displayed text) of the scale ticks on X axis.
 	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
-	 * @param tickLabels The labels of the scale ticks.
+	 * @param tickLabelTexts The label texts of the scale ticks.
 	 */
-	public synchronized void setXTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
-		this.presenter.scaleSettingHandler.setXTicks(tickCoordinates, tickLabels);
+	public synchronized void setXTicks(BigDecimal[] tickCoordinates, String[] tickLabelTexts) {
+		this.presenter.scaleSettingHandler.setXTicks(tickCoordinates, tickLabelTexts);
 	}
 
 	/**
 	 * Sets the coordinates (locations) and the labels (displayed text) of the scale ticks on X axis.
 	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
-	 * @param tickLabels The labels of the scale ticks.
+	 * @param tickLabelTexts The label texts of the scale ticks.
 	 */
-	public synchronized void setXTicks(double[] tickCoordinates, String[] tickLabels) {
+	public synchronized void setXTicks(double[] tickCoordinates, String[] tickLabelTexts) {
 		BigDecimal[] bdTickCoordinates = new BigDecimal[tickCoordinates.length];
 		for (int itick=0; itick<tickCoordinates.length; itick++) {
 			bdTickCoordinates[itick] = new BigDecimal(tickCoordinates[itick]);
 		}
-		this.presenter.scaleSettingHandler.setXTicks(bdTickCoordinates, tickLabels);
+		this.presenter.scaleSettingHandler.setXTicks(bdTickCoordinates, tickLabelTexts);
 	}
 
 
@@ -1194,24 +1194,24 @@ public final class RinearnGraph3D {
 	 * Sets the coordinates (locations) and the labels (displayed text) of the scale ticks on Y axis.
 	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
-	 * @param tickLabels The labels of the scale ticks.
+	 * @param tickLabelTexts The label texts of the scale ticks.
 	 */
-	public synchronized void setYTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
-		this.presenter.scaleSettingHandler.setYTicks(tickCoordinates, tickLabels);
+	public synchronized void setYTicks(BigDecimal[] tickCoordinates, String[] tickLabelTexts) {
+		this.presenter.scaleSettingHandler.setYTicks(tickCoordinates, tickLabelTexts);
 	}
 
 	/**
 	 * Sets the coordinates (locations) and the labels (displayed text) of the scale ticks on Y axis.
 	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
-	 * @param tickLabels The labels of the scale ticks.
+	 * @param tickLabelTexts The label texts of the scale ticks.
 	 */
-	public synchronized void setYTicks(double[] tickCoordinates, String[] tickLabels) {
+	public synchronized void setYTicks(double[] tickCoordinates, String[] tickLabelTexts) {
 		BigDecimal[] bdTickCoordinates = new BigDecimal[tickCoordinates.length];
 		for (int itick=0; itick<tickCoordinates.length; itick++) {
 			bdTickCoordinates[itick] = new BigDecimal(tickCoordinates[itick]);
 		}
-		this.presenter.scaleSettingHandler.setYTicks(bdTickCoordinates, tickLabels);
+		this.presenter.scaleSettingHandler.setYTicks(bdTickCoordinates, tickLabelTexts);
 	}
 
 
@@ -1219,24 +1219,24 @@ public final class RinearnGraph3D {
 	 * Sets the coordinates (locations) and the labels (displayed text) of the scale ticks on Z axis.
 	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
-	 * @param tickLabels The labels of the scale ticks.
+	 * @param tickLabelTexts The label texts of the scale ticks.
 	 */
-	public synchronized void setZTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
-		this.presenter.scaleSettingHandler.setZTicks(tickCoordinates, tickLabels);
+	public synchronized void setZTicks(BigDecimal[] tickCoordinates, String[] tickLabelTexts) {
+		this.presenter.scaleSettingHandler.setZTicks(tickCoordinates, tickLabelTexts);
 	}
 
 	/**
 	 * Sets the coordinates (locations) and the labels (displayed text) of the scale ticks on Z axis.
 	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
-	 * @param tickLabels The labels of the scale ticks.
+	 * @param tickLabelTexts The label texts of the scale ticks.
 	 */
-	public synchronized void setZTicks(double[] tickCoordinates, String[] tickLabels) {
+	public synchronized void setZTicks(double[] tickCoordinates, String[] tickLabelTexts) {
 		BigDecimal[] bdTickCoordinates = new BigDecimal[tickCoordinates.length];
 		for (int itick=0; itick<tickCoordinates.length; itick++) {
 			bdTickCoordinates[itick] = new BigDecimal(tickCoordinates[itick]);
 		}
-		this.presenter.scaleSettingHandler.setZTicks(bdTickCoordinates, tickLabels);
+		this.presenter.scaleSettingHandler.setZTicks(bdTickCoordinates, tickLabelTexts);
 	}
 
 

@@ -78,12 +78,12 @@ public class ScaleSettingHandler {
 	 * Sets the coordinates (locations) and the labels (displayed texts) of the scale ticks on X axis.
 	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
-	 * @param tickLabels The labels of the scale ticks.
+	 * @param tickLabelTexts The label texts of the scale ticks.
 	 */
-	public void setXTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
+	public void setXTicks(BigDecimal[] tickCoordinates, String[] tickLabelTexts) {
 
 		// Handle the API on the event-dispatcher thread.
-		SetXTicksAPIListener apiListener = new SetXTicksAPIListener(tickCoordinates, tickLabels);
+		SetXTicksAPIListener apiListener = new SetXTicksAPIListener(tickCoordinates, tickLabelTexts);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -105,18 +105,18 @@ public class ScaleSettingHandler {
 		/** The coordinates of the scale ticks. */
 		private final BigDecimal[] tickCoordinates;
 
-		/** The labels of the scale ticks. */
-		private final String[] tickLabels;
+		/** The label texts of the scale ticks. */
+		private final String[] tickLabelTexts;
 
 		/**
 		 * Create an instance handling setXTicks(-) API with the specified argument.
 		 *
 		 * @param tickCoordinates The coordinates of the scale ticks.
-		 * @param tickLabels The labels of the scale ticks.
+		 * @param tickLabelTexts The label texts of the scale ticks.
 		 */
-		public SetXTicksAPIListener(BigDecimal[] tickCoordinates, String[] tickLabels) {
+		public SetXTicksAPIListener(BigDecimal[] tickCoordinates, String[] tickLabelTexts) {
 			this.tickCoordinates = tickCoordinates;
-			this.tickLabels = tickLabels;
+			this.tickLabelTexts = tickLabelTexts;
 		}
 
 		@Override
@@ -126,7 +126,7 @@ public class ScaleSettingHandler {
 
 			xScaleConfig.setTickerMode(ScaleConfiguration.TickerMode.MANUAL);
 			xScaleConfig.getManualTicker().setTickCoordinates(tickCoordinates);
-			xScaleConfig.getManualTicker().setTickLabels(tickLabels);
+			xScaleConfig.getManualTicker().setTickLabelTexts(tickLabelTexts);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -137,12 +137,12 @@ public class ScaleSettingHandler {
 	 * Sets the coordinates (locations) and the labels (displayed texts) of the scale ticks on Y axis.
 	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
-	 * @param tickLabels The labels of the scale ticks.
+	 * @param tickLabelTexts The label texts of the scale ticks.
 	 */
-	public void setYTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
+	public void setYTicks(BigDecimal[] tickCoordinates, String[] tickLabelTexts) {
 
 		// Handle the API on the event-dispatcher thread.
-		SetYTicksAPIListener apiListener = new SetYTicksAPIListener(tickCoordinates, tickLabels);
+		SetYTicksAPIListener apiListener = new SetYTicksAPIListener(tickCoordinates, tickLabelTexts);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -164,18 +164,18 @@ public class ScaleSettingHandler {
 		/** The coordinates of the scale ticks. */
 		private final BigDecimal[] tickCoordinates;
 
-		/** The labels of the scale ticks. */
-		private final String[] tickLabels;
+		/** The label texts of the scale ticks. */
+		private final String[] tickLabelTexts;
 
 		/**
 		 * Create an instance handling setYTicks(-) API with the specified argument.
 		 *
 		 * @param tickCoordinates The coordinates of the scale ticks.
-		 * @param tickLabels The labels of the scale ticks.
+		 * @param tickLabelTexts The labels of the scale ticks.
 		 */
-		public SetYTicksAPIListener(BigDecimal[] tickCoordinates, String[] tickLabels) {
+		public SetYTicksAPIListener(BigDecimal[] tickCoordinates, String[] tickLabelTexts) {
 			this.tickCoordinates = tickCoordinates;
-			this.tickLabels = tickLabels;
+			this.tickLabelTexts = tickLabelTexts;
 		}
 
 		@Override
@@ -185,7 +185,7 @@ public class ScaleSettingHandler {
 
 			yScaleConfig.setTickerMode(ScaleConfiguration.TickerMode.MANUAL);
 			yScaleConfig.getManualTicker().setTickCoordinates(tickCoordinates);
-			yScaleConfig.getManualTicker().setTickLabels(tickLabels);
+			yScaleConfig.getManualTicker().setTickLabelTexts(tickLabelTexts);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -196,12 +196,12 @@ public class ScaleSettingHandler {
 	 * Sets the coordinates (locations) and the labels (displayed texts) of the scale ticks on Y axis.
 	 *
 	 * @param tickCoordinates The coordinates of the scale ticks.
-	 * @param tickLabels The labels of the scale ticks.
+	 * @param tickLabelTexts The label texts of the scale ticks.
 	 */
-	public void setZTicks(BigDecimal[] tickCoordinates, String[] tickLabels) {
+	public void setZTicks(BigDecimal[] tickCoordinates, String[] tickLabelTexts) {
 
 		// Handle the API on the event-dispatcher thread.
-		SetZTicksAPIListener apiListener = new SetZTicksAPIListener(tickCoordinates, tickLabels);
+		SetZTicksAPIListener apiListener = new SetZTicksAPIListener(tickCoordinates, tickLabelTexts);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -223,18 +223,18 @@ public class ScaleSettingHandler {
 		/** The coordinates of the scale ticks. */
 		private final BigDecimal[] tickCoordinates;
 
-		/** The labels of the scale ticks. */
-		private final String[] tickLabels;
+		/** The label texts of the scale ticks. */
+		private final String[] tickLabelTexts;
 
 		/**
 		 * Create an instance handling setZTicks(-) API with the specified argument.
 		 *
 		 * @param tickCoordinates The coordinates of the scale ticks.
-		 * @param tickLabels The labels of the scale ticks.
+		 * @param tickLabelTexts The label texts of the scale ticks.
 		 */
-		public SetZTicksAPIListener(BigDecimal[] tickCoordinates, String[] tickLabels) {
+		public SetZTicksAPIListener(BigDecimal[] tickCoordinates, String[] tickLabelTexts) {
 			this.tickCoordinates = tickCoordinates;
-			this.tickLabels = tickLabels;
+			this.tickLabelTexts = tickLabelTexts;
 		}
 
 		@Override
@@ -244,7 +244,7 @@ public class ScaleSettingHandler {
 
 			zScaleConfig.setTickerMode(ScaleConfiguration.TickerMode.MANUAL);
 			zScaleConfig.getManualTicker().setTickCoordinates(tickCoordinates);
-			zScaleConfig.getManualTicker().setTickLabels(tickLabels);
+			zScaleConfig.getManualTicker().setTickLabelTexts(tickLabelTexts);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
