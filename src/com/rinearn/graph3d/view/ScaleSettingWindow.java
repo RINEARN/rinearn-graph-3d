@@ -368,7 +368,7 @@ public class ScaleSettingWindow {
 		 *
 		 * @return The TickerMode enum element corresponding to the selected item of the specified JComboBox.
 		 */
-		private ScaleConfiguration.TickerMode getSelectedTickerModeOf(JComboBox<MultilingualItem> comboBox) {
+		public ScaleConfiguration.TickerMode getSelectedTickerModeOf(JComboBox<MultilingualItem> comboBox) {
 			if (!SwingUtilities.isEventDispatchThread()) {
 				throw new IllegalStateException("This method is invokable only on the event-dispatch thread.");
 			}
@@ -1577,7 +1577,12 @@ public class ScaleSettingWindow {
 			for (int itick=0; itick<tickCount; itick++) {
 
 				// Append the tick coordinate to the UI text, and also append a comma (,) as the delimiter between values.
-				uiTextBuilder.append(tickCoordinates[itick].toString());
+				if (tickCoordinates[itick] == null) {
+					uiTextBuilder.append("null");
+				} else {
+					uiTextBuilder.append(tickCoordinates[itick].toString());
+				}
+
 				if (itick != tickCount - 1) {
 					uiTextBuilder.append(", ");
 				}
