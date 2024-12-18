@@ -3,7 +3,7 @@ package com.rinearn.graph3d.renderer.simple;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.config.color.ColorGradient;
+import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.config.ScaleConfiguration;
 import com.rinearn.graph3d.config.CameraConfiguration;
@@ -197,8 +197,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		// Update the camera angles and parameters.
 		this.updateCamera();
 
-		// Updates the ranges of the color gradients, from the updated configuration.
-		this.updateColorGradients();
+		// Updates the ranges of the gradient colors, from the updated configuration.
+		this.updateGradientColors();
 	}
 
 
@@ -246,45 +246,45 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	}
 
 	/**
-	 * Updates the ranges of the color gradients, from the current configuration.
+	 * Updates the ranges of the gradients of the colors, from the current configuration.
 	 */
-	private void updateColorGradients() {
+	private void updateGradientColors() {
 		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
 		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
 		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
 		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 
 		ColorConfiguration colorConfig = this.config.getColorConfiguration();
-		for (ColorGradient gradient: colorConfig.getDataColorGradients()) {
-			for (ColorGradient.AxisColorGradient axisGradient: gradient.getAxisColorGradients()) {
-				if (!axisGradient.isAutoBoundaryRangingEnabled()) {
+		for (GradientColor gradientColor: colorConfig.getDataGradientColors()) {
+			for (GradientColor.AxisGradientColor axisGradientColor: gradientColor.getAxisGradientColors()) {
+				if (!axisGradientColor.isAutoBoundaryRangingEnabled()) {
 					continue;
 				}
-				switch (axisGradient.getAxis()) {
+				switch (axisGradientColor.getAxis()) {
 					case X : {
-						axisGradient.setMinimumBoundaryCoordinate(xRangeConfig.getMinimum());
-						axisGradient.setMaximumBoundaryCoordinate(xRangeConfig.getMaximum());
+						axisGradientColor.setMinimumBoundaryCoordinate(xRangeConfig.getMinimum());
+						axisGradientColor.setMaximumBoundaryCoordinate(xRangeConfig.getMaximum());
 						break;
 					}
 					case Y : {
-						axisGradient.setMinimumBoundaryCoordinate(yRangeConfig.getMinimum());
-						axisGradient.setMaximumBoundaryCoordinate(yRangeConfig.getMaximum());
+						axisGradientColor.setMinimumBoundaryCoordinate(yRangeConfig.getMinimum());
+						axisGradientColor.setMaximumBoundaryCoordinate(yRangeConfig.getMaximum());
 						break;
 					}
 					case Z : {
-						axisGradient.setMinimumBoundaryCoordinate(zRangeConfig.getMinimum());
-						axisGradient.setMaximumBoundaryCoordinate(zRangeConfig.getMaximum());
+						axisGradientColor.setMinimumBoundaryCoordinate(zRangeConfig.getMinimum());
+						axisGradientColor.setMaximumBoundaryCoordinate(zRangeConfig.getMaximum());
 						break;
 					}
 					case COLUMN_4 : {
 						RangeConfiguration.AxisRangeConfiguration[] extraRangeConfig = rangeConfig.getExtraDimensionRangeConfigurations();
-						axisGradient.setMinimumBoundaryCoordinate(extraRangeConfig[0].getMinimum());
-						axisGradient.setMaximumBoundaryCoordinate(extraRangeConfig[0].getMaximum());
+						axisGradientColor.setMinimumBoundaryCoordinate(extraRangeConfig[0].getMinimum());
+						axisGradientColor.setMaximumBoundaryCoordinate(extraRangeConfig[0].getMaximum());
 						// Existence of extraRangeConfig[0] has been checked in the validation.
 						break;
 					}
 					default : {
-						throw new UnsupportedOperationException("Unknown gradient axis: " + axisGradient.getAxis());
+						throw new UnsupportedOperationException("Unknown gradient axis: " + axisGradientColor.getAxis());
 					}
 				}
 			}

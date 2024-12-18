@@ -42,55 +42,62 @@ import java.math.BigDecimal;
 //!!! NOTE !!!
 
 // !!! NOTE2 !!!
-// 
+//
 // getMinimumBoundaryCoordinate とかの命名、むしろ getBoundaryCoordinateMinimum とかでは？ getRangeMinimum とかとの対応的に。
 //
 // !!! NOTE2 !!!
 
+// !!! NOTE3 !!!
+//
+// * ColorConfig 内部クラスから color パッケージ内の単体クラスに昇格したことだし、
+//   AxisGradientColor も1つのクラスに分割して、このクラスはそれを部品として使う、みたいに改めるべき？
+//
+// !!! NOTE3 !!!
+
 /**
  * The class representing a color gradient.
- * 
+ *
  * This class is mainly used in ColorConfiguration.
  */
-public final class ColorGradient {
+public final class GradientColor {
 
-	/** Stores an one-dimensional gradient for each axis. */
-	private AxisColorGradient[] axisColorGradients = { new AxisColorGradient() };
+	/** Stores an one-dimensional gradient color for each axis. */
+	private AxisGradientColor[] axisGradientColors = { new AxisGradientColor() };
 
 	/** The background color on which the gradients of all axes are blended. */
 	private Color backgroundColor = new Color(0, 0, 0, 0); // Clear black
 
 
 	/**
-	 * Gets the total number of the axes (dimensions) of this gradient.
-	 * 
+	 * Gets the total number of the axes (dimensions) of this gradient color.
+	 *
 	 * @return The total number of the axes.
 	 */
 	public synchronized int getAxisCount() {
-		return this.axisColorGradients.length;
+		return this.axisGradientColors.length;
 	}
 
 	/**
-	 * Sets each axis's color gradient, by an array storing an one-dimensional gradient for each axis.
-	 * 
-	 * @param axisColorGradients The array storing an one-dimensional gradient for each axis.
+	 * Sets each axis's gradient color, by an array storing an one-dimensional gradient color for each axis.
+	 *
+	 * @param axisGradientColors The array storing an one-dimensional gradient color for each axis.
 	 */
-	public synchronized void setAxisColorGradients(AxisColorGradient[] axisColorGradients) {
-		this.axisColorGradients = axisColorGradients;
+	public synchronized void setAxisGradientColors(AxisGradientColor[] axisGradientColors) {
+		this.axisGradientColors = axisGradientColors;
 	}
 
 	/**
-	 * Gets each axis's color gradient as an array.
-	 * 
-	 * @param axisColorGradients The array storing an one-dimensional gradient for each axis.
+	 * Gets each axis's color gradient color as an array.
+	 *
+	 * @param axisGradientColors The array storing an one-dimensional gradient color for each axis.
 	 */
-	public synchronized AxisColorGradient[] getAxisColorGradients() {
-		return this.axisColorGradients;
+	public synchronized AxisGradientColor[] getAxisGradientColors() {
+		return this.axisGradientColors;
 	}
 
 	/**
-	 * Sets the background color, on which the gradients of all axes are blended.
-	 * 
+	 * Sets the background color, on which the gradient colors of all axes are blended.
+	 *
 	 * @param backgroundColor The background color.
 	 */
 	public synchronized void setBackgroundColor(Color backgroundColor) {
@@ -98,8 +105,8 @@ public final class ColorGradient {
 	}
 
 	/**
-	 * Gets the background color, on which the gradients of all axes are blended.
-	 * 
+	 * Gets the background color, on which the gradient colors of all axes are blended.
+	 *
 	 * @return The background color.
 	 */
 	public synchronized Color getBackgroundColor() {
@@ -108,24 +115,24 @@ public final class ColorGradient {
 
 	/**
 	 * Validates correctness and consistency of parameters stored in this instance.
-	 * 
+	 *
 	 * This method is called when a color configuration is specified to RinearnGraph3D or its renderer.
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
-	 * 
+	 *
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws IllegalStateException {
 
-		// Validate axes's color gradients.
-		if (this.axisColorGradients == null) {
-			throw new IllegalStateException("The axes's color gradients are null");
+		// Validate axes's gradient colors.
+		if (this.axisGradientColors == null) {
+			throw new IllegalStateException("The axes's gradient colors are null");
 		} else {
-			for (ColorGradient.AxisColorGradient axisGradient: this.axisColorGradients) {
-				if (axisGradient == null) {
+			for (GradientColor.AxisGradientColor axisGradientColor: this.axisGradientColors) {
+				if (axisGradientColor == null) {
 					throw new IllegalStateException("There is a null element in the axes's color gradients.");
 				}
-				axisGradient.validate();
+				axisGradientColor.validate();
 			}
 		}
 
@@ -156,7 +163,7 @@ public final class ColorGradient {
 
 
 	/**
-	 * The enum for specifying a blend mode of multiple color gradients.
+	 * The enum for specifying a blend mode of multiple gradient colors.
 	 */
 	public static enum BlendMode {
 
@@ -194,10 +201,10 @@ public final class ColorGradient {
 
 
 	/**
-	 * The class representing one-dimensional color gradient,
-	 * composing one axis of (may be multiple dimensional) color gradient.
+	 * The class representing one-dimensional gradient color,
+	 * composing one axis of (may be multiple dimensional) gradient color.
 	 */
-	public static final class AxisColorGradient {
+	public static final class AxisGradientColor {
 
 		// Note: Should rename "boundary..." to "midPoint..." ?
 		//       -> Probably No. "mid point" is used by some interpolation algorithms in the different meaning, so it may lead confusing.
@@ -240,7 +247,7 @@ public final class ColorGradient {
 
 		/**
 		 * Sets the dimension axis of this gradient.
-		 * 
+		 *
 		 * @param axis The dimension axis of this gradient.
 		 */
 		public synchronized void setAxis(Axis axis) {
@@ -249,7 +256,7 @@ public final class ColorGradient {
 
 		/**
 		 * Gets the dimension axis of this gradient.
-		 * 
+		 *
 		 * @return The dimension axis of this gradient.
 		 */
 		public synchronized Axis getAxis() {
@@ -258,7 +265,7 @@ public final class ColorGradient {
 
 		/**
 		 * Sets the blend mode, for blending this gradient to the background color or an other gradient.
-		 * 
+		 *
 		 * @param blendMode The blend mode.
 		 */
 		public synchronized void setBlendMode(BlendMode blendMode) {
@@ -267,7 +274,7 @@ public final class ColorGradient {
 
 		/**
 		 * Gets the blend mode, for blending this gradient to the background color or an other gradient.
-		 * 
+		 *
 		 * @return The blend mode.
 		 */
 		public synchronized BlendMode getBlendMode() {
@@ -276,7 +283,7 @@ public final class ColorGradient {
 
 		/**
 		 * Sets the interpolation mode, which determines colors between boundary points.
-		 * 
+		 *
 		 * @param interpolationMode The interpolation mode.
 		 */
 		public synchronized void setInterpolationMode(InterpolationMode interpolationMode) {
@@ -285,7 +292,7 @@ public final class ColorGradient {
 
 		/**
 		 * Gets the interpolation mode, which determines colors between boundary points.
-		 * 
+		 *
 		 * @return The interpolation mode.
 		 */
 		public synchronized InterpolationMode getInterpolationMode() {
@@ -294,7 +301,7 @@ public final class ColorGradient {
 
 		/**
 		 * Sets the boundary mode, which determines locations of boundary points.
-		 * 
+		 *
 		 * @param boundaryMode The boundary mode.
 		 */
 		public synchronized void setBoundaryMode(BoundaryMode boundaryMode) {
@@ -303,7 +310,7 @@ public final class ColorGradient {
 
 		/**
 		 * Gets the boundary mode, which determines locations of boundary points.
-		 * 
+		 *
 		 * @return The boundary mode.
 		 */
 		public synchronized BoundaryMode getBoundaryMode() {
@@ -312,7 +319,7 @@ public final class ColorGradient {
 
 		/**
 		 * Gets the total number of the boundary points of this gradient.
-		 * 
+		 *
 		 * @return The total number of the boundary points of this gradient.
 		 */
 		public synchronized int getBoundaryCount() {
@@ -321,7 +328,7 @@ public final class ColorGradient {
 
 		/**
 		 * Sets the colors at the boundary points of this gradient.
-		 * 
+		 *
 		 * @param boundaryColors The colors at the boundary points of this gradient.
 		 */
 		public synchronized void setBoundaryColors(Color[] boundaryColors) {
@@ -330,7 +337,7 @@ public final class ColorGradient {
 
 		/**
 		 * Gets the colors at the boundary points of this gradient.
-		 * 
+		 *
 		 * @return The colors at the boundary points of this gradient.
 		 */
 		public synchronized Color[] getBoundaryColors() {
@@ -339,7 +346,7 @@ public final class ColorGradient {
 
 		/**
 		 * Sets the coordinate values of the boundary points of this gradient.
-		 * 
+		 *
 		 * @param boundaryCoordinates The coordinate values of the boundary points of this gradient.
 		 */
 		public synchronized void setBoundaryCoordinates(BigDecimal[] boundaryCoordinates) {
@@ -348,7 +355,7 @@ public final class ColorGradient {
 
 		/**
 		 * Gets the coordinate values of the boundary points of this gradient.
-		 * 
+		 *
 		 * @return The coordinate values of the boundary points of this gradient.
 		 */
 		public synchronized BigDecimal[] getBoundaryCoordinates() {
@@ -357,7 +364,7 @@ public final class ColorGradient {
 
 		/**
 		 * Sets the minimum coordinate value of the boundary points, in EQUAL_DIVISION mode.
-		 * 
+		 *
 		 * @param minBoundaryCoordinate The minimum coordinate value of the boundary points.
 		 */
 		public synchronized void setMinimumBoundaryCoordinate(BigDecimal minBoundaryCoordinate) {
@@ -366,7 +373,7 @@ public final class ColorGradient {
 
 		/**
 		 * Gets the minimum coordinate value of the boundary points, in EQUAL_DIVISION mode.
-		 * 
+		 *
 		 * @return The minimum coordinate value of the boundary points.
 		 */
 		public synchronized BigDecimal getMinimumBoundaryCoordinate() {
@@ -375,7 +382,7 @@ public final class ColorGradient {
 
 		/**
 		 * Sets the maximum coordinate value of the boundary points, in EQUAL_DIVISION mode.
-		 * 
+		 *
 		 * @param maxBoundaryCoordinate The maximum coordinate value of the boundary points.
 		 */
 		public synchronized void setMaximumBoundaryCoordinate(BigDecimal maxBoundaryCoordinate) {
@@ -384,7 +391,7 @@ public final class ColorGradient {
 
 		/**
 		 * Gets the maximum coordinate value of the boundary points, in EQUAL_DIVISION mode.
-		 * 
+		 *
 		 * @return The maximum coordinate value of the boundary points.
 		 */
 		public synchronized BigDecimal getMaximumBoundaryCoordinate() {
@@ -393,7 +400,7 @@ public final class ColorGradient {
 
 		/**
 		 * Sets whether detect the min/max coordinates of the boundary points automatically from the data, in EQUAL_DIVISION mode.
-		 * 
+		 *
 		 * @param autoRangingEnabled Specify true for detecting the min/max coordinates automatically.
 		 */
 		public synchronized void setAutoBoundaryRangingEnabled(boolean autoBoundaryRangingEnabled) {
@@ -404,7 +411,7 @@ public final class ColorGradient {
 		 * Gets whether the auto boundary ranging feature,
 		 * which detects the min/max coordinates of the boundary points automatically from the data in EQUAL_DIVISION mode,
 		 * is enabled.
-		 * 
+		 *
 		 * @return Returns true if the auto boundary ranging feature is enabled.
 		 */
 		public synchronized boolean isAutoBoundaryRangingEnabled() {
@@ -413,11 +420,11 @@ public final class ColorGradient {
 
 		/**
 		 * Validates correctness and consistency of parameters stored in this instance.
-		 * 
+		 *
 		 * This method is called when a color configuration is specified to RinearnGraph3D or its renderer.
 		 * If no issue is detected, nothing occurs.
 		 * If any issue is detected, throws IllegalStateException.
-		 * 
+		 *
 		 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 		 */
 		public synchronized void validate() throws IllegalStateException {

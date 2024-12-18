@@ -2,7 +2,7 @@ package com.rinearn.graph3d.config;
 
 import java.awt.Color;
 
-import com.rinearn.graph3d.config.color.ColorGradient;
+import com.rinearn.graph3d.config.color.GradientColor;
 
 /*
 !!!!!
@@ -101,7 +101,7 @@ NOTE
 
 
   また実装しながら後々で要検討
-  → とりあえず ColorGradient を仮案の通りに実装したので、ミキサー側を実装したあたりでまた再検討/検証
+  → とりあえず GradientColor を仮案の通りに実装したので、ミキサー側を実装したあたりでまた再検討/検証
 
 !!!!!
 NOTE
@@ -193,8 +193,8 @@ public final class ColorConfiguration {
 	};
 
 	/** The array storing a gradient color(s) for each of data series. */
-	private volatile ColorGradient[] dataColorGradients = {
-		new ColorGradient()
+	private volatile GradientColor[] dataGradientColors = {
+		new GradientColor()
 	};
 
 	/** The background color of the graph screen. */
@@ -272,19 +272,19 @@ public final class ColorConfiguration {
 	/**
 	 * Sets gradient colors used for drawing data series, applied when their coloring modes are GRADIENT.
 	 *
-	 * @param dataColorGradients The array storing a ColorGradient instance for each data series.
+	 * @param dataGradientColors The array storing a GradientColor instance for each data series.
 	 */
-	public synchronized void setDataColorGradients(ColorGradient[] dataColorGradients) {
-		this.dataColorGradients = dataColorGradients;
+	public synchronized void setDataGradientColors(GradientColor[] dataGradientColors) {
+		this.dataGradientColors = dataGradientColors;
 	}
 
 	/**
-	 * Gets color gradients used for drawing data series, applied when their coloring modes are GRADIENT.
+	 * Gets gradient colors used for drawing data series, applied when their coloring modes are GRADIENT.
 	 *
-	 * @return The array storing a ColorGradient instance for each data series.
+	 * @return The array storing a GradientColor instance for each data series.
 	 */
-	public synchronized ColorGradient[] getDataColorGradients() {
-		return this.dataColorGradients;
+	public synchronized GradientColor[] getDataGradientColors() {
+		return this.dataGradientColors;
 	}
 
 	/**
@@ -378,15 +378,15 @@ public final class ColorConfiguration {
 		}
 
 		// Validate data color gradients.
-		if (this.dataColorGradients == null) {
-			throw new IllegalStateException("The data-color-gradients are null.");
+		if (this.dataGradientColors == null) {
+			throw new IllegalStateException("The data-gradient-colors are null.");
 		} else {
-			if (this.dataColorGradients.length == 0) {
-				throw new IllegalStateException("For data-color-gradients, at least one element is required, but nothing is stored.");
+			if (this.dataGradientColors.length == 0) {
+				throw new IllegalStateException("For data-gradient-colors, at least one element is required, but nothing is stored.");
 			}
-			for (ColorGradient colorGradient: this.dataColorGradients) {
+			for (GradientColor colorGradient: this.dataGradientColors) {
 				if (colorGradient == null) {
-					throw new IllegalStateException("There is a null element in the data-color-gradients.");
+					throw new IllegalStateException("There is a null element in the data-gradient-colors.");
 				}
 				colorGradient.validate();
 			}

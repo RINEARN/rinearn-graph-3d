@@ -1,6 +1,6 @@
 package com.rinearn.graph3d.config;
 
-import com.rinearn.graph3d.config.color.ColorGradient;
+import com.rinearn.graph3d.config.color.GradientColor;
 
 // !!!!!
 // NOTE
@@ -238,17 +238,17 @@ public final class RinearnGraph3DConfiguration {
 		// There are some dependencies between color and range configurations, so check the consistency of them.
 		if (this.hasRangeConfiguration() && this.hasColorConfiguration()) {
 
-			// Extract each axis's gradient stored in the color configuration.
-			for (ColorGradient dataColorGradient: this.colorConfiguration.getDataColorGradients()) {
-				for (ColorGradient.AxisColorGradient axisGradient: dataColorGradient.getAxisColorGradients()) {
+			// Extract each axis's gradient color stored in the color configuration.
+			for (GradientColor dataGradientColor: this.colorConfiguration.getDataGradientColors()) {
+				for (GradientColor.AxisGradientColor axisGradientColor: dataGradientColor.getAxisGradientColors()) {
 
-					// If any gradient's axis is set to an extra dimension (e.g.: 4-th column),
+					// If any gradient color's axis is set to an extra dimension (e.g.: 4-th column),
 					// the range of the extra dimension must be stored in that range configuration.
-					ColorGradient.Axis axis = axisGradient.getAxis();
-					if (axis == ColorGradient.Axis.COLUMN_4) {
+					GradientColor.Axis axis = axisGradientColor.getAxis();
+					if (axis == GradientColor.Axis.COLUMN_4) {
 						if (this.rangeConfiguration.getExtraDimensionCount() < 1) {
 							throw new IllegalStateException(
-								"For setting a gradient's axis to COLUMN_4," +
+								"For setting a gradient color's axis to COLUMN_4," +
 								"the range settings for the 4-th dimension must exist in the range configuration," +
 								"but it does not exist."
 							);
