@@ -8,6 +8,7 @@ import com.rinearn.graph3d.config.scale.NumericTickLabelFormatter;
 import com.rinearn.graph3d.config.scale.ManualTicker;
 import com.rinearn.graph3d.config.scale.EqualDivisionTicker;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -366,6 +367,7 @@ public class ScaleSettingWindow {
 		 * Gets the selected item of the specified JComboBox as an element of ScaleConfiguration.TickerMode enum.
 		 * This method is invokable only on the event-dispatch thread.
 		 *
+		 * @param comboBox The combo box for selecting the ticker mode.
 		 * @return The TickerMode enum element corresponding to the selected item of the specified JComboBox.
 		 */
 		public ScaleConfiguration.TickerMode getSelectedTickerModeOf(JComboBox<MultilingualItem> comboBox) {
@@ -452,9 +454,6 @@ public class ScaleSettingWindow {
 		/** The checkbox to ON/OFF the auto-formatting of Z-ticks. */
 		public volatile JCheckBox zAutoBox;
 
-		/** The checkbox to ON/OFF the auto-formatting of color-bar-ticks. */
-		public volatile JCheckBox colorBarAutoBox;
-
 
 		/** The label of the text field of the medium-range format of X-ticks. */
 		public volatile JLabel xMediumFormatLabel;
@@ -473,12 +472,6 @@ public class ScaleSettingWindow {
 
 		/** The text field of the medium-range format of Z-ticks. */
 		public volatile JTextField zMediumFormatField;
-
-		/** The label of the text field of the medium-range format of the color bar. */
-		public volatile JLabel colorBarMediumFormatLabel;
-
-		/** The text field of the medium-range format of the color bar. */
-		public volatile JTextField colorBarMediumFormatField;
 
 
 		/** The label of the text field of the short-range format of X-ticks. */
@@ -499,12 +492,6 @@ public class ScaleSettingWindow {
 		/** The text field of the short-range format of Z-ticks. */
 		public volatile JTextField zShortFormatField;
 
-		/** The label of the text field of the short-range format of the color bar. */
-		public volatile JLabel colorBarShortFormatLabel;
-
-		/** The text field of the short-range format of the color bar. */
-		public volatile JTextField colorBarShortFormatField;
-
 
 		/** The label of the text field of the long-range format of X-ticks. */
 		public volatile JLabel xLongFormatLabel;
@@ -524,11 +511,58 @@ public class ScaleSettingWindow {
 		/** The text field of the long-range format of Z-ticks. */
 		public volatile JTextField zLongFormatField;
 
-		/** The label of the text field of the long-range format of the color bar. */
-		public volatile JLabel colorBarLongFormatLabel;
 
-		/** The text field of the long-range format of the color bar. */
-		public volatile JTextField colorBarLongFormatField;
+		/**
+		 * Gets the formatter mode of the X tick labels from the UI,
+		 * and returns the mode an element of ScaleConfiguration.TickLabelFormatterMode enum.
+		 * This method is invokable only on the event-dispatch thread.
+		 *
+		 * @return The TickLabelFormatterMode enum element corresponding to the selected item of the specified JComboBox.
+		 */
+		public ScaleConfiguration.TickLabelFormatterMode getXTickLabelFormatterMode() {
+			return this.getSelectedTickLabelFormatterModeOf(this.xAutoBox);
+		}
+
+		/**
+		 * Gets the formatter mode of the Y tick labels from the UI,
+		 * and returns the mode an element of ScaleConfiguration.TickLabelFormatterMode enum.
+		 * This method is invokable only on the event-dispatch thread.
+		 *
+		 * @return The TickLabelFormatterMode enum element corresponding to the selected item of the specified JComboBox.
+		 */
+		public ScaleConfiguration.TickLabelFormatterMode getYTickLabelFormatterMode() {
+			return this.getSelectedTickLabelFormatterModeOf(this.yAutoBox);
+		}
+
+		/**
+		 * Gets the formatter mode of the Z tick labels from the UI,
+		 * and returns the mode an element of ScaleConfiguration.TickLabelFormatterMode enum.
+		 * This method is invokable only on the event-dispatch thread.
+		 *
+		 * @return The TickLabelFormatterMode enum element corresponding to the selected item of the specified JComboBox.
+		 */
+		public ScaleConfiguration.TickLabelFormatterMode getZTickLabelFormatterMode() {
+			return this.getSelectedTickLabelFormatterModeOf(this.zAutoBox);
+		}
+
+		/**
+		 * Gets the formatter mode of the tick labels from the state of the JCheckBox which controls ON/OFF of the auto-formatter,
+		 * and returns the mode an element of ScaleConfiguration.TickLabelFormatterMode enum.
+		 * This method is invokable only on the event-dispatch thread.
+		 *
+		 * @param checkBox The check box which controls ON/OFF of the auto-formatter.
+		 * @return The TickLabelFormatterMode enum element corresponding to the selected item of the specified JComboBox.
+		 */
+		public ScaleConfiguration.TickLabelFormatterMode getSelectedTickLabelFormatterModeOf(JCheckBox checkBox) {
+			if (!SwingUtilities.isEventDispatchThread()) {
+				throw new IllegalStateException("This method is invokable only on the event-dispatch thread.");
+			}
+			if (checkBox.isSelected()) {
+				return ScaleConfiguration.TickLabelFormatterMode.AUTO;
+			} else {
+				return ScaleConfiguration.TickLabelFormatterMode.NUMERIC;
+			}
+		}
 	}
 
 
@@ -1411,9 +1445,12 @@ public class ScaleSettingWindow {
 				ScaleConfiguration.TickLabelFormatterMode xFormatterMode = xScaleConfig.getTickLabelFormatterMode();
 				ScaleConfiguration.TickLabelFormatterMode yFormatterMode = yScaleConfig.getTickLabelFormatterMode();
 				ScaleConfiguration.TickLabelFormatterMode zFormatterMode = zScaleConfig.getTickLabelFormatterMode();
-				formatsTabItems.xAutoBox.setSelected(xFormatterMode == ScaleConfiguration.TickLabelFormatterMode.AUTO);
-				formatsTabItems.yAutoBox.setSelected(yFormatterMode == ScaleConfiguration.TickLabelFormatterMode.AUTO);
-				formatsTabItems.zAutoBox.setSelected(zFormatterMode == ScaleConfiguration.TickLabelFormatterMode.AUTO);
+				boolean isXFormatAuto = xFormatterMode == ScaleConfiguration.TickLabelFormatterMode.AUTO;
+				boolean isYFormatAuto = yFormatterMode == ScaleConfiguration.TickLabelFormatterMode.AUTO;
+				boolean isZFormatAuto = zFormatterMode == ScaleConfiguration.TickLabelFormatterMode.AUTO;
+				formatsTabItems.xAutoBox.setSelected(isXFormatAuto);
+				formatsTabItems.yAutoBox.setSelected(isYFormatAuto);
+				formatsTabItems.zAutoBox.setSelected(isZFormatAuto);
 
 				NumericTickLabelFormatter xFormatter = xScaleConfig.getNumericTickLabelFormatter();
 				NumberFormat xShortRangeFormat = xFormatter.getShortRangeFormat();
@@ -1438,6 +1475,27 @@ public class ScaleSettingWindow {
 				formatsTabItems.zShortFormatField.setText(DecimalFormat.class.cast(zShortRangeFormat).toPattern());
 				formatsTabItems.zMediumFormatField.setText(DecimalFormat.class.cast(zMediumRangeFormat).toPattern());
 				formatsTabItems.zLongFormatField.setText(DecimalFormat.class.cast(zLongRangeFormat).toPattern());
+
+				formatsTabItems.xShortFormatLabel.setForeground(isXFormatAuto ? Color.LIGHT_GRAY : null);
+				formatsTabItems.xShortFormatField.setForeground(isXFormatAuto ? Color.LIGHT_GRAY : null);
+				formatsTabItems.xMediumFormatLabel.setForeground(isXFormatAuto ? Color.LIGHT_GRAY : null);
+				formatsTabItems.xMediumFormatField.setForeground(isXFormatAuto ? Color.LIGHT_GRAY : null);
+				formatsTabItems.xLongFormatLabel.setForeground(isXFormatAuto ? Color.LIGHT_GRAY : null);
+				formatsTabItems.xLongFormatField.setForeground(isXFormatAuto ? Color.LIGHT_GRAY : null);
+
+				formatsTabItems.yShortFormatLabel.setForeground(isYFormatAuto ? Color.LIGHT_GRAY : null);
+				formatsTabItems.yShortFormatField.setForeground(isYFormatAuto ? Color.LIGHT_GRAY : null);
+				formatsTabItems.yMediumFormatLabel.setForeground(isYFormatAuto ? Color.LIGHT_GRAY : null);
+				formatsTabItems.yMediumFormatField.setForeground(isYFormatAuto ? Color.LIGHT_GRAY : null);
+				formatsTabItems.yLongFormatLabel.setForeground(isYFormatAuto ? Color.LIGHT_GRAY : null);
+				formatsTabItems.yLongFormatField.setForeground(isYFormatAuto ? Color.LIGHT_GRAY : null);
+
+				formatsTabItems.zShortFormatLabel.setForeground(isZFormatAuto ? Color.LIGHT_GRAY : null);
+				formatsTabItems.zShortFormatField.setForeground(isZFormatAuto ? Color.LIGHT_GRAY : null);
+				formatsTabItems.zMediumFormatLabel.setForeground(isZFormatAuto ? Color.LIGHT_GRAY : null);
+				formatsTabItems.zMediumFormatField.setForeground(isZFormatAuto ? Color.LIGHT_GRAY : null);
+				formatsTabItems.zLongFormatLabel.setForeground(isZFormatAuto ? Color.LIGHT_GRAY : null);
+				formatsTabItems.zLongFormatField.setForeground(isZFormatAuto ? Color.LIGHT_GRAY : null);
 			}
 
 			// "Visibilities" tab:

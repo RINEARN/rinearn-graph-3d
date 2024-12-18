@@ -10,11 +10,16 @@ import com.rinearn.graph3d.config.FrameConfiguration;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JCheckBox;
 import javax.swing.SwingUtilities;
 
 
@@ -53,7 +58,7 @@ public class ScaleSettingHandler {
 		ScaleSettingWindow window = this.view.scaleSettingWindow;
 		window.okButton.addActionListener(new OkPressedEventListener());
 
-		// Add the action listeners of the combo box of the ticker modes.
+		// Add the action listeners to the combo box of the ticker modes.
 		window.ticksTabItems.xModeBox.addActionListener(new TickerModeBoxEventListener(
 				window.ticksTabItems.xModeBox, window.ticksTabItems.xSwappablePanel,
 				window.ticksTabItems.xEqualDivisionItems.panel, window.ticksTabItems.xManualItems.panel)
@@ -70,6 +75,23 @@ public class ScaleSettingHandler {
 				window.ticksTabItems.colorBarModeBox, window.ticksTabItems.colorBarSwappablePanel,
 				window.ticksTabItems.colorBarEqualDivisionItems.panel, window.ticksTabItems.colorBarManualItems.panel)
 		);
+
+		// Add the action listeners of the check boxes which switches ON/OFF states of auto-formatters.
+		window.formatsTabItems.xAutoBox.addActionListener(new AutoFormatBoxEventListener(
+				window.formatsTabItems.xAutoBox,
+				window.formatsTabItems.xShortFormatLabel, window.formatsTabItems.xMediumFormatLabel, window.formatsTabItems.xLongFormatLabel,
+				window.formatsTabItems.xShortFormatField, window.formatsTabItems.xMediumFormatField, window.formatsTabItems.xLongFormatField
+		)) ;
+		window.formatsTabItems.yAutoBox.addActionListener(new AutoFormatBoxEventListener(
+				window.formatsTabItems.yAutoBox,
+				window.formatsTabItems.yShortFormatLabel, window.formatsTabItems.yMediumFormatLabel, window.formatsTabItems.yLongFormatLabel,
+				window.formatsTabItems.yShortFormatField, window.formatsTabItems.yMediumFormatField, window.formatsTabItems.yLongFormatField
+		)) ;
+		window.formatsTabItems.zAutoBox.addActionListener(new AutoFormatBoxEventListener(
+				window.formatsTabItems.zAutoBox,
+				window.formatsTabItems.zShortFormatLabel, window.formatsTabItems.zMediumFormatLabel, window.formatsTabItems.zLongFormatLabel,
+				window.formatsTabItems.zShortFormatField, window.formatsTabItems.zMediumFormatField, window.formatsTabItems.zLongFormatField
+		)) ;
 	}
 
 
@@ -249,6 +271,46 @@ public class ScaleSettingHandler {
 				}
 			}
 
+			// "Formatters" tab:
+			{
+				// Formatter modes.
+				ScaleConfiguration.TickLabelFormatterMode xFormatterMode = window.formatsTabItems.getXTickLabelFormatterMode();
+				ScaleConfiguration.TickLabelFormatterMode yFormatterMode = window.formatsTabItems.getYTickLabelFormatterMode();
+				ScaleConfiguration.TickLabelFormatterMode zFormatterMode = window.formatsTabItems.getZTickLabelFormatterMode();
+				ScaleConfiguration.TickLabelFormatterMode cFormatterMode = zFormatterMode;
+				xScaleConfig.setTickLabelFormatterMode(xFormatterMode);
+				yScaleConfig.setTickLabelFormatterMode(yFormatterMode);
+				zScaleConfig.setTickLabelFormatterMode(zFormatterMode);
+				cScaleConfig.setTickLabelFormatterMode(cFormatterMode);
+
+				String xShortFormat = window.formatsTabItems.xShortFormatField.getText();
+				String yShortFormat = window.formatsTabItems.yShortFormatField.getText();
+				String zShortFormat = window.formatsTabItems.zShortFormatField.getText();
+				String cShortFormat = zShortFormat;
+				xScaleConfig.getNumericTickLabelFormatter().setShortRangeFormat(new DecimalFormat(xShortFormat));
+				yScaleConfig.getNumericTickLabelFormatter().setShortRangeFormat(new DecimalFormat(yShortFormat));
+				zScaleConfig.getNumericTickLabelFormatter().setShortRangeFormat(new DecimalFormat(zShortFormat));
+				cScaleConfig.getNumericTickLabelFormatter().setShortRangeFormat(new DecimalFormat(cShortFormat));
+
+				String xMediumFormat = window.formatsTabItems.xMediumFormatField.getText();
+				String yMediumFormat = window.formatsTabItems.yMediumFormatField.getText();
+				String zMediumFormat = window.formatsTabItems.zMediumFormatField.getText();
+				String cMediumFormat = zMediumFormat;
+				xScaleConfig.getNumericTickLabelFormatter().setMediumRangeFormat(new DecimalFormat(xMediumFormat));
+				yScaleConfig.getNumericTickLabelFormatter().setMediumRangeFormat(new DecimalFormat(yMediumFormat));
+				zScaleConfig.getNumericTickLabelFormatter().setMediumRangeFormat(new DecimalFormat(zMediumFormat));
+				cScaleConfig.getNumericTickLabelFormatter().setMediumRangeFormat(new DecimalFormat(cMediumFormat));
+
+				String xLongFormat = window.formatsTabItems.xLongFormatField.getText();
+				String yLongFormat = window.formatsTabItems.yLongFormatField.getText();
+				String zLongFormat = window.formatsTabItems.zLongFormatField.getText();
+				String cLongFormat = zLongFormat;
+				xScaleConfig.getNumericTickLabelFormatter().setLongRangeFormat(new DecimalFormat(xLongFormat));
+				yScaleConfig.getNumericTickLabelFormatter().setLongRangeFormat(new DecimalFormat(yLongFormat));
+				zScaleConfig.getNumericTickLabelFormatter().setLongRangeFormat(new DecimalFormat(zLongFormat));
+				cScaleConfig.getNumericTickLabelFormatter().setLongRangeFormat(new DecimalFormat(cLongFormat));
+			}
+
 			// Propagate the above update of the configuration to the entire application.
 			presenter.propagateConfiguration();
 
@@ -356,6 +418,81 @@ public class ScaleSettingHandler {
 	}
 
 
+
+	/**
+	 * The event listener handling the event that the selected items of the ticker mode boxes are changed.
+	 */
+	private final class AutoFormatBoxEventListener implements ActionListener {
+
+		/** The check box to swich ON/OFF of the auto-formatter. */
+		JCheckBox autoBox;
+
+		/** The label of the text field to input the format of tick labels in short-range, applied when auto-formatter is OFF. */
+		JLabel shortRangeLabel;
+
+		/** The label of the text field to input the format of tick labels in medium-range, applied when auto-formatter is OFF. */
+		JLabel mediumRangeLabel;
+
+		/** The label of the text field to input the format of tick labels in long-range, applied when auto-formatter is OFF. */
+		JLabel longRangeLabel;
+
+		/** The text field to input the format of tick labels in short-range, applied when auto-formatter is OFF. */
+		JTextField shortRangeField;
+
+		/** The text field to input the format of tick labels in medium-range, applied when auto-formatter is OFF. */
+		JTextField mediumRangeField;
+
+		/** The text field to input the format of tick labels in long-range, applied when auto-formatter is OFF. */
+		JTextField longRangeField;
+
+		/**
+		 * Creates the instance handling the event on the specified check box.
+		 *
+		 * @param autoBox The check box to swich ON/OFF of the auto-formatter.
+		 * @param shortRangeLabel The label of the text field to input the format of tick labels in short-range, applied when auto-formatter is OFF.
+		 * @param mediumRangeLabel The label of the text field to input the format of tick labels in medium-range, applied when auto-formatter is OFF.
+		 * @param longRangeLabel The label of the text field to input the format of tick labels in long-range, applied when auto-formatter is OFF.
+		 * @param shortRangeField The text field to input the format of tick labels in short-range, applied when auto-formatter is OFF.
+		 * @param mediumRangeField The text field to input the format of tick labels in medium-range, applied when auto-formatter is OFF.
+		 * @param longRangeField The text field to input the format of tick labels in long-range, applied when auto-formatter is OFF.
+		 */
+		public AutoFormatBoxEventListener(JCheckBox autoBox,
+				JLabel shortRangeLabel, JLabel mediumRangeLabel, JLabel longRangeLabel,
+				JTextField shortRangeField, JTextField mediumRangeField, JTextField longRangeField) {
+
+			this.autoBox = autoBox;
+			this.shortRangeLabel = shortRangeLabel;
+			this.mediumRangeLabel = mediumRangeLabel;
+			this.longRangeLabel = longRangeLabel;
+			this.shortRangeField = shortRangeField;
+			this.mediumRangeField = mediumRangeField;
+			this.longRangeField = longRangeField;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			boolean isAutoMode = this.autoBox.isSelected();
+			this.shortRangeField.setEditable(!isAutoMode);
+			this.mediumRangeField.setEditable(!isAutoMode);
+			this.longRangeField.setEditable(!isAutoMode);
+
+			if (isAutoMode) {
+				this.shortRangeLabel.setForeground(Color.LIGHT_GRAY);
+				this.mediumRangeLabel.setForeground(Color.LIGHT_GRAY);
+				this.longRangeLabel.setForeground(Color.LIGHT_GRAY);
+				this.shortRangeField.setForeground(Color.LIGHT_GRAY);
+				this.mediumRangeField.setForeground(Color.LIGHT_GRAY);
+				this.longRangeField.setForeground(Color.LIGHT_GRAY);
+			} else {
+				this.shortRangeLabel.setForeground(null);
+				this.mediumRangeLabel.setForeground(null);
+				this.longRangeLabel.setForeground(null);
+				this.shortRangeField.setForeground(null);
+				this.mediumRangeField.setForeground(null);
+				this.longRangeField.setForeground(null);
+			}
+		}
+	}
 
 
 	// ================================================================================
