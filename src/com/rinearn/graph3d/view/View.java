@@ -103,6 +103,9 @@ public final class View {
 	/** The main window of RINEARN Graph 3D (on which a 3D graph is displayed). */
 	public final MainWindow mainWindow = new MainWindow();
 
+	/** The window of "File" > "Open Files" menu. */
+	public final DataFileOpeningWindow dataFileOpeningWindow = new DataFileOpeningWindow();
+
 	/** The setting window of "Settings" > "Set Labels" menu. */
 	public final LabelSettingWindow labelSettingWindow = new LabelSettingWindow();
 
@@ -147,6 +150,7 @@ public final class View {
 	 */
 	public synchronized void configure(RinearnGraph3DConfiguration configuration) {
 		this.mainWindow.configure(configuration);
+		this.dataFileOpeningWindow.configure(configuration);
 		this.labelSettingWindow.configure(configuration);
 		this.rangeSettingWindow.configure(configuration);
 		this.fontSettingWindow.configure(configuration);
@@ -161,6 +165,7 @@ public final class View {
 	 */
 	public synchronized void dispose() {
 		this.mainWindow.dispose();
+		this.dataFileOpeningWindow.dispose();
 		this.labelSettingWindow.dispose();
 		this.rangeSettingWindow.dispose();
 		this.fontSettingWindow.dispose();

@@ -111,14 +111,16 @@ public final class MenuHandler {
 	private final class OpenDataFileItemClickedEventListener implements ActionListener {
 
 		/** Stores the directory in which the last opened file is contained. */
-		private volatile File lastDirectory = new File(".");
+		//private volatile File lastDirectory = new File(".");
 
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
+			view.dataFileOpeningWindow.setWindowVisible(true);
 
+			/*
 			// Temporary implementation
 
 			// Prepare message (window title) of the file-chooser window.
@@ -162,6 +164,7 @@ public final class MenuHandler {
 				}
 				JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
 			}
+			*/
 		}
 	}
 
