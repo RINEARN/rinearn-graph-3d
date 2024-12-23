@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 
@@ -195,11 +196,12 @@ public interface RinearnGraph3DRenderer {
 	 * @param buffer
 	 *   <span class="lang-en">The buffer to which the current image of the screen will be copied.</span>
 	 *   <span class="lang-ja">現在のグラフ画面の内容のコピー先となるバッファ</span>
-	 * @return
-	 *   <span class="lang-en">The deep copy of the current image of the graph screen.</span>
-	 *   <span class="lang-ja">現在のグラフ画面の内容の、ディープコピーによる複製</span>
+	 *
+	 * @param graphics
+	 *   <span class="lang-en">The Graphics2D object to draw contents to the buffer.</span>
+	 *   <span class="lang-ja">バッファに内容を描き込むためのGraphics2Dオブジェクト</span>
 	 */
-	public void copyScreenImage(BufferedImage buffer);
+	public void copyScreenImage(BufferedImage buffer, Graphics2D graphics);
 
 
 	/**

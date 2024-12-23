@@ -787,7 +787,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		int width = this.screenImage.getWidth();
 		int height = this.screenImage.getHeight();
 		BufferedImage copiedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		this.copyScreenImage(copiedImage);
+		Graphics2D graphics = copiedImage.createGraphics();
+		this.copyScreenImage(copiedImage, graphics);
+		graphics.dispose();
 		return copiedImage;
 	}
 
@@ -806,10 +808,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * so clear it beforehand at the caller-side if necessary.
 	 *
 	 * @param buffer The buffer to which the current image of the screen will be copied.
-	 * @return The deep copy of the current image of the graph screen.
+	 * @param graphics The Graphics2D object to draw contents to the buffer.
 	 */
-	public synchronized void copyScreenImage(BufferedImage buffer) {
-		Graphics2D graphics = buffer.createGraphics();
+	public synchronized void copyScreenImage(BufferedImage buffer, Graphics2D graphics) {
 		boolean completed = false;
 		while (!completed) {
 			completed = graphics.drawImage(this.screenImage, 0, 0, null);
@@ -819,7 +820,6 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 				break;
 			}
 		}
-		graphics.dispose();
 	}
 
 
