@@ -40,6 +40,13 @@ public enum RinearnGraph3DDataFileFormat {
 	THREE_COLUMNS_CSV,
 
 	/**
+	 * <span class="lang-ja">3カラム書式の, タブ区切りファイルを表します</span>
+	 * <span class="lang-en">Represents a tab-separated file of the three-columns format</span>
+	 * .
+	 */
+	THREE_COLUMNS_TSV,
+
+	/**
 	 * <span class="lang-ja">3カラム書式の, タブ/スペース区切りファイルを表します</span>
 	 * <span class="lang-en">Represents a space/tab-separated file of the three-columns format</span>
 	 * .
@@ -54,6 +61,13 @@ public enum RinearnGraph3DDataFileFormat {
 	FOUR_COLUMNS_CSV,
 
 	/**
+	 * <span class="lang-ja">4カラム書式の, タブ区切りファイルを表します</span>
+	 * <span class="lang-en">Represents a tab-separated file of the four-columns format</span>
+	 * .
+	 */
+	FOUR_COLUMNS_TSV,
+
+	/**
 	 * <span class="lang-ja">4カラム書式の, タブ/スペース区切りファイルを表します</span>
 	 * <span class="lang-en">Represents a space/tab-separated file of the four-columns format</span>
 	 * .
@@ -66,6 +80,13 @@ public enum RinearnGraph3DDataFileFormat {
 	 * .
 	 */
 	MATRIX_CSV,
+
+	/**
+	 * <span class="lang-ja">マトリックス書式の, タブ区切りファイルを表します</span>
+	 * <span class="lang-en">Represents a tab-separated file of the matrix format</span>
+	 * .
+	 */
+	MATRIX_TSV,
 
 	/**
 	 * <span class="lang-ja">マトリックス書式の, タブ/スペース区切りファイルを表します</span>

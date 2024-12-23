@@ -6,10 +6,6 @@ import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.view.MainWindow;
 import com.rinearn.graph3d.config.OptionConfiguration;
 
-import java.io.File;
-import java.io.IOException;
-
-import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
@@ -119,52 +115,6 @@ public final class MenuHandler {
 				return;
 			}
 			view.dataFileOpeningWindow.setWindowVisible(true);
-
-			/*
-			// Temporary implementation
-
-			// Prepare message (window title) of the file-chooser window.
-			boolean isJapanese = model.config.getEnvironmentConfiguration().isLocaleJapanese();
-			String message = isJapanese ?
-					"データファイルを選択:（Ctrlキーを押しながら複数選択できます）" :
-		            "Choose the Data Files to be Opend: (By Presssing \"Ctrl\" Key, You Can Choose Multiple Files)";
-
-			// Choose the files to be opened.
-			FileDialog fileDialog = new FileDialog(view.mainWindow.frame, message, FileDialog.LOAD);
-			fileDialog.setDirectory(this.lastDirectory.getPath());
-			fileDialog.setMultipleMode(true);
-			fileDialog.setVisible(true);
-			File[] files = fileDialog.getFiles();
-
-			// If canceled without choosing any file.
-			if (files.length == 0) {
-				return;
-			}
-
-			// Clear the currently registered data files.
-			model.dataStore.clearArrayDataSeries();
-			presenter.plot();
-
-			// Plot the data files.
-			try {
-				DataFileHandler dataFileHandler = presenter.dataFileHandler;
-				dataFileHandler.openDataFiles(files);
-				this.lastDirectory = files[0].getParentFile();
-
-			// If any error occurred, show the error message on a pop-up window.
-			} catch (IOException ioe) {
-				String errorMessage = ioe.getMessage();
-				Throwable cause = ioe.getCause();
-				if (cause != null) {
-					if (isJapanese) {
-						errorMessage += "\n\n[詳細]\n" + cause.getMessage();
-					} else {
-						errorMessage += "\n\n[Details]\n" + cause.getMessage();
-					}
-				}
-				JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-			}
-			*/
 		}
 	}
 

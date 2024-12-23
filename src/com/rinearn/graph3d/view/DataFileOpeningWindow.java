@@ -1,15 +1,15 @@
 package com.rinearn.graph3d.view;
 
-import javax.swing.JPanel;
+import com.rinearn.graph3d.RinearnGraph3DDataFileFormat;
+import com.rinearn.graph3d.config.FontConfiguration;
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+
 import javax.swing.JLabel;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-
-import com.rinearn.graph3d.config.FontConfiguration;
-import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 
 import javax.swing.JComboBox;
 
@@ -560,6 +560,69 @@ public class DataFileOpeningWindow {
 		public void run() {
 			frame.setVisible(false);
 			frame.dispose();
+		}
+	}
+
+
+	/**
+	 * Returns the selected data file format as an element of RinearnGraph3DDataFileFormat enum.
+	 * This method can be invokable from only on the event-dispatch method.
+	 *
+	 * @return The selected data file format.
+	 */
+	public synchronized RinearnGraph3DDataFileFormat getSelectedDataFileFormat() {
+		if (!SwingUtilities.isEventDispatchThread()) {
+			throw new IllegalStateException("This method can be invokable from only on the event-dispatch method.");
+		}
+		String selectedItem = dataFormatBox.getSelectedItem().toString();
+		switch (selectedItem) {
+			case FORMAT_AUTO_EN:
+			case FORMAT_AUTO_JA: {
+				return RinearnGraph3DDataFileFormat.AUTO;
+			}
+			case FORMAT_SPREADSHEET_EN:
+			case FORMAT_SPREADSHEET_JA: {
+				return RinearnGraph3DDataFileFormat.MATRIX_TSV;
+			}
+			case FORMAT_THREE_COLUMNS_CSV_EN:
+			case FORMAT_THREE_COLUMNS_CSV_JA: {
+				return RinearnGraph3DDataFileFormat.THREE_COLUMNS_CSV;
+			}
+			case FORMAT_THREE_COLUMNS_STSV_EN:
+			case FORMAT_THREE_COLUMNS_STSV_JA: {
+				return RinearnGraph3DDataFileFormat.THREE_COLUMNS_STSV;
+			}
+			case FORMAT_THREE_COLUMNS_TSV_EN:
+			case FORMAT_THREE_COLUMNS_TSV_JA: {
+				return RinearnGraph3DDataFileFormat.THREE_COLUMNS_TSV;
+			}
+			case FORMAT_FOUR_COLUMNS_CSV_EN:
+			case FORMAT_FOUR_COLUMNS_CSV_JA: {
+				return RinearnGraph3DDataFileFormat.FOUR_COLUMNS_CSV;
+			}
+			case FORMAT_FOUR_COLUMNS_STSV_EN:
+			case FORMAT_FOUR_COLUMNS_STSV_JA: {
+				return RinearnGraph3DDataFileFormat.FOUR_COLUMNS_STSV;
+			}
+			case FORMAT_FOUR_COLUMNS_TSV_EN:
+			case FORMAT_FOUR_COLUMNS_TSV_JA: {
+				return RinearnGraph3DDataFileFormat.FOUR_COLUMNS_TSV;
+			}
+			case FORMAT_MATRIX_CSV_EN:
+			case FORMAT_MATRIX_CSV_JA: {
+				return RinearnGraph3DDataFileFormat.MATRIX_CSV;
+			}
+			case FORMAT_MATRIX_STSV_EN:
+			case FORMAT_MATRIX_STSV_JA: {
+				return RinearnGraph3DDataFileFormat.MATRIX_STSV;
+			}
+			case FORMAT_MATRIX_TSV_EN:
+			case FORMAT_MATRIX_TSV_JA: {
+				return RinearnGraph3DDataFileFormat.MATRIX_TSV;
+			}
+			default : {
+				throw new IllegalStateException("Unexpected data file format: " + selectedItem);
+			}
 		}
 	}
 }
