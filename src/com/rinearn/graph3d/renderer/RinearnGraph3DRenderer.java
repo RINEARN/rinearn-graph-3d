@@ -3,9 +3,9 @@ package com.rinearn.graph3d.renderer;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-
 
 /**
  * <span class="lang-en">
@@ -119,17 +119,87 @@ public interface RinearnGraph3DRenderer {
 
 	/**
 	 * <span class="lang-en">
-	 * Gets the image of the graph screen
+	 * Gets the Image instance of the graph screen (to be displayed on the window)
 	 * </span>
 	 * <span class="lang-ja">
-	 * グラフ画面の画像を取得します
+	 * グラフ画面の Image インスタンスを取得します（画面上での表示用）
 	 * </span>
 	 * .
 	 * @return
-	 *   <span class="lang-en">The image of the graph screen</span>
-	 *   <span class="lang-ja">グラフ画面の画像</span>
+	 *   <span class="lang-en">Gets the Image instance of the graph screen</span>
+	 *   <span class="lang-ja">グラフ画面の Image インスタンス</span>
 	 */
 	public Image getScreenImage();
+
+
+	/**
+	 * <span class="lang-en">
+	 * Creates a deep copy of the current image of the graph screen
+	 * </span>
+	 * <span class="lang-ja">
+	 * 現在のグラフ画面の内容を, ディープコピーで複製して返します
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * Please note that,
+	 * if the caller-side thread is interrupted (Thread#interrupt() is called) during the image is being copied,
+	 * the copying process will be terminated prematurely, so the copied image may be imperfect in such case.
+	 * </span>
+	 * <span class="lang-ja">
+	 * なお、画像内容をコピーしている最中に、呼び出し側のスレッドが割り込みされた場合（Thread#interrupt()が呼ばれた場合）,
+	 * コピー処理はその時点で強制終了されます. そのような事が生じ得る場合には, コピー結果が不完全な内容になり得る事に留意が必要です.
+	 * </span>
+	 *
+	 * @return
+	 *   <span class="lang-en">The deep copy of the current image of the graph screen</span>
+	 *   <span class="lang-ja">現在のグラフ画面の内容の, ディープコピーによる複製</span>
+	 */
+	public Image copyScreenImage();
+
+
+	/**
+	 * <span class="lang-en">
+	 * Copies the content of the current image of the graph screen to the specified buffer
+	 * </span>
+	 * <span class="lang-ja">
+	 * 現在のグラフ画面の内容を、指定されたバッファにコピーします
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * When the width/height of the buffer and the graph screen are different,
+	 * the copy process may be performed between their overwrapping area, without raising any error.
+	 * </span>
+	 * <span class="lang-ja">
+	 * バッファの縦横サイズと, グラフ画面の縦横サイズが異なっている場合でも,
+	 * 両者が重なっている領域間でコピーが行われ,  エラー扱いにはなりません.
+	 * </span>
+	 *
+	 * <span class="lang-en">
+	 * Please note that,
+	 * if the caller-side thread is interrupted (Thread#interrupt() is called) during the image is being copied,
+	 * the copying process will be terminated prematurely, so the copied image may be imperfect in such case.
+	 * </span>
+	 * <span class="lang-ja">
+	 * なお、画像内容をコピーしている最中に、呼び出し側のスレッドが割り込みされた場合（Thread#interrupt()が呼ばれた場合）,
+	 * コピー処理はその時点で強制終了されます. そのような事が生じ得る場合には, コピー結果が不完全な内容になり得る事に留意が必要です.
+	 * </span>
+	 *
+	 * <span class="lang-en">
+	 * Also, this method does not clear the buffer automatically before copying the image,
+	 * so clear it beforehand at the caller-side if necessary.
+	 * </span>
+	 * <span class="lang-ja">
+	 * また, このメソッドでは, コピー前のバッファのクリア操作は行われないため, 必用な場合は呼び出し側で事前に行う必要があります.
+	 * </span>
+	 *
+	 * @param buffer
+	 *   <span class="lang-en">The buffer to which the current image of the screen will be copied.</span>
+	 *   <span class="lang-ja">現在のグラフ画面の内容のコピー先となるバッファ</span>
+	 * @return
+	 *   <span class="lang-en">The deep copy of the current image of the graph screen.</span>
+	 *   <span class="lang-ja">現在のグラフ画面の内容の、ディープコピーによる複製</span>
+	 */
+	public void copyScreenImage(BufferedImage buffer);
 
 
 	/**
