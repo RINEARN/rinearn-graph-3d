@@ -775,6 +775,55 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	/**
+	 * Creates a deep copy of the current image of the graph screen.
+	 *
+	 * Please note that,
+	 * if the caller-side thread is interrupted (Thread#interrupt() is called) during the image is being copied,
+	 * the copying process will be terminated prematurely, so the copied image may be imperfect in such case.
+	 *
+	 * @return The deep copy of the current image of the graph screen.
+	 */
+	public synchronized Image copyScreenImage() {
+		int width = this.screenImage.getWidth();
+		int height = this.screenImage.getHeight();
+		BufferedImage copiedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		this.copyScreenImage(copiedImage);
+		return copiedImage;
+	}
+
+
+	/**
+	 * Copies the content of the current image of the graph screen to the specified buffer.
+	 *
+	 * When the width/height of the buffer and the graph screen are different,
+	 * the copy process will be performed between their overwrapping area, without raising any error.
+	 *
+	 * Please note that,
+	 * if the caller-side thread is interrupted (Thread#interrupt() is called) during the image is being copied,
+	 * the copying process may be terminated prematurely, so the copied image may be imperfect in such case.
+	 *
+	 * Also, this method does not clear the buffer automatically before copying the image,
+	 * so clear it beforehand at the caller-side if necessary.
+	 *
+	 * @param buffer The buffer to which the current image of the screen will be copied.
+	 * @return The deep copy of the current image of the graph screen.
+	 */
+	public synchronized void copyScreenImage(BufferedImage buffer) {
+		Graphics2D graphics = buffer.createGraphics();
+		boolean completed = false;
+		while (!completed) {
+			completed = graphics.drawImage(this.screenImage, 0, 0, null);
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException nfe) {
+				break;
+			}
+		}
+		graphics.dispose();
+	}
+
+
+	/**
 	 * References the value of the flag representing whether the content of the graph screen has been updated,
 	 * in addition. and performs Compare-and-Swap (CAS) operation to it.
 	 *
