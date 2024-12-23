@@ -13,6 +13,8 @@ import com.rinearn.graph3d.model.io.DataFileIO;
 import com.rinearn.graph3d.model.io.DataFileFormatException;
 import com.rinearn.graph3d.def.ErrorType;
 import com.rinearn.graph3d.def.ErrorMessage;
+import com.rinearn.graph3d.def.CommunicationType;
+import com.rinearn.graph3d.def.CommunicationMessage;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +27,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import javax.swing.SwingUtilities;
+
 import javax.swing.JOptionPane;
 
 
@@ -64,6 +67,9 @@ public final class DataFileHandler {
 		window.openButton.addActionListener(new OpenButtonEventListener());
 		window.plotButton.addActionListener(new PlotButtonEventListener());
 		window.clearButton.addActionListener(new ClearButtonEventListener());
+
+		// Add the action listener to the "Data Format" combo box.
+		window.dataFormatBox.addActionListener(new DataFormatBoxEventListener());
 	}
 
 
@@ -98,6 +104,104 @@ public final class DataFileHandler {
 
 
 	/**
+	 * The container of the pair of a file and its data format, used in PlotButtonEventListener.
+	 */
+	private final class FileFormatPair {
+
+		/** The file. */
+		public final File file;
+
+		/** The data format of the file. */
+		public final RinearnGraph3DDataFileFormat format;
+
+		/**
+		 * Creates a new container instance having the specified values.
+		 *
+		 * @param file The file.
+		 * @param format The data format of the file.
+		 */
+		public FileFormatPair(File file, RinearnGraph3DDataFileFormat format) {
+			this.file = file;
+			this.format = format;
+		}
+	}
+
+	/**
+	 * Parses a line in the content of fileListArea.
+	 *
+	 * @param line A line in the content of fileListArea.
+	 * @return The parsed result, the container of the file-path part and data-format part.
+	 */
+	private FileFormatPair parseFileFormatLine(String line) {
+
+		// The line contains the file-path part and data-format part, separated by colon:
+		//
+		//   <file-path part>: <data-format part>
+		//
+		// Note that, the file-path part may contains colons, e.g.:
+		//
+		//   C:\aaa\bbb\file.csv: AUTO
+
+		// Gets the index of the colon at the last-side in the line.
+		int lastColonIndex = line.lastIndexOf(":");
+
+		// If the line contains no colons.
+		if (lastColonIndex == -1) {
+			return new FileFormatPair(new File(line), RinearnGraph3DDataFileFormat.AUTO);
+		}
+
+		// Split by the last colon.
+		String filePathPart = line.substring(0, lastColonIndex).trim();
+		String formatPart = line.substring(lastColonIndex + 1, line.length()).trim().toUpperCase();
+
+		// Convert the data-format part to a value of the RinearnGraph3DDataFileFormat enum.
+		RinearnGraph3DDataFileFormat format;
+		try {
+			format = RinearnGraph3DDataFileFormat.valueOf(formatPart);
+
+		// If the conversion failed, it means that the data-format part is misspelled,
+		// or we should regard it as a part of the file-path part, not data-format.
+		} catch (IllegalArgumentException iae) {
+			return new FileFormatPair(new File(line), RinearnGraph3DDataFileFormat.AUTO);
+		}
+
+		return new FileFormatPair(new File(filePathPart), format);
+	}
+
+	/**
+	 * Parses the content (multiple lines) of fileListArea.
+	 *
+	 * @param multiLineContent Parses the content (multiple lines) of fileListArea.
+	 * @return The parsed result, the array of the container of the file-path part and data-format part.
+	 */
+	private FileFormatPair[] parseFileFormatLines(String multiLineContent) {
+
+		// Replace line-feed \r\n & \r codes to \n.
+		multiLineContent.replaceAll("\\r\n", "\n");
+		multiLineContent.replaceAll("\\r", "\n");
+
+		// Replace continuous line-feeds codes to a single line-feed.
+		while (multiLineContent.contains("\n\n")) {
+			multiLineContent = multiLineContent.replaceAll("\\n\\n", "\n");
+		}
+		if (multiLineContent.trim().isEmpty()) {
+			return new FileFormatPair[0];
+		}
+
+		// Splits the content into lines.
+		String[] lines = multiLineContent.split("\\n");
+		int lineCount = lines.length;
+
+		// Parse each line, and store result into the following array.
+		FileFormatPair[] parsedResults = new FileFormatPair[lineCount];
+		for (int iline=0; iline<lineCount; iline++) {
+			parsedResults[iline] = this.parseFileFormatLine(lines[iline].trim());
+		}
+		return parsedResults;
+	}
+
+
+	/**
 	 * The event listener handling the event that OPEN button is pressed.
 	 */
 	private final class OpenButtonEventListener implements ActionListener {
@@ -113,13 +217,10 @@ public final class DataFileHandler {
 			DataFileOpeningWindow window = view.dataFileOpeningWindow;
 
 			// Prepare message (window title) of the file-chooser window.
-			boolean isJapanese = model.config.getEnvironmentConfiguration().isLocaleJapanese();
-			String message = isJapanese ?
-					"データファイルを選択:（Ctrlキーを押しながら複数選択できます）" :
-		            "Choose the Data Files to be Opend: (By Presssing \"Ctrl\" Key, You Can Choose Multiple Files)";
+			String message = CommunicationMessage.generateCommunicationMessage(CommunicationType.CHOOSE_DATA_FILES);
 
 			// Choose the files to be opened.
-			FileDialog fileDialog = new FileDialog(view.mainWindow.frame, message, FileDialog.LOAD);
+			FileDialog fileDialog = new FileDialog(view.dataFileOpeningWindow.frame, message, FileDialog.LOAD);
 			fileDialog.setDirectory(this.lastDirectory.getPath());
 			fileDialog.setMultipleMode(true);
 			fileDialog.setVisible(true);
@@ -156,29 +257,6 @@ public final class DataFileHandler {
 
 
 	/**
-	 * The container of the pair of a file and its data format, used in PlotButtonEventListener.
-	 */
-	private final class FileFormatPair {
-
-		/** The file. */
-		public final File file;
-
-		/** The data format of the file. */
-		public final RinearnGraph3DDataFileFormat format;
-
-		/**
-		 * Creates a new container instance having the specified values.
-		 *
-		 * @param file The file.
-		 * @param format The data format of the file.
-		 */
-		public FileFormatPair(File file, RinearnGraph3DDataFileFormat format) {
-			this.file = file;
-			this.format = format;
-		}
-	}
-
-	/**
 	 * The event listener handling the event that PLOT button is pressed.
 	 */
 	private final class PlotButtonEventListener implements ActionListener {
@@ -194,7 +272,7 @@ public final class DataFileHandler {
 			String fileListText = window.fileListArea.getText().trim();
 
 			// Parse each line into the file-path part and the data-format part.
-			FileFormatPair[] parsedResults = this.parseFileFormatLines(fileListText);
+			FileFormatPair[] parsedResults = parseFileFormatLines(fileListText);
 			int fileCount = parsedResults.length;
 
 			// Separate the parsed results into a file-part array and a format-part array.
@@ -225,81 +303,6 @@ public final class DataFileHandler {
 			}
 
 		}
-
-		/**
-		 * Parses a line in the content of fileListArea.
-		 *
-		 * @param line A line in the content of fileListArea.
-		 * @return The parsed result, the container of the file-path part and data-format part.
-		 */
-		private FileFormatPair parseFileFormatLine(String line) {
-
-			// The line contains the file-path part and data-format part, separated by colon:
-			//
-			//   <file-path part>: <data-format part>
-			//
-			// Note that, the file-path part may contains colons, e.g.:
-			//
-			//   C:\aaa\bbb\file.csv: AUTO
-
-			// Gets the index of the colon at the last-side in the line.
-			int lastColonIndex = line.lastIndexOf(":");
-
-			// If the line contains no colons.
-			if (lastColonIndex == -1) {
-				return new FileFormatPair(new File(line), RinearnGraph3DDataFileFormat.AUTO);
-			}
-
-			// Split by the last colon.
-			String filePathPart = line.substring(0, lastColonIndex).trim();
-			String formatPart = line.substring(lastColonIndex + 1, line.length()).trim().toUpperCase();
-
-			// Convert the data-format part to a value of the RinearnGraph3DDataFileFormat enum.
-			RinearnGraph3DDataFileFormat format;
-			try {
-				format = RinearnGraph3DDataFileFormat.valueOf(formatPart);
-
-			// If the conversion failed, it means that the data-format part is misspelled,
-			// or we should regard it as a part of the file-path part, not data-format.
-			} catch (IllegalArgumentException iae) {
-				return new FileFormatPair(new File(line), RinearnGraph3DDataFileFormat.AUTO);
-			}
-
-			return new FileFormatPair(new File(filePathPart), format);
-		}
-
-		/**
-		 * Parses the content (multiple lines) of fileListArea.
-		 *
-		 * @param multiLineContent Parses the content (multiple lines) of fileListArea.
-		 * @return The parsed result, the array of the container of the file-path part and data-format part.
-		 */
-		private FileFormatPair[] parseFileFormatLines(String multiLineContent) {
-
-			// Replace line-feed \r\n & \r codes to \n.
-			multiLineContent.replaceAll("\\r\n", "\n");
-			multiLineContent.replaceAll("\\r", "\n");
-
-			// Replace continuous line-feeds codes to a single line-feed.
-			while (multiLineContent.contains("\n\n")) {
-				multiLineContent = multiLineContent.replaceAll("\\n\\n", "\n");
-			}
-			if (multiLineContent.trim().isEmpty()) {
-				return new FileFormatPair[0];
-			}
-
-			// Splits the content into lines.
-			String[] lines = multiLineContent.split("\\n");
-			int lineCount = lines.length;
-
-			// Parse each line, and store result into the following array.
-			FileFormatPair[] parsedResults = new FileFormatPair[lineCount];
-			for (int iline=0; iline<lineCount; iline++) {
-				parsedResults[iline] = this.parseFileFormatLine(lines[iline].trim());
-			}
-			return parsedResults;
-		}
-
 	}
 
 
@@ -313,6 +316,44 @@ public final class DataFileHandler {
 				return;
 			}
 			view.dataFileOpeningWindow.fileListArea.setText("");
+		}
+	}
+
+
+	/**
+	 * The event listener handling the event that the selected item of the "Data Format" combo box is changed.
+	 */
+	private final class DataFormatBoxEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Ask the user whether change the deta formats of all the files in the list at once.
+			String message = CommunicationMessage.generateCommunicationMessage(CommunicationType.CHANGE_DATA_FORMATS_OF_ALL_LISTED_FILES);
+			int decision = JOptionPane.showConfirmDialog(
+					view.dataFileOpeningWindow.frame, message, "?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE
+			);
+
+			// If the selected option is not "YES", do nothing.
+			if (decision != JOptionPane.YES_OPTION) {
+				return;
+			}
+
+			// Gets the selected data formats of the combo box, and the current file list.
+			RinearnGraph3DDataFileFormat selectedFormat = view.dataFileOpeningWindow.getSelectedDataFileFormat();
+			String fileListText = view.dataFileOpeningWindow.fileListArea.getText();
+
+			// Parse the current file list (containing the data formats).
+			FileFormatPair[] parsedResults = parseFileFormatLines(fileListText);
+
+			// Update the file list with swapping the data-format part.
+			fileListText = "";
+			for (FileFormatPair parsedResult: parsedResults) {
+				fileListText += parsedResult.file + ": " + selectedFormat + "\n";
+			}
+			view.dataFileOpeningWindow.fileListArea.setText(fileListText);
 		}
 	}
 

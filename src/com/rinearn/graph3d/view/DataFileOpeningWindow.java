@@ -32,7 +32,7 @@ public class DataFileOpeningWindow {
 	public static final int DEFAULT_WINDOW_WIDTH = 560;
 
 	/** The default height [px] of this window. */
-	public static final int DEFAULT_WINDOW_HEIGHT = 430;
+	public static final int DEFAULT_WINDOW_HEIGHT = 500;
 
 	/** The dataFormatBox's item in English of: AUTO */
 	public static final String FORMAT_AUTO_EN = "AUTO";
