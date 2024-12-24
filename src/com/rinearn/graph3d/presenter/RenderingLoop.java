@@ -160,6 +160,30 @@ public final class RenderingLoop implements Runnable {
 
 
 	/**
+	 * Creates a deep-copy of the current screen image.
+	 *
+	 * @return The created deep-copy of the current screen image.
+	 */
+	public synchronized Image copyScreenImage() {
+
+		// Note:
+		// Should we implement the deep-copying process here rather than in the renderer?
+		// And then, should we remove copyScreenImage() from the renderer because it is redundant?
+		//
+		// -> No.
+		//
+		//    The renderer can be accessed directly via API from other threads, not only via this rendering loop/thread.
+		//    So, to keep the deep-copying process of the screen thread-safe,
+		//    the current design (the renderer provides copyScreenImage()) is correct.
+		//
+		//    Otherwise, if the screen image is copied while an external program is drawing something via renderer's API,
+		//    the image may be imperfect.
+
+		return this.renderer.copyScreenImage();
+	}
+
+
+	/**
 	 * The procedures of the rendering loop, which runs on an independent thread.
 	 */
 	@Override

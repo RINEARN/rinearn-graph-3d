@@ -65,6 +65,7 @@ public final class CommunicationMessage {
 
 		switch (communicationType) {
 			case CHOOSE_DATA_FILES : return "データファイルを選択:（※ Ctrlキーを押しながら複数選択できます）";
+			case SPECIFY_IMAGE_FILE : return "保存する画像ファイルを指定";
 			case CHANGE_DATA_FORMATS_OF_ALL_LISTED_FILES : return "現在リストにある、全ファイルのデータ書式もまとめて変更しますか？";
 			default : return "不明な種類のメッセージ：" + communicationType;
 		}
@@ -82,6 +83,7 @@ public final class CommunicationMessage {
 
 		switch (communicationType) {
 			case CHOOSE_DATA_FILES : return "Choose the Data Files to Open: (Hold down the \"Ctrl\" key to select multiple files.)";
+			case SPECIFY_IMAGE_FILE : return "Specify the Image File to Save";
 			case CHANGE_DATA_FORMATS_OF_ALL_LISTED_FILES : return "Do you want to change the data formats of all the files in the list at once?";
 			default : return "Unknown Communication Message Type: " + communicationType;
 		}

@@ -1,11 +1,16 @@
 package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.model.Model;
+import com.rinearn.graph3d.model.io.ImageFileIO;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.view.MainWindow;
 import com.rinearn.graph3d.config.OptionConfiguration;
+import com.rinearn.graph3d.def.CommunicationMessage;
+import com.rinearn.graph3d.def.CommunicationType;
 
+import java.awt.FileDialog;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
@@ -13,6 +18,9 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JOptionPane;
 import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
+
+import java.io.File;
+import java.io.IOException;
 
 
 /**
@@ -49,6 +57,7 @@ public final class MenuHandler {
 
 		// Add the action listeners to the sub menu items in "File" menu.
 		window.openDataFileMenuItem.addActionListener(new OpenDataFileItemClickedEventListener());
+		window.saveImageFileMenuItem.addActionListener(new SaveImageFileItemClickedEventListener());
 
 		// Add the action listeners to the sub menu items in "Math" menu.
 		window.zxyMathMenuItem.addActionListener(new ZxyMathItemClickedEventListener());
@@ -102,12 +111,9 @@ public final class MenuHandler {
 
 
 	/**
-	 * (Temporary Implementation) The listener handling the event that "File" > "Open File" menu item is clicked.
+	 * The listener handling the event that "File" > "Open File" menu item is clicked.
 	 */
 	private final class OpenDataFileItemClickedEventListener implements ActionListener {
-
-		/** Stores the directory in which the last opened file is contained. */
-		//private volatile File lastDirectory = new File(".");
 
 		@Override
 		public void actionPerformed(ActionEvent ae) {
@@ -115,6 +121,49 @@ public final class MenuHandler {
 				return;
 			}
 			view.dataFileOpeningWindow.setWindowVisible(true);
+		}
+	}
+
+	/**
+	 * (Temporary Implementation) The listener handling the event that "File" > "Open File" menu item is clicked.
+	 */
+	private final class SaveImageFileItemClickedEventListener implements ActionListener {
+
+		/** Stores the directory in which the last saved file is contained. */
+		private volatile File lastDirectory = new File(".");
+
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Prepare message (window title) of the file-chooser window.
+			String message = CommunicationMessage.generateCommunicationMessage(CommunicationType.SPECIFY_IMAGE_FILE);
+
+			// Choose the files to be opened.
+			FileDialog fileDialog = new FileDialog(view.dataFileOpeningWindow.frame, message, FileDialog.LOAD);
+			fileDialog.setDirectory(this.lastDirectory.getPath());
+			fileDialog.setMultipleMode(false);
+			fileDialog.setVisible(true);
+			File[] files = fileDialog.getFiles();
+
+			// If canceled without choosing any file.
+			if (files.length == 0) {
+				return;
+			}
+			File file = files[0];
+
+			// Copy the current image of the graph screen.
+			Image screenImage = presenter.renderingLoop.copyScreenImage();
+
+			ImageFileIO imageFileIO = new ImageFileIO();
+			double quality = 1.0; // Temporary
+			try {
+				imageFileIO.saveImageFile(screenImage, file, quality);
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
 		}
 	}
 
