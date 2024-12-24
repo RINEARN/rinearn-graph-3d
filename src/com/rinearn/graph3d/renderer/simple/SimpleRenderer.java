@@ -811,6 +811,14 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * @param graphics The Graphics2D object to draw contents to the buffer.
 	 */
 	public synchronized void copyScreenImage(BufferedImage buffer, Graphics2D graphics) {
+
+		// NOTE:
+		//   This implementation does not use the argument "buffer" explicitly
+		//   (because draws the image via the argument "graphics"),
+		//   but don't remove the argument "buffer" from the arguments of this method of RinearnGraph3DRenderer interface.
+		//   Other renderer implementations may use the "buffer", and may not use "graphics".
+		//   It depends on the internal architecture of each implementation that which way is better.
+
 		boolean completed = false;
 		while (!completed) {
 			completed = graphics.drawImage(this.screenImage, 0, 0, null);
