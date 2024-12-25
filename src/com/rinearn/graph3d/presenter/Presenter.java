@@ -23,6 +23,7 @@ import com.rinearn.graph3d.presenter.handler.ScreenSideUIHandler;
 import com.rinearn.graph3d.presenter.handler.ZxyMathHandler;
 import com.rinearn.graph3d.presenter.handler.DataFileHandler;
 import com.rinearn.graph3d.presenter.handler.DataArrayHandler;
+import com.rinearn.graph3d.presenter.handler.ImageFileHandler;
 import com.rinearn.graph3d.presenter.plotter.PointPlotter;
 import com.rinearn.graph3d.presenter.plotter.LinePlotter;
 import com.rinearn.graph3d.presenter.plotter.MeshPlotter;
@@ -161,6 +162,9 @@ public final class Presenter {
 	/** The handler of API requests for plotting data stored in arrays. */
 	public final DataArrayHandler dataArrayHandler;
 
+	/** The handler of events and API requests related to image file I/O. */
+	public final ImageFileHandler imageFileHandler;
+
 	/** The flag for turning on/off the event handling feature of subcomponents in this instance. */
 	private volatile boolean eventHandlingEnabled = true;
 
@@ -216,6 +220,7 @@ public final class Presenter {
 		this.zxyMathHandler = new ZxyMathHandler(model, view, this);
 		this.dataFileHandler = new DataFileHandler(model, view, this);
 		this.dataArrayHandler = new DataArrayHandler(model, view, this);
+		this.imageFileHandler = new ImageFileHandler(model, view, this);
 
 		// Create "plotter"s, which perform plottings/re-plottings in event-driven flow.
 		this.pointPlotter = new PointPlotter(model, view, this, renderer);
@@ -249,6 +254,7 @@ public final class Presenter {
 		this.scaleSettingHandler.setEventHandlingEnabled(enabled);
 		this.lightSettingHandler.setEventHandlingEnabled(enabled);
 		this.dataFileHandler.setEventHandlingEnabled(enabled);
+		this.imageFileHandler.setEventHandlingEnabled(enabled);
 	}
 
 

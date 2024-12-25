@@ -25,7 +25,7 @@ public final class ImageFileIO {
 	 *
 	 * @param image The Image instance to save.
 	 * @param imageFile The image file.
-	 * @param quality The quality of the image file (from 0.0 to 1.0).
+	 * @param quality The quality of the image file (from 0.0 to 1.0, or from 1.0 to 100.0).
 	 * @throws IOException Thrown when the image file format is unsupported, or any other I/O error occurred.
 	 */
 	public synchronized void saveImageFile(Image image, File imageFile, double quality) throws IOException {
@@ -58,9 +58,14 @@ public final class ImageFileIO {
 			graphics.dispose();
 		}
 
+		// If the range of the quality is (1.0, 100.0], convert the range to [0.0, 1.0].
+		if (1.0 < quality && quality <= 100.0) {
+			quality /= 100.0;
+		}
+
 		// Check the range of the quality.
 		if (quality < 0.0 || 1.0 < quality) {
-			throw new IllegalArgumentException("The quality must be in the range of [0.0, 1.0].");
+			throw new IllegalArgumentException("The quality must be in the range of [0.0, 1.0], or (1.0, 100.0).");
 		}
 
 		// Detect the image file format.
@@ -72,40 +77,55 @@ public final class ImageFileIO {
 		// Save as a PNG file:
 		if (isPNG) {
 			ImageIO.write(bufferedImage, "png", imageFile);
+			System.gc();
 			return;
 
 		// Save as a BMP file:
 		} else if (isBMP) {
 			ImageIO.write(bufferedImage, "bmp", imageFile);
+			System.gc();
 			return;
 
 		// Save as a JPEG file:
 		} else if (isJPEG) {
 			IIOImage iioImage = new IIOImage(bufferedImage, null, null);
 
-			// Get the image writer for JPEG.
+			// Get the iterator of image writers for JPEG.
 			Iterator<ImageWriter> imageWriterIterator = ImageIO.getImageWritersByFormatName("jpg");
-			ImageWriter imageWriter = imageWriterIterator.next();
 
-			// Create the image I/O param, and set the compression ratio if it is available.
-			ImageWriteParam imageWriterParam = imageWriter.getDefaultWriteParam();
-			if (imageWriterParam.canWriteCompressed()){
-				imageWriterParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-				imageWriterParam.setCompressionQuality((float)quality);
+			// From the image writers, find an image writer which can save the JPEG file expectedly.
+			boolean wrote = false;
+			while (!wrote && imageWriterIterator.hasNext()) {
+				ImageWriter imageWriter = imageWriterIterator.next();
+
+				// Create the image I/O param, and set the compression ratio if it is available.
+				ImageWriteParam imageWriterParam = imageWriter.getDefaultWriteParam();
+				if (imageWriterParam.canWriteCompressed()){
+					imageWriterParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+					imageWriterParam.setCompressionQuality((float)quality);
+				}
+
+				// Save the JPEG file.
+				try (ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(imageFile)) {
+					imageWriter.setOutput(imageOutputStream);
+					imageWriter.write(null, iioImage, imageWriterParam);
+					wrote = true;
+
+				// Catch and re-throw exceptions for closing resources.
+				} catch (IOException ioe) {
+					throw ioe;
+				}
+
+				// Dispose/release the resources.
+				imageWriter.dispose();
 			}
 
-			// Save the JPEG file.
-			try (ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(imageFile)) {
-				imageWriter.setOutput(imageOutputStream);
-				imageWriter.write(null, iioImage, imageWriterParam);
-
-			// Catch and re-throw exceptions for closing resources.
-			} catch (IOException ioe) {
-				throw ioe;
+			// If the flag "wrote" is false after breaking the above loop,
+			// it means that all the available image writers failed to save the JPEG image.
+			if (!wrote) {
+				throw new IOException("Failed to save the image file. Probably JPEG format is not availabel in your environment.");
 			}
-
-			// Dispose/release the resources.
-			imageWriter.dispose();
+			System.gc();
 			return;
 
 		// Unsupported format:
