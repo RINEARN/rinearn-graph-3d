@@ -415,7 +415,7 @@ public final class RinearnGraph3D {
 	 *   </span>
 	 */
 	public synchronized void exportImageFile(File file, double quality) throws IOException {
-		this.presenter.renderingLoop.exportImageFile(file, quality);
+		this.presenter.imageFileHandler.exportImageFile(file, quality);
 	}
 
 
