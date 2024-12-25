@@ -34,7 +34,7 @@ import javax.swing.JOptionPane;
 /**
  * The class handling events and API requests for plotting data files.
  */
-public final class DataFileHandler {
+public final class DataFileIOHandler {
 
 	/** The front-end class of "Model" layer, which provides internal logic procedures and so on. */
 	private final Model model;
@@ -56,7 +56,7 @@ public final class DataFileHandler {
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
 	 */
-	public DataFileHandler(Model model, View view, Presenter presenter) {
+	public DataFileIOHandler(Model model, View view, Presenter presenter) {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;

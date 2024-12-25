@@ -1,4 +1,4 @@
-                                                  package com.rinearn.graph3d.presenter.handler;
+package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
@@ -14,17 +14,10 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 
-// !!!!! NOTE !!!!!]
-//
-// Should be renamed to "ImageIOHandler" ?
-// This class provides getImage() and copyImage(), and they are not image file I/O.
-//
-// !!!!! NOTE !!!!!
-
 /**
  * The class handling events and API requests related to image file I/O.
  */
-public final class ImageFileHandler {
+public final class ImageIOHandler {
 
 	/** The front-end class of "Model" layer, which provides internal logic procedures and so on. */
 	@SuppressWarnings("unused")
@@ -48,7 +41,7 @@ public final class ImageFileHandler {
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
 	 */
-	public ImageFileHandler(Model model, View view, Presenter presenter) {
+	public ImageIOHandler(Model model, View view, Presenter presenter) {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;

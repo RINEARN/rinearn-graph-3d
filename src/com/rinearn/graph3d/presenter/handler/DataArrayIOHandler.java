@@ -13,7 +13,7 @@ import com.rinearn.graph3d.view.View;
 /**
  * The class handling API requests for plotting data stored in arrays.
  */
-public class DataArrayHandler {
+public class DataArrayIOHandler {
 
 	/** The front-end class of "Model" layer, which provides internal logic procedures and so on. */
 	private final Model model;
@@ -40,7 +40,7 @@ public class DataArrayHandler {
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
 	 */
-	public DataArrayHandler(Model model, View view, Presenter presenter) {
+	public DataArrayIOHandler(Model model, View view, Presenter presenter) {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;

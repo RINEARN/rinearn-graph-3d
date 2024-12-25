@@ -21,9 +21,9 @@ import com.rinearn.graph3d.presenter.handler.ScaleSettingHandler;
 import com.rinearn.graph3d.presenter.handler.ScreenHandler;
 import com.rinearn.graph3d.presenter.handler.ScreenSideUIHandler;
 import com.rinearn.graph3d.presenter.handler.ZxyMathHandler;
-import com.rinearn.graph3d.presenter.handler.DataFileHandler;
-import com.rinearn.graph3d.presenter.handler.DataArrayHandler;
-import com.rinearn.graph3d.presenter.handler.ImageFileHandler;
+import com.rinearn.graph3d.presenter.handler.DataFileIOHandler;
+import com.rinearn.graph3d.presenter.handler.DataArrayIOHandler;
+import com.rinearn.graph3d.presenter.handler.ImageIOHandler;
 import com.rinearn.graph3d.presenter.plotter.PointPlotter;
 import com.rinearn.graph3d.presenter.plotter.LinePlotter;
 import com.rinearn.graph3d.presenter.plotter.MeshPlotter;
@@ -157,13 +157,13 @@ public final class Presenter {
 	public final ZxyMathHandler zxyMathHandler;
 
 	/** The handler of events and API requests for plotting data files. */
-	public final DataFileHandler dataFileHandler;
+	public final DataFileIOHandler dataFileIOHandler;
 
 	/** The handler of API requests for plotting data stored in arrays. */
-	public final DataArrayHandler dataArrayHandler;
+	public final DataArrayIOHandler dataArrayIOHandler;
 
 	/** The handler of events and API requests related to image file I/O. */
-	public final ImageFileHandler imageFileHandler;
+	public final ImageIOHandler imageIOHandler;
 
 	/** The flag for turning on/off the event handling feature of subcomponents in this instance. */
 	private volatile boolean eventHandlingEnabled = true;
@@ -218,9 +218,9 @@ public final class Presenter {
 		this.scaleSettingHandler = new ScaleSettingHandler(model, view, this);
 		this.lightSettingHandler = new LightSettingHandler(model, view, this);
 		this.zxyMathHandler = new ZxyMathHandler(model, view, this);
-		this.dataFileHandler = new DataFileHandler(model, view, this);
-		this.dataArrayHandler = new DataArrayHandler(model, view, this);
-		this.imageFileHandler = new ImageFileHandler(model, view, this);
+		this.dataFileIOHandler = new DataFileIOHandler(model, view, this);
+		this.dataArrayIOHandler = new DataArrayIOHandler(model, view, this);
+		this.imageIOHandler = new ImageIOHandler(model, view, this);
 
 		// Create "plotter"s, which perform plottings/re-plottings in event-driven flow.
 		this.pointPlotter = new PointPlotter(model, view, this, renderer);
@@ -253,8 +253,8 @@ public final class Presenter {
 		this.cameraSettingHandler.setEventHandlingEnabled(enabled);
 		this.scaleSettingHandler.setEventHandlingEnabled(enabled);
 		this.lightSettingHandler.setEventHandlingEnabled(enabled);
-		this.dataFileHandler.setEventHandlingEnabled(enabled);
-		this.imageFileHandler.setEventHandlingEnabled(enabled);
+		this.dataFileIOHandler.setEventHandlingEnabled(enabled);
+		this.imageIOHandler.setEventHandlingEnabled(enabled);
 	}
 
 

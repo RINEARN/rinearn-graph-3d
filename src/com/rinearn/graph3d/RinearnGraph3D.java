@@ -386,7 +386,7 @@ public final class RinearnGraph3D {
 	 *   </span>
 	 */
 	public synchronized Image getImage() {
-		return this.presenter.imageFileHandler.getImage();
+		return this.presenter.imageIOHandler.getImage();
 	}
 
 
@@ -430,7 +430,7 @@ public final class RinearnGraph3D {
 	 *   </span>
 	 */
 	public synchronized Image copyImage() {
-		return this.presenter.imageFileHandler.copyImage();
+		return this.presenter.imageIOHandler.copyImage();
 	}
 
 
@@ -467,7 +467,7 @@ public final class RinearnGraph3D {
 	 *   </span>
 	 */
 	public synchronized void exportImageFile(File file, double quality) throws IOException {
-		this.presenter.imageFileHandler.exportImageFile(file, quality);
+		this.presenter.imageIOHandler.exportImageFile(file, quality);
 	}
 
 
@@ -504,7 +504,7 @@ public final class RinearnGraph3D {
 	 *   <span class="lang-en">Thrown if any I/O-related problem occurred (depends on the version)</span>
 	 */
 	public void openDataFile(File file) throws FileNotFoundException, IOException {
-		this.presenter.dataFileHandler.openDataFile(file);
+		this.presenter.dataFileIOHandler.openDataFile(file);
 	}
 
 
@@ -527,7 +527,7 @@ public final class RinearnGraph3D {
 	 *   <span class="lang-en">Thrown if any I/O-related problem occurred (depends on the version)</span>
 	 */
 	public void openDataFiles(File[] files) throws FileNotFoundException, IOException {
-		this.presenter.dataFileHandler.openDataFiles(files);
+		this.presenter.dataFileIOHandler.openDataFiles(files);
 	}
 
 
@@ -553,7 +553,7 @@ public final class RinearnGraph3D {
 	 *   <span class="lang-en">Thrown if any I/O-related problem occurred (depends on the version)</span>
 	 */
 	public void openDataFile(File file, RinearnGraph3DDataFileFormat format) throws FileNotFoundException, IOException {
-		this.presenter.dataFileHandler.openDataFile(file, format);
+		this.presenter.dataFileIOHandler.openDataFile(file, format);
 	}
 
 
@@ -579,7 +579,7 @@ public final class RinearnGraph3D {
 	 *   <span class="lang-en">Thrown if any I/O-related problem occurred (depends on the version)</span>
 	 */
 	public void openDataFiles(File[] files, RinearnGraph3DDataFileFormat[] formats) throws FileNotFoundException, IOException {
-		this.presenter.dataFileHandler.openDataFiles(files, formats);
+		this.presenter.dataFileIOHandler.openDataFiles(files, formats);
 	}
 
 
@@ -629,7 +629,7 @@ public final class RinearnGraph3D {
 	 *   </span>
 	 */
 	public synchronized void setData(double[] x, double[] y, double[] z) {
-		this.presenter.dataArrayHandler.setData(x, y, z);
+		this.presenter.dataArrayIOHandler.setData(x, y, z);
 	}
 
 
@@ -679,7 +679,7 @@ public final class RinearnGraph3D {
 	 *   </span>
 	 */
 	public synchronized void setData(double[][] x, double[][] y, double[][] z) {
-		this.presenter.dataArrayHandler.setData(x, y, z);
+		this.presenter.dataArrayIOHandler.setData(x, y, z);
 	}
 
 
@@ -729,7 +729,7 @@ public final class RinearnGraph3D {
 	 *   </span>
 	 */
 	public synchronized void setData(double[][][] x, double[][][] y, double[][][] z) {
-		this.presenter.dataArrayHandler.setData(x, y, z);
+		this.presenter.dataArrayIOHandler.setData(x, y, z);
 	}
 
 
@@ -770,7 +770,7 @@ public final class RinearnGraph3D {
 	 *   </span>
 	 */
 	public synchronized void appendData(double[] x, double[] y, double[] z) {
-		this.presenter.dataArrayHandler.appendData(x, y, z);
+		this.presenter.dataArrayIOHandler.appendData(x, y, z);
 	}
 
 
@@ -811,7 +811,7 @@ public final class RinearnGraph3D {
 	 *   </span>
 	 */
 	public synchronized void appendData(double[][] x, double[][] y, double[][] z) {
-		this.presenter.dataArrayHandler.appendData(x, y, z);
+		this.presenter.dataArrayIOHandler.appendData(x, y, z);
 	}
 
 
@@ -852,7 +852,7 @@ public final class RinearnGraph3D {
 	 *   </span>
 	 */
 	public synchronized void appendData(double[][][] x, double[][][] y, double[][][] z) {
-		this.presenter.dataArrayHandler.appendData(x, y, z);
+		this.presenter.dataArrayIOHandler.appendData(x, y, z);
 	}
 
 
@@ -894,7 +894,7 @@ public final class RinearnGraph3D {
 	 *   </span>
 	 */
 	public synchronized void setAsynchronousPlottingEnabled(boolean enabled) {
-		this.presenter.dataArrayHandler.setAsynchronousPlottingEnabled(enabled);
+		this.presenter.dataArrayIOHandler.setAsynchronousPlottingEnabled(enabled);
 	}
 
 
