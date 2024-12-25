@@ -342,43 +342,95 @@ public final class RinearnGraph3D {
 
 	/**
 	 * <span class="lang-en">
-	 * Gets an Image instance storing the current screen image
+	 * Gets an Image instance of the screen image
 	 * </span>
 	 * <span class="lang-ja">
-	 * 現在のスクリーンの内容を保持している Image インスタンスを取得します
+	 * スクリーン内容の Image インスタンスを取得します
 	 * </span>
 	 * .
-	 *
 	 * <span class="lang-en">
-	 * This method copies the current screen image to a buffer, and returns the reference to the buffer.
-	 * Hence, the content of the returned Image instance is NOT updated automatically when the screen is re-rendered.
-	 * To update the content of the image, re-call this method.
+	 * The content of the returned Image instance may vary by the change of the content of the graph screen,
+	 * depending on the implementation of the renderer currently used.
+	 * Hence, the returned Image instance is not suitable for the purpose of editing the rendered graph image on the caller-side.
+	 * Its intended purpose is to be displayed on UI components.
+	 * If you want to get the static snapshot of the graph screen for editing, use
+	 * {@link RinearnGraph3D.copyImage() copyImage()} or
+	 * {@link com.rinearn.graph3d.renderer.RinearnGraph3DRenderer.copyScreenImage(BufferedImage, Graphics2D) RinearnGraph3DRenderer.copyImage(BufferedImage, Graphics2D)}
+	 * methods instead.
 	 * </span>
 	 * <span class="lang-ja">
-	 * このメソッドは、現在のスクリーンの内容をバッファにコピーし, そのバッファの参照を返します.
-	 * 従って, 返される Image インスタンスの内容は, スクリーンが再描画されても, 自動で更新はされません.
-	 * 内容を更新するには, このメソッドを再度使用してください.
+	 * このメソッドが返す Image の内容は,使用している3D描画エンジン（レンダラー）の実装によっては,
+	 * グラフ画面の変化に応じてリアルタイムに変化します.
+	 * そのため, 画像の加工用などには適さず, 主にUIコンポーネント上での表示用途が想定されています.
+	 * 画像の加工用などに、変化しない Image インスタンスが必用な場合は、代わりに
+	 * {@link RinearnGraph3D.copyImage() copyImage()} メソッドや,
+	 * {@link com.rinearn.graph3d.renderer.RinearnGraph3DRenderer.copyScreenImage(BufferedImage, Graphics2D) RinearnGraph3DRenderer.copyImage(BufferedImage, Graphics2D)}
+	 * メソッドを使用してください.
 	 * </span>
 	 *
 	 * <span class="lang-en">
-	 * Please note that, the returned Image instance changes when the screen is resized,
-	 * because it requires to reallocate the buffer.
+	 * Please note that, the returned Image instance changes when the screen is resized.
+	 * Then, the old Image instance will no longer updated.
 	 * </span>
 	 * <span class="lang-ja">
-	 * なお, スクリーンサイズが変わった際には, バッファ領域が再確保されるため,
-	 * このメソッドが返す Image インスタンスも変わる事に注意が必要です.
+	 * なお, スクリーンサイズが変わった際には, このメソッドが返す Image インスタンスも変わる事に注意が必要です.
+	 * その後は, 古い Image インスタンスの内容は更新されなくなります.
 	 * </span>
 	 *
 	 * @return
 	 *   <span class="lang-en">
-	 *   The Image instance storing the current screen image
+	 *   The Image instance of the screen image
 	 *   </span>
 	 *   <span class="lang-ja">
-	 *   現在のスクリーンの内容を保持している Image インスタンス
+	 *   スクリーン内容の Image インスタンス
 	 *   </span>
 	 */
 	public synchronized Image getImage() {
-		return this.presenter.renderingLoop.getImage();
+		return this.presenter.imageFileHandler.getImage();
+	}
+
+
+
+	/**
+	 * <span class="lang-en">
+	 * Gets an Image instance storing the copy of the current screen image
+	 * </span>
+	 * <span class="lang-ja">
+	 * 現在のスクリーンの内容をコピーした Image インスタンスを取得します
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * This method allocates a buffer, and copies the current screen image to the buffer, and returns its reference.
+	 * Hence, the content of the returned Image instance is NOT updated automatically when the screen is re-rendered.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドは、バッファ領域を確保して, そこに現在のスクリーンの内容をコピーし, そのバッファの参照を返します.
+	 * 従って, 返される Image インスタンスの内容は, スクリーンが再描画されても, 自動で更新はされません.
+	 * </span>
+	 *
+	 * <span class="lang-en">
+	 * Please note that, this method requires a certain overhead costs for allocating the buffer.
+	 * If you want to copy the current screen image to the buffer allocated by the caller-side, use
+	 * {@link com.rinearn.graph3d.renderer.RinearnGraph3DRenderer.copyScreenImage(BufferedImage, Graphics2D) RinearnGraph3DRenderer.copyImage(BufferedImage, Graphics2D)}
+	 * methods instead.
+	 * </span>
+	 * <span class="lang-ja">
+	 * なお, このメソッドはバッファの確保を伴うため, それなりのオーバーヘッドコストを要します.
+	 * もし, 呼び出し側で確保したバッファに, スクリーンの内容をコピーしたい場合は, 代わりに
+	 * {@link com.rinearn.graph3d.renderer.RinearnGraph3DRenderer.copyScreenImage(BufferedImage, Graphics2D) RinearnGraph3DRenderer.copyImage(BufferedImage, Graphics2D)}
+	 * メソッドを使用してください.
+	 * </span>
+	 *
+	 * @return
+	 *   <span class="lang-en">
+	 *   The Image instance storing the copy of the current screen image
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   現在のスクリーンの内容のコピーを保持している Image インスタンス
+	 *   </span>
+	 */
+	public synchronized Image copyImage() {
+		return this.presenter.imageFileHandler.copyImage();
 	}
 
 

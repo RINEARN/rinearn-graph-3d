@@ -5,13 +5,6 @@ import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.view.View;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.Graphics2D;
-
-import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
-
-import java.lang.reflect.InvocationTargetException;
 
 
 /**
@@ -50,25 +43,6 @@ public final class RenderingLoop implements Runnable {
 	/** The flag representing that invoking plot() on the loop thread has been requested. */
 	private volatile boolean plottingRequested = false;
 
-	/** The container class storing an buffered image and its graphics context. */
-	private class BufferedResources {
-
-		/**
-		 * Creates an new instance storing the specified resources.
-		 * @param image The buffered image instance.
-		 * @param graphics The graphics context of the above "image".
-		 */
-		public BufferedResources(BufferedImage image, Graphics2D graphics) {
-			this.image = image;
-			this.graphics = graphics;
-		}
-		public final BufferedImage image;
-		public final Graphics2D graphics;
-	}
-
-	/** The image/graphics buffered to be referred from the outside of the app, through getImage() API. */
-	private volatile BufferedResources externBuffer;
-
 
 	/**
 	 * Creates new rendering loop.
@@ -87,13 +61,9 @@ public final class RenderingLoop implements Runnable {
 
 
 	/**
-	 * Disposes the buffered resources.
+	 * Disposes the resources.
 	 */
 	public synchronized void dispose() {
-		if (this.externBuffer != null) {
-			this.externBuffer.graphics.dispose();
-			this.externBuffer = null;
-		}
 	}
 
 
@@ -174,6 +144,16 @@ public final class RenderingLoop implements Runnable {
 
 
 	/**
+	 * Gets the screen image.
+	 *
+	 * @return The screen image.
+	 */
+	public synchronized Image getScreenImage() {
+		return this.renderer.getScreenImage();
+	}
+
+
+	/**
 	 * The procedures of the rendering loop, which runs on an independent thread.
 	 */
 	@Override
@@ -216,127 +196,4 @@ public final class RenderingLoop implements Runnable {
 		}
 	}
 
-
-
-
-
-	// ================================================================================
-	//
-	// - API Listeners -
-	//
-	// ================================================================================
-
-
-	/**
-	 * Gets an Image instance storing the current screen image.
-	 *
-	 * This method copies the current screen image to a buffer, and returns the reference to the buffer.
-	 * Hence, the content of the returned Image instance is NOT updated automatically when the screen is re-rendered.
-	 * To update the content of the image, re-call this method.
-	 *
-	 * Please note that, the returned Image instance changes when the screen is resized,
-	 * because it requires to reallocate the buffer.
-	 *
-	 * @return The Image instance storing the current screen image.
-	 */
-	public Image getImage() {
-
-		// There is no need to add "synchronized" here.
-		// The timing-critical processing to copy the screen image to the buffer
-		// is implemented as a "synchronized" method: bufferCurrentScreenImage(-).
-
-		// Handle the API on the event-dispatcher thread.
-		GetImageAPIListener apiListener = new GetImageAPIListener();
-		if (SwingUtilities.isEventDispatchThread()) {
-			apiListener.run();
-			return apiListener.getImage();
-		} else {
-			try {
-				SwingUtilities.invokeAndWait(apiListener);
-				return apiListener.getImage();
-			} catch (InvocationTargetException | InterruptedException e) {
-				e.printStackTrace();
-				throw new RuntimeException(e);
-			}
-		}
-	}
-
-
-	/**
-	 * The class handling API requests from getImage() method,
-	 * on the event-dispatcher thread.
-	 */
-	private class GetImageAPIListener implements Runnable {
-
-		/** The Image instance of the graph screen. */
-		private volatile Image image;
-
-		/**
-		 * Gets the Image instance of the graph screen,
-		 * gotten from the renderer in run() method.
-		 *
-		 * @return The Image instance of the graph screen.
-		 */
-		public Image getImage() {
-			return this.image;
-		}
-
-		/**
-		 * Gets the Image instance from the renderer, on the event-dispatcher thread.
-		 */
-		@Override
-		public void run() {
-
-			// Copy the current screen image to the buffer, and store the result to the "image" field.
-			externBuffer = bufferCurrentScreenImage(externBuffer, true);
-			this.image = externBuffer.image;
-		}
-	}
-
-
-	/**
-	 * Buffers (copies) the current screen image.
-	 *
-	 * @param lastBuffer The buffer used last time by this method (reused if possible), or specify null to allocate a new buffer.
-	 * @param usesAlphaChannel Specify true if the alpha channel is necessary (for expressing transparent colors).
-	 * @return The buffered image of the current screen image, and its graphics context.
-	 */
-	private synchronized BufferedResources bufferCurrentScreenImage(
-			BufferedResources lastBuffer, boolean usesAlphaChannel) {
-
-		// Get the current screen image.
-		Image screenImage = this.renderer.getScreenImage();
-		ImageIcon screenIcon = new ImageIcon(screenImage); // Having an ImageObserver internally.
-		int screenWidth = screenIcon.getIconWidth();
-		int screenHeight = screenIcon.getIconHeight();
-
-		// Reallocate the buffer, if its size does not match with the current screen size.
-		BufferedResources buffer = lastBuffer;
-		if (buffer == null || buffer.image.getWidth() != screenWidth || buffer.image.getHeight() != screenHeight) {
-			if (buffer != null) {
-				buffer.graphics.dispose();
-			}
-			BufferedImage newImage = usesAlphaChannel ?
-					new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB):
-					new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_RGB);
-			Graphics2D newGraphics = newImage.createGraphics();
-			buffer = new BufferedResources(newImage, newGraphics);
-		}
-
-		// Set all the pixels of the buffer to the clear color (of which alpha-component is zero).
-		// (Necessary because the background color of the screen can be transparent.)
-		buffer.graphics.clearRect(0, 0, screenWidth, screenHeight);
-
-		// Copy the current screen image to the buffer.
-		boolean drawImageCompleted = false;
-		while (!drawImageCompleted) {
-			drawImageCompleted = buffer.graphics.drawImage(screenImage, 0, 0, screenWidth, screenHeight, null);
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException ie) {
-				throw new RuntimeException(ie);
-			}
-		}
-		return buffer;
-	}
 }

@@ -14,6 +14,13 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 
+// !!!!! NOTE !!!!!]
+//
+// Should be renamed to "ImageIOHandler" ?
+// This class provides getImage() and copyImage(), and they are not image file I/O.
+//
+// !!!!! NOTE !!!!!
+
 /**
  * The class handling events and API requests related to image file I/O.
  */
@@ -76,6 +83,119 @@ public final class ImageFileHandler {
 	// - API Listeners -
 	//
 	// ================================================================================
+
+	/**
+	 * Gets an Image instance of the screen image.
+	 *
+	 * The content of the returned Image instance may vary by the change of the content of the graph screen,
+	 * depending on the implementation of the renderer currently used.
+	 * Hence, the returned Image instance is not suitable for the purpose of editing the rendered graph image on the caller-side.
+	 * Its intended purpose is to be displayed on UI components.
+	 *
+	 * @return The Image instance of the screen image
+	 */
+	public Image getImage() {
+
+		// Handle the API on the event-dispatcher thread.
+		GetImageAPIListener apiListener = new GetImageAPIListener();
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+			return apiListener.getImage();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+				return apiListener.getImage();
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+
+	/**
+	 * The class handling API requests from getImage() method,
+	 * on the event-dispatcher thread.
+	 */
+	private final class GetImageAPIListener implements Runnable {
+
+		/** The Image instance of the graph screen. */
+		private volatile Image image;
+
+		/**
+		 * Gets the Image instance of the graph screen,
+		 * gotten from the renderer in run() method.
+		 *
+		 * @return The Image instance of the graph screen.
+		 */
+		public synchronized Image getImage() {
+			return this.image;
+		}
+
+		/**
+		 * Gets the screen's Image instance from the renderer, on the event-dispatcher thread.
+		 */
+		@Override
+		public synchronized void run() {
+			this.image = presenter.renderingLoop.getScreenImage();
+		}
+	}
+
+
+	/**
+	 * Gets an Image instance storing the copy of the current screen image.
+	 *
+	 * This method allocates a buffer, and copies the current screen image to the buffer, and returns its reference.
+	 * Hence, the content of the returned Image instance is NOT updated automatically when the screen is re-rendered.
+	 *
+	 * @return The Image instance storing the copy of the current screen image
+	 */
+	public Image copyImage() {
+
+		// Handle the API on the event-dispatcher thread.
+		CopyImageAPIListener apiListener = new CopyImageAPIListener();
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+			return apiListener.getImage();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+				return apiListener.getImage();
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+
+	/**
+	 * The class handling API requests from copyImage() method,
+	 * on the event-dispatcher thread.
+	 */
+	private final class CopyImageAPIListener implements Runnable {
+
+		/** The Image instance of the copy of the graph screen. */
+		private volatile Image image;
+
+		/**
+		 * Gets the Image instance of the copy of the graph screen,
+		 * gotten from the renderer in run() method.
+		 *
+		 * @return The Image instance of the graph screen.
+		 */
+		public synchronized Image getImage() {
+			return this.image;
+		}
+
+		/**
+		 * Copies the screen's Image instance of the renderer, on the event-dispatcher thread.
+		 */
+		@Override
+		public synchronized void run() {
+			this.image = presenter.renderingLoop.copyScreenImage();
+		}
+	}
 
 
 	/**
