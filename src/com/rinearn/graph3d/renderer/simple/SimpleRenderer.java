@@ -368,8 +368,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		System.gc();
 
 		// Clear the content of the graph screen.
-		this.screenGraphics.setColor(this.config.getColorConfiguration().getBackgroundColor());
-		this.screenGraphics.fillRect(0, 0, this.screenImage.getWidth(), this.screenImage.getHeight());
+		this.screenGraphics.setBackground(this.config.getColorConfiguration().getBackgroundColor());
+		this.screenGraphics.clearRect(0, 0, this.screenImage.getWidth(), this.screenImage.getHeight());
 
 		// Turn on the flag for detecting that the content of the graph screen has been updated.
 		this.screenUpdated = true;
@@ -399,8 +399,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		double magnification = this.config.getCameraConfiguration().getMagnification();
 
 		// Clear the graph screen.
-		this.screenGraphics.setColor(this.config.getColorConfiguration().getBackgroundColor());
-		this.screenGraphics.fillRect(0, 0, screenWidth, screenHeight);
+		this.screenGraphics.setBackground(this.config.getColorConfiguration().getBackgroundColor());
+		this.screenGraphics.clearRect(0, 0, screenWidth, screenHeight);
 
 		// Transform each geometric piece.
 		for (GeometricPiece piece: this.geometricPieceList) {
@@ -755,8 +755,12 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		}
 
 		// Allocate the image/graphics instances.
-		this.screenImage = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_RGB);
+		this.screenImage = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
 		this.screenGraphics = this.screenImage.createGraphics();
+
+		// Clear the screen image by the background color.
+		this.screenGraphics.setBackground(this.config.getColorConfiguration().getBackgroundColor());
+		this.screenGraphics.clearRect(0, 0, screenWidth, screenHeight);
 
 		// Turn on the flag for detecting that the graph screen has been resized.
 		this.screenResized = true;
@@ -784,13 +788,25 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * @return The deep copy of the current image of the graph screen.
 	 */
 	public synchronized Image copyScreenImage() {
-		int width = this.screenImage.getWidth();
-		int height = this.screenImage.getHeight();
-		BufferedImage copiedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D graphics = copiedImage.createGraphics();
-		this.copyScreenImage(copiedImage, graphics);
+
+		// Gets the current size of the screen.
+		int screenWidth = this.screenImage.getWidth();
+		int screenHeight = this.screenImage.getHeight();
+
+		// Create the buffer to store copied image, and the Graphics2D object to draw the image to the buffer.
+		BufferedImage buffer = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D graphics = buffer.createGraphics();
+
+		// Clear by the background color.
+		graphics.setBackground(this.config.getColorConfiguration().getBackgroundColor());
+		graphics.clearRect(0, 0, screenWidth, screenHeight);
+
+		// Copy the image to the buffer.
+		this.copyScreenImage(buffer, graphics);
+
+		// Dispose the resources and return the buffer storing the copied screen image.
 		graphics.dispose();
-		return copiedImage;
+		return buffer;
 	}
 
 
@@ -805,7 +821,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * the copying process may be terminated prematurely, so the copied image may be imperfect in such case.
 	 *
 	 * Also, this method does not clear the buffer automatically before copying the image,
-	 * so clear it beforehand at the caller-side if necessary.
+	 * considering the use case that the overlay the graph on the other contents (which are drawn on the buffer beforehand).
+	 * Hence, clear the buffer at the caller-side beforehand if necessary, using Graphics2D.clearRect() etc.
 	 *
 	 * @param buffer The buffer to which the current image of the screen will be copied.
 	 * @param graphics The Graphics2D object to draw contents to the buffer.

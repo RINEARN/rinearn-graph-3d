@@ -187,10 +187,12 @@ public interface RinearnGraph3DRenderer {
 	 *
 	 * <span class="lang-en">
 	 * Also, this method does not clear the buffer automatically before copying the image,
-	 * so clear it beforehand at the caller-side if necessary.
+	 * considering the use case that the overlay the graph on the other contents (which are drawn on the buffer beforehand).
+	 * Hence, clear the buffer at the caller-side beforehand if necessary, using Graphics2D.clearRect() etc.
 	 * </span>
 	 * <span class="lang-ja">
-	 * また, このメソッドでは, コピー前のバッファのクリア操作は行われないため, 必用な場合は呼び出し側で事前に行う必要があります.
+	 * また, このメソッドでは, コピー前のバッファのクリア操作は行われないため, 必用な場合は呼び出し側で事前にクリアする必要があります.
+	 * これは, 既にバッファに描画されている他の内容の上に, グラフを重ね描きしたい場合などを想定した仕様です.
 	 * </span>
 	 *
 	 * @param buffer
