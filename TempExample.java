@@ -4,7 +4,7 @@ import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.config.ColorConfiguration;
-import com.rinearn.graph3d.config.ColorGradient;
+import com.rinearn.graph3d.config.color.GradientColor;
 
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
@@ -32,6 +32,7 @@ import java.awt.event.ComponentEvent;
 
 import javax.imageio.ImageIO;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -64,8 +65,24 @@ public class TempExample {
 		File surfacePlotSampleDataFile = new File("./sample/SampleDataFile/SurfacePlotSample.txt");
 		graph3D.openDataFile(surfacePlotSampleDataFile);
 		*/
+
+		// Copy the image to the clipboard.
+		try {
+			boolean transfersToClioboard = true;
+			graph3D.copyImage(transfersToClioboard);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+
+		// Save the image as a file.
+		try {
+			graph3D.exportImageFile(new File("./testimage.png"), 1.0);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
 	}
 	
+	/*
 	public void __OLD_init() throws Exception {
 
 		// Launch a new RINEARN Graph 3D window (to be implemented).
@@ -84,11 +101,10 @@ public class TempExample {
 		graph3D.setScreenSize(1000, 730);
 
 		// Set the ranges of X/Y/Z axes.
-		/*
-		graph3D.setXRange(-2.0, 2.0);
-		graph3D.setYRange(-1.2, 1.2);
-		graph3D.setZRange(-1.0, 1.5);
-		*/
+		//graph3D.setXRange(-2.0, 2.0);
+		//graph3D.setYRange(-1.2, 1.2);
+		//graph3D.setZRange(-1.0, 1.5);
+
 		RangeConfiguration rangeConfig = new RangeConfiguration();
 		rangeConfig.getXRangeConfiguration().setMinimum(new BigDecimal("-2.0"));
 		rangeConfig.getXRangeConfiguration().setMaximum(new BigDecimal("2.0"));
@@ -130,17 +146,15 @@ public class TempExample {
 		graph3D.setCameraDistance(5.25);
 		graph3D.setCameraMagnification(800.0);
 
-		/*
 		// Gets the rendering engine of 3D graphs.
-		RinearnGraph3DRenderer renderer = graph3D.getRenderer();
+		//RinearnGraph3DRenderer renderer = graph3D.getRenderer();
 
 		// Create the plotter, which plot contents using the above renderer.
-		Plotter plotter = new Plotter(renderer);
+		//Plotter plotter = new Plotter(renderer);
 
 		// Register the above plotter to the graph, and perform the first plotting.
-		graph3D.addPlottingListener(plotter);
-		graph3D.plot();
-		*/
+		//graph3D.addPlottingListener(plotter);
+		//graph3D.plot();
 
 		MeshData meshData = this.generateExamMeshData();
 		//graph3D.appendData(meshData.x, meshData.y, meshData.z);
@@ -156,17 +170,14 @@ public class TempExample {
 		//graph3D.appendData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
 		//graph3D.setData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
 
-		/*
-		graph3D.setAsynchronousPlottingEnabled(true);
-
-		long beginTime = System.nanoTime();
-		for (int i=0; i<100; i++) {
-			graph3D.setData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
-		}
-		long endTime = System.nanoTime();
-		double requiredTime = (endTime - beginTime) * 1.0E-9;
-		System.out.println("requiredTime: " + requiredTime + " [sec]");
-		*/
+		//graph3D.setAsynchronousPlottingEnabled(true);
+		//long beginTime = System.nanoTime();
+		//for (int i=0; i<100; i++) {
+		//	graph3D.setData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
+		//}
+		//long endTime = System.nanoTime();
+		//double requiredTime = (endTime - beginTime) * 1.0E-9;
+		//System.out.println("requiredTime: " + requiredTime + " [sec]");
 
 		graph3D.setData(multiDataSeriesX, multiDataSeriesY, multiDataSeriesZ);
 		//graph3D.clear();
@@ -197,21 +208,19 @@ public class TempExample {
 		CustomComponentListener customComponentListener = new CustomComponentListener();
 		graph3D.addComponentListener(customComponentListener);
 
-		/*
-		BufferedImage screenImage = BufferedImage.class.cast(graph3D.getImage());
-		ImageIO.write(screenImage, "PNG", new File("./ScreenImage1.png"));
-		System.out.println("Saved: ./ScreenImage1.png");
+		//BufferedImage screenImage = BufferedImage.class.cast(graph3D.getImage());
+		//ImageIO.write(screenImage, "PNG", new File("./ScreenImage1.png"));
+		//System.out.println("Saved: ./ScreenImage1.png");
 
-		graph3D.setZZenithCameraAngle(0.8, 1.2, 0.0);
-		screenImage = BufferedImage.class.cast(graph3D.getImage());
-		ImageIO.write(screenImage, "PNG", new File("./ScreenImage2.png"));
-		System.out.println("Saved: ./ScreenImage2.png");
+		//graph3D.setZZenithCameraAngle(0.8, 1.2, 0.0);
+		//screenImage = BufferedImage.class.cast(graph3D.getImage());
+		//ImageIO.write(screenImage, "PNG", new File("./ScreenImage2.png"));
+		//System.out.println("Saved: ./ScreenImage2.png");
 
-		graph3D.setZZenithCameraAngle(1.2, 1.4, 0.0);
-		screenImage = BufferedImage.class.cast(graph3D.getImage());
-		ImageIO.write(screenImage, "PNG", new File("./ScreenImage3.png"));
-		System.out.println("Saved: ./ScreenImage3.png");
-		*/
+		//graph3D.setZZenithCameraAngle(1.2, 1.4, 0.0);
+		//screenImage = BufferedImage.class.cast(graph3D.getImage());
+		//ImageIO.write(screenImage, "PNG", new File("./ScreenImage3.png"));
+		//System.out.println("Saved: ./ScreenImage3.png");
 
 		graph3D.exportImageFile(new File("./ScreenImage1.png"), 1.0);
 		System.out.println("Saved: ./ScreenImage1.png");
@@ -237,7 +246,9 @@ public class TempExample {
 
 		graph3D.setWindowTitle("Window Title Is Customizable!");
 	}
+	*/
 
+	/*
 	private class CustomWindowListener extends WindowAdapter {
 		@Override
 		public void windowClosing(WindowEvent e) {
@@ -341,7 +352,6 @@ public class TempExample {
 				}
 			}
 
-			/*
 			// Draw many roundom points.
 			for (int i=0; i<500; i++) {
 
@@ -390,7 +400,6 @@ public class TempExample {
 						dX, dY, dZ
 				);
 			}
-			*/
 		}
 	}
 
@@ -545,4 +554,5 @@ public class TempExample {
 		lineData.z = z;
 		return lineData;
 	}
+	*/
 }

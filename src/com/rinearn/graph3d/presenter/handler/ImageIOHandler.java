@@ -6,6 +6,12 @@ import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.model.io.ImageFileIO;
 
 import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import javax.swing.SwingUtilities;
 
 import java.io.File;
@@ -66,8 +72,6 @@ public final class ImageIOHandler {
 	public synchronized boolean isEventHandlingEnabled() {
 		return this.eventHandlingEnabled;
 	}
-
-
 
 
 
@@ -136,59 +140,165 @@ public final class ImageIOHandler {
 
 
 	/**
-	 * Gets an Image instance storing the copy of the current screen image.
+	 * Copies an Image instance of the current screen image, and returns it or transfers it to the clipboard.
 	 *
 	 * This method allocates a buffer, and copies the current screen image to the buffer, and returns its reference.
 	 * Hence, the content of the returned Image instance is NOT updated automatically when the screen is re-rendered.
 	 *
+	 * @param transfersToClipboard Specify true for transferring the copied image to the clipboard.
 	 * @return The Image instance storing the copy of the current screen image
+	 * @throws IOException Thrown if any error occurred for transferring the copied image to the clipboard.
 	 */
-	public Image copyImage() {
+	public Image copyImage(boolean transfersToClipboard) throws IOException {
 
-		// Handle the API on the event-dispatcher thread.
-		CopyImageAPIListener apiListener = new CopyImageAPIListener();
+		// Copy and transfer the screen image on the event-dispatcher thread.
+		CopyImageAPIListener apiListener = new CopyImageAPIListener(transfersToClipboard);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
-			return apiListener.getImage();
 		} else {
 			try {
 				SwingUtilities.invokeAndWait(apiListener);
-				return apiListener.getImage();
 			} catch (InvocationTargetException | InterruptedException e) {
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
 		}
+
+		// If any error has occurred while transferring the copied image, throw it to the caller side.
+		if (apiListener.hasOccurredException()) {
+			throw apiListener.getOccurredException();
+		}
+		return apiListener.getCopiedImage();
 	}
 
 
 	/**
-	 * The class handling API requests from copyImage() method,
+	 * The class handling API requests from copyImage(boolean) method,
 	 * on the event-dispatcher thread.
 	 */
-	private final class CopyImageAPIListener implements Runnable {
+	private final class CopyImageAPIListener implements Runnable, Transferable, ClipboardOwner {
+
+		/** The supported flavor. This method copies images to the clipboard, so DataFlavor.imageFlavor is necessary. */
+		private static final DataFlavor SUPPORTED_DATA_FLAVER = DataFlavor.imageFlavor;
+
+		/** The array storing the supported flavor(s), to be returned by getTransferDataFlavors() method.  */
+		private static final DataFlavor[] SUPPORTED_DATA_FLAVERS = { SUPPORTED_DATA_FLAVER };
 
 		/** The Image instance of the copy of the graph screen. */
-		private volatile Image image;
+		private volatile Image copiedImage = null;
+
+		/** The flag to transfer the copied image to the clipboard. */
+		private volatile boolean transfersToClipboard;
+
+		/** The exception which was occurred when the copied image was transferred last time. */
+		private volatile IOException occurredException = null;
 
 		/**
-		 * Gets the Image instance of the copy of the graph screen,
+		 * Create a new instance to copy/transfer the screen image.
+		 *
+		 * @param transfersToClipboard Specify true for transferring the copied image to the clipboard.
+		 */
+		public CopyImageAPIListener(boolean transfersToClipboard) {
+			this.transfersToClipboard = transfersToClipboard;
+		}
+
+		/**
+		 * Gets the copied Image instance of the graph screen,
 		 * gotten from the renderer in run() method.
 		 *
 		 * @return The Image instance of the graph screen.
 		 */
-		public synchronized Image getImage() {
-			return this.image;
+		public synchronized Image getCopiedImage() {
+			return this.copiedImage;
+		}
+
+		/**
+		 * Checks whether any exception occurred when transferring the copied image last time.
+		 *
+		 * @return Return true if any exception occurred.
+		 */
+		public synchronized boolean hasOccurredException() {
+			return this.occurredException != null;
+		}
+
+		/**
+		 * Gets the exception which occurred when transferring the copied image last time.
+		 *
+		 * @return Return the exception which occurred when loading the data last time.
+		 */
+		public synchronized IOException getOccurredException() {
+			return this.occurredException;
 		}
 
 		/**
 		 * Copies the screen's Image instance of the renderer, on the event-dispatcher thread.
+		 *
+		 * @throws IllegalStateException Thrown if the clipboard is not available.
 		 */
 		@Override
 		public synchronized void run() {
-			this.image = presenter.renderingLoop.copyScreenImage();
+
+			// Copy the current screen image.
+			this.copiedImage = presenter.renderingLoop.copyScreenImage();
+
+			// If required, transfer the copied image to the clipboard.
+			if (this.transfersToClipboard) {
+
+				try {
+					Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+					clipboard.setContents(this, this); // Transferable, ClipboardOwner
+
+				// If the above failed to transfer the image to the clipboard, it throws IllegalStateException.
+				// So catch it, and wrap it by IOException.
+				} catch (IllegalStateException ise) {
+					this.occurredException = new IOException("Failed to transfer the copied image to the clipboard.", ise);
+				}
+			}
+		}
+
+		/**
+		 * A method of Transferable, copying the screen image and return it to be transferred to the clipboard.
+		 */
+		@Override
+		public Object getTransferData(DataFlavor flavor) throws IOException, UnsupportedFlavorException {
+			if (!this.isDataFlavorSupported(flavor)) {
+				throw new UnsupportedFlavorException(flavor);
+			}
+
+			// CAUTION:
+			//     The image has already been copied in run() method, and then,
+			//     the subsequent code in the run() method requests transferring the copied image to the clipboard.
+			//     So don't copy the image again here as follows:
+			// this.copiedImage = presenter.renderingLoop.copyScreenImage();
+
+			return this.copiedImage;
+		}
+
+		/**
+		 * A method of Transferable, returning the array of available data flavors.
+		 */
+		@Override
+		public DataFlavor[] getTransferDataFlavors() {
+			return SUPPORTED_DATA_FLAVERS;
+		}
+
+		/**
+		 * A method of Transferable, returns whether the specified data flavors is available.
+		 */
+		@Override
+		public boolean isDataFlavorSupported(DataFlavor dataFlavorToBeCheced) {
+			boolean isSupportedFlavor = dataFlavorToBeCheced.equals(SUPPORTED_DATA_FLAVER);
+			return isSupportedFlavor;
+		}
+
+		/**
+		 * A method of ClipboardOwner.
+		 */
+		@Override
+		public void lostOwnership(Clipboard clipboard, Transferable contents) {
 		}
 	}
+
 
 
 	/**

@@ -354,7 +354,7 @@ public final class RinearnGraph3D {
 	 * Hence, the returned Image instance is not suitable for the purpose of editing the rendered graph image on the caller-side.
 	 * Its intended purpose is to be displayed on UI components.
 	 * If you want to get the static snapshot of the graph screen for editing, use
-	 * {@link RinearnGraph3D.copyImage() copyImage()} or
+	 * {@link RinearnGraph3D.copyImage() copyImage(boolean)} or
 	 * {@link com.rinearn.graph3d.renderer.RinearnGraph3DRenderer.copyScreenImage(BufferedImage, Graphics2D) RinearnGraph3DRenderer.copyImage(BufferedImage, Graphics2D)}
 	 * methods instead.
 	 * </span>
@@ -363,7 +363,7 @@ public final class RinearnGraph3D {
 	 * グラフ画面の変化に応じてリアルタイムに変化します.
 	 * そのため, 画像の加工用などには適さず, 主にUIコンポーネント上での表示用途が想定されています.
 	 * 画像の加工用などに、変化しない Image インスタンスが必用な場合は、代わりに
-	 * {@link RinearnGraph3D.copyImage() copyImage()} メソッドや,
+	 * {@link RinearnGraph3D.copyImage() copyImage(boolean)} メソッドや,
 	 * {@link com.rinearn.graph3d.renderer.RinearnGraph3DRenderer.copyScreenImage(BufferedImage, Graphics2D) RinearnGraph3DRenderer.copyImage(BufferedImage, Graphics2D)}
 	 * メソッドを使用してください.
 	 * </span>
@@ -393,10 +393,10 @@ public final class RinearnGraph3D {
 
 	/**
 	 * <span class="lang-en">
-	 * Gets an Image instance storing the copy of the current screen image
+	 * Creates an Image instance storing the copy of the current screen image, and returns it or transfers it to the clipboard
 	 * </span>
 	 * <span class="lang-ja">
-	 * 現在のスクリーンの内容をコピーした Image インスタンスを取得します
+	 * 現在のスクリーンの内容をコピーした Image インスタンスを取得, またはクリップボードに転送します
 	 * </span>
 	 * .
 	 * <span class="lang-en">
@@ -421,6 +421,14 @@ public final class RinearnGraph3D {
 	 * メソッドを使用してください.
 	 * </span>
 	 *
+	 * @param transferesToClipboard
+	 *   <span class="lang-en">
+	 *   Specify true for transferring the copied screen image to the clipboard
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   コピーしたスクリーン画像をクリップボードに転送したい場合に true を指定
+	 *   </span>
+	 *
 	 * @return
 	 *   <span class="lang-en">
 	 *   The Image instance storing the copy of the current screen image
@@ -428,9 +436,17 @@ public final class RinearnGraph3D {
 	 *   <span class="lang-ja">
 	 *   現在のスクリーンの内容のコピーを保持している Image インスタンス
 	 *   </span>
+	 *
+	 * @throws IOException
+	 *   <span class="lang-en">
+	 *   Thrown if any (may be environment-dependent) error occurred for transferring the copied image to the clipboard
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   何らかの原因（恐らく環境依存）により, コピーした画像をクリップボードに転送できなかった場合にスローされます
+	 *   </span>
 	 */
-	public synchronized Image copyImage() {
-		return this.presenter.imageIOHandler.copyImage();
+	public synchronized Image copyImage(boolean transferesToClipboard) throws IOException {
+		return this.presenter.imageIOHandler.copyImage(transferesToClipboard);
 	}
 
 
