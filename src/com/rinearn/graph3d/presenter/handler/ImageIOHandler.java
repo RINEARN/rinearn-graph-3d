@@ -595,8 +595,17 @@ public final class ImageIOHandler {
 		@Override
 		public synchronized void run() {
 
+			// Determine suitable type of BufferedImage, depending on the image file format.
+			int bufferedImageType;
+			String lowerCaseName = imageFile.getName().toLowerCase();
+			if (lowerCaseName.endsWith(".png")) {
+				bufferedImageType = BufferedImage.TYPE_INT_ARGB;
+			} else {
+				bufferedImageType = BufferedImage.TYPE_INT_RGB;
+			}
+
 			// Copy the current image of the graph screen.
-			BufferedImage screenImage = presenter.renderingLoop.copyScreenImage(BufferedImage.TYPE_INT_ARGB);
+			BufferedImage screenImage = presenter.renderingLoop.copyScreenImage(bufferedImageType);
 
 			// Save the above image as the specified image file.
 			ImageFileIO imageFileIO = new ImageFileIO();
