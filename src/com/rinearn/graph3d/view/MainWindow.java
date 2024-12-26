@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.ImageIcon;
@@ -153,11 +154,20 @@ public final class MainWindow {
 	/** "Options" > "With Membranes" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem membraneOptionMenuItem;
 
+
+	/** Right-click menu. */
+	public volatile JPopupMenu rightClickMenu;
+
+	/** Right-click > "Copy Image" menu item.  */
+	public volatile JMenuItem copyImageMenuItem;
+
+
 	/** The flag for switching the visibility of the UI panel at the screen side. */
 	public volatile boolean screenSideUIVisible = true;
 
 	/** The flag for switching the visibility of the menu bar and the right-click menus. */
 	public volatile boolean menuVisible = true;
+
 
 
 	/**
@@ -286,6 +296,15 @@ public final class MainWindow {
 				// "Options" > "With Membranes" menu item:
 				membraneOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
 				optionsMenu.add(membraneOptionMenuItem);
+			}
+
+			// Right-click menu:
+			{
+				rightClickMenu = new JPopupMenu();
+
+				// Right-click > "Copy Image" menu item.
+				copyImageMenuItem = new JMenuItem("Unconfigured");
+				rightClickMenu.add(copyImageMenuItem);
 			}
 
 			// The label of the screen, on which a 3D graph is displayed:
@@ -496,6 +515,11 @@ public final class MainWindow {
 				meshOptionMenuItem.setText("メッシュプロット");
 				membraneOptionMenuItem.setText("曲面プロット");
 			}
+
+			// Right-click menu items:
+			{
+				copyImageMenuItem.setText("画像のコピー");
+			}
 		}
 
 		/**
@@ -536,6 +560,11 @@ public final class MainWindow {
 				lineOptionMenuItem.setText("With Lines");
 				meshOptionMenuItem.setText("With Meshes");
 				membraneOptionMenuItem.setText("With Membranes");
+			}
+
+			// Right-click menu items:
+			{
+				copyImageMenuItem.setText("Copy Image");
 			}
 		}
 
@@ -579,6 +608,11 @@ public final class MainWindow {
 				lineOptionMenuItem.setFont(uiBoldFont);
 				meshOptionMenuItem.setFont(uiBoldFont);
 				membraneOptionMenuItem.setFont(uiBoldFont);
+			}
+
+			// Right-click menu items:
+			{
+				copyImageMenuItem.setFont(uiBoldFont);
 			}
 		}
 

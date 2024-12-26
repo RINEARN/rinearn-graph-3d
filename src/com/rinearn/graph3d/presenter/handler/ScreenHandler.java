@@ -102,6 +102,10 @@ public final class ScreenHandler {
 		ZoomEventListener zoomEventListener = new ZoomEventListener();
 		screenLabel.addMouseWheelListener(zoomEventListener);
 
+		// Add the MouseListener to handling mouse-clicking events.
+		ClickEventListener clickEventListener = new ClickEventListener();
+		screenLabel.addMouseListener(clickEventListener);
+
 		// Add the ComponentListener handling resizing events of the graph screen.
 		ResizeEventListener resizeEventListener = new ResizeEventListener();
 		screenLabel.addComponentListener(resizeEventListener);
@@ -505,6 +509,29 @@ public final class ScreenHandler {
 				circumferentialDeltaVectorLength = -circumferentialDeltaVectorLength;
 			}
 			return circumferentialDeltaVectorLength;
+		}
+	}
+
+
+	/**
+	 * The event listener handling mouse-clicking events.
+	 */
+	private final class ClickEventListener extends MouseAdapter {
+
+		/**
+		 * Pops-up the right click menu.
+		 */
+		@Override
+		public void mouseClicked(MouseEvent me) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			if (!defaultMouseListenerEnabled) {
+				return;
+			}
+			if (SwingUtilities.isRightMouseButton(me)) {
+				view.mainWindow.rightClickMenu.show(view.mainWindow.screenLabel, me.getX(), me.getY());
+			}
 		}
 	}
 

@@ -12,6 +12,9 @@ import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.SwingUtilities;
 
 import java.io.File;
@@ -51,6 +54,9 @@ public final class ImageIOHandler {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;
+
+		// Add the action listeners to RightClick > "Copy Image" menu item.
+		view.mainWindow.copyImageMenuItem.addActionListener(new CopyImageMenuEventListener());
 	}
 
 
@@ -72,6 +78,41 @@ public final class ImageIOHandler {
 	public synchronized boolean isEventHandlingEnabled() {
 		return this.eventHandlingEnabled;
 	}
+
+
+
+
+
+	// ================================================================================
+	//
+	// - Event Listeners -
+	//
+	// ================================================================================
+
+
+	/**
+	 * The event listener handling the event that the Right-click > "Copy Image" menu is clicked.
+	 */
+	private final class CopyImageMenuEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			try {
+				// Call the implementation of copyImage(boolean) API, provided by this class.
+				// (It is processed on the event-dispatcher thread,
+				//  so there is no need to wrap the followings by SwingUtilities.invokeAndWait(...))
+				boolean transfersToClipboard = true;
+				copyImage(transfersToClipboard);
+
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+		}
+	}
+
+
 
 
 
