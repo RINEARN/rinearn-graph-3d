@@ -106,6 +106,9 @@ public final class View {
 	/** The window of "File" > "Open Files" menu. */
 	public final DataFileOpeningWindow dataFileOpeningWindow = new DataFileOpeningWindow();
 
+	/** The window of "File" > "Save Image" menu. */
+	public final ImageSavingWindow imageSavingWindow = new ImageSavingWindow();
+
 	/** The setting window of "Settings" > "Set Labels" menu. */
 	public final LabelSettingWindow labelSettingWindow = new LabelSettingWindow();
 
@@ -151,6 +154,7 @@ public final class View {
 	public synchronized void configure(RinearnGraph3DConfiguration configuration) {
 		this.mainWindow.configure(configuration);
 		this.dataFileOpeningWindow.configure(configuration);
+		this.imageSavingWindow.configure(configuration);
 		this.labelSettingWindow.configure(configuration);
 		this.rangeSettingWindow.configure(configuration);
 		this.fontSettingWindow.configure(configuration);
@@ -166,6 +170,7 @@ public final class View {
 	public synchronized void dispose() {
 		this.mainWindow.dispose();
 		this.dataFileOpeningWindow.dispose();
+		this.imageSavingWindow.dispose();
 		this.labelSettingWindow.dispose();
 		this.rangeSettingWindow.dispose();
 		this.fontSettingWindow.dispose();

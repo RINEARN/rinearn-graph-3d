@@ -138,6 +138,7 @@ public final class MenuHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
+			view.imageSavingWindow.frame.setVisible(true);
 
 			// Prepare message (window title) of the file-chooser window.
 			String message = CommunicationMessage.generateCommunicationMessage(CommunicationType.SPECIFY_IMAGE_FILE);

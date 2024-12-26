@@ -110,7 +110,7 @@ public class DataFileOpeningWindow {
 	/** The text area of the list of the files to be opened. */
 	public volatile JTextArea fileListArea;
 
-	/** The label of the combo box to selecting the data format. */
+	/** The label of the combo box for selecting the data format. */
 	public volatile JLabel dataFormatLabel;
 
 	/** The combo box for selecting the data format. */

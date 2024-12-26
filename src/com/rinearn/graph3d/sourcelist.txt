@@ -90,6 +90,7 @@ com/rinearn/graph3d/RinearnGraph3DOptionItem.java
 com/rinearn/graph3d/view/CameraSettingWindow.java
 com/rinearn/graph3d/view/DataFileOpeningWindow.java
 com/rinearn/graph3d/view/FontSettingWindow.java
+com/rinearn/graph3d/view/ImageSavingWindow.java
 com/rinearn/graph3d/view/LabelSettingWindow.java
 com/rinearn/graph3d/view/LightSettingWindow.java
 com/rinearn/graph3d/view/MainWindow.java
