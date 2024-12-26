@@ -81,6 +81,8 @@ public class TempExample {
 		// Save the image as a file.
 		try {
 			graph3D.exportImageFile(new File("./testimage.png"), 1.0);
+			graph3D.exportImageFile(new File("./testimage.jpg"), 1.0);
+			graph3D.exportImageFile(new File("./testimage.bmp"), 1.0);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
