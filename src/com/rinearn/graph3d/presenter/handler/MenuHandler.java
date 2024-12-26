@@ -139,33 +139,6 @@ public final class MenuHandler {
 				return;
 			}
 			view.imageSavingWindow.frame.setVisible(true);
-
-			// Prepare message (window title) of the file-chooser window.
-			String message = CommunicationMessage.generateCommunicationMessage(CommunicationType.SPECIFY_IMAGE_FILE);
-
-			// Choose the files to be opened.
-			FileDialog fileDialog = new FileDialog(view.dataFileOpeningWindow.frame, message, FileDialog.LOAD);
-			fileDialog.setDirectory(this.lastDirectory.getPath());
-			fileDialog.setMultipleMode(false);
-			fileDialog.setVisible(true);
-			File[] files = fileDialog.getFiles();
-
-			// If canceled without choosing any file.
-			if (files.length == 0) {
-				return;
-			}
-			File file = files[0];
-
-			// Copy the current image of the graph screen.
-			Image screenImage = presenter.renderingLoop.copyScreenImage(BufferedImage.TYPE_INT_ARGB);
-
-			ImageFileIO imageFileIO = new ImageFileIO();
-			double quality = 1.0; // Temporary
-			try {
-				imageFileIO.saveImageFile(screenImage, file, quality);
-			} catch (IOException ioe) {
-				ioe.printStackTrace();
-			}
 		}
 	}
 

@@ -75,6 +75,8 @@ public final class ErrorMessage {
 			case INVARID_MATRIX_SERIES_INDEX: return "複数系列のマトリックス書式において、解釈不能の系列インデックス \"" + words[0] + "\" が使用されています。";
 			case SINGLE_EMPTY_LINE_SEPARATED_MATRICES_IS_NOT_SUPPORTED : return "マトリックス書式で、空白行によって系列を区切る場合は、1連続ではなく2連続の空白で区切る必要があります。";
 			case FAILED_TO_COPY_IMAGE_TO_CLIPBOARD : return "画像をコピーできませんでした。\\nコピー機能は、環境や設定などによっては使用できない場合があります。";
+			case INVALID_IMAGE_FILE_QUALITY : return "画質の値が想定外です。画質は、0 ～ 100 までの値を数値で指定してください。";
+			case FAILED_TO_SAVE_IMAGE: return "画像の保存に失敗しました。\n（I/Oエラー）";
 			default : return "不明なエラー種類：" + errorType;
 		}
 	}
@@ -101,6 +103,8 @@ public final class ErrorMessage {
 			case INVARID_MATRIX_SERIES_INDEX: return "Invarid data series index \"" + words[0] + "\" is used in the multi-series matrix format data file.";
 			case SINGLE_EMPTY_LINE_SEPARATED_MATRICES_IS_NOT_SUPPORTED : return "To split data series in matrix format, use double empty lines, not a single empty line.";
 			case FAILED_TO_COPY_IMAGE_TO_CLIPBOARD : return "Failed to copy the image to the clipboard.\nThe clipboard may be unavailable depending on your environment/settings.";
+			case INVALID_IMAGE_FILE_QUALITY : return "The value of the \"Quality\" is invalid.\nPlease specify a number from 0 to 100.";
+			case FAILED_TO_SAVE_IMAGE: return "Failed to save the image file.\n (I/O error)";
 			default : return "Unknown Error Type: " + errorType;
 		}
 	}

@@ -65,8 +65,9 @@ public final class CommunicationMessage {
 
 		switch (communicationType) {
 			case CHOOSE_DATA_FILES : return "データファイルを選択:（※ Ctrlキーを押しながら複数選択できます）";
-			case SPECIFY_IMAGE_FILE : return "保存する画像ファイルを指定";
 			case CHANGE_DATA_FORMATS_OF_ALL_LISTED_FILES : return "現在リストにある、全ファイルのデータ書式もまとめて変更しますか？";
+			case SUCCEEDED_TO_SAVE_IMAGE : return "画像ファイルの保存が完了しました。\n\nファイル: " + words[0];
+			case DO_YOU_WANT_TO_OVERWRITE_IMAGE : return "以下のファイルは既に存在します。上書きしますか?\n\nファイル: " + words[0];
 			default : return "不明な種類のメッセージ：" + communicationType;
 		}
 	}
@@ -83,8 +84,9 @@ public final class CommunicationMessage {
 
 		switch (communicationType) {
 			case CHOOSE_DATA_FILES : return "Choose the Data Files to Open: (Hold down the \"Ctrl\" key to select multiple files.)";
-			case SPECIFY_IMAGE_FILE : return "Specify the Image File to Save";
 			case CHANGE_DATA_FORMATS_OF_ALL_LISTED_FILES : return "Do you want to change the data formats of all the files in the list at once?";
+			case SUCCEEDED_TO_SAVE_IMAGE : return "The image file has been saved.\n\nFile:" + words[0];
+			case DO_YOU_WANT_TO_OVERWRITE_IMAGE : return "The following file already exists. Do you want to overwrite it?\n\nFile: " + words[0];
 			default : return "Unknown Communication Message Type: " + communicationType;
 		}
 	}

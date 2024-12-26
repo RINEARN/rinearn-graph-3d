@@ -2,9 +2,12 @@ package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
+import com.rinearn.graph3d.view.ImageSavingWindow;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.model.io.ImageFileIO;
 import com.rinearn.graph3d.def.ErrorType;
+import com.rinearn.graph3d.def.CommunicationMessage;
+import com.rinearn.graph3d.def.CommunicationType;
 import com.rinearn.graph3d.def.ErrorMessage;
 
 import java.awt.Image;
@@ -20,6 +23,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.JFileChooser;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +49,9 @@ public final class ImageIOHandler {
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
 
+	/** The path of the last selected directory to save the image file. */
+	private volatile String lastDirectoryPath = ".";
+
 
 	/**
 	 * Create a new instance handling events and API requests using the specified resources.
@@ -60,6 +67,12 @@ public final class ImageIOHandler {
 
 		// Add the action listeners to RightClick > "Copy Image" menu item.
 		view.mainWindow.copyImageMenuItem.addActionListener(new CopyImageMenuEventListener());
+
+		// Add the action listener to the "Open" button on "File" > "Save Image" window is clicked.
+		view.imageSavingWindow.fileLocationButton.addActionListener(new FileLocationButtonEventListener());
+
+		// Add the action listener to the "SAVE" button on "File" > "Save Image" window is clicked.
+		view.imageSavingWindow.saveButton.addActionListener(new SaveButtonEventListener());
 	}
 
 
@@ -98,7 +111,7 @@ public final class ImageIOHandler {
 	 */
 	private final class CopyImageMenuEventListener implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent ae) {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
@@ -126,6 +139,145 @@ public final class ImageIOHandler {
 	}
 
 
+	/**
+	 * The event listener handling the event that the "Open" button on "File" > "Save Image" window is clicked.
+	 */
+	private final class FileLocationButtonEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Choose the directory to save the image file.
+			// NOTE: Using JFileChooser instead of FileDialog, because the latter does not support DIRECTORIES_ONLY mode.
+			JFileChooser fileChooser = new JFileChooser(lastDirectoryPath);
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			fileChooser.showOpenDialog(view.imageSavingWindow.frame);
+			File file = fileChooser.getSelectedFile();
+			if (file == null) {
+				return;
+			}
+
+			// Set the path of the selected directory to the text field on the window.
+			String selectedDirectoryPath = file.getAbsolutePath();
+			view.imageSavingWindow.fileLocationField.setText(selectedDirectoryPath);
+			lastDirectoryPath = selectedDirectoryPath;
+		}
+	}
+
+
+	/**
+	 * The event listener handling the event that the "SAVE" button on "File" > "Save Image" window is clicked.
+	 */
+	private final class SaveButtonEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			ImageSavingWindow window = view.imageSavingWindow;
+
+			// Gets the name, location, and format of the image file to be saved.
+			String fileName = window.fileNameField.getText();
+			String fileLocation = window.fileLocationField.getText();
+			String format = window.fileFormatBox.getSelectedItem().toString();
+
+			// Append the extension depending on the file format, if necessary.
+			// Additionally, decide the suitable type of the BufferedImage for the format.
+			int bufferedImageType;
+			switch (format) {
+				case ImageSavingWindow.FILE_FORMAT_PNG : {
+					if (!fileName.toLowerCase().endsWith(".png")) {
+						fileName += ".png";
+					}
+					bufferedImageType = BufferedImage.TYPE_INT_ARGB;
+					break;
+				}
+				case ImageSavingWindow.FILE_FORMAT_BMP : {
+					if (!fileName.toLowerCase().endsWith(".bmp")) {
+						fileName += ".bmp";
+					}
+					bufferedImageType = BufferedImage.TYPE_INT_RGB;
+					break;
+				}
+				case ImageSavingWindow.FILE_FORMAT_JPEG : {
+					if (!fileName.toLowerCase().endsWith(".jpg") && !fileName.toLowerCase().endsWith(".jpeg")) {
+						fileName += ".jpg";
+					}
+					bufferedImageType = BufferedImage.TYPE_INT_RGB;
+					break;
+				}
+				default : {
+					throw new IllegalStateException("Unexpected image file format: " + format);
+				}
+			}
+
+			// Get the quality of the image file.
+			double quality = 100.0;
+			try {
+				// Convert the input text to double-type value.
+				quality = Double.parseDouble(window.qualityField.getText());
+
+				// Convert the range of the value from [0.0, 100.0] to [0.0, 1.0].
+				quality /= 100.0;
+				if (quality < 0.0 || 1.0 < quality) {
+					String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.INVALID_IMAGE_FILE_QUALITY);
+					JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+					window.qualityField.setText("100");
+					return;
+				}
+
+			} catch (NumberFormatException nfe) {
+				String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.INVALID_IMAGE_FILE_QUALITY);
+				JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+				window.qualityField.setText("100");
+				return;
+			}
+
+			// Concatenate the file location and the file name, and convert its path to the absolute path.
+			File file = new File(fileLocation, fileName);
+			try {
+				file = new File(file.getCanonicalPath());
+			} catch (IOException ioe) {
+				file = new File(file.getAbsolutePath());
+			}
+
+			// If the file already exists, confirm whether overwrite it.
+			if (file.exists()) {
+				String confirmationMessage = CommunicationMessage.generateCommunicationMessage(
+						CommunicationType.DO_YOU_WANT_TO_OVERWRITE_IMAGE, file.getPath()
+				);
+				int option = JOptionPane.showConfirmDialog(
+						view.mainWindow.frame, confirmationMessage, "!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE
+				);
+				if (option != JOptionPane.YES_OPTION) {
+					return;
+				}
+			}
+
+			// Copy the current image of the graph screen.
+			Image screenImage = presenter.renderingLoop.copyScreenImage(bufferedImageType);
+
+			// Save the image file.
+			ImageFileIO imageFileIO = new ImageFileIO();
+			try {
+				imageFileIO.saveImageFile(screenImage, file, quality);
+
+			} catch (IOException ioe) {
+				String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.FAILED_TO_SAVE_IMAGE);
+				JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+				ioe.printStackTrace();
+				return;
+			}
+
+			// Show the saved file path to the user.
+			String succeededMessage = CommunicationMessage.generateCommunicationMessage(
+					CommunicationType.SUCCEEDED_TO_SAVE_IMAGE, file.getPath()
+			);
+			JOptionPane.showMessageDialog(view.mainWindow.frame, succeededMessage, "", JOptionPane.PLAIN_MESSAGE);
+		}
+	}
 
 
 
