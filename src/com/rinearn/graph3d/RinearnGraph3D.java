@@ -13,6 +13,7 @@ import com.rinearn.graph3d.config.EnvironmentConfiguration;
 import com.rinearn.graph3d.config.CameraConfiguration;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyListener;
@@ -393,19 +394,19 @@ public final class RinearnGraph3D {
 
 	/**
 	 * <span class="lang-en">
-	 * Creates an Image instance storing the copy of the current screen image, and returns it or transfers it to the clipboard
+	 * Returns an BufferedImage instance storing the copy of the current screen image, transfers it to the clipboard
 	 * </span>
 	 * <span class="lang-ja">
-	 * 現在のスクリーンの内容をコピーした Image インスタンスを取得, またはクリップボードに転送します
+	 * 現在のスクリーンの内容をコピーした BufferedImage インスタンスを取得, またはクリップボードに転送します
 	 * </span>
 	 * .
 	 * <span class="lang-en">
 	 * This method allocates a buffer, and copies the current screen image to the buffer, and returns its reference.
-	 * Hence, the content of the returned Image instance is NOT updated automatically when the screen is re-rendered.
+	 * Hence, the content of the returned BufferedImage instance is NOT updated automatically when the screen is re-rendered.
 	 * </span>
 	 * <span class="lang-ja">
 	 * このメソッドは、バッファ領域を確保して, そこに現在のスクリーンの内容をコピーし, そのバッファの参照を返します.
-	 * 従って, 返される Image インスタンスの内容は, スクリーンが再描画されても, 自動で更新はされません.
+	 * 従って, 返される BufferedImage インスタンスの内容は, スクリーンが再描画されても, 自動で更新はされません.
 	 * </span>
 	 *
 	 * <span class="lang-en">
@@ -420,6 +421,22 @@ public final class RinearnGraph3D {
 	 * {@link com.rinearn.graph3d.renderer.RinearnGraph3DRenderer.copyScreenImage(BufferedImage, Graphics2D) RinearnGraph3DRenderer.copyImage(BufferedImage, Graphics2D)}
 	 * メソッドを使用してください.
 	 * </span>
+	 *
+	 * <span class="lang-en">
+	 * Also, if you transfer the copied image to the clipboard (by specifying true for transferesToClipboard),
+	 * depending on your environment, an error/warning may occur if the copied image has alpha-channel.
+	 * In such case, specify the type which does not have alpha-channel for bufferedImageType, e.g.:BufferedImage.TYPE_INT_RGB.
+	 * </span>
+	 *
+	 * <span class="lang-ja">
+	 * なお, コピーした画像をクリップボードに転送（transferesToClipboard に true を指定）する場合,
+	 * 環境によっては, 画像がアルファチャンネルを含んでいるとエラー/警告が発生する可能性があります.
+	 * そのような場合には, bufferedImageType には BufferedImage.TYPE_INT_RGB など, アルファチャンネルを含まない形式を指定してください.
+	 * </span>
+	 *
+	 * @param bufferedImageType
+	 *   <span class="lang-en">The type of the BufferedImage to be returned (e.g.: BufferedImage.TYPE_INT_ARGB, TYPE_INT_RGB, etc.)</span>
+	 *   <span class="lang-ja">BufferedImage のタイプ (例: BufferedImage.TYPE_INT_ARGB, TYPE_INT_RGB, 等々)</span>
 	 *
 	 * @param transferesToClipboard
 	 *   <span class="lang-en">
@@ -445,9 +462,22 @@ public final class RinearnGraph3D {
 	 *   何らかの原因（恐らく環境依存）により, コピーした画像をクリップボードに転送できなかった場合にスローされます
 	 *   </span>
 	 */
-	public synchronized Image copyImage(boolean transferesToClipboard) throws IOException {
-		return this.presenter.imageIOHandler.copyImage(transferesToClipboard);
+	public synchronized BufferedImage copyImage(int bufferedImageType, boolean transferesToClipboard) throws IOException {
+		return this.presenter.imageIOHandler.copyImage(bufferedImageType, transferesToClipboard);
 	}
+
+	// NOTE: Why the return value is BufferedImage, not Image?
+	//
+	// Answer:
+	//
+	// Probably this API will be mainly used for editing
+	// the rendered graph image. The type "Image" is too abstract,
+	// forcing the caller-side to check the actual type (= BufferedImage)
+	// and cast to it for editing.
+	// And if the actual type is different from BufferedImage,
+	// the editing code on the caller-side does not work.
+	// So we consider that the returned type shoud be restricted
+	// to BufferedImage explicitly, for this API.
 
 
 	/**

@@ -4,8 +4,11 @@ import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.model.io.ImageFileIO;
+import com.rinearn.graph3d.def.ErrorType;
+import com.rinearn.graph3d.def.ErrorMessage;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
@@ -15,6 +18,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import java.io.File;
@@ -33,7 +37,6 @@ public final class ImageIOHandler {
 	private final Model model;
 
 	/** The front-end class of "View" layer, which provides visible part of GUI without event handling. */
-	@SuppressWarnings("unused")
 	private final View view;
 
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
@@ -99,15 +102,25 @@ public final class ImageIOHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
+
+			// Call the implementation of copyImage(int,boolean) API, provided by this class.
+			// (It is processed on the event-dispatcher thread,
+			//  so there is no need to wrap the followings by SwingUtilities.invokeAndWait(...))
 			try {
-				// Call the implementation of copyImage(boolean) API, provided by this class.
-				// (It is processed on the event-dispatcher thread,
-				//  so there is no need to wrap the followings by SwingUtilities.invokeAndWait(...))
 				boolean transfersToClipboard = true;
-				copyImage(transfersToClipboard);
+				int bufferedImageType = BufferedImage.TYPE_INT_RGB;
+
+				// Depending on the environment, if the copied image has the alpha-channel,
+				// a warning (not exception) occurs, and we can not catch and handle it.
+				//
+				//   int bufferedImageType = BufferedImage.TYPE_INT_ARGB;
+
+				copyImage(bufferedImageType, transfersToClipboard);
 
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
+				String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.FAILED_TO_COPY_IMAGE_TO_CLIPBOARD);
+				JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -186,14 +199,15 @@ public final class ImageIOHandler {
 	 * This method allocates a buffer, and copies the current screen image to the buffer, and returns its reference.
 	 * Hence, the content of the returned Image instance is NOT updated automatically when the screen is re-rendered.
 	 *
+	 * @param bufferedImageType The type of the buffered image to be returned by the API (e.g.: BufferedImage.TYPE_INT_ARGB, TYPE_INT_RGB, etc.)
 	 * @param transfersToClipboard Specify true for transferring the copied image to the clipboard.
 	 * @return The Image instance storing the copy of the current screen image
 	 * @throws IOException Thrown if any error occurred for transferring the copied image to the clipboard.
 	 */
-	public Image copyImage(boolean transfersToClipboard) throws IOException {
+	public BufferedImage copyImage(int bufferedImageType, boolean transfersToClipboard) throws IOException {
 
 		// Copy and transfer the screen image on the event-dispatcher thread.
-		CopyImageAPIListener apiListener = new CopyImageAPIListener(transfersToClipboard);
+		CopyImageAPIListener apiListener = new CopyImageAPIListener(bufferedImageType, transfersToClipboard);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -226,10 +240,13 @@ public final class ImageIOHandler {
 		private static final DataFlavor[] SUPPORTED_DATA_FLAVERS = { SUPPORTED_DATA_FLAVER };
 
 		/** The Image instance of the copy of the graph screen. */
-		private volatile Image copiedImage = null;
+		private volatile BufferedImage copiedImage = null;
+
+		/** The type of the buffered image to be returned by the API (e.g.: BufferedImage.TYPE_INT_ARGB, TYPE_INT_RGB, etc.) */
+		private final int bufferedImageType;
 
 		/** The flag to transfer the copied image to the clipboard. */
-		private volatile boolean transfersToClipboard;
+		private final boolean transfersToClipboard;
 
 		/** The exception which was occurred when the copied image was transferred last time. */
 		private volatile IOException occurredException = null;
@@ -237,9 +254,11 @@ public final class ImageIOHandler {
 		/**
 		 * Create a new instance to copy/transfer the screen image.
 		 *
+		 * @param bufferedImageType The type of the buffered image to be returned by the API (e.g.: BufferedImage.TYPE_INT_ARGB, TYPE_INT_RGB, etc.)
 		 * @param transfersToClipboard Specify true for transferring the copied image to the clipboard.
 		 */
-		public CopyImageAPIListener(boolean transfersToClipboard) {
+		public CopyImageAPIListener(int bufferedImageType, boolean transfersToClipboard) {
+			this.bufferedImageType = bufferedImageType;
 			this.transfersToClipboard = transfersToClipboard;
 		}
 
@@ -249,7 +268,7 @@ public final class ImageIOHandler {
 		 *
 		 * @return The Image instance of the graph screen.
 		 */
-		public synchronized Image getCopiedImage() {
+		public synchronized BufferedImage getCopiedImage() {
 			return this.copiedImage;
 		}
 
@@ -280,7 +299,7 @@ public final class ImageIOHandler {
 		public synchronized void run() {
 
 			// Copy the current screen image.
-			this.copiedImage = presenter.renderingLoop.copyScreenImage();
+			this.copiedImage = presenter.renderingLoop.copyScreenImage(this.bufferedImageType);
 
 			// If required, transfer the copied image to the clipboard.
 			if (this.transfersToClipboard) {
@@ -425,7 +444,7 @@ public final class ImageIOHandler {
 		public synchronized void run() {
 
 			// Copy the current image of the graph screen.
-			Image screenImage = presenter.renderingLoop.copyScreenImage();
+			BufferedImage screenImage = presenter.renderingLoop.copyScreenImage(BufferedImage.TYPE_INT_ARGB);
 
 			// Save the above image as the specified image file.
 			ImageFileIO imageFileIO = new ImageFileIO();

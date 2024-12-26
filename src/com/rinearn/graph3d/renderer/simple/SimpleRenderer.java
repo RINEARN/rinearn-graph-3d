@@ -781,20 +781,26 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/**
 	 * Creates a deep copy of the current image of the graph screen.
 	 *
+	 * This method allocates a buffer (BufferedImage), and copies the content of the graph screen to it, and returns it.
+	 * The allocation of the buffer requires a certain overhead cost, so if frequently copy the graph screen,
+	 * consider using {SimpleRenderer.copyScreenImage(BufferedImage,Graphics2D) copyScreenImage(BufferedImage,Graphics2D)}
+	 * method instead.
+	 *
 	 * Please note that,
 	 * if the caller-side thread is interrupted (Thread#interrupt() is called) during the image is being copied,
 	 * the copying process will be terminated prematurely, so the copied image may be imperfect in such case.
 	 *
+	 * @param bufferedImageType The type of the BufferedImage to be returned (e.g.: BufferedImage.TYPE_INT_ARGB, TYPE_INT_RGB, etc.)
 	 * @return The deep copy of the current image of the graph screen.
 	 */
-	public synchronized Image copyScreenImage() {
+	public synchronized BufferedImage copyScreenImage(int bufferedImageType) {
 
 		// Gets the current size of the screen.
 		int screenWidth = this.screenImage.getWidth();
 		int screenHeight = this.screenImage.getHeight();
 
 		// Create the buffer to store copied image, and the Graphics2D object to draw the image to the buffer.
-		BufferedImage buffer = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage buffer = new BufferedImage(screenWidth, screenHeight, bufferedImageType);
 		Graphics2D graphics = buffer.createGraphics();
 
 		// Clear by the background color.
@@ -811,7 +817,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 
 	/**
-	 * Copies the content of the current image of the graph screen to the specified buffer.
+	 * Copies the content of the current image of the graph screen to the specified buffer, allocated by the caller-side.
 	 *
 	 * When the width/height of the buffer and the graph screen are different,
 	 * the copy process will be performed between their overwrapping area, without raising any error.

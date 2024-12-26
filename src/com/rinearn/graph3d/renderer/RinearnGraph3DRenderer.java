@@ -142,6 +142,19 @@ public interface RinearnGraph3DRenderer {
 	 * </span>
 	 * .
 	 * <span class="lang-en">
+	 * This method allocates a buffer (BufferedImage), and copies the content of the graph screen to it, and returns it.
+	 * The allocation of the buffer requires a certain overhead cost, so if frequently copy the graph screen,
+	 * consider using {RinearnGraph3DRenderer.copyScreenImage(BufferedImage,Graphics2D) copyScreenImage(BufferedImage,Graphics2D)}
+	 * method instead.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドは, 画像用のバッファ (BufferedImage) を確保し, 現在のグラフ画面の内容をそこにコピーした上で, そのバッファを返します.
+	 * バッファの確保にはある程度のオーバーヘッドコストを要するため, 頻繁にコピーを行う場合は, 代わりに
+	 * {RinearnGraph3DRenderer.copyScreenImage(BufferedImage,Graphics2D) copyScreenImage(BufferedImage,Graphics2D)}
+	 * メソッドの使用を検討してください.
+	 * </span>
+	 *
+	 * <span class="lang-en">
 	 * Please note that,
 	 * if the caller-side thread is interrupted (Thread#interrupt() is called) during the image is being copied,
 	 * the copying process will be terminated prematurely, so the copied image may be imperfect in such case.
@@ -151,19 +164,36 @@ public interface RinearnGraph3DRenderer {
 	 * コピー処理はその時点で強制終了されます. そのような事が生じ得る場合には, コピー結果が不完全な内容になり得る事に留意が必要です.
 	 * </span>
 	 *
+	 * @param bufferedImageType
+	 *   <span class="lang-en">The type of the BufferedImage to be returned (e.g.: BufferedImage.TYPE_INT_ARGB, TYPE_INT_RGB, etc.)</span>
+	 *   <span class="lang-ja">BufferedImage のタイプ (例: BufferedImage.TYPE_INT_ARGB, TYPE_INT_RGB, 等々)</span>
+	 *
 	 * @return
 	 *   <span class="lang-en">The deep copy of the current image of the graph screen</span>
 	 *   <span class="lang-ja">現在のグラフ画面の内容の, ディープコピーによる複製</span>
 	 */
-	public Image copyScreenImage();
+	public BufferedImage copyScreenImage(int bufferedImageType);
+
+	// NOTE: Why the return value is BufferedImage, not Image?
+	//
+	// Answer:
+	//
+	// Probably this API will be mainly used for editing
+	// the rendered graph image. The type "Image" is too abstract,
+	// forcing the caller-side to check the actual type (= BufferedImage)
+	// and cast to it for editing.
+	// And if the actual type is different from BufferedImage,
+	// the editing code on the caller-side does not work.
+	// So we consider that the returned type shoud be restricted
+	// to BufferedImage explicitly, for this API.
 
 
 	/**
 	 * <span class="lang-en">
-	 * Copies the content of the current image of the graph screen to the specified buffer
+	 * Copies the content of the current image of the graph screen to the specified buffer, allocated by the caller-side
 	 * </span>
 	 * <span class="lang-ja">
-	 * 現在のグラフ画面の内容を、指定されたバッファにコピーします
+	 * あらかじめ呼び出し側で確保されている, 指定された画像バッファに, 現在のグラフ画面の内容をコピーします
 	 * </span>
 	 * .
 	 * <span class="lang-en">
@@ -197,7 +227,7 @@ public interface RinearnGraph3DRenderer {
 	 *
 	 * @param buffer
 	 *   <span class="lang-en">The buffer to which the current image of the screen will be copied.</span>
-	 *   <span class="lang-ja">現在のグラフ画面の内容のコピー先となるバッファ</span>
+	 *   <span class="lang-ja">現在のグラフ画面の内容のコピー先となる画像バッファ</span>
 	 *
 	 * @param graphics
 	 *   <span class="lang-en">The Graphics2D object to draw contents to the buffer.</span>

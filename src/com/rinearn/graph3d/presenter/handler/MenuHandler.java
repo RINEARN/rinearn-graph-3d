@@ -11,6 +11,7 @@ import com.rinearn.graph3d.def.CommunicationType;
 
 import java.awt.FileDialog;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
@@ -155,7 +156,7 @@ public final class MenuHandler {
 			File file = files[0];
 
 			// Copy the current image of the graph screen.
-			Image screenImage = presenter.renderingLoop.copyScreenImage();
+			Image screenImage = presenter.renderingLoop.copyScreenImage(BufferedImage.TYPE_INT_ARGB);
 
 			ImageFileIO imageFileIO = new ImageFileIO();
 			double quality = 1.0; // Temporary

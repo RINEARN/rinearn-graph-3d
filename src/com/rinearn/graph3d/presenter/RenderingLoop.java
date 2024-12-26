@@ -5,6 +5,7 @@ import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.view.View;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 
 /**
@@ -120,11 +121,27 @@ public final class RenderingLoop implements Runnable {
 
 
 	/**
+	 * Gets the screen image (to be displayed on the window, may vary in real-time).
+	 *
+	 * @return The screen image.
+	 */
+	public synchronized Image getScreenImage() {
+		return this.renderer.getScreenImage();
+	}
+
+
+	/**
 	 * Creates a deep-copy of the current screen image.
 	 *
+	 * This method allocates a buffer (BufferedImage), and copies the content of the graph screen to it, and returns it.
+	 * The allocation of the buffer requires a certain overhead cost, so if frequently copy the graph screen, consider using
+	 * {com.rinearn.graph3d.renderer.RinearnGraph3DRenderer.copyScreenImage(BufferedImage,Graphics2D) RinearnGraph3DRenderer.copyScreenImage(BufferedImage,Graphics2D)}
+	 * method instead.
+	 *
+	 * @param bufferedImageType The type of the BufferedImage to be returned (e.g.: BufferedImage.TYPE_INT_ARGB, TYPE_INT_RGB, etc.)
 	 * @return The created deep-copy of the current screen image.
 	 */
-	public synchronized Image copyScreenImage() {
+	public synchronized BufferedImage copyScreenImage(int bufferedImageType) {
 
 		// Note:
 		// Should we implement the deep-copying process here rather than in the renderer?
@@ -139,17 +156,7 @@ public final class RenderingLoop implements Runnable {
 		//    Otherwise, if the screen image is copied while an external program is drawing something via renderer's API,
 		//    the image may be imperfect.
 
-		return this.renderer.copyScreenImage();
-	}
-
-
-	/**
-	 * Gets the screen image.
-	 *
-	 * @return The screen image.
-	 */
-	public synchronized Image getScreenImage() {
-		return this.renderer.getScreenImage();
+		return this.renderer.copyScreenImage(bufferedImageType);
 	}
 
 

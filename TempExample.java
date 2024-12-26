@@ -68,8 +68,12 @@ public class TempExample {
 
 		// Copy the image to the clipboard.
 		try {
+			
+			// あれ、なんで右クリックメニューからだと ARGB は警告でるのに、ここだと ARGB でも出ないの…？ また後々で要検証
 			boolean transfersToClioboard = true;
-			graph3D.copyImage(transfersToClioboard);
+			//graph3D.copyImage(BufferedImage.TYPE_INT_RGB, transfersToClioboard);
+			graph3D.copyImage(BufferedImage.TYPE_INT_ARGB, transfersToClioboard);
+
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
