@@ -34,72 +34,6 @@ public class DataFileOpeningWindow {
 	/** The default height [px] of this window. */
 	public static final int DEFAULT_WINDOW_HEIGHT = 500;
 
-	/** The dataFormatBox's item in English of: AUTO */
-	public static final String FORMAT_AUTO_EN = "AUTO";
-
-	/** The dataFormatBox's item in English of: AUTO */
-	public static final String FORMAT_AUTO_JA = "自動識別";
-
-	/** The dataFormatBox's item in English of: SPREADSHEET */
-	public static final String FORMAT_SPREADSHEET_EN = "Copied from Spreadsheets";
-
-	/** The dataFormatBox's item in English of: SPREADSHEET */
-	public static final String FORMAT_SPREADSHEET_JA = "表計算ソフトからのコピー";
-
-	/** The dataFormatBox's item in English of: 3-COLUMNS CSV */
-	public static final String FORMAT_THREE_COLUMNS_CSV_EN = "3-COLUMNS, CSV (Comma Separated)";
-
-	/** The dataFormatBox's item in Japanese of: 3-COLUMNS CSV */
-	public static final String FORMAT_THREE_COLUMNS_CSV_JA = "3カラム, CSV (カンマ区切り)";
-
-	/** The dataFormatBox's item in English of: 3-COLUMNS STSV.  */
-	public static final String FORMAT_THREE_COLUMNS_STSV_EN = "3-COLUMNS, STSV (Space/Tab Separated)";
-
-	/** The dataFormatBox's item in Japanese of: 3-COLUMNS STSV.  */
-	public static final String FORMAT_THREE_COLUMNS_STSV_JA = "3カラム, STSV (スペース/タブ区切り)";
-
-	/** The dataFormatBox's item in English of: 3-COLUMNS TSV.  */
-	public static final String FORMAT_THREE_COLUMNS_TSV_EN = "3-COLUMNS, TSV (Tab Separated)";
-
-	/** The dataFormatBox's item in Japanese of: 3-COLUMNS TSV.  */
-	public static final String FORMAT_THREE_COLUMNS_TSV_JA = "3カラム, TSV (厳密なタブ区切り)";
-
-	/** The dataFormatBox's item in English of: 4-COLUMNS CSV */
-	public static final String FORMAT_FOUR_COLUMNS_CSV_EN = "4-COLUMNS, CSV (Comma Separated)";
-
-	/** The dataFormatBox's item in Japanese of: 4-COLUMNS CSV */
-	public static final String FORMAT_FOUR_COLUMNS_CSV_JA = "4カラム, CSV (カンマ区切り)";
-
-	/** The dataFormatBox's item in English of: 4-COLUMNS STSV.  */
-	public static final String FORMAT_FOUR_COLUMNS_STSV_EN = "4-COLUMNS, STSV (Space/Tab Separated)";
-
-	/** The dataFormatBox's item in Japanese of: 4-COLUMNS STSV.  */
-	public static final String FORMAT_FOUR_COLUMNS_STSV_JA = "4カラム, STSV (スペース/タブ区切り)";
-
-	/** The dataFormatBox's item in English of: 4-COLUMNS TSV.  */
-	public static final String FORMAT_FOUR_COLUMNS_TSV_EN = "4-COLUMNS, TSV (Tab Separated)";
-
-	/** The dataFormatBox's item in Japanese of: 4-COLUMNS TSV.  */
-	public static final String FORMAT_FOUR_COLUMNS_TSV_JA = "4カラム, TSV (厳密なタブ区切り)";
-
-	/** The dataFormatBox's item in English of: MATRIX CSV */
-	public static final String FORMAT_MATRIX_CSV_EN = "MATRIX, CSV (Comma Separated)";
-
-	/** The dataFormatBox's item in Japanese of: MATRIX CSV */
-	public static final String FORMAT_MATRIX_CSV_JA = "マトリックス, CSV (カンマ区切り)";
-
-	/** The dataFormatBox's item in English of: MATRIX STSV.  */
-	public static final String FORMAT_MATRIX_STSV_EN = "MATRIX, STSV (Space/Tab Separated)";
-
-	/** The dataFormatBox's item in Japanese of: MATRIX STSV.  */
-	public static final String FORMAT_MATRIX_STSV_JA = "マトリックス, STSV (スペース/タブ区切り)";
-
-	/** The dataFormatBox's item in English of: MATRIX TSV.  */
-	public static final String FORMAT_MATRIX_TSV_EN = "MATRIX, TSV (Tab Separated)";
-
-	/** The dataFormatBox's item in English of: MATRIX TSV.  */
-	public static final String FORMAT_MATRIX_TSV_JA = "マトリックス, TSV (厳密なタブ区切り)";
-
 
 	/** The frame of this window. */
 	public volatile JFrame frame;
@@ -416,20 +350,20 @@ public class DataFileOpeningWindow {
 
 			dataFormatLabel.setText("データ書式: ");
 			{
-				autoFormatItem.setText(FORMAT_AUTO_JA);
-				spreadsheetFormatItem.setText(FORMAT_SPREADSHEET_JA);
+				autoFormatItem.setText(FormatDisplayNames.AUTO_JA);
+				spreadsheetFormatItem.setText(FormatDisplayNames.SPREADSHEET_JA);
 
-				threeColumnsCSVFormatItem.setText(FORMAT_THREE_COLUMNS_CSV_JA);
-				threeColumnsSTSVFormatItem.setText(FORMAT_THREE_COLUMNS_STSV_JA);
-				threeColumnsTSVStrictFormatItem.setText(FORMAT_THREE_COLUMNS_TSV_JA);
+				threeColumnsCSVFormatItem.setText(FormatDisplayNames.THREE_COLUMNS_CSV_JA);
+				threeColumnsSTSVFormatItem.setText(FormatDisplayNames.THREE_COLUMNS_STSV_JA);
+				threeColumnsTSVStrictFormatItem.setText(FormatDisplayNames.THREE_COLUMNS_TSV_JA);
 
-				fourColumnsCSVFormatItem.setText(FORMAT_FOUR_COLUMNS_CSV_JA);
-				fourColumnsSTSVFormatItem.setText(FORMAT_FOUR_COLUMNS_STSV_JA);
-				fourColumnsTSVStrictFormatItem.setText(FORMAT_FOUR_COLUMNS_TSV_JA);
+				fourColumnsCSVFormatItem.setText(FormatDisplayNames.FOUR_COLUMNS_CSV_JA);
+				fourColumnsSTSVFormatItem.setText(FormatDisplayNames.FOUR_COLUMNS_STSV_JA);
+				fourColumnsTSVStrictFormatItem.setText(FormatDisplayNames.FOUR_COLUMNS_TSV_JA);
 
-				matrixCSVFormatItem.setText(FORMAT_MATRIX_CSV_JA);
-				matrixSTSVFormatItem.setText(FORMAT_MATRIX_STSV_JA);
-				matrixTSVStrictFormatItem.setText(FORMAT_MATRIX_TSV_JA);
+				matrixCSVFormatItem.setText(FormatDisplayNames.MATRIX_CSV_JA);
+				matrixSTSVFormatItem.setText(FormatDisplayNames.MATRIX_STSV_JA);
+				matrixTSVStrictFormatItem.setText(FormatDisplayNames.MATRIX_TSV_JA);
 			}
 		}
 
@@ -445,20 +379,20 @@ public class DataFileOpeningWindow {
 
 			dataFormatLabel.setText("Data Format: ");
 			{
-				autoFormatItem.setText(FORMAT_AUTO_EN);
-				spreadsheetFormatItem.setText(FORMAT_SPREADSHEET_EN);
+				autoFormatItem.setText(FormatDisplayNames.AUTO_EN);
+				spreadsheetFormatItem.setText(FormatDisplayNames.SPREADSHEET_EN);
 
-				threeColumnsCSVFormatItem.setText(FORMAT_THREE_COLUMNS_CSV_EN);
-				threeColumnsSTSVFormatItem.setText(FORMAT_THREE_COLUMNS_STSV_EN);
-				threeColumnsTSVStrictFormatItem.setText(FORMAT_THREE_COLUMNS_TSV_EN);
+				threeColumnsCSVFormatItem.setText(FormatDisplayNames.THREE_COLUMNS_CSV_EN);
+				threeColumnsSTSVFormatItem.setText(FormatDisplayNames.THREE_COLUMNS_STSV_EN);
+				threeColumnsTSVStrictFormatItem.setText(FormatDisplayNames.THREE_COLUMNS_TSV_EN);
 
-				fourColumnsCSVFormatItem.setText(FORMAT_FOUR_COLUMNS_CSV_EN);
-				fourColumnsSTSVFormatItem.setText(FORMAT_FOUR_COLUMNS_STSV_EN);
-				fourColumnsTSVStrictFormatItem.setText(FORMAT_FOUR_COLUMNS_TSV_EN);
+				fourColumnsCSVFormatItem.setText(FormatDisplayNames.FOUR_COLUMNS_CSV_EN);
+				fourColumnsSTSVFormatItem.setText(FormatDisplayNames.FOUR_COLUMNS_STSV_EN);
+				fourColumnsTSVStrictFormatItem.setText(FormatDisplayNames.FOUR_COLUMNS_TSV_EN);
 
-				matrixCSVFormatItem.setText(FORMAT_MATRIX_CSV_EN);
-				matrixSTSVFormatItem.setText(FORMAT_MATRIX_STSV_EN);
-				matrixTSVStrictFormatItem.setText(FORMAT_MATRIX_TSV_EN);
+				matrixCSVFormatItem.setText(FormatDisplayNames.MATRIX_CSV_EN);
+				matrixSTSVFormatItem.setText(FormatDisplayNames.MATRIX_STSV_EN);
+				matrixTSVStrictFormatItem.setText(FormatDisplayNames.MATRIX_TSV_EN);
 			}
 		}
 
@@ -575,54 +509,7 @@ public class DataFileOpeningWindow {
 			throw new IllegalStateException("This method can be invokable from only on the event-dispatch method.");
 		}
 		String selectedItem = dataFormatBox.getSelectedItem().toString();
-		switch (selectedItem) {
-			case FORMAT_AUTO_EN:
-			case FORMAT_AUTO_JA: {
-				return RinearnGraph3DDataFileFormat.AUTO;
-			}
-			case FORMAT_SPREADSHEET_EN:
-			case FORMAT_SPREADSHEET_JA: {
-				return RinearnGraph3DDataFileFormat.MATRIX_TSV;
-			}
-			case FORMAT_THREE_COLUMNS_CSV_EN:
-			case FORMAT_THREE_COLUMNS_CSV_JA: {
-				return RinearnGraph3DDataFileFormat.THREE_COLUMNS_CSV;
-			}
-			case FORMAT_THREE_COLUMNS_STSV_EN:
-			case FORMAT_THREE_COLUMNS_STSV_JA: {
-				return RinearnGraph3DDataFileFormat.THREE_COLUMNS_STSV;
-			}
-			case FORMAT_THREE_COLUMNS_TSV_EN:
-			case FORMAT_THREE_COLUMNS_TSV_JA: {
-				return RinearnGraph3DDataFileFormat.THREE_COLUMNS_TSV;
-			}
-			case FORMAT_FOUR_COLUMNS_CSV_EN:
-			case FORMAT_FOUR_COLUMNS_CSV_JA: {
-				return RinearnGraph3DDataFileFormat.FOUR_COLUMNS_CSV;
-			}
-			case FORMAT_FOUR_COLUMNS_STSV_EN:
-			case FORMAT_FOUR_COLUMNS_STSV_JA: {
-				return RinearnGraph3DDataFileFormat.FOUR_COLUMNS_STSV;
-			}
-			case FORMAT_FOUR_COLUMNS_TSV_EN:
-			case FORMAT_FOUR_COLUMNS_TSV_JA: {
-				return RinearnGraph3DDataFileFormat.FOUR_COLUMNS_TSV;
-			}
-			case FORMAT_MATRIX_CSV_EN:
-			case FORMAT_MATRIX_CSV_JA: {
-				return RinearnGraph3DDataFileFormat.MATRIX_CSV;
-			}
-			case FORMAT_MATRIX_STSV_EN:
-			case FORMAT_MATRIX_STSV_JA: {
-				return RinearnGraph3DDataFileFormat.MATRIX_STSV;
-			}
-			case FORMAT_MATRIX_TSV_EN:
-			case FORMAT_MATRIX_TSV_JA: {
-				return RinearnGraph3DDataFileFormat.MATRIX_TSV;
-			}
-			default : {
-				throw new IllegalStateException("Unexpected data file format: " + selectedItem);
-			}
-		}
+		RinearnGraph3DDataFileFormat enumElement = FormatDisplayNames.toRinearnGraph3DDataFileFormat(selectedItem);
+		return enumElement;
 	}
 }
