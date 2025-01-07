@@ -106,6 +106,9 @@ public final class MainWindow {
 	/** "File" > "Save Image" menu on the menu bar. */
 	public volatile JMenuItem saveImageFileMenuItem;
 
+	/** "File" > "Copy Image" menu on the menu bar. */
+	public volatile JMenuItem copyImageMenuItem;
+
 
 	/** "Math" menu on the menu bar. */
 	public volatile JMenu mathMenu;
@@ -233,6 +236,10 @@ public final class MainWindow {
 				// "File" > "Save Image"
 				saveImageFileMenuItem = new JMenuItem("Unconfigured");
 				fileMenu.add(saveImageFileMenuItem);
+
+				// "File" > "Copy Image"
+				copyImageMenuItem = new JMenuItem("Unconfigured");
+				fileMenu.add(copyImageMenuItem);
 			}
 
 			// "Math" menu:
@@ -500,6 +507,7 @@ public final class MainWindow {
 				openDataFileMenuItem.setText("ファイルを開く");
 				pasteDataTextMenuItem.setText("データを貼り付け");
 				saveImageFileMenuItem.setText("画像を保存");
+				copyImageMenuItem.setText("画像をコピー");
 			}
 
 			// "Math" menu and sub menu items.
@@ -548,6 +556,7 @@ public final class MainWindow {
 				openDataFileMenuItem.setText("Open File");
 				pasteDataTextMenuItem.setText("Paste Data");
 				saveImageFileMenuItem.setText("Save Image");
+				copyImageMenuItem.setText("Copy Image");
 			}
 
 			// "Math" menu and sub menu items.
@@ -598,6 +607,7 @@ public final class MainWindow {
 				openDataFileMenuItem.setFont(uiBoldFont);
 				pasteDataTextMenuItem.setFont(uiBoldFont);
 				saveImageFileMenuItem.setFont(uiBoldFont);
+				copyImageMenuItem.setFont(uiBoldFont);
 			}
 
 			// "Math" menu and sub menu items.
