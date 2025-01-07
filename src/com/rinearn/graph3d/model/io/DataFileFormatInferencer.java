@@ -100,6 +100,11 @@ public class DataFileFormatInferencer {
 			break;
 		}
 
+		// If no line exists in the file, return the special value "NONE".
+		if (effectiveFirstLine == null) {
+			return RinearnGraph3DDataFileFormat.NONE;
+		}
+
 		// Infer the delimiter, which is the separator of the columns in the data file.
 		Delimiter delimiter = this.inferDelimiter(effectiveFirstLine);
 

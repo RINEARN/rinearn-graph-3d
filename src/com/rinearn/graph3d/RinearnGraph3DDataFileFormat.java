@@ -33,6 +33,13 @@ public enum RinearnGraph3DDataFileFormat {
 	AUTO,
 
 	/**
+	 * <span class="lang-ja">ファイル内に何もデータが記載されていない事を表す, 特別な値です</span>
+	 * <span class="lang-en">The meta value representing no data described in the file</span>
+	 * .
+	 */
+	NONE,
+
+	/**
 	 * <span class="lang-ja">3カラム書式の, カンマ区切りファイルを表します</span>
 	 * <span class="lang-en">Represents a comma-separated file of the three-columns format</span>
 	 * .

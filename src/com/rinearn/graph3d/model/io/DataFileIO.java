@@ -115,14 +115,21 @@ public final class DataFileIO {
 			format = new DataFileFormatInferencer().infer(bufferedReaderToInfer);
 		}
 
-		// Load the data file from the stream.
-		DataSeriesGroup<ArrayDataSeries> dataSeriesGroup;
-		if (format == RinearnGraph3DDataFileFormat.MATRIX_CSV || format == RinearnGraph3DDataFileFormat.MATRIX_STSV) {
-			dataSeriesGroup = new MatrixDataDecoder().decode(bufferedReaderToLoad, format);
-		} else {
-			dataSeriesGroup = new ColumnDataDecoder().decode(bufferedReaderToLoad, format);
+		// Load the data file from the stream, depending on the format.
+		switch (format) {
+			case NONE : {
+				DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new DataSeriesGroup<ArrayDataSeries>();
+				return dataSeriesGroup;
+			}
+			case MATRIX_CSV :
+			case MATRIX_STSV : {
+				DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new MatrixDataDecoder().decode(bufferedReaderToLoad, format);
+				return dataSeriesGroup;
+			}
+			default : {
+				DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new ColumnDataDecoder().decode(bufferedReaderToLoad, format);
+				return dataSeriesGroup;
+			}
 		}
-
-		return dataSeriesGroup;
 	}
 }
