@@ -315,7 +315,15 @@ public final class DataFileIOHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
+
+			// Clear the file list.
 			view.dataFileOpeningWindow.fileListArea.setText("");
+
+			// Cleare all currently-registered array data series.
+			model.dataStore.clearArrayDataSeries();
+
+			// Replot the graph.
+			presenter.plot();
 		}
 	}
 

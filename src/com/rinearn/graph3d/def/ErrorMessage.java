@@ -68,6 +68,7 @@ public final class ErrorMessage {
 			case INCORREDCT_NUMBER_OF_COLUMNS_IN_DATA_FILE : return "このデータの列数は " + words[0] + " であるべきですが、" + words[1] + " 列の行が含まれています。（データファイル書式: " + words[2] + "）";
 			case FAILED_TO_PARSE_NUMBER_IN_DATA_FILE : return "データ内に記述されている値「" + words[0] + "」を、数値として解釈できませんでした。";
 			case FAILED_TO_LOAD_DATA_FILE: return "データファイル「" + words[0] + "」の読み込みに失敗しました。";
+			case FAILED_TO_PARSE_DATA_TEXT: return "データの解釈に失敗しました。";
 			case DATA_FILE_NOT_FOUND: return "データファイル「" + words[0] + "」が見つかりません。";
 			case FAILED_TO_INFER_DELIMITER_OF_DATA_FILE: return "データファイル内の区切り文字（コンマや空白など）を自動判定できませんでした。";
 			case TOO_SHORT_DATA_FILE: return "データファイルの行数が短すぎます。";
@@ -96,6 +97,7 @@ public final class ErrorMessage {
 			case INCORREDCT_NUMBER_OF_COLUMNS_IN_DATA_FILE : return "The number of the columns in this data is expected to be \"" + words[0] + "\", but a line(s) having " + words[1] + "-columns is contained. (The data file format: " + words[2] + ")";
 			case FAILED_TO_PARSE_NUMBER_IN_DATA_FILE : return "Failed to parse the value \"" + words[0] + "\", which is described in the data, as a number.";
 			case FAILED_TO_LOAD_DATA_FILE: return "Failed to load the data file \"" + words[0] + "\".";
+			case FAILED_TO_PARSE_DATA_TEXT: return "Failed to parse the data.";
 			case DATA_FILE_NOT_FOUND: return "The data file \"" + words[0] + "\" is not found.";
 			case FAILED_TO_INFER_DELIMITER_OF_DATA_FILE: return "Failed to infer the delimiter (comma, space, etc.) of data from the content of the file.";
 			case TOO_SHORT_DATA_FILE: return "The length (line count) of the data file is too short.";

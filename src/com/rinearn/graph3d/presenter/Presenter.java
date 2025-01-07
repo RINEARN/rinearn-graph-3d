@@ -22,6 +22,7 @@ import com.rinearn.graph3d.presenter.handler.ScreenHandler;
 import com.rinearn.graph3d.presenter.handler.ScreenSideUIHandler;
 import com.rinearn.graph3d.presenter.handler.ZxyMathHandler;
 import com.rinearn.graph3d.presenter.handler.DataFileIOHandler;
+import com.rinearn.graph3d.presenter.handler.DataTextIOHandler;
 import com.rinearn.graph3d.presenter.handler.DataArrayIOHandler;
 import com.rinearn.graph3d.presenter.handler.ImageIOHandler;
 import com.rinearn.graph3d.presenter.plotter.PointPlotter;
@@ -159,6 +160,9 @@ public final class Presenter {
 	/** The handler of events and API requests for plotting data files. */
 	public final DataFileIOHandler dataFileIOHandler;
 
+	/** The handler of events for plotting data texts. */
+	public final DataTextIOHandler dataTextIOHandler;
+
 	/** The handler of API requests for plotting data stored in arrays. */
 	public final DataArrayIOHandler dataArrayIOHandler;
 
@@ -219,6 +223,7 @@ public final class Presenter {
 		this.lightSettingHandler = new LightSettingHandler(model, view, this);
 		this.zxyMathHandler = new ZxyMathHandler(model, view, this);
 		this.dataFileIOHandler = new DataFileIOHandler(model, view, this);
+		this.dataTextIOHandler = new DataTextIOHandler(model, view, this);
 		this.dataArrayIOHandler = new DataArrayIOHandler(model, view, this);
 		this.imageIOHandler = new ImageIOHandler(model, view, this);
 
@@ -254,6 +259,7 @@ public final class Presenter {
 		this.scaleSettingHandler.setEventHandlingEnabled(enabled);
 		this.lightSettingHandler.setEventHandlingEnabled(enabled);
 		this.dataFileIOHandler.setEventHandlingEnabled(enabled);
+		this.dataTextIOHandler.setEventHandlingEnabled(enabled);
 		this.imageIOHandler.setEventHandlingEnabled(enabled);
 	}
 
