@@ -11,12 +11,18 @@ import com.rinearn.graph3d.def.ErrorType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+import java.awt.Toolkit;
 
 import javax.swing.JOptionPane;
 import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
+
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 
 /**
@@ -135,6 +141,21 @@ public final class MenuHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
+
+			// Paste the data on the clipboard into the text area of the data-pasting window.
+			try {
+				Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+				String clipboardText = String.class.cast(
+						clipboard.getData(DataFlavor.stringFlavor)
+				);
+				view.dataTextPastingWindow.dataTextArea.setText(clipboardText);
+
+			// If the data on the clipboard is not a text (e.g.: an image).
+			} catch (UnsupportedFlavorException | ClassCastException | IOException e) {
+				// Do nothing.
+			}
+
+			// Show the data-pasting window.
 			view.dataTextPastingWindow.setWindowVisible(true);
 		}
 	}
