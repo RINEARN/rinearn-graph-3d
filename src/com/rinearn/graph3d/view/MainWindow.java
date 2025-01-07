@@ -100,6 +100,9 @@ public final class MainWindow {
 	/** "File" > "Open File" menu on the menu bar. */
 	public volatile JMenuItem openDataFileMenuItem;
 
+	/** "File" > "Paste Data" menu on the menu bar. */
+	public volatile JMenuItem pasteDataTextMenuItem;
+
 	/** "File" > "Save Image" menu on the menu bar. */
 	public volatile JMenuItem saveImageFileMenuItem;
 
@@ -159,7 +162,10 @@ public final class MainWindow {
 	public volatile JPopupMenu rightClickMenu;
 
 	/** Right-click > "Copy Image" menu item.  */
-	public volatile JMenuItem copyImageMenuItem;
+	public volatile JMenuItem copyImageRightClickMenuItem;
+
+	/** Right-click > "Paste Data" menu item.  */
+	public volatile JMenuItem pasteDataTextRightClickMenuItem;
 
 
 	/** The flag for switching the visibility of the UI panel at the screen side. */
@@ -219,6 +225,10 @@ public final class MainWindow {
 				// "File" > "Open File"
 				openDataFileMenuItem = new JMenuItem("Unconfigured");
 				fileMenu.add(openDataFileMenuItem);
+
+				// "File" > "Paste Data Text"
+				pasteDataTextMenuItem = new JMenuItem("Unconfigured");
+				fileMenu.add(pasteDataTextMenuItem);
 
 				// "File" > "Save Image"
 				saveImageFileMenuItem = new JMenuItem("Unconfigured");
@@ -303,8 +313,11 @@ public final class MainWindow {
 				rightClickMenu = new JPopupMenu();
 
 				// Right-click > "Copy Image" menu item.
-				copyImageMenuItem = new JMenuItem("Unconfigured");
-				rightClickMenu.add(copyImageMenuItem);
+				copyImageRightClickMenuItem = new JMenuItem("Unconfigured");
+				rightClickMenu.add(copyImageRightClickMenuItem);
+
+				pasteDataTextRightClickMenuItem = new JMenuItem("Unconfigured");
+				rightClickMenu.add(pasteDataTextRightClickMenuItem);
 			}
 
 			// The label of the screen, on which a 3D graph is displayed:
@@ -485,6 +498,7 @@ public final class MainWindow {
 			{
 				fileMenu.setText("ファイル");
 				openDataFileMenuItem.setText("ファイルを開く");
+				pasteDataTextMenuItem.setText("データを貼り付け");
 				saveImageFileMenuItem.setText("画像を保存");
 			}
 
@@ -518,7 +532,8 @@ public final class MainWindow {
 
 			// Right-click menu items:
 			{
-				copyImageMenuItem.setText("画像のコピー");
+				copyImageRightClickMenuItem.setText("画像をコピー");
+				pasteDataTextRightClickMenuItem.setText("データを貼り付け（表計算ソフトなど）");
 			}
 		}
 
@@ -531,6 +546,7 @@ public final class MainWindow {
 			{
 				fileMenu.setText("File");
 				openDataFileMenuItem.setText("Open File");
+				pasteDataTextMenuItem.setText("Paste Data");
 				saveImageFileMenuItem.setText("Save Image");
 			}
 
@@ -564,7 +580,8 @@ public final class MainWindow {
 
 			// Right-click menu items:
 			{
-				copyImageMenuItem.setText("Copy Image");
+				copyImageRightClickMenuItem.setText("Copy Image");
+				pasteDataTextRightClickMenuItem.setText("Paste Data (From Spreadsheets, etc.)");
 			}
 		}
 
@@ -579,6 +596,7 @@ public final class MainWindow {
 			{
 				fileMenu.setFont(uiBoldFont);
 				openDataFileMenuItem.setFont(uiBoldFont);
+				pasteDataTextMenuItem.setFont(uiBoldFont);
 				saveImageFileMenuItem.setFont(uiBoldFont);
 			}
 
@@ -612,7 +630,8 @@ public final class MainWindow {
 
 			// Right-click menu items:
 			{
-				copyImageMenuItem.setFont(uiBoldFont);
+				copyImageRightClickMenuItem.setFont(uiBoldFont);
+				pasteDataTextRightClickMenuItem.setFont(uiBoldFont);
 			}
 		}
 

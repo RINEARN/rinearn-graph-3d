@@ -1,27 +1,22 @@
 package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.model.Model;
-import com.rinearn.graph3d.model.io.ImageFileIO;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.view.MainWindow;
 import com.rinearn.graph3d.config.OptionConfiguration;
-import com.rinearn.graph3d.def.CommunicationMessage;
-import com.rinearn.graph3d.def.CommunicationType;
+import com.rinearn.graph3d.def.ErrorMessage;
+import com.rinearn.graph3d.def.ErrorType;
 
-import java.awt.FileDialog;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JOptionPane;
 import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
-
-import java.io.File;
-import java.io.IOException;
 
 
 /**
@@ -58,6 +53,7 @@ public final class MenuHandler {
 
 		// Add the action listeners to the sub menu items in "File" menu.
 		window.openDataFileMenuItem.addActionListener(new OpenDataFileItemClickedEventListener());
+		window.pasteDataTextMenuItem.addActionListener(new PasteDataTextItemClickedEventListener());
 		window.saveImageFileMenuItem.addActionListener(new SaveImageFileItemClickedEventListener());
 
 		// Add the action listeners to the sub menu items in "Math" menu.
@@ -78,6 +74,10 @@ public final class MenuHandler {
 		window.lineOptionMenuItem.addActionListener(new LineOptionMenuItemSelectedEventListener());
 		window.meshOptionMenuItem.addActionListener(new MeshOptionMenuItemSelectedEventListener());
 		window.membraneOptionMenuItem.addActionListener(new MembraneOptionMenuItemSelectedEventListener());
+
+		// Add the action listeners to the right-click menu.
+		window.copyImageRightClickMenuItem.addActionListener(new CopyImageItemClickedEventListener());
+		window.pasteDataTextRightClickMenuItem.addActionListener(new PasteDataTextItemClickedEventListener());
 	}
 
 
@@ -125,13 +125,26 @@ public final class MenuHandler {
 		}
 	}
 
+
 	/**
-	 * (Temporary Implementation) The listener handling the event that "File" > "Open File" menu item is clicked.
+	 * The listener handling the event that "File" > "Paste Data" menu item is clicked.
+	 */
+	private final class PasteDataTextItemClickedEventListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			view.dataTextPastingWindow.setWindowVisible(true);
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "File" > "Open File" menu item is clicked.
 	 */
 	private final class SaveImageFileItemClickedEventListener implements ActionListener {
-
-		/** Stores the directory in which the last saved file is contained. */
-		private volatile File lastDirectory = new File(".");
 
 		@Override
 		public void actionPerformed(ActionEvent ae) {
@@ -503,6 +516,39 @@ public final class MenuHandler {
 
 			// Replot the graph.
 			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * The event listener handling the event that the Right-click > "Copy Image" menu is clicked.
+	 */
+	private final class CopyImageItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Call the implementation of copyImage(int,boolean) API, provided by this class.
+			// (It is processed on the event-dispatcher thread,
+			//  so there is no need to wrap the followings by SwingUtilities.invokeAndWait(...))
+			try {
+				boolean transfersToClipboard = true;
+				int bufferedImageType = BufferedImage.TYPE_INT_RGB;
+
+				// Depending on the environment, if the copied image has the alpha-channel,
+				// a warning (not exception) occurs, and we can not catch and handle it.
+				//
+				//   int bufferedImageType = BufferedImage.TYPE_INT_ARGB;
+
+				presenter.imageIOHandler.copyImage(bufferedImageType, transfersToClipboard);
+
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+				String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.FAILED_TO_COPY_IMAGE_TO_CLIPBOARD);
+				JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 

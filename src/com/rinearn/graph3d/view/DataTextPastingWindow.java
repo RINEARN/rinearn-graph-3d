@@ -24,7 +24,7 @@ import java.lang.reflect.InvocationTargetException;
 
 
 /**
- * The window of "File" > "Paste Data Text" menu.
+ * The window of "File" > "Paste Data" menu.
  */
 public class DataTextPastingWindow {
 
@@ -148,8 +148,7 @@ public class DataTextPastingWindow {
 					DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT
 			);
 			frame.setLayout(null);
-			// frame.setVisible(false);
-			frame.setVisible(true);
+			frame.setVisible(false);
 
 			// Prepare the layout manager and resources.
 			Container basePanel = frame.getContentPane();
@@ -332,8 +331,8 @@ public class DataTextPastingWindow {
 		 * Sets Japanese texts to the GUI components.
 		 */
 		private void setJapaneseTexts() {
-			frame.setTitle("ファイルを開く");
-			dataTextLabel.setText("データを貼り付けてください:");
+			frame.setTitle("データを貼り付け");
+			dataTextLabel.setText("以下の領域にデータを貼り付けてください:");
 			plotButton.setText("プロット");
 			clearButton.setText("クリア");
 
@@ -360,8 +359,8 @@ public class DataTextPastingWindow {
 		 * Sets English texts to the GUI components.
 		 */
 		private void setEnglishTexts() {
-			frame.setTitle("Open Files");
-			dataTextLabel.setText("Paste the Data Text:");
+			frame.setTitle("Paste Data");
+			dataTextLabel.setText("Paste the data into the text area below:");
 			plotButton.setText("PLOT");
 			clearButton.setText("CLEAR");
 

@@ -65,8 +65,7 @@ public final class ImageIOHandler {
 		this.view = view;
 		this.presenter = presenter;
 
-		// Add the action listeners to RightClick > "Copy Image" menu item.
-		view.mainWindow.copyImageMenuItem.addActionListener(new CopyImageMenuEventListener());
+		// Note: The event handler of the right click menu "Copy Image" is implemented in MenuHandler class.
 
 		// Add the action listener to the "Open" button on "File" > "Save Image" window is clicked.
 		view.imageSavingWindow.fileLocationButton.addActionListener(new FileLocationButtonEventListener());
@@ -104,39 +103,6 @@ public final class ImageIOHandler {
 	// - Event Listeners -
 	//
 	// ================================================================================
-
-
-	/**
-	 * The event listener handling the event that the Right-click > "Copy Image" menu is clicked.
-	 */
-	private final class CopyImageMenuEventListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			if (!isEventHandlingEnabled()) {
-				return;
-			}
-
-			// Call the implementation of copyImage(int,boolean) API, provided by this class.
-			// (It is processed on the event-dispatcher thread,
-			//  so there is no need to wrap the followings by SwingUtilities.invokeAndWait(...))
-			try {
-				boolean transfersToClipboard = true;
-				int bufferedImageType = BufferedImage.TYPE_INT_RGB;
-
-				// Depending on the environment, if the copied image has the alpha-channel,
-				// a warning (not exception) occurs, and we can not catch and handle it.
-				//
-				//   int bufferedImageType = BufferedImage.TYPE_INT_ARGB;
-
-				copyImage(bufferedImageType, transfersToClipboard);
-
-			} catch (IOException ioe) {
-				ioe.printStackTrace();
-				String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.FAILED_TO_COPY_IMAGE_TO_CLIPBOARD);
-				JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-	}
 
 
 	/**
