@@ -30,6 +30,15 @@ public class FontSettingHandler {
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
 
+	/** The event handler of the right-click menu of the text field of UI font size, */
+	private final TextRightClickMenuHandler uiFontSizeFieldRightClickMenuHandler;
+
+	/** The event handler of the right-click menu of the text field of axis label font size, */
+	private final TextRightClickMenuHandler axisLabelFontSizeFieldRightClickMenuHandler;
+
+	/** The event handler of the right-click menu of the text field of tick label font size, */
+	private final TextRightClickMenuHandler tickLabelFontSizeFieldRightClickMenuHandler;
+
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
 
@@ -46,9 +55,21 @@ public class FontSettingHandler {
 		this.view = view;
 		this.presenter = presenter;
 
-		// Add the action listener defined in this class, to the OK button of label setting window.
 		FontSettingWindow window = this.view.fontSettingWindow;
+
+		// Add the action listener defined in this class, to the OK button of label setting window.
 		window.okButton.addActionListener(new OkPressedEventListener());
+
+		// Add the event handlers to the right click menus of the text fields.
+		this.uiFontSizeFieldRightClickMenuHandler = new TextRightClickMenuHandler(
+				window.uiFontSizeFieldRightClickMenu, window.uiFontSizeField
+		);
+		this.axisLabelFontSizeFieldRightClickMenuHandler = new TextRightClickMenuHandler(
+				window.axisLabelFontSizeFieldRightClickMenu, window.axisLabelFontSizeField
+		);
+		this.tickLabelFontSizeFieldRightClickMenuHandler = new TextRightClickMenuHandler(
+				window.tickLabelFontSizeFieldRightClickMenu, window.tickLabelFontSizeField
+		);
 	}
 
 
@@ -59,6 +80,9 @@ public class FontSettingHandler {
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
+		uiFontSizeFieldRightClickMenuHandler.setEventHandlingEnabled(enabled);
+		axisLabelFontSizeFieldRightClickMenuHandler.setEventHandlingEnabled(enabled);
+		tickLabelFontSizeFieldRightClickMenuHandler.setEventHandlingEnabled(enabled);
 	}
 
 

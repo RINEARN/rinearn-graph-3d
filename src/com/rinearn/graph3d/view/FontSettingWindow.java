@@ -58,6 +58,9 @@ public class FontSettingWindow {
 	/** The combo box of "Size" text field of "UI Font". */
 	public volatile JTextField uiFontSizeField;
 
+	/** The right-click menu of uiFontSizeField. */
+	public volatile TextRightClickMenu uiFontSizeFieldRightClickMenu;
+
 	/** The combo box of "Bold" check box of "UI Font". */
 	public volatile JCheckBox uiFontBoldBox;
 
@@ -74,6 +77,9 @@ public class FontSettingWindow {
 	/** The combo box of "Size" text field of "Axis Label Font". */
 	public volatile JTextField axisLabelFontSizeField;
 
+	/** The right-click menu of axisLabelFontSizeField. */
+	public volatile TextRightClickMenu axisLabelFontSizeFieldRightClickMenu;
+
 	/** The combo box of "Bold" check box of "Axis Label Font". */
 	public volatile JCheckBox axisLabelFontBoldBox;
 
@@ -89,6 +95,9 @@ public class FontSettingWindow {
 
 	/** The combo box of "Size" text field of "Tick Label Font". */
 	public volatile JTextField tickLabelFontSizeField;
+
+	/** The right-click menu of tickLabelFontSizeField. */
+	public volatile TextRightClickMenu tickLabelFontSizeFieldRightClickMenu;
 
 	/** The combo box of "Bold" check box of "Tick Label Font". */
 	public volatile JCheckBox tickLabelFontBoldBox;
@@ -217,6 +226,8 @@ public class FontSettingWindow {
 				layour.setConstraints(uiFontSizeField, constraints);
 				basePanel.add(uiFontSizeField);
 
+				uiFontSizeFieldRightClickMenu = new TextRightClickMenu();
+
 				constraints.gridx++;
 
 				uiFontBoldBox = new JCheckBox("Unconfigured");
@@ -266,6 +277,8 @@ public class FontSettingWindow {
 				layour.setConstraints(axisLabelFontSizeField, constraints);
 				basePanel.add(axisLabelFontSizeField);
 
+				axisLabelFontSizeFieldRightClickMenu = new TextRightClickMenu();
+
 				constraints.gridx++;
 
 				axisLabelFontBoldBox = new JCheckBox("Unconfigured");
@@ -311,6 +324,8 @@ public class FontSettingWindow {
 				constraints.insets = new Insets(0, 0, bottomMarginInSection, 0);
 				layour.setConstraints(tickLabelFontSizeField, constraints);
 				basePanel.add(tickLabelFontSizeField);
+
+				tickLabelFontSizeFieldRightClickMenu = new TextRightClickMenu();
 
 				constraints.gridx++;
 
@@ -405,6 +420,11 @@ public class FontSettingWindow {
 
 			// Updates the current values on the window, by the values stored in the configuration.
 			this.updateValuesByConfiguration();
+
+			// Update the right-click menus.
+			uiFontSizeFieldRightClickMenu.configure(this.configuration);
+			axisLabelFontSizeFieldRightClickMenu.configure(this.configuration);
+			tickLabelFontSizeFieldRightClickMenu.configure(this.configuration);
 		}
 
 		/**
