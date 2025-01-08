@@ -32,6 +32,12 @@ public final class CameraSettingHandler {
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
 
+	/** The event handler of the right-click menu of the text field to input the screen width. */
+	private final TextRightClickMenuHandler widthFieldRightClickMenuHandler;
+
+	/** The event handler of the right-click menu of the text field to input the screen height. */
+	private final TextRightClickMenuHandler heightFieldRightClickMenuHandler;
+
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
 
@@ -59,6 +65,10 @@ public final class CameraSettingHandler {
 		window.horizontalCenterOffsetBar.addAdjustmentListener(new HorizontalCenterOffsetScrolledEventListener());
 		window.verticalCenterOffsetBar.addAdjustmentListener(new VerticalCenterOffsetScrolledEventListener());
 		window.okButton.addActionListener(new OkButtonPressedEventListener());
+
+		// Add the event handlers of the right-click menus of the text fields.
+		widthFieldRightClickMenuHandler = new TextRightClickMenuHandler(window.widthFieldRightClickMenu, window.widthField);
+		heightFieldRightClickMenuHandler = new TextRightClickMenuHandler(window.heightFieldRightClickMenu, window.heightField);
 	}
 
 
@@ -69,6 +79,8 @@ public final class CameraSettingHandler {
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
+		widthFieldRightClickMenuHandler.setEventHandlingEnabled(enabled);
+		heightFieldRightClickMenuHandler.setEventHandlingEnabled(enabled);
 	}
 
 

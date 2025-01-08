@@ -124,8 +124,14 @@ public class CameraSettingWindow {
 	/** The text field of "Width" parameter. */
 	public volatile JTextField widthField;
 
+	/** The right-click menu of widthField, */
+	public volatile TextRightClickMenu widthFieldRightClickMenu;
+
 	/** The title label of "Height" parameter. */
 	public volatile JLabel heightLabel;
+
+	/** The right-click menu of heightField, */
+	public volatile TextRightClickMenu heightFieldRightClickMenu;
 
 	/** The text field of "Height" parameter. */
 	public volatile JTextField heightField;
@@ -448,6 +454,9 @@ public class CameraSettingWindow {
 					widthField = new JTextField("Unconfigured");
 					sizeFieldsPanel.add(widthField);
 
+					// Create the right-click menu for the above text field.
+					widthFieldRightClickMenu = new TextRightClickMenu();
+
 					// Create the label of "Height" parameter.
 					heightLabel = new JLabel("Unconfigured", JLabel.RIGHT);
 					sizeFieldsPanel.add(heightLabel);
@@ -455,6 +464,9 @@ public class CameraSettingWindow {
 					// Create the text field of "Height" parameter.
 					heightField = new JTextField("Unconfigured");
 					sizeFieldsPanel.add(heightField);
+
+					// Create the right-click menu for the above text field.
+					heightFieldRightClickMenu = new TextRightClickMenu();
 				}
 
 			}
@@ -533,6 +545,10 @@ public class CameraSettingWindow {
 
 			// Updates the values of text fields, by the values stored in the configuration.
 			this.updateValuesByConfiguration();
+
+			// Update the right-click menus.
+			widthFieldRightClickMenu.configure(this.configuration);
+			heightFieldRightClickMenu.configure(this.configuration);
 		}
 
 		/**
