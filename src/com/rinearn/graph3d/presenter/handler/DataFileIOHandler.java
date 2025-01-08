@@ -3,14 +3,13 @@ package com.rinearn.graph3d.presenter.handler;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.model.data.series.ArrayDataSeries;
 import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
-import com.rinearn.graph3d.presenter.Presenter;
-
-import com.rinearn.graph3d.view.DataFileOpeningWindow;
-import com.rinearn.graph3d.view.View;
-
-import com.rinearn.graph3d.RinearnGraph3DDataFileFormat;
 import com.rinearn.graph3d.model.io.DataFileIO;
 import com.rinearn.graph3d.model.io.DataFileFormatException;
+import com.rinearn.graph3d.view.DataFileOpeningWindow;
+import com.rinearn.graph3d.view.View;
+import com.rinearn.graph3d.presenter.Presenter;
+
+import com.rinearn.graph3d.RinearnGraph3DDataFileFormat;
 import com.rinearn.graph3d.def.ErrorType;
 import com.rinearn.graph3d.def.ErrorMessage;
 import com.rinearn.graph3d.def.CommunicationType;
@@ -45,6 +44,9 @@ public final class DataFileIOHandler {
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
 
+	/** The event handler of right-click menu of file list text area.  */
+	private volatile TextRightClickMenuHandler fileListAreaMenuHandler;
+
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
 
@@ -70,6 +72,9 @@ public final class DataFileIOHandler {
 
 		// Add the action listener to the "Data Format" combo box.
 		window.dataFormatBox.addActionListener(new DataFormatBoxEventListener());
+
+		// Add the event listeners to the right-click menu.
+		this.fileListAreaMenuHandler = new TextRightClickMenuHandler(window.fileListAreaRightClickMenu, window.fileListArea);
 	}
 
 
@@ -80,6 +85,7 @@ public final class DataFileIOHandler {
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
+		this.fileListAreaMenuHandler.setEventHandlingEnabled(enabled);
 	}
 
 

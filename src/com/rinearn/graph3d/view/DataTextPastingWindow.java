@@ -329,9 +329,6 @@ public class DataTextPastingWindow {
 			// Set fonts to the components.
 			this.setFonts();
 
-			// Updates the values of text fields, by the values stored in the configuration.
-			this.updateValuesByConfiguration();
-
 			// Update the right-click menu.
 			dataTextAreaRightClickMenu.configure(this.configuration);
 		}
@@ -407,12 +404,6 @@ public class DataTextPastingWindow {
 			dataFormatBox.setFont(uiPlainFont);
 			plotButton.setFont(uiBoldFont);
 			clearButton.setFont(uiBoldFont);
-		}
-
-		/**
-		 * Updates the values of text fields, by the values stored in the configuration.
-		 */
-		private void updateValuesByConfiguration() {
 		}
 	}
 

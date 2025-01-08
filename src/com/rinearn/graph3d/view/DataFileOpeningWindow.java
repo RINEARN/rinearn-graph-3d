@@ -44,6 +44,9 @@ public class DataFileOpeningWindow {
 	/** The text area of the list of the files to be opened. */
 	public volatile JTextArea fileListArea;
 
+	/** The right-click menu of fileListArea. */
+	public volatile TextRightClickMenu fileListAreaRightClickMenu;
+
 	/** The label of the combo box for selecting the data format. */
 	public volatile JLabel dataFormatLabel;
 
@@ -196,6 +199,9 @@ public class DataFileOpeningWindow {
 			layout.setConstraints(fileListScrollPane, constraints);
 			basePanel.add(fileListScrollPane);
 
+			// The right-click menu of fileListArea.
+			fileListAreaRightClickMenu = new TextRightClickMenu();
+
 			constraints.gridy++;
 			constraints.gridwidth = 1;
 			constraints.weighty = 0.03;
@@ -334,8 +340,8 @@ public class DataFileOpeningWindow {
 			// Set fonts to the components.
 			this.setFonts();
 
-			// Updates the values of text fields, by the values stored in the configuration.
-			this.updateValuesByConfiguration();
+			// Update the right-click menu.
+			fileListAreaRightClickMenu.configure(this.configuration);
 		}
 
 		/**
@@ -412,12 +418,6 @@ public class DataFileOpeningWindow {
 			openButton.setFont(uiBoldFont);
 			plotButton.setFont(uiBoldFont);
 			clearButton.setFont(uiBoldFont);
-		}
-
-		/**
-		 * Updates the values of text fields, by the values stored in the configuration.
-		 */
-		private void updateValuesByConfiguration() {
 		}
 	}
 
