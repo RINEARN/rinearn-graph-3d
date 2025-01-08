@@ -44,11 +44,17 @@ public class RangeSettingWindow {
 	/** The text field for inputting the maximum value of X range. */
 	public volatile JTextField xMaxField;
 
+	/** The right-click menu of xMaxField. */
+	public volatile TextRightClickMenu xMaxFieldRightClickMenu;
+
 	/** The title label of the text field for inputting the minimum value of X range. */
 	public volatile JLabel xMinLabel;
 
 	/** The text field for inputting the minimum value of X range. */
 	public volatile JTextField xMinField;
+
+	/** The right-click menu of xMinField. */
+	public volatile TextRightClickMenu xMinFieldRightClickMenu;
 
 	/** The check box for turning on/off the auto ranging feature of X range. */
 	public volatile JCheckBox xAutoRangingBox;
@@ -63,11 +69,17 @@ public class RangeSettingWindow {
 	/** The text field for inputting the maximum value of Y range. */
 	public volatile JTextField yMaxField;
 
+	/** The right-click menu of yMaxField. */
+	public volatile TextRightClickMenu yMaxFieldRightClickMenu;
+
 	/** The title label of the text field for inputting the minimum value of Y range. */
 	public volatile JLabel yMinLabel;
 
 	/** The text field for inputting the minimum value of Y range. */
 	public volatile JTextField yMinField;
+
+	/** The right-click menu of yMinField. */
+	public volatile TextRightClickMenu yMinFieldRightClickMenu;
 
 	/** The check box for turning on/off the auto ranging feature of Y range. */
 	public volatile JCheckBox yAutoRangingBox;
@@ -82,11 +94,17 @@ public class RangeSettingWindow {
 	/** The text field for inputting the maximum value of Z range. */
 	public volatile JTextField zMaxField;
 
+	/** The right-click menu of zMaxField. */
+	public volatile TextRightClickMenu zMaxFieldRightClickMenu;
+
 	/** The title label of the text field for inputting the minimum value of Z range. */
 	public volatile JLabel zMinLabel;
 
 	/** The text field for inputting the minimum value of Z range. */
 	public volatile JTextField zMinField;
+
+	/** The right-click menu of zMinField. */
+	public volatile TextRightClickMenu zMinFieldRightClickMenu;
 
 	/** The check box for turning on/off the auto ranging feature of Z range. */
 	public volatile JCheckBox zAutoRangingBox;
@@ -220,6 +238,9 @@ public class RangeSettingWindow {
 				layour.setConstraints(xMaxField, constraints);
 				basePanel.add(xMaxField);
 
+				// Create the right-click menu for the above text field.
+				xMaxFieldRightClickMenu = new TextRightClickMenu();
+
 				constraints.gridy++;
 				constraints.gridwidth = 1;
 
@@ -239,6 +260,9 @@ public class RangeSettingWindow {
 				constraints.insets = new Insets(topMargin, 0, bottomMarginUnderSection, rightMargin);
 				layour.setConstraints(xMinField, constraints);
 				basePanel.add(xMinField);
+
+				// Create the right-click menu for the above text field.
+				xMinFieldRightClickMenu = new TextRightClickMenu();
 
 				constraints.gridy++;
 				constraints.gridwidth = 2;
@@ -284,6 +308,9 @@ public class RangeSettingWindow {
 				layour.setConstraints(yMaxField, constraints);
 				basePanel.add(yMaxField);
 
+				// Create the right-click menu for the above text field.
+				yMaxFieldRightClickMenu = new TextRightClickMenu();
+
 				constraints.gridy++;
 				constraints.gridwidth = 1;
 
@@ -303,6 +330,9 @@ public class RangeSettingWindow {
 				constraints.insets = new Insets(topMargin, 0, bottomMarginUnderSection, rightMargin);
 				layour.setConstraints(yMinField, constraints);
 				basePanel.add(yMinField);
+
+				// Create the right-click menu for the above text field.
+				yMinFieldRightClickMenu = new TextRightClickMenu();
 
 				constraints.gridy++;
 				constraints.gridwidth = 2;
@@ -340,6 +370,9 @@ public class RangeSettingWindow {
 				layour.setConstraints(zMaxLabel, constraints);
 				basePanel.add(zMaxLabel);
 
+				// Create the right-click menu for the above text field.
+				zMaxFieldRightClickMenu = new TextRightClickMenu();
+
 				// Create the title label of the text field for inputting the Z-max value.
 				zMaxField = new JTextField("Unconfigured");
 				constraints.weightx = 1.0;
@@ -367,6 +400,9 @@ public class RangeSettingWindow {
 				constraints.insets = new Insets(topMargin, 0, bottomMarginUnderSection, rightMargin);
 				layour.setConstraints(zMinField, constraints);
 				basePanel.add(zMinField);
+
+				// Create the right-click menu for the above text field.
+				zMinFieldRightClickMenu = new TextRightClickMenu();
 
 				constraints.gridy++;
 				constraints.gridwidth = 2;
@@ -446,6 +482,14 @@ public class RangeSettingWindow {
 
 			// Updates the values of text fields, by the values stored in the configuration.
 			this.updateValuesByConfiguration();
+
+			// Update the right-click menus.
+			xMaxFieldRightClickMenu.configure(this.configuration);
+			xMinFieldRightClickMenu.configure(this.configuration);
+			yMaxFieldRightClickMenu.configure(this.configuration);
+			yMinFieldRightClickMenu.configure(this.configuration);
+			zMaxFieldRightClickMenu.configure(this.configuration);
+			zMinFieldRightClickMenu.configure(this.configuration);
 		}
 
 		/**

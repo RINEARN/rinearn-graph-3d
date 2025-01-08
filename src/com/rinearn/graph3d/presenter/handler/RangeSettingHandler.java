@@ -29,6 +29,24 @@ public final class RangeSettingHandler {
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
 
+	/** The event handler of right-click menu of x-max text field. */
+	private final TextRightClickMenuHandler xMaxFieldRightClickHandler;
+
+	/** The event handler of right-click menu of x-min text field. */
+	private final TextRightClickMenuHandler xMinFieldRightClickHandler;
+
+	/** The event handler of right-click menu of y-max text field. */
+	private final TextRightClickMenuHandler yMaxFieldRightClickHandler;
+
+	/** The event handler of right-click menu of y-min text field. */
+	private final TextRightClickMenuHandler yMinFieldRightClickHandler;
+
+	/** The event handler of right-click menu of z-max text field. */
+	private final TextRightClickMenuHandler zMaxFieldRightClickHandler;
+
+	/** The event handler of right-click menu of z-min text field. */
+	private final TextRightClickMenuHandler zMinFieldRightClickHandler;
+
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
 
@@ -48,6 +66,14 @@ public final class RangeSettingHandler {
 		// Add the action listener defined in this class, to the OK button of label setting window.
 		RangeSettingWindow window = this.view.rangeSettingWindow;
 		window.okButton.addActionListener(new OkPressedEventListener());
+
+		// Add the event listeners to the right-click menus.
+		xMaxFieldRightClickHandler = new TextRightClickMenuHandler(window.xMaxFieldRightClickMenu, window.xMaxField);
+		xMinFieldRightClickHandler = new TextRightClickMenuHandler(window.xMinFieldRightClickMenu, window.xMinField);
+		yMaxFieldRightClickHandler = new TextRightClickMenuHandler(window.yMaxFieldRightClickMenu, window.yMaxField);
+		yMinFieldRightClickHandler = new TextRightClickMenuHandler(window.yMinFieldRightClickMenu, window.yMinField);
+		zMaxFieldRightClickHandler = new TextRightClickMenuHandler(window.zMaxFieldRightClickMenu, window.zMaxField);
+		zMinFieldRightClickHandler = new TextRightClickMenuHandler(window.zMinFieldRightClickMenu, window.zMinField);
 	}
 
 
@@ -58,6 +84,12 @@ public final class RangeSettingHandler {
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
+		xMaxFieldRightClickHandler.setEventHandlingEnabled(enabled);
+		xMinFieldRightClickHandler.setEventHandlingEnabled(enabled);
+		yMaxFieldRightClickHandler.setEventHandlingEnabled(enabled);
+		yMinFieldRightClickHandler.setEventHandlingEnabled(enabled);
+		zMaxFieldRightClickHandler.setEventHandlingEnabled(enabled);
+		zMinFieldRightClickHandler.setEventHandlingEnabled(enabled);
 	}
 
 
