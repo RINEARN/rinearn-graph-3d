@@ -10,9 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.FileReader;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.StringReader;
 
 
 /**
@@ -61,23 +59,12 @@ public final class DataFileIO {
 	public DataSeriesGroup<ArrayDataSeries> parseDataFileContent(String fileContent, RinearnGraph3DDataFileFormat format)
 			throws DataFileFormatException {
 
-		// Convert the file content to the byte array using the character set "UTF-8".
-		byte[] fileContentBytes = null;
-		try {
-			fileContentBytes = fileContent.getBytes("UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// UTF-8 should be supported, excluding very old environments.
-			throw new IllegalStateException("Unexpected Exception occurred.", e);
-		}
-
 		// Parse the file content.
 		DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = null;
-		try (ByteArrayInputStream inputStreamToInfer = new ByteArrayInputStream(fileContentBytes);
-				InputStreamReader inputStreamReaderToInfer = new InputStreamReader(inputStreamToInfer);
-				BufferedReader bufferedReaderToInfer = new BufferedReader(inputStreamReaderToInfer);
-				ByteArrayInputStream inputStreamToLoad = new ByteArrayInputStream(fileContentBytes);
-				InputStreamReader inputStreamReaderToLoad = new InputStreamReader(inputStreamToLoad);
-				BufferedReader bufferedReaderToLoad = new BufferedReader(inputStreamReaderToLoad) ) {
+		try (StringReader stringReaderToInfer = new StringReader(fileContent);
+				BufferedReader bufferedReaderToInfer = new BufferedReader(stringReaderToInfer);
+				StringReader stringReaderToLoad = new StringReader(fileContent);
+				BufferedReader bufferedReaderToLoad = new BufferedReader(stringReaderToLoad) ) {
 
 			dataSeriesGroup = this.loadAndParseDataFromStreams(bufferedReaderToInfer, bufferedReaderToLoad, format);
 
