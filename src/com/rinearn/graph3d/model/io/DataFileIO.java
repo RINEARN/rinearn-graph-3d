@@ -3,8 +3,8 @@ package com.rinearn.graph3d.model.io;
 import com.rinearn.graph3d.RinearnGraph3DDataFileFormat;
 import com.rinearn.graph3d.model.data.series.ArrayDataSeries;
 import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
-import com.rinearn.graph3d.model.io.decoder.ColumnDataDecoder;
-import com.rinearn.graph3d.model.io.decoder.MatrixDataDecoder;
+import com.rinearn.graph3d.model.io.parser.ColumnDataParser;
+import com.rinearn.graph3d.model.io.parser.MatrixDataParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -123,11 +123,11 @@ public final class DataFileIO {
 			}
 			case MATRIX_CSV :
 			case MATRIX_STSV : {
-				DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new MatrixDataDecoder().decode(bufferedReaderToLoad, format);
+				DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new MatrixDataParser().parse(bufferedReaderToLoad, format);
 				return dataSeriesGroup;
 			}
 			default : {
-				DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new ColumnDataDecoder().decode(bufferedReaderToLoad, format);
+				DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new ColumnDataParser().parse(bufferedReaderToLoad, format);
 				return dataSeriesGroup;
 			}
 		}

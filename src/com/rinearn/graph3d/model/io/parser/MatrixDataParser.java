@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.model.io.decoder;
+package com.rinearn.graph3d.model.io.parser;
 
 import com.rinearn.graph3d.model.data.series.ArrayDataSeries;
 import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
@@ -17,9 +17,9 @@ import java.util.HashMap;
 
 
 /**
- * The decoder for decoding strings loaded matrix-format data files.
+ * The parser for decoding strings loaded matrix-format data files.
  */
-public final class MatrixDataDecoder {
+public final class MatrixDataParser {
 
 	private static final String OPTION_VERTICAL_SPLIT = "VERTICAL_SPLIT";
 	@SuppressWarnings("unused")
@@ -56,11 +56,16 @@ public final class MatrixDataDecoder {
 	}
 
 
+	/**
+	 * Stores the intermediate data structure of the matrix to be parsed.
+	 */
 	private final class Matrix {
 		public final List<String> horizontalCoordList = new ArrayList<String>();
 		public final List<String> verticalCoordList = new ArrayList<String>();
 		public final List<List<String>> zLineList = new ArrayList<List<String>>();
 		public final List<String> optionList = new ArrayList<String>();
+
+		@SuppressWarnings("unused")
 		public void dump() {
 			System.out.print("optionList: ");
 			for (int i=0; i<this.optionList.size(); i++) {
@@ -94,9 +99,9 @@ public final class MatrixDataDecoder {
 
 
 	/**
-	 * Creates a new decoder.
+	 * Creates a new parser.
 	 */
-	public MatrixDataDecoder() {
+	public MatrixDataParser() {
 	}
 
 
@@ -351,7 +356,7 @@ public final class MatrixDataDecoder {
 
 
 	/**
-	 * Decodes the string loaded from a data file.
+	 * Parses the string loaded from a data file.
 	 *
 	 * @param dataString The string loaded from the data file.
 	 * @param format The format of the data file.
@@ -359,13 +364,13 @@ public final class MatrixDataDecoder {
 	 * @throw DataFileFormatException
 	 *   Thrown if the specified format is unsupported, or the contents is syntactically incorrect.
 	 */
-	public DataSeriesGroup<ArrayDataSeries> decode(String dataString, RinearnGraph3DDataFileFormat format)
+	public DataSeriesGroup<ArrayDataSeries> parse(String dataString, RinearnGraph3DDataFileFormat format)
 			throws DataFileFormatException {
 
 		try (StringReader stringReader = new StringReader(dataString);
 				BufferedReader bufferedReader = new BufferedReader(stringReader)) {
 
-			DataSeriesGroup<ArrayDataSeries> result = this.decode(bufferedReader, format);
+			DataSeriesGroup<ArrayDataSeries> result = this.parse(bufferedReader, format);
 			return result;
 
 		} catch (IOException ioe) {
@@ -375,7 +380,7 @@ public final class MatrixDataDecoder {
 
 
 	/**
-	 * Decodes the content of a data file.
+	 * Parses the content of a data file.
 	 *
 	 * @param bufferedReader The stream reading the content of the data file
 	 * @param format The format of the data file.
@@ -383,20 +388,20 @@ public final class MatrixDataDecoder {
 	 * @throw DataFileFormatException
 	 *   Thrown if the specified format is unsupported, or the contents is syntactically incorrect.
 	 */
-	public DataSeriesGroup<ArrayDataSeries> decode(BufferedReader bufferedReader, RinearnGraph3DDataFileFormat format)
+	public DataSeriesGroup<ArrayDataSeries> parse(BufferedReader bufferedReader, RinearnGraph3DDataFileFormat format)
 			throws DataFileFormatException, IOException {
 
-		// Stores the decoded result to be returned.
+		// Stores the parsed result to be returned.
 		DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new DataSeriesGroup<ArrayDataSeries>();
 
 		// Define the decoding parameters depending on the data file format.
-		// If the format is unsupported by this decoder, DataFileFormatException occurs here.
+		// If the format is unsupported by this parser, DataFileFormatException occurs here.
 		DecodingParam decodingParam = this.determineDecodingParam(format);
 
 		// Split the contents by dual-empty-lines, which are the separator between data series.
 		List<LineSeries> lineSeriesList = this.parseLineSeparatedSeries(bufferedReader, decodingParam);
 
-		// Decode each line-sector.
+		// Parse each line-sector.
 		for (LineSeries lineSeries: lineSeriesList) {
 
 			// Split each line in a matrix into column values.
@@ -515,7 +520,7 @@ public final class MatrixDataDecoder {
 			}
 			default: {
 				throw new DataFileFormatException(
-						ErrorType.UNSUPPORTED_DATA_FILE_FORMAT_FOR_THIS_DECODER, format.toString()
+						ErrorType.UNSUPPORTED_DATA_FILE_FORMAT_FOR_THIS_PARSER, format.toString()
 				);
 			}
 		}

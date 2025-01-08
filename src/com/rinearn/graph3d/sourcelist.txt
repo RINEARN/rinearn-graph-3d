@@ -36,11 +36,11 @@ com/rinearn/graph3d/model/data/series/ZxyMathDataSeries.java
 com/rinearn/graph3d/model/io/DataFileFormatException.java
 com/rinearn/graph3d/model/io/DataFileFormatInferencer.java
 com/rinearn/graph3d/model/io/DataFileIO.java
-com/rinearn/graph3d/model/io/decoder/ColumnDataDecoder.java
-com/rinearn/graph3d/model/io/decoder/MatrixDataDecoder.java
-com/rinearn/graph3d/model/io/decoder/package-info.java
 com/rinearn/graph3d/model/io/ImageFileIO.java
 com/rinearn/graph3d/model/io/package-info.java
+com/rinearn/graph3d/model/io/parser/ColumnDataParser.java
+com/rinearn/graph3d/model/io/parser/MatrixDataParser.java
+com/rinearn/graph3d/model/io/parser/package-info.java
 com/rinearn/graph3d/model/Model.java
 com/rinearn/graph3d/model/package-info.java
 com/rinearn/graph3d/model/ScriptEngineMount.java

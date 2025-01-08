@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.model.io.decoder;
+package com.rinearn.graph3d.model.io.parser;
 
 import com.rinearn.graph3d.model.data.series.ArrayDataSeries;
 import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
@@ -15,9 +15,9 @@ import java.util.ArrayList;
 
 
 /**
- * The decoder for decoding strings loaded from n-columns-format data files.
+ * The parser for decoding strings loaded from n-columns-format data files.
  */
-public final class ColumnDataDecoder {
+public final class ColumnDataParser {
 
 	/**
 	 * Stores the parameters depending on a data file.
@@ -64,14 +64,14 @@ public final class ColumnDataDecoder {
 
 
 	/**
-	 * Creates a new decoder.
+	 * Creates a new parser.
 	 */
-	public ColumnDataDecoder() {
+	public ColumnDataParser() {
 	}
 
 
 	/**
-	 * Decodes the string loaded from a data file.
+	 * Parses the string loaded from a data file.
 	 *
 	 * @param dataString The string loaded from the data file.
 	 * @param format The format of the data file.
@@ -79,13 +79,13 @@ public final class ColumnDataDecoder {
 	 * @throw DataFileFormatException
 	 *   Thrown if the specified format is unsupported, or the contents is syntactically incorrect.
 	 */
-	public DataSeriesGroup<ArrayDataSeries> decode(String dataString, RinearnGraph3DDataFileFormat format)
+	public DataSeriesGroup<ArrayDataSeries> parse(String dataString, RinearnGraph3DDataFileFormat format)
 			throws DataFileFormatException {
 
 		try (StringReader stringReader = new StringReader(dataString);
 				BufferedReader bufferedReader = new BufferedReader(stringReader)) {
 
-			DataSeriesGroup<ArrayDataSeries> result = this.decode(bufferedReader, format);
+			DataSeriesGroup<ArrayDataSeries> result = this.parse(bufferedReader, format);
 			return result;
 
 		} catch (IOException ioe) {
@@ -95,7 +95,7 @@ public final class ColumnDataDecoder {
 
 
 	/**
-	 * Decodes the content of a data file.
+	 * Parses the content of a data file.
 	 *
 	 * @param bufferedReader The stream reading the content of the data file
 	 * @param format The format of the data file.
@@ -103,7 +103,7 @@ public final class ColumnDataDecoder {
 	 * @throw DataFileFormatException
 	 *   Thrown if the specified format is unsupported, or the contents is syntactically incorrect.
 	 */
-	public DataSeriesGroup<ArrayDataSeries> decode(BufferedReader bufferedReader, RinearnGraph3DDataFileFormat format)
+	public DataSeriesGroup<ArrayDataSeries> parse(BufferedReader bufferedReader, RinearnGraph3DDataFileFormat format)
 			throws DataFileFormatException, IOException {
 
 		// Stores the decoded result to be returned.
@@ -147,7 +147,7 @@ public final class ColumnDataDecoder {
 				// Double empty data lines or EOL: a separator of "data series".
 				if (emptyDataLineCount == 2 || isEndOfFile) {
 					if (subDataSeriesList.size() != 0) {
-						ArrayDataSeries dataSeries = this.parseAndPackIntoDataSeries(subDataSeriesList);
+						ArrayDataSeries dataSeries = this.parseAndPackSubDataSeries(subDataSeriesList);
 						dataSeriesGroup.addDataSeries(dataSeries);
 						subDataSeriesList = new ArrayList<SubDataSeries>();
 						columnsList = new ArrayList<String[]>();
@@ -190,7 +190,7 @@ public final class ColumnDataDecoder {
 	 * @throw DataFileFormatException
 	 *     Thrown if any non-number value is detected.
 	 */
-	private ArrayDataSeries parseAndPackIntoDataSeries(List<SubDataSeries> subDataSeriesList)
+	private ArrayDataSeries parseAndPackSubDataSeries(List<SubDataSeries> subDataSeriesList)
 			throws DataFileFormatException {
 
 		int subSeriesCount = subDataSeriesList.size();
@@ -299,7 +299,7 @@ public final class ColumnDataDecoder {
 			}
 			default: {
 				throw new DataFileFormatException(
-						ErrorType.UNSUPPORTED_DATA_FILE_FORMAT_FOR_THIS_DECODER, format.toString()
+						ErrorType.UNSUPPORTED_DATA_FILE_FORMAT_FOR_THIS_PARSER, format.toString()
 				);
 			}
 		}
