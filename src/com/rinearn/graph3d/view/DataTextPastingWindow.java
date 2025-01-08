@@ -44,6 +44,9 @@ public class DataTextPastingWindow {
 	/** The text area to paste the data text. */
 	public volatile JTextArea dataTextArea;
 
+	/** The right-click menu of dataTextArea. */
+	public volatile TextRightClickMenu dataTextAreaRightClickMenu;
+
 	/** The label of the combo box for selecting the data format. */
 	public volatile JLabel dataFormatLabel;
 
@@ -193,6 +196,9 @@ public class DataTextPastingWindow {
 			layout.setConstraints(fileListScrollPane, constraints);
 			basePanel.add(fileListScrollPane);
 
+			// The right-click menu of dataTextArea.
+			dataTextAreaRightClickMenu = new TextRightClickMenu();
+
 			constraints.gridy++;
 			constraints.gridwidth = 1;
 			constraints.weighty = 0.03;
@@ -325,6 +331,9 @@ public class DataTextPastingWindow {
 
 			// Updates the values of text fields, by the values stored in the configuration.
 			this.updateValuesByConfiguration();
+
+			// Update the right-click menu.
+			dataTextAreaRightClickMenu.configure(this.configuration);
 		}
 
 		/**

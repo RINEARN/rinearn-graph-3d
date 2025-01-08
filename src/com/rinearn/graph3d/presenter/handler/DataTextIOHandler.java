@@ -32,6 +32,9 @@ public final class DataTextIOHandler {
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
 
+	/** The event handler of right-click menu of data pasting text area.  */
+	private volatile TextRightClickMenuHandler dataTextAreaMenuHandler;
+
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
 
@@ -53,6 +56,11 @@ public final class DataTextIOHandler {
 		// Add the action listener to the PLOT/CLEAR button.
 		window.plotButton.addActionListener(new PlotButtonEventListener());
 		window.clearButton.addActionListener(new ClearButtonEventListener());
+
+		// Add the event listeners to the right-click menu.
+		this.dataTextAreaMenuHandler = new TextRightClickMenuHandler(
+				model, view, presenter, window.dataTextAreaRightClickMenu, window.dataTextArea
+		);
 	}
 
 
@@ -63,6 +71,7 @@ public final class DataTextIOHandler {
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
+		this.dataTextAreaMenuHandler.setEventHandlingEnabled(enabled);
 	}
 
 

@@ -5,7 +5,6 @@ import javax.swing.SwingUtilities;
 
 import com.rinearn.graph3d.config.FontConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.view.DataTextPastingWindow.Disposer;
 
 import java.awt.Font;
 import java.lang.reflect.InvocationTargetException;
@@ -20,8 +19,8 @@ import javax.swing.JMenuItem;
  */
 public final class TextRightClickMenu {
 
-	/** The right-click menu. */
-	public volatile JPopupMenu menu;
+	/** The pop-up menu (outer frame) of this right-click menu. */
+	public volatile JPopupMenu popupMenu;
 
 	/** The menu item "Cut". */
 	public volatile JMenuItem cutItem;
@@ -80,16 +79,16 @@ public final class TextRightClickMenu {
 	private final class ComponentInitializer implements Runnable {
 		@Override
 		public void run() {
-			menu = new JPopupMenu();
+			popupMenu = new JPopupMenu();
 
 			cutItem = new JMenuItem("Unconfigured");
-			menu.add(cutItem);
+			popupMenu.add(cutItem);
 
 			copyItem = new JMenuItem("Unconfigured");
-			menu.add(copyItem);
+			popupMenu.add(copyItem);
 
 			pasteItem = new JMenuItem("Unconfigured");
-			menu.add(pasteItem);
+			popupMenu.add(pasteItem);
 		}
 	}
 
