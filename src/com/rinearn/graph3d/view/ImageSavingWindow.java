@@ -60,11 +60,17 @@ public class ImageSavingWindow {
 	/** The text field to input the file name. */
 	public JTextField fileNameField;
 
+	/** The right-click menu of fileNameField. */
+	public volatile TextRightClickMenu fileNameFieldRightClickMenu;
+
 	/** The label of the text field to input the file location (folder). */
 	public JLabel fileLocationLabel;
 
 	/** The text field to input the file location (folder). */
 	public JTextField fileLocationField;
+
+	/** The right-click menu of fileLocationField. */
+	public volatile TextRightClickMenu fileLocationFieldRightClickMenu;
 
 	/** The button field to set the file location (folder). */
 	public JButton fileLocationButton;
@@ -83,6 +89,9 @@ public class ImageSavingWindow {
 
 	/** The text field to input the image quality. */
 	public JTextField qualityField;
+
+	/** The right-click menu of qualityField. */
+	public volatile TextRightClickMenu qualityFieldRightClickMenu;
 
 	/** The label of "%" at the right of the text field to input the image quality.*/
 	public JLabel percentLabel;
@@ -185,6 +194,8 @@ public class ImageSavingWindow {
 			layout.setConstraints(fileNameField, constraints);
 			basePanel.add(fileNameField);
 
+			fileNameFieldRightClickMenu = new TextRightClickMenu();
+
 			constraints.gridwidth = 1;
 			constraints.weightx = 0.0;
 			constraints.gridy++;
@@ -203,6 +214,8 @@ public class ImageSavingWindow {
 			constraints.insets = new Insets(topMargin, leftMarginShort, bottomMargin, rightMarginShort);
 			layout.setConstraints(fileLocationField, constraints);
 			basePanel.add(fileLocationField);
+
+			fileLocationFieldRightClickMenu = new TextRightClickMenu();
 
 			constraints.gridwidth = 1;
 			constraints.weightx = 0.0;
@@ -255,6 +268,8 @@ public class ImageSavingWindow {
 			constraints.insets = new Insets(topMargin, leftMarginShort, bottomMargin, rightMarginShort);
 			layout.setConstraints(qualityField, constraints);
 			basePanel.add(qualityField);
+
+			qualityFieldRightClickMenu = new TextRightClickMenu();
 
 			constraints.gridwidth = 1;
 			constraints.weightx = 0.0;
@@ -339,8 +354,10 @@ public class ImageSavingWindow {
 			// Set fonts to the components.
 			this.setFonts();
 
-			// Updates the values of text fields, by the values stored in the configuration.
-			this.updateValuesByConfiguration();
+			// Update right-click menus.
+			fileNameFieldRightClickMenu.configure(configuration);
+			fileLocationFieldRightClickMenu.configure(configuration);
+			qualityFieldRightClickMenu.configure(configuration);
 		}
 
 		/**
@@ -391,12 +408,6 @@ public class ImageSavingWindow {
 			qualityField.setFont(uiPlainFont);
 			percentLabel.setFont(uiBoldFont);
 			saveButton.setFont(uiBoldFont);
-		}
-
-		/**
-		 * Updates the values of text fields, by the values stored in the configuration.
-		 */
-		private void updateValuesByConfiguration() {
 		}
 	}
 
