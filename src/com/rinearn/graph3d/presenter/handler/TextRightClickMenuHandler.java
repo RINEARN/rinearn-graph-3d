@@ -4,6 +4,8 @@ import com.rinearn.graph3d.view.TextRightClickMenu;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
@@ -47,6 +49,9 @@ public final class TextRightClickMenuHandler {
 		this.rightClickMenu.cutItem.addActionListener(actionMap.get(DefaultEditorKit.cutAction));
 		this.rightClickMenu.copyItem.addActionListener(actionMap.get(DefaultEditorKit.copyAction));
 		this.rightClickMenu.pasteItem.addActionListener(actionMap.get(DefaultEditorKit.pasteAction));
+
+		// Add the event listeners of Clear menu, which is defined in this class.
+		this.rightClickMenu.clearItem.addActionListener(new ClearItemClickedEventListener());
 	}
 
 
@@ -92,6 +97,20 @@ public final class TextRightClickMenuHandler {
 			if (SwingUtilities.isRightMouseButton(me)) {
 				rightClickMenu.popupMenu.show(textComponent, me.getX(), me.getY());
 			}
+		}
+	}
+
+
+	/**
+	 * The event listener handling the event that "Clear" item is clicked.
+	 */
+	private final class ClearItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!eventHandlingEnabled) {
+				return;
+			}
+			textComponent.setText("");
 		}
 	}
 }

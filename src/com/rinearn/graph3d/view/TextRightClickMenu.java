@@ -31,6 +31,10 @@ public final class TextRightClickMenu {
 	/** The menu item "Paste". */
 	public volatile JMenuItem pasteItem;
 
+	/** The menu item "Clear". */
+	public volatile JMenuItem clearItem;
+
+
 	/**
 	 * Creates a new menu instance.
 	 */
@@ -89,6 +93,9 @@ public final class TextRightClickMenu {
 
 			pasteItem = new JMenuItem("Unconfigured");
 			popupMenu.add(pasteItem);
+
+			clearItem = new JMenuItem("Unconfigured");
+			popupMenu.add(clearItem);
 		}
 	}
 
@@ -162,6 +169,7 @@ public final class TextRightClickMenu {
 			cutItem.setText("切り取り");
 			copyItem.setText("コピー");
 			pasteItem.setText("ペースト");
+			clearItem.setText("クリア");
 		}
 
 		/**
@@ -171,6 +179,7 @@ public final class TextRightClickMenu {
 			cutItem.setText("Cut");
 			copyItem.setText("Copy");
 			pasteItem.setText("Paste");
+			clearItem.setText("Clear");
 		}
 
 		/**
@@ -183,6 +192,7 @@ public final class TextRightClickMenu {
 			cutItem.setFont(uiBoldFont);
 			copyItem.setFont(uiBoldFont);
 			pasteItem.setFont(uiBoldFont);
+			clearItem.setFont(uiBoldFont);
 		}
 	}
 }
