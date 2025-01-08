@@ -58,9 +58,7 @@ public final class DataTextIOHandler {
 		window.clearButton.addActionListener(new ClearButtonEventListener());
 
 		// Add the event listeners to the right-click menu.
-		this.dataTextAreaMenuHandler = new TextRightClickMenuHandler(
-				model, view, presenter, window.dataTextAreaRightClickMenu, window.dataTextArea
-		);
+		this.dataTextAreaMenuHandler = new TextRightClickMenuHandler(window.dataTextAreaRightClickMenu, window.dataTextArea);
 	}
 
 
