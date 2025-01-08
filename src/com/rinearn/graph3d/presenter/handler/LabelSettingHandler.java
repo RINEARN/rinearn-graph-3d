@@ -28,6 +28,15 @@ public class LabelSettingHandler {
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
 
+	/** The event handler of the right-click menu of the text field to input the x-label. */
+	private final TextRightClickMenuHandler xLabelTextFieldRightClickHandler;
+
+	/** The event handler of the right-click menu of the text field to input the y-label. */
+	private final TextRightClickMenuHandler yLabelTextFieldRightClickHandler;
+
+	/** The event handler of the right-click menu of the text field to input the z-label. */
+	private final TextRightClickMenuHandler zLabelTextFieldRightClickHandler;
+
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
 
@@ -47,6 +56,11 @@ public class LabelSettingHandler {
 		// Add the action listener defined in this class, to the OK button of label setting window.
 		LabelSettingWindow window = this.view.labelSettingWindow;
 		window.okButton.addActionListener(new OkPressedEventListener());
+
+		// Add the event handlers to the right-click menus of the text fields.
+		xLabelTextFieldRightClickHandler = new TextRightClickMenuHandler(window.xLabelTextFieldRightClickMenu, window.xLabelTextField);
+		yLabelTextFieldRightClickHandler = new TextRightClickMenuHandler(window.yLabelTextFieldRightClickMenu, window.yLabelTextField);
+		zLabelTextFieldRightClickHandler = new TextRightClickMenuHandler(window.zLabelTextFieldRightClickMenu, window.zLabelTextField);
 	}
 
 
@@ -57,6 +71,9 @@ public class LabelSettingHandler {
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
+		xLabelTextFieldRightClickHandler.setEventHandlingEnabled(enabled);
+		yLabelTextFieldRightClickHandler.setEventHandlingEnabled(enabled);
+		zLabelTextFieldRightClickHandler.setEventHandlingEnabled(enabled);
 	}
 
 

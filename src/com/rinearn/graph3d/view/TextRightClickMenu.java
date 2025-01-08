@@ -168,7 +168,7 @@ public final class TextRightClickMenu {
 		private void setJapaneseTexts() {
 			cutItem.setText("切り取り");
 			copyItem.setText("コピー");
-			pasteItem.setText("ペースト");
+			pasteItem.setText("貼り付け");
 			clearItem.setText("クリア");
 		}
 

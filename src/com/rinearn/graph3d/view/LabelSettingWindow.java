@@ -38,17 +38,26 @@ public final class LabelSettingWindow {
 	/** The text field for inputting the X label's text. */
 	public volatile JTextField xLabelTextField;
 
+	/** The right-click menu of xLabelTextField. */
+	public volatile TextRightClickMenu xLabelTextFieldRightClickMenu;
+
 	/** The title label of the text field for inputting the Y label's text. */
 	public volatile JLabel yLabelTextLabel;
 
 	/** The text field for inputting the Y label's text. */
 	public volatile JTextField yLabelTextField;
 
+	/** The right-click menu of yLabelTextField. */
+	public volatile TextRightClickMenu yLabelTextFieldRightClickMenu;
+
 	/** The title label of the text field for inputting the Z label's text. */
 	public volatile JLabel zLabelTextLabel;
 
 	/** The text field for inputting the Z label's text. */
 	public volatile JTextField zLabelTextField;
+
+	/** The right-click menu of zLabelTextField. */
+	public volatile TextRightClickMenu zLabelTextFieldRightClickMenu;
 
 	/** The button to reflect settings. */
 	public volatile JButton okButton;
@@ -150,6 +159,9 @@ public final class LabelSettingWindow {
 			layour.setConstraints(xLabelTextField, constraints);
 			basePanel.add(xLabelTextField);
 
+			// The right click menu for the above text field.
+			xLabelTextFieldRightClickMenu = new TextRightClickMenu();
+
 			constraints.gridy++;
 
 			// Create the title label of the text field for inputting the Y label's text.
@@ -167,6 +179,9 @@ public final class LabelSettingWindow {
 			layour.setConstraints(yLabelTextField, constraints);
 			basePanel.add(yLabelTextField);
 
+			// The right click menu for the above text field.
+			yLabelTextFieldRightClickMenu = new TextRightClickMenu();
+
 			constraints.gridy++;
 
 			// Create the title label of the text field for inputting the Z label's text.
@@ -183,6 +198,9 @@ public final class LabelSettingWindow {
 			constraints.insets = new Insets(0, leftMarginOfFields, 0, rightMargin);
 			layour.setConstraints(zLabelTextField, constraints);
 			basePanel.add(zLabelTextField);
+
+			// The right click menu for the above text field.
+			zLabelTextFieldRightClickMenu = new TextRightClickMenu();
 
 			constraints.gridy++;
 
@@ -266,6 +284,11 @@ public final class LabelSettingWindow {
 
 			// Updates the values of text fields, by the values stored in the configuration.
 			this.updateValuesByConfiguration();
+
+			// Update the right-click menus.
+			xLabelTextFieldRightClickMenu.configure(this.configuration);
+			yLabelTextFieldRightClickMenu.configure(this.configuration);
+			zLabelTextFieldRightClickMenu.configure(this.configuration);
 		}
 
 		/**
