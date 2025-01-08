@@ -58,6 +58,7 @@ com/rinearn/graph3d/presenter/handler/RangeSettingHandler.java
 com/rinearn/graph3d/presenter/handler/ScaleSettingHandler.java
 com/rinearn/graph3d/presenter/handler/ScreenHandler.java
 com/rinearn/graph3d/presenter/handler/ScreenSideUIHandler.java
+com/rinearn/graph3d/presenter/handler/TextRightClickMenuHandler.java
 com/rinearn/graph3d/presenter/handler/WindowHandler.java
 com/rinearn/graph3d/presenter/handler/ZxyMathHandler.java
 com/rinearn/graph3d/presenter/package-info.java
