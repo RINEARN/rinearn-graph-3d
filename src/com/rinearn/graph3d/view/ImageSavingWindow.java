@@ -90,8 +90,6 @@ public class ImageSavingWindow {
 
 	/**
 	 * Creates a new window.
-	 *
-	 * @param configuration The configuration of this application.
 	 */
 	public ImageSavingWindow() {
 
