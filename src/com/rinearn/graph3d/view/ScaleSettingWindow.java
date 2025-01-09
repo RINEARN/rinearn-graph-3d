@@ -159,17 +159,26 @@ public class ScaleSettingWindow {
 		/** The text field of the line width of the outer frame. */
 		public volatile JTextField frameLineWidthField;
 
+		/** The right-click menu of frameLineWidthField. */
+		public volatile TextRightClickMenu frameLineWidthFieldRightClickMenu;
+
 		/** The label of the text field of the margin between tick lines and labels. */
 		public volatile JLabel tickLabelMarginLabel;
 
 		/** The text field of the margin between tick lines and labels. */
 		public volatile JTextField tickLabelMarginField;
 
+		/** The right-click menu of tickLabelMarginField. */
+		public volatile TextRightClickMenu tickLabelMarginFieldRightClickMenu;
+
 		/** The label of the text field of the length of the tick lines. */
 		public volatile JLabel tickLineLengthLabel;
 
 		/** The text field of the length of the tick lines. */
 		public volatile JTextField tickLineLengthField;
+
+		/** The right-click menu of tickLineLengthField. */
+		public volatile TextRightClickMenu tickLineLengthFieldRightClickMenu;
 
 		/** The check box of the option to draw the ticks towards inside of the outer frame. */
 		public volatile JCheckBox tickInwardBox;
@@ -406,6 +415,9 @@ public class ScaleSettingWindow {
 
 		/** The text field of the divided section count. */
 		public volatile JTextField sectionCountField;
+
+		/** The right-click menu of sectionCountField. */
+		public volatile TextRightClickMenu sectionCountFieldRightClickMenu;
 	}
 
 	/** The container class of the tick setting items of each axis in MANUAL mode. */
@@ -420,11 +432,17 @@ public class ScaleSettingWindow {
 		/** The text field of the tick coordinates. */
 		public volatile JTextField coordinatesField;
 
+		/** The right-click menu of coordinatesField. */
+		public volatile TextRightClickMenu coordinatesFieldRightClickMenu;
+
 		/** The label of the text field of the tick labels. */
 		public volatile JLabel labelsLabel;
 
 		/** The text field of the tick labels. */
 		public volatile JTextField labelsField;
+
+		/** The right-click menu of labelsField. */
+		public volatile TextRightClickMenu labelsFieldRightClickMenu;
 	}
 
 
@@ -461,17 +479,26 @@ public class ScaleSettingWindow {
 		/** The text field of the medium-range format of X-ticks. */
 		public volatile JTextField xMediumFormatField;
 
+		/** The right-click menu of xMediumFormatField. */
+		public volatile TextRightClickMenu xMediumFormatFieldRightClickMenu;
+
 		/** The label of the text field of the medium-range format of Y-ticks. */
 		public volatile JLabel yMediumFormatLabel;
 
 		/** The text field of the medium-range format of Y-ticks. */
 		public volatile JTextField yMediumFormatField;
 
+		/** The right-click menu of yMediumFormatField. */
+		public volatile TextRightClickMenu yMediumFormatFieldRightClickMenu;
+
 		/** The label of the text field of the medium-range format of Z-ticks. */
 		public volatile JLabel zMediumFormatLabel;
 
 		/** The text field of the medium-range format of Z-ticks. */
 		public volatile JTextField zMediumFormatField;
+
+		/** The right-click menu of zMediumFormatField. */
+		public volatile TextRightClickMenu zMediumFormatFieldRightClickMenu;
 
 
 		/** The label of the text field of the short-range format of X-ticks. */
@@ -480,17 +507,26 @@ public class ScaleSettingWindow {
 		/** The text field of the short-range format of X-ticks. */
 		public volatile JTextField xShortFormatField;
 
+		/** The right-click menu of xShortFormatField. */
+		public volatile TextRightClickMenu xShortFormatFieldRightClickMenu;
+
 		/** The label of the text field of the short-range format of Y-ticks. */
 		public volatile JLabel yShortFormatLabel;
 
 		/** The text field of the short-range format of Y-ticks. */
 		public volatile JTextField yShortFormatField;
 
+		/** The right-click menu of yShortFormatField. */
+		public volatile TextRightClickMenu yShortFormatFieldRightClickMenu;
+
 		/** The label of the text field of the short-range format of Z-ticks. */
 		public volatile JLabel zShortFormatLabel;
 
 		/** The text field of the short-range format of Z-ticks. */
 		public volatile JTextField zShortFormatField;
+
+		/** The right-click menu of zShortFormatField. */
+		public volatile TextRightClickMenu zShortFormatFieldRightClickMenu;
 
 
 		/** The label of the text field of the long-range format of X-ticks. */
@@ -499,17 +535,26 @@ public class ScaleSettingWindow {
 		/** The text field of the long-range format of X-ticks. */
 		public volatile JTextField xLongFormatField;
 
+		/** The right-click menu of xLongFormatField. */
+		public volatile TextRightClickMenu xLongFormatFieldRightClickMenu;
+
 		/** The label of the text field of the long-range format of Y-ticks. */
 		public volatile JLabel yLongFormatLabel;
 
 		/** The text field of the long-range format of Y-ticks. */
 		public volatile JTextField yLongFormatField;
 
+		/** The right-click menu of yLongFormatField. */
+		public volatile TextRightClickMenu yLongFormatFieldRightClickMenu;
+
 		/** The label of the text field of the long-range format of Z-ticks. */
 		public volatile JLabel zLongFormatLabel;
 
 		/** The text field of the long-range format of Z-ticks. */
 		public volatile JTextField zLongFormatField;
+
+		/** The right-click menu of zLongFormatField. */
+		public volatile TextRightClickMenu zLongFormatFieldRightClickMenu;
 
 
 		/**
@@ -680,19 +725,28 @@ public class ScaleSettingWindow {
 	public class ImagesPlaneItems {
 
 		/** The panel on which the setting items for each plane are mounted. */
-		JPanel panel;
+		public volatile JPanel panel;
 
 		/** The text field to input/display the image file path. */
-		JTextField filePathField;
+		public volatile JTextField filePathField;
+
+		/** The right-click menu of filePathField. */
+		public volatile TextRightClickMenu filePathFieldRightClickMenu;
 
 		/** The button to open the image file. */
-		JButton openFileButton;
+		public volatile JButton openFileButton;
 
 		/** The text field of the image width (pixels) displayed on the plane. */
-		JTextField imageWidthField;
+		public volatile JTextField imageWidthField;
+
+		/** The right-click menu of imageWidthField. */
+		public volatile TextRightClickMenu imageWidthFieldRightClickMenu;
 
 		/** The text field of the image height (pixels) displayed on the plane. */
-		JTextField imageHeightField;
+		public volatile JTextField imageHeightField;
+
+		/** The right-click menu of imageHeightField. */
+		public volatile TextRightClickMenu imageHeightFieldRightClickMenu;
 	}
 
 
@@ -816,9 +870,7 @@ public class ScaleSettingWindow {
 			constraints.weighty = 0.0; // Set to the constant size (depends on the font size).
 			layout.setConstraints(okButton, constraints);
 			basePanel.add(okButton);
-
 		}
-
 	}
 
 
@@ -885,6 +937,64 @@ public class ScaleSettingWindow {
 
 			// Updates the values of text fields, by the values stored in the configuration.
 			this.updateValuesByConfiguration();
+
+			// Update the right-click menus.
+			{
+				designTabItems.frameLineWidthFieldRightClickMenu.configure(this.configuration);
+				designTabItems.tickLabelMarginFieldRightClickMenu.configure(this.configuration);
+				designTabItems.tickLineLengthFieldRightClickMenu.configure(this.configuration);
+
+				ticksTabItems.xEqualDivisionItems.sectionCountFieldRightClickMenu.configure(this.configuration);
+				ticksTabItems.yEqualDivisionItems.sectionCountFieldRightClickMenu.configure(this.configuration);
+				ticksTabItems.zEqualDivisionItems.sectionCountFieldRightClickMenu.configure(this.configuration);
+				ticksTabItems.colorBarEqualDivisionItems.sectionCountFieldRightClickMenu.configure(this.configuration);
+
+				ticksTabItems.xManualItems.coordinatesFieldRightClickMenu.configure(this.configuration);
+				ticksTabItems.yManualItems.coordinatesFieldRightClickMenu.configure(this.configuration);
+				ticksTabItems.zManualItems.coordinatesFieldRightClickMenu.configure(this.configuration);
+				ticksTabItems.colorBarManualItems.coordinatesFieldRightClickMenu.configure(this.configuration);
+
+				ticksTabItems.xManualItems.labelsFieldRightClickMenu.configure(this.configuration);
+				ticksTabItems.yManualItems.labelsFieldRightClickMenu.configure(this.configuration);
+				ticksTabItems.zManualItems.labelsFieldRightClickMenu.configure(this.configuration);
+				ticksTabItems.colorBarManualItems.labelsFieldRightClickMenu.configure(this.configuration);
+
+				formatsTabItems.xMediumFormatFieldRightClickMenu.configure(this.configuration);
+				formatsTabItems.yMediumFormatFieldRightClickMenu.configure(this.configuration);
+				formatsTabItems.zMediumFormatFieldRightClickMenu.configure(this.configuration);
+
+				formatsTabItems.xShortFormatFieldRightClickMenu.configure(this.configuration);
+				formatsTabItems.yShortFormatFieldRightClickMenu.configure(this.configuration);
+				formatsTabItems.zShortFormatFieldRightClickMenu.configure(this.configuration);
+
+				formatsTabItems.xLongFormatFieldRightClickMenu.configure(this.configuration);
+				formatsTabItems.yLongFormatFieldRightClickMenu.configure(this.configuration);
+				formatsTabItems.zLongFormatFieldRightClickMenu.configure(this.configuration);
+
+				imagesTabItems.xyLowerPlaneItems.filePathFieldRightClickMenu.configure(this.configuration);
+				imagesTabItems.xyLowerPlaneItems.imageWidthFieldRightClickMenu.configure(this.configuration);
+				imagesTabItems.xyLowerPlaneItems.imageHeightFieldRightClickMenu.configure(this.configuration);
+
+				imagesTabItems.xyUpperPlaneItems.filePathFieldRightClickMenu.configure(this.configuration);
+				imagesTabItems.xyUpperPlaneItems.imageWidthFieldRightClickMenu.configure(this.configuration);
+				imagesTabItems.xyUpperPlaneItems.imageHeightFieldRightClickMenu.configure(this.configuration);
+
+				imagesTabItems.yzLowerPlaneItems.filePathFieldRightClickMenu.configure(this.configuration);
+				imagesTabItems.yzLowerPlaneItems.imageWidthFieldRightClickMenu.configure(this.configuration);
+				imagesTabItems.yzLowerPlaneItems.imageHeightFieldRightClickMenu.configure(this.configuration);
+
+				imagesTabItems.yzUpperPlaneItems.filePathFieldRightClickMenu.configure(this.configuration);
+				imagesTabItems.yzUpperPlaneItems.imageWidthFieldRightClickMenu.configure(this.configuration);
+				imagesTabItems.yzUpperPlaneItems.imageHeightFieldRightClickMenu.configure(this.configuration);
+
+				imagesTabItems.zxLowerPlaneItems.filePathFieldRightClickMenu.configure(this.configuration);
+				imagesTabItems.zxLowerPlaneItems.imageWidthFieldRightClickMenu.configure(this.configuration);
+				imagesTabItems.zxLowerPlaneItems.imageHeightFieldRightClickMenu.configure(this.configuration);
+
+				imagesTabItems.zxUpperPlaneItems.filePathFieldRightClickMenu.configure(this.configuration);
+				imagesTabItems.zxUpperPlaneItems.imageWidthFieldRightClickMenu.configure(this.configuration);
+				imagesTabItems.zxUpperPlaneItems.imageHeightFieldRightClickMenu.configure(this.configuration);
+			}
 		}
 
 		/**
@@ -1824,6 +1934,9 @@ public class ScaleSettingWindow {
 		layout.setConstraints(designTabItems.frameLineWidthField, constraints);
 		designTabPanel.add(designTabItems.frameLineWidthField);
 
+		// The right-click menu of the above text field.
+		designTabItems.frameLineWidthFieldRightClickMenu = new TextRightClickMenu();
+
 
 		// The label of the text field of the margin between tick lines and labels.
 		designTabItems.tickLabelMarginLabel = new JLabel("Unconfigured");
@@ -1839,6 +1952,9 @@ public class ScaleSettingWindow {
 		layout.setConstraints(designTabItems.tickLabelMarginField, constraints);
 		designTabPanel.add(designTabItems.tickLabelMarginField);
 
+		// The right-click menu of the above text field.
+		designTabItems.tickLabelMarginFieldRightClickMenu = new TextRightClickMenu();
+
 
 		// The label of the text field of the length of the tick lines.
 		designTabItems.tickLineLengthLabel = new JLabel("Unconfigured");
@@ -1853,6 +1969,9 @@ public class ScaleSettingWindow {
 		constraints.insets = new Insets(topMarginBetweenLabelAndField, leftMarginLong, bottomMargin, rightMargin);
 		layout.setConstraints(designTabItems.tickLineLengthField, constraints);
 		designTabPanel.add(designTabItems.tickLineLengthField);
+
+		// The right-click menu of the above text field.
+		designTabItems.tickLineLengthFieldRightClickMenu = new TextRightClickMenu();
 
 
 		// The check box of the option to draw the ticks towards inside of the outer frame.
@@ -2171,6 +2290,9 @@ public class ScaleSettingWindow {
 			layout.setConstraints(items.sectionCountField, constraints);
 			items.panel.add(items.sectionCountField);
 
+			// The right-click menu of the above text field.
+			items.sectionCountFieldRightClickMenu = new TextRightClickMenu();
+
 			// The empty line.
 			constraints.gridy++;
 			constraints.gridx = 0;
@@ -2231,6 +2353,9 @@ public class ScaleSettingWindow {
 			layout.setConstraints(items.coordinatesField, constraints);
 			items.panel.add(items.coordinatesField);
 
+			// The right-click menu of the above text field.
+			items.coordinatesFieldRightClickMenu = new TextRightClickMenu();
+
 			constraints.gridy++;
 			constraints.gridx = 0;
 
@@ -2246,6 +2371,9 @@ public class ScaleSettingWindow {
 			constraints.weightx = rightColumnWeight;
 			layout.setConstraints(items.labelsField, constraints);
 			items.panel.add(items.labelsField);
+
+			// The right-click menu of the above text field.
+			items.labelsFieldRightClickMenu = new TextRightClickMenu();
 		}
 	}
 
@@ -2323,6 +2451,9 @@ public class ScaleSettingWindow {
 			layout.setConstraints(formatsTabItems.xMediumFormatField, constraints);
 			formatsTabPanel.add(formatsTabItems.xMediumFormatField);
 
+			// The right-click menu for the above text field.
+			formatsTabItems.xMediumFormatFieldRightClickMenu = new TextRightClickMenu();
+
 			constraints.gridy++;
 			constraints.gridx = 0;
 			constraints.gridwidth = 1;
@@ -2342,6 +2473,9 @@ public class ScaleSettingWindow {
 			layout.setConstraints(formatsTabItems.xShortFormatField, constraints);
 			formatsTabPanel.add(formatsTabItems.xShortFormatField);
 
+			// The right-click menu for the above text field.
+			formatsTabItems.xShortFormatFieldRightClickMenu = new TextRightClickMenu();
+
 			constraints.gridy++;
 			constraints.gridx = 0;
 			constraints.gridwidth = 1;
@@ -2360,6 +2494,9 @@ public class ScaleSettingWindow {
 			constraints.insets = new Insets(topMargin, 0, bottomMargin, rightMargin);
 			layout.setConstraints(formatsTabItems.xLongFormatField, constraints);
 			formatsTabPanel.add(formatsTabItems.xLongFormatField);
+
+			// The right-click menu for the above text field.
+			formatsTabItems.xLongFormatFieldRightClickMenu = new TextRightClickMenu();
 		}
 
 		// Y-Axis
@@ -2403,6 +2540,9 @@ public class ScaleSettingWindow {
 			layout.setConstraints(formatsTabItems.yMediumFormatField, constraints);
 			formatsTabPanel.add(formatsTabItems.yMediumFormatField);
 
+			// The right-click menu for the above text field.
+			formatsTabItems.yMediumFormatFieldRightClickMenu = new TextRightClickMenu();
+
 			constraints.gridy++;
 			constraints.gridx = 0;
 			constraints.gridwidth = 1;
@@ -2422,6 +2562,9 @@ public class ScaleSettingWindow {
 			layout.setConstraints(formatsTabItems.yShortFormatField, constraints);
 			formatsTabPanel.add(formatsTabItems.yShortFormatField);
 
+			// The right-click menu for the above text field.
+			formatsTabItems.yShortFormatFieldRightClickMenu = new TextRightClickMenu();
+
 			constraints.gridy++;
 			constraints.gridx = 0;
 			constraints.gridwidth = 1;
@@ -2440,6 +2583,9 @@ public class ScaleSettingWindow {
 			constraints.insets = new Insets(topMargin, 0, bottomMargin, rightMargin);
 			layout.setConstraints(formatsTabItems.yLongFormatField, constraints);
 			formatsTabPanel.add(formatsTabItems.yLongFormatField);
+
+			// The right-click menu for the above text field.
+			formatsTabItems.yLongFormatFieldRightClickMenu = new TextRightClickMenu();
 
 			constraints.gridy++;
 			constraints.gridx = 0;
@@ -2487,6 +2633,9 @@ public class ScaleSettingWindow {
 			layout.setConstraints(formatsTabItems.zMediumFormatField, constraints);
 			formatsTabPanel.add(formatsTabItems.zMediumFormatField);
 
+			// The right-click menu for the above text field.
+			formatsTabItems.zMediumFormatFieldRightClickMenu = new TextRightClickMenu();
+
 			constraints.gridy++;
 			constraints.gridx = 0;
 			constraints.gridwidth = 1;
@@ -2506,6 +2655,9 @@ public class ScaleSettingWindow {
 			layout.setConstraints(formatsTabItems.zShortFormatField, constraints);
 			formatsTabPanel.add(formatsTabItems.zShortFormatField);
 
+			// The right-click menu for the above text field.
+			formatsTabItems.zShortFormatFieldRightClickMenu = new TextRightClickMenu();
+
 			constraints.gridy++;
 			constraints.gridx = 0;
 			constraints.gridwidth = 1;
@@ -2524,6 +2676,9 @@ public class ScaleSettingWindow {
 			constraints.insets = new Insets(topMargin, 0, bottomMargin, rightMargin);
 			layout.setConstraints(formatsTabItems.zLongFormatField, constraints);
 			formatsTabPanel.add(formatsTabItems.zLongFormatField);
+
+			// The right-click menu for the above text field.
+			formatsTabItems.zLongFormatFieldRightClickMenu = new TextRightClickMenu();
 
 			constraints.gridy++;
 			constraints.gridx = 0;
@@ -2955,6 +3110,9 @@ public class ScaleSettingWindow {
 			layout.setConstraints(items.filePathField, constraints);
 			items.panel.add(items.filePathField);
 
+			// The right-click menu for the above text field.
+			items.filePathFieldRightClickMenu = new TextRightClickMenu();
+
 			constraints.gridx = constraints.gridwidth;
 
 			// The button to open the image file.
@@ -2985,6 +3143,9 @@ public class ScaleSettingWindow {
 			layout.setConstraints(items.imageWidthField, constraints);
 			items.panel.add(items.imageWidthField);
 
+			// The right-click menu for the above text field.
+			items.imageWidthFieldRightClickMenu = new TextRightClickMenu();
+
 			constraints.gridx++;
 			constraints.weightx = 0.0;
 
@@ -3004,6 +3165,9 @@ public class ScaleSettingWindow {
 			constraints.insets = new Insets(topMarginOfLowerLine, 0, bottomMarginOfLowerLine, 0);
 			layout.setConstraints(items.imageHeightField, constraints);
 			items.panel.add(items.imageHeightField);
+
+			// The right-click menu for the above text field.
+			items.imageHeightFieldRightClickMenu = new TextRightClickMenu();
 
 			constraints.gridx++;
 

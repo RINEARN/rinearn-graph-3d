@@ -38,6 +38,18 @@ public class ScaleSettingHandler {
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
 
+	/** The event handlers of the right-click menus of the text fields on "Design" tab. */
+	private final DesignTabRightClickMenuHandlers designTabRightClickMenuHandlers;
+
+	/** The event handlers of the right-click menus of the text fields on "Ticks" tab. */
+	private final TicksTabRightClickMenuHandlers ticksTabRightClickMenuHandlers;
+
+	/** The event handlers of the right-click menus of the text fields on "Formats" tab. */
+	private final FormatsTabRightClickMenuHandlers formatsTabRightClickMenuHandlers;
+
+	/** The event handlers of the right-click menus of the text fields on "Images" tab. */
+	private final ImagesTabRightClickMenuHandlers imagesTabRightClickMenuHandlers;
+
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
 
@@ -81,17 +93,23 @@ public class ScaleSettingHandler {
 				window.formatsTabItems.xAutoBox,
 				window.formatsTabItems.xShortFormatLabel, window.formatsTabItems.xMediumFormatLabel, window.formatsTabItems.xLongFormatLabel,
 				window.formatsTabItems.xShortFormatField, window.formatsTabItems.xMediumFormatField, window.formatsTabItems.xLongFormatField
-		)) ;
+		));
 		window.formatsTabItems.yAutoBox.addActionListener(new AutoFormatBoxEventListener(
 				window.formatsTabItems.yAutoBox,
 				window.formatsTabItems.yShortFormatLabel, window.formatsTabItems.yMediumFormatLabel, window.formatsTabItems.yLongFormatLabel,
 				window.formatsTabItems.yShortFormatField, window.formatsTabItems.yMediumFormatField, window.formatsTabItems.yLongFormatField
-		)) ;
+		));
 		window.formatsTabItems.zAutoBox.addActionListener(new AutoFormatBoxEventListener(
 				window.formatsTabItems.zAutoBox,
 				window.formatsTabItems.zShortFormatLabel, window.formatsTabItems.zMediumFormatLabel, window.formatsTabItems.zLongFormatLabel,
 				window.formatsTabItems.zShortFormatField, window.formatsTabItems.zMediumFormatField, window.formatsTabItems.zLongFormatField
-		)) ;
+		));
+
+		// Add the event handlers of the right-click menu of the text fields.
+		this.designTabRightClickMenuHandlers = new DesignTabRightClickMenuHandlers(view);
+		this.ticksTabRightClickMenuHandlers = new TicksTabRightClickMenuHandlers(view);
+		this.formatsTabRightClickMenuHandlers = new FormatsTabRightClickMenuHandlers(view);
+		this.imagesTabRightClickMenuHandlers = new ImagesTabRightClickMenuHandlers(view);
 	}
 
 
@@ -102,6 +120,10 @@ public class ScaleSettingHandler {
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
+		this.designTabRightClickMenuHandlers.setEventHandlingEnabled(enabled);
+		this.ticksTabRightClickMenuHandlers.setEventHandlingEnabled(enabled);
+		this.formatsTabRightClickMenuHandlers.setEventHandlingEnabled(enabled);
+		this.imagesTabRightClickMenuHandlers.setEventHandlingEnabled(enabled);
 	}
 
 
@@ -491,6 +513,329 @@ public class ScaleSettingHandler {
 				this.mediumRangeField.setForeground(null);
 				this.longRangeField.setForeground(null);
 			}
+		}
+	}
+
+
+	/**
+	 * The class packing event handlers of the right-click menus of the text fields on "Design" tab.
+	 */
+	private final class DesignTabRightClickMenuHandlers {
+		private final TextRightClickMenuHandler frameLineWidthFieldHandler;
+		private final TextRightClickMenuHandler tickLabelMarginFieldHandler;
+		private final TextRightClickMenuHandler tickLineLengthFieldHandler;
+
+		/**
+		 * Creates a new event handlers of the right-click menu, and adds them to the text fields on "Design" tab.
+		 */
+		public DesignTabRightClickMenuHandlers(View view) {
+			ScaleSettingWindow.DesignTabItems designTabItems = view.scaleSettingWindow.designTabItems;
+
+			frameLineWidthFieldHandler = new TextRightClickMenuHandler(
+					designTabItems.frameLineWidthFieldRightClickMenu, designTabItems.frameLineWidthField
+			);
+			tickLabelMarginFieldHandler = new TextRightClickMenuHandler(
+					designTabItems.tickLabelMarginFieldRightClickMenu, designTabItems.tickLabelMarginField
+			);
+			tickLineLengthFieldHandler = new TextRightClickMenuHandler(
+					designTabItems.tickLineLengthFieldRightClickMenu, designTabItems.tickLineLengthField
+			);
+		}
+
+		/**
+		 * Turns on/off the event handling feature of this instance.
+		 *
+		 * @param enabled Specify false for turning off the event handling feature (enabled by default).
+		 */
+		public synchronized void setEventHandlingEnabled(boolean enabled) {
+			this.frameLineWidthFieldHandler.setEventHandlingEnabled(enabled);
+			this.tickLabelMarginFieldHandler.setEventHandlingEnabled(enabled);
+			this.tickLineLengthFieldHandler.setEventHandlingEnabled(enabled);
+		}
+	}
+
+
+	/**
+	 * The class packing event handlers of the right-click menus of the text fields on "Ticks" tab.
+	 */
+	private final class TicksTabRightClickMenuHandlers {
+		private final TextRightClickMenuHandler xEqdivCountFieldHandler;
+		private final TextRightClickMenuHandler yEqdivCountFieldHandler;
+		private final TextRightClickMenuHandler zEqdivCountFieldHandler;
+		private final TextRightClickMenuHandler colorBarEqdivCountFieldHandler;
+
+		private final TextRightClickMenuHandler xManualCoordsFieldHandler;
+		private final TextRightClickMenuHandler yManualCoordsFieldHandler;
+		private final TextRightClickMenuHandler zManualCoordsFieldHandler;
+		private final TextRightClickMenuHandler colorBarManualCoordsFieldHandler;
+
+		private final TextRightClickMenuHandler xManualLabelsFieldHandler;
+		private final TextRightClickMenuHandler yManualLabelsFieldHandler;
+		private final TextRightClickMenuHandler zManualLabelsFieldHandler;
+		private final TextRightClickMenuHandler colorBarManualLabelsFieldHandler;
+
+		/**
+		 * Creates a new event handlers of the right-click menu, and adds them to the text fields on "Ticks" tab.
+		 */
+		public TicksTabRightClickMenuHandlers(View view) {
+			ScaleSettingWindow.TicksTabItems ticksTabItems = view.scaleSettingWindow.ticksTabItems;
+
+			xEqdivCountFieldHandler = new TextRightClickMenuHandler(
+					ticksTabItems.xEqualDivisionItems.sectionCountFieldRightClickMenu, ticksTabItems.xEqualDivisionItems.sectionCountField
+			);
+			yEqdivCountFieldHandler = new TextRightClickMenuHandler(
+					ticksTabItems.yEqualDivisionItems.sectionCountFieldRightClickMenu, ticksTabItems.yEqualDivisionItems.sectionCountField
+			);
+			zEqdivCountFieldHandler = new TextRightClickMenuHandler(
+					ticksTabItems.zEqualDivisionItems.sectionCountFieldRightClickMenu, ticksTabItems.zEqualDivisionItems.sectionCountField
+			);
+			colorBarEqdivCountFieldHandler = new TextRightClickMenuHandler(
+					ticksTabItems.colorBarEqualDivisionItems.sectionCountFieldRightClickMenu, ticksTabItems.colorBarEqualDivisionItems.sectionCountField
+			);
+
+			xManualCoordsFieldHandler = new TextRightClickMenuHandler(
+					ticksTabItems.xManualItems.coordinatesFieldRightClickMenu, ticksTabItems.xManualItems.coordinatesField
+			);
+			yManualCoordsFieldHandler = new TextRightClickMenuHandler(
+					ticksTabItems.yManualItems.coordinatesFieldRightClickMenu, ticksTabItems.yManualItems.coordinatesField
+			);
+			zManualCoordsFieldHandler = new TextRightClickMenuHandler(
+					ticksTabItems.zManualItems.coordinatesFieldRightClickMenu, ticksTabItems.zManualItems.coordinatesField
+			);
+			colorBarManualCoordsFieldHandler = new TextRightClickMenuHandler(
+					ticksTabItems.colorBarManualItems.coordinatesFieldRightClickMenu, ticksTabItems.colorBarManualItems.coordinatesField
+			);
+
+			xManualLabelsFieldHandler = new TextRightClickMenuHandler(
+					ticksTabItems.xManualItems.labelsFieldRightClickMenu, ticksTabItems.xManualItems.labelsField
+			);
+			yManualLabelsFieldHandler = new TextRightClickMenuHandler(
+					ticksTabItems.yManualItems.labelsFieldRightClickMenu, ticksTabItems.yManualItems.labelsField
+			);
+			zManualLabelsFieldHandler = new TextRightClickMenuHandler(
+					ticksTabItems.zManualItems.labelsFieldRightClickMenu, ticksTabItems.zManualItems.labelsField
+			);
+			colorBarManualLabelsFieldHandler = new TextRightClickMenuHandler(
+					ticksTabItems.colorBarManualItems.labelsFieldRightClickMenu, ticksTabItems.colorBarManualItems.labelsField
+			);
+		}
+
+		/**
+		 * Turns on/off the event handling feature of this instance.
+		 *
+		 * @param enabled Specify false for turning off the event handling feature (enabled by default).
+		 */
+		public synchronized void setEventHandlingEnabled(boolean enabled) {
+			xEqdivCountFieldHandler.setEventHandlingEnabled(enabled);
+			yEqdivCountFieldHandler.setEventHandlingEnabled(enabled);
+			zEqdivCountFieldHandler.setEventHandlingEnabled(enabled);
+			colorBarEqdivCountFieldHandler.setEventHandlingEnabled(enabled);
+
+			xManualCoordsFieldHandler.setEventHandlingEnabled(enabled);
+			yManualCoordsFieldHandler.setEventHandlingEnabled(enabled);
+			zManualCoordsFieldHandler.setEventHandlingEnabled(enabled);
+			colorBarManualCoordsFieldHandler.setEventHandlingEnabled(enabled);
+
+			xManualLabelsFieldHandler.setEventHandlingEnabled(enabled);
+			yManualLabelsFieldHandler.setEventHandlingEnabled(enabled);
+			zManualLabelsFieldHandler.setEventHandlingEnabled(enabled);
+			colorBarManualLabelsFieldHandler.setEventHandlingEnabled(enabled);
+		}
+	}
+
+
+	/**
+	 * The class packing event handlers of the right-click menus of the text fields on "Formats" tab.
+	 */
+	private final class FormatsTabRightClickMenuHandlers {
+		private final TextRightClickMenuHandler xShortFieldHandler;
+		private final TextRightClickMenuHandler yShortFieldHandler;
+		private final TextRightClickMenuHandler zShortFieldHandler;
+
+		private final TextRightClickMenuHandler xMediumFieldHandler;
+		private final TextRightClickMenuHandler yMediumFieldHandler;
+		private final TextRightClickMenuHandler zMediumFieldHandler;
+
+		private final TextRightClickMenuHandler xLongFieldHandler;
+		private final TextRightClickMenuHandler yLongFieldHandler;
+		private final TextRightClickMenuHandler zLongFieldHandler;
+
+		/**
+		 * Creates a new event handlers of the right-click menu, and adds them to the text fields on "Ticks" tab.
+		 */
+		public FormatsTabRightClickMenuHandlers(View view) {
+			ScaleSettingWindow.FormatsTabItems formatsTabItems = view.scaleSettingWindow.formatsTabItems;
+
+			xShortFieldHandler = new TextRightClickMenuHandler(
+					formatsTabItems.xShortFormatFieldRightClickMenu, formatsTabItems.xShortFormatField
+			);
+			yShortFieldHandler = new TextRightClickMenuHandler(
+					formatsTabItems.yShortFormatFieldRightClickMenu, formatsTabItems.yShortFormatField
+			);
+			zShortFieldHandler = new TextRightClickMenuHandler(
+					formatsTabItems.zShortFormatFieldRightClickMenu, formatsTabItems.zShortFormatField
+			);
+
+			xMediumFieldHandler = new TextRightClickMenuHandler(
+					formatsTabItems.xMediumFormatFieldRightClickMenu, formatsTabItems.xMediumFormatField
+			);
+			yMediumFieldHandler = new TextRightClickMenuHandler(
+					formatsTabItems.yMediumFormatFieldRightClickMenu, formatsTabItems.yMediumFormatField
+			);
+			zMediumFieldHandler = new TextRightClickMenuHandler(
+					formatsTabItems.zMediumFormatFieldRightClickMenu, formatsTabItems.zMediumFormatField
+			);
+
+			xLongFieldHandler = new TextRightClickMenuHandler(
+					formatsTabItems.xLongFormatFieldRightClickMenu, formatsTabItems.xLongFormatField
+			);
+			yLongFieldHandler = new TextRightClickMenuHandler(
+					formatsTabItems.yLongFormatFieldRightClickMenu, formatsTabItems.yLongFormatField
+			);
+			zLongFieldHandler = new TextRightClickMenuHandler(
+					formatsTabItems.zLongFormatFieldRightClickMenu, formatsTabItems.zLongFormatField
+			);
+		}
+
+		/**
+		 * Turns on/off the event handling feature of this instance.
+		 *
+		 * @param enabled Specify false for turning off the event handling feature (enabled by default).
+		 */
+		public synchronized void setEventHandlingEnabled(boolean enabled) {
+			xShortFieldHandler.setEventHandlingEnabled(enabled);
+			yShortFieldHandler.setEventHandlingEnabled(enabled);
+			zShortFieldHandler.setEventHandlingEnabled(enabled);
+
+			xMediumFieldHandler.setEventHandlingEnabled(enabled);
+			yMediumFieldHandler.setEventHandlingEnabled(enabled);
+			zMediumFieldHandler.setEventHandlingEnabled(enabled);
+
+			xLongFieldHandler.setEventHandlingEnabled(enabled);
+			yLongFieldHandler.setEventHandlingEnabled(enabled);
+			zLongFieldHandler.setEventHandlingEnabled(enabled);
+		}
+	}
+
+
+	/**
+	 * The class packing event handlers of the right-click menus of the text fields on "Images" tab.
+	 */
+	private final class ImagesTabRightClickMenuHandlers {
+		private final TextRightClickMenuHandler xyLowerPathFiledHandler;
+		private final TextRightClickMenuHandler xyLowerWidthFiledHandler;
+		private final TextRightClickMenuHandler xyLowerHeightFiledHandler;
+		private final TextRightClickMenuHandler xyUpperPathFiledHandler;
+		private final TextRightClickMenuHandler xyUpperWidthFiledHandler;
+		private final TextRightClickMenuHandler xyUpperHeightFiledHandler;
+
+		private final TextRightClickMenuHandler yzLowerPathFiledHandler;
+		private final TextRightClickMenuHandler yzLowerWidthFiledHandler;
+		private final TextRightClickMenuHandler yzLowerHeightFiledHandler;
+		private final TextRightClickMenuHandler yzUpperPathFiledHandler;
+		private final TextRightClickMenuHandler yzUpperWidthFiledHandler;
+		private final TextRightClickMenuHandler yzUpperHeightFiledHandler;
+
+		private final TextRightClickMenuHandler zxLowerPathFiledHandler;
+		private final TextRightClickMenuHandler zxLowerWidthFiledHandler;
+		private final TextRightClickMenuHandler zxLowerHeightFiledHandler;
+		private final TextRightClickMenuHandler zxUpperPathFiledHandler;
+		private final TextRightClickMenuHandler zxUpperWidthFiledHandler;
+		private final TextRightClickMenuHandler zxUpperHeightFiledHandler;
+
+		/**
+		 * Creates a new event handlers of the right-click menu, and adds them to the text fields on "Ticks" tab.
+		 */
+		public ImagesTabRightClickMenuHandlers(View view) {
+			ScaleSettingWindow.ImagesTabItems imagesTabItems = view.scaleSettingWindow.imagesTabItems;
+
+			xyLowerPathFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.xyLowerPlaneItems.filePathFieldRightClickMenu, imagesTabItems.xyLowerPlaneItems.filePathField
+			);
+			xyLowerWidthFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.xyLowerPlaneItems.imageWidthFieldRightClickMenu, imagesTabItems.xyLowerPlaneItems.imageWidthField
+			);
+			xyLowerHeightFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.xyLowerPlaneItems.imageHeightFieldRightClickMenu, imagesTabItems.xyLowerPlaneItems.imageHeightField
+			);
+
+			xyUpperPathFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.xyUpperPlaneItems.filePathFieldRightClickMenu, imagesTabItems.xyUpperPlaneItems.filePathField
+			);
+			xyUpperWidthFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.xyUpperPlaneItems.imageWidthFieldRightClickMenu, imagesTabItems.xyUpperPlaneItems.imageWidthField
+			);
+			xyUpperHeightFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.xyUpperPlaneItems.imageHeightFieldRightClickMenu, imagesTabItems.xyUpperPlaneItems.imageHeightField
+			);
+
+			yzLowerPathFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.yzLowerPlaneItems.filePathFieldRightClickMenu, imagesTabItems.yzLowerPlaneItems.filePathField
+			);
+			yzLowerWidthFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.yzLowerPlaneItems.imageWidthFieldRightClickMenu, imagesTabItems.yzLowerPlaneItems.imageWidthField
+			);
+			yzLowerHeightFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.yzLowerPlaneItems.imageHeightFieldRightClickMenu, imagesTabItems.yzLowerPlaneItems.imageHeightField
+			);
+
+			yzUpperPathFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.yzUpperPlaneItems.filePathFieldRightClickMenu, imagesTabItems.yzUpperPlaneItems.filePathField
+			);
+			yzUpperWidthFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.yzUpperPlaneItems.imageWidthFieldRightClickMenu, imagesTabItems.yzUpperPlaneItems.imageWidthField
+			);
+			yzUpperHeightFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.yzUpperPlaneItems.imageHeightFieldRightClickMenu, imagesTabItems.yzUpperPlaneItems.imageHeightField
+			);
+
+			zxLowerPathFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.zxLowerPlaneItems.filePathFieldRightClickMenu, imagesTabItems.zxLowerPlaneItems.filePathField
+			);
+			zxLowerWidthFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.zxLowerPlaneItems.imageWidthFieldRightClickMenu, imagesTabItems.zxLowerPlaneItems.imageWidthField
+			);
+			zxLowerHeightFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.zxLowerPlaneItems.imageHeightFieldRightClickMenu, imagesTabItems.zxLowerPlaneItems.imageHeightField
+			);
+
+			zxUpperPathFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.zxUpperPlaneItems.filePathFieldRightClickMenu, imagesTabItems.zxUpperPlaneItems.filePathField
+			);
+			zxUpperWidthFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.zxUpperPlaneItems.imageWidthFieldRightClickMenu, imagesTabItems.zxUpperPlaneItems.imageWidthField
+			);
+			zxUpperHeightFiledHandler = new TextRightClickMenuHandler(
+					imagesTabItems.zxUpperPlaneItems.imageHeightFieldRightClickMenu, imagesTabItems.zxUpperPlaneItems.imageHeightField
+			);
+		}
+
+		/**
+		 * Turns on/off the event handling feature of this instance.
+		 *
+		 * @param enabled Specify false for turning off the event handling feature (enabled by default).
+		 */
+		public synchronized void setEventHandlingEnabled(boolean enabled) {
+			xyLowerPathFiledHandler.setEventHandlingEnabled(enabled);
+			xyLowerWidthFiledHandler.setEventHandlingEnabled(enabled);
+			xyLowerHeightFiledHandler.setEventHandlingEnabled(enabled);
+			xyUpperPathFiledHandler.setEventHandlingEnabled(enabled);
+			xyUpperWidthFiledHandler.setEventHandlingEnabled(enabled);
+			xyUpperHeightFiledHandler.setEventHandlingEnabled(enabled);
+
+			yzLowerPathFiledHandler.setEventHandlingEnabled(enabled);
+			yzLowerWidthFiledHandler.setEventHandlingEnabled(enabled);
+			yzLowerHeightFiledHandler.setEventHandlingEnabled(enabled);
+			yzUpperPathFiledHandler.setEventHandlingEnabled(enabled);
+			yzUpperWidthFiledHandler.setEventHandlingEnabled(enabled);
+			yzUpperHeightFiledHandler.setEventHandlingEnabled(enabled);
+
+			zxLowerPathFiledHandler.setEventHandlingEnabled(enabled);
+			zxLowerWidthFiledHandler.setEventHandlingEnabled(enabled);
+			zxLowerHeightFiledHandler.setEventHandlingEnabled(enabled);
+			zxUpperPathFiledHandler.setEventHandlingEnabled(enabled);
+			zxUpperWidthFiledHandler.setEventHandlingEnabled(enabled);
+			zxUpperHeightFiledHandler.setEventHandlingEnabled(enabled);
 		}
 	}
 
