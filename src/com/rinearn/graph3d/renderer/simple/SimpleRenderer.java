@@ -88,18 +88,21 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	int verticalAlignThreshold = 128;
 	int horizontalAlignThreshold = 32;
 
-	/** The object providing drawing process of scale ticks of X/Y/Z axes. */
+	/** The object to the draw scale ticks of the X/Y/Z axes. */
 	private final ScaleTickDrawer scaleTickDrawer = new ScaleTickDrawer(
 		this.verticalAlignThreshold, this.horizontalAlignThreshold
 	);
 
-	/** The object providing drawing process of axis labels. */
+	/** The object to draw the axis labels. */
 	private final LabelDrawer labelDrawer = new LabelDrawer(
 		this.verticalAlignThreshold, this.horizontalAlignThreshold
 	);
 
-	/** The object providing drawing process of graph frames and grid lines. */
+	/** The object to draw the graph frame and the grid lines. */
 	private final FrameDrawer frameDrawer = new FrameDrawer();
+
+	/** The object to draw the color bar. */
+	private final ColorBarDrawer colorBarDrawer = new ColorBarDrawer();
 
 	/** The color mixer, which generates colors of geometric pieces (points, lines, and so on). */
 	private final ColorMixer colorMixer = new ColorMixer();
@@ -186,10 +189,11 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		this.spaceConverters[Y].setRange(yRangeConfig.getMinimum(), yRangeConfig.getMaximum());
 		this.spaceConverters[Z].setRange(zRangeConfig.getMinimum(), zRangeConfig.getMaximum());
 
-		// Sets the configuration for drawing scales and frames.
+		// Sets the configuration for drawing scales, frames, etc.
 		this.scaleTickDrawer.setConfiguration(this.config);
 		this.frameDrawer.setConfiguration(this.config);
 		this.labelDrawer.setConfiguration(this.config);
+		this.colorBarDrawer.setConfiguration(this.config);
 
 		// Update the tick coordinates and tick labels, from the updated configuration.
 		this.updateTicks();
@@ -213,11 +217,13 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
 		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
 		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
+		RangeConfiguration.AxisRangeConfiguration cRangeConfig = zRangeConfig; // Temporary
 
 		ScaleConfiguration scaleConfig = this.config.getScaleConfiguration();
 		ScaleConfiguration.AxisScaleConfiguration xScaleConfig = scaleConfig.getXScaleConfiguration();
 		ScaleConfiguration.AxisScaleConfiguration yScaleConfig = scaleConfig.getYScaleConfiguration();
 		ScaleConfiguration.AxisScaleConfiguration zScaleConfig = scaleConfig.getZScaleConfiguration();
+		ScaleConfiguration.AxisScaleConfiguration cScaleConfig = scaleConfig.getColorBarScaleConfiguration();
 
 		BigDecimal[] xTickCoords = xScaleConfig.getTicker().generateTickCoordinates(
 				xRangeConfig.getMinimum(), xRangeConfig.getMaximum(), isLogPlot
@@ -227,6 +233,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		);
 		BigDecimal[] zTickCoords = zScaleConfig.getTicker().generateTickCoordinates(
 				zRangeConfig.getMinimum(), zRangeConfig.getMaximum(), isLogPlot
+		);
+		BigDecimal[] cTickCoords = cScaleConfig.getTicker().generateTickCoordinates(
+				cRangeConfig.getMinimum(), cRangeConfig.getMaximum(), isLogPlot
 		);
 
 		String[] xTickLabelTexts = xScaleConfig.getTicker().generateTickLabelTexts(
@@ -238,11 +247,20 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		String[] zTickLabelTexts = zScaleConfig.getTicker().generateTickLabelTexts(
 				zTickCoords, zScaleConfig.getTickLabelFormatter()
 		);
+		String[] cTickLabelTexts = cScaleConfig.getTicker().generateTickLabelTexts(
+				cTickCoords, cScaleConfig.getTickLabelFormatter()
+		);
 
 		this.frameDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
 		this.labelDrawer.setTickLabelTexts(xTickLabelTexts, yTickLabelTexts, zTickLabelTexts);
 		this.scaleTickDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
-		this.scaleTickDrawer.setTickLabels(xTickLabelTexts, yTickLabelTexts, zTickLabelTexts);
+		this.scaleTickDrawer.setTickLabelTexts(xTickLabelTexts, yTickLabelTexts, zTickLabelTexts);
+		this.colorBarDrawer.setTickCoordinates(cTickCoords);
+		this.colorBarDrawer.setTickLabelTexts(cTickLabelTexts);
+
+		// Note:
+		// We can generate tick coordinates and labels, also inside the above classes from the configuration.
+		// However, to avid avid duplicate code between them, we generate here and pass the result to them.
 	}
 
 	/**
@@ -428,6 +446,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			piece.project(screenWidth, screenHeight, screenOffsetX, screenOffsetY, magnification);
 			piece.draw(this.screenGraphics);
 		}
+
+		// Draw the color bar.
+		this.colorBarDrawer.draw(this.screenGraphics);
 
 		// Turn on the flag for detecting that the content of the graph screen has been updated.
 		this.screenUpdated = true;

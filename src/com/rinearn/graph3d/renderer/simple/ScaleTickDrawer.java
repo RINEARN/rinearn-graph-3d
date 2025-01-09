@@ -50,14 +50,14 @@ public final class ScaleTickDrawer {
 	/** The coordinates of the ticks on Z axis. */
 	private BigDecimal[] zTickCoordinates = {};
 
-	/** The labels of the ticks on X axis. */
-	private String[] xTickLabels = {};
+	/** The texts of the labels of the ticks on X axis. */
+	private String[] xTickLabelTexts = {};
 
-	/** The labels of the ticks on Y axis. */
-	private String[] yTickLabels = {};
+	/** The texts of the labels of the ticks on Y axis. */
+	private String[] yTickLabelTexts = {};
 
-	/** The labels of the ticks on Z axis. */
-	private String[] zTickLabels = {};
+	/** The texts of the labels of the ticks on Z axis. */
+	private String[] zTickLabelTexts = {};
 
 
 	/**
@@ -113,18 +113,18 @@ public final class ScaleTickDrawer {
 
 
 	/**
-	 * Sets the labels of the ticks on X, Y, and Z axes.
+	 * Sets the texts of the labels of the ticks on X, Y, and Z axes.
 	 *
-	 * @param xTickLabels The labels of the ticks on X axis.
-	 * @param yTickLabels The labels of the ticks on Y axis.
-	 * @param zTickLabels The labels of the ticks on Z axis.
+	 * @param xTickLabelTexts The texts of the labels of the ticks on X axis.
+	 * @param yTickLabelTexts The texts of the labels of the ticks on Y axis.
+	 * @param zTickLabelTexts The texts of the labels of the ticks on Z axis.
 	 */
-	public synchronized void setTickLabels(
-			String[] xTickLabels, String[] yTickLabels, String[] zTickLabels) {
+	public synchronized void setTickLabelTexts(
+			String[] xTickLabelTexts, String[] yTickLabelTexts, String[] zTickLabelTexts) {
 
-		this.xTickLabels = xTickLabels;
-		this.yTickLabels = yTickLabels;
-		this.zTickLabels = zTickLabels;
+		this.xTickLabelTexts = xTickLabelTexts;
+		this.yTickLabelTexts = yTickLabelTexts;
+		this.zTickLabelTexts = zTickLabelTexts;
 	}
 
 
@@ -163,7 +163,7 @@ public final class ScaleTickDrawer {
 		int xTickCount = this.xTickCoordinates.length;
 		for (int itick=0; itick<xTickCount; itick++) {
 			double scaledCoord = xSpaceConverter.toScaledSpaceCoordinate(this.xTickCoordinates[itick]).doubleValue();
-			this.drawXScaleTickLabels(geometricPieceList, scaledCoord, this.xTickLabels[itick]);
+			this.drawXScaleTickLabels(geometricPieceList, scaledCoord, this.xTickLabelTexts[itick]);
 			this.drawXScaleTickLines(geometricPieceList, scaledCoord);
 		}
 
@@ -171,7 +171,7 @@ public final class ScaleTickDrawer {
 		int yTickCount = this.yTickCoordinates.length;
 		for (int itick=0; itick<yTickCount; itick++) {
 			double scaledCoord = ySpaceConverter.toScaledSpaceCoordinate(this.yTickCoordinates[itick]).doubleValue();
-			this.drawYScaleTickLabels(geometricPieceList, scaledCoord, this.yTickLabels[itick]);
+			this.drawYScaleTickLabels(geometricPieceList, scaledCoord, this.yTickLabelTexts[itick]);
 			this.drawYScaleTickLines(geometricPieceList, scaledCoord);
 		}
 
@@ -179,7 +179,7 @@ public final class ScaleTickDrawer {
 		int zTickCount = this.zTickCoordinates.length;
 		for (int itick=0; itick<zTickCount; itick++) {
 			double scaledCoord = zSpaceConverter.toScaledSpaceCoordinate(this.zTickCoordinates[itick]).doubleValue();
-			this.drawZScaleTickLabels(geometricPieceList, scaledCoord, this.zTickLabels[itick]);
+			this.drawZScaleTickLabels(geometricPieceList, scaledCoord, this.zTickLabelTexts[itick]);
 			this.drawZScaleTickLines(geometricPieceList, scaledCoord);
 		}
 	}

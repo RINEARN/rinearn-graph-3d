@@ -72,6 +72,7 @@ com/rinearn/graph3d/presenter/RenderingLoop.java
 com/rinearn/graph3d/renderer/package-info.java
 com/rinearn/graph3d/renderer/RinearnGraph3DDrawingParameter.java
 com/rinearn/graph3d/renderer/RinearnGraph3DRenderer.java
+com/rinearn/graph3d/renderer/simple/ColorBarDrawer.java
 com/rinearn/graph3d/renderer/simple/ColorMixer.java
 com/rinearn/graph3d/renderer/simple/DirectionalLineGeometricPiece.java
 com/rinearn/graph3d/renderer/simple/DirectionalTextGeometricPiece.java
