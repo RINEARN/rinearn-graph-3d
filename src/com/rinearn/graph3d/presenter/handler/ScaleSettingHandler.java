@@ -39,16 +39,16 @@ public class ScaleSettingHandler {
 	private final Presenter presenter;
 
 	/** The event handlers of the right-click menus of the text fields on "Design" tab. */
-	private final DesignTabRightClickMenuHandlers designTabRightClickMenuHandlers;
+	private final DesignTabRightClickMenuHandlers designTabMenuHandlers;
 
 	/** The event handlers of the right-click menus of the text fields on "Ticks" tab. */
-	private final TicksTabRightClickMenuHandlers ticksTabRightClickMenuHandlers;
+	private final TicksTabRightClickMenuHandlers ticksTabMenuHandlers;
 
 	/** The event handlers of the right-click menus of the text fields on "Formats" tab. */
-	private final FormatsTabRightClickMenuHandlers formatsTabRightClickMenuHandlers;
+	private final FormatsTabRightClickMenuHandlers formatsTabMenuHandlers;
 
 	/** The event handlers of the right-click menus of the text fields on "Images" tab. */
-	private final ImagesTabRightClickMenuHandlers imagesTabRightClickMenuHandlers;
+	private final ImagesTabRightClickMenuHandlers imagesTabMenuHandlers;
 
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
@@ -106,10 +106,10 @@ public class ScaleSettingHandler {
 		));
 
 		// Add the event handlers of the right-click menu of the text fields.
-		this.designTabRightClickMenuHandlers = new DesignTabRightClickMenuHandlers(view);
-		this.ticksTabRightClickMenuHandlers = new TicksTabRightClickMenuHandlers(view);
-		this.formatsTabRightClickMenuHandlers = new FormatsTabRightClickMenuHandlers(view);
-		this.imagesTabRightClickMenuHandlers = new ImagesTabRightClickMenuHandlers(view);
+		this.designTabMenuHandlers = new DesignTabRightClickMenuHandlers(view);
+		this.ticksTabMenuHandlers = new TicksTabRightClickMenuHandlers(view);
+		this.formatsTabMenuHandlers = new FormatsTabRightClickMenuHandlers(view);
+		this.imagesTabMenuHandlers = new ImagesTabRightClickMenuHandlers(view);
 	}
 
 
@@ -120,10 +120,10 @@ public class ScaleSettingHandler {
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
-		this.designTabRightClickMenuHandlers.setEventHandlingEnabled(enabled);
-		this.ticksTabRightClickMenuHandlers.setEventHandlingEnabled(enabled);
-		this.formatsTabRightClickMenuHandlers.setEventHandlingEnabled(enabled);
-		this.imagesTabRightClickMenuHandlers.setEventHandlingEnabled(enabled);
+		this.designTabMenuHandlers.setEventHandlingEnabled(enabled);
+		this.ticksTabMenuHandlers.setEventHandlingEnabled(enabled);
+		this.formatsTabMenuHandlers.setEventHandlingEnabled(enabled);
+		this.imagesTabMenuHandlers.setEventHandlingEnabled(enabled);
 	}
 
 

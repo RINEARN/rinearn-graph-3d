@@ -33,10 +33,10 @@ public final class CameraSettingHandler {
 	private final Presenter presenter;
 
 	/** The event handler of the right-click menu of the text field to input the screen width. */
-	private final TextRightClickMenuHandler widthFieldRightClickMenuHandler;
+	private final TextRightClickMenuHandler widthFieldMenuHandler;
 
 	/** The event handler of the right-click menu of the text field to input the screen height. */
-	private final TextRightClickMenuHandler heightFieldRightClickMenuHandler;
+	private final TextRightClickMenuHandler heightFieldMenuHandler;
 
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
@@ -67,8 +67,8 @@ public final class CameraSettingHandler {
 		window.okButton.addActionListener(new OkButtonPressedEventListener());
 
 		// Add the event handlers of the right-click menus of the text fields.
-		widthFieldRightClickMenuHandler = new TextRightClickMenuHandler(window.widthFieldRightClickMenu, window.widthField);
-		heightFieldRightClickMenuHandler = new TextRightClickMenuHandler(window.heightFieldRightClickMenu, window.heightField);
+		widthFieldMenuHandler = new TextRightClickMenuHandler(window.widthFieldRightClickMenu, window.widthField);
+		heightFieldMenuHandler = new TextRightClickMenuHandler(window.heightFieldRightClickMenu, window.heightField);
 	}
 
 
@@ -79,8 +79,8 @@ public final class CameraSettingHandler {
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
-		widthFieldRightClickMenuHandler.setEventHandlingEnabled(enabled);
-		heightFieldRightClickMenuHandler.setEventHandlingEnabled(enabled);
+		widthFieldMenuHandler.setEventHandlingEnabled(enabled);
+		heightFieldMenuHandler.setEventHandlingEnabled(enabled);
 	}
 
 

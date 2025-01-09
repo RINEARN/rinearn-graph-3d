@@ -29,13 +29,13 @@ public class LabelSettingHandler {
 	private final Presenter presenter;
 
 	/** The event handler of the right-click menu of the text field to input the x-label. */
-	private final TextRightClickMenuHandler xLabelTextFieldRightClickHandler;
+	private final TextRightClickMenuHandler xLabelTextFieldMenuHandler;
 
 	/** The event handler of the right-click menu of the text field to input the y-label. */
-	private final TextRightClickMenuHandler yLabelTextFieldRightClickHandler;
+	private final TextRightClickMenuHandler yLabelTextFieldMenuHandler;
 
 	/** The event handler of the right-click menu of the text field to input the z-label. */
-	private final TextRightClickMenuHandler zLabelTextFieldRightClickHandler;
+	private final TextRightClickMenuHandler zLabelTextFieldMenuHandler;
 
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
@@ -58,9 +58,9 @@ public class LabelSettingHandler {
 		window.okButton.addActionListener(new OkPressedEventListener());
 
 		// Add the event handlers to the right-click menus of the text fields.
-		xLabelTextFieldRightClickHandler = new TextRightClickMenuHandler(window.xLabelTextFieldRightClickMenu, window.xLabelTextField);
-		yLabelTextFieldRightClickHandler = new TextRightClickMenuHandler(window.yLabelTextFieldRightClickMenu, window.yLabelTextField);
-		zLabelTextFieldRightClickHandler = new TextRightClickMenuHandler(window.zLabelTextFieldRightClickMenu, window.zLabelTextField);
+		xLabelTextFieldMenuHandler = new TextRightClickMenuHandler(window.xLabelTextFieldRightClickMenu, window.xLabelTextField);
+		yLabelTextFieldMenuHandler = new TextRightClickMenuHandler(window.yLabelTextFieldRightClickMenu, window.yLabelTextField);
+		zLabelTextFieldMenuHandler = new TextRightClickMenuHandler(window.zLabelTextFieldRightClickMenu, window.zLabelTextField);
 	}
 
 
@@ -71,9 +71,9 @@ public class LabelSettingHandler {
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
-		xLabelTextFieldRightClickHandler.setEventHandlingEnabled(enabled);
-		yLabelTextFieldRightClickHandler.setEventHandlingEnabled(enabled);
-		zLabelTextFieldRightClickHandler.setEventHandlingEnabled(enabled);
+		xLabelTextFieldMenuHandler.setEventHandlingEnabled(enabled);
+		yLabelTextFieldMenuHandler.setEventHandlingEnabled(enabled);
+		zLabelTextFieldMenuHandler.setEventHandlingEnabled(enabled);
 	}
 
 

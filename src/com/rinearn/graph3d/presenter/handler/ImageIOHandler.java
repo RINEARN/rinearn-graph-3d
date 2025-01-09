@@ -47,13 +47,13 @@ public final class ImageIOHandler {
 	private final Presenter presenter;
 
 	/** The event handler of right-click menu of the text field to input the file name.  */
-	private volatile TextRightClickMenuHandler fileNameFieldRightClickMenuHandler;
+	private volatile TextRightClickMenuHandler fileNameFieldMenuHandler;
 
 	/** The event handler of right-click menu of the text field to input the file location.  */
-	private volatile TextRightClickMenuHandler fileLocationFieldRightClickMenuHandler;
+	private volatile TextRightClickMenuHandler fileLocationFieldMenuHandler;
 
 	/** The event handler of right-click menu of the text field to input the image quality.  */
-	private volatile TextRightClickMenuHandler qualityFieldRightClickMenuHandler;
+	private volatile TextRightClickMenuHandler qualityFieldMenuHandler;
 
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
@@ -84,9 +84,9 @@ public final class ImageIOHandler {
 		view.imageSavingWindow.saveButton.addActionListener(new SaveButtonEventListener());
 
 		// Add the event listeners to the right-click menu.
-		this.fileNameFieldRightClickMenuHandler = new TextRightClickMenuHandler(window.fileNameFieldRightClickMenu, window.fileNameField);
-		this.fileLocationFieldRightClickMenuHandler = new TextRightClickMenuHandler(window.fileLocationFieldRightClickMenu, window.fileLocationField);
-		this.qualityFieldRightClickMenuHandler = new TextRightClickMenuHandler(window.qualityFieldRightClickMenu, window.qualityField);
+		this.fileNameFieldMenuHandler = new TextRightClickMenuHandler(window.fileNameFieldRightClickMenu, window.fileNameField);
+		this.fileLocationFieldMenuHandler = new TextRightClickMenuHandler(window.fileLocationFieldRightClickMenu, window.fileLocationField);
+		this.qualityFieldMenuHandler = new TextRightClickMenuHandler(window.qualityFieldRightClickMenu, window.qualityField);
 	}
 
 
@@ -97,9 +97,9 @@ public final class ImageIOHandler {
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
-		this.fileNameFieldRightClickMenuHandler.setEventHandlingEnabled(enabled);
-		this.fileLocationFieldRightClickMenuHandler.setEventHandlingEnabled(enabled);
-		this.qualityFieldRightClickMenuHandler.setEventHandlingEnabled(enabled);
+		this.fileNameFieldMenuHandler.setEventHandlingEnabled(enabled);
+		this.fileLocationFieldMenuHandler.setEventHandlingEnabled(enabled);
+		this.qualityFieldMenuHandler.setEventHandlingEnabled(enabled);
 	}
 
 
