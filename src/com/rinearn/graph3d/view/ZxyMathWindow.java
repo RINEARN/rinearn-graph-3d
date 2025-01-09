@@ -49,6 +49,9 @@ public class ZxyMathWindow {
 	/** The text field of the math expression. */
 	public volatile JTextField zMathExpressionField;
 
+	/** The right-click menu of zMathExpressionField. */
+	public volatile TextRightClickMenu zMathExpressionFieldRightClickMenu;
+
 	/** The title label of the resolution section. */
 	public volatile JLabel resolutionLabel;
 
@@ -58,11 +61,17 @@ public class ZxyMathWindow {
 	/** The text field of the X-resolution. */
 	public volatile JTextField xResolutionField;
 
+	/** The right-click menu of xResolutionField. */
+	public volatile TextRightClickMenu xResolutionFieldRightClickMenu;
+
 	/** The title label of the Y-resolution. */
 	public volatile JLabel yResolutionLabel;
 
 	/** The text field of the Y-resolution. */
 	public volatile JTextField yResolutionField;
+
+	/** The right-click menu of yResolutionField. */
+	public volatile TextRightClickMenu yResolutionFieldRightClickMenu;
 
 	/** OK button. */
 	public volatile JButton okButton;
@@ -183,6 +192,9 @@ public class ZxyMathWindow {
 				layour.setConstraints(zMathExpressionField, constraints);
 				basePanel.add(zMathExpressionField);
 
+				// The right-click menu of the above text field.
+				zMathExpressionFieldRightClickMenu = new TextRightClickMenu();
+
 				constraints.gridy++;
 			}
 
@@ -218,6 +230,9 @@ public class ZxyMathWindow {
 				layour.setConstraints(xResolutionField, constraints);
 				basePanel.add(xResolutionField);
 
+				// The right-click menu of the above text field.
+				xResolutionFieldRightClickMenu = new TextRightClickMenu();
+
 				constraints.gridy++;
 				constraints.gridwidth = 1;
 
@@ -237,6 +252,9 @@ public class ZxyMathWindow {
 				constraints.insets = new Insets(topMargin, 0, bottomMarginUnderSection, rightMargin);
 				layour.setConstraints(yResolutionField, constraints);
 				basePanel.add(yResolutionField);
+
+				// The right-click menu of the above text field.
+				yResolutionFieldRightClickMenu = new TextRightClickMenu();
 
 				constraints.gridy++;
 			}
@@ -313,6 +331,11 @@ public class ZxyMathWindow {
 
 			// Set fonts to the components.
 			this.setFonts();
+
+			// Update the right-click menus.
+			zMathExpressionFieldRightClickMenu.configure(this.configuration);
+			xResolutionFieldRightClickMenu.configure(this.configuration);
+			yResolutionFieldRightClickMenu.configure(this.configuration);
 		}
 
 		/**

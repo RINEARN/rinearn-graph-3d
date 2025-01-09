@@ -25,6 +25,15 @@ public class ZxyMathHandler {
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
 
+	/** The event handler of the right-click menu of the text field to input z(x,y) math expression. */
+	private volatile TextRightClickMenuHandler zMathExpressionFieldMenuHandler;
+
+	/** The event handler of the right-click menu of the text field to input x-resolution. */
+	private volatile TextRightClickMenuHandler xResolutionFieldMenuHandler;
+
+	/** The event handler of the right-click menu of the text field to input y-resolution. */
+	private volatile TextRightClickMenuHandler yResolutionFieldMenuHandler;
+
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
 
@@ -40,10 +49,21 @@ public class ZxyMathHandler {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;
+		ZxyMathWindow window = this.view.zxyMathWindow;
 
 		// Add the action listener defined in this class, to the UI components in the window of "z(x,y)" plot.
-		ZxyMathWindow window = this.view.zxyMathWindow;
 		window.okButton.addActionListener(new OkButtonPressedEventListener());
+
+		// Add the event listeners of the right click menus of the text fields.
+		this.zMathExpressionFieldMenuHandler = new TextRightClickMenuHandler(
+				window.zMathExpressionFieldRightClickMenu, window.zMathExpressionField
+		);
+		this.xResolutionFieldMenuHandler = new TextRightClickMenuHandler(
+				window.xResolutionFieldRightClickMenu, window.xResolutionField
+		);
+		this.yResolutionFieldMenuHandler = new TextRightClickMenuHandler(
+				window.yResolutionFieldRightClickMenu, window.yResolutionField
+		);
 	}
 
 
@@ -54,6 +74,9 @@ public class ZxyMathHandler {
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
+		this.zMathExpressionFieldMenuHandler.setEventHandlingEnabled(enabled);
+		this.xResolutionFieldMenuHandler.setEventHandlingEnabled(enabled);
+		this.yResolutionFieldMenuHandler.setEventHandlingEnabled(enabled);
 	}
 
 
