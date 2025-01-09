@@ -26,7 +26,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.JCheckBox;
 
-import java.text.NumberFormat;
 import java.text.DecimalFormat;
 
 import java.io.File;
@@ -1563,28 +1562,28 @@ public class ScaleSettingWindow {
 				formatsTabItems.zAutoBox.setSelected(isZFormatAuto);
 
 				NumericTickLabelFormatter xFormatter = xScaleConfig.getNumericTickLabelFormatter();
-				NumberFormat xShortRangeFormat = xFormatter.getShortRangeFormat();
-				NumberFormat xMediumRangeFormat = xFormatter.getMediumRangeFormat();
-				NumberFormat xLongRangeFormat = xFormatter.getLongRangeFormat();
-				formatsTabItems.xShortFormatField.setText(DecimalFormat.class.cast(xShortRangeFormat).toPattern());
-				formatsTabItems.xMediumFormatField.setText(DecimalFormat.class.cast(xMediumRangeFormat).toPattern());
-				formatsTabItems.xLongFormatField.setText(DecimalFormat.class.cast(xLongRangeFormat).toPattern());
+				DecimalFormat xShortRangeFormat = DecimalFormat.class.cast(xFormatter.getShortRangeFormat());
+				DecimalFormat xMediumRangeFormat = DecimalFormat.class.cast(xFormatter.getMediumRangeFormat());
+				DecimalFormat xLongRangeFormat = DecimalFormat.class.cast(xFormatter.getLongRangeFormat());
+				formatsTabItems.xShortFormatField.setText(xShortRangeFormat.toPattern());
+				formatsTabItems.xMediumFormatField.setText(xMediumRangeFormat.toPattern());
+				formatsTabItems.xLongFormatField.setText(xLongRangeFormat.toPattern());
 
 				NumericTickLabelFormatter yFormatter = yScaleConfig.getNumericTickLabelFormatter();
-				NumberFormat yShortRangeFormat = yFormatter.getShortRangeFormat();
-				NumberFormat yMediumRangeFormat = yFormatter.getMediumRangeFormat();
-				NumberFormat yLongRangeFormat = yFormatter.getLongRangeFormat();
-				formatsTabItems.yShortFormatField.setText(DecimalFormat.class.cast(yShortRangeFormat).toPattern());
-				formatsTabItems.yMediumFormatField.setText(DecimalFormat.class.cast(yMediumRangeFormat).toPattern());
-				formatsTabItems.yLongFormatField.setText(DecimalFormat.class.cast(yLongRangeFormat).toPattern());
+				DecimalFormat yShortRangeFormat = DecimalFormat.class.cast(yFormatter.getShortRangeFormat());
+				DecimalFormat yMediumRangeFormat = DecimalFormat.class.cast(yFormatter.getMediumRangeFormat());
+				DecimalFormat yLongRangeFormat = DecimalFormat.class.cast(yFormatter.getLongRangeFormat());
+				formatsTabItems.yShortFormatField.setText(yShortRangeFormat.toPattern());
+				formatsTabItems.yMediumFormatField.setText(yMediumRangeFormat.toPattern());
+				formatsTabItems.yLongFormatField.setText(yLongRangeFormat.toPattern());
 
 				NumericTickLabelFormatter zFormatter = zScaleConfig.getNumericTickLabelFormatter();
-				NumberFormat zShortRangeFormat = zFormatter.getShortRangeFormat();
-				NumberFormat zMediumRangeFormat = zFormatter.getMediumRangeFormat();
-				NumberFormat zLongRangeFormat = zFormatter.getLongRangeFormat();
-				formatsTabItems.zShortFormatField.setText(DecimalFormat.class.cast(zShortRangeFormat).toPattern());
-				formatsTabItems.zMediumFormatField.setText(DecimalFormat.class.cast(zMediumRangeFormat).toPattern());
-				formatsTabItems.zLongFormatField.setText(DecimalFormat.class.cast(zLongRangeFormat).toPattern());
+				DecimalFormat zShortRangeFormat = DecimalFormat.class.cast(zFormatter.getShortRangeFormat());
+				DecimalFormat zMediumRangeFormat = DecimalFormat.class.cast(zFormatter.getMediumRangeFormat());
+				DecimalFormat zLongRangeFormat = DecimalFormat.class.cast(zFormatter.getLongRangeFormat());
+				formatsTabItems.zShortFormatField.setText(zShortRangeFormat.toPattern());
+				formatsTabItems.zMediumFormatField.setText(zMediumRangeFormat.toPattern());
+				formatsTabItems.zLongFormatField.setText(zLongRangeFormat.toPattern());
 
 				formatsTabItems.xShortFormatLabel.setForeground(isXFormatAuto ? Color.LIGHT_GRAY : null);
 				formatsTabItems.xShortFormatField.setForeground(isXFormatAuto ? Color.LIGHT_GRAY : null);

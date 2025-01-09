@@ -309,6 +309,18 @@ public class ScaleSettingHandler {
 				String yShortFormat = window.formatsTabItems.yShortFormatField.getText();
 				String zShortFormat = window.formatsTabItems.zShortFormatField.getText();
 				String cShortFormat = zShortFormat;
+				if (xShortFormat.isEmpty()) {
+					xShortFormat = xScaleConfig.getNumericTickLabelFormatter().getShortRangeFormat().toPattern();
+				}
+				if (yShortFormat.isEmpty()) {
+					yShortFormat = yScaleConfig.getNumericTickLabelFormatter().getShortRangeFormat().toPattern();
+				}
+				if (zShortFormat.isEmpty()) {
+					zShortFormat = zScaleConfig.getNumericTickLabelFormatter().getShortRangeFormat().toPattern();
+				}
+				if (cShortFormat.isEmpty()) {
+					cShortFormat = cScaleConfig.getNumericTickLabelFormatter().getShortRangeFormat().toPattern();
+				}
 				xScaleConfig.getNumericTickLabelFormatter().setShortRangeFormat(new DecimalFormat(xShortFormat));
 				yScaleConfig.getNumericTickLabelFormatter().setShortRangeFormat(new DecimalFormat(yShortFormat));
 				zScaleConfig.getNumericTickLabelFormatter().setShortRangeFormat(new DecimalFormat(zShortFormat));
@@ -318,6 +330,18 @@ public class ScaleSettingHandler {
 				String yMediumFormat = window.formatsTabItems.yMediumFormatField.getText();
 				String zMediumFormat = window.formatsTabItems.zMediumFormatField.getText();
 				String cMediumFormat = zMediumFormat;
+				if (xMediumFormat.isEmpty()) {
+					xMediumFormat = xScaleConfig.getNumericTickLabelFormatter().getMediumRangeFormat().toPattern();
+				}
+				if (yMediumFormat.isEmpty()) {
+					yMediumFormat = yScaleConfig.getNumericTickLabelFormatter().getMediumRangeFormat().toPattern();
+				}
+				if (zMediumFormat.isEmpty()) {
+					zMediumFormat = zScaleConfig.getNumericTickLabelFormatter().getMediumRangeFormat().toPattern();
+				}
+				if (cMediumFormat.isEmpty()) {
+					cMediumFormat = cScaleConfig.getNumericTickLabelFormatter().getMediumRangeFormat().toPattern();
+				}
 				xScaleConfig.getNumericTickLabelFormatter().setMediumRangeFormat(new DecimalFormat(xMediumFormat));
 				yScaleConfig.getNumericTickLabelFormatter().setMediumRangeFormat(new DecimalFormat(yMediumFormat));
 				zScaleConfig.getNumericTickLabelFormatter().setMediumRangeFormat(new DecimalFormat(zMediumFormat));
@@ -327,6 +351,18 @@ public class ScaleSettingHandler {
 				String yLongFormat = window.formatsTabItems.yLongFormatField.getText();
 				String zLongFormat = window.formatsTabItems.zLongFormatField.getText();
 				String cLongFormat = zLongFormat;
+				if (xLongFormat.isEmpty()) {
+					xLongFormat = xScaleConfig.getNumericTickLabelFormatter().getLongRangeFormat().toPattern();
+				}
+				if (yLongFormat.isEmpty()) {
+					yLongFormat = yScaleConfig.getNumericTickLabelFormatter().getLongRangeFormat().toPattern();
+				}
+				if (zLongFormat.isEmpty()) {
+					zLongFormat = zScaleConfig.getNumericTickLabelFormatter().getLongRangeFormat().toPattern();
+				}
+				if (cLongFormat.isEmpty()) {
+					cLongFormat = cScaleConfig.getNumericTickLabelFormatter().getLongRangeFormat().toPattern();
+				}
 				xScaleConfig.getNumericTickLabelFormatter().setLongRangeFormat(new DecimalFormat(xLongFormat));
 				yScaleConfig.getNumericTickLabelFormatter().setLongRangeFormat(new DecimalFormat(yLongFormat));
 				zScaleConfig.getNumericTickLabelFormatter().setLongRangeFormat(new DecimalFormat(zLongFormat));
