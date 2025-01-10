@@ -16,17 +16,23 @@ import java.math.BigDecimal;
  */
 public class ColorBarDrawer {
 
+	/** The length [px] of tick lines. */
+	private static final int ICK_LINE_LENGTH = 4;
+
+	/** The margin [px] between tick lines and tick labels. */
+	private static final int TICK_LABEL_MARGIN = 6;
+
 	/** The default value of the X-coordinate (px) of the left-top edge of the color bar. */
-	public final int DEFAULT_COLOR_BAR_X = 20;
+	public static final int DEFAULT_COLOR_BAR_X = 20;
 
 	/** The default value of the Y-coordinate (px) of the left-top edge of the color bar. */
-	public final int DEFAULT_COLOR_BAR_Y = 30;
+	public static final int DEFAULT_COLOR_BAR_Y = 30;
 
 	/** The default value of the width (px) of the left-top edge of the color bar. */
-	public final int DEFAULT_COLOR_BAR_WIDTH = 22;
+	public static final int DEFAULT_COLOR_BAR_WIDTH = 22;
 
 	/** The default value of the height (px) of the left-top edge of the color bar. */
-	public final int DEFAULT_COLOR_BAR_HEIGHT = 300;
+	public static final int DEFAULT_COLOR_BAR_HEIGHT = 300;
 
 	/** The X-coordinate (px) of the left-top edge of the color bar. */
 	private volatile int colorBarX = DEFAULT_COLOR_BAR_X;
@@ -165,5 +171,24 @@ public class ColorBarDrawer {
 			graphics.setColor(lineColor);
 			graphics.drawLine(this.colorBarX, this.colorBarY + iline, this.colorBarX + this.colorBarWidth, this.colorBarY + iline);
 		}
+
+		// Draw ticks.
+		graphics.setColor(colorConfig.getForegroundColor());
+		graphics.setFont(this.config.getFontConfiguration().getTickLabelFont());
+		int fontHeight = graphics.getFontMetrics().getAscent() - graphics.getFontMetrics().getDescent();
+		int tickCount = this.tickCoordinates.length;
+		for (int itick=0; itick<tickCount; itick++) {
+
+			// Compute the screen coordinates of the tick line and label.
+			double yRelativeCoord = (this.tickCoordinates[itick].doubleValue() - min.doubleValue()) / (max.doubleValue() - min.doubleValue());
+			int yPixelCoord = (int)StrictMath.round(this.colorBarY + (this.colorBarHeight - 1) * (1.0 -  yRelativeCoord));
+			int xPixelCoord = this.colorBarX + this.colorBarWidth;
+
+			// Draw tick the line and label.
+			graphics.drawLine(xPixelCoord, yPixelCoord, xPixelCoord - ICK_LINE_LENGTH, yPixelCoord);
+			graphics.drawString(this.tickLabels[itick], xPixelCoord + TICK_LABEL_MARGIN, yPixelCoord + fontHeight/2);
+		}
 	}
 }
+
+
