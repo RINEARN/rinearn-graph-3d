@@ -448,7 +448,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		}
 
 		// Draw the color bar.
-		this.colorBarDrawer.draw(this.screenGraphics);
+		this.colorBarDrawer.draw(this.screenGraphics, this.colorMixer);
 
 		// Turn on the flag for detecting that the content of the graph screen has been updated.
 		this.screenUpdated = true;
