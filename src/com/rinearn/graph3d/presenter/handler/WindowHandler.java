@@ -60,7 +60,7 @@ public final class WindowHandler {
 		ResizeEventListener resizeListener = new ResizeEventListener();
 		windowFrame.addComponentListener(resizeListener);
 
-		// Add the event listener handling resizing events of the frame.
+		// Add the event listener handling closing events of the frame.
 		CloseEventListener closeListener = new CloseEventListener();
 		windowFrame.addWindowListener(closeListener);
 	}
@@ -111,7 +111,7 @@ public final class WindowHandler {
 
 
 	/**
-	 * The event listener handling resizing events of the frame.
+	 * The event listener handling closing events of the frame.
 	 */
 	private class CloseEventListener extends WindowAdapter {
 		@Override

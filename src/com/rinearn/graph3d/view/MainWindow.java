@@ -756,6 +756,12 @@ public final class MainWindow {
 			} else {
 				leftSideUIPanel.setBounds(0, 0, 0, screenHeight);
 			}
+
+			// !!! DON'T REMOVE !!!
+			// At the moment of maximizing the window, the above panel's size-change does not propagate to the scroll bars.
+			// To propagate it, hide and re-show the panel. This it little strange code but necessary.
+			leftSideUIPanel.setVisible(false);
+			leftSideUIPanel.setVisible(true);
 		}
 	}
 
