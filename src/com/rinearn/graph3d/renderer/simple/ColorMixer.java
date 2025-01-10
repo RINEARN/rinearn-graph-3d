@@ -89,6 +89,7 @@ public final class ColorMixer {
 	 */
 	public synchronized Color generateColor(
 			BigDecimal[] coordinates, RinearnGraph3DDrawingParameter drawingParam, ColorConfiguration colorConfig) {
+
 		// If the automatic-coloring feature is disabled, the color is explicitly specified in the param object.
 		// So return that color.
 		if (!drawingParam.isAutoColoringEnabled()) {
@@ -96,7 +97,7 @@ public final class ColorMixer {
 		}
 
 		// Gets the coloring modes defined in the color configuration.
-		ColorConfiguration.DataColoringMode[] coloringModes = colorConfig.getDataColoringModes();
+		ColorConfiguration.DataColoringMode[] coloringModes = colorConfig.getDataSeriesColoringModes();
 		int coloringModeCount = coloringModes.length;
 
 		// The index of the above array is basically equals to the data series index.

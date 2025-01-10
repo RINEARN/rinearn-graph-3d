@@ -5,6 +5,7 @@ import java.awt.Color;
 import com.rinearn.graph3d.config.color.GradientColor;
 
 /*
+
 !!!!!
 NOTE
 !!!!!
@@ -108,6 +109,26 @@ NOTE
 !!!!!
 */
 
+
+/*
+!!!!!
+NOTE 2
+!!!!!
+
+・setColorBarRange 的な手軽なやつが欲しい。
+
+  → config の層は構造的に合わなさそう。RinearnGraph3Dにダイレクトに付ける？
+     内部処理的には、axisGradients[0] の autoRangingEnabled を false にしつつ min/max 値を設定する config 操作を一括でやる感じで、
+     できるのは一応できる。問題はあっていいかどうか。しかし無しという選択肢は実用考えたら厳しい気がするし、やっぱあるべきか。
+
+	 また後々で要検討。
+
+!!!!!
+NOTE 2
+!!!!!
+ */
+
+
 /*
 !!!!!
 NOTE 3
@@ -141,22 +162,35 @@ NOTE 3
 
 
 /*
-!!!!!
-NOTE 2
-!!!!!
+!!!!
+NOTE 4  (2024/01/10～)
+!!!!
 
-・setColorBarRange 的な手軽なやつが欲しい。
+単色/グラデーションのモードを系列ごとに持たせる設計はやっぱり悪手かもしれん。現状の dataSeriesColoringModes の件。
+「グラデーションオプションを ON にするか OFF にするかで、全体が単色彩色かグラデ彩色かが切り替わる」ってのは根幹的な彩色UIコンセプトでしょ。
+表層の設定画面デザインの範疇とかではなくて。
 
-  → config の層は構造的に合わなさそう。RinearnGraph3Dにダイレクトに付ける？
-     内部処理的には、axisGradients[0] の autoRangingEnabled を false にしつつ min/max 値を設定する config 操作を一括でやる感じで、
-     できるのは一応できる。問題はあっていいかどうか。しかし無しという選択肢は実用考えたら厳しい気がするし、やっぱあるべきか。
+とすると、色設定画面も「グラデーションON時の設定」と「グラデーションOFF時の設定」とで分けて設定できるべきでは。
+そして、「グラデーションON時の設定」では、単色は同色グラデとして作成できるんだし。
 
-	 また後々で要検討。
+-> いやいやそれは今のUIにとらわれすぎてる。実際、系列1は単色、系列2と3はグラデ、系列4は単色… みたいにプロットしたい場合は普通によくあるでしょ。
+   それを現状カバーできてないのが大問題なわけで。つまり現状のUIが結構問題あるんだよ。思い出せ。
 
-!!!!!
-NOTE 2
-!!!!!
- */
+   -> ああ確かに。再考したらそんな気がしてきた。やっぱり当時ちゃんと考えた結果そうすべきって着地点だったのか。
+      そんならグラデーションオプションはどういう挙動を対応させる？
+
+      -> ON にしたらカラー設定画面の系列をぜんぶグラデにして、OFF にしたら全部単色にする、みたいな。
+         んでカラー設定画面から系列ごとにマニュアル設定する場合は、グラデーションオプションをOFFにしてください、みたいな。
+
+      -> いっそカラー設定の最上階層に、「全系列をソリッド彩色」「全系列をグラデ彩色」「系列ごとに分ける」みたいなモードを設けては。
+         そんで Ver.6.0 では前者2つのみサポートすれば Ver.5.6 同等には到達できる。そして後の 6.x でよく考えながら拡張。
+
+         -> これいい案かも。とりあえず採用
+
+!!!!
+NOTE 4
+!!!!
+*/
 
 /**
  * The class for storing configuration of colors.
@@ -164,19 +198,25 @@ NOTE 2
 public final class ColorConfiguration {
 
 	/**
-	 * The enum for specifying coloring mode for each data series.
+	 * The enum for specifying coloring mode of data on the graph.
 	 */
 	public enum DataColoringMode {
 
-		/** Represents the mode for drawing a data series with a solid color. */
+		/** Represents the solid coloring mode.. */
 		SOLID,
 
-		/** Represents the mode for drawing a data series with gradient colors. */
-		GRADIENT;
+		/** Represents the gradient coloring mode. */
+		GRADIENT,
+
+		/** Represents the mode to draw each data series with a solid or a gradient color, depending on a value in dataSeriesColoringModes. */
+		MIXED;
 	}
 
-	/** The array storing a color mode for each data series. */
-	private volatile DataColoringMode[] dataColoringModes = {
+	/** The coloring mode of data on the graph. */
+	private volatile DataColoringMode dataColoringMode = DataColoringMode.GRADIENT;
+
+	/** The coloring modes independently for each data series, referred in dataColoringMode is MIXED mode. */
+	private volatile DataColoringMode[] dataSeriesColoringModes = {
 		DataColoringMode.GRADIENT // Because the gradient option is enabled by default.
 	};
 
@@ -213,23 +253,30 @@ public final class ColorConfiguration {
 	public ColorConfiguration() {
 	}
 
+	public synchronized void setDataColoringMode(DataColoringMode dataColoringMode) {
+		this.dataColoringMode = dataColoringMode;
+	}
 
-	/**
-	 * Sets the coloring modes, for determining the color of each data series.
-	 *
-	 * @param dataColoringModes The array storing a coloring mode for each data series.
-	 */
-	public synchronized void setDataColoringModes(DataColoringMode[] dataColoringModes) {
-		this.dataColoringModes = dataColoringModes;
+	public synchronized DataColoringMode getDataColoringMode() {
+		return this.dataColoringMode;
 	}
 
 	/**
-	 * Gets the coloring modes, for determining the color of each data series.
+	 * Sets the coloring modes independently for each data series, referred in dataColoringMode is MIXED mode.
+	 *
+	 * @param dataSeriesColoringModes The array storing a coloring mode for each data series.
+	 */
+	public synchronized void setDataSeriesColoringModes(DataColoringMode[] dataSeriesColoringModes) {
+		this.dataSeriesColoringModes = dataSeriesColoringModes;
+	}
+
+	/**
+	 * Gets the coloring modes independently for each data series, referred in dataColoringMode is MIXED mode.
 	 *
 	 * @return The array storing a coloring mode for each data series.
 	 */
-	public synchronized DataColoringMode[] getDataColoringModes() {
-		return this.dataColoringModes;
+	public synchronized DataColoringMode[] getDataSeriesColoringModes() {
+		return this.dataSeriesColoringModes;
 	}
 
 
@@ -353,10 +400,10 @@ public final class ColorConfiguration {
 	public synchronized void validate() throws IllegalStateException {
 
 		// Validate data-coloring modes.
-		if (this.dataColoringModes == null) {
+		if (this.dataSeriesColoringModes == null) {
 			throw new IllegalStateException("The data-coloring modes are null.");
 		} else {
-			for (DataColoringMode coloringMode: this.dataColoringModes) {
+			for (DataColoringMode coloringMode: this.dataSeriesColoringModes) {
 				if (coloringMode == null) {
 					throw new IllegalStateException("There is a null element in the data-coloring modes.");
 				}
