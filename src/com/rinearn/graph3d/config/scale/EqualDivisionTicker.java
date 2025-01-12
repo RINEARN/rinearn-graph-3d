@@ -56,7 +56,7 @@ public class EqualDivisionTicker extends Ticker {
 		}
 
 		// Creates a MathContext instance for specifying the precision and rounding mode of the calculations.
-		MathContext mathContext = new MathContext(super.calculationPrecision, RoundingMode.HALF_EVEN);
+		MathContext mathContext = new MathContext(super.calculationPrecision, RoundingMode.HALF_UP);
 
 		// Convert the min and max values to log scale before compute N-equal-division, if necessary.
 		BigDecimal convertedMin = rangeMin;
@@ -66,16 +66,26 @@ public class EqualDivisionTicker extends Ticker {
 			convertedMax = new BigDecimal(StrictMath.log(rangeMax.doubleValue()));
 		}
 
-		// Calculate the interval between the ticks to be generated.
-		BigDecimal interval = convertedMax.subtract(convertedMin).divide(new BigDecimal(this.dividedSectionCount), mathContext);
+		// Don't calculate the interval as follows and calculate the tick coordinates using it.
+		//
+		//     BigDecimal interval = convertedMax.subtract(convertedMin).divide(new BigDecimal(this.dividedSectionCount), mathContext);
+		//
+		// If do it, the tick label of "0" can contain tiny error,
+		// when "interval" is smaller a little than the theoretical value of (max-min)/N, where N is dividedSectionCount.
+		//
+		// For example, it occurs when N = 6 and the range is [-1, 1] (so interval is 0.33333... < 1/3),
+		// leading that the tick label of "0" is displayed as "-1.0E-{mathContextForDivision}".
 
 		// Calculate coordinates of the ticks at the equally divided point on the axis, and return it.
 		BigDecimal[] tickCoords = new BigDecimal[this.dividedSectionCount + 1];
 		tickCoords[0] = convertedMin;
 		tickCoords[this.dividedSectionCount] = convertedMax;
 		for (int itick=1; itick<this.dividedSectionCount; itick++) {
-			BigDecimal distanceFromMin = interval.multiply(new BigDecimal(itick));
-			tickCoords[itick] = convertedMin.add(distanceFromMin);
+
+			// Calculate the value of itick-th tick coordinate. Be careful of the tiny calculation error. See the above comments.
+			BigDecimal normalizedCoord = new BigDecimal(itick).divide(new BigDecimal(this.dividedSectionCount), mathContext); // r: i/N
+			BigDecimal distanceFromMin = convertedMax.subtract(convertedMin).multiply(normalizedCoord); // d: (max-min) * r
+			tickCoords[itick] = convertedMin.add(distanceFromMin); // result: min + d
 
 			// If isLogPlot is true, the min and max were converted to log scale,
 			// so N-equal-division coords between them, tickCoords[itick] in here, are also log scale.
