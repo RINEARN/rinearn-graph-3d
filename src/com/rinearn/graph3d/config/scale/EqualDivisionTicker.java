@@ -51,11 +51,7 @@ public class EqualDivisionTicker extends Ticker {
 	public synchronized BigDecimal[] generateTickCoordinates(BigDecimal rangeMin, BigDecimal rangeMax, boolean isLogPlot) {
 
 		// We can return the result without calculations if the number of sections is smaller than 3.
-		if (this.dividedSectionCount == 0) {
-			return new BigDecimal[0];
-		} else if (this.dividedSectionCount == 1) {
-			return new BigDecimal[] { rangeMin };
-		} else if (this.dividedSectionCount == 2) {
+		if (this.dividedSectionCount == 1) {
 			return new BigDecimal[] { rangeMin, rangeMax };
 		}
 

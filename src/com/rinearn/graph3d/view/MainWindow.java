@@ -759,7 +759,7 @@ public final class MainWindow {
 
 			// !!! DON'T REMOVE !!!
 			// At the moment of maximizing the window, the above panel's size-change does not propagate to the scroll bars.
-			// To propagate it, hide and re-show the panel. This it little strange code but necessary.
+			// To propagate it, hide and re-show the panel. This is little strange code but necessary.
 			leftSideUIPanel.setVisible(false);
 			leftSideUIPanel.setVisible(true);
 		}
