@@ -169,8 +169,8 @@ public class FontSettingWindow {
 
 			// Prepare the layout manager and resources.
 			Container basePanel = frame.getContentPane();
-			GridBagLayout layour = new GridBagLayout();
-			basePanel.setLayout(layour);
+			GridBagLayout layout = new GridBagLayout();
+			basePanel.setLayout(layout);
 			GridBagConstraints constraints = new GridBagConstraints();
 			constraints.gridx = 0;
 			constraints.gridy = 0;
@@ -195,7 +195,7 @@ public class FontSettingWindow {
 			// Create the label of "UI Font" section.
 			uiFontLabel = new JLabel("Unconfigured");
 			constraints.insets = new Insets(topMargin, leftMarginOfLabelsInSection, 0, rightMargin);
-			layour.setConstraints(uiFontLabel, constraints);
+			layout.setConstraints(uiFontLabel, constraints);
 			basePanel.add(uiFontLabel);
 
 			constraints.gridy++;
@@ -208,7 +208,7 @@ public class FontSettingWindow {
 				uiFontNameBox = new JComboBox<String>();
 				constraints.insets = new Insets(0, leftMarginOfComboBoxesInSection, bottomMarginInSection, 0);
 				constraints.weightx = 10.0;
-				layour.setConstraints(uiFontNameBox, constraints);
+				layout.setConstraints(uiFontNameBox, constraints);
 				basePanel.add(uiFontNameBox);
 
 				constraints.gridx++;
@@ -216,14 +216,14 @@ public class FontSettingWindow {
 
 				uiFontSizeLabel = new JLabel("Unconfigured", JLabel.RIGHT);
 				constraints.insets = new Insets(0, 0, bottomMarginInSection, 0);
-				layour.setConstraints(uiFontSizeLabel, constraints);
+				layout.setConstraints(uiFontSizeLabel, constraints);
 				basePanel.add(uiFontSizeLabel);
 
 				constraints.gridx++;
 
 				uiFontSizeField = new JTextField("Unconfigured");
 				constraints.insets = new Insets(0, 0, bottomMarginInSection, 0);
-				layour.setConstraints(uiFontSizeField, constraints);
+				layout.setConstraints(uiFontSizeField, constraints);
 				basePanel.add(uiFontSizeField);
 
 				uiFontSizeFieldRightClickMenu = new TextRightClickMenu();
@@ -232,7 +232,7 @@ public class FontSettingWindow {
 
 				uiFontBoldBox = new JCheckBox("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginOfCheckBoxesInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(uiFontBoldBox, constraints);
+				layout.setConstraints(uiFontBoldBox, constraints);
 				basePanel.add(uiFontBoldBox);
 
 				// We don't use the following in this version.
@@ -246,7 +246,7 @@ public class FontSettingWindow {
 			// Create the label of "Axis Label Font" section.
 			axisLabelFontLabel = new JLabel("Unconfigured");
 			constraints.insets = new Insets(0, leftMarginOfLabelsInSection, 0, rightMargin);
-			layour.setConstraints(axisLabelFontLabel, constraints);
+			layout.setConstraints(axisLabelFontLabel, constraints);
 			basePanel.add(axisLabelFontLabel);
 
 			constraints.gridy++;
@@ -259,7 +259,7 @@ public class FontSettingWindow {
 				axisLabelFontNameBox = new JComboBox<String>();
 				constraints.insets = new Insets(0, leftMarginOfComboBoxesInSection, bottomMarginInSection, 0);
 				constraints.weightx = 10.0;
-				layour.setConstraints(axisLabelFontNameBox, constraints);
+				layout.setConstraints(axisLabelFontNameBox, constraints);
 				basePanel.add(axisLabelFontNameBox);
 
 				constraints.gridx++;
@@ -267,14 +267,14 @@ public class FontSettingWindow {
 
 				axisLabelFontSizeLabel = new JLabel("Unconfigured", JLabel.RIGHT);
 				constraints.insets = new Insets(0, 0, bottomMarginInSection, 0);
-				layour.setConstraints(axisLabelFontSizeLabel, constraints);
+				layout.setConstraints(axisLabelFontSizeLabel, constraints);
 				basePanel.add(axisLabelFontSizeLabel);
 
 				constraints.gridx++;
 
 				axisLabelFontSizeField = new JTextField("Unconfigured");
 				constraints.insets = new Insets(0, 0, bottomMarginInSection, 0);
-				layour.setConstraints(axisLabelFontSizeField, constraints);
+				layout.setConstraints(axisLabelFontSizeField, constraints);
 				basePanel.add(axisLabelFontSizeField);
 
 				axisLabelFontSizeFieldRightClickMenu = new TextRightClickMenu();
@@ -283,7 +283,7 @@ public class FontSettingWindow {
 
 				axisLabelFontBoldBox = new JCheckBox("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginOfCheckBoxesInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(axisLabelFontBoldBox, constraints);
+				layout.setConstraints(axisLabelFontBoldBox, constraints);
 				basePanel.add(axisLabelFontBoldBox);
 
 				constraints.gridx = 0;
@@ -294,7 +294,7 @@ public class FontSettingWindow {
 			// Create the label of "Tick Label Font" section.
 			tickLabelFontLabel = new JLabel("Unconfigured");
 			constraints.insets = new Insets(0, leftMarginOfLabelsInSection, 0, rightMargin);
-			layour.setConstraints(tickLabelFontLabel, constraints);
+			layout.setConstraints(tickLabelFontLabel, constraints);
 			basePanel.add(tickLabelFontLabel);
 
 			constraints.gridy++;
@@ -307,7 +307,7 @@ public class FontSettingWindow {
 				tickLabelFontNameBox = new JComboBox<String>();
 				constraints.insets = new Insets(0, leftMarginOfComboBoxesInSection, bottomMarginInSection, 0);
 				constraints.weightx = 10.0;
-				layour.setConstraints(tickLabelFontNameBox, constraints);
+				layout.setConstraints(tickLabelFontNameBox, constraints);
 				basePanel.add(tickLabelFontNameBox);
 
 				constraints.gridx++;
@@ -315,14 +315,14 @@ public class FontSettingWindow {
 
 				tickLabelFontSizeLabel = new JLabel("Unconfigured", JLabel.RIGHT);
 				constraints.insets = new Insets(0, 0, bottomMarginInSection, 0);
-				layour.setConstraints(tickLabelFontSizeLabel, constraints);
+				layout.setConstraints(tickLabelFontSizeLabel, constraints);
 				basePanel.add(tickLabelFontSizeLabel);
 
 				constraints.gridx++;
 
 				tickLabelFontSizeField = new JTextField("Unconfigured");
 				constraints.insets = new Insets(0, 0, bottomMarginInSection, 0);
-				layour.setConstraints(tickLabelFontSizeField, constraints);
+				layout.setConstraints(tickLabelFontSizeField, constraints);
 				basePanel.add(tickLabelFontSizeField);
 
 				tickLabelFontSizeFieldRightClickMenu = new TextRightClickMenu();
@@ -331,7 +331,7 @@ public class FontSettingWindow {
 
 				tickLabelFontBoldBox = new JCheckBox("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginOfCheckBoxesInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(tickLabelFontBoldBox, constraints);
+				layout.setConstraints(tickLabelFontBoldBox, constraints);
 				basePanel.add(tickLabelFontBoldBox);
 
 				constraints.gridx = 0;
@@ -342,7 +342,7 @@ public class FontSettingWindow {
 			// An empty line.
 			JLabel emptyLine = new JLabel("");
 			constraints.insets = new Insets(0, 0, 0, 0);
-			layour.setConstraints(emptyLine, constraints);
+			layout.setConstraints(emptyLine, constraints);
 			basePanel.add(emptyLine);
 			constraints.gridy++;
 
@@ -350,7 +350,7 @@ public class FontSettingWindow {
 			okButton = new JButton("Unconfigured");
 			constraints.insets = new Insets(0, leftMargin, bottomMargin, rightMargin);
 			constraints.weighty = 1.8;
-			layour.setConstraints(okButton, constraints);
+			layout.setConstraints(okButton, constraints);
 			basePanel.add(okButton);
 		}
 	}

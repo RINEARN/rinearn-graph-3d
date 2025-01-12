@@ -137,8 +137,8 @@ public class ZxyMathWindow {
 
 			// Prepare the layout manager and resources.
 			Container basePanel = frame.getContentPane();
-			GridBagLayout layour = new GridBagLayout();
-			basePanel.setLayout(layour);
+			GridBagLayout layout = new GridBagLayout();
+			basePanel.setLayout(layout);
 			GridBagConstraints constraints = new GridBagConstraints();
 			constraints.gridx = 0;
 			constraints.gridy = 0;
@@ -169,7 +169,7 @@ public class ZxyMathWindow {
 				constraints.weightx = 0.05;
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMargin, bottomMarginUnderSectionTitile, rightMargin);
-				layour.setConstraints(mathExpressionLabel, constraints);
+				layout.setConstraints(mathExpressionLabel, constraints);
 				basePanel.add(mathExpressionLabel);
 
 				constraints.gridy++;
@@ -181,7 +181,7 @@ public class ZxyMathWindow {
 				constraints.weightx = 0.05;
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginUnderSection, rightMargin);
-				layour.setConstraints(zMathExpressionLabel, constraints);
+				layout.setConstraints(zMathExpressionLabel, constraints);
 				basePanel.add(zMathExpressionLabel);
 
 				// Create the title label of the text field for inputting the math expression.
@@ -189,7 +189,7 @@ public class ZxyMathWindow {
 				constraints.weightx = 1.0;
 				constraints.gridx = 1;
 				constraints.insets = new Insets(topMargin, 0, bottomMarginUnderSection, rightMargin);
-				layour.setConstraints(zMathExpressionField, constraints);
+				layout.setConstraints(zMathExpressionField, constraints);
 				basePanel.add(zMathExpressionField);
 
 				// The right-click menu of the above text field.
@@ -207,7 +207,7 @@ public class ZxyMathWindow {
 				constraints.gridx = 0;
 				resolutionLabel.setVerticalAlignment(JLabel.BOTTOM);
 				constraints.insets = new Insets(topMargin, leftMargin, bottomMarginUnderSectionTitile, rightMargin);
-				layour.setConstraints(resolutionLabel, constraints);
+				layout.setConstraints(resolutionLabel, constraints);
 				basePanel.add(resolutionLabel);
 
 				constraints.gridy++;
@@ -219,7 +219,7 @@ public class ZxyMathWindow {
 				constraints.weightx = 0.05;
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginInSection, marginBetweenLabelAndField);
-				layour.setConstraints(xResolutionLabel, constraints);
+				layout.setConstraints(xResolutionLabel, constraints);
 				basePanel.add(xResolutionLabel);
 
 				// Create the title label of the X-resolution.
@@ -227,7 +227,7 @@ public class ZxyMathWindow {
 				constraints.weightx = 1.0;
 				constraints.gridx = 1;
 				constraints.insets = new Insets(topMargin, 0, bottomMarginInSection, rightMargin);
-				layour.setConstraints(xResolutionField, constraints);
+				layout.setConstraints(xResolutionField, constraints);
 				basePanel.add(xResolutionField);
 
 				// The right-click menu of the above text field.
@@ -242,7 +242,7 @@ public class ZxyMathWindow {
 				constraints.weightx = 0.05;
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginUnderSection, marginBetweenLabelAndField);
-				layour.setConstraints(yResolutionLabel, constraints);
+				layout.setConstraints(yResolutionLabel, constraints);
 				basePanel.add(yResolutionLabel);
 
 				// Create the title label of the Y-resolution.
@@ -250,7 +250,7 @@ public class ZxyMathWindow {
 				constraints.weightx = 1.0;
 				constraints.gridx = 1;
 				constraints.insets = new Insets(topMargin, 0, bottomMarginUnderSection, rightMargin);
-				layour.setConstraints(yResolutionField, constraints);
+				layout.setConstraints(yResolutionField, constraints);
 				basePanel.add(yResolutionField);
 
 				// The right-click menu of the above text field.
@@ -265,7 +265,7 @@ public class ZxyMathWindow {
 			// OK button.
 			okButton = new JButton("Unconfigured");
 			constraints.insets = new Insets(0, leftMargin, bottomMargin, rightMargin);
-			layour.setConstraints(okButton, constraints);
+			layout.setConstraints(okButton, constraints);
 			basePanel.add(okButton);
 		}
 	}

@@ -214,8 +214,8 @@ public class CameraSettingWindow {
 
 			// Prepare the layout manager and resources.
 			Container basePanel = frame.getContentPane();
-			GridBagLayout layour = new GridBagLayout();
-			basePanel.setLayout(layour);
+			GridBagLayout layout = new GridBagLayout();
+			basePanel.setLayout(layout);
 			GridBagConstraints constraints = new GridBagConstraints();
 			constraints.gridx = 0;
 			constraints.gridy = 0;
@@ -242,7 +242,7 @@ public class CameraSettingWindow {
 				angleSectionLabel = new JLabel("Unconfigured");
 				angleSectionLabel.setVerticalAlignment(JLabel.BOTTOM);
 				constraints.insets = new Insets(topMargin, leftMargin, bottomMarginUnderSectionTitile, rightMargin);
-				layour.setConstraints(angleSectionLabel, constraints);
+				layout.setConstraints(angleSectionLabel, constraints);
 				basePanel.add(angleSectionLabel);
 
 				constraints.gridy++;
@@ -250,7 +250,7 @@ public class CameraSettingWindow {
 				// Create the label of "Zenith Axis" section.
 				zenithAxisLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(zenithAxisLabel, constraints);
+				layout.setConstraints(zenithAxisLabel, constraints);
 				basePanel.add(zenithAxisLabel);
 
 				constraints.gridy++;
@@ -261,7 +261,7 @@ public class CameraSettingWindow {
 				zenithAxisBox.addItem(ZENITH_AXIS_BOX_ITEM_Y);
 				zenithAxisBox.addItem(ZENITH_AXIS_BOX_ITEM_Z);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(zenithAxisBox, constraints);
+				layout.setConstraints(zenithAxisBox, constraints);
 				basePanel.add(zenithAxisBox);
 
 				constraints.gridy++;
@@ -269,7 +269,7 @@ public class CameraSettingWindow {
 				// Create the label of "Horizontal Angle" section.
 				horizontalAngleLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(5, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(horizontalAngleLabel, constraints);
+				layout.setConstraints(horizontalAngleLabel, constraints);
 				basePanel.add(horizontalAngleLabel);
 
 				constraints.gridy++;
@@ -278,7 +278,7 @@ public class CameraSettingWindow {
 				horizontalAngleBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, BASIC_SCROLL_BAR_MAX_COUNT);
 				horizontalAngleBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(horizontalAngleBar, constraints);
+				layout.setConstraints(horizontalAngleBar, constraints);
 				basePanel.add(horizontalAngleBar);
 
 				constraints.gridy++;
@@ -286,7 +286,7 @@ public class CameraSettingWindow {
 				// Create the label of "Vertical Angle" section.
 				verticalAngleLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(verticalAngleLabel, constraints);
+				layout.setConstraints(verticalAngleLabel, constraints);
 				basePanel.add(verticalAngleLabel);
 
 				constraints.gridy++;
@@ -295,7 +295,7 @@ public class CameraSettingWindow {
 				verticalAngleBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, BASIC_SCROLL_BAR_MAX_COUNT);
 				verticalAngleBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(verticalAngleBar, constraints);
+				layout.setConstraints(verticalAngleBar, constraints);
 				basePanel.add(verticalAngleBar);
 
 				constraints.gridy++;
@@ -303,7 +303,7 @@ public class CameraSettingWindow {
 				// Create the label of "Screw Angle" section.
 				screwAngleLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(screwAngleLabel, constraints);
+				layout.setConstraints(screwAngleLabel, constraints);
 				basePanel.add(screwAngleLabel);
 
 				constraints.gridy++;
@@ -312,7 +312,7 @@ public class CameraSettingWindow {
 				screwAngleBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, BASIC_SCROLL_BAR_MAX_COUNT);
 				screwAngleBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginUnderSection, rightMargin);
-				layour.setConstraints(screwAngleBar, constraints);
+				layout.setConstraints(screwAngleBar, constraints);
 				basePanel.add(screwAngleBar);
 
 				constraints.gridy++;
@@ -325,7 +325,7 @@ public class CameraSettingWindow {
 				lensSectionLabel = new JLabel("Unconfigured");
 				lensSectionLabel.setVerticalAlignment(JLabel.BOTTOM);
 				constraints.insets = new Insets(0, leftMargin, bottomMarginUnderSectionTitile, rightMargin);
-				layour.setConstraints(lensSectionLabel, constraints);
+				layout.setConstraints(lensSectionLabel, constraints);
 				basePanel.add(lensSectionLabel);
 
 				constraints.gridy++;
@@ -333,7 +333,7 @@ public class CameraSettingWindow {
 				// Create the label of "Magnification" parameter.
 				magnificationLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(magnificationLabel, constraints);
+				layout.setConstraints(magnificationLabel, constraints);
 				basePanel.add(magnificationLabel);
 
 				constraints.gridy++;
@@ -342,7 +342,7 @@ public class CameraSettingWindow {
 				magnificationBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, BASIC_SCROLL_BAR_MAX_COUNT);
 				magnificationBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(magnificationBar, constraints);
+				layout.setConstraints(magnificationBar, constraints);
 				basePanel.add(magnificationBar);
 
 				constraints.gridy++;
@@ -350,7 +350,7 @@ public class CameraSettingWindow {
 				// Create the label of "Distance" parameter.
 				distanceLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(distanceLabel, constraints);
+				layout.setConstraints(distanceLabel, constraints);
 				basePanel.add(distanceLabel);
 
 				constraints.gridy++;
@@ -359,7 +359,7 @@ public class CameraSettingWindow {
 				distanceBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, BASIC_SCROLL_BAR_MAX_COUNT);
 				distanceBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(distanceBar, constraints);
+				layout.setConstraints(distanceBar, constraints);
 				basePanel.add(distanceBar);
 
 				constraints.gridy++;
@@ -369,7 +369,7 @@ public class CameraSettingWindow {
 					JPanel checkBoxesPanel = new JPanel();
 					checkBoxesPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 					constraints.insets = new Insets(5, leftMarginLabelInSection, 0, rightMargin);
-					layour.setConstraints(checkBoxesPanel, constraints);
+					layout.setConstraints(checkBoxesPanel, constraints);
 					basePanel.add(checkBoxesPanel);
 
 					// Create the check box of "Perspective" parameter.
@@ -393,7 +393,7 @@ public class CameraSettingWindow {
 				screenSectionLabel = new JLabel("Unconfigured");
 				screenSectionLabel.setVerticalAlignment(JLabel.BOTTOM);
 				constraints.insets = new Insets(0, leftMargin, bottomMarginUnderSectionTitile, rightMargin);
-				layour.setConstraints(screenSectionLabel, constraints);
+				layout.setConstraints(screenSectionLabel, constraints);
 				basePanel.add(screenSectionLabel);
 
 				constraints.gridy++;
@@ -401,7 +401,7 @@ public class CameraSettingWindow {
 				// Create the label of "Horizontal Center Offset" parameter.
 				horizontalCenterOffsetLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(horizontalCenterOffsetLabel, constraints);
+				layout.setConstraints(horizontalCenterOffsetLabel, constraints);
 				basePanel.add(horizontalCenterOffsetLabel);
 
 				constraints.gridy++;
@@ -412,7 +412,7 @@ public class CameraSettingWindow {
 				);
 				horizontalCenterOffsetBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(horizontalCenterOffsetBar, constraints);
+				layout.setConstraints(horizontalCenterOffsetBar, constraints);
 				basePanel.add(horizontalCenterOffsetBar);
 
 				constraints.gridy++;
@@ -420,7 +420,7 @@ public class CameraSettingWindow {
 				// Create the label of "Vertical Center Offset" parameter.
 				verticalCenterOffsetLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(verticalCenterOffsetLabel, constraints);
+				layout.setConstraints(verticalCenterOffsetLabel, constraints);
 				basePanel.add(verticalCenterOffsetLabel);
 
 				constraints.gridy++;
@@ -431,7 +431,7 @@ public class CameraSettingWindow {
 				);
 				verticalCenterOffsetBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(verticalCenterOffsetBar, constraints);
+				layout.setConstraints(verticalCenterOffsetBar, constraints);
 				basePanel.add(verticalCenterOffsetBar);
 
 				constraints.gridy++;
@@ -441,7 +441,7 @@ public class CameraSettingWindow {
 					JPanel sizeFieldsPanel = new JPanel();
 					sizeFieldsPanel.setLayout(new GridLayout(1, 4));
 					constraints.insets = new Insets(10, 0, bottomMarginUnderSection, rightMargin);
-					layour.setConstraints(sizeFieldsPanel, constraints);
+					layout.setConstraints(sizeFieldsPanel, constraints);
 					basePanel.add(sizeFieldsPanel);
 
 					constraints.gridy++;
@@ -475,7 +475,7 @@ public class CameraSettingWindow {
 			okButton = new JButton("Unconfigured");
 			constraints.insets = new Insets(0, leftMargin, bottomMargin, rightMargin);
 			constraints.weighty = 12.0;
-			layour.setConstraints(okButton, constraints);
+			layout.setConstraints(okButton, constraints);
 			basePanel.add(okButton);
 		}
 	}

@@ -74,7 +74,7 @@ public class EqualDivisionTicker extends Ticker {
 		// when "interval" is smaller a little than the theoretical value of (max-min)/N, where N is dividedSectionCount.
 		//
 		// For example, it occurs when N = 6 and the range is [-1, 1] (so interval is 0.33333... < 1/3),
-		// leading that the tick label of "0" is displayed as "-1.0E-{mathContextForDivision}".
+		// leading that the tick label of "0" is displayed as "-1.0E-{calculationPrecision}".
 
 		// Calculate coordinates of the ticks at the equally divided point on the axis, and return it.
 		BigDecimal[] tickCoords = new BigDecimal[this.dividedSectionCount + 1];

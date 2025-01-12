@@ -157,8 +157,8 @@ public class LightSettingWindow {
 
 			// Prepare the layout manager and resources.
 			Container basePanel = frame.getContentPane();
-			GridBagLayout layour = new GridBagLayout();
-			basePanel.setLayout(layour);
+			GridBagLayout layout = new GridBagLayout();
+			basePanel.setLayout(layout);
 			GridBagConstraints constraints = new GridBagConstraints();
 			constraints.gridx = 0;
 			constraints.gridy = 0;
@@ -185,7 +185,7 @@ public class LightSettingWindow {
 				reflectionSectionLabel = new JLabel("Unconfigured");
 				reflectionSectionLabel.setVerticalAlignment(JLabel.BOTTOM);
 				constraints.insets = new Insets(topMargin, leftMargin, bottomMarginUnderSectionTitile, rightMargin);
-				layour.setConstraints(reflectionSectionLabel, constraints);
+				layout.setConstraints(reflectionSectionLabel, constraints);
 				basePanel.add(reflectionSectionLabel);
 
 				constraints.gridy++;
@@ -193,7 +193,7 @@ public class LightSettingWindow {
 				// Create the title label of "Ambient" section.
 				ambientLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(ambientLabel, constraints);
+				layout.setConstraints(ambientLabel, constraints);
 				basePanel.add(ambientLabel);
 
 				constraints.gridy++;
@@ -202,7 +202,7 @@ public class LightSettingWindow {
 				ambientBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, SCROLL_BAR_MAX_COUNT);
 				ambientBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(ambientBar, constraints);
+				layout.setConstraints(ambientBar, constraints);
 				basePanel.add(ambientBar);
 
 				constraints.gridy++;
@@ -210,7 +210,7 @@ public class LightSettingWindow {
 				// Create the title label of "Diffuse" section.
 				diffuseLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(diffuseLabel, constraints);
+				layout.setConstraints(diffuseLabel, constraints);
 				basePanel.add(diffuseLabel);
 
 				constraints.gridy++;
@@ -219,7 +219,7 @@ public class LightSettingWindow {
 				diffuseBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, SCROLL_BAR_MAX_COUNT);
 				diffuseBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(diffuseBar, constraints);
+				layout.setConstraints(diffuseBar, constraints);
 				basePanel.add(diffuseBar);
 
 				constraints.gridy++;
@@ -227,7 +227,7 @@ public class LightSettingWindow {
 				// Create the title label of "Diffractive" section.
 				diffractiveLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(diffractiveLabel, constraints);
+				layout.setConstraints(diffractiveLabel, constraints);
 				basePanel.add(diffractiveLabel);
 
 				constraints.gridy++;
@@ -236,7 +236,7 @@ public class LightSettingWindow {
 				diffractiveBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, SCROLL_BAR_MAX_COUNT);
 				diffractiveBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(diffractiveBar, constraints);
+				layout.setConstraints(diffractiveBar, constraints);
 				basePanel.add(diffractiveBar);
 
 				constraints.gridy++;
@@ -244,7 +244,7 @@ public class LightSettingWindow {
 				// Create the title label of "Specular Strength" section.
 				specularStrengthLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(specularStrengthLabel, constraints);
+				layout.setConstraints(specularStrengthLabel, constraints);
 				basePanel.add(specularStrengthLabel);
 
 				constraints.gridy++;
@@ -253,7 +253,7 @@ public class LightSettingWindow {
 				specularStrengthBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, SCROLL_BAR_MAX_COUNT);
 				specularStrengthBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(specularStrengthBar, constraints);
+				layout.setConstraints(specularStrengthBar, constraints);
 				basePanel.add(specularStrengthBar);
 
 				constraints.gridy++;
@@ -261,7 +261,7 @@ public class LightSettingWindow {
 				// Create the title label of "Specular Angle" section.
 				specularAngleLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(specularAngleLabel, constraints);
+				layout.setConstraints(specularAngleLabel, constraints);
 				basePanel.add(specularAngleLabel);
 
 				constraints.gridy++;
@@ -270,7 +270,7 @@ public class LightSettingWindow {
 				specularAngleBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, SCROLL_BAR_MAX_COUNT);
 				specularAngleBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginUnderSection, rightMargin);
-				layour.setConstraints(specularAngleBar, constraints);
+				layout.setConstraints(specularAngleBar, constraints);
 				basePanel.add(specularAngleBar);
 
 				constraints.gridy++;
@@ -283,7 +283,7 @@ public class LightSettingWindow {
 				lightSectionLabel = new JLabel("Unconfigured");
 				lightSectionLabel.setVerticalAlignment(JLabel.BOTTOM);
 				constraints.insets = new Insets(topMargin, leftMargin, bottomMarginUnderSectionTitile, rightMargin);
-				layour.setConstraints(lightSectionLabel, constraints);
+				layout.setConstraints(lightSectionLabel, constraints);
 				basePanel.add(lightSectionLabel);
 
 				constraints.gridy++;
@@ -291,7 +291,7 @@ public class LightSettingWindow {
 				// Create the title label of "Horizontal Angle" section.
 				horizontalAngleLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(horizontalAngleLabel, constraints);
+				layout.setConstraints(horizontalAngleLabel, constraints);
 				basePanel.add(horizontalAngleLabel);
 
 				constraints.gridy++;
@@ -300,7 +300,7 @@ public class LightSettingWindow {
 				horizontalAngleBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, SCROLL_BAR_MAX_COUNT);
 				horizontalAngleBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(horizontalAngleBar, constraints);
+				layout.setConstraints(horizontalAngleBar, constraints);
 				basePanel.add(horizontalAngleBar);
 
 				constraints.gridy++;
@@ -308,7 +308,7 @@ public class LightSettingWindow {
 				// Create the title label of "Vertical Angle" section.
 				verticalAngleLabel = new JLabel("Unconfigured");
 				constraints.insets = new Insets(0, leftMarginLabelInSection, 0, rightMargin);
-				layour.setConstraints(verticalAngleLabel, constraints);
+				layout.setConstraints(verticalAngleLabel, constraints);
 				basePanel.add(verticalAngleLabel);
 
 				constraints.gridy++;
@@ -317,7 +317,7 @@ public class LightSettingWindow {
 				verticalAngleBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, SCROLL_BAR_MAX_COUNT);
 				verticalAngleBar.setBackground(SCROLL_BAR_COLOR);
 				constraints.insets = new Insets(0, leftMarginBarInSection, bottomMargin, rightMargin);
-				layour.setConstraints(verticalAngleBar, constraints);
+				layout.setConstraints(verticalAngleBar, constraints);
 				basePanel.add(verticalAngleBar);
 
 				constraints.gridy++;

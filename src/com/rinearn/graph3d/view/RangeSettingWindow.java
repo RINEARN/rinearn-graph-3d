@@ -176,8 +176,8 @@ public class RangeSettingWindow {
 
 			// Prepare the layout manager and resources.
 			Container basePanel = frame.getContentPane();
-			GridBagLayout layour = new GridBagLayout();
-			basePanel.setLayout(layour);
+			GridBagLayout layout = new GridBagLayout();
+			basePanel.setLayout(layout);
 			GridBagConstraints constraints = new GridBagConstraints();
 			constraints.gridx = 0;
 			constraints.gridy = 0;
@@ -205,7 +205,7 @@ public class RangeSettingWindow {
 				constraints.gridx = 0;
 				xAxisLabel.setVerticalAlignment(JLabel.BOTTOM);
 				constraints.insets = new Insets(topMargin, leftMargin, bottomMarginUnderAxisTitile, rightMargin);
-				layour.setConstraints(xAxisLabel, constraints);
+				layout.setConstraints(xAxisLabel, constraints);
 				basePanel.add(xAxisLabel);
 
 				constraints.gridy++;
@@ -215,7 +215,7 @@ public class RangeSettingWindow {
 				xAutoRangingBox = new JCheckBox("Unconfigured");
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(xAutoRangingBox, constraints);
+				layout.setConstraints(xAutoRangingBox, constraints);
 				basePanel.add(xAutoRangingBox);
 
 				constraints.gridy++;
@@ -227,7 +227,7 @@ public class RangeSettingWindow {
 				constraints.weightx = 0.05;
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginInSection, marginBetweenLabelAndField);
-				layour.setConstraints(xMaxLabel, constraints);
+				layout.setConstraints(xMaxLabel, constraints);
 				basePanel.add(xMaxLabel);
 
 				// Create the title label of the text field for inputting the X-max value.
@@ -235,7 +235,7 @@ public class RangeSettingWindow {
 				constraints.weightx = 1.0;
 				constraints.gridx = 1;
 				constraints.insets = new Insets(topMargin, 0, bottomMarginInSection, rightMargin);
-				layour.setConstraints(xMaxField, constraints);
+				layout.setConstraints(xMaxField, constraints);
 				basePanel.add(xMaxField);
 
 				// Create the right-click menu for the above text field.
@@ -250,7 +250,7 @@ public class RangeSettingWindow {
 				constraints.weightx = 0.05;
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginUnderSection, marginBetweenLabelAndField);
-				layour.setConstraints(xMinLabel, constraints);
+				layout.setConstraints(xMinLabel, constraints);
 				basePanel.add(xMinLabel);
 
 				// Create the title label of the text field for inputting the X-min value.
@@ -258,7 +258,7 @@ public class RangeSettingWindow {
 				constraints.weightx = 1.0;
 				constraints.gridx = 1;
 				constraints.insets = new Insets(topMargin, 0, bottomMarginUnderSection, rightMargin);
-				layour.setConstraints(xMinField, constraints);
+				layout.setConstraints(xMinField, constraints);
 				basePanel.add(xMinField);
 
 				// Create the right-click menu for the above text field.
@@ -275,7 +275,7 @@ public class RangeSettingWindow {
 				constraints.gridx = 0;
 				yAxisLabel.setVerticalAlignment(JLabel.BOTTOM);
 				constraints.insets = new Insets(topMargin, leftMargin, bottomMarginUnderAxisTitile, rightMargin);
-				layour.setConstraints(yAxisLabel, constraints);
+				layout.setConstraints(yAxisLabel, constraints);
 				basePanel.add(yAxisLabel);
 
 				constraints.gridy++;
@@ -285,7 +285,7 @@ public class RangeSettingWindow {
 				yAutoRangingBox = new JCheckBox("Unconfigured");
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(yAutoRangingBox, constraints);
+				layout.setConstraints(yAutoRangingBox, constraints);
 				basePanel.add(yAutoRangingBox);
 
 				constraints.gridy++;
@@ -297,7 +297,7 @@ public class RangeSettingWindow {
 				constraints.weightx = 0.05;
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginInSection, marginBetweenLabelAndField);
-				layour.setConstraints(yMaxLabel, constraints);
+				layout.setConstraints(yMaxLabel, constraints);
 				basePanel.add(yMaxLabel);
 
 				// Create the title label of the text field for inputting the Y-max value.
@@ -305,7 +305,7 @@ public class RangeSettingWindow {
 				constraints.weightx = 1.0;
 				constraints.gridx = 1;
 				constraints.insets = new Insets(topMargin, 0, bottomMarginInSection, rightMargin);
-				layour.setConstraints(yMaxField, constraints);
+				layout.setConstraints(yMaxField, constraints);
 				basePanel.add(yMaxField);
 
 				// Create the right-click menu for the above text field.
@@ -320,7 +320,7 @@ public class RangeSettingWindow {
 				constraints.weightx = 0.05;
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginUnderSection, marginBetweenLabelAndField);
-				layour.setConstraints(yMinLabel, constraints);
+				layout.setConstraints(yMinLabel, constraints);
 				basePanel.add(yMinLabel);
 
 				// Create the title label of the text field for inputting the Y-min value.
@@ -328,7 +328,7 @@ public class RangeSettingWindow {
 				constraints.weightx = 1.0;
 				constraints.gridx = 1;
 				constraints.insets = new Insets(topMargin, 0, bottomMarginUnderSection, rightMargin);
-				layour.setConstraints(yMinField, constraints);
+				layout.setConstraints(yMinField, constraints);
 				basePanel.add(yMinField);
 
 				// Create the right-click menu for the above text field.
@@ -345,7 +345,7 @@ public class RangeSettingWindow {
 				constraints.gridx = 0;
 				zAxisLabel.setVerticalAlignment(JLabel.BOTTOM);
 				constraints.insets = new Insets(topMargin, leftMargin, bottomMarginUnderAxisTitile, rightMargin);
-				layour.setConstraints(zAxisLabel, constraints);
+				layout.setConstraints(zAxisLabel, constraints);
 				basePanel.add(zAxisLabel);
 
 				constraints.gridy++;
@@ -355,7 +355,7 @@ public class RangeSettingWindow {
 				zAutoRangingBox = new JCheckBox("Unconfigured");
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginInSection, rightMargin);
-				layour.setConstraints(zAutoRangingBox, constraints);
+				layout.setConstraints(zAutoRangingBox, constraints);
 				basePanel.add(zAutoRangingBox);
 
 				constraints.gridy++;
@@ -367,7 +367,7 @@ public class RangeSettingWindow {
 				constraints.weightx = 0.05;
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginInSection, marginBetweenLabelAndField);
-				layour.setConstraints(zMaxLabel, constraints);
+				layout.setConstraints(zMaxLabel, constraints);
 				basePanel.add(zMaxLabel);
 
 				// Create the right-click menu for the above text field.
@@ -378,7 +378,7 @@ public class RangeSettingWindow {
 				constraints.weightx = 1.0;
 				constraints.gridx = 1;
 				constraints.insets = new Insets(topMargin, 0, bottomMarginInSection, rightMargin);
-				layour.setConstraints(zMaxField, constraints);
+				layout.setConstraints(zMaxField, constraints);
 				basePanel.add(zMaxField);
 
 				constraints.gridy++;
@@ -390,7 +390,7 @@ public class RangeSettingWindow {
 				constraints.weightx = 0.05;
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginUnderSection, marginBetweenLabelAndField);
-				layour.setConstraints(zMinLabel, constraints);
+				layout.setConstraints(zMinLabel, constraints);
 				basePanel.add(zMinLabel);
 
 				// Create the title label of the text field for inputting the Z-min value.
@@ -398,7 +398,7 @@ public class RangeSettingWindow {
 				constraints.weightx = 1.0;
 				constraints.gridx = 1;
 				constraints.insets = new Insets(topMargin, 0, bottomMarginUnderSection, rightMargin);
-				layour.setConstraints(zMinField, constraints);
+				layout.setConstraints(zMinField, constraints);
 				basePanel.add(zMinField);
 
 				// Create the right-click menu for the above text field.
@@ -414,7 +414,7 @@ public class RangeSettingWindow {
 			// The button to reflect settings (OK button).
 			okButton = new JButton("Unconfigured");
 			constraints.insets = new Insets(0, leftMargin, bottomMargin, rightMargin);
-			layour.setConstraints(okButton, constraints);
+			layout.setConstraints(okButton, constraints);
 			basePanel.add(okButton);
 		}
 	}

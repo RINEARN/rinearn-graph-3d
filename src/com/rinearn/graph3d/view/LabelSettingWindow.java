@@ -125,8 +125,8 @@ public final class LabelSettingWindow {
 
 			// Prepare the layout manager and resources.
 			Container basePanel = frame.getContentPane();
-			GridBagLayout layour = new GridBagLayout();
-			basePanel.setLayout(layour);
+			GridBagLayout layout = new GridBagLayout();
+			basePanel.setLayout(layout);
 			GridBagConstraints constraints = new GridBagConstraints();
 			constraints.gridx = 0;
 			constraints.gridy = 0;
@@ -148,7 +148,7 @@ public final class LabelSettingWindow {
 			xLabelTextLabel = new JLabel("Unconfigured");
 			xLabelTextLabel.setVerticalAlignment(JLabel.BOTTOM);
 			constraints.insets = new Insets(topMargin, leftMargin, marginBetweenLabelAndField, rightMargin);
-			layour.setConstraints(xLabelTextLabel, constraints);
+			layout.setConstraints(xLabelTextLabel, constraints);
 			basePanel.add(xLabelTextLabel);
 
 			constraints.gridy++;
@@ -156,7 +156,7 @@ public final class LabelSettingWindow {
 			// Create the text field for inputting the X label's text.
 			xLabelTextField = new JTextField("Unconfigured");
 			constraints.insets = new Insets(0, leftMarginOfFields, 0, rightMargin);
-			layour.setConstraints(xLabelTextField, constraints);
+			layout.setConstraints(xLabelTextField, constraints);
 			basePanel.add(xLabelTextField);
 
 			// The right click menu for the above text field.
@@ -168,7 +168,7 @@ public final class LabelSettingWindow {
 			yLabelTextLabel = new JLabel("Unconfigured");
 			yLabelTextLabel.setVerticalAlignment(JLabel.BOTTOM);
 			constraints.insets = new Insets(topMargin, leftMargin, marginBetweenLabelAndField, rightMargin);
-			layour.setConstraints(yLabelTextLabel, constraints);
+			layout.setConstraints(yLabelTextLabel, constraints);
 			basePanel.add(yLabelTextLabel);
 
 			constraints.gridy++;
@@ -176,7 +176,7 @@ public final class LabelSettingWindow {
 			// Create the text field for inputting the Y label's text.
 			yLabelTextField = new JTextField("Unconfigured");
 			constraints.insets = new Insets(0, leftMarginOfFields, 0, rightMargin);
-			layour.setConstraints(yLabelTextField, constraints);
+			layout.setConstraints(yLabelTextField, constraints);
 			basePanel.add(yLabelTextField);
 
 			// The right click menu for the above text field.
@@ -188,7 +188,7 @@ public final class LabelSettingWindow {
 			zLabelTextLabel = new JLabel("Unconfigured");
 			zLabelTextLabel.setVerticalAlignment(JLabel.BOTTOM);
 			constraints.insets = new Insets(topMargin, leftMargin, marginBetweenLabelAndField, rightMargin);
-			layour.setConstraints(zLabelTextLabel, constraints);
+			layout.setConstraints(zLabelTextLabel, constraints);
 			basePanel.add(zLabelTextLabel);
 
 			constraints.gridy++;
@@ -196,7 +196,7 @@ public final class LabelSettingWindow {
 			// Create the text field for inputting the Y label's text.
 			zLabelTextField = new JTextField("Unconfigured");
 			constraints.insets = new Insets(0, leftMarginOfFields, 0, rightMargin);
-			layour.setConstraints(zLabelTextField, constraints);
+			layout.setConstraints(zLabelTextField, constraints);
 			basePanel.add(zLabelTextField);
 
 			// The right click menu for the above text field.
@@ -207,7 +207,7 @@ public final class LabelSettingWindow {
 			// Insert an empty row.
 			JLabel emptyLabel = new JLabel(" ");
 			constraints.insets = new Insets(0, 0, 0, 0);
-			layour.setConstraints(emptyLabel, constraints);
+			layout.setConstraints(emptyLabel, constraints);
 			basePanel.add(emptyLabel);
 
 			constraints.gridy++;
@@ -215,7 +215,7 @@ public final class LabelSettingWindow {
 			// The button to reflect settings (OK button).
 			okButton = new JButton("Unconfigured");
 			constraints.insets = new Insets(0, leftMargin, bottomMargin, rightMargin);
-			layour.setConstraints(okButton, constraints);
+			layout.setConstraints(okButton, constraints);
 			basePanel.add(okButton);
 		}
 	}
