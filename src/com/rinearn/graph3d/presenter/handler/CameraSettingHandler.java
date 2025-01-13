@@ -588,11 +588,11 @@ public final class CameraSettingHandler {
 			cameraConfig.setScreenSize(screenWidth, screenHeight);
 
 			// Propagate the above update of the configuration to the entire application.
-			// In addition, request the MainWindowHandler to resize the main window,
+			// In addition, request the MainWindowFrameHandler to resize the main window,
 			// into the size corresponding the screen size.
 			setEventHandlingEnabled(false);
 			presenter.propagateConfiguration();
-			presenter.mainWindowHandler.setScreenSize(screenWidth, screenHeight);
+			presenter.mainWindowFrameHandler.setScreenSize(screenWidth, screenHeight);
 			setEventHandlingEnabled(true);
 
 			// Perform rendering on the rendering loop's thread asynchronously.

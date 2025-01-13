@@ -272,7 +272,7 @@ public final class RinearnGraph3D {
 	 *   </span>
 	 */
 	public void setWindowTitle(String title) {
-		this.presenter.mainWindowHandler.setWindowTitle(title);
+		this.presenter.mainWindowFrameHandler.setWindowTitle(title);
 	}
 
 
@@ -287,7 +287,7 @@ public final class RinearnGraph3D {
 	 * @param enabled Specify true to enable, or false to disable.
 	 */
 	public void setAutoDisposingEnabled(boolean enabled) {
-		this.presenter.mainWindowHandler.setAutoDisposingEnabled(enabled);
+		this.presenter.mainWindowFrameHandler.setAutoDisposingEnabled(enabled);
 	}
 
 
@@ -310,7 +310,7 @@ public final class RinearnGraph3D {
 	 *   </span>
 	 */
 	public synchronized void setAutoExitingEnabled(boolean enabled) {
-		this.presenter.mainWindowHandler.setAutoExitingEnabled(enabled);
+		this.presenter.mainWindowFrameHandler.setAutoExitingEnabled(enabled);
 	}
 
 	/**
@@ -1000,7 +1000,7 @@ public final class RinearnGraph3D {
 	 *   <span class="lang-en">The height the graph window</span>
 	 */
 	public synchronized void setWindowBounds(int x, int y, int width, int height) {
-		this.presenter.mainWindowHandler.setWindowBounds(x, y, width, height);
+		this.presenter.mainWindowFrameHandler.setWindowBounds(x, y, width, height);
 		this.presenter.screenHandler.updateScreenSize();
 	}
 
@@ -1034,7 +1034,7 @@ public final class RinearnGraph3D {
 	 *   <span class="lang-en">The height the graph screen</span>
 	 */
 	public synchronized void setScreenSize (int width, int height) {
-		this.presenter.mainWindowHandler.setScreenSize(width, height);
+		this.presenter.mainWindowFrameHandler.setScreenSize(width, height);
 		this.presenter.screenHandler.setScreenSize(width, height);
 	}
 
@@ -1531,7 +1531,7 @@ public final class RinearnGraph3D {
 	 *   <span class="lang-ja">追加するイベントリスナー</span>
 	 */
 	public void addWindowListener(WindowListener listener) {
-		this.presenter.mainWindowHandler.addWindowListener(listener);
+		this.presenter.mainWindowFrameHandler.addWindowListener(listener);
 	}
 
 
@@ -1548,7 +1548,7 @@ public final class RinearnGraph3D {
 	 *   <span class="lang-ja">追加するイベントリスナー</span>
 	 */
 	public void addComponentListener(ComponentListener listener) {
-		this.presenter.mainWindowHandler.addComponentListener(listener);
+		this.presenter.mainWindowFrameHandler.addComponentListener(listener);
 	}
 
 
