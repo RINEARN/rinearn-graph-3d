@@ -211,7 +211,7 @@ public final class MainMenuHandler {
 
 
 	/**
-	 * The listener handling the event that "Math" > "z(x,y)" menu item is clicked.
+	 * The listener handling the event that "Math" > "Plot z(x,y)" menu item is clicked.
 	 */
 	private final class ZxyMathItemClickedEventListener implements ActionListener {
 		@Override

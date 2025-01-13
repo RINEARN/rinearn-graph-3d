@@ -49,7 +49,7 @@ public class MainMenu {
 	/** "Math" > "Remove Last" menu on the menu bar. */
 	public volatile JMenuItem removeLastMathMenuItem;
 
-	/** "Math" > "z(x,y)" menu on the menu bar. */
+	/** "Math" > "Plot z(x,y)" menu on the menu bar. */
 	public volatile JMenuItem zxyMathMenuItem;
 
 
@@ -147,7 +147,7 @@ public class MainMenu {
 				mathMenu = new JMenu("Unconfigured");
 				menuBar.add(mathMenu);
 
-				// "Math" > "z(x,y)" menu item:
+				// "Math" > "Plot z(x,y)" menu item:
 				zxyMathMenuItem = new JMenuItem("Unconfigured");
 				mathMenu.add(zxyMathMenuItem);
 
@@ -317,7 +317,7 @@ public class MainMenu {
 			// "Math" menu and sub menu items.
 			{
 				mathMenu.setText("数式");
-				zxyMathMenuItem.setText("z(x,y)");
+				zxyMathMenuItem.setText("z(x,y) 形式の数式をプロット");
 				removeLastMathMenuItem.setText("最後のものを削除");
 				clearMathMenuItem.setText("クリア");
 			}
@@ -360,7 +360,7 @@ public class MainMenu {
 			// "Math" menu and sub menu items.
 			{
 				mathMenu.setText("Math");
-				zxyMathMenuItem.setText("z(x,y)");
+				zxyMathMenuItem.setText("Plot z(x,y)");
 				removeLastMathMenuItem.setText("Remove Last");
 				clearMathMenuItem.setText("Clear");
 			}
