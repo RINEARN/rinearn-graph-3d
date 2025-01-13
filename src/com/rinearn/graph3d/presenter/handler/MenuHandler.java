@@ -26,7 +26,7 @@ import java.lang.reflect.InvocationTargetException;
 
 
 /**
- * The class handling UI events related to menus, and also handling some menu-like API requests, such as clear().
+ * The class handling UI events and API requests related to the main menu.
  */
 public final class MenuHandler {
 
@@ -58,29 +58,29 @@ public final class MenuHandler {
 		MainWindow window = this.view.mainWindow;
 
 		// Add the action listeners to the sub menu items in "File" menu.
-		window.openDataFileMenuItem.addActionListener(new OpenDataFileItemClickedEventListener());
-		window.pasteDataTextMenuItem.addActionListener(new PasteDataTextItemClickedEventListener());
-		window.saveImageFileMenuItem.addActionListener(new SaveImageFileItemClickedEventListener());
-		window.copyImageMenuItem.addActionListener(new CopyImageItemClickedEventListener());
+		window.mainMenu.openDataFileMenuItem.addActionListener(new OpenDataFileItemClickedEventListener());
+		window.mainMenu.pasteDataTextMenuItem.addActionListener(new PasteDataTextItemClickedEventListener());
+		window.mainMenu.saveImageFileMenuItem.addActionListener(new SaveImageFileItemClickedEventListener());
+		window.mainMenu.copyImageMenuItem.addActionListener(new CopyImageItemClickedEventListener());
 
 		// Add the action listeners to the sub menu items in "Math" menu.
-		window.zxyMathMenuItem.addActionListener(new ZxyMathItemClickedEventListener());
-		window.removeLastMathMenuItem.addActionListener(new RemoveLastMathItemClickedEventListener());
-		window.clearMathMenuItem.addActionListener(new ClearMathItemClickedEventListener());
+		window.mainMenu.zxyMathMenuItem.addActionListener(new ZxyMathItemClickedEventListener());
+		window.mainMenu.removeLastMathMenuItem.addActionListener(new RemoveLastMathItemClickedEventListener());
+		window.mainMenu.clearMathMenuItem.addActionListener(new ClearMathItemClickedEventListener());
 
 		// Add the action listeners to the sub menu items in "Settings" menu.
-		window.rangeSettingMenuItem.addActionListener(new RangeSettingItemClickedEventListener());
-		window.labelSettingMenuItem.addActionListener(new LabelSettingItemClickedEventListener());
-		window.fontSettingMenuItem.addActionListener(new FontSettingItemClickedEventListener());
-		window.cameraSettingMenuItem.addActionListener(new CameraSettingItemClickedEventListener());
-		window.lightSettingMenuItem.addActionListener(new LightSettingItemClickedEventListener());
-		window.scaleSettingMenuItem.addActionListener(new ScaleSettingItemClickedEventListener());
+		window.mainMenu.rangeSettingMenuItem.addActionListener(new RangeSettingItemClickedEventListener());
+		window.mainMenu.labelSettingMenuItem.addActionListener(new LabelSettingItemClickedEventListener());
+		window.mainMenu.fontSettingMenuItem.addActionListener(new FontSettingItemClickedEventListener());
+		window.mainMenu.cameraSettingMenuItem.addActionListener(new CameraSettingItemClickedEventListener());
+		window.mainMenu.lightSettingMenuItem.addActionListener(new LightSettingItemClickedEventListener());
+		window.mainMenu.scaleSettingMenuItem.addActionListener(new ScaleSettingItemClickedEventListener());
 
 		// Add the action listeners to the sub menu items in "Option" menu.
-		window.pointOptionMenuItem.addActionListener(new PointOptionMenuItemSelectedEventListener());
-		window.lineOptionMenuItem.addActionListener(new LineOptionMenuItemSelectedEventListener());
-		window.meshOptionMenuItem.addActionListener(new MeshOptionMenuItemSelectedEventListener());
-		window.membraneOptionMenuItem.addActionListener(new MembraneOptionMenuItemSelectedEventListener());
+		window.mainMenu.pointOptionMenuItem.addActionListener(new PointOptionMenuItemSelectedEventListener());
+		window.mainMenu.lineOptionMenuItem.addActionListener(new LineOptionMenuItemSelectedEventListener());
+		window.mainMenu.meshOptionMenuItem.addActionListener(new MeshOptionMenuItemSelectedEventListener());
+		window.mainMenu.membraneOptionMenuItem.addActionListener(new MembraneOptionMenuItemSelectedEventListener());
 
 		// Add the action listeners to the right-click menu.
 		window.copyImageRightClickMenuItem.addActionListener(new CopyImageItemClickedEventListener());
@@ -359,7 +359,7 @@ public final class MenuHandler {
 			OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
 
 			// Store the selection state of this option into the config container.
-			boolean isOptionSelected = view.mainWindow.pointOptionMenuItem.isSelected();
+			boolean isOptionSelected = view.mainWindow.mainMenu.pointOptionMenuItem.isSelected();
 			pointOptionConfig.setSelected(isOptionSelected);
 
 			// When this option is turned on from off, pop-up the dialog to input the point size.
@@ -426,7 +426,7 @@ public final class MenuHandler {
 			OptionConfiguration.LineOptionConfiguration lineOptionConfig = optionConfig.getLineOptionConfiguration();
 
 			// Store the selection state of this option into the config container.
-			boolean isOptionSelected = view.mainWindow.lineOptionMenuItem.isSelected();
+			boolean isOptionSelected = view.mainWindow.mainMenu.lineOptionMenuItem.isSelected();
 			lineOptionConfig.setSelected(isOptionSelected);
 
 			// When this option is turned on from off, pop-up the dialog to input the line width.
@@ -493,7 +493,7 @@ public final class MenuHandler {
 			OptionConfiguration.MeshOptionConfiguration meshOptionConfig = optionConfig.getMeshOptionConfiguration();
 
 			// Store the selection state of this option into the config container.
-			boolean isOptionSelected = view.mainWindow.meshOptionMenuItem.isSelected();
+			boolean isOptionSelected = view.mainWindow.mainMenu.meshOptionMenuItem.isSelected();
 			meshOptionConfig.setSelected(isOptionSelected);
 
 			// When this option is turned on from off, pop-up the dialog to input the line width.
@@ -560,7 +560,7 @@ public final class MenuHandler {
 			OptionConfiguration.MembraneOptionConfiguration membraneOptionConfig = optionConfig.getMembraneOptionConfiguration();
 
 			// Store the selection state of this option into the config container.
-			boolean isOptionSelected = view.mainWindow.membraneOptionMenuItem.isSelected();
+			boolean isOptionSelected = view.mainWindow.mainMenu.membraneOptionMenuItem.isSelected();
 			membraneOptionConfig.setSelected(isOptionSelected);
 
 			// Propagates the updated configuration, to the entire application.
@@ -706,7 +706,7 @@ public final class MenuHandler {
 		public void run() {
 			boolean isMenuVisible = (view.mainWindow.frame.getJMenuBar() != null);
 
-			view.mainWindow.menuBar = this.menuBar;
+			view.mainWindow.mainMenu.menuBar = this.menuBar;
 			if (isMenuVisible) {
 				view.mainWindow.frame.setJMenuBar(this.menuBar);
 				view.mainWindow.forceUpdateWindowLayout();
