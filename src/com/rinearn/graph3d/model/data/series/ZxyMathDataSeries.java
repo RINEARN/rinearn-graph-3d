@@ -113,11 +113,10 @@ public class ZxyMathDataSeries extends MathDataSeries {
 
 
 	/**
-	 * Returns a single-line string representing the math expression of this data series,
-	 * to be displayed on UI.
+	 * Returns a single-line name of this data series, to be displayed on UI.
 	 */
 	@Override
-	public synchronized String getDisplayedExpression() {
+	public synchronized String getDisplayName() {
 		String displayedExpression = "z(x,y)=" + this.zMathExpression;
 		return displayedExpression;
 	}

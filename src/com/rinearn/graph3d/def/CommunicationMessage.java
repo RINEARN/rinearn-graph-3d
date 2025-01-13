@@ -68,6 +68,7 @@ public final class CommunicationMessage {
 			case CHANGE_DATA_FORMATS_OF_ALL_LISTED_FILES : return "現在リストにある、全ファイルのデータ書式もまとめて変更しますか？";
 			case SUCCEEDED_TO_SAVE_IMAGE : return "画像ファイルの保存が完了しました。\n\nファイル: " + words[0];
 			case DO_YOU_WANT_TO_OVERWRITE_IMAGE : return "以下のファイルは既に存在します。上書きしますか?\n\nファイル: " + words[0];
+			case SELECT_MATH_EXPRESSION_TO_BE_REMOVED : return "削除する数式を選択してください:";
 			default : return "不明な種類のメッセージ：" + communicationType;
 		}
 	}
@@ -87,6 +88,7 @@ public final class CommunicationMessage {
 			case CHANGE_DATA_FORMATS_OF_ALL_LISTED_FILES : return "Do you want to change the data formats of all the files in the list at once?";
 			case SUCCEEDED_TO_SAVE_IMAGE : return "The image file has been saved.\n\nFile:" + words[0];
 			case DO_YOU_WANT_TO_OVERWRITE_IMAGE : return "The following file already exists. Do you want to overwrite it?\n\nFile: " + words[0];
+			case SELECT_MATH_EXPRESSION_TO_BE_REMOVED : return "Please select the math expression to be removed:";
 			default : return "Unknown Communication Message Type: " + communicationType;
 		}
 	}

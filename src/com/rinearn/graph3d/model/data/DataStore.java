@@ -58,6 +58,16 @@ public class DataStore {
 
 
 	/**
+	 * Remove the specified math data series.
+	 *
+	 * @param index the index of the math data series to be removed.
+	 */
+	public synchronized void removeMathDataSeriesAt(int index) {
+		this.mathDataSeriesGroup.removeDataSeriesAt(index);
+	}
+
+
+	/**
 	 * Remove the lastly registered math data series.
 	 *
 	 * If this method is called when no math data series is registered, nothing occurs.

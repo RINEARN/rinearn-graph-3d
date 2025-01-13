@@ -140,6 +140,16 @@ public final class DataSeriesGroup<DataSeriesType extends AbstractDataSeries>
 
 
 	/**
+	 * Removes the specified data series.
+	 *
+	 * @param index The index of the data series to be removed.
+	 */
+	public synchronized void removeDataSeriesAt(int index) {
+		this.dataSeriesList.remove(index);
+	}
+
+
+	/**
 	 * Removes the last registered data series.
 	 */
 	public synchronized void removeLastDataSeries() {

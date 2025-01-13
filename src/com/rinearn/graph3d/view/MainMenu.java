@@ -43,11 +43,11 @@ public class MainMenu {
 	/** "Math" menu on the menu bar. */
 	public volatile JMenu mathMenu;
 
-	/** "Math" > "Clear" menu on the menu bar. */
+	/** "Math" > "Clear Math Expressions" menu on the menu bar. */
 	public volatile JMenuItem clearMathMenuItem;
 
-	/** "Math" > "Remove Last" menu on the menu bar. */
-	public volatile JMenuItem removeLastMathMenuItem;
+	/** "Math" > "Remove Math Expression" menu on the menu bar. */
+	public volatile JMenuItem removeMathMenuItem;
 
 	/** "Math" > "Plot z(x,y)" menu on the menu bar. */
 	public volatile JMenuItem zxyMathMenuItem;
@@ -154,11 +154,11 @@ public class MainMenu {
 				// ---
 				mathMenu.addSeparator();
 
-				// "Math" > "RemoveLast" menu item:
-				removeLastMathMenuItem = new JMenuItem("Unconfigured");
-				mathMenu.add(removeLastMathMenuItem);
+				// "Math" > "Remove Math Expression" menu item:
+				removeMathMenuItem = new JMenuItem("Unconfigured");
+				mathMenu.add(removeMathMenuItem);
 
-				// "Math" > "Clear" menu item:
+				// "Math" > "Clear Math Expressions" menu item:
 				clearMathMenuItem = new JMenuItem("Unconfigured");
 				mathMenu.add(clearMathMenuItem);
 			}
@@ -318,8 +318,8 @@ public class MainMenu {
 			{
 				mathMenu.setText("数式");
 				zxyMathMenuItem.setText("z(x,y) 形式の数式をプロット");
-				removeLastMathMenuItem.setText("最後のものを削除");
-				clearMathMenuItem.setText("クリア");
+				removeMathMenuItem.setText("数式を削除");
+				clearMathMenuItem.setText("数式をクリア");
 			}
 
 			// "Settings" menu and sub menu items.
@@ -361,8 +361,8 @@ public class MainMenu {
 			{
 				mathMenu.setText("Math");
 				zxyMathMenuItem.setText("Plot z(x,y)");
-				removeLastMathMenuItem.setText("Remove Last");
-				clearMathMenuItem.setText("Clear");
+				removeMathMenuItem.setText("Remove Math Expression");
+				clearMathMenuItem.setText("Clear Math Expressions");
 			}
 
 			// "Settings" menu and sub menu items.
@@ -405,7 +405,7 @@ public class MainMenu {
 			// "Math" menu and sub menu items.
 			{
 				mathMenu.setFont(uiBoldFont);
-				removeLastMathMenuItem.setFont(uiBoldFont);
+				removeMathMenuItem.setFont(uiBoldFont);
 				clearMathMenuItem.setFont(uiBoldFont);
 				zxyMathMenuItem.setFont(uiBoldFont);
 			}

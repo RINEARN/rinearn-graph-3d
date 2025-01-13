@@ -46,11 +46,10 @@ public class XtYtZtMathDataSeries extends MathDataSeries {
 
 
 	/**
-	 * Returns a single-line string representing the math expressions of this data series,
-	 * to be displayed on UI.
+	 * Returns a single-line name of this data series, to be displayed on UI.
 	 */
 	@Override
-	public synchronized String getDisplayedExpression() {
+	public synchronized String getDisplayName() {
 		throw new RuntimeException("Unimplemented yet.");
 	}
 

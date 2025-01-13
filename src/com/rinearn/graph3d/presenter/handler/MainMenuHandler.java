@@ -1,12 +1,16 @@
 package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.model.Model;
+import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
+import com.rinearn.graph3d.model.data.series.MathDataSeries;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.view.MainWindow;
 import com.rinearn.graph3d.config.OptionConfiguration;
 import com.rinearn.graph3d.def.ErrorMessage;
 import com.rinearn.graph3d.def.ErrorType;
+import com.rinearn.graph3d.def.CommunicationMessage;
+import com.rinearn.graph3d.def.CommunicationType;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -65,7 +69,7 @@ public final class MainMenuHandler {
 
 		// Add the action listeners to the sub menu items in "Math" menu.
 		window.mainMenu.zxyMathMenuItem.addActionListener(new ZxyMathItemClickedEventListener());
-		window.mainMenu.removeLastMathMenuItem.addActionListener(new RemoveLastMathItemClickedEventListener());
+		window.mainMenu.removeMathMenuItem.addActionListener(new RemoveMathItemClickedEventListener());
 		window.mainMenu.clearMathMenuItem.addActionListener(new ClearMathItemClickedEventListener());
 
 		// Add the action listeners to the sub menu items in "Settings" menu.
@@ -226,17 +230,47 @@ public final class MainMenuHandler {
 
 
 	/**
-	 * The listener handling the event that "Math" > "Remove Last" menu item is clicked.
+	 * The listener handling the event that "Math" > "Remove Math Expression" menu item is clicked.
 	 */
-	private final class RemoveLastMathItemClickedEventListener implements ActionListener {
+	private final class RemoveMathItemClickedEventListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
 
-			// Cleare the lastly-registered math data series.
-			model.dataStore.removeLastMathDataSeries();
+			// Gets all the registered math data series.
+			DataSeriesGroup<MathDataSeries> mathDataSeriesGroup = model.dataStore.getMathDataSeriesGroup();
+			int seriesCount = mathDataSeriesGroup.getDataSeriesCount();
+			if (seriesCount == 0) {
+				return;
+			}
+
+			// Gets the display names of all the math data series.
+			String[] seriesDisplayNames = new String[seriesCount];
+			for (int iseries=0; iseries<seriesCount; iseries++) {
+				seriesDisplayNames[iseries] = (iseries + 1) + ":  " + mathDataSeriesGroup.getDataSeriesAt(iseries).getDisplayName();
+			}
+
+			// Show the pop-up window to select the math data series to be removed.
+			String message = CommunicationMessage.generateCommunicationMessage(CommunicationType.SELECT_MATH_EXPRESSION_TO_BE_REMOVED);
+			Object selectedItem = JOptionPane.showInputDialog(
+					view.mainWindow.frame, message, "", JOptionPane.PLAIN_MESSAGE, null,
+					seriesDisplayNames, seriesDisplayNames[0]
+			);
+
+			// If the selected item is null, it means that "Cancel" is clicked.
+			if (selectedItem == null) {
+				return;
+			}
+
+			// Get the index of the selected item.
+			String selectedText = String.class.cast(selectedItem);
+			String selectedIndexString = selectedText.substring(0, selectedText.indexOf(":"));
+			int selectedIndex = Integer.parseInt(selectedIndexString) - 1;
+
+			// Remove the selected math data series.
+			model.dataStore.removeMathDataSeriesAt(selectedIndex);
 
 			// Replot the graph.
 			presenter.plot();
@@ -245,7 +279,7 @@ public final class MainMenuHandler {
 
 
 	/**
-	 * The listener handling the event that "Math" > "Clear" menu item is clicked.
+	 * The listener handling the event that "Math" > "Clear Math Expressions" menu item is clicked.
 	 */
 	private final class ClearMathItemClickedEventListener implements ActionListener {
 		@Override

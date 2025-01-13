@@ -394,7 +394,7 @@ public final class Presenter {
 
 			// The scripting engine may throw exceptions, when the expression(s) contains syntax errors, and so on.
 			} catch (VnanoException vne) {
-				String expression = mathDataSeries.getDisplayedExpression();
+				String expression = mathDataSeries.getDisplayName();
 				String errorMessage = this.model.config.getEnvironmentConfiguration().isLocaleJapanese() ?
 						"数式「" + expression + "」のプロットでエラーが発生しました。\n詳細は標準エラー出力を参照してください。" :
 						"An error occurred for plotting the math expression \"" + expression + "\".\nSee the standard error output for datails.";
