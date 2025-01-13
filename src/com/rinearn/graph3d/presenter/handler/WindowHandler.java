@@ -30,7 +30,6 @@ public final class WindowHandler {
 	private final View view;
 
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
-	@SuppressWarnings("unused")
 	private final Presenter presenter;
 
 	/** The flag for turning on/off the event handling feature of this instance. */

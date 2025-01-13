@@ -32,7 +32,6 @@ public class ScaleSettingHandler {
 	private final Model model;
 
 	/** The front-end class of "View" layer, which provides visible part of GUI without event handling. */
-	@SuppressWarnings("unused")
 	private final View view;
 
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
