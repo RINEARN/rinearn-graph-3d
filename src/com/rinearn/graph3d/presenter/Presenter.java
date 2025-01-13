@@ -19,6 +19,7 @@ import com.rinearn.graph3d.presenter.handler.MainMenuHandler;
 import com.rinearn.graph3d.presenter.handler.RangeSettingHandler;
 import com.rinearn.graph3d.presenter.handler.ScaleSettingHandler;
 import com.rinearn.graph3d.presenter.handler.ScreenHandler;
+import com.rinearn.graph3d.presenter.handler.ScreenRightClickMenuHandler;
 import com.rinearn.graph3d.presenter.handler.ScreenSideUIHandler;
 import com.rinearn.graph3d.presenter.handler.ZxyMathHandler;
 import com.rinearn.graph3d.presenter.handler.DataFileIOHandler;
@@ -127,11 +128,14 @@ public final class Presenter {
 	/** The handler of events of (the frame of) the main window. */
 	public final WindowHandler windowHandler;
 
+	/** The handler of events and API requests related to the menu bar and right click menus. */
+	public final MainMenuHandler mainMenuHandler;
+
 	/** The handler of events of the graph screen, such as mouse-dragging events for rotate a graph, etc. */
 	public final ScreenHandler screenHandler;
 
-	/** The handler of events and API requests related to the menu bar and right click menus. */
-	public final MainMenuHandler mainMenuHandler;
+	/** The handler of events of the right-click menu of the graph screen. */
+	public final ScreenRightClickMenuHandler screenRightClickMenuHandler;
 
 	/** The handler of events and API requests related to UI on the panel at the left side of the screen. */
 	public final ScreenSideUIHandler screenSideUIHandler;
@@ -215,6 +219,7 @@ public final class Presenter {
 		// Create handlers for various events and API requests.
 		this.mainMenuHandler = new MainMenuHandler(model, view, this);
 		this.screenSideUIHandler = new ScreenSideUIHandler(model, view, this);
+		this.screenRightClickMenuHandler = new ScreenRightClickMenuHandler(model, view, this);
 		this.rangeSettingHandler = new RangeSettingHandler(model, view, this);
 		this.labelSettingHandler = new LabelSettingHandler(model, view, this);
 		this.fontSettingHandler = new FontSettingHandler(model, view, this);
@@ -249,8 +254,9 @@ public final class Presenter {
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
 		this.windowHandler.setEventHandlingEnabled(enabled);
-		this.screenHandler.setEventHandlingEnabled(enabled);
 		this.mainMenuHandler.setEventHandlingEnabled(enabled);
+		this.screenHandler.setEventHandlingEnabled(enabled);
+		this.screenRightClickMenuHandler.setEventHandlingEnabled(enabled);
 		this.screenSideUIHandler.setEventHandlingEnabled(enabled);
 		this.rangeSettingHandler.setEventHandlingEnabled(enabled);
 		this.labelSettingHandler.setEventHandlingEnabled(enabled);

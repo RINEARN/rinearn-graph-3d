@@ -81,10 +81,6 @@ public final class MainMenuHandler {
 		window.mainMenu.lineOptionMenuItem.addActionListener(new LineOptionMenuItemSelectedEventListener());
 		window.mainMenu.meshOptionMenuItem.addActionListener(new MeshOptionMenuItemSelectedEventListener());
 		window.mainMenu.membraneOptionMenuItem.addActionListener(new MembraneOptionMenuItemSelectedEventListener());
-
-		// Add the action listeners to the right-click menu.
-		window.screenRightClickMenu.copyImageRightClickMenuItem.addActionListener(new CopyImageItemClickedEventListener());
-		window.screenRightClickMenu.pasteDataTextRightClickMenuItem.addActionListener(new PasteDataTextItemClickedEventListener());
 	}
 
 
@@ -134,8 +130,11 @@ public final class MainMenuHandler {
 
 	/**
 	 * The listener handling the event that "File" > "Paste Data" menu item is clicked.
+	 *
+	 * This class is also instantiated in ScreenRightClickMenuListener
+	 * to handle events of a right-click menu item "Paste Data".
 	 */
-	private final class PasteDataTextItemClickedEventListener implements ActionListener {
+	protected final class PasteDataTextItemClickedEventListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			if (!isEventHandlingEnabled()) {
@@ -177,8 +176,11 @@ public final class MainMenuHandler {
 
 	/**
 	 * The event listener handling the event that the Right-click > "Copy Image" menu is clicked.
+	 *
+	 * This class is also instantiated in ScreenRightClickMenuListener
+	 * to handle events of a right-click menu item "Paste Data".
 	 */
-	private final class CopyImageItemClickedEventListener implements ActionListener {
+	protected final class CopyImageItemClickedEventListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			if (!isEventHandlingEnabled()) {
