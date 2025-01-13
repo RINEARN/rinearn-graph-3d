@@ -219,6 +219,7 @@ public final class MainMenuHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
+			presenter.zxyMathHandler.setMode(ZxyMathHandler.Mode.PLOT);
 			view.zxyMathWindow.setWindowVisible(true);
 		}
 	}

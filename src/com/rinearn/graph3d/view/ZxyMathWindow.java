@@ -1,6 +1,7 @@
 package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.EnvironmentConfiguration;
 import com.rinearn.graph3d.config.FontConfiguration;
 
 import java.awt.Container;
@@ -73,8 +74,24 @@ public class ZxyMathWindow {
 	/** The right-click menu of yResolutionField. */
 	public volatile TextRightClickMenu yResolutionFieldRightClickMenu;
 
-	/** OK button. */
-	public volatile JButton okButton;
+	/** PLOT/UPDATE button. */
+	public volatile JButton plotButton;
+
+	/** The currentMode of z(x,y) math tool. */
+	public enum Mode {
+
+		/** The currentMode to plot a new expression. */
+		PLOT,
+
+		/** The currentMode to update an existing expression. */
+		UPDATE,
+
+		/** Represents the currentMode is not set yet, or has been unset. */
+		UNSET;
+	}
+
+	/** The current currentMode of z(x,y) math tool. */
+	private volatile Mode currentMode = Mode.UNSET;
 
 
 	/**
@@ -84,6 +101,61 @@ public class ZxyMathWindow {
 
 		// Initialize GUI components.
 		this.initializeComponents();
+	}
+
+
+	/**
+	 * Updates the UI depending on the currentMode of z(x,y) math tool.
+	 * This method is invocable only from the event-dispatch thread.
+	 *
+	 * @param currentMode The currentMode of z(x,y) math tool.
+	 * @param environmentConfig The environment configuration, containing the locale information.
+	 */
+	public synchronized void updateUIForMode(Mode mode, EnvironmentConfiguration environmentConfig) {
+		if (!SwingUtilities.isEventDispatchThread()) {
+			throw new IllegalStateException("This method is invocable only on the event-dispatch thread.");
+		}
+		this.currentMode = mode;
+
+		// Update the label of PLOT/UPDATE button.
+		if (environmentConfig.isLocaleJapanese()) {
+			switch (mode) {
+				case PLOT : {
+					plotButton.setText("プロット");
+					break;
+				}
+				case UPDATE : {
+					plotButton.setText("更新");
+					break;
+				}
+				case UNSET : {
+					plotButton.setText("(未設定)");
+					break;
+				}
+				default : {
+					throw new IllegalStateException("Unexpected currentMode: " + mode);
+				}
+			}
+		} else {
+			switch (mode) {
+				case PLOT : {
+					plotButton.setText("PLOT");
+					break;
+				}
+				case UPDATE : {
+					plotButton.setText("UPDATE");
+					break;
+				}
+				case UNSET : {
+					plotButton.setText("(UNSET)");
+					break;
+				}
+				default : {
+					throw new IllegalStateException("Unexpected currentMode: " + mode);
+				}
+			}
+		}
+		plotButton.repaint();
 	}
 
 
@@ -262,11 +334,11 @@ public class ZxyMathWindow {
 			constraints.gridwidth = 2;
 			constraints.gridx = 0;
 
-			// OK button.
-			okButton = new JButton("Unconfigured");
+			// PLOT/UPDATE button.
+			plotButton = new JButton("Unconfigured");
 			constraints.insets = new Insets(0, leftMargin, bottomMargin, rightMargin);
-			layout.setConstraints(okButton, constraints);
-			basePanel.add(okButton);
+			layout.setConstraints(plotButton, constraints);
+			basePanel.add(plotButton);
 		}
 	}
 
@@ -348,7 +420,9 @@ public class ZxyMathWindow {
 			resolutionLabel.setText("- 解像度 -");
 			xResolutionLabel.setText("Xメッシュ:");
 			yResolutionLabel.setText("Yメッシュ:");
-			okButton.setText("OK");
+
+			// Update the text of PLOT/UPDATE button.
+			updateUIForMode(currentMode, this.configuration.getEnvironmentConfiguration());
 		}
 
 		/**
@@ -361,7 +435,9 @@ public class ZxyMathWindow {
 			resolutionLabel.setText("- Resolution -");
 			xResolutionLabel.setText("X Mesh:");
 			yResolutionLabel.setText("Y Mesh:");
-			okButton.setText("OK");
+
+			// Update the text of PLOT/UPDATE button.
+			updateUIForMode(currentMode, this.configuration.getEnvironmentConfiguration());
 		}
 
 		/**
@@ -386,7 +462,7 @@ public class ZxyMathWindow {
 			yResolutionLabel.setFont(uiBoldFont);
 			yResolutionField.setFont(uiPlainFont);
 
-			okButton.setFont(uiBoldFont);
+			plotButton.setFont(uiBoldFont);
 		}
 	}
 

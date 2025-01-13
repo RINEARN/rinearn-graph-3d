@@ -25,17 +25,36 @@ public class ZxyMathHandler {
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
 
-	/** The event handler of the right-click menu of the text field to input z(x,y) math expression. */
-	private volatile TextRightClickMenuHandler zMathExpressionFieldMenuHandler;
-
-	/** The event handler of the right-click menu of the text field to input x-resolution. */
-	private volatile TextRightClickMenuHandler xResolutionFieldMenuHandler;
-
-	/** The event handler of the right-click menu of the text field to input y-resolution. */
-	private volatile TextRightClickMenuHandler yResolutionFieldMenuHandler;
-
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
+
+	/** The event handler of the right-click menu of the text field to input z(x,y) math expression. */
+	private volatile TextRightClickMenuHandler zMathExpressionFieldMenuHandler = null;
+
+	/** The event handler of the right-click menu of the text field to input x-resolution. */
+	private volatile TextRightClickMenuHandler xResolutionFieldMenuHandler = null;
+
+	/** The event handler of the right-click menu of the text field to input y-resolution. */
+	private volatile TextRightClickMenuHandler yResolutionFieldMenuHandler = null;
+
+	/** The currentMode of z(x,y) math tool. */
+	public enum Mode {
+
+		/** The currentMode to plot a new expression. */
+		PLOT,
+
+		/** The currentMode to update an existing expression. */
+		UPDATE,
+
+		/** Represents the currentMode is not set yet, or has been unset. */
+		UNSET;
+	}
+
+	/** The current currentMode of z(x,y) math tool. */
+	private volatile Mode currentMode = Mode.UNSET;
+
+	/** The math data series to be updated in UPDATE currentMode. */
+	private volatile ZxyMathDataSeries updateTargetMathDataSeries = null;
 
 
 	/**
@@ -52,7 +71,7 @@ public class ZxyMathHandler {
 		ZxyMathWindow window = this.view.zxyMathWindow;
 
 		// Add the action listener defined in this class, to the UI components in the window of "z(x,y)" plot.
-		window.okButton.addActionListener(new OkButtonPressedEventListener());
+		window.plotButton.addActionListener(new PlotButtonPressedEventListener());
 
 		// Add the event listeners of the right click menus of the text fields.
 		this.zMathExpressionFieldMenuHandler = new TextRightClickMenuHandler(
@@ -91,9 +110,44 @@ public class ZxyMathHandler {
 
 
 	/**
-	 * The event listener handling the event that "OK" button is pressed.
+	 * Sets the currentMode of z(x,y) math tool.
+	 *
+	 * @param currentMode The currentMode to be set (PLOT or UPDATE).
 	 */
-	private final class OkButtonPressedEventListener implements ActionListener {
+	public synchronized void setMode(Mode mode) {
+		this.currentMode = mode;
+
+		// Unset the target math data series if it is set.
+		if (mode != Mode.UPDATE) {
+			this.updateTargetMathDataSeries = null;
+		}
+
+		// Update the UI of z(x,y) math tool.
+		ZxyMathWindow.Mode uiMode = null;
+		switch (mode) {
+			case PLOT:   uiMode = ZxyMathWindow.Mode.PLOT; break;
+			case UPDATE: uiMode = ZxyMathWindow.Mode.UPDATE; break;
+			case UNSET:  uiMode = ZxyMathWindow.Mode.UNSET; break;
+			default: throw new IllegalStateException("Unexpected mode: " + mode);
+		}
+		this.view.zxyMathWindow.updateUIForMode(uiMode, this.model.config.getEnvironmentConfiguration());
+	}
+
+
+	/**
+	 * Sets the math data series to be updated in UPDATE currentMode.
+	 *
+	 * @param updateTargetMathDataSeries The math data series to be updated.
+	 */
+	public synchronized void setUpdateTargetMathDataSeries(ZxyMathDataSeries updateTargetMathDataSeries) {
+		this.updateTargetMathDataSeries = updateTargetMathDataSeries;
+	}
+
+
+	/**
+	 * The event listener handling the event that PLOT/UPDATE button is pressed.
+	 */
+	private final class PlotButtonPressedEventListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (!isEventHandlingEnabled()) {
@@ -130,18 +184,36 @@ public class ZxyMathHandler {
 				return;
 			}
 
-			// Create a new data series representing the inputted math expression.
-			ZxyMathDataSeries mathDataSeries = new ZxyMathDataSeries(
-					zMathExpression, xDiscretizationCount, yDiscretizationCount,
-					model.scriptEngineMount, model.config
-			);
-			model.dataStore.addMathDataSeries(mathDataSeries);
+			switch (currentMode) {
+
+				// Plot the math expression as a new data series.
+				case PLOT: {
+
+					// Create a new data series representing the inputted math expression.
+					ZxyMathDataSeries mathDataSeries = new ZxyMathDataSeries(
+							zMathExpression, xDiscretizationCount, yDiscretizationCount,
+							model.scriptEngineMount, model.config
+					);
+					model.dataStore.addMathDataSeries(mathDataSeries);
+
+					// Switches to UPDATE mode to update the above data series.
+					setMode(Mode.UPDATE);
+					updateTargetMathDataSeries = mathDataSeries;
+					break;
+				}
+
+				// Update the math expression of the existing data series.
+				case UPDATE: {
+					updateTargetMathDataSeries.update(zMathExpression, xDiscretizationCount, yDiscretizationCount);
+					break;
+				}
+				default: {
+					throw new IllegalStateException("Unexpected mode: " + currentMode);
+				}
+			}
 
 			// Replot the graph.
 			presenter.plot();
-
-			// Hide the window.
-			window.setWindowVisible(false);
 		}
 	}
 
