@@ -34,7 +34,7 @@ public final class TextRightClickMenuHandler {
 	/**
 	 * Create a new instance handling events of the specified right-click menu of the specified text component.
 	 *
-	 * @param rightClickMenu The right-click menu.
+	 * @param popupMenu The right-click menu.
 	 * @param textComponent The text component to which the right click menu belongs.
 	 */
 	public TextRightClickMenuHandler(TextRightClickMenu rightClickMenu, JTextComponent textComponent) {

@@ -530,7 +530,7 @@ public final class ScreenHandler {
 				return;
 			}
 			if (SwingUtilities.isRightMouseButton(me)) {
-				view.mainWindow.rightClickMenu.show(view.mainWindow.screenLabel, me.getX(), me.getY());
+				view.mainWindow.screenRightClickMenu.popupMenu.show(view.mainWindow.screenLabel, me.getX(), me.getY());
 			}
 		}
 	}

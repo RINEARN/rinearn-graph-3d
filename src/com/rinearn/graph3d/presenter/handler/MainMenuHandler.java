@@ -83,8 +83,8 @@ public final class MainMenuHandler {
 		window.mainMenu.membraneOptionMenuItem.addActionListener(new MembraneOptionMenuItemSelectedEventListener());
 
 		// Add the action listeners to the right-click menu.
-		window.copyImageRightClickMenuItem.addActionListener(new CopyImageItemClickedEventListener());
-		window.pasteDataTextRightClickMenuItem.addActionListener(new PasteDataTextItemClickedEventListener());
+		window.screenRightClickMenu.copyImageRightClickMenuItem.addActionListener(new CopyImageItemClickedEventListener());
+		window.screenRightClickMenu.pasteDataTextRightClickMenuItem.addActionListener(new PasteDataTextItemClickedEventListener());
 	}
 
 

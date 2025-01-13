@@ -1,19 +1,15 @@
 package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.config.FontConfiguration;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -89,15 +85,8 @@ public final class MainWindow {
 	/** The main menu, displayed on the menu bar. */
 	public volatile MainMenu mainMenu;
 
-	/** Right-click menu. */
-	public volatile JPopupMenu rightClickMenu;
-
-	/** Right-click > "Copy Image" menu item.  */
-	public volatile JMenuItem copyImageRightClickMenuItem;
-
-	/** Right-click > "Paste Data" menu item.  */
-	public volatile JMenuItem pasteDataTextRightClickMenuItem;
-
+	/** The right-click menu of the graph screen. */
+	public volatile ScreenRightClickMenu screenRightClickMenu;
 
 	/** The flag for switching the visibility of the UI panel at the screen side. */
 	public volatile boolean screenSideUIVisible = true;
@@ -148,17 +137,8 @@ public final class MainWindow {
 			mainMenu = new MainMenu();
 			frame.setJMenuBar(mainMenu.menuBar);
 
-			// Right-click menu:
-			{
-				rightClickMenu = new JPopupMenu();
-
-				// Right-click > "Copy Image" menu item.
-				copyImageRightClickMenuItem = new JMenuItem("Unconfigured");
-				rightClickMenu.add(copyImageRightClickMenuItem);
-
-				pasteDataTextRightClickMenuItem = new JMenuItem("Unconfigured");
-				rightClickMenu.add(pasteDataTextRightClickMenuItem);
-			}
+			// Right-click menu of the graph screen:
+			screenRightClickMenu = new ScreenRightClickMenu();
 
 			// The label of the screen, on which a 3D graph is displayed:
 			screenLabel = new JLabel();
@@ -315,56 +295,9 @@ public final class MainWindow {
 				throw new UnsupportedOperationException("This method is invokable only on the event-dispatcher thread.");
 			}
 
-			// Set texts to the components, in the language specified by the configuration.
-			if (this.configuration.getEnvironmentConfiguration().isLocaleJapanese()) {
-				this.setJapaneseTexts();
-			} else {
-				this.setEnglishTexts();
-			}
-
-			// Set fonts to the components.
-			this.setFonts();
-
-			// Update the main menu (on the menu bar).
+			// Update the menu the menu bar, and the right-click menu of the graph screen.
 			mainMenu.configure(configuration);
-		}
-
-		/**
-		 * Sets Japanese texts to the GUI components.
-		 */
-		private void setJapaneseTexts() {
-
-			// Right-click menu items:
-			{
-				copyImageRightClickMenuItem.setText("画像をコピー");
-				pasteDataTextRightClickMenuItem.setText("データを貼り付け（表計算ソフトなど）");
-			}
-		}
-
-		/**
-		 * Sets English texts to the GUI components.
-		 */
-		private void setEnglishTexts() {
-
-			// Right-click menu items:
-			{
-				copyImageRightClickMenuItem.setText("Copy Image");
-				pasteDataTextRightClickMenuItem.setText("Paste Data (From Spreadsheets, etc.)");
-			}
-		}
-
-		/**
-		 * Set fonts to the components.
-		 */
-		private void setFonts() {
-			FontConfiguration fontConfig = configuration.getFontConfiguration();
-			Font uiBoldFont = fontConfig.getUIBoldFont();
-
-			// Right-click menu items:
-			{
-				copyImageRightClickMenuItem.setFont(uiBoldFont);
-				pasteDataTextRightClickMenuItem.setFont(uiBoldFont);
-			}
+			screenRightClickMenu.configure(configuration);
 		}
 	}
 
