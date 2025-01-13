@@ -29,6 +29,7 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	private volatile double[][] zCoordinates = null; // [irow][icol]
 
 	/** The coordinate values of the extra dimensions. */
+	@SuppressWarnings("unused")
 	private volatile double[][][] extraCoordinates = null; // [idim][irow][icol]
 
 	/** The array storing visibilities of the points of this data series. */

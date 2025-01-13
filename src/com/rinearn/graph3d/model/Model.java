@@ -2,18 +2,11 @@ package com.rinearn.graph3d.model;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.model.data.DataStore;
-import com.rinearn.graph3d.model.data.series.AbstractDataSeries;
-import com.rinearn.graph3d.model.data.series.ArrayDataSeries;
-import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
-import com.rinearn.graph3d.model.data.series.MathDataSeries;
 
 import org.vcssl.nano.VnanoException;
 
 import javax.swing.JOptionPane;
 import java.util.Locale;
-import java.util.Collections;
-import java.util.List;
-import java.util.ArrayList;
 
 
 /**

@@ -25,9 +25,11 @@ import org.vcssl.nano.VnanoException;
 public class XtYtZtMathDataSeries extends MathDataSeries {
 
 	/** The "engine-mount", provides a script engine for computing coordinates from math expressions. */
+	@SuppressWarnings("unused")
 	private final ScriptEngineMount scriptEngineMount;
 
 	/** The configuration container (for referring the range configuration). */
+	@SuppressWarnings("unused")
 	private final RinearnGraph3DConfiguration config;
 
 
