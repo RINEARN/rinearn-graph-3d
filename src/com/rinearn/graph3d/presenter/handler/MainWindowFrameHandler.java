@@ -20,7 +20,7 @@ import javax.swing.SwingUtilities;
 /**
  * The class handling events of (the frame of) the main window.
  */
-public final class WindowHandler {
+public final class MainWindowHandler {
 
 	/** The front-end class of "Model" layer, which provides internal logic procedures and so on. */
 	@SuppressWarnings("unused")
@@ -49,7 +49,7 @@ public final class WindowHandler {
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
 	 */
-	public WindowHandler(Model model, View view, Presenter presenter) {
+	public MainWindowHandler(Model model, View view, Presenter presenter) {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;

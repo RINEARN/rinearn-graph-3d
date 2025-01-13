@@ -39,6 +39,11 @@ public final class ScreenRightClickMenuHandler {
 
 		MainWindow window = this.view.mainWindow;
 		MainMenuHandler mainMenuHandler = this.presenter.mainMenuHandler;
+		if (mainMenuHandler == null) {
+			throw new IllegalStateException(
+					"ScreenRightClickMenuHandler depends on MainMenuHandler, so the former must be instantiated AFTER the latter."
+			);
+		}
 
 		// Add the action listeners to the right-click menu.
 		window.screenRightClickMenu.copyImageRightClickMenuItem.addActionListener(mainMenuHandler.new CopyImageItemClickedEventListener());
