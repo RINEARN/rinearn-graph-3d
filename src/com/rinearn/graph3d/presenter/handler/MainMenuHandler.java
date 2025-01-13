@@ -28,7 +28,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * The class handling UI events and API requests related to the main menu.
  */
-public final class MenuHandler {
+public final class MainMenuHandler {
 
 	/** The front-end class of "Model" layer, which provides internal logic procedures and so on. */
 	private final Model model;
@@ -50,7 +50,7 @@ public final class MenuHandler {
 	 * @param view The front-end class of "View" layer, which provides visible part of GUI without event handling.
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
 	 */
-	public MenuHandler(Model model, View view, Presenter presenter) {
+	public MainMenuHandler(Model model, View view, Presenter presenter) {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;

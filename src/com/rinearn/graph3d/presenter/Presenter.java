@@ -15,7 +15,7 @@ import com.rinearn.graph3d.presenter.handler.FontSettingHandler;
 import com.rinearn.graph3d.presenter.handler.WindowHandler;
 import com.rinearn.graph3d.presenter.handler.LabelSettingHandler;
 import com.rinearn.graph3d.presenter.handler.LightSettingHandler;
-import com.rinearn.graph3d.presenter.handler.MenuHandler;
+import com.rinearn.graph3d.presenter.handler.MainMenuHandler;
 import com.rinearn.graph3d.presenter.handler.RangeSettingHandler;
 import com.rinearn.graph3d.presenter.handler.ScaleSettingHandler;
 import com.rinearn.graph3d.presenter.handler.ScreenHandler;
@@ -131,7 +131,7 @@ public final class Presenter {
 	public final ScreenHandler screenHandler;
 
 	/** The handler of events and API requests related to the menu bar and right click menus. */
-	public final MenuHandler menuHandler;
+	public final MainMenuHandler mainMenuHandler;
 
 	/** The handler of events and API requests related to UI on the panel at the left side of the screen. */
 	public final ScreenSideUIHandler screenSideUIHandler;
@@ -213,7 +213,7 @@ public final class Presenter {
 		this.screenHandler = new ScreenHandler(model, view, this);
 
 		// Create handlers for various events and API requests.
-		this.menuHandler = new MenuHandler(model, view, this);
+		this.mainMenuHandler = new MainMenuHandler(model, view, this);
 		this.screenSideUIHandler = new ScreenSideUIHandler(model, view, this);
 		this.rangeSettingHandler = new RangeSettingHandler(model, view, this);
 		this.labelSettingHandler = new LabelSettingHandler(model, view, this);
@@ -250,7 +250,7 @@ public final class Presenter {
 		this.eventHandlingEnabled = enabled;
 		this.windowHandler.setEventHandlingEnabled(enabled);
 		this.screenHandler.setEventHandlingEnabled(enabled);
-		this.menuHandler.setEventHandlingEnabled(enabled);
+		this.mainMenuHandler.setEventHandlingEnabled(enabled);
 		this.screenSideUIHandler.setEventHandlingEnabled(enabled);
 		this.rangeSettingHandler.setEventHandlingEnabled(enabled);
 		this.labelSettingHandler.setEventHandlingEnabled(enabled);

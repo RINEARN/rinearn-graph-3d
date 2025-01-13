@@ -527,7 +527,7 @@ public final class RinearnGraph3D {
 	 * .
 	 */
 	public synchronized void clear() {
-		this.presenter.menuHandler.clear();
+		this.presenter.mainMenuHandler.clear();
 	}
 
 
@@ -1358,7 +1358,7 @@ public final class RinearnGraph3D {
 	 *   <span class="lang-ja">グラフ画面に表示するメニューバー</span>
 	 */
 	public synchronized void setJMenuBar(JMenuBar menuBar) {
-		presenter.menuHandler.setJMenuBar(menuBar);
+		presenter.mainMenuHandler.setJMenuBar(menuBar);
 	}
 
 
@@ -1368,7 +1368,7 @@ public final class RinearnGraph3D {
 	 * @param visible Specify true for showing the menu bar and the right click menus.
 	 */
 	public synchronized void setMenuVisible(boolean visible) {
-		presenter.menuHandler.setMenuVisible(visible);
+		presenter.mainMenuHandler.setMenuVisible(visible);
 	}
 
 

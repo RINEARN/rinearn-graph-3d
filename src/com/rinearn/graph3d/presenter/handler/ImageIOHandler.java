@@ -75,7 +75,7 @@ public final class ImageIOHandler {
 		this.presenter = presenter;
 		ImageSavingWindow window = view.imageSavingWindow;
 
-		// Note: The event handler of the right click menu "Copy Image" is implemented in MenuHandler class.
+		// Note: The event handler of the right click menu "Copy Image" is implemented in MainMenuHandler class.
 
 		// Add the action listener to the "Open" button on "File" > "Save Image" window is clicked.
 		view.imageSavingWindow.fileLocationButton.addActionListener(new FileLocationButtonEventListener());
