@@ -22,6 +22,24 @@ import java.math.BigDecimal;
           +- XtYtZtMathDataSeries
  */
 
+/*
+  - How This Class Is Used -
+
+  1. "PLOT" button on the z(x,y) math tool is pressed.
+
+  2. This class is instantiated, storing the z(x,y) and x/y discretization counts.
+     The 3D mesh data is not generated yet for this step.
+
+  3. The above instance is registered to the DataStore.
+
+  4. When the graph is re-plotted, "computeCoordinates()" of the above instance is called.
+
+  5. The above method generates the 3D mesh data using VnanoEngine based on the current configuration.
+     (Note that, the 3D shape of a z(x,y) expression on the graph depends on the range of X/Y/Z axes,
+      so we should re-generate it when the graph is re-plotted.)
+
+  6. The generated 3D mesh data is drawn by an array of polygons, in 3D graph space.
+ */
 
 public class ZxyMathDataSeries extends MathDataSeries {
 
@@ -32,13 +50,13 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	private final RinearnGraph3DConfiguration config;
 
 	/** The math expression of "z(x,y)". */
-	private final String zMathExpression;
+	private volatile String zMathExpression;
 
 	/** The number of discretized X-coordinates. */
-	private final int xDiscretizationCount;
+	private volatile int xDiscretizationCount;
 
 	/** The number of discretized Y-coordinates. */
-	private final int yDiscretizationCount;
+	private volatile int yDiscretizationCount;
 
 	/** The X-coordinate values of the points of this data series. */
 	protected volatile double[][] xCoordinates = null;
@@ -77,6 +95,20 @@ public class ZxyMathDataSeries extends MathDataSeries {
 		this.yDiscretizationCount = yDiscretizationCount;
 		this.scriptEngineMount = scriptEngineMount;
 		this.config = config;
+	}
+
+
+	/**
+	 * Updates the expression and the parameters of this instance.
+	 *
+	 * @param zExpressionThe math expression of "z(x,y)".
+	 * @param xDiscretizationCount The number of discretized X-coordinates.
+	 * @param yDiscretizationCount The number of discretized Y-coordinates.
+	 */
+	public synchronized void update(String zMathExpression, int xDiscretizationCount, int yDiscretizationCount) {
+		this.zMathExpression = zMathExpression;
+		this.xDiscretizationCount = xDiscretizationCount;
+		this.yDiscretizationCount = yDiscretizationCount;
 	}
 
 
