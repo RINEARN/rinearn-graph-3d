@@ -70,6 +70,7 @@ public final class MainMenuHandler {
 
 		// Add the action listeners to the sub menu items in "Math" menu.
 		window.mainMenu.zxyMathMenuItem.addActionListener(new ZxyMathItemClickedEventListener());
+		window.mainMenu.xtYtZtMathMenuItem.addActionListener(new XtYtZtMathItemClickedEventListener());
 		window.mainMenu.modifyMathMenuItem.addActionListener(new ModifyMathItemClickedEventListener());
 		window.mainMenu.removeMathMenuItem.addActionListener(new RemoveMathItemClickedEventListener());
 		window.mainMenu.clearMathMenuItem.addActionListener(new ClearMathItemClickedEventListener());
@@ -227,6 +228,21 @@ public final class MainMenuHandler {
 			}
 			presenter.zxyMathHandler.setMode(ZxyMathHandler.Mode.PLOT);
 			view.zxyMathWindow.setWindowVisible(true);
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Math" > "Plot x(t),y(t),z(t)" menu item is clicked.
+	 */
+	private final class XtYtZtMathItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			// presenter.xtYtZtMathHandler.setMode(ZxyMathHandler.Mode.PLOT);
+			view.xtYtZtMathWindow.setWindowVisible(true);
 		}
 	}
 

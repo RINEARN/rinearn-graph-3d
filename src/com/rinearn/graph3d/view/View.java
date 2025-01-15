@@ -133,6 +133,9 @@ public final class View {
 	/** The window of "Math" > "z(x,y)" plot. */
 	public final ZxyMathWindow zxyMathWindow = new ZxyMathWindow();
 
+	/** The window of "Math" > "x(t), y(t), z(t)" plot. */
+	public final XtYtZtMathWindow xtYtZtMathWindow = new XtYtZtMathWindow();
+
 
 	// !!! IMPORTANT NOTE !!!
 	//   Don't store the configuration as a field of this instance or subcomponents. It is Model layer's role.
@@ -166,6 +169,7 @@ public final class View {
 		this.lightSettingWindow.configure(configuration);
 		this.scaleSettingWindow.configure(configuration);
 		this.zxyMathWindow.configure(configuration);
+		this.xtYtZtMathWindow.configure(configuration);
 	}
 
 	/**
@@ -183,5 +187,6 @@ public final class View {
 		this.lightSettingWindow.dispose();
 		this.scaleSettingWindow.dispose();
 		this.zxyMathWindow.dispose();
+		this.xtYtZtMathWindow.dispose();
 	}
 }

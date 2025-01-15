@@ -19,24 +19,27 @@ import javax.swing.SwingUtilities;
 
 
 /**
- * The window of "z(x,y)" plot in "Math" menu.
+ * The window of "x(y), y(t), z(t)" plot in "Math" menu.
  */
-public class ZxyMathWindow {
+public class XtYtZtMathWindow {
 
 	/** The default width [px] of this window. */
 	public static final int DEFAULT_WINDOW_WIDTH = 400;
 
 	/** The default height [px] of this window. */
-	public static final int DEFAULT_WINDOW_HEIGHT = 340;
+	public static final int DEFAULT_WINDOW_HEIGHT = 360;
 
-	/** The default value of the text field of the math expression z(x,y). */
-	private static final String DEFAULT_Z_MATH_EXPRESSION = "( sin(3.2 * x) + cos(2.7 * y) ) / 2";
+	/** The default value of the text field of the math expression x(t). */
+	private static final String DEFAULT_XT_MATH_EXPRESSION = "sin(3.2 * t)";
 
-	/** The default value of the text field of the X-resolution. */
-	private static final String DEFAULT_X_RESOLUTION = "80";
+	/** The default value of the text field of the math expression y(t). */
+	private static final String DEFAULT_YT_MATH_EXPRESSION = "cos(3.2 * t)";
 
-	/** The default value of the text field of the Y-resolution. */
-	private static final String DEFAULT_Y_RESOLUTION = "80";
+	/** The default value of the text field of the math expression z(t). */
+	private static final String DEFAULT_ZT_MATH_EXPRESSION = "5.6 * t";
+
+	/** The default value of the text field of the time resolution. */
+	private static final String DEFAULT_TIME_RESOLUTION = "1000";
 
 	/** The frame of this window. */
 	public volatile JFrame frame;
@@ -44,35 +47,44 @@ public class ZxyMathWindow {
 	/** The title label of the math expression section. */
 	public volatile JLabel mathExpressionLabel;
 
-	/** The title label of the math expression "z(x,y)". */
-	public volatile JLabel zMathExpressionLabel;
+	/** The title label of the math expression "x(t)". */
+	public volatile JLabel xtMathExpressionLabel;
 
-	/** The text field of the math expression. */
-	public volatile JTextField zMathExpressionField;
+	/** The title label of the math expression "y(t)". */
+	public volatile JLabel ytMathExpressionLabel;
 
-	/** The right-click menu of zMathExpressionField. */
-	public volatile TextRightClickMenu zMathExpressionFieldRightClickMenu;
+	/** The title label of the math expression "z(t)". */
+	public volatile JLabel ztMathExpressionLabel;
+
+	/** The text field of the math expression "x(t)". */
+	public volatile JTextField xtMathExpressionField;
+
+	/** The text field of the math expression "y(t)". */
+	public volatile JTextField ytMathExpressionField;
+
+	/** The text field of the math expression "z(t)". */
+	public volatile JTextField ztMathExpressionField;
+
+	/** The right-click menu of xtMathExpressionField. */
+	public volatile TextRightClickMenu xtMathExpressionFieldRightClickMenu;
+
+	/** The right-click menu of ytMathExpressionField. */
+	public volatile TextRightClickMenu ytMathExpressionFieldRightClickMenu;
+
+	/** The right-click menu of ztMathExpressionField. */
+	public volatile TextRightClickMenu ztMathExpressionFieldRightClickMenu;
 
 	/** The title label of the resolution section. */
 	public volatile JLabel resolutionLabel;
 
-	/** The title label of the X-resolution. */
-	public volatile JLabel xResolutionLabel;
+	/** The title label of the time resolution. */
+	public volatile JLabel timeResolutionLabel;
 
-	/** The text field of the X-resolution. */
-	public volatile JTextField xResolutionField;
+	/** The text field of the time resolution. */
+	public volatile JTextField timeResolutionField;
 
-	/** The right-click menu of xResolutionField. */
-	public volatile TextRightClickMenu xResolutionFieldRightClickMenu;
-
-	/** The title label of the Y-resolution. */
-	public volatile JLabel yResolutionLabel;
-
-	/** The text field of the Y-resolution. */
-	public volatile JTextField yResolutionField;
-
-	/** The right-click menu of yResolutionField. */
-	public volatile TextRightClickMenu yResolutionFieldRightClickMenu;
+	/** The right-click menu of timeResolutionField. */
+	public volatile TextRightClickMenu timeResolutionFieldRightClickMenu;
 
 	/** PLOT/UPDATE button. */
 	public volatile JButton plotButton;
@@ -97,7 +109,7 @@ public class ZxyMathWindow {
 	/**
 	 * Creates a new window.
 	 */
-	public ZxyMathWindow() {
+	public XtYtZtMathWindow() {
 
 		// Initialize GUI components.
 		this.initializeComponents();
@@ -225,8 +237,8 @@ public class ZxyMathWindow {
 			int bottomMargin = 5;
 			int leftMargin = 5;
 			int rightMargin = 5;
-			int bottomMarginUnderSectionTitile = 5;
-			int bottomMarginUnderSection = 25;
+			int bottomMarginUnderSectionTitile = 2;
+			int bottomMarginUnderSection = 20;
 			int bottomMarginInSection = 5;
 			int leftMarginInSection = 20;
 			int marginBetweenLabelAndField = 10;
@@ -247,25 +259,69 @@ public class ZxyMathWindow {
 				constraints.gridy++;
 				constraints.gridwidth = 1;
 
-				// Create the title label of the math expression z(x,y).
-				zMathExpressionLabel = new JLabel("Unconfigured");
-				zMathExpressionLabel.setHorizontalAlignment(JLabel.RIGHT);
+				// Create the title label of the math expression x(t).
+				xtMathExpressionLabel = new JLabel("Unconfigured");
+				xtMathExpressionLabel.setHorizontalAlignment(JLabel.RIGHT);
+				constraints.weightx = 0.05;
+				constraints.gridx = 0;
+				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginInSection, rightMargin);
+				layout.setConstraints(xtMathExpressionLabel, constraints);
+				basePanel.add(xtMathExpressionLabel);
+
+				// Create the title label of the text field for inputting the math expression.
+				xtMathExpressionField = new JTextField(DEFAULT_XT_MATH_EXPRESSION);
+				constraints.weightx = 1.0;
+				constraints.gridx = 1;
+				constraints.insets = new Insets(topMargin, 0, bottomMarginInSection, rightMargin);
+				layout.setConstraints(xtMathExpressionField, constraints);
+				basePanel.add(xtMathExpressionField);
+
+				// The right-click menu of the above text field.
+				xtMathExpressionFieldRightClickMenu = new TextRightClickMenu();
+
+				constraints.gridy++;
+
+				// Create the title label of the math expression y(t).
+				ytMathExpressionLabel = new JLabel("Unconfigured");
+				ytMathExpressionLabel.setHorizontalAlignment(JLabel.RIGHT);
+				constraints.weightx = 0.05;
+				constraints.gridx = 0;
+				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginInSection, rightMargin);
+				layout.setConstraints(ytMathExpressionLabel, constraints);
+				basePanel.add(ytMathExpressionLabel);
+
+				// Create the title label of the text field for inputting the math expression.
+				ytMathExpressionField = new JTextField(DEFAULT_YT_MATH_EXPRESSION);
+				constraints.weightx = 1.0;
+				constraints.gridx = 1;
+				constraints.insets = new Insets(topMargin, 0, bottomMarginInSection, rightMargin);
+				layout.setConstraints(ytMathExpressionField, constraints);
+				basePanel.add(ytMathExpressionField);
+
+				// The right-click menu of the above text field.
+				ytMathExpressionFieldRightClickMenu = new TextRightClickMenu();
+
+				constraints.gridy++;
+
+				// Create the title label of the math expression z(t).
+				ztMathExpressionLabel = new JLabel("Unconfigured");
+				ztMathExpressionLabel.setHorizontalAlignment(JLabel.RIGHT);
 				constraints.weightx = 0.05;
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginUnderSection, rightMargin);
-				layout.setConstraints(zMathExpressionLabel, constraints);
-				basePanel.add(zMathExpressionLabel);
+				layout.setConstraints(ztMathExpressionLabel, constraints);
+				basePanel.add(ztMathExpressionLabel);
 
 				// Create the title label of the text field for inputting the math expression.
-				zMathExpressionField = new JTextField(DEFAULT_Z_MATH_EXPRESSION);
+				ztMathExpressionField = new JTextField(DEFAULT_ZT_MATH_EXPRESSION);
 				constraints.weightx = 1.0;
 				constraints.gridx = 1;
 				constraints.insets = new Insets(topMargin, 0, bottomMarginUnderSection, rightMargin);
-				layout.setConstraints(zMathExpressionField, constraints);
-				basePanel.add(zMathExpressionField);
+				layout.setConstraints(ztMathExpressionField, constraints);
+				basePanel.add(ztMathExpressionField);
 
 				// The right-click menu of the above text field.
-				zMathExpressionFieldRightClickMenu = new TextRightClickMenu();
+				ztMathExpressionFieldRightClickMenu = new TextRightClickMenu();
 
 				constraints.gridy++;
 			}
@@ -285,49 +341,27 @@ public class ZxyMathWindow {
 				constraints.gridy++;
 				constraints.gridwidth = 1;
 
-				// Create the title label of the X-resolution.
-				xResolutionLabel = new JLabel("Unconfigured");
-				xResolutionLabel.setHorizontalAlignment(JLabel.RIGHT);
-				constraints.weightx = 0.05;
-				constraints.gridx = 0;
-				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginInSection, marginBetweenLabelAndField);
-				layout.setConstraints(xResolutionLabel, constraints);
-				basePanel.add(xResolutionLabel);
-
-				// Create the title label of the X-resolution.
-				xResolutionField = new JTextField(DEFAULT_X_RESOLUTION);
-				constraints.weightx = 1.0;
-				constraints.gridx = 1;
-				constraints.insets = new Insets(topMargin, 0, bottomMarginInSection, rightMargin);
-				layout.setConstraints(xResolutionField, constraints);
-				basePanel.add(xResolutionField);
-
-				// The right-click menu of the above text field.
-				xResolutionFieldRightClickMenu = new TextRightClickMenu();
-
-				constraints.gridy++;
-				constraints.gridwidth = 1;
-
-				// Create the title label of the Y-resolution.
-				yResolutionLabel = new JLabel("Unconfigured");
-				yResolutionLabel.setHorizontalAlignment(JLabel.RIGHT);
+				// Create the title label of the time resolution.
+				timeResolutionLabel = new JLabel("Unconfigured");
+				timeResolutionLabel.setHorizontalAlignment(JLabel.RIGHT);
 				constraints.weightx = 0.05;
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginUnderSection, marginBetweenLabelAndField);
-				layout.setConstraints(yResolutionLabel, constraints);
-				basePanel.add(yResolutionLabel);
+				layout.setConstraints(timeResolutionLabel, constraints);
+				basePanel.add(timeResolutionLabel);
 
-				// Create the title label of the Y-resolution.
-				yResolutionField = new JTextField(DEFAULT_Y_RESOLUTION);
+				// Create the title label of the time resolution.
+				timeResolutionField = new JTextField(DEFAULT_TIME_RESOLUTION);
 				constraints.weightx = 1.0;
 				constraints.gridx = 1;
 				constraints.insets = new Insets(topMargin, 0, bottomMarginUnderSection, rightMargin);
-				layout.setConstraints(yResolutionField, constraints);
-				basePanel.add(yResolutionField);
+				layout.setConstraints(timeResolutionField, constraints);
+				basePanel.add(timeResolutionField);
 
 				// The right-click menu of the above text field.
-				yResolutionFieldRightClickMenu = new TextRightClickMenu();
+				timeResolutionFieldRightClickMenu = new TextRightClickMenu();
 
+				constraints.gridwidth = 1;
 				constraints.gridy++;
 			}
 
@@ -405,21 +439,23 @@ public class ZxyMathWindow {
 			this.setFonts();
 
 			// Update the right-click menus.
-			zMathExpressionFieldRightClickMenu.configure(this.configuration);
-			xResolutionFieldRightClickMenu.configure(this.configuration);
-			yResolutionFieldRightClickMenu.configure(this.configuration);
+			xtMathExpressionFieldRightClickMenu.configure(this.configuration);
+			ytMathExpressionFieldRightClickMenu.configure(this.configuration);
+			ztMathExpressionFieldRightClickMenu.configure(this.configuration);
+			timeResolutionFieldRightClickMenu.configure(this.configuration);
 		}
 
 		/**
 		 * Sets Japanese texts to the GUI components.
 		 */
 		private void setJapaneseTexts() {
-			frame.setTitle("z(x,y) プロット");
+			frame.setTitle("x(t),y(t),z(t) プロット");
 			mathExpressionLabel.setText("- 数式 -");
-			zMathExpressionLabel.setText("z(x,y) =");
-			resolutionLabel.setText("- 解像度 -");
-			xResolutionLabel.setText("Xメッシュ:");
-			yResolutionLabel.setText("Yメッシュ:");
+			xtMathExpressionLabel.setText("x(t) =");
+			ytMathExpressionLabel.setText("y(t) =");
+			ztMathExpressionLabel.setText("z(t) =");
+			resolutionLabel.setText("- 離散化 -");
+			timeResolutionLabel.setText("時刻点数:");
 
 			// Update the text of PLOT/UPDATE button.
 			updateUIForMode(currentMode, this.configuration.getEnvironmentConfiguration());
@@ -429,12 +465,13 @@ public class ZxyMathWindow {
 		 * Sets English texts to the GUI components.
 		 */
 		private void setEnglishTexts() {
-			frame.setTitle("z(x,y) Plot");
+			frame.setTitle("x(t),y(t),z(t) Plot");
 			mathExpressionLabel.setText("- Math Expression -");
-			zMathExpressionLabel.setText("z(x,y) =");
-			resolutionLabel.setText("- Resolution -");
-			xResolutionLabel.setText("X Mesh:");
-			yResolutionLabel.setText("Y Mesh:");
+			xtMathExpressionLabel.setText("x(t) =");
+			ytMathExpressionLabel.setText("y(t) =");
+			ztMathExpressionLabel.setText("z(t) =");
+			resolutionLabel.setText("- Discretization -");
+			timeResolutionLabel.setText("Time Points:");
 
 			// Update the text of PLOT/UPDATE button.
 			updateUIForMode(currentMode, this.configuration.getEnvironmentConfiguration());
@@ -452,15 +489,17 @@ public class ZxyMathWindow {
 
 			mathExpressionLabel.setFont(uiBoldFont);
 
-			zMathExpressionLabel.setFont(uiBoldFont);
-			zMathExpressionField.setFont(uiPlainFont);
+			xtMathExpressionLabel.setFont(uiBoldFont);
+			ytMathExpressionLabel.setFont(uiBoldFont);
+			ztMathExpressionLabel.setFont(uiBoldFont);
+			xtMathExpressionField.setFont(uiPlainFont);
+			ytMathExpressionField.setFont(uiPlainFont);
+			ztMathExpressionField.setFont(uiPlainFont);
 
 			resolutionLabel.setFont(uiBoldFont);
 
-			xResolutionLabel.setFont(uiBoldFont);
-			xResolutionField.setFont(uiPlainFont);
-			yResolutionLabel.setFont(uiBoldFont);
-			yResolutionField.setFont(uiPlainFont);
+			timeResolutionLabel.setFont(uiBoldFont);
+			timeResolutionField.setFont(uiPlainFont);
 
 			plotButton.setFont(uiBoldFont);
 		}

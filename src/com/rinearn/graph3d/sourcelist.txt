@@ -108,4 +108,5 @@ com/rinearn/graph3d/view/ScaleSettingWindow.java
 com/rinearn/graph3d/view/ScreenRightClickMenu.java
 com/rinearn/graph3d/view/TextRightClickMenu.java
 com/rinearn/graph3d/view/View.java
+com/rinearn/graph3d/view/XtYtZtMathWindow.java
 com/rinearn/graph3d/view/ZxyMathWindow.java
