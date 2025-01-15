@@ -58,6 +58,17 @@ public class DataStore {
 
 
 	/**
+	 * Get the math data series at the specified index.
+	 *
+	 * @param index the index of the math data series.
+	 * @return The math data series at the specified index.
+	 */
+	public synchronized MathDataSeries getMathDataSeriesAt(int index) {
+		return this.mathDataSeriesGroup.getDataSeriesAt(index);
+	}
+
+
+	/**
 	 * Remove the specified math data series.
 	 *
 	 * @param index the index of the math data series to be removed.

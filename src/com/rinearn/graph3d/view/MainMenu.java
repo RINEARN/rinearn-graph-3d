@@ -43,11 +43,14 @@ public class MainMenu {
 	/** "Math" menu on the menu bar. */
 	public volatile JMenu mathMenu;
 
-	/** "Math" > "Clear Math Expressions" menu on the menu bar. */
-	public volatile JMenuItem clearMathMenuItem;
+	/** "Math" > "Modify Math Expression" menu on the menu bar. */
+	public volatile JMenuItem modifyMathMenuItem;
 
 	/** "Math" > "Remove Math Expression" menu on the menu bar. */
 	public volatile JMenuItem removeMathMenuItem;
+
+	/** "Math" > "Clear Math Expressions" menu on the menu bar. */
+	public volatile JMenuItem clearMathMenuItem;
 
 	/** "Math" > "Plot z(x,y)" menu on the menu bar. */
 	public volatile JMenuItem zxyMathMenuItem;
@@ -153,6 +156,10 @@ public class MainMenu {
 
 				// ---
 				mathMenu.addSeparator();
+
+				// "Math" > "Modify Math Expression" menu item.
+				modifyMathMenuItem = new JMenuItem("Unconfigured");
+				mathMenu.add(modifyMathMenuItem);
 
 				// "Math" > "Remove Math Expression" menu item:
 				removeMathMenuItem = new JMenuItem("Unconfigured");
@@ -318,6 +325,7 @@ public class MainMenu {
 			{
 				mathMenu.setText("数式");
 				zxyMathMenuItem.setText("z(x,y) 形式の数式をプロット");
+				modifyMathMenuItem.setText("数式を編集");
 				removeMathMenuItem.setText("数式を削除");
 				clearMathMenuItem.setText("数式をクリア");
 			}
@@ -361,6 +369,7 @@ public class MainMenu {
 			{
 				mathMenu.setText("Math");
 				zxyMathMenuItem.setText("Plot z(x,y)");
+				modifyMathMenuItem.setText("Modify Math Expression");
 				removeMathMenuItem.setText("Remove Math Expression");
 				clearMathMenuItem.setText("Clear Math Expressions");
 			}
@@ -405,6 +414,7 @@ public class MainMenu {
 			// "Math" menu and sub menu items.
 			{
 				mathMenu.setFont(uiBoldFont);
+				modifyMathMenuItem.setFont(uiBoldFont);
 				removeMathMenuItem.setFont(uiBoldFont);
 				clearMathMenuItem.setFont(uiBoldFont);
 				zxyMathMenuItem.setFont(uiBoldFont);

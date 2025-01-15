@@ -141,6 +141,12 @@ public class ZxyMathHandler {
 	 */
 	public synchronized void setUpdateTargetMathDataSeries(ZxyMathDataSeries updateTargetMathDataSeries) {
 		this.updateTargetMathDataSeries = updateTargetMathDataSeries;
+
+		// Update the input values in the text fields on the window.
+		ZxyMathWindow window = this.view.zxyMathWindow;
+		window.zMathExpressionField.setText(this.updateTargetMathDataSeries.getZMathExpression());
+		window.xResolutionField.setText(Integer.toString(this.updateTargetMathDataSeries.getXDiscretizationCount()));
+		window.yResolutionField.setText(Integer.toString(this.updateTargetMathDataSeries.getYDiscretizationCount()));
 	}
 
 

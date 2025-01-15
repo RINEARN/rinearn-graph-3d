@@ -113,6 +113,36 @@ public class ZxyMathDataSeries extends MathDataSeries {
 
 
 	/**
+	 * Gets the math expression of z(x,y).
+	 *
+	 * @return The math expression of z(x,y).
+	 */
+	public synchronized String getZMathExpression() {
+		return this.zMathExpression;
+	}
+
+
+	/**
+	 * Gets the number of discretized X-coordinates.
+	 *
+	 * @return The number of discretized X-coordinates.
+	 */
+	public synchronized int getXDiscretizationCount() {
+		return this.xDiscretizationCount;
+	}
+
+
+	/**
+	 * Gets the number of discretized Y-coordinates.
+	 *
+	 * @return The number of discretized Y-coordinates.
+	 */
+	public synchronized int getYDiscretizationCount() {
+		return this.yDiscretizationCount;
+	}
+
+
+	/**
 	 * Returns a single-line name of this data series, to be displayed on UI.
 	 */
 	@Override
