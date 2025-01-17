@@ -68,19 +68,19 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	protected volatile double[][] zCoordinates = null;
 
 	/** The array storing visibilities of the points of this data series. */
-	protected volatile boolean[][] visibilities;
+	protected volatile boolean[][] visibilities = null;
 
 	/** Stores the maximum value of the Z-coordinate values. */
-	private volatile BigDecimal zMin;
+	private volatile BigDecimal zMin = null;
 
 	/** Stores the minimum value of the Z-coordinate values. */
-	private volatile BigDecimal zMax;
+	private volatile BigDecimal zMax = null;
 
 
 	/**
 	 * Create an instance for generating data using the specified script engine, under the specified configuration.
 	 *
-	 * @param zExpressionThe math expression of "z(x,y)".
+	 * @param zExpression The math expression of "z(x,y)".
 	 * @param xDiscretizationCount The number of discretized X-coordinates.
 	 * @param yDiscretizationCount The number of discretized Y-coordinates.
 	 * @param scrioptEngineMount The "engine-mount", provides a script engine for computing coordinates from math expressions.
@@ -147,7 +147,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 */
 	@Override
 	public synchronized String getDisplayName() {
-		String displayedExpression = "z(x,y)=" + this.zMathExpression;
+		String displayedExpression = "z(x,y)=" + this.zMathExpression.replaceAll(" ", "");
 		return displayedExpression;
 	}
 
@@ -187,16 +187,30 @@ public class ZxyMathDataSeries extends MathDataSeries {
 		for (int ix=0; ix<xN; ix++) {
 			for (int iy=0; iy<yN; iy++) {
 
-				// Compute coordinates.
-				double x = (ix == xN - 1) ? xMax : (xMin + xDelta * ix);
-				double y = (iy == yN - 1) ? yMax : (yMin + yDelta * iy);
+				// Compute X-coordinate.
+				double x;
+				if (ix == xN - 1) { // Branching to avoid the degradation of xMax.
+					x = xMax;
+				} else {
+					x = xMin + xDelta * ix;
+				}
+
+				// Compute Y-coordinate.
+				double y;
+				if (iy == yN - 1) { // Branching to avoid the degradation of yMax.
+					y = yMax;
+				} else {
+					y = yMin + yDelta * iy;
+				}
+
+				// Compute Z-coordinate.
 				double z = this.scriptEngineMount.calculateMathExpression(this.zMathExpression, x, y);
 
 				// Store the computed coordinates.
 				this.xCoordinates[ix][iy] = x;
 				this.yCoordinates[ix][iy] = y;
 				this.zCoordinates[ix][iy] = z;
-				this.visibilities[ix][iy] = true;
+				this.visibilities[ix][iy] = !Double.isNaN(z);
 
 				// Update Z range.
 				if (this.visibilities[ix][iy]) {

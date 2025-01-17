@@ -48,6 +48,16 @@ public class DataArrayIOHandler {
 
 
 	/**
+	 * Turns on/off the event handling feature of this instance.
+	 *
+	 * @param enabled Specify false for turning off the event handling feature (enabled by default).
+	 */
+	public synchronized void setEventHandlingEnabled(boolean enabled) {
+		// This class does not provide event listeners, so do nothing.
+	}
+
+
+	/**
 	 * Enables/disables the asynchronous-plotting feature.
 	 *
 	 * When this feature is enabled,

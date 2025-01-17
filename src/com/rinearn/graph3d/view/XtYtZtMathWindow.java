@@ -27,7 +27,7 @@ public class XtYtZtMathWindow {
 	public static final int DEFAULT_WINDOW_WIDTH = 400;
 
 	/** The default height [px] of this window. */
-	public static final int DEFAULT_WINDOW_HEIGHT = 360;
+	public static final int DEFAULT_WINDOW_HEIGHT = 450;
 
 	/** The default value of the text field of the math expression x(t). */
 	private static final String DEFAULT_XT_MATH_EXPRESSION = "sin(3.2 * t)";
@@ -37,6 +37,12 @@ public class XtYtZtMathWindow {
 
 	/** The default value of the text field of the math expression z(t). */
 	private static final String DEFAULT_ZT_MATH_EXPRESSION = "5.6 * t";
+
+	/** The default value of the text field of the starting time. */
+	private static final String DEFAULT_STARTING_TIME = "0.0";
+
+	/** The default value of the text field of the starting time. */
+	private static final String DEFAULT_ENDING_TIME = "10.0";
 
 	/** The default value of the text field of the time resolution. */
 	private static final String DEFAULT_TIME_RESOLUTION = "1000";
@@ -85,6 +91,25 @@ public class XtYtZtMathWindow {
 
 	/** The right-click menu of timeResolutionField. */
 	public volatile TextRightClickMenu timeResolutionFieldRightClickMenu;
+
+	/** The title label of the time-max. */
+	public volatile JLabel timeMaxLabel;
+
+	/** The text field of the time-max. */
+	public volatile JTextField timeMaxField;
+
+	/** The right-click menu of timeMaxField. */
+	public volatile TextRightClickMenu timeMaxFieldRightClickMenu;
+
+	/** The title label of the time-min. */
+	public volatile JLabel timeMinLabel;
+
+	/** The text field of the time-min. */
+	public volatile JTextField timeMinField;
+
+	/** The right-click menu of timeMinField. */
+	public volatile TextRightClickMenu timeMinFieldRightClickMenu;
+
 
 	/** PLOT/UPDATE button. */
 	public volatile JButton plotButton;
@@ -342,6 +367,50 @@ public class XtYtZtMathWindow {
 				constraints.gridwidth = 1;
 
 				// Create the title label of the time resolution.
+				timeMinLabel = new JLabel("Unconfigured");
+				timeMinLabel.setHorizontalAlignment(JLabel.RIGHT);
+				constraints.weightx = 0.05;
+				constraints.gridx = 0;
+				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginInSection, marginBetweenLabelAndField);
+				layout.setConstraints(timeMinLabel, constraints);
+				basePanel.add(timeMinLabel);
+
+				// Create the title label of the time resolution.
+				timeMinField = new JTextField(DEFAULT_STARTING_TIME);
+				constraints.weightx = 1.0;
+				constraints.gridx = 1;
+				constraints.insets = new Insets(topMargin, 0, bottomMarginInSection, rightMargin);
+				layout.setConstraints(timeMinField, constraints);
+				basePanel.add(timeMinField);
+
+				// The right-click menu of the above text field.
+				timeMaxFieldRightClickMenu = new TextRightClickMenu();
+
+				constraints.gridy++;
+
+				// Create the title label of the time-max.
+				timeMaxLabel = new JLabel("Unconfigured");
+				timeMaxLabel.setHorizontalAlignment(JLabel.RIGHT);
+				constraints.weightx = 0.05;
+				constraints.gridx = 0;
+				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginInSection, marginBetweenLabelAndField);
+				layout.setConstraints(timeMaxLabel, constraints);
+				basePanel.add(timeMaxLabel);
+
+				// Create the title label of the time resolution.
+				timeMaxField = new JTextField(DEFAULT_ENDING_TIME);
+				constraints.weightx = 1.0;
+				constraints.gridx = 1;
+				constraints.insets = new Insets(topMargin, 0, bottomMarginInSection, rightMargin);
+				layout.setConstraints(timeMaxField, constraints);
+				basePanel.add(timeMaxField);
+
+				// The right-click menu of the above text field.
+				timeMinFieldRightClickMenu = new TextRightClickMenu();
+
+				constraints.gridy++;
+
+				// Create the title label of the time-min.
 				timeResolutionLabel = new JLabel("Unconfigured");
 				timeResolutionLabel.setHorizontalAlignment(JLabel.RIGHT);
 				constraints.weightx = 0.05;
@@ -442,6 +511,8 @@ public class XtYtZtMathWindow {
 			xtMathExpressionFieldRightClickMenu.configure(this.configuration);
 			ytMathExpressionFieldRightClickMenu.configure(this.configuration);
 			ztMathExpressionFieldRightClickMenu.configure(this.configuration);
+			timeMinFieldRightClickMenu.configure(this.configuration);
+			timeMaxFieldRightClickMenu.configure(this.configuration);
 			timeResolutionFieldRightClickMenu.configure(this.configuration);
 		}
 
@@ -455,6 +526,8 @@ public class XtYtZtMathWindow {
 			ytMathExpressionLabel.setText("y(t) =");
 			ztMathExpressionLabel.setText("z(t) =");
 			resolutionLabel.setText("- 離散化 -");
+			timeMinLabel.setText("始点時刻:");
+			timeMaxLabel.setText("終点時刻:");
 			timeResolutionLabel.setText("時刻点数:");
 
 			// Update the text of PLOT/UPDATE button.
@@ -471,7 +544,9 @@ public class XtYtZtMathWindow {
 			ytMathExpressionLabel.setText("y(t) =");
 			ztMathExpressionLabel.setText("z(t) =");
 			resolutionLabel.setText("- Discretization -");
-			timeResolutionLabel.setText("Time Points:");
+			timeMinLabel.setText("Starting Time:");
+			timeMaxLabel.setText("Ending Time:");
+			timeResolutionLabel.setText("Number of Points:");
 
 			// Update the text of PLOT/UPDATE button.
 			updateUIForMode(currentMode, this.configuration.getEnvironmentConfiguration());
@@ -498,6 +573,10 @@ public class XtYtZtMathWindow {
 
 			resolutionLabel.setFont(uiBoldFont);
 
+			timeMinLabel.setFont(uiBoldFont);
+			timeMinField.setFont(uiPlainFont);
+			timeMaxLabel.setFont(uiBoldFont);
+			timeMaxField.setFont(uiPlainFont);
 			timeResolutionLabel.setFont(uiBoldFont);
 			timeResolutionField.setFont(uiPlainFont);
 

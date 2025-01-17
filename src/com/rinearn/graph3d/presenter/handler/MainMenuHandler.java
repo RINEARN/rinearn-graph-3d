@@ -4,6 +4,7 @@ import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
 import com.rinearn.graph3d.model.data.series.MathDataSeries;
 import com.rinearn.graph3d.model.data.series.ZxyMathDataSeries;
+import com.rinearn.graph3d.model.data.series.XtYtZtMathDataSeries;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.view.MainWindow;
@@ -241,7 +242,7 @@ public final class MainMenuHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
-			// presenter.xtYtZtMathHandler.setMode(ZxyMathHandler.Mode.PLOT);
+			presenter.xtYtZtMathHandler.setMode(XtYtZtMathHandler.Mode.PLOT);
 			view.xtYtZtMathWindow.setWindowVisible(true);
 		}
 	}
@@ -300,6 +301,9 @@ public final class MainMenuHandler {
 
 			// Pop-ups the window to selects a math expression from the currently registered math expressions.
 			int selectedIndex = selectMathExpression();
+			if (selectedIndex == -1) {
+				return;
+			}
 
 			// Remove the selected math data series.
 			model.dataStore.removeMathDataSeriesAt(selectedIndex);
@@ -322,6 +326,9 @@ public final class MainMenuHandler {
 
 			// Pop-ups the window to selects a math expression from the currently registered math expressions.
 			int selectedIndex = selectMathExpression();
+			if (selectedIndex == -1) {
+				return;
+			}
 
 			// Get the selected math data series from the index.
 			MathDataSeries selectedSeries = model.dataStore.getMathDataSeriesAt(selectedIndex);
@@ -331,6 +338,12 @@ public final class MainMenuHandler {
 				presenter.zxyMathHandler.setUpdateTargetMathDataSeries(ZxyMathDataSeries.class.cast(selectedSeries));
 				presenter.zxyMathHandler.setMode(ZxyMathHandler.Mode.UPDATE);
 				view.zxyMathWindow.setWindowVisible(true);
+
+			} else if (selectedSeries instanceof XtYtZtMathDataSeries) {
+				presenter.xtYtZtMathHandler.setUpdateTargetMathDataSeries(XtYtZtMathDataSeries.class.cast(selectedSeries));
+				presenter.xtYtZtMathHandler.setMode(XtYtZtMathHandler.Mode.UPDATE);
+				view.xtYtZtMathWindow.setWindowVisible(true);
+
 			} else {
 				throw new IllegalStateException("Unexpected math data series type: " + selectedSeries.getClass().getTypeName());
 			}

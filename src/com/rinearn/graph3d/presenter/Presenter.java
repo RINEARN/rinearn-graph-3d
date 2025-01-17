@@ -22,6 +22,7 @@ import com.rinearn.graph3d.presenter.handler.ScreenHandler;
 import com.rinearn.graph3d.presenter.handler.ScreenRightClickMenuHandler;
 import com.rinearn.graph3d.presenter.handler.ScreenSideUIHandler;
 import com.rinearn.graph3d.presenter.handler.ZxyMathHandler;
+import com.rinearn.graph3d.presenter.handler.XtYtZtMathHandler;
 import com.rinearn.graph3d.presenter.handler.DataFileIOHandler;
 import com.rinearn.graph3d.presenter.handler.DataTextIOHandler;
 import com.rinearn.graph3d.presenter.handler.DataArrayIOHandler;
@@ -161,6 +162,9 @@ public final class Presenter {
 	/** The handler of events and API requests for plotting math expressions of "z(x,y)" form. */
 	public final ZxyMathHandler zxyMathHandler;
 
+	/** The handler of events and API requests for plotting math expressions of "x(t),y(t),z(t)" form. */
+	public final XtYtZtMathHandler xtYtZtMathHandler;
+
 	/** The handler of events and API requests for plotting data files. */
 	public final DataFileIOHandler dataFileIOHandler;
 
@@ -220,13 +224,17 @@ public final class Presenter {
 		this.mainMenuHandler = new MainMenuHandler(model, view, this);
 		this.screenSideUIHandler = new ScreenSideUIHandler(model, view, this);
 		this.screenRightClickMenuHandler = new ScreenRightClickMenuHandler(model, view, this);
+
 		this.rangeSettingHandler = new RangeSettingHandler(model, view, this);
 		this.labelSettingHandler = new LabelSettingHandler(model, view, this);
 		this.fontSettingHandler = new FontSettingHandler(model, view, this);
 		this.cameraSettingHandler = new CameraSettingHandler(model, view, this);
 		this.scaleSettingHandler = new ScaleSettingHandler(model, view, this);
 		this.lightSettingHandler = new LightSettingHandler(model, view, this);
+
 		this.zxyMathHandler = new ZxyMathHandler(model, view, this);
+		this.xtYtZtMathHandler = new XtYtZtMathHandler(model, view, this);
+
 		this.dataFileIOHandler = new DataFileIOHandler(model, view, this);
 		this.dataTextIOHandler = new DataTextIOHandler(model, view, this);
 		this.dataArrayIOHandler = new DataArrayIOHandler(model, view, this);
@@ -254,18 +262,24 @@ public final class Presenter {
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
 		this.mainWindowFrameHandler.setEventHandlingEnabled(enabled);
-		this.mainMenuHandler.setEventHandlingEnabled(enabled);
 		this.screenHandler.setEventHandlingEnabled(enabled);
-		this.screenRightClickMenuHandler.setEventHandlingEnabled(enabled);
+		this.mainMenuHandler.setEventHandlingEnabled(enabled);
 		this.screenSideUIHandler.setEventHandlingEnabled(enabled);
+		this.screenRightClickMenuHandler.setEventHandlingEnabled(enabled);
+
 		this.rangeSettingHandler.setEventHandlingEnabled(enabled);
 		this.labelSettingHandler.setEventHandlingEnabled(enabled);
 		this.fontSettingHandler.setEventHandlingEnabled(enabled);
 		this.cameraSettingHandler.setEventHandlingEnabled(enabled);
 		this.scaleSettingHandler.setEventHandlingEnabled(enabled);
 		this.lightSettingHandler.setEventHandlingEnabled(enabled);
+
+		this.zxyMathHandler.setEventHandlingEnabled(enabled);
+		this.xtYtZtMathHandler.setEventHandlingEnabled(enabled);
+
 		this.dataFileIOHandler.setEventHandlingEnabled(enabled);
 		this.dataTextIOHandler.setEventHandlingEnabled(enabled);
+		this.dataArrayIOHandler.setEventHandlingEnabled(enabled);
 		this.imageIOHandler.setEventHandlingEnabled(enabled);
 	}
 
