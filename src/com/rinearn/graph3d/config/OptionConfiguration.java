@@ -1,5 +1,8 @@
 package com.rinearn.graph3d.config;
 
+import com.rinearn.graph3d.config.data.SeriesFilter;
+import com.rinearn.graph3d.config.data.SeriesFilterMode;
+import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 
 /*
 [!!!!! NOTE !!!!!]
@@ -24,6 +27,14 @@ RinearnGraph3DOptionItem/OptionParameter というenum/コンテナオブジェ�
       そうすると必然的に RinearnGraph3DOptionParameter とは構造が色々と違ってくるのでは。
 
 とりあえず後者の方針で実装、ほどほどに出来たタイミングで複雑さ等を振り返ってまた再検討する
+
+-> だいぶ間を置いて再考したが、やっぱり後者一択で決着した。
+   というのも、対象系列指定をオプション項目ごとにできるようにしたりとかで、そのフィルタモード指定とかフィルタクラスとかが必用になったので、
+   もはやそれを前者のようにフラットシンプルな構造に収めるのは無理がある。
+   なので、OptionParameter はせっかくあるので簡易利用時のシンプルで分かりやすいやつとして使う。
+   そもそも他のAPIもほぼそういう役割になりつつあるし。
+   本気で細かい所まで制御するには粒度不足で config 作って投げるしかない。極論 config と同じ粒度で細かいAPI生やすとどえらい事になる。
+   APIの表層は「ざっと docs 読んで使ってみるかー」ってなる粒度であるべき。OptionParameter はそれ用。
 */
 
 
@@ -42,6 +53,19 @@ public final class OptionConfiguration {
 	/** Stores the configuration of "With Points" option. */
 	private volatile PointOptionConfiguration pointOptionConfiguration = new PointOptionConfiguration();
 
+	/** Stores the configuration of "With Lines" option. */
+	private volatile LineOptionConfiguration lineOptionConfiguration = new LineOptionConfiguration();
+
+	/** Stores the configuration of "With Meshes" option. */
+	private volatile MeshOptionConfiguration meshOptionConfiguration = new MeshOptionConfiguration();
+
+	/** Stores the configuration of "With Membranes" option. */
+	private volatile MembraneOptionConfiguration membraneOptionConfiguration = new MembraneOptionConfiguration();
+
+	/** Stores the configuration of "Gradient" option. */
+	private volatile GradientOptionConfiguration gradientOptionConfiguration = new GradientOptionConfiguration();
+
+
 	/**
 	 * Sets the configuration of "With Points" option.
 	 */
@@ -56,16 +80,83 @@ public final class OptionConfiguration {
 		return this.pointOptionConfiguration;
 	}
 
+
 	/**
-	 * The class storing configuration values of "With Points" option.
+	 * Sets the configuration of "With Lines" option.
 	 */
-	public static final class PointOptionConfiguration {
+	public synchronized void getLineOptionConfiguration(LineOptionConfiguration lineOptionConfiguration) {
+		this.lineOptionConfiguration = lineOptionConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of "With Lines" option.
+	 */
+	public synchronized LineOptionConfiguration getLineOptionConfiguration() {
+		return this.lineOptionConfiguration;
+	}
+
+
+	/**
+	 * Sets the configuration of "With Meshes" option.
+	 */
+	public synchronized void getMeshOptionConfiguration(MeshOptionConfiguration meshOptionConfiguration) {
+		this.meshOptionConfiguration = meshOptionConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of "With Meshes" option.
+	 */
+	public synchronized MeshOptionConfiguration getMeshOptionConfiguration() {
+		return this.meshOptionConfiguration;
+	}
+
+
+	/**
+	 * Sets the configuration of "With Membranes" option.
+	 */
+	public synchronized void getMembraneOptionConfiguration(MembraneOptionConfiguration membraneOptionConfiguration) {
+		this.membraneOptionConfiguration = membraneOptionConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of "With Membranes" option.
+	 */
+	public synchronized MembraneOptionConfiguration getMembraneOptionConfiguration() {
+		return this.membraneOptionConfiguration;
+	}
+
+
+	/**
+	 * Sets the configuration of "Gradient" option.
+	 */
+	public synchronized void getGradientOptionConfiguration(GradientOptionConfiguration gradientOptionConfiguration) {
+		this.gradientOptionConfiguration = gradientOptionConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of "Gradient" option.
+	 */
+	public synchronized GradientOptionConfiguration getGradientOptionConfiguration() {
+		return this.gradientOptionConfiguration;
+	}
+
+
+	/**
+	 * The base class of *OptionConfiguration classes.
+	 */
+	private static abstract class AbstractOptionConfiguration {
 
 		/** The flag representing whether this option is selected. */
 		private volatile boolean selected = true;
 
-		/** The radius (in pixels) of points plotted by this option. */
-		private volatile double pointRadius = 2.0;
+		/** The mode of the series filter. */
+		private volatile SeriesFilterMode seriesFilterMode = SeriesFilterMode.NONE;
+
+		/** The index-based series filter, used in INDEX mode. */
+		private volatile IndexSeriesFilter indexSeriesFilter = new IndexSeriesFilter();
+
+		/** The custom implementation of a series filter, used in CUSTOM mode. */
+		private volatile SeriesFilter customSeriesFilter = null;
 
 		/**
 		 * Selects or unselects this option.
@@ -84,6 +175,70 @@ public final class OptionConfiguration {
 		public synchronized boolean isSelected() {
 			return this.selected;
 		}
+
+		/**
+		 * Sets the mode of the series filter.
+		 *
+		 * @param seriesFilterMode the mode of the series filter.
+		 */
+		public synchronized void setSeriesFilterMode(SeriesFilterMode seriesFilterMode) {
+			this.seriesFilterMode = seriesFilterMode;
+		}
+
+		/**
+		 * Gets the mode of the series filter.
+		 *
+		 * @param seriesFilterMode the mode of the series filter.
+		 */
+		public synchronized SeriesFilterMode getSeriesFilterMode() {
+			return this.seriesFilterMode;
+		}
+
+		/**
+		 * Sets the index-based series filter, used in INDEX mode.
+		 *
+		 * @param indexSeriesFilter The index-based series filter, used in INDEX mode.
+		 */
+		private synchronized void setIndexSeriesFilter(IndexSeriesFilter indexSeriesFilter) {
+			this.indexSeriesFilter = indexSeriesFilter;
+		}
+
+		/**
+		 * Gets the index-based series filter, used in INDEX mode.
+		 *
+		 * @return The index-based series filter, used in INDEX mode.
+		 */
+		private synchronized IndexSeriesFilter getIndexSeriesFilter() {
+			return this.indexSeriesFilter;
+		}
+
+		/**
+		 * Sets the custom implementation of a filter, used in CUSTOM mode.
+		 *
+		 * @param customSeriesFilter The custom implementation of a  series filter, used in CUSTOM mode.
+		 */
+		private synchronized void setCustomSeriesFilter(SeriesFilter customSeriesFilter) {
+			this.customSeriesFilter = customSeriesFilter;
+		}
+
+		/**
+		 * Gets the custom implementation of a filter, used in CUSTOM mode.
+		 *
+		 * @return The custom implementation of a  series filter, used in CUSTOM mode.
+		 */
+		private synchronized SeriesFilter getCustomSeriesFilter() {
+			return this.customSeriesFilter;
+		}
+	}
+
+
+	/**
+	 * The class storing configuration values of "With Points" option.
+	 */
+	public static final class PointOptionConfiguration extends AbstractOptionConfiguration {
+
+		/** The radius (in pixels) of points plotted by this option. */
+		private volatile double pointRadius = 2.0;
 
 		/**
 		 * Sets the radius (in pixels) of points plotted by this option.
@@ -105,51 +260,13 @@ public final class OptionConfiguration {
 	}
 
 
-	/** Stores the configuration of "With Lines" option. */
-	private volatile LineOptionConfiguration lineOptionConfiguration = new LineOptionConfiguration();
-
-	/**
-	 * Sets the configuration of "With Lines" option.
-	 */
-	public synchronized void getLineOptionConfiguration(LineOptionConfiguration lineOptionConfiguration) {
-		this.lineOptionConfiguration = lineOptionConfiguration;
-	}
-
-	/**
-	 * Gets the configuration of "With Lines" option.
-	 */
-	public synchronized LineOptionConfiguration getLineOptionConfiguration() {
-		return this.lineOptionConfiguration;
-	}
-
 	/**
 	 * The class storing configuration values of "With Lines" option.
 	 */
-	public static final class LineOptionConfiguration {
-
-		/** The flag representing whether this option is selected. */
-		private volatile boolean selected = false;
+	public static final class LineOptionConfiguration extends AbstractOptionConfiguration {
 
 		/** The width (in pixels) of lines plotted by this option. */
 		private volatile double lineWidth = 1.0;
-
-		/**
-		 * Selects or unselects this option.
-		 *
-		 * @param selected Specify true to select, false to unselect.
-		 */
-		public synchronized void setSelected(boolean selected) {
-			this.selected = selected;
-		}
-
-		/**
-		 * Checks whether this option is selected.
-		 *
-		 * @return Returns true if this option is selected.
-		 */
-		public synchronized boolean isSelected() {
-			return this.selected;
-		}
 
 		/**
 		 * Sets the width (in pixels) of lines plotted by this option.
@@ -171,51 +288,13 @@ public final class OptionConfiguration {
 	}
 
 
-	/** Stores the configuration of "With Meshes" option. */
-	private volatile MeshOptionConfiguration meshOptionConfiguration = new MeshOptionConfiguration();
-
-	/**
-	 * Sets the configuration of "With Meshes" option.
-	 */
-	public synchronized void getMeshOptionConfiguration(MeshOptionConfiguration meshOptionConfiguration) {
-		this.meshOptionConfiguration = meshOptionConfiguration;
-	}
-
-	/**
-	 * Gets the configuration of "With Meshes" option.
-	 */
-	public synchronized MeshOptionConfiguration getMeshOptionConfiguration() {
-		return this.meshOptionConfiguration;
-	}
-
 	/**
 	 * The class storing configuration values of "With Meshes" option.
 	 */
-	public static final class MeshOptionConfiguration {
-
-		/** The flag representing whether this option is selected. */
-		private volatile boolean selected = false;
+	public static final class MeshOptionConfiguration extends AbstractOptionConfiguration {
 
 		/** The width (in pixels) of lines composing meshes plotted by this option. */
 		private volatile double lineWidth = 1.0;
-
-		/**
-		 * Selects or unselects this option.
-		 *
-		 * @param selected Specify true to select, false to unselect.
-		 */
-		public synchronized void setSelected(boolean selected) {
-			this.selected = selected;
-		}
-
-		/**
-		 * Checks whether this option is selected.
-		 *
-		 * @return Returns true if this option is selected.
-		 */
-		public synchronized boolean isSelected() {
-			return this.selected;
-		}
 
 		/**
 		 * Sets the width (in pixels) of lines composing meshes plotted by this option.
@@ -237,97 +316,22 @@ public final class OptionConfiguration {
 	}
 
 
-	/** Stores the configuration of "With Membranes" option. */
-	private volatile MembraneOptionConfiguration membraneOptionConfiguration = new MembraneOptionConfiguration();
-
-	/**
-	 * Sets the configuration of "With Membranes" option.
-	 */
-	public synchronized void getMembraneOptionConfiguration(MembraneOptionConfiguration membraneOptionConfiguration) {
-		this.membraneOptionConfiguration = membraneOptionConfiguration;
-	}
-
-	/**
-	 * Gets the configuration of "With Membranes" option.
-	 */
-	public synchronized MembraneOptionConfiguration getMembraneOptionConfiguration() {
-		return this.membraneOptionConfiguration;
-	}
-
 	/**
 	 * The class storing configuration values of "With Membranes" option.
 	 */
-	public static final class MembraneOptionConfiguration {
+	public static final class MembraneOptionConfiguration extends AbstractOptionConfiguration {
 
-		/** The flag representing whether this option is selected. */
-		private volatile boolean selected = false;
-
-		/**
-		 * Selects or unselects this option.
-		 *
-		 * @param selected Specify true to select, false to unselect.
-		 */
-		public synchronized void setSelected(boolean selected) {
-			this.selected = selected;
-		}
-
-		/**
-		 * Checks whether this option is selected.
-		 *
-		 * @return Returns true if this option is selected.
-		 */
-		public synchronized boolean isSelected() {
-			return this.selected;
-		}
 	}
 
-
-	/** Stores the configuration of "Gradient" option. */
-	private volatile GradientOptionConfiguration gradientOptionConfiguration = new GradientOptionConfiguration();
-
-	/**
-	 * Sets the configuration of "Gradient" option.
-	 */
-	public synchronized void getGradientOptionConfiguration(GradientOptionConfiguration gradientOptionConfiguration) {
-		this.gradientOptionConfiguration = gradientOptionConfiguration;
-	}
-
-	/**
-	 * Gets the configuration of "Gradient" option.
-	 */
-	public synchronized GradientOptionConfiguration getGradientOptionConfiguration() {
-		return this.gradientOptionConfiguration;
-	}
 
 	/**
 	 * The class storing configuration values of "Gradient" option.
 	 */
-	public static final class GradientOptionConfiguration {
+	public static final class GradientOptionConfiguration extends AbstractOptionConfiguration {
 
 		// !!! NOTE !!!
 		// On Ver.6, this "Gradient" option works as a short-cut UI
 		// for switching the current coloring mode selected in "Settings" > "Set Colors" menu.
 		// So we don't define detailed parameters here. They are defined in "ColorConfiguration" class.
-
-		/** The flag representing whether this option is selected. */
-		private volatile boolean selected = true;
-
-		/**
-		 * Selects or unselects this option.
-		 *
-		 * @param selected Specify true to select, false to unselect.
-		 */
-		public synchronized void setSelected(boolean selected) {
-			this.selected = selected;
-		}
-
-		/**
-		 * Checks whether this option is selected.
-		 *
-		 * @return Returns true if this option is selected.
-		 */
-		public synchronized boolean isSelected() {
-			return this.selected;
-		}
 	}
 }
