@@ -147,7 +147,7 @@ public final class OptionConfiguration {
 	private static abstract class AbstractOptionConfiguration {
 
 		/** The flag representing whether this option is selected. */
-		private volatile boolean selected = true;
+		private volatile boolean selected = false;
 
 		/** The mode of the series filter. */
 		private volatile SeriesFilterMode seriesFilterMode = SeriesFilterMode.NONE;
@@ -163,7 +163,7 @@ public final class OptionConfiguration {
 		 *
 		 * @param selected Specify true to select, false to unselect.
 		 */
-		public synchronized void setSelected(boolean selected) {
+		public synchronized final void setSelected(boolean selected) {
 			this.selected = selected;
 		}
 
@@ -172,7 +172,7 @@ public final class OptionConfiguration {
 		 *
 		 * @return Returns true if this option is selected.
 		 */
-		public synchronized boolean isSelected() {
+		public synchronized final boolean isSelected() {
 			return this.selected;
 		}
 
@@ -195,11 +195,24 @@ public final class OptionConfiguration {
 		}
 
 		/**
+		 * Gets the series filter corresponding to the current mode.
+		 *
+		 * @return The series filter corresponding to the current mode.
+		 */
+		public synchronized SeriesFilter getSeriesFilter() {
+			switch (this.seriesFilterMode) {
+				case INDEX: return this.indexSeriesFilter;
+				case CUSTOM: return this.customSeriesFilter;
+				default: throw new IllegalStateException("Unexpected series filter mode: " + this.seriesFilterMode);
+			}
+		}
+
+		/**
 		 * Sets the index-based series filter, used in INDEX mode.
 		 *
 		 * @param indexSeriesFilter The index-based series filter, used in INDEX mode.
 		 */
-		private synchronized void setIndexSeriesFilter(IndexSeriesFilter indexSeriesFilter) {
+		public synchronized void setIndexSeriesFilter(IndexSeriesFilter indexSeriesFilter) {
 			this.indexSeriesFilter = indexSeriesFilter;
 		}
 
@@ -208,7 +221,7 @@ public final class OptionConfiguration {
 		 *
 		 * @return The index-based series filter, used in INDEX mode.
 		 */
-		private synchronized IndexSeriesFilter getIndexSeriesFilter() {
+		public synchronized IndexSeriesFilter getIndexSeriesFilter() {
 			return this.indexSeriesFilter;
 		}
 
@@ -217,7 +230,7 @@ public final class OptionConfiguration {
 		 *
 		 * @param customSeriesFilter The custom implementation of a  series filter, used in CUSTOM mode.
 		 */
-		private synchronized void setCustomSeriesFilter(SeriesFilter customSeriesFilter) {
+		public synchronized void setCustomSeriesFilter(SeriesFilter customSeriesFilter) {
 			this.customSeriesFilter = customSeriesFilter;
 		}
 
@@ -226,7 +239,7 @@ public final class OptionConfiguration {
 		 *
 		 * @return The custom implementation of a  series filter, used in CUSTOM mode.
 		 */
-		private synchronized SeriesFilter getCustomSeriesFilter() {
+		public synchronized SeriesFilter getCustomSeriesFilter() {
 			return this.customSeriesFilter;
 		}
 	}
@@ -239,6 +252,13 @@ public final class OptionConfiguration {
 
 		/** The radius (in pixels) of points plotted by this option. */
 		private volatile double pointRadius = 2.0;
+
+		/**
+		 * Creates a new instance.
+		 */
+		public PointOptionConfiguration() {
+			super.setSelected(true);
+		}
 
 		/**
 		 * Sets the radius (in pixels) of points plotted by this option.
@@ -269,6 +289,13 @@ public final class OptionConfiguration {
 		private volatile double lineWidth = 1.0;
 
 		/**
+		 * Creates a new instance.
+		 */
+		public LineOptionConfiguration() {
+			super.setSelected(false);
+		}
+
+		/**
 		 * Sets the width (in pixels) of lines plotted by this option.
 		 *
 		 * @param lineWidth The width (in pixels) of lines plotted by this option.
@@ -297,6 +324,13 @@ public final class OptionConfiguration {
 		private volatile double lineWidth = 1.0;
 
 		/**
+		 * Creates a new instance.
+		 */
+		public MeshOptionConfiguration() {
+			super.setSelected(false);
+		}
+
+		/**
 		 * Sets the width (in pixels) of lines composing meshes plotted by this option.
 		 *
 		 * @param lineWidth The width (in pixels) of lines.
@@ -321,6 +355,12 @@ public final class OptionConfiguration {
 	 */
 	public static final class SurfaceOptionConfiguration extends AbstractOptionConfiguration {
 
+		/**
+		 * Creates a new instance.
+		 */
+		public SurfaceOptionConfiguration() {
+			super.setSelected(false);
+		}
 	}
 
 
@@ -328,6 +368,13 @@ public final class OptionConfiguration {
 	 * The class storing configuration values of "Gradient" option.
 	 */
 	public static final class GradientOptionConfiguration extends AbstractOptionConfiguration {
+
+		/**
+		 * Creates a new instance.
+		 */
+		public GradientOptionConfiguration() {
+			super.setSelected(false);
+		}
 
 		// !!! NOTE !!!
 		// On Ver.6, this "Gradient" option works as a short-cut UI

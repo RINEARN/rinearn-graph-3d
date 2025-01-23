@@ -11,6 +11,9 @@ import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;
 import com.rinearn.graph3d.config.OptionConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.data.SeriesAttribute;
+import com.rinearn.graph3d.config.data.SeriesFilter;
+import com.rinearn.graph3d.config.data.SeriesFilterMode;
 
 
 /**
@@ -64,18 +67,31 @@ public class SurfacePlotter implements RinearnGraph3DPlottingListener {
 		// Get the configuration of "With Membranes" option.
 		RinearnGraph3DConfiguration config = this.model.config;
 		OptionConfiguration optionConfig = config.getOptionConfiguration();
-		OptionConfiguration.SurfaceOptionConfiguration membraneOptionConfig = optionConfig.getSurfaceOptionConfiguration();
-		boolean isMembraneOptionSelected = membraneOptionConfig.isSelected();
+		OptionConfiguration.SurfaceOptionConfiguration surfaceOptionConfig = optionConfig.getSurfaceOptionConfiguration();
+		boolean isMembraneOptionSelected = surfaceOptionConfig.isSelected();
 
 		// This plotter do nothing if "With Membranes" option is not selected.
 		if(!isMembraneOptionSelected) {
 			return;
 		}
 
+		// Get the series filter, which filters the data series to which this option is applied.
+		boolean existsSeriesFilter = surfaceOptionConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
+		SeriesFilter seriesFilter = existsSeriesFilter ? surfaceOptionConfig.getSeriesFilter() : null;
+		SeriesAttribute seriesAttribute = new SeriesAttribute();
+
 		// Plots all data series.
 		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = this.model.dataStore.getCombinedDataSeriesGroup();
 		int dataSeriesCount = dataSeriesGroup.getDataSeriesCount();
 		for (int dataSeriesIndex=0; dataSeriesIndex<dataSeriesCount; dataSeriesIndex++) {
+
+			// Filter the data series.
+			seriesAttribute.setGlobalSeriesIndex(dataSeriesIndex);
+			if (existsSeriesFilter && !seriesFilter.isSeriesIncluded(seriesAttribute)) {
+				continue;
+			}
+
+			// Plot.
 			AbstractDataSeries dataSeries = dataSeriesGroup.getDataSeriesAt(dataSeriesIndex);
 			this.plotSurface(dataSeries, dataSeriesIndex);
 		}
