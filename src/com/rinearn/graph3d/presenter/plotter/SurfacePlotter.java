@@ -14,13 +14,13 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 
 
 /**
- * The "plotter" to plot each data series as a membrane.
+ * The "plotter" to plot each data series as a surface.
  *
  * A plotter is an object implementing RinearnGraph3DPlottingListener interface,
  * performs a part of plottings/re-plottings (e.g. plots points, or lines, etc),
  * in event-driven flow.
  */
-public class MembranePlotter implements RinearnGraph3DPlottingListener {
+public class SurfacePlotter implements RinearnGraph3DPlottingListener {
 
 	/** The front-end class of "Model" layer, which provides internal logic procedures and so on. */
 	private final Model model;
@@ -45,7 +45,7 @@ public class MembranePlotter implements RinearnGraph3DPlottingListener {
 	 * @param presenter The front-end class of "Presenter" layer, which handles events occurred on GUI, and API requests.
 	 * @param renderer The rendering engine of 3D graphs.
 	 */
-	public MembranePlotter(Model model, View view, Presenter presenter, RinearnGraph3DRenderer renderer) {
+	public SurfacePlotter(Model model, View view, Presenter presenter, RinearnGraph3DRenderer renderer) {
 		this.model = model;
 		this.view = view;
 		this.presenter = presenter;
@@ -64,7 +64,7 @@ public class MembranePlotter implements RinearnGraph3DPlottingListener {
 		// Get the configuration of "With Membranes" option.
 		RinearnGraph3DConfiguration config = this.model.config;
 		OptionConfiguration optionConfig = config.getOptionConfiguration();
-		OptionConfiguration.MembraneOptionConfiguration membraneOptionConfig = optionConfig.getMembraneOptionConfiguration();
+		OptionConfiguration.SurfaceOptionConfiguration membraneOptionConfig = optionConfig.getSurfaceOptionConfiguration();
 		boolean isMembraneOptionSelected = membraneOptionConfig.isSelected();
 
 		// This plotter do nothing if "With Membranes" option is not selected.
@@ -77,7 +77,7 @@ public class MembranePlotter implements RinearnGraph3DPlottingListener {
 		int dataSeriesCount = dataSeriesGroup.getDataSeriesCount();
 		for (int dataSeriesIndex=0; dataSeriesIndex<dataSeriesCount; dataSeriesIndex++) {
 			AbstractDataSeries dataSeries = dataSeriesGroup.getDataSeriesAt(dataSeriesIndex);
-			this.plotMembrane(dataSeries, dataSeriesIndex);
+			this.plotSurface(dataSeries, dataSeriesIndex);
 		}
 	}
 
@@ -88,7 +88,7 @@ public class MembranePlotter implements RinearnGraph3DPlottingListener {
 	 * @param dataSeries The data series to be plotted.
 	 * @param seriesIndex The index of the data series.
 	 */
-	private void plotMembrane(AbstractDataSeries dataSeries, int seriesIndex) {
+	private void plotSurface(AbstractDataSeries dataSeries, int seriesIndex) {
 		RinearnGraph3DDrawingParameter drawingParameter = new RinearnGraph3DDrawingParameter();
 		drawingParameter.setSeriesIndex(seriesIndex);
 		drawingParameter.setAutoColoringEnabled(true);

@@ -88,7 +88,7 @@ public final class MainMenuHandler {
 		window.mainMenu.pointOptionMenuItem.addActionListener(new PointOptionMenuItemSelectedEventListener());
 		window.mainMenu.lineOptionMenuItem.addActionListener(new LineOptionMenuItemSelectedEventListener());
 		window.mainMenu.meshOptionMenuItem.addActionListener(new MeshOptionMenuItemSelectedEventListener());
-		window.mainMenu.membraneOptionMenuItem.addActionListener(new MembraneOptionMenuItemSelectedEventListener());
+		window.mainMenu.surfaceOptionMenuItem.addActionListener(new SurfaceOptionMenuItemSelectedEventListener());
 	}
 
 
@@ -656,9 +656,9 @@ public final class MainMenuHandler {
 
 
 	/**
-	 * The listener handling the event that "Options" > "With Membranes" menu item is selected.
+	 * The listener handling the event that "Options" > "With Surfaces" menu item is selected.
 	 */
-	private final class MembraneOptionMenuItemSelectedEventListener implements ActionListener {
+	private final class SurfaceOptionMenuItemSelectedEventListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			if (!isEventHandlingEnabled()) {
@@ -667,10 +667,10 @@ public final class MainMenuHandler {
 
 			// Get the configuration container for storing the states of this option.
 			OptionConfiguration optionConfig = model.config.getOptionConfiguration();
-			OptionConfiguration.MembraneOptionConfiguration membraneOptionConfig = optionConfig.getMembraneOptionConfiguration();
+			OptionConfiguration.SurfaceOptionConfiguration membraneOptionConfig = optionConfig.getSurfaceOptionConfiguration();
 
 			// Store the selection state of this option into the config container.
-			boolean isOptionSelected = view.mainWindow.mainMenu.membraneOptionMenuItem.isSelected();
+			boolean isOptionSelected = view.mainWindow.mainMenu.surfaceOptionMenuItem.isSelected();
 			membraneOptionConfig.setSelected(isOptionSelected);
 
 			// Propagates the updated configuration, to the entire application.

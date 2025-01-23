@@ -49,9 +49,18 @@ public enum RinearnGraph3DOptionItem {
 	MESH,
 
 	/**
-	 * <span class="lang-ja">「曲面プロット（With Meshes）」オプションです</span>
-	 * <span class="lang-en">Represents "With Membranes" option</span>
+	 * <span class="lang-ja">「曲面プロット（With Surfaces）」オプションです</span>
+	 * <span class="lang-en">Represents "With Surfaces (Membranes)" option</span>
 	 * .
+	 */
+	SURFACE,
+
+	/**
+	 * <span class="lang-ja">「曲面プロット（With Surfaces）」オプションです</span>
+	 * <span class="lang-en">Represents "With Surfaces (Membranes)" option</span>
+	 * .
+	 * <span class="lang-ja">この要素は, 「SURFACE」要素の旧名であり, 旧バージョン用のコードの互換維持のために存在します.</span>
+	 * <span class="lang-en">This item is the old name of "SURFACE" item, being provided for the compatibility with old code depending on it.</span>
 	 */
 	MEMBRANE,
 

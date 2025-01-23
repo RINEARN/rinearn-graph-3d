@@ -59,8 +59,8 @@ public final class OptionConfiguration {
 	/** Stores the configuration of "With Meshes" option. */
 	private volatile MeshOptionConfiguration meshOptionConfiguration = new MeshOptionConfiguration();
 
-	/** Stores the configuration of "With Membranes" option. */
-	private volatile MembraneOptionConfiguration membraneOptionConfiguration = new MembraneOptionConfiguration();
+	/** Stores the configuration of "With Surfaces" option. */
+	private volatile SurfaceOptionConfiguration surfaceOptionConfiguration = new SurfaceOptionConfiguration();
 
 	/** Stores the configuration of "Gradient" option. */
 	private volatile GradientOptionConfiguration gradientOptionConfiguration = new GradientOptionConfiguration();
@@ -112,17 +112,17 @@ public final class OptionConfiguration {
 
 
 	/**
-	 * Sets the configuration of "With Membranes" option.
+	 * Sets the configuration of "With Surfaces" option.
 	 */
-	public synchronized void getMembraneOptionConfiguration(MembraneOptionConfiguration membraneOptionConfiguration) {
-		this.membraneOptionConfiguration = membraneOptionConfiguration;
+	public synchronized void getSurfaceOptionConfiguration(SurfaceOptionConfiguration surfaceOptionConfiguration) {
+		this.surfaceOptionConfiguration = surfaceOptionConfiguration;
 	}
 
 	/**
-	 * Gets the configuration of "With Membranes" option.
+	 * Gets the configuration of "With Surfaces" option.
 	 */
-	public synchronized MembraneOptionConfiguration getMembraneOptionConfiguration() {
-		return this.membraneOptionConfiguration;
+	public synchronized SurfaceOptionConfiguration getSurfaceOptionConfiguration() {
+		return this.surfaceOptionConfiguration;
 	}
 
 
@@ -317,9 +317,9 @@ public final class OptionConfiguration {
 
 
 	/**
-	 * The class storing configuration values of "With Membranes" option.
+	 * The class storing configuration values of "With Surfaces" option.
 	 */
-	public static final class MembraneOptionConfiguration extends AbstractOptionConfiguration {
+	public static final class SurfaceOptionConfiguration extends AbstractOptionConfiguration {
 
 	}
 

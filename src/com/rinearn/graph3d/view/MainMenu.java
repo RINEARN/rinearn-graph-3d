@@ -93,8 +93,8 @@ public class MainMenu {
 	/** "Options" > "With Meshes" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem meshOptionMenuItem;
 
-	/** "Options" > "With Membranes" menu item on the menu bar.  */
-	public volatile JCheckBoxMenuItem membraneOptionMenuItem;
+	/** "Options" > "With Surfaces" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem surfaceOptionMenuItem;
 
 
 	/**
@@ -224,9 +224,9 @@ public class MainMenu {
 				meshOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
 				optionsMenu.add(meshOptionMenuItem);
 
-				// "Options" > "With Membranes" menu item:
-				membraneOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
-				optionsMenu.add(membraneOptionMenuItem);
+				// "Options" > "With Surfaces" menu item:
+				surfaceOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
+				optionsMenu.add(surfaceOptionMenuItem);
 			}
 		}
 	}
@@ -355,7 +355,7 @@ public class MainMenu {
 				pointOptionMenuItem.setText("点プロット");
 				lineOptionMenuItem.setText("線プロット");
 				meshOptionMenuItem.setText("メッシュプロット");
-				membraneOptionMenuItem.setText("曲面プロット");
+				surfaceOptionMenuItem.setText("曲面プロット");
 			}
 		}
 
@@ -400,7 +400,7 @@ public class MainMenu {
 				pointOptionMenuItem.setText("With Points");
 				lineOptionMenuItem.setText("With Lines");
 				meshOptionMenuItem.setText("With Meshes");
-				membraneOptionMenuItem.setText("With Membranes");
+				surfaceOptionMenuItem.setText("With Surfaces (Membranes)");
 			}
 		}
 
@@ -447,7 +447,7 @@ public class MainMenu {
 				pointOptionMenuItem.setFont(uiBoldFont);
 				lineOptionMenuItem.setFont(uiBoldFont);
 				meshOptionMenuItem.setFont(uiBoldFont);
-				membraneOptionMenuItem.setFont(uiBoldFont);
+				surfaceOptionMenuItem.setFont(uiBoldFont);
 			}
 		}
 
@@ -459,7 +459,7 @@ public class MainMenu {
 			pointOptionMenuItem.setSelected(optionConfig.getPointOptionConfiguration().isSelected());
 			lineOptionMenuItem.setSelected(optionConfig.getLineOptionConfiguration().isSelected());
 			meshOptionMenuItem.setSelected(optionConfig.getMeshOptionConfiguration().isSelected());
-			membraneOptionMenuItem.setSelected(optionConfig.getMembraneOptionConfiguration().isSelected());
+			surfaceOptionMenuItem.setSelected(optionConfig.getSurfaceOptionConfiguration().isSelected());
 		}
 	}
 
