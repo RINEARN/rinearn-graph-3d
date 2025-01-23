@@ -68,10 +68,10 @@ public class SurfacePlotter implements RinearnGraph3DPlottingListener {
 		RinearnGraph3DConfiguration config = this.model.config;
 		OptionConfiguration optionConfig = config.getOptionConfiguration();
 		OptionConfiguration.SurfaceOptionConfiguration surfaceOptionConfig = optionConfig.getSurfaceOptionConfiguration();
-		boolean isMembraneOptionSelected = surfaceOptionConfig.isSelected();
+		boolean isSurfaceOptionEnabled = surfaceOptionConfig.isOptionEnabled();
 
 		// This plotter do nothing if "With Membranes" option is not selected.
-		if(!isMembraneOptionSelected) {
+		if(!isSurfaceOptionEnabled) {
 			return;
 		}
 

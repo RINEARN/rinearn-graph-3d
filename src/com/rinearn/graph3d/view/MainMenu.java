@@ -456,10 +456,10 @@ public class MainMenu {
 		 */
 		private void setOptionStates() {
 			OptionConfiguration optionConfig = configuration.getOptionConfiguration();
-			pointOptionMenuItem.setSelected(optionConfig.getPointOptionConfiguration().isSelected());
-			lineOptionMenuItem.setSelected(optionConfig.getLineOptionConfiguration().isSelected());
-			meshOptionMenuItem.setSelected(optionConfig.getMeshOptionConfiguration().isSelected());
-			surfaceOptionMenuItem.setSelected(optionConfig.getSurfaceOptionConfiguration().isSelected());
+			pointOptionMenuItem.setSelected(optionConfig.getPointOptionConfiguration().isOptionEnabled());
+			lineOptionMenuItem.setSelected(optionConfig.getLineOptionConfiguration().isOptionEnabled());
+			meshOptionMenuItem.setSelected(optionConfig.getMeshOptionConfiguration().isOptionEnabled());
+			surfaceOptionMenuItem.setSelected(optionConfig.getSurfaceOptionConfiguration().isOptionEnabled());
 		}
 	}
 

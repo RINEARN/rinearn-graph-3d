@@ -69,10 +69,10 @@ public class LinePlotter implements RinearnGraph3DPlottingListener {
 		OptionConfiguration optionConfig = config.getOptionConfiguration();
 		OptionConfiguration.LineOptionConfiguration lineOptionConfig = optionConfig.getLineOptionConfiguration();
 		double lineWidth = lineOptionConfig.getLineWidth();
-		boolean isLineOptionSelected = lineOptionConfig.isSelected();
+		boolean isLineOptionEnabled = lineOptionConfig.isOptionEnabled();
 
 		// This plotter do nothing if "With Lines" option is not selected.
-		if(!isLineOptionSelected) {
+		if(!isLineOptionEnabled) {
 			return;
 		}
 

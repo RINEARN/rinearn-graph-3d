@@ -146,8 +146,8 @@ public final class OptionConfiguration {
 	 */
 	private static abstract class AbstractOptionConfiguration {
 
-		/** The flag representing whether this option is selected. */
-		private volatile boolean selected = false;
+		/** The flag representing whether this option is enabled. */
+		private volatile boolean optionEnabled = false;
 
 		/** The mode of the series filter. */
 		private volatile SeriesFilterMode seriesFilterMode = SeriesFilterMode.NONE;
@@ -159,21 +159,21 @@ public final class OptionConfiguration {
 		private volatile SeriesFilter customSeriesFilter = null;
 
 		/**
-		 * Selects or unselects this option.
+		 * Enable or disable this option.
 		 *
-		 * @param selected Specify true to select, false to unselect.
+		 * @param optionEnabled Specify true to enable, false to disable.
 		 */
-		public synchronized final void setSelected(boolean selected) {
-			this.selected = selected;
+		public synchronized final void setSelected(boolean optionEnabled) {
+			this.optionEnabled = optionEnabled;
 		}
 
 		/**
-		 * Checks whether this option is selected.
+		 * Checks whether this option is enabled.
 		 *
-		 * @return Returns true if this option is selected.
+		 * @return Returns true if this option is enabled.
 		 */
-		public synchronized final boolean isSelected() {
-			return this.selected;
+		public synchronized final boolean isOptionEnabled() {
+			return this.optionEnabled;
 		}
 
 		/**
@@ -378,7 +378,7 @@ public final class OptionConfiguration {
 
 		// !!! NOTE !!!
 		// On Ver.6, this "Gradient" option works as a short-cut UI
-		// for switching the current coloring mode selected in "Settings" > "Set Colors" menu.
+		// for switching the current coloring mode optionEnabled in "Settings" > "Set Colors" menu.
 		// So we don't define detailed parameters here. They are defined in "ColorConfiguration" class.
 	}
 }

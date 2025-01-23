@@ -69,11 +69,11 @@ public class MeshPlotter implements RinearnGraph3DPlottingListener {
 		OptionConfiguration optionConfig = config.getOptionConfiguration();
 		OptionConfiguration.MeshOptionConfiguration meshOptionConfig = optionConfig.getMeshOptionConfiguration();
 		double lineWidth = meshOptionConfig.getLineWidth();
-		boolean isMeshOptionSelected = meshOptionConfig.isSelected();
+		boolean isMeshOptionEnabled = meshOptionConfig.isOptionEnabled();
 
 		// Plots all data series.
 		// This plotter do nothing if "With Membranes" option is not selected.
-		if(!isMeshOptionSelected) {
+		if(!isMeshOptionEnabled) {
 			return;
 		}
 
