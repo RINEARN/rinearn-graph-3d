@@ -112,6 +112,14 @@ public final class View {
 	/** The window of "File" > "Save Image" menu. */
 	public final ImageSavingWindow imageSavingWindow = new ImageSavingWindow();
 
+
+	/** The window of "Math" > "z(x,y)" plot. */
+	public final ZxyMathWindow zxyMathWindow = new ZxyMathWindow();
+
+	/** The window of "Math" > "x(t), y(t), z(t)" plot. */
+	public final XtYtZtMathWindow xtYtZtMathWindow = new XtYtZtMathWindow();
+
+
 	/** The setting window of "Settings" > "Set Labels" menu. */
 	public final LabelSettingWindow labelSettingWindow = new LabelSettingWindow();
 
@@ -130,11 +138,9 @@ public final class View {
 	/** The setting window of "Settings" > "Set Scale" menu. */
 	public final ScaleSettingWindow scaleSettingWindow = new ScaleSettingWindow();
 
-	/** The window of "Math" > "z(x,y)" plot. */
-	public final ZxyMathWindow zxyMathWindow = new ZxyMathWindow();
 
-	/** The window of "Math" > "x(t), y(t), z(t)" plot. */
-	public final XtYtZtMathWindow xtYtZtMathWindow = new XtYtZtMathWindow();
+	/** The setting window of "Option" > "With Points" menu. */
+	public final PointOptionWindow pointOptionWindow = new PointOptionWindow();
 
 
 	// !!! IMPORTANT NOTE !!!
@@ -162,14 +168,15 @@ public final class View {
 		this.dataFileOpeningWindow.configure(configuration);
 		this.dataTextPastingWindow.configure(configuration);
 		this.imageSavingWindow.configure(configuration);
+		this.zxyMathWindow.configure(configuration);
+		this.xtYtZtMathWindow.configure(configuration);
 		this.labelSettingWindow.configure(configuration);
 		this.rangeSettingWindow.configure(configuration);
 		this.fontSettingWindow.configure(configuration);
 		this.cameraSettingWindow.configure(configuration);
 		this.lightSettingWindow.configure(configuration);
 		this.scaleSettingWindow.configure(configuration);
-		this.zxyMathWindow.configure(configuration);
-		this.xtYtZtMathWindow.configure(configuration);
+		this.pointOptionWindow.configure(configuration);
 	}
 
 	/**
@@ -180,13 +187,14 @@ public final class View {
 		this.dataFileOpeningWindow.dispose();
 		this.dataTextPastingWindow.dispose();
 		this.imageSavingWindow.dispose();
+		this.zxyMathWindow.dispose();
+		this.xtYtZtMathWindow.dispose();
 		this.labelSettingWindow.dispose();
 		this.rangeSettingWindow.dispose();
 		this.fontSettingWindow.dispose();
 		this.cameraSettingWindow.dispose();
 		this.lightSettingWindow.dispose();
 		this.scaleSettingWindow.dispose();
-		this.zxyMathWindow.dispose();
-		this.xtYtZtMathWindow.dispose();
+		this.pointOptionWindow.dispose();
 	}
 }

@@ -108,6 +108,7 @@ com/rinearn/graph3d/view/MainMenu.java
 com/rinearn/graph3d/view/MainWindow.java
 com/rinearn/graph3d/view/MultilingualItem.java
 com/rinearn/graph3d/view/package-info.java
+com/rinearn/graph3d/view/PointOptionWindow.java
 com/rinearn/graph3d/view/RangeSettingWindow.java
 com/rinearn/graph3d/view/ScaleSettingWindow.java
 com/rinearn/graph3d/view/ScreenRightClickMenu.java
