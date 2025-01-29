@@ -4,8 +4,6 @@ import com.rinearn.graph3d.config.data.SeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 
-import java.math.BigDecimal;
-
 /*
 [!!!!! NOTE !!!!!]
 

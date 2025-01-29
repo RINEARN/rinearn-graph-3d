@@ -1,7 +1,9 @@
 package com.rinearn.graph3d.view;
 
-import com.rinearn.graph3d.config.FontConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.data.IndexSeriesFilter;
+import com.rinearn.graph3d.config.FontConfiguration;
+import com.rinearn.graph3d.config.OptionConfiguration;
 
 import javax.swing.JPanel;
 import javax.swing.JFrame;
@@ -13,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -21,6 +24,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.DecimalFormat;
 
 
 /**
@@ -34,16 +38,16 @@ public final class PointOptionWindow {
 	/** The default height [px] of this window. */
 	public static final int DEFAULT_WINDOW_HEIGHT = 430;
 
-	/** The display name of the point style mode "CIRCLE" in Japanese. */
+	/** The display item of the point style mode "CIRCLE" in Japanese. */
 	public static final String POINT_STYLE_MODE_CIRCLE_JA = "円形";
 
-	/** The display name of the point style mode "CIRCLE" in English. */
+	/** The display item of the point style mode "CIRCLE" in English. */
 	public static final String POINT_STYLE_MODE_CIRCLE_EN = "Circle";
 
-	/** The display name of the point style mode "MARKER" in Japanese. */
+	/** The display item of the point style mode "MARKER" in Japanese. */
 	public static final String POINT_STYLE_MODE_MARKER_JA = "マーカー";
 
-	/** The display name of the point style mode "MARKER" in English. */
+	/** The display item of the point style mode "MARKER" in English. */
 	public static final String POINT_STYLE_MODE_MARKER_EN = "Marker";
 
 	/** The frame of this window. */
@@ -62,10 +66,10 @@ public final class PointOptionWindow {
 	public volatile MultilingualItem markerModeItem;
 
 	/** The container of UI components in CIRCLE mode. */
-	public volatile CircleModeItems circleModeItems;
+	public volatile CircleModeItems circleModeComponents;
 
 	/** The container of UI components in MARKER mode. */
-	public volatile MarkerModeItems markerModeItems;
+	public volatile MarkerModeItems markerModeComponents;
 
 	/** The checkbox to enable/disable the series filter. */
 	public volatile JCheckBox seriesFilterBox;
@@ -120,13 +124,13 @@ public final class PointOptionWindow {
 		public volatile JLabel fontSizeLabel;
 
 		/** The text field of the marker's font size in MARKER mode. */
-		public volatile JTextField fontSizeField;
+		public volatile JTextField sizeField;
 
-		/** The title label of the text field to input the vertical correction ratio in MARKER mode. */
-		public volatile JLabel correctionRatioLabel;
+		/** The title label of the text field to input the vertical offset ratio in MARKER mode. */
+		public volatile JLabel verticalOffsetRatioLabel;
 
-		/** The text field to input the vertical correction ratio in MARKER mode. */
-		public volatile JTextField correctionRatioField;
+		/** The text field to input the vertical offset ratio in MARKER mode. */
+		public volatile JTextField verticalOffsetRatioField;
 
 		/** The upper-side label to explain the meaning of the vertical correction ratio. */
 		public volatile JLabel noteUpperLabel;
@@ -137,10 +141,10 @@ public final class PointOptionWindow {
 		/** The right-click menu of symbolField. */
 		public volatile TextRightClickMenu symbolFieldRightClickMenu;
 
-		/** The right-click menu of fontSizeField. */
+		/** The right-click menu of sizeField. */
 		public volatile TextRightClickMenu fontSizeFieldRightClickMenu;
 
-		/** The right-click menu of correctionRatioField. */
+		/** The right-click menu of verticalOffsetRatioField. */
 		public volatile TextRightClickMenu correctionRatioFieldRightClickMenu;
 	}
 
@@ -260,8 +264,8 @@ public final class PointOptionWindow {
 			layout.setConstraints(swappablePanel, constraints);
 			this.createCircleModeComponents();
 			this.createMarkerModeComponents();
-			swappablePanel.add(circleModeItems.panel);
-			//swappablePanel.add(markerModeItems.panel);
+			swappablePanel.add(circleModeComponents.panel);
+			//swappablePanel.add(markerModeComponents.panel);
 
 			constraints.gridy++;
 			constraints.weighty = 1.0;
@@ -318,11 +322,11 @@ public final class PointOptionWindow {
 		 * Creates the UI components for CIRCLE mode.
 		 */
 		private void createCircleModeComponents() {
-			circleModeItems = new CircleModeItems();
-			circleModeItems.panel = new JPanel();
+			circleModeComponents = new CircleModeItems();
+			circleModeComponents.panel = new JPanel();
 
 			// Prepare the layout manager and resources.
-			JPanel basePanel = circleModeItems.panel;
+			JPanel basePanel = circleModeComponents.panel;
 			GridBagLayout layout = new GridBagLayout();
 			basePanel.setLayout(layout);
 			GridBagConstraints constraints = new GridBagConstraints();
@@ -348,22 +352,22 @@ public final class PointOptionWindow {
 			constraints.weightx = leftColumnWeight;
 
 			// The title label of the text field of the point radius in CIRCLE mode.
-			circleModeItems.radiusLabel = new JLabel();
+			circleModeComponents.radiusLabel = new JLabel();
 			constraints.insets = new Insets(topMargin, leftMarginLong, bottomMargin, rightMargin);
-			layout.setConstraints(circleModeItems.radiusLabel, constraints);
-			basePanel.add(circleModeItems.radiusLabel);
+			layout.setConstraints(circleModeComponents.radiusLabel, constraints);
+			basePanel.add(circleModeComponents.radiusLabel);
 
 			constraints.gridwidth = 1;
 			constraints.gridx = 1;
 			constraints.weightx = rightColumnWeight;
 
 			// The text field of the point radius in CIRCLE mode.
-			circleModeItems.radiusField = new JTextField();
+			circleModeComponents.radiusField = new JTextField();
 			constraints.insets = new Insets(topMargin, leftMargin, bottomMargin, rightMargin);
-			layout.setConstraints(circleModeItems.radiusField, constraints);
-			basePanel.add(circleModeItems.radiusField);
+			layout.setConstraints(circleModeComponents.radiusField, constraints);
+			basePanel.add(circleModeComponents.radiusField);
 
-			circleModeItems.radiusFieldRightClickMenu = new TextRightClickMenu();
+			circleModeComponents.radiusFieldRightClickMenu = new TextRightClickMenu();
 
 			constraints.gridy++;
 			constraints.gridx = 0;
@@ -402,12 +406,12 @@ public final class PointOptionWindow {
 		 * Creates the UI components for MARKER mode.
 		 */
 		private void createMarkerModeComponents() {
-			markerModeItems = new MarkerModeItems();
+			markerModeComponents = new MarkerModeItems();
 
-			markerModeItems.panel = new JPanel();
+			markerModeComponents.panel = new JPanel();
 
 			// Prepare the layout manager and resources.
-			JPanel basePanel = markerModeItems.panel;
+			JPanel basePanel = markerModeComponents.panel;
 			GridBagLayout layout = new GridBagLayout();
 			basePanel.setLayout(layout);
 			GridBagConstraints constraints = new GridBagConstraints();
@@ -433,22 +437,22 @@ public final class PointOptionWindow {
 			constraints.weightx = leftColumnWeight;
 
 			// The title label of the text field to input the symbols in MARKER mode.
-			markerModeItems.symbolLabel = new JLabel();
+			markerModeComponents.symbolLabel = new JLabel();
 			constraints.insets = new Insets(topMargin, leftMarginLong, 0, rightMargin);
-			layout.setConstraints(markerModeItems.symbolLabel, constraints);
-			basePanel.add(markerModeItems.symbolLabel);
+			layout.setConstraints(markerModeComponents.symbolLabel, constraints);
+			basePanel.add(markerModeComponents.symbolLabel);
 
 			constraints.gridwidth = 1;
 			constraints.gridx = 1;
 			constraints.weightx = rightColumnWeight;
 
 			// The text field to input the symbols in MARKER mode.
-			markerModeItems.symbolField = new JTextField();
+			markerModeComponents.symbolField = new JTextField();
 			constraints.insets = new Insets(topMargin, leftMargin, 0, rightMargin);
-			layout.setConstraints(markerModeItems.symbolField, constraints);
-			basePanel.add(markerModeItems.symbolField);
+			layout.setConstraints(markerModeComponents.symbolField, constraints);
+			basePanel.add(markerModeComponents.symbolField);
 
-			markerModeItems.symbolFieldRightClickMenu = new TextRightClickMenu();
+			markerModeComponents.symbolFieldRightClickMenu = new TextRightClickMenu();
 
 			constraints.gridy++;
 			constraints.gridx = 1;
@@ -456,10 +460,10 @@ public final class PointOptionWindow {
 
 			// The check box to enable/disable bold font.
 
-			markerModeItems.boldBox = new JCheckBox();
+			markerModeComponents.boldBox = new JCheckBox();
 			constraints.insets = new Insets(0, leftMargin, bottomMargin, rightMargin);
-			layout.setConstraints(markerModeItems.boldBox, constraints);
-			basePanel.add(markerModeItems.boldBox);
+			layout.setConstraints(markerModeComponents.boldBox, constraints);
+			basePanel.add(markerModeComponents.boldBox);
 
 			constraints.gridy++;
 
@@ -468,22 +472,22 @@ public final class PointOptionWindow {
 			constraints.weightx = leftColumnWeight;
 
 			// The title label of the text field of the marker's font size in MARKER mode.
-			markerModeItems.fontSizeLabel = new JLabel();
+			markerModeComponents.fontSizeLabel = new JLabel();
 			constraints.insets = new Insets(topMargin, leftMarginLong, bottomMargin, rightMargin);
-			layout.setConstraints(markerModeItems.fontSizeLabel, constraints);
-			basePanel.add(markerModeItems.fontSizeLabel);
+			layout.setConstraints(markerModeComponents.fontSizeLabel, constraints);
+			basePanel.add(markerModeComponents.fontSizeLabel);
 
 			constraints.gridwidth = 1;
 			constraints.gridx = 1;
 			constraints.weightx = rightColumnWeight;
 
 			// The text field of the marker's font size in MARKER mode.
-			markerModeItems.fontSizeField = new JTextField();
+			markerModeComponents.sizeField = new JTextField();
 			constraints.insets = new Insets(topMargin, leftMargin, bottomMargin, rightMargin);
-			layout.setConstraints(markerModeItems.fontSizeField, constraints);
-			basePanel.add(markerModeItems.fontSizeField);
+			layout.setConstraints(markerModeComponents.sizeField, constraints);
+			basePanel.add(markerModeComponents.sizeField);
 
-			markerModeItems.fontSizeFieldRightClickMenu = new TextRightClickMenu();
+			markerModeComponents.fontSizeFieldRightClickMenu = new TextRightClickMenu();
 
 			constraints.gridy++;
 
@@ -491,23 +495,23 @@ public final class PointOptionWindow {
 			constraints.gridx = 0;
 			constraints.weightx = leftColumnWeight;
 
-			// The title label of the text field to input the vertical correction ratio in MARKER mode.
-			markerModeItems.correctionRatioLabel = new JLabel();
+			// The title label of the text field to input the vertical offset ratio in MARKER mode.
+			markerModeComponents.verticalOffsetRatioLabel = new JLabel();
 			constraints.insets = new Insets(topMargin, leftMarginLong, bottomMargin, rightMargin);
-			layout.setConstraints(markerModeItems.correctionRatioLabel, constraints);
-			basePanel.add(markerModeItems.correctionRatioLabel);
+			layout.setConstraints(markerModeComponents.verticalOffsetRatioLabel, constraints);
+			basePanel.add(markerModeComponents.verticalOffsetRatioLabel);
 
 			constraints.gridwidth = 1;
 			constraints.gridx = 1;
 			constraints.weightx = rightColumnWeight;
 
-			// The text field to input the vertical correction ratio in MARKER mode.
-			markerModeItems.correctionRatioField = new JTextField();
+			// The text field to input the vertical offset ratio in MARKER mode.
+			markerModeComponents.verticalOffsetRatioField = new JTextField();
 			constraints.insets = new Insets(topMargin, leftMargin, bottomMargin, rightMargin);
-			layout.setConstraints(markerModeItems.correctionRatioField, constraints);
-			basePanel.add(markerModeItems.correctionRatioField);
+			layout.setConstraints(markerModeComponents.verticalOffsetRatioField, constraints);
+			basePanel.add(markerModeComponents.verticalOffsetRatioField);
 
-			markerModeItems.correctionRatioFieldRightClickMenu = new TextRightClickMenu();
+			markerModeComponents.correctionRatioFieldRightClickMenu = new TextRightClickMenu();
 
 			constraints.gridy++;
 			constraints.gridwidth = 2;
@@ -515,18 +519,18 @@ public final class PointOptionWindow {
 			constraints.weighty = 0.5;
 
 			// The upper-side label to explain the meaning of the vertical correction ratio.
-			markerModeItems.noteUpperLabel = new JLabel();
+			markerModeComponents.noteUpperLabel = new JLabel();
 			constraints.insets = new Insets(topMargin, leftMarginLong, 0, rightMargin);
-			layout.setConstraints(markerModeItems.noteUpperLabel, constraints);
-			basePanel.add(markerModeItems.noteUpperLabel);
+			layout.setConstraints(markerModeComponents.noteUpperLabel, constraints);
+			basePanel.add(markerModeComponents.noteUpperLabel);
 
 			constraints.gridy++;
 
 			// The lower-side label to explain the meaning of the vertical correction ratio.
-			markerModeItems.noteLowerLabel = new JLabel();
+			markerModeComponents.noteLowerLabel = new JLabel();
 			constraints.insets = new Insets(0, leftMarginLong, bottomMargin, rightMargin);
-			layout.setConstraints(markerModeItems.noteLowerLabel, constraints);
-			basePanel.add(markerModeItems.noteLowerLabel);
+			layout.setConstraints(markerModeComponents.noteLowerLabel, constraints);
+			basePanel.add(markerModeComponents.noteLowerLabel);
 
 			constraints.weighty = 1.0;
 		}
@@ -599,10 +603,10 @@ public final class PointOptionWindow {
 
 			// Update the right-click menus.
 			seriesFilterFieldRightClickMenu.configure(this.configuration);
-			circleModeItems.radiusFieldRightClickMenu.configure(this.configuration);
-			markerModeItems.symbolFieldRightClickMenu.configure(this.configuration);
-			markerModeItems.fontSizeFieldRightClickMenu.configure(this.configuration);
-			markerModeItems.correctionRatioFieldRightClickMenu.configure(this.configuration);
+			circleModeComponents.radiusFieldRightClickMenu.configure(this.configuration);
+			markerModeComponents.symbolFieldRightClickMenu.configure(this.configuration);
+			markerModeComponents.fontSizeFieldRightClickMenu.configure(this.configuration);
+			markerModeComponents.correctionRatioFieldRightClickMenu.configure(this.configuration);
 		}
 
 		/**
@@ -616,15 +620,15 @@ public final class PointOptionWindow {
 			circleModeItem.setText(POINT_STYLE_MODE_CIRCLE_JA);
 			markerModeItem.setText(POINT_STYLE_MODE_MARKER_JA);
 
-			circleModeItems.radiusLabel.setText("円の半径: ");
+			circleModeComponents.radiusLabel.setText("円の半径: ");
 
-			markerModeItems.symbolLabel.setText("マーカー記号: ");
-			markerModeItems.boldBox.setText("太字");
-			markerModeItems.fontSizeLabel.setText("文字サイズ: ");
-			markerModeItems.correctionRatioLabel.setText("位置補正率: ");
+			markerModeComponents.symbolLabel.setText("マーカー記号: ");
+			markerModeComponents.boldBox.setText("太字");
+			markerModeComponents.fontSizeLabel.setText("文字サイズ: ");
+			markerModeComponents.verticalOffsetRatioLabel.setText("位置補正率: ");
 
-			markerModeItems.noteUpperLabel.setText("※ フォントのデザインにより、マーカーの上下中心");
-			markerModeItems.noteLowerLabel.setText("　 が多少ずれるため、上記の値で補正してください。");
+			markerModeComponents.noteUpperLabel.setText("※ フォントのデザインにより、マーカーの上下中心");
+			markerModeComponents.noteLowerLabel.setText("　 が多少ずれるため、上記の値で補正してください。");
 
 			seriesFilterBox.setText("系列指定");
 			seriesFilterLabel.setText("系列番号: ");
@@ -641,15 +645,15 @@ public final class PointOptionWindow {
 			circleModeItem.setText(POINT_STYLE_MODE_CIRCLE_EN);
 			markerModeItem.setText(POINT_STYLE_MODE_MARKER_EN);
 
-			circleModeItems.radiusLabel.setText("Circle Radius: ");
+			circleModeComponents.radiusLabel.setText("Circle Radius: ");
 
-			markerModeItems.symbolLabel.setText("Marker Symbols: ");
-			markerModeItems.boldBox.setText("Bold Font");
-			markerModeItems.fontSizeLabel.setText("Font Size: ");
-			markerModeItems.correctionRatioLabel.setText("Position Correct.: ");
+			markerModeComponents.symbolLabel.setText("Marker Symbols: ");
+			markerModeComponents.boldBox.setText("Bold Font");
+			markerModeComponents.fontSizeLabel.setText("Font Size: ");
+			markerModeComponents.verticalOffsetRatioLabel.setText("Position Correct.: ");
 
-			markerModeItems.noteUpperLabel.setText("* Depending on the font, the marker center may shift.");
-			markerModeItems.noteLowerLabel.setText("　Adjust it using the above parameter.");
+			markerModeComponents.noteUpperLabel.setText("* Depending on the font, the marker center may shift.");
+			markerModeComponents.noteLowerLabel.setText("　Adjust it using the above parameter.");
 
 			seriesFilterBox.setText("Specify Series");
 			seriesFilterLabel.setText("Series Indices: ");
@@ -668,39 +672,153 @@ public final class PointOptionWindow {
 			styleModeBox.setFont(uiPlainFont);
 			setButton.setFont(uiBoldFont);
 
-			circleModeItems.radiusLabel.setFont(uiBoldFont);
-			circleModeItems.radiusField.setFont(uiPlainFont);
+			circleModeComponents.radiusLabel.setFont(uiBoldFont);
+			circleModeComponents.radiusField.setFont(uiPlainFont);
 
-			markerModeItems.symbolLabel.setFont(uiBoldFont);
-			markerModeItems.boldBox.setFont(uiBoldFont);
-			markerModeItems.fontSizeLabel.setFont(uiBoldFont);
-			markerModeItems.correctionRatioLabel.setFont(uiBoldFont);
-			markerModeItems.symbolField.setFont(uiPlainFont);
-			markerModeItems.fontSizeField.setFont(uiPlainFont);
-			markerModeItems.correctionRatioField.setFont(uiPlainFont);
+			markerModeComponents.symbolLabel.setFont(uiBoldFont);
+			markerModeComponents.boldBox.setFont(uiBoldFont);
+			markerModeComponents.fontSizeLabel.setFont(uiBoldFont);
+			markerModeComponents.verticalOffsetRatioLabel.setFont(uiBoldFont);
+			markerModeComponents.symbolField.setFont(uiPlainFont);
+			markerModeComponents.sizeField.setFont(uiPlainFont);
+			markerModeComponents.verticalOffsetRatioField.setFont(uiPlainFont);
 
 			seriesFilterBox.setFont(uiBoldFont);
 			seriesFilterLabel.setFont(uiBoldFont);
 			seriesFilterField.setFont(uiPlainFont);
 
 			Font smallFont = new Font(uiBoldFont.getName(), Font.BOLD, 11);
-			markerModeItems.noteUpperLabel.setFont(smallFont);
-			markerModeItems.noteLowerLabel.setFont(smallFont);
+			markerModeComponents.noteUpperLabel.setFont(smallFont);
+			markerModeComponents.noteLowerLabel.setFont(smallFont);
 		}
 
 		/**
 		 * Updates the values of text fields, by the values stored in the configuration.
 		 */
 		private void updateValuesByConfiguration() {
-			/*
-			String xLabel = this.configuration.getLabelConfiguration().getXLabelConfiguration().getText();
-			String yLabel = this.configuration.getLabelConfiguration().getYLabelConfiguration().getText();
-			String zLabel = this.configuration.getLabelConfiguration().getZLabelConfiguration().getText();
-			xLabelTextField.setText(xLabel);
-			yLabelTextField.setText(yLabel);
-			zLabelTextField.setText(zLabel);
-			*/
+			OptionConfiguration optionConfig = this.configuration.getOptionConfiguration();
+			OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
+			DecimalFormat formatter = new DecimalFormat("#0.0#####");
+
+			setSelectedPointStyleMode(pointOptionConfig.getPointStyleMode());
+
+			circleModeComponents.radiusField.setText(formatter.format(pointOptionConfig.getCircleRadius()));
+
+			markerModeComponents.symbolField.setText(this.markerTextsToUIText(pointOptionConfig.getMarkerTexts()));
+			markerModeComponents.boldBox.setSelected(pointOptionConfig.isMarkerBold());
+			markerModeComponents.sizeField.setText(formatter.format(pointOptionConfig.getMarkerSize()));
+			markerModeComponents.verticalOffsetRatioField.setText(formatter.format(pointOptionConfig.getMarkerVerticalOffsetRatio()));
+
+			switch (pointOptionConfig.getSeriesFilterMode()) {
+				case INDEX : {
+					seriesFilterBox.setSelected(true);
+					seriesFilterField.setEditable(true);
+					seriesFilterField.setBackground(Color.WHITE);
+					seriesFilterField.setForeground(Color.BLACK);
+
+					// Converts the int[] type array of series indices to a single text value, and set it to seriesFilterField.
+					IndexSeriesFilter filter = pointOptionConfig.getIndexSeriesFilter();
+					int[] seriesIndices = filter.getIncludedSeriesIndices();
+					StringBuilder seriesIndicesTextBuilder = new StringBuilder();
+					for (int iseries = 0; iseries<seriesIndices.length; iseries++) {
+						seriesIndicesTextBuilder.append(seriesIndices[iseries]);
+						if (iseries != seriesIndices.length - 1) {
+							seriesIndicesTextBuilder.append(", ");
+						}
+					}
+					String seriesIndicesText = seriesIndicesTextBuilder.toString();
+					seriesFilterField.setText(seriesIndicesText);
+					break;
+				}
+				case NONE : {
+					seriesFilterBox.setSelected(false);
+					seriesFilterField.setEditable(false);
+					seriesFilterField.setBackground(Color.LIGHT_GRAY);
+					seriesFilterField.setForeground(Color.GRAY);
+					break;
+				}
+				default : {
+					throw new IllegalStateException("Unexpected series filter mode: " + pointOptionConfig.getSeriesFilterMode());
+				}
+			}
 		}
+
+		/**
+		 * Converts the array storing the texts of markers to a single text value to be set to UI.
+		 *
+		 * @param markerTexts The array storing the texts of markers.
+		 * @return A single text value to be set to UI.
+		 */
+		private String markerTextsToUIText(String[] markerTexts) {
+			int textCount = markerTexts.length;
+			StringBuilder uiTextBuilder = new StringBuilder();
+			for (int itext=0; itext<textCount; itext++) {
+
+				// If the text contains comma (,) characters, escape them.
+				String escapedLabel = markerTexts[itext].contains(",") ? markerTexts[itext].replaceAll(",", "\\,") : markerTexts[itext];
+
+				// Append the escaped text to the UI text, and also append a comma (,) as the delimiter between values.
+				uiTextBuilder.append(escapedLabel);
+				if (itext != textCount - 1) {
+					uiTextBuilder.append(",");
+				}
+			}
+			return uiTextBuilder.toString();
+		}
+	}
+
+
+	/**
+	 * Gets the selected item of styleModeBox field as an element of OptionConfiguration.PointStyleMode enum.
+	 * This method is invokable only on the event-dispatch thread.
+	 *
+	 * @return The ShapeMode enum element corresponding to the selected item of styleModeBox.
+	 */
+	public OptionConfiguration.PointStyleMode getSelectedPointStyleMode() {
+		if (!SwingUtilities.isEventDispatchThread()) {
+			throw new IllegalStateException("This method is invokable only on the event-dispatch thread.");
+		}
+		String selectedItemText = this.styleModeBox.getSelectedItem().toString();
+		switch (selectedItemText) {
+			case POINT_STYLE_MODE_CIRCLE_EN:
+			case POINT_STYLE_MODE_CIRCLE_JA: {
+				return OptionConfiguration.PointStyleMode.CIRCLE;
+			}
+			case POINT_STYLE_MODE_MARKER_EN:
+			case POINT_STYLE_MODE_MARKER_JA: {
+				return OptionConfiguration.PointStyleMode.MARKER;
+			}
+			default: {
+				throw new IllegalStateException("Unexpected point style mode: " + selectedItemText);
+			}
+		}
+	}
+
+
+	/**
+	 * Sets the selected item of styleModeBox field by an element of OptionConfiguration.PointStyleMode enum.
+	 * This method is invokable only on the event-dispatch thread.
+	 *
+	 * @return The ShapeMode enum element corresponding to the selected item of styleModeBox to be selected.
+	 */
+	public void setSelectedPointStyleMode(OptionConfiguration.PointStyleMode mode) {
+		if (!SwingUtilities.isEventDispatchThread()) {
+			throw new IllegalStateException("This method is invokable only on the event-dispatch thread.");
+		}
+		switch (mode) {
+			case CIRCLE: {
+				this.styleModeBox.setSelectedItem(this.circleModeItem);
+				return;
+			}
+			case MARKER: {
+				this.styleModeBox.setSelectedItem(this.markerModeItem);
+				return;
+			}
+			default: {
+				throw new IllegalStateException("Unexpected point style mode: " + mode);
+			}
+		}
+
 	}
 
 
