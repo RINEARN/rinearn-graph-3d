@@ -477,7 +477,7 @@ public final class MainMenuHandler {
 				while (true) {
 					boolean isJapanese = model.config.getEnvironmentConfiguration().isLocaleJapanese();
 					String inputMessage = isJapanese ? "点の半径 =" : "Point Radius =";
-					String currentValue = Double.toString(pointOptionConfig.getPointRadius());
+					String currentValue = Double.toString(pointOptionConfig.getCircleRadius());
 					String radiusString = JOptionPane.showInputDialog(view.mainWindow.frame, inputMessage, currentValue);
 
 					// If "Cancel" button is clicked, turn off this option.
@@ -507,7 +507,7 @@ public final class MainMenuHandler {
 					}
 
 					// Store the point size into the config container.
-					pointOptionConfig.setPointRadius(radius);
+					pointOptionConfig.setCircleRadius(radius);
 					break;
 				}
 			}

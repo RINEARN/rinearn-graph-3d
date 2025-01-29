@@ -68,7 +68,7 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 		RinearnGraph3DConfiguration config = this.model.config;
 		OptionConfiguration optionConfig = config.getOptionConfiguration();
 		OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
-		double pointRadius = pointOptionConfig.getPointRadius();
+		double pointRadius = pointOptionConfig.getCircleRadius();
 		boolean isPointOptionEnabled = pointOptionConfig.isOptionEnabled();
 
 		// This plotter do nothing if "With Points" option is not selected.

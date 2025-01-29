@@ -6,10 +6,13 @@ import java.util.HashSet;
 /**
  * The index-based series filter.
  */
-public class IndexSeriesFilter extends SeriesFilter {
+public final class IndexSeriesFilter extends SeriesFilter {
+
+	/** The series indices which should be included. */
+	private volatile int[] includedSeriesIndices;
 
 	/** The set of the series indices which should be included. */
-	public volatile Set<Integer> includedSeriesIndexSet;
+	private volatile Set<Integer> includedSeriesIndexSet;
 
 	/**
 	 * Create a new instance.
@@ -18,15 +21,34 @@ public class IndexSeriesFilter extends SeriesFilter {
 	}
 
 	/**
+	 * Create a new instance, to include the specified series indices.
+	 *
+	 * @param includedSeriesIndices The indices of the series to be included.
+	 */
+	public IndexSeriesFilter(int[] includedSeriesIndices) {
+		this.setIncludedSeriesIndices(includedSeriesIndices);
+	}
+
+	/**
 	 * Sets the indices of the series to be included.
 	 *
 	 * @param includedSeriesIndices The indices of the series to be included.
 	 */
 	public void setIncludedSeriesIndices(int[] includedSeriesIndices) {
+		this.includedSeriesIndices = includedSeriesIndices;
 		this.includedSeriesIndexSet = new HashSet<Integer>();
 		for (int seriesIndex: includedSeriesIndices) {
 			this.includedSeriesIndexSet.add(seriesIndex);
 		}
+	}
+
+	/**
+	 * Gets the indices of the series to be included.
+	 *
+	 * @return The indices of the series to be included.
+	 */
+	public int[] getIncludedSeriesIndices() {
+		return this.includedSeriesIndices;
 	}
 
 	/**

@@ -4,6 +4,8 @@ import com.rinearn.graph3d.config.data.SeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 
+import java.math.BigDecimal;
+
 /*
 [!!!!! NOTE !!!!!]
 
@@ -153,7 +155,7 @@ public final class OptionConfiguration {
 		private volatile SeriesFilterMode seriesFilterMode = SeriesFilterMode.NONE;
 
 		/** The index-based series filter, used in INDEX mode. */
-		private volatile IndexSeriesFilter indexSeriesFilter = new IndexSeriesFilter();
+		private volatile IndexSeriesFilter indexSeriesFilter = new IndexSeriesFilter(new int[] {1, 2, 3});
 
 		/** The custom implementation of a series filter, used in CUSTOM mode. */
 		private volatile SeriesFilter customSeriesFilter = null;
@@ -245,13 +247,38 @@ public final class OptionConfiguration {
 	}
 
 
+	/** The enum representing each style mode of "With Points" option. */
+	public enum PointStyleMode {
+
+		/** Draws coordinate points by circles. */
+		CIRCLE,
+
+		/** Draws coordinate points by markers. */
+		MARKER;
+	}
+
 	/**
 	 * The class storing configuration values of "With Points" option.
 	 */
 	public static final class PointOptionConfiguration extends AbstractOptionConfiguration {
 
-		/** The radius (in pixels) of points plotted by this option. */
-		private volatile double pointRadius = 2.0;
+		/** The style mode for drawing points. */
+		private volatile PointStyleMode pointStyleMode = PointStyleMode.CIRCLE;
+
+		/** The radius (in pixels) of points in CIRCLE mode. */
+		private volatile double circleRadius = 2.0;
+
+		/** The font size of markers in MARKER mode. */
+		private volatile double markerSize = 10.0;
+
+		/** The ratio to correct the vartical position of markers. */
+		private volatile double markerVerticalOffsetRatio = 0.2;
+
+		/** The texts (of the symbols) of the markers. */
+		private volatile String[] markerTexts = { "●", "■", "▲", "▼", "〇", "□", "△", "▽", "◇", "×" };
+
+		/** The flag to whether draw markers in bold fonts. */
+		private volatile boolean markerBold = false;
 
 		/**
 		 * Creates a new instance.
@@ -261,21 +288,111 @@ public final class OptionConfiguration {
 		}
 
 		/**
-		 * Sets the radius (in pixels) of points plotted by this option.
+		 * Sets the style mode for drawing points.
+		 *
+		 * @param pointStyleMode The style mode for drawing points.
+		 */
+		public synchronized void setPointStyleMode(PointStyleMode pointStyleMode) {
+			this.pointStyleMode = pointStyleMode;
+		}
+
+		/**
+		 * Gets the style mode for drawing points.
+		 *
+		 * @return The style mode for drawing points.
+		 */
+		public synchronized PointStyleMode getPointStyleMode() {
+			return this.pointStyleMode;
+		}
+
+		/**
+		 * Sets the radius (in pixels) of points in CIRCLE mode.
 		 *
 		 * @param pointRadius The radius (in pixels) of points plotted by this option.
 		 */
-		public synchronized void setPointRadius(double pointRadius) {
-			this.pointRadius = pointRadius;
+		public synchronized void setCircleRadius(double circleRadius) {
+			this.circleRadius = circleRadius;
+		}
+
+		/**
+		 * Gets the radius (in pixels) of points in CIRCLE mode.
+		 *
+		 * @return The radius (in pixels) of points plotted by this option.
+		 */
+		public synchronized double getCircleRadius() {
+			return this.circleRadius;
+		}
+
+		/**
+		 * Sets the font size of markers.
+		 *
+		 * @param markerSize The font size of markers.
+		 */
+		public synchronized void setMarkerSize(double markerSize) {
+			this.markerSize = markerSize;
 		}
 
 		/**
 		 * Gets the radius (in pixels) of points plotted by this option.
 		 *
-		 * @return The radius (in pixels) of points plotted by this option.
+		 * @return The font size of markers.
 		 */
-		public synchronized double getPointRadius() {
-			return this.pointRadius;
+		public synchronized double getMarkerSize() {
+			return this.markerSize;
+		}
+
+		/**
+		 * Sets the ratio to correct the vartical position of markers.
+		 *
+		 * @param markerVerticalOffsetRatio The ratio to correct the vartical position of markers.
+		 */
+		public void setMarkerVerticalOffsetRatio(double markerVerticalOffsetRatio) {
+			this.markerVerticalOffsetRatio = markerVerticalOffsetRatio;
+		}
+
+		/**
+		 * Gets the ratio to correct the vartical position of markers.
+		 *
+		 * @return markerVerticalOffsetRatio The ratio to correct the vartical position of markers.
+		 */
+		public double getMarkerVerticalOffsetRatio() {
+			return this.markerVerticalOffsetRatio;
+		}
+
+		/**
+		 * Sets the texts (of the symbols) of the markers.
+		 *
+		 * @param markerTexts The texts (of the symbols) of the markers.
+		 */
+		public void setMarkerTexts(String[] markerTexts) {
+			this.markerTexts = markerTexts;
+		}
+
+		/**
+		 * Gets the texts (of the symbols) of the markers.
+		 *
+		 * @return The texts (of the symbols) of the markers.
+		 */
+		public String[] getMarkerTexts() {
+			return this.markerTexts;
+		}
+
+		/**
+		 * Sets the flag to whether draw markers in bold fonts.
+		 *
+		 * @param markerBold The flag to whether draw markers in bold fonts.
+		 */
+		public void setMarkerBold(boolean markerBold) {
+			this.markerBold = markerBold;
+		}
+
+		/**
+		 * Gets the flag to whether draw markers in bold fonts.
+		 *
+		 * @return The flag to whether draw markers in bold fonts.
+		 */
+		public boolean isMarkerBold() {
+			return this.markerBold;
 		}
 	}
 
