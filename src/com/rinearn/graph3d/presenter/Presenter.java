@@ -27,6 +27,7 @@ import com.rinearn.graph3d.presenter.handler.DataFileIOHandler;
 import com.rinearn.graph3d.presenter.handler.DataTextIOHandler;
 import com.rinearn.graph3d.presenter.handler.DataArrayIOHandler;
 import com.rinearn.graph3d.presenter.handler.ImageIOHandler;
+import com.rinearn.graph3d.presenter.handler.PointOptionHandler;
 import com.rinearn.graph3d.presenter.plotter.PointPlotter;
 import com.rinearn.graph3d.presenter.plotter.LinePlotter;
 import com.rinearn.graph3d.presenter.plotter.MeshPlotter;
@@ -180,6 +181,8 @@ public final class Presenter {
 	/** The flag for turning on/off the event handling feature of subcomponents in this instance. */
 	private volatile boolean eventHandlingEnabled = true;
 
+	/** The handler of "With Point" option window. */
+	public final PointOptionHandler pointOptionHandler;
 
 	/** The plotter to plot points. */
 	public final PointPlotter pointPlotter;
@@ -240,6 +243,8 @@ public final class Presenter {
 		this.dataArrayIOHandler = new DataArrayIOHandler(model, view, this);
 		this.imageIOHandler = new ImageIOHandler(model, view, this);
 
+		this.pointOptionHandler = new PointOptionHandler(model, view, this);
+
 		// Create "plotter"s, which perform plottings/re-plottings in event-driven flow.
 		this.pointPlotter = new PointPlotter(model, view, this, renderer);
 		this.plottingEventDispatcher.addPlottingListener(this.pointPlotter);
@@ -281,6 +286,8 @@ public final class Presenter {
 		this.dataTextIOHandler.setEventHandlingEnabled(enabled);
 		this.dataArrayIOHandler.setEventHandlingEnabled(enabled);
 		this.imageIOHandler.setEventHandlingEnabled(enabled);
+
+		this.pointOptionHandler.setEventHandlingEnabled(enabled);
 	}
 
 

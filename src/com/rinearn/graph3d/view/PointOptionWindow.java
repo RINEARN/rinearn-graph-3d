@@ -2,6 +2,7 @@ package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
+import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.FontConfiguration;
 import com.rinearn.graph3d.config.OptionConfiguration;
 
@@ -142,10 +143,10 @@ public final class PointOptionWindow {
 		public volatile TextRightClickMenu symbolFieldRightClickMenu;
 
 		/** The right-click menu of sizeField. */
-		public volatile TextRightClickMenu fontSizeFieldRightClickMenu;
+		public volatile TextRightClickMenu sizeFieldRightClickMenu;
 
 		/** The right-click menu of verticalOffsetRatioField. */
-		public volatile TextRightClickMenu correctionRatioFieldRightClickMenu;
+		public volatile TextRightClickMenu verticalOffsetRatioFieldRightClickMenu;
 	}
 
 
@@ -207,8 +208,7 @@ public final class PointOptionWindow {
 					DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT
 			);
 			frame.setLayout(null);
-			//frame.setVisible(false);
-			frame.setVisible(true);
+			frame.setVisible(false);
 
 			// Prepare the layout manager and resources.
 			Container basePanel = frame.getContentPane();
@@ -487,7 +487,7 @@ public final class PointOptionWindow {
 			layout.setConstraints(markerModeComponents.sizeField, constraints);
 			basePanel.add(markerModeComponents.sizeField);
 
-			markerModeComponents.fontSizeFieldRightClickMenu = new TextRightClickMenu();
+			markerModeComponents.sizeFieldRightClickMenu = new TextRightClickMenu();
 
 			constraints.gridy++;
 
@@ -511,7 +511,7 @@ public final class PointOptionWindow {
 			layout.setConstraints(markerModeComponents.verticalOffsetRatioField, constraints);
 			basePanel.add(markerModeComponents.verticalOffsetRatioField);
 
-			markerModeComponents.correctionRatioFieldRightClickMenu = new TextRightClickMenu();
+			markerModeComponents.verticalOffsetRatioFieldRightClickMenu = new TextRightClickMenu();
 
 			constraints.gridy++;
 			constraints.gridwidth = 2;
@@ -605,8 +605,8 @@ public final class PointOptionWindow {
 			seriesFilterFieldRightClickMenu.configure(this.configuration);
 			circleModeComponents.radiusFieldRightClickMenu.configure(this.configuration);
 			markerModeComponents.symbolFieldRightClickMenu.configure(this.configuration);
-			markerModeComponents.fontSizeFieldRightClickMenu.configure(this.configuration);
-			markerModeComponents.correctionRatioFieldRightClickMenu.configure(this.configuration);
+			markerModeComponents.sizeFieldRightClickMenu.configure(this.configuration);
+			markerModeComponents.verticalOffsetRatioFieldRightClickMenu.configure(this.configuration);
 		}
 
 		/**
@@ -650,7 +650,7 @@ public final class PointOptionWindow {
 			markerModeComponents.symbolLabel.setText("Marker Symbols: ");
 			markerModeComponents.boldBox.setText("Bold Font");
 			markerModeComponents.fontSizeLabel.setText("Font Size: ");
-			markerModeComponents.verticalOffsetRatioLabel.setText("Position Correct.: ");
+			markerModeComponents.verticalOffsetRatioLabel.setText("Offset Ratio: ");
 
 			markerModeComponents.noteUpperLabel.setText("* Depending on the font, the marker center may shift.");
 			markerModeComponents.noteLowerLabel.setText("　Adjust it using the above parameter.");
@@ -709,38 +709,7 @@ public final class PointOptionWindow {
 			markerModeComponents.sizeField.setText(formatter.format(pointOptionConfig.getMarkerSize()));
 			markerModeComponents.verticalOffsetRatioField.setText(formatter.format(pointOptionConfig.getMarkerVerticalOffsetRatio()));
 
-			switch (pointOptionConfig.getSeriesFilterMode()) {
-				case INDEX : {
-					seriesFilterBox.setSelected(true);
-					seriesFilterField.setEditable(true);
-					seriesFilterField.setBackground(Color.WHITE);
-					seriesFilterField.setForeground(Color.BLACK);
-
-					// Converts the int[] type array of series indices to a single text value, and set it to seriesFilterField.
-					IndexSeriesFilter filter = pointOptionConfig.getIndexSeriesFilter();
-					int[] seriesIndices = filter.getIncludedSeriesIndices();
-					StringBuilder seriesIndicesTextBuilder = new StringBuilder();
-					for (int iseries = 0; iseries<seriesIndices.length; iseries++) {
-						seriesIndicesTextBuilder.append(seriesIndices[iseries]);
-						if (iseries != seriesIndices.length - 1) {
-							seriesIndicesTextBuilder.append(", ");
-						}
-					}
-					String seriesIndicesText = seriesIndicesTextBuilder.toString();
-					seriesFilterField.setText(seriesIndicesText);
-					break;
-				}
-				case NONE : {
-					seriesFilterBox.setSelected(false);
-					seriesFilterField.setEditable(false);
-					seriesFilterField.setBackground(Color.LIGHT_GRAY);
-					seriesFilterField.setForeground(Color.GRAY);
-					break;
-				}
-				default : {
-					throw new IllegalStateException("Unexpected series filter mode: " + pointOptionConfig.getSeriesFilterMode());
-				}
-			}
+			setSeriesFilterMode(pointOptionConfig.getSeriesFilterMode(), pointOptionConfig.getIndexSeriesFilter());
 		}
 
 		/**
@@ -794,7 +763,6 @@ public final class PointOptionWindow {
 		}
 	}
 
-
 	/**
 	 * Sets the selected item of styleModeBox field by an element of OptionConfiguration.PointStyleMode enum.
 	 * This method is invokable only on the event-dispatch thread.
@@ -805,20 +773,81 @@ public final class PointOptionWindow {
 		if (!SwingUtilities.isEventDispatchThread()) {
 			throw new IllegalStateException("This method is invokable only on the event-dispatch thread.");
 		}
+
+		this.swappablePanel.removeAll();
 		switch (mode) {
 			case CIRCLE: {
 				this.styleModeBox.setSelectedItem(this.circleModeItem);
-				return;
+				this.swappablePanel.add(this.circleModeComponents.panel);
+				break;
 			}
 			case MARKER: {
 				this.styleModeBox.setSelectedItem(this.markerModeItem);
-				return;
+				this.swappablePanel.add(this.markerModeComponents.panel);
+				break;
 			}
 			default: {
 				throw new IllegalStateException("Unexpected point style mode: " + mode);
 			}
 		}
 
+		// Hide, repaint, and re-show the content and the window, to prevent broken layout.
+		this.frame.getContentPane().setVisible(false);
+		this.frame.repaint();
+		this.frame.getContentPane().setVisible(true);
+	}
+
+
+	/**
+	 * Sets the mode of the series filter.
+	 * This method is invokable only on the event-dispatch thread.
+	 *
+	 * @param seriesFilterMode The mode of the series filter.
+	 * @param indexSeriesFilter The series filter in INDEX mode.
+	 */
+	public void setSeriesFilterMode(SeriesFilterMode seriesFilterMode, IndexSeriesFilter indexSeriesFilter) {
+		if (!SwingUtilities.isEventDispatchThread()) {
+			throw new IllegalStateException("This method is invokable only on the event-dispatch thread.");
+		}
+
+		switch (seriesFilterMode) {
+			case INDEX : {
+				seriesFilterBox.setSelected(true);
+				seriesFilterField.setEditable(true);
+				seriesFilterField.setBackground(Color.WHITE);
+				seriesFilterField.setForeground(Color.BLACK);
+
+				// Converts the int[] type array of series indices to a single text value, and set it to seriesFilterField.
+				int[] seriesIndices = indexSeriesFilter.getIncludedSeriesIndices();
+				StringBuilder seriesIndicesTextBuilder = new StringBuilder();
+				for (int iseries = 0; iseries<seriesIndices.length; iseries++) {
+
+					// The series index "1" on UI corresponds to the internal series index "0" . So offset the index.
+					int seriesIndexOnUI = seriesIndices[iseries] + 1;
+
+					// Append the index at the tail of the text.
+					seriesIndicesTextBuilder.append(seriesIndexOnUI);
+					if (iseries != seriesIndices.length - 1) {
+						seriesIndicesTextBuilder.append(", ");
+					}
+				}
+				String seriesIndicesText = seriesIndicesTextBuilder.toString();
+				seriesFilterField.setText(seriesIndicesText);
+				break;
+			}
+			case NONE : {
+				seriesFilterBox.setSelected(false);
+				seriesFilterField.setText("");
+				seriesFilterField.setEditable(false);
+				seriesFilterField.setBackground(Color.LIGHT_GRAY);
+				seriesFilterField.setForeground(Color.GRAY);
+				break;
+			}
+			default : {
+				throw new IllegalStateException("Unexpected series filter mode: " + seriesFilterMode);
+			}
+		}
+		seriesFilterField.repaint();
 	}
 
 

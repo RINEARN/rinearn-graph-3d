@@ -59,6 +59,7 @@ com/rinearn/graph3d/presenter/handler/LightSettingHandler.java
 com/rinearn/graph3d/presenter/handler/MainMenuHandler.java
 com/rinearn/graph3d/presenter/handler/MainWindowFrameHandler.java
 com/rinearn/graph3d/presenter/handler/package-info.java
+com/rinearn/graph3d/presenter/handler/PointOptionHandler.java
 com/rinearn/graph3d/presenter/handler/RangeSettingHandler.java
 com/rinearn/graph3d/presenter/handler/ScaleSettingHandler.java
 com/rinearn/graph3d/presenter/handler/ScreenHandler.java

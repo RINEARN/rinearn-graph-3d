@@ -153,7 +153,7 @@ public final class OptionConfiguration {
 		private volatile SeriesFilterMode seriesFilterMode = SeriesFilterMode.NONE;
 
 		/** The index-based series filter, used in INDEX mode. */
-		private volatile IndexSeriesFilter indexSeriesFilter = new IndexSeriesFilter(new int[] {1, 2, 3});
+		private volatile IndexSeriesFilter indexSeriesFilter = new IndexSeriesFilter(new int[] { 0, 1, 2 });
 
 		/** The custom implementation of a series filter, used in CUSTOM mode. */
 		private volatile SeriesFilter customSeriesFilter = null;

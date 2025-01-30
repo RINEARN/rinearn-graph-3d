@@ -463,7 +463,21 @@ public final class MainMenuHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
+			boolean isOptionSepected = view.mainWindow.mainMenu.pointOptionMenuItem.isSelected();
 
+			// Show/hide the option settings window.
+			view.pointOptionWindow.setWindowVisible(isOptionSepected);
+
+			// Enable/disable the option.
+			model.config.getOptionConfiguration().getPointOptionConfiguration().setSelected(isOptionSepected);
+
+			// Propagates the updated configuration, to the entire application.
+			presenter.propagateConfiguration();
+
+			// Replot the graph.
+			presenter.plot();
+
+			/*
 			// Get the configuration container for storing the states of this option.
 			OptionConfiguration optionConfig = model.config.getOptionConfiguration();
 			OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
@@ -517,6 +531,7 @@ public final class MainMenuHandler {
 
 			// Replot the graph.
 			presenter.plot();
+			*/
 		}
 	}
 
