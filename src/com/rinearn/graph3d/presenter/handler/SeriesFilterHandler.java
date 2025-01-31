@@ -107,38 +107,26 @@ public final class SeriesFilterHandler {
 		if (!SwingUtilities.isEventDispatchThread()) {
 			throw new IllegalStateException("This method is invokable only from the event-dispatch thread.");
 		}
-		boolean isJapanese = envConfig.isLocaleJapanese();
 
 		if (this.seriesFilterComponents.enabledBox.isSelected()) {
 			this.seriesFilterAccessor.setSeriesFilterMode(SeriesFilterMode.INDEX);
 
-			String[] seriesIndexTexts = this.seriesFilterComponents.indexField.getText().trim().split(",");
-			int seriesIndexCount = seriesIndexTexts.length;
-			int[] seriesIndices = new int[seriesIndexCount];
-
-			for (int iSeriesIndex=0; iSeriesIndex<seriesIndexCount; iSeriesIndex++) {
-				try {
-					seriesIndices[iSeriesIndex] = Integer.parseInt(seriesIndexTexts[iSeriesIndex].trim());
-				} catch (NumberFormatException nfe) {
-					String[] errorWords = isJapanese ? new String[]{ "系列番号" } : new String[]{ "Series Indices" };
-					String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.COMMA_SEPARATED_INT_PARAMETER_PARSING_FAILED, errorWords);
-					JOptionPane.showMessageDialog(null, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (seriesIndices[iSeriesIndex] < 1 || Integer.MAX_VALUE < seriesIndices[iSeriesIndex]) {
-					String[] errorWords = isJapanese ?
-							new String[]{ "系列番号", "1", Integer.toString(Integer.MAX_VALUE) } :
-							new String[]{ "Series Indices", "1", Integer.toString(Integer.MAX_VALUE) };
-					String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.COMMA_SEPARATED_INT_PARAMETER_OUT_OF_RANGE, errorWords);
-					JOptionPane.showMessageDialog(null, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
+			try {
+				String seriesIndexText = this.seriesFilterComponents.indexField.getText().trim();
+				int[] seriesIndices = UIParameterParser.parseCommaSeparatedIntParameters(seriesIndexText, "系列番号", "Series Indices", 1, Integer.MAX_VALUE/2, envConfig);
 
 				// The series index "1" on UI corresponds to the internal series index "0" . So offset the index.
-				seriesIndices[iSeriesIndex]--;
+				int seriesIndexCount = seriesIndices.length;
+				for (int iindex=0; iindex<seriesIndexCount; iindex++) {
+					seriesIndices[iindex]--;
+				}
+				IndexSeriesFilter indexFilter = seriesFilterAccessor.getIndexSeriesFilter();
+				indexFilter.setIncludedSeriesIndices(seriesIndices);
+
+			} catch (UIParameterParser.ParsingException e) {
+				// The error message is already shown to the user by UIParameterParser.
+				return;
 			}
-			IndexSeriesFilter indexFilter = seriesFilterAccessor.getIndexSeriesFilter();
-			indexFilter.setIncludedSeriesIndices(seriesIndices);
 
 		} else {
 			seriesFilterAccessor.setSeriesFilterMode(SeriesFilterMode.NONE);

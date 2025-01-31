@@ -1,10 +1,9 @@
 package com.rinearn.graph3d.presenter.handler;
 
+import com.rinearn.graph3d.config.EnvironmentConfiguration;
 import com.rinearn.graph3d.config.OptionConfiguration;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
-import com.rinearn.graph3d.def.ErrorMessage;
-import com.rinearn.graph3d.def.ErrorType;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.LineOptionWindow;
@@ -12,8 +11,6 @@ import com.rinearn.graph3d.view.View;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JOptionPane;
 
 
 /**
@@ -129,27 +126,16 @@ public final class LineOptionHandler {
 			LineOptionWindow window = view.lineOptionWindow;
 			OptionConfiguration optionConfig = model.config.getOptionConfiguration();
 			OptionConfiguration.LineOptionConfiguration lineOptionConfig = optionConfig.getLineOptionConfiguration();
-			boolean isJapanese = model.config.getEnvironmentConfiguration().isLocaleJapanese();
+			EnvironmentConfiguration envConfig = model.config.getEnvironmentConfiguration();
 
 			// Line width:
-			{
+			try {
 				String lineWidthText = window.lineWidthField.getText();
-				double lineWidth = Double.NaN;
-				try {
-					lineWidth = Double.parseDouble(lineWidthText);
-				} catch (NumberFormatException nfe) {
-					String[] errorWords = isJapanese ? new String[]{ "線の幅" } : new String[]{ "Line Width" };
-					String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.DOUBLE_PARAMETER_PARSING_FAILED, errorWords);
-					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (lineWidth < 0.0 || 10000.0 < lineWidth) {
-					String[] errorWords = isJapanese ? new String[]{ "線の幅", "0.0", "10000.0" } : new String[]{ "Line Width", "0.0", "10000.0" };
-					String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.DOUBLE_PARAMETER_OUT_OF_RANGE, errorWords);
-					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
+				double lineWidth = UIParameterParser.parseDoubleParameter(lineWidthText, "線の幅", "Line Width", 0.0, 10000.0, envConfig);
 				lineOptionConfig.setLineWidth(lineWidth);
+			} catch (UIParameterParser.ParsingException e) {
+				// The error message is already shown to the user by UIParameterParser.
+				return;
 			}
 
 			// Update the series filter from the current state of filer-settings UI.

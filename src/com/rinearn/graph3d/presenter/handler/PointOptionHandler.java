@@ -1,5 +1,6 @@
 package com.rinearn.graph3d.presenter.handler;
 
+import com.rinearn.graph3d.config.EnvironmentConfiguration;
 import com.rinearn.graph3d.config.OptionConfiguration;
 import com.rinearn.graph3d.config.OptionConfiguration.PointStyleMode;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
@@ -8,11 +9,8 @@ import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.PointOptionWindow;
 import com.rinearn.graph3d.view.View;
-import com.rinearn.graph3d.def.ErrorMessage;
-import com.rinearn.graph3d.def.ErrorType;
 
 import javax.swing.JOptionPane;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -148,7 +146,8 @@ public final class PointOptionHandler {
 			PointOptionWindow window = view.pointOptionWindow;
 			OptionConfiguration optionConfig = model.config.getOptionConfiguration();
 			OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
-			boolean isJapanese = model.config.getEnvironmentConfiguration().isLocaleJapanese();
+			EnvironmentConfiguration envConfig = model.config.getEnvironmentConfiguration();
+			boolean isJapanese = envConfig.isLocaleJapanese();
 
 			// Point Style Mode:
 			{
@@ -163,36 +162,23 @@ public final class PointOptionHandler {
 			}
 
 			// Circle radius:
-			{
-				double circleRadius = Double.NaN;
-				try {
-					circleRadius = Double.parseDouble(window.circleModeComponents.radiusField.getText());
-					pointOptionConfig.setCircleRadius(circleRadius);
-				} catch (NumberFormatException nfe) {
-					String[] errorWords = isJapanese ? new String[]{ "円の半径" } : new String[]{ "Circle Radius" };
-					String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.DOUBLE_PARAMETER_PARSING_FAILED, errorWords);
-					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (circleRadius < 0.0 || 10000.0 < circleRadius) {
-					String[] errorWords = isJapanese ? new String[]{ "円の半径", "0.0", "10000.0" } : new String[]{ "Circle Radius", "0.0", "10000.0" };
-					String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.DOUBLE_PARAMETER_OUT_OF_RANGE, errorWords);
-					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
+			try {
+				String circleRadiusText = window.circleModeComponents.radiusField.getText();
+				double circleRadius = UIParameterParser.parseDoubleParameter(circleRadiusText, "円の半径", "Circle Radius", 0.0, 10000.0, envConfig);
 				pointOptionConfig.setCircleRadius(circleRadius);
+			} catch (UIParameterParser.ParsingException e) {
+				// The error message is already shown to the user by UIParameterParser.
+				return;
 			}
 
 			// Marker texts:
-			{
+			try {
 				String markerText = window.markerModeComponents.symbolField.getText().trim();
-				markerText = markerText.replaceAll("\\\\,", "___ESCAPED_COMMA___");
-				String[] markerTexts = markerText.split(",");
-				int textCount = markerTexts.length;
-				for (int itext=0; itext<textCount; itext++) {
-					markerTexts[itext] = markerTexts[itext].replaceAll("___ESCAPED_COMMA___", "\\,").trim();
-				}
+				String[] markerTexts = UIParameterParser.parseCommaSeparatedStringParameters(markerText, "マーカー記号", "Marker Symbols", envConfig);
 				pointOptionConfig.setMarkerTexts(markerTexts);
+			} catch (UIParameterParser.ParsingException e) {
+				// The error message is already shown to the user by UIParameterParser.
+				return;
 			}
 
 			// Marker bold font:
@@ -202,45 +188,23 @@ public final class PointOptionHandler {
 			}
 
 			// Marker size:
-			{
-				double markerSize = Double.NaN;
-				try {
-					markerSize = Double.parseDouble(window.markerModeComponents.sizeField.getText());
-					pointOptionConfig.setMarkerSize(markerSize);
-				} catch (NumberFormatException nfe) {
-					String[] errorWords = isJapanese ? new String[]{ "文字サイズ" } : new String[]{ "Font Size" };
-					String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.DOUBLE_PARAMETER_PARSING_FAILED, errorWords);
-					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (markerSize < 0.0 || 10000.0 < markerSize) {
-					String[] errorWords = isJapanese ? new String[]{ "文字サイズ", "0.0", "10000.0" } : new String[]{ "Font Size", "0.0", "10000.0" };
-					String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.DOUBLE_PARAMETER_OUT_OF_RANGE, errorWords);
-					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
+			try {
+				String markerSizeText = window.markerModeComponents.sizeField.getText();
+				double markerSize = UIParameterParser.parseDoubleParameter(markerSizeText, "文字サイズ", "Font Size", 0.0, 10000.0, envConfig);
 				pointOptionConfig.setMarkerSize(markerSize);
+			} catch (UIParameterParser.ParsingException e) {
+				// The error message is already shown to the user by UIParameterParser.
+				return;
 			}
 
 			// Marker offset ratio:
-			{
-				double markerOffsetRatio = Double.NaN;
-				try {
-					markerOffsetRatio = Double.parseDouble(window.markerModeComponents.verticalOffsetRatioField.getText());
-					pointOptionConfig.setMarkerVerticalOffsetRatio(markerOffsetRatio);
-				} catch (NumberFormatException nfe) {
-					String[] errorWords = isJapanese ? new String[]{ "位置補正率" } : new String[]{ "Offset Ratio" };
-					String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.DOUBLE_PARAMETER_PARSING_FAILED, errorWords);
-					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (markerOffsetRatio < -10000.0 || 10000.0 < markerOffsetRatio) {
-					String[] errorWords = isJapanese ? new String[]{ "位置補正率", "-10000.0", "10000.0" } : new String[]{ "Offset Ratio", "0.0", "10000.0" };
-					String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.DOUBLE_PARAMETER_OUT_OF_RANGE, errorWords);
-					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
+			try {
+				String markerOffsetRatioText = window.markerModeComponents.verticalOffsetRatioField.getText();
+				double markerOffsetRatio = UIParameterParser.parseDoubleParameter(markerOffsetRatioText, "位置補正率", "Offset Ratio", -10000.0, 10000.0, envConfig);
 				pointOptionConfig.setMarkerVerticalOffsetRatio(markerOffsetRatio);
+			} catch (UIParameterParser.ParsingException e) {
+				// The error message is already shown to the user by UIParameterParser.
+				return;
 			}
 
 			// Update the series filter from the current state of filer-settings UI.
