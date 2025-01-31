@@ -50,8 +50,8 @@ public final class PointOptionHandler {
 	private volatile boolean eventHandlingEnabled = true;
 
 
-	/** The getter class to get the series filters from the configuration of this option. */
-	private final class SeriesFilterGetter implements SeriesFilterHandler.SeriesFilterAccessorInterface {
+	/** The accessor class to get the series filters from the configuration of this option. */
+	private final class SeriesFilterAccessor implements SeriesFilterHandler.SeriesFilterAccessorInterface {
 		@Override
 		public void setSeriesFilterMode(SeriesFilterMode seriesFilterMode) {
 			model.config.getOptionConfiguration().getPointOptionConfiguration().setSeriesFilterMode(seriesFilterMode);
@@ -97,7 +97,7 @@ public final class PointOptionHandler {
 		markerSymbolMenuHandler = new TextRightClickMenuHandler(window.markerModeComponents.symbolFieldRightClickMenu, window.markerModeComponents.symbolField);
 
 		// Add the event handler to UI components for series filter settings.
-		seriesFilterHandler = new SeriesFilterHandler(window.seriesFilterComponents, new SeriesFilterGetter());
+		seriesFilterHandler = new SeriesFilterHandler(window.seriesFilterComponents, new SeriesFilterAccessor());
 	}
 
 

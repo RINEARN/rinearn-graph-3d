@@ -1,8 +1,6 @@
 package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.config.data.IndexSeriesFilter;
-import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.FontConfiguration;
 import com.rinearn.graph3d.config.OptionConfiguration;
 
@@ -670,7 +668,10 @@ public final class PointOptionWindow {
 			markerModeComponents.sizeField.setText(formatter.format(pointOptionConfig.getMarkerSize()));
 			markerModeComponents.verticalOffsetRatioField.setText(formatter.format(pointOptionConfig.getMarkerVerticalOffsetRatio()));
 
-			setSeriesFilterMode(pointOptionConfig.getSeriesFilterMode(), pointOptionConfig.getIndexSeriesFilter());
+			// Update the series filter UI.
+			seriesFilterComponents.configure(
+					this.configuration, pointOptionConfig.getSeriesFilterMode(), pointOptionConfig.getIndexSeriesFilter()
+			);
 		}
 
 		/**
@@ -751,26 +752,6 @@ public final class PointOptionWindow {
 				throw new IllegalStateException("Unexpected point style mode: " + mode);
 			}
 		}
-
-		// Hide, repaint, and re-show the content and the window, to prevent broken layout.
-		this.frame.getContentPane().setVisible(false);
-		this.frame.repaint();
-		this.frame.getContentPane().setVisible(true);
-	}
-
-
-	/**
-	 * Sets the mode of the series filter.
-	 * This method is invokable only on the event-dispatch thread.
-	 *
-	 * @param seriesFilterMode The mode of the series filter.
-	 * @param indexSeriesFilter The series filter in INDEX mode.
-	 */
-	public void setSeriesFilterMode(SeriesFilterMode seriesFilterMode, IndexSeriesFilter indexSeriesFilter) {
-		if (!SwingUtilities.isEventDispatchThread()) {
-			throw new IllegalStateException("This method is invokable only on the event-dispatch thread.");
-		}
-		this.seriesFilterComponents.setSeriesFilterMode(seriesFilterMode, indexSeriesFilter);
 
 		// Hide, repaint, and re-show the content and the window, to prevent broken layout.
 		this.frame.getContentPane().setVisible(false);

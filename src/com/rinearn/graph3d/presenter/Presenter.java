@@ -28,6 +28,7 @@ import com.rinearn.graph3d.presenter.handler.DataTextIOHandler;
 import com.rinearn.graph3d.presenter.handler.DataArrayIOHandler;
 import com.rinearn.graph3d.presenter.handler.ImageIOHandler;
 import com.rinearn.graph3d.presenter.handler.PointOptionHandler;
+import com.rinearn.graph3d.presenter.handler.MeshOptionHandler;
 import com.rinearn.graph3d.presenter.handler.SurfaceOptionHandler;
 import com.rinearn.graph3d.presenter.plotter.PointPlotter;
 import com.rinearn.graph3d.presenter.plotter.LinePlotter;
@@ -185,6 +186,9 @@ public final class Presenter {
 	/** The handler of "With Poinst" option window. */
 	public final PointOptionHandler pointOptionHandler;
 
+	/** The handler of "With Meshes" option window. */
+	public final MeshOptionHandler meshOptionHandler;
+
 	/** The handler of "With Surfaces" option window. */
 	public final SurfaceOptionHandler surfaceOptionHandler;
 
@@ -248,6 +252,7 @@ public final class Presenter {
 		this.imageIOHandler = new ImageIOHandler(model, view, this);
 
 		this.pointOptionHandler = new PointOptionHandler(model, view, this);
+		this.meshOptionHandler = new MeshOptionHandler(model, view, this);
 		this.surfaceOptionHandler = new SurfaceOptionHandler(model, view, this);
 
 		// Create "plotter"s, which perform plottings/re-plottings in event-driven flow.
@@ -293,6 +298,7 @@ public final class Presenter {
 		this.imageIOHandler.setEventHandlingEnabled(enabled);
 
 		this.pointOptionHandler.setEventHandlingEnabled(enabled);
+		this.meshOptionHandler.setEventHandlingEnabled(enabled);
 		this.surfaceOptionHandler.setEventHandlingEnabled(enabled);
 	}
 
