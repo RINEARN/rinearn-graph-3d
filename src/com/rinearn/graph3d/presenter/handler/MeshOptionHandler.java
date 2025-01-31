@@ -1,7 +1,10 @@
 package com.rinearn.graph3d.presenter.handler;
 
+import com.rinearn.graph3d.config.OptionConfiguration;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
+import com.rinearn.graph3d.def.ErrorMessage;
+import com.rinearn.graph3d.def.ErrorType;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.MeshOptionWindow;
@@ -9,6 +12,8 @@ import com.rinearn.graph3d.view.View;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JOptionPane;
 
 
 /**
@@ -24,6 +29,9 @@ public final class MeshOptionHandler {
 
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
+
+	/** The event handler of the right-click menu of the text field to input the line width. */
+	private final TextRightClickMenuHandler lineWidthFieldMenuHandler;
 
 	/** The event handler of UI components for series filter settings. */
 	private final SeriesFilterHandler seriesFilterHandler;
@@ -69,8 +77,11 @@ public final class MeshOptionHandler {
 		MeshOptionWindow window = this.view.meshOptionWindow;
 		window.setButton.addActionListener(new SetPressedEventListener());
 
+		// Add the event handler of the right-click menu of the text field to input the line width.
+		this.lineWidthFieldMenuHandler = new TextRightClickMenuHandler(window.lineWidthFieldRightClickMenu, window.lineWidthField);
+
 		// Add the event handler to UI components for series filter settings.
-		seriesFilterHandler = new SeriesFilterHandler(window.seriesFilterComponents, new SeriesFilterAccessor());
+		this.seriesFilterHandler = new SeriesFilterHandler(window.seriesFilterComponents, new SeriesFilterAccessor());
 	}
 
 
@@ -81,6 +92,7 @@ public final class MeshOptionHandler {
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
+		this.lineWidthFieldMenuHandler.setEventHandlingEnabled(enabled);
 		this.seriesFilterHandler.setEventHandlingEnabled(enabled);
 	}
 
@@ -113,6 +125,31 @@ public final class MeshOptionHandler {
 		public void actionPerformed(ActionEvent ae) {
 			if (!isEventHandlingEnabled()) {
 				return;
+			}
+			MeshOptionWindow window = view.meshOptionWindow;
+			OptionConfiguration optionConfig = model.config.getOptionConfiguration();
+			OptionConfiguration.MeshOptionConfiguration meshOptionConfig = optionConfig.getMeshOptionConfiguration();
+			boolean isJapanese = model.config.getEnvironmentConfiguration().isLocaleJapanese();
+
+			// Line width:
+			{
+				String lineWidthText = window.lineWidthField.getText();
+				double lineWidth = Double.NaN;
+				try {
+					lineWidth = Double.parseDouble(lineWidthText);
+				} catch (NumberFormatException nfe) {
+					String[] errorWords = isJapanese ? new String[]{ "線の幅" } : new String[]{ "Line Width" };
+					String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.DOUBLE_PARAMETER_PARSING_FAILED, errorWords);
+					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (lineWidth < 0.0 || 10000.0 < lineWidth) {
+					String[] errorWords = isJapanese ? new String[]{ "線の幅", "0.0", "10000.0" } : new String[]{ "Line Width", "0.0", "10000.0" };
+					String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.DOUBLE_PARAMETER_OUT_OF_RANGE, errorWords);
+					JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				meshOptionConfig.setLineWidth(lineWidth);
 			}
 
 			// Update the series filter from the current state of filer-settings UI.

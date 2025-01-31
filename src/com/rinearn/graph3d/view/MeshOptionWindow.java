@@ -5,6 +5,9 @@ import com.rinearn.graph3d.config.FontConfiguration;
 import com.rinearn.graph3d.config.OptionConfiguration;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
@@ -15,6 +18,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.DecimalFormat;
 
 
 /**
@@ -26,10 +30,19 @@ public final class MeshOptionWindow {
 	public static final int DEFAULT_WINDOW_WIDTH = 340;
 
 	/** The default height [px] of this window. */
-	public static final int DEFAULT_WINDOW_HEIGHT = 180;
+	public static final int DEFAULT_WINDOW_HEIGHT = 240;
 
 	/** The frame of this window. */
 	public volatile JFrame frame;
+
+	/** The label of the text field to input the line width.  */
+	public volatile JLabel lineWidthLabel;
+
+	/** The text field to input the line width.  */
+	public volatile JTextField lineWidthField;
+
+	/** The right-click menu of the text field to input the line width. */
+	public volatile TextRightClickMenu lineWidthFieldRightClickMenu;
 
 	/** The container of UI components for setting the series filter. */
 	public volatile SeriesFilterComponents seriesFilterComponents;
@@ -112,17 +125,51 @@ public final class MeshOptionWindow {
 			constraints.fill = GridBagConstraints.BOTH;
 
 			// Define margines.
-			int topMargin = 5;
+			//int topMargin = 5;
 			int topMarginLong = 12;
 			int bottomMargin = 5;
 			int leftMargin = 5;
 			int rightMargin = 5;
 
+			double leftColumnWeight = 0.0;
+			double rightColumnWeight = 1.0;
+
+			constraints.gridwidth = 1;
+			constraints.gridx = 0;
+			constraints.weightx = leftColumnWeight;
+
+			// The label of the text field to input the line width.
+			lineWidthLabel = new JLabel();
+			constraints.insets = new Insets(topMarginLong, leftMargin, bottomMargin, rightMargin);
+			layout.setConstraints(lineWidthLabel, constraints);
+			basePanel.add(lineWidthLabel);
+
+			constraints.gridwidth = 1;
+			constraints.gridx = 1;
+			constraints.weightx = rightColumnWeight;
+
+			// The text field to input the line width.
+			lineWidthField = new JTextField();
+			constraints.insets = new Insets(topMarginLong, leftMargin, bottomMargin, rightMargin);
+			layout.setConstraints(lineWidthField, constraints);
+			basePanel.add(lineWidthField);
+
+			lineWidthFieldRightClickMenu = new TextRightClickMenu();
+
+			constraints.gridwidth = 2;
+			constraints.gridx = 0;
+			constraints.gridy++;
 			constraints.weighty = 1.0;
+
+			// A separator.
+			JSeparator separator = new JSeparator();
+			constraints.insets = new Insets(topMarginLong, leftMargin, bottomMargin, rightMargin);
+			layout.setConstraints(separator, constraints);
+			basePanel.add(separator);
 
 			// The panel and UI components for setting the series filter.
 			seriesFilterComponents = new SeriesFilterComponents();
-			constraints.insets = new Insets(topMargin, 0, bottomMargin, 0);
+			constraints.insets = new Insets(topMarginLong, 0, bottomMargin, 0);
 			layout.setConstraints(seriesFilterComponents.panel, constraints);
 			basePanel.add(seriesFilterComponents.panel);
 
@@ -202,6 +249,9 @@ public final class MeshOptionWindow {
 			// Updates the values of text fields, by the values stored in the configuration.
 			this.updateValuesByConfiguration();
 
+			// Update the right-click menus.
+			lineWidthFieldRightClickMenu.configure(this.configuration);
+
 			// Update the series filter UI.
 			OptionConfiguration optionConfig = this.configuration.getOptionConfiguration();
 			OptionConfiguration.MeshOptionConfiguration meshOptionConfig = optionConfig.getMeshOptionConfiguration();
@@ -215,6 +265,7 @@ public final class MeshOptionWindow {
 		 */
 		private void setJapaneseTexts() {
 			frame.setTitle("オプション設定: メッシュプロット");
+			lineWidthLabel.setText("線の幅: ");
 			setButton.setText("SET");
 		}
 
@@ -223,6 +274,7 @@ public final class MeshOptionWindow {
 		 */
 		private void setEnglishTexts() {
 			frame.setTitle("Option Settings: With Meshes");
+			lineWidthLabel.setText("Line Width: ");
 			setButton.setText("SET");
 		}
 
@@ -232,7 +284,10 @@ public final class MeshOptionWindow {
 		private void setFonts() {
 			FontConfiguration fontConfig = configuration.getFontConfiguration();
 			Font uiBoldFont = fontConfig.getUIBoldFont();
-			//Font uiPlainFont = fontConfig.getUIPlainFont();
+			Font uiPlainFont = fontConfig.getUIPlainFont();
+
+			lineWidthLabel.setFont(uiBoldFont);
+			lineWidthField.setFont(uiPlainFont);
 
 			frame.setFont(uiBoldFont);
 			setButton.setFont(uiBoldFont);
@@ -242,6 +297,11 @@ public final class MeshOptionWindow {
 		 * Updates the values of text fields, by the values stored in the configuration.
 		 */
 		private void updateValuesByConfiguration() {
+			OptionConfiguration optionConfig = this.configuration.getOptionConfiguration();
+			OptionConfiguration.MeshOptionConfiguration meshOptionConfig = optionConfig.getMeshOptionConfiguration();
+			DecimalFormat formatter = new DecimalFormat("#0.0#####");
+
+			lineWidthField.setText(formatter.format(meshOptionConfig.getLineWidth()));
 		}
 	}
 

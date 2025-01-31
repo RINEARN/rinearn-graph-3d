@@ -91,13 +91,13 @@ public final class PointOptionHandler {
 		window.styleModeBox.addActionListener(new StyleModeBoxChangedEventListener());
 
 		// Add the event listeners to the right-click menus.
-		circleRadiusMenuHandler = new TextRightClickMenuHandler(window.circleModeComponents.radiusFieldRightClickMenu, window.circleModeComponents.radiusField);
-		markerSizeMenuHandler = new TextRightClickMenuHandler(window.markerModeComponents.sizeFieldRightClickMenu, window.markerModeComponents.sizeField);
-		markerOffsetRatioMenuHandler = new TextRightClickMenuHandler(window.markerModeComponents.verticalOffsetRatioFieldRightClickMenu, window.markerModeComponents.verticalOffsetRatioField);
-		markerSymbolMenuHandler = new TextRightClickMenuHandler(window.markerModeComponents.symbolFieldRightClickMenu, window.markerModeComponents.symbolField);
+		this.circleRadiusMenuHandler = new TextRightClickMenuHandler(window.circleModeComponents.radiusFieldRightClickMenu, window.circleModeComponents.radiusField);
+		this.markerSizeMenuHandler = new TextRightClickMenuHandler(window.markerModeComponents.sizeFieldRightClickMenu, window.markerModeComponents.sizeField);
+		this.markerOffsetRatioMenuHandler = new TextRightClickMenuHandler(window.markerModeComponents.verticalOffsetRatioFieldRightClickMenu, window.markerModeComponents.verticalOffsetRatioField);
+		this.markerSymbolMenuHandler = new TextRightClickMenuHandler(window.markerModeComponents.symbolFieldRightClickMenu, window.markerModeComponents.symbolField);
 
 		// Add the event handler to UI components for series filter settings.
-		seriesFilterHandler = new SeriesFilterHandler(window.seriesFilterComponents, new SeriesFilterAccessor());
+		this.seriesFilterHandler = new SeriesFilterHandler(window.seriesFilterComponents, new SeriesFilterAccessor());
 	}
 
 

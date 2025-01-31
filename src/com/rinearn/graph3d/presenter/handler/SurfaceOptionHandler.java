@@ -70,7 +70,7 @@ public final class SurfaceOptionHandler {
 		window.setButton.addActionListener(new SetPressedEventListener());
 
 		// Add the event handler to UI components for series filter settings.
-		seriesFilterHandler = new SeriesFilterHandler(window.seriesFilterComponents, new SeriesFilterAccessor());
+		this.seriesFilterHandler = new SeriesFilterHandler(window.seriesFilterComponents, new SeriesFilterAccessor());
 	}
 
 
