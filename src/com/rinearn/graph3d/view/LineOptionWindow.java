@@ -254,9 +254,9 @@ public final class LineOptionWindow {
 
 			// Update the series filter UI.
 			OptionConfiguration optionConfig = this.configuration.getOptionConfiguration();
-			OptionConfiguration.MeshOptionConfiguration meshOptionConfig = optionConfig.getMeshOptionConfiguration();
+			OptionConfiguration.LineOptionConfiguration lineOptionConfig = optionConfig.getLineOptionConfiguration();
 			seriesFilterComponents.configure(
-					this.configuration, meshOptionConfig.getSeriesFilterMode(), meshOptionConfig.getIndexSeriesFilter()
+					this.configuration, lineOptionConfig.getSeriesFilterMode(), lineOptionConfig.getIndexSeriesFilter()
 			);
 		}
 
