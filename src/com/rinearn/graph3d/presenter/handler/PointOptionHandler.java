@@ -51,10 +51,22 @@ public final class PointOptionHandler {
 
 
 	/** The getter class to get the series filters from the configuration of this option. */
-	private final class SeriesFilterGetter implements SeriesFilterHandler.SeriesFilterGetterInterface {
+	private final class SeriesFilterGetter implements SeriesFilterHandler.SeriesFilterAccessorInterface {
+		@Override
+		public void setSeriesFilterMode(SeriesFilterMode seriesFilterMode) {
+			model.config.getOptionConfiguration().getPointOptionConfiguration().setSeriesFilterMode(seriesFilterMode);
+		}
+		@Override
+		public SeriesFilterMode getSeriesFilterMode() {
+			return model.config.getOptionConfiguration().getPointOptionConfiguration().getSeriesFilterMode();
+		}
+		@Override
+		public void setIndexSeriesFilter(IndexSeriesFilter indexSeriesFilter) {
+			model.config.getOptionConfiguration().getPointOptionConfiguration().setIndexSeriesFilter(indexSeriesFilter);
+		}
 		@Override
 		public IndexSeriesFilter getIndexSeriesFilter() {
-			return model.config.getOptionConfiguration().getSurfaceOptionConfiguration().getIndexSeriesFilter();
+			return model.config.getOptionConfiguration().getPointOptionConfiguration().getIndexSeriesFilter();
 		}
 	}
 
@@ -208,7 +220,6 @@ public final class PointOptionHandler {
 					return;
 				}
 				pointOptionConfig.setMarkerSize(markerSize);
-
 			}
 
 			// Marker offset ratio:
@@ -232,44 +243,8 @@ public final class PointOptionHandler {
 				pointOptionConfig.setMarkerVerticalOffsetRatio(markerOffsetRatio);
 			}
 
-			// Series filter:
-			{
-				boolean seriesFilterEnabled = window.seriesFilterComponents.enabledBox.isSelected();
-				if (seriesFilterEnabled) {
-					pointOptionConfig.setSeriesFilterMode(SeriesFilterMode.INDEX);
-
-					String[] seriesIndexTexts = window.seriesFilterComponents.indexField.getText().trim().split(",");
-					int seriesIndexCount = seriesIndexTexts.length;
-					int[] seriesIndices = new int[seriesIndexCount];
-
-					for (int iSeriesIndex=0; iSeriesIndex<seriesIndexCount; iSeriesIndex++) {
-						try {
-							seriesIndices[iSeriesIndex] = Integer.parseInt(seriesIndexTexts[iSeriesIndex].trim());
-						} catch (NumberFormatException nfe) {
-							String[] errorWords = isJapanese ? new String[]{ "系列番号" } : new String[]{ "Series Indices" };
-							String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.COMMA_SEPARATED_INT_PARAMETER_PARSING_FAILED, errorWords);
-							JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-							return;
-						}
-						if (seriesIndices[iSeriesIndex] < 1 || Integer.MAX_VALUE < seriesIndices[iSeriesIndex]) {
-							String[] errorWords = isJapanese ?
-									new String[]{ "系列番号", "1", Integer.toString(Integer.MAX_VALUE) } :
-									new String[]{ "Series Indices", "1", Integer.toString(Integer.MAX_VALUE) };
-							String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.COMMA_SEPARATED_INT_PARAMETER_OUT_OF_RANGE, errorWords);
-							JOptionPane.showMessageDialog(window.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-							return;
-						}
-
-						// The series index "1" on UI corresponds to the internal series index "0" . So offset the index.
-						seriesIndices[iSeriesIndex]--;
-					}
-					IndexSeriesFilter indexFilter = pointOptionConfig.getIndexSeriesFilter();
-					indexFilter.setIncludedSeriesIndices(seriesIndices);
-
-				} else {
-					pointOptionConfig.setSeriesFilterMode(SeriesFilterMode.NONE);
-				}
-			}
+			// Update the series filter from the current state of filer-settings UI.
+			seriesFilterHandler.updateFilterFromUI(model.config.getEnvironmentConfiguration());
 
 			// Propagate the above update of the configuration to the entire application.
 			presenter.propagateConfiguration();
@@ -277,7 +252,6 @@ public final class PointOptionHandler {
 			// Replot the graph.
 			presenter.plot();
 		}
-
 	}
 
 
