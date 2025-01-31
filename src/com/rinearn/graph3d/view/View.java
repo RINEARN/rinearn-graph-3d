@@ -142,6 +142,9 @@ public final class View {
 	/** The setting window of "Option" > "With Points" menu. */
 	public final PointOptionWindow pointOptionWindow = new PointOptionWindow();
 
+	/** The setting window of "Option" > "With Meshes" menu. */
+	public final MeshOptionWindow meshOptionWindow = new MeshOptionWindow();
+
 	/** The setting window of "Option" > "With Surfaces" menu. */
 	public final SurfaceOptionWindow surfaceOptionWindow = new SurfaceOptionWindow();
 
@@ -180,6 +183,7 @@ public final class View {
 		this.lightSettingWindow.configure(configuration);
 		this.scaleSettingWindow.configure(configuration);
 		this.pointOptionWindow.configure(configuration);
+		this.meshOptionWindow.configure(configuration);
 		this.surfaceOptionWindow.configure(configuration);
 	}
 
@@ -200,6 +204,7 @@ public final class View {
 		this.lightSettingWindow.dispose();
 		this.scaleSettingWindow.dispose();
 		this.pointOptionWindow.dispose();
+		this.meshOptionWindow.dispose();
 		this.surfaceOptionWindow.dispose();
 	}
 }

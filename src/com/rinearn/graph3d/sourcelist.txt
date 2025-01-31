@@ -109,6 +109,7 @@ com/rinearn/graph3d/view/LabelSettingWindow.java
 com/rinearn/graph3d/view/LightSettingWindow.java
 com/rinearn/graph3d/view/MainMenu.java
 com/rinearn/graph3d/view/MainWindow.java
+com/rinearn/graph3d/view/MeshOptionWindow.java
 com/rinearn/graph3d/view/MultilingualItem.java
 com/rinearn/graph3d/view/package-info.java
 com/rinearn/graph3d/view/PointOptionWindow.java
