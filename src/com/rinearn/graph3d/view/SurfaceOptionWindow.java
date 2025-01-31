@@ -112,7 +112,6 @@ public final class SurfaceOptionWindow {
 			);
 			frame.setLayout(null);
 			frame.setVisible(false);
-			frame.setVisible(true);
 
 			// Prepare the layout manager and resources.
 			Container basePanel = frame.getContentPane();
