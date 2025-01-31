@@ -8,7 +8,6 @@ import com.rinearn.graph3d.model.data.series.XtYtZtMathDataSeries;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.view.MainWindow;
-import com.rinearn.graph3d.config.OptionConfiguration;
 import com.rinearn.graph3d.def.ErrorMessage;
 import com.rinearn.graph3d.def.ErrorType;
 import com.rinearn.graph3d.def.CommunicationMessage;
@@ -485,59 +484,14 @@ public final class MainMenuHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
+			boolean isOptionSepected = view.mainWindow.mainMenu.lineOptionMenuItem.isSelected();
 
-			// Get the configuration container for storing the states of this option.
-			OptionConfiguration optionConfig = model.config.getOptionConfiguration();
-			OptionConfiguration.LineOptionConfiguration lineOptionConfig = optionConfig.getLineOptionConfiguration();
+			// Show/hide the option settings window.
+			view.lineOptionWindow.setWindowVisible(isOptionSepected);
 
-			// Store the selection state of this option into the config container.
-			boolean isOptionSelected = view.mainWindow.mainMenu.lineOptionMenuItem.isSelected();
-			lineOptionConfig.setSelected(isOptionSelected);
-
-			// When this option is turned on from off, pop-up the dialog to input the line width.
-			if(isOptionSelected) {
-				while (true) {
-					boolean isJapanese = model.config.getEnvironmentConfiguration().isLocaleJapanese();
-					String inputMessage = isJapanese ? "線の幅 =" : "Line Width =";
-					String currentValue = Double.toString(lineOptionConfig.getLineWidth());
-					String radiusString = JOptionPane.showInputDialog(view.mainWindow.frame, inputMessage, currentValue);
-
-					// If "Cancel" button is clicked, turn off this option.
-					if (radiusString == null) {
-						lineOptionConfig.setSelected(false);
-						presenter.propagateConfiguration();
-						return;
-					}
-
-					// Parse the input value as a number.
-					double width = Double.NaN;
-					try {
-						width = Double.parseDouble(radiusString);
-					} catch (NumberFormatException nfe) {
-						String errorMessage = isJapanese ?
-								"入力値を解釈できませんでした。\n数値を入力してください。" :
-								"Can not parse the input value. Please input a number.";
-						JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-						continue;
-					}
-					if (width <= 0.0 || 1000.0 < width) {
-						String errorMessage = isJapanese ?
-								"入力値が想定の範囲外です。\n正の範囲で、1000 以下の数値を入力してください。" :
-								"The input value is out of expected range.\nPlease input a positive number, <= 1000.";
-						JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-						continue;
-					}
-
-					// Store the line width into the config container.
-					lineOptionConfig.setLineWidth(width);
-					break;
-				}
-			}
-
-			// Propagates the updated configuration, to the entire application.
+			// Enable/disable the option.
+			model.config.getOptionConfiguration().getLineOptionConfiguration().setSelected(isOptionSepected);
 			presenter.propagateConfiguration();
-
-			// Replot the graph.
 			presenter.plot();
 		}
 	}

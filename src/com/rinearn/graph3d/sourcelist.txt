@@ -108,6 +108,7 @@ com/rinearn/graph3d/view/FormatDisplayNames.java
 com/rinearn/graph3d/view/ImageSavingWindow.java
 com/rinearn/graph3d/view/LabelSettingWindow.java
 com/rinearn/graph3d/view/LightSettingWindow.java
+com/rinearn/graph3d/view/LineOptionWindow.java
 com/rinearn/graph3d/view/MainMenu.java
 com/rinearn/graph3d/view/MainWindow.java
 com/rinearn/graph3d/view/MeshOptionWindow.java
