@@ -7,13 +7,9 @@ import com.rinearn.graph3d.config.FontConfiguration;
 import com.rinearn.graph3d.config.OptionConfiguration;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
 import javax.swing.SwingUtilities;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagLayout;
@@ -37,17 +33,8 @@ public final class SurfaceOptionWindow {
 	/** The frame of this window. */
 	public volatile JFrame frame;
 
-	/** The checkbox to enable/disable the series filter. */
-	public volatile JCheckBox seriesFilterBox;
-
-	/** The title label of the text field of the series filter. */
-	public volatile JLabel seriesFilterLabel;
-
-	/** The text field of the series filter. */
-	public volatile JTextField seriesFilterField;
-
-	/** The right-click menu of seriesFilterField. */
-	public volatile TextRightClickMenu seriesFilterFieldRightClickMenu;
+	/** The container of UI components for setting the series filter. */
+	public volatile SeriesFilterComponents seriesFilterComponents;
 
 	/** The button to reflect settings. */
 	public volatile JButton setButton;
@@ -131,45 +118,18 @@ public final class SurfaceOptionWindow {
 			int topMarginLong = 12;
 			int bottomMargin = 5;
 			int leftMargin = 5;
-			int leftMarginLong = 25;
 			int rightMargin = 5;
-			double leftColumnWeight = 0.0;
-			double rightColumnWeight = 1.0;
 
-			constraints.gridwidth = 2;
+			constraints.weighty = 1.0;
 
-			// The checkbox to enable/disable the series filter.
-			seriesFilterBox = new JCheckBox();
-			constraints.insets = new Insets(topMargin, leftMargin, 0, rightMargin);
-			layout.setConstraints(seriesFilterBox, constraints);
-			basePanel.add(seriesFilterBox);
+			// The panel and UI components for setting the series filter.
+			seriesFilterComponents = new SeriesFilterComponents();
+			constraints.insets = new Insets(topMargin, 0, bottomMargin, 0);
+			layout.setConstraints(seriesFilterComponents.panel, constraints);
+			basePanel.add(seriesFilterComponents.panel);
 
 			constraints.gridy++;
-			constraints.gridx = 0;
-			constraints.weightx = leftColumnWeight;
-			constraints.gridwidth = 1;
-
-			// The title label of the text field of the series filter.
-			seriesFilterLabel = new JLabel();
-			constraints.insets = new Insets(topMargin, leftMarginLong, bottomMargin, 0);
-			layout.setConstraints(seriesFilterLabel, constraints);
-			basePanel.add(seriesFilterLabel);
-
-			constraints.gridx = 1;
-			constraints.weightx = rightColumnWeight;
-			constraints.gridwidth = 1;
-
-			// The text field of the series filter.
-			seriesFilterField = new JTextField();
-			constraints.insets = new Insets(topMargin, 0, bottomMargin, rightMargin);
-			layout.setConstraints(seriesFilterField, constraints);
-			basePanel.add(seriesFilterField);
-
-			seriesFilterFieldRightClickMenu = new TextRightClickMenu();
-
-			constraints.gridy++;
-			constraints.gridx = 0;
-			constraints.gridwidth = 2;
+			constraints.weighty = 1.0;
 
 			// The button to reflect settings (SET button).
 			setButton = new JButton("Unconfigured");
@@ -244,8 +204,12 @@ public final class SurfaceOptionWindow {
 			// Updates the values of text fields, by the values stored in the configuration.
 			this.updateValuesByConfiguration();
 
-			// Update the right-click menus.
-			seriesFilterFieldRightClickMenu.configure(this.configuration);
+			// Update the series filter UI.
+			OptionConfiguration optionConfig = this.configuration.getOptionConfiguration();
+			OptionConfiguration.SurfaceOptionConfiguration surfaceOptionConfig = optionConfig.getSurfaceOptionConfiguration();
+			seriesFilterComponents.configure(
+					this.configuration, surfaceOptionConfig.getSeriesFilterMode(), surfaceOptionConfig.getIndexSeriesFilter()
+			);
 		}
 
 		/**
@@ -254,9 +218,6 @@ public final class SurfaceOptionWindow {
 		private void setJapaneseTexts() {
 			frame.setTitle("オプション設定: 曲面プロット");
 			setButton.setText("SET");
-
-			seriesFilterBox.setText("系列指定");
-			seriesFilterLabel.setText("系列番号: ");
 		}
 
 		/**
@@ -265,9 +226,6 @@ public final class SurfaceOptionWindow {
 		private void setEnglishTexts() {
 			frame.setTitle("Option Settings: With Surfaces");
 			setButton.setText("SET");
-
-			seriesFilterBox.setText("Specify Series");
-			seriesFilterLabel.setText("Series Indices: ");
 		}
 
 		/**
@@ -276,23 +234,16 @@ public final class SurfaceOptionWindow {
 		private void setFonts() {
 			FontConfiguration fontConfig = configuration.getFontConfiguration();
 			Font uiBoldFont = fontConfig.getUIBoldFont();
-			Font uiPlainFont = fontConfig.getUIPlainFont();
+			//Font uiPlainFont = fontConfig.getUIPlainFont();
 
 			frame.setFont(uiBoldFont);
 			setButton.setFont(uiBoldFont);
-
-			seriesFilterBox.setFont(uiBoldFont);
-			seriesFilterLabel.setFont(uiBoldFont);
-			seriesFilterField.setFont(uiPlainFont);
 		}
 
 		/**
 		 * Updates the values of text fields, by the values stored in the configuration.
 		 */
 		private void updateValuesByConfiguration() {
-			OptionConfiguration optionConfig = this.configuration.getOptionConfiguration();
-			OptionConfiguration.SurfaceOptionConfiguration surfaceOptionConfig = optionConfig.getSurfaceOptionConfiguration();
-			setSeriesFilterMode(surfaceOptionConfig.getSeriesFilterMode(), surfaceOptionConfig.getIndexSeriesFilter());
 		}
 	}
 
@@ -308,45 +259,12 @@ public final class SurfaceOptionWindow {
 		if (!SwingUtilities.isEventDispatchThread()) {
 			throw new IllegalStateException("This method is invokable only on the event-dispatch thread.");
 		}
+		this.seriesFilterComponents.setSeriesFilterMode(seriesFilterMode, indexSeriesFilter);
 
-		switch (seriesFilterMode) {
-			case INDEX : {
-				seriesFilterBox.setSelected(true);
-				seriesFilterField.setEditable(true);
-				seriesFilterField.setBackground(Color.WHITE);
-				seriesFilterField.setForeground(Color.BLACK);
-
-				// Converts the int[] type array of series indices to a single text value, and set it to seriesFilterField.
-				int[] seriesIndices = indexSeriesFilter.getIncludedSeriesIndices();
-				StringBuilder seriesIndicesTextBuilder = new StringBuilder();
-				for (int iseries = 0; iseries<seriesIndices.length; iseries++) {
-
-					// The series index "1" on UI corresponds to the internal series index "0" . So offset the index.
-					int seriesIndexOnUI = seriesIndices[iseries] + 1;
-
-					// Append the index at the tail of the text.
-					seriesIndicesTextBuilder.append(seriesIndexOnUI);
-					if (iseries != seriesIndices.length - 1) {
-						seriesIndicesTextBuilder.append(", ");
-					}
-				}
-				String seriesIndicesText = seriesIndicesTextBuilder.toString();
-				seriesFilterField.setText(seriesIndicesText);
-				break;
-			}
-			case NONE : {
-				seriesFilterBox.setSelected(false);
-				seriesFilterField.setText("");
-				seriesFilterField.setEditable(false);
-				seriesFilterField.setBackground(Color.LIGHT_GRAY);
-				seriesFilterField.setForeground(Color.GRAY);
-				break;
-			}
-			default : {
-				throw new IllegalStateException("Unexpected series filter mode: " + seriesFilterMode);
-			}
-		}
-		seriesFilterField.repaint();
+		// Hide, repaint, and re-show the content and the window, to prevent broken layout.
+		this.frame.getContentPane().setVisible(false);
+		this.frame.repaint();
+		this.frame.getContentPane().setVisible(true);
 	}
 
 

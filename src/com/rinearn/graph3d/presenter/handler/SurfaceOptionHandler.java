@@ -54,10 +54,13 @@ public final class SurfaceOptionHandler {
 		window.setButton.addActionListener(new SetPressedEventListener());
 
 		// Add the event listener handling the event that the series filter is enabled/disabled.
-		window.seriesFilterBox.addActionListener(new SeriesFilterBoxSelectedEventListener());
+		window.seriesFilterComponents.enabledBox.addActionListener(new SeriesFilterBoxSelectedEventListener());
 
 		// Add the event listeners to the right-click menus.
-		seriesFilterMenuHandler = new TextRightClickMenuHandler(window.seriesFilterFieldRightClickMenu, window.seriesFilterField);
+		seriesFilterMenuHandler = new TextRightClickMenuHandler(
+				window.seriesFilterComponents.indexFieldRightClickMenu,
+				window.seriesFilterComponents.indexField
+		);
 	}
 
 
@@ -108,11 +111,11 @@ public final class SurfaceOptionHandler {
 
 			// Series filter:
 			{
-				boolean seriesFilterEnabled = window.seriesFilterBox.isSelected();
+				boolean seriesFilterEnabled = window.seriesFilterComponents.enabledBox.isSelected();
 				if (seriesFilterEnabled) {
 					surfaceOptionConfig.setSeriesFilterMode(SeriesFilterMode.INDEX);
 
-					String[] seriesIndexTexts = window.seriesFilterField.getText().trim().split(",");
+					String[] seriesIndexTexts = window.seriesFilterComponents.indexField.getText().trim().split(",");
 					int seriesIndexCount = seriesIndexTexts.length;
 					int[] seriesIndices = new int[seriesIndexCount];
 
@@ -168,7 +171,7 @@ public final class SurfaceOptionHandler {
 			OptionConfiguration optionConfig = model.config.getOptionConfiguration();
 			OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
 
-			if (window.seriesFilterBox.isSelected()) {
+			if (window.seriesFilterComponents.enabledBox.isSelected()) {
 				window.setSeriesFilterMode(SeriesFilterMode.INDEX, pointOptionConfig.getIndexSeriesFilter());
 			} else {
 				window.setSeriesFilterMode(SeriesFilterMode.NONE, pointOptionConfig.getIndexSeriesFilter());

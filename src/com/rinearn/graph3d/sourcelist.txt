@@ -65,6 +65,7 @@ com/rinearn/graph3d/presenter/handler/ScaleSettingHandler.java
 com/rinearn/graph3d/presenter/handler/ScreenHandler.java
 com/rinearn/graph3d/presenter/handler/ScreenRightClickMenuHandler.java
 com/rinearn/graph3d/presenter/handler/ScreenSideUIHandler.java
+com/rinearn/graph3d/presenter/handler/SurfaceOptionHandler.java
 com/rinearn/graph3d/presenter/handler/TextRightClickMenuHandler.java
 com/rinearn/graph3d/presenter/handler/XtYtZtMathHandler.java
 com/rinearn/graph3d/presenter/handler/ZxyMathHandler.java
@@ -113,6 +114,7 @@ com/rinearn/graph3d/view/PointOptionWindow.java
 com/rinearn/graph3d/view/RangeSettingWindow.java
 com/rinearn/graph3d/view/ScaleSettingWindow.java
 com/rinearn/graph3d/view/ScreenRightClickMenu.java
+com/rinearn/graph3d/view/SeriesFilterComponents.java
 com/rinearn/graph3d/view/SurfaceOptionWindow.java
 com/rinearn/graph3d/view/TextRightClickMenu.java
 com/rinearn/graph3d/view/View.java
