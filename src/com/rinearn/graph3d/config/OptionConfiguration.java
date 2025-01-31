@@ -69,7 +69,7 @@ public final class OptionConfiguration {
 	/**
 	 * Sets the configuration of "With Points" option.
 	 */
-	public synchronized void getPointOptionConfiguration(PointOptionConfiguration pointOptionConfiguration) {
+	public synchronized void setPointOptionConfiguration(PointOptionConfiguration pointOptionConfiguration) {
 		this.pointOptionConfiguration = pointOptionConfiguration;
 	}
 
@@ -84,7 +84,7 @@ public final class OptionConfiguration {
 	/**
 	 * Sets the configuration of "With Lines" option.
 	 */
-	public synchronized void getLineOptionConfiguration(LineOptionConfiguration lineOptionConfiguration) {
+	public synchronized void setLineOptionConfiguration(LineOptionConfiguration lineOptionConfiguration) {
 		this.lineOptionConfiguration = lineOptionConfiguration;
 	}
 
@@ -99,7 +99,7 @@ public final class OptionConfiguration {
 	/**
 	 * Sets the configuration of "With Meshes" option.
 	 */
-	public synchronized void getMeshOptionConfiguration(MeshOptionConfiguration meshOptionConfiguration) {
+	public synchronized void setMeshOptionConfiguration(MeshOptionConfiguration meshOptionConfiguration) {
 		this.meshOptionConfiguration = meshOptionConfiguration;
 	}
 
@@ -114,7 +114,7 @@ public final class OptionConfiguration {
 	/**
 	 * Sets the configuration of "With Surfaces" option.
 	 */
-	public synchronized void getSurfaceOptionConfiguration(SurfaceOptionConfiguration surfaceOptionConfiguration) {
+	public synchronized void setSurfaceOptionConfiguration(SurfaceOptionConfiguration surfaceOptionConfiguration) {
 		this.surfaceOptionConfiguration = surfaceOptionConfiguration;
 	}
 
@@ -129,7 +129,7 @@ public final class OptionConfiguration {
 	/**
 	 * Sets the configuration of "Gradient" option.
 	 */
-	public synchronized void getGradientOptionConfiguration(GradientOptionConfiguration gradientOptionConfiguration) {
+	public synchronized void setGradientOptionConfiguration(GradientOptionConfiguration gradientOptionConfiguration) {
 		this.gradientOptionConfiguration = gradientOptionConfiguration;
 	}
 

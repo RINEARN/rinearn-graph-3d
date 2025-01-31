@@ -142,6 +142,9 @@ public final class View {
 	/** The setting window of "Option" > "With Points" menu. */
 	public final PointOptionWindow pointOptionWindow = new PointOptionWindow();
 
+	/** The setting window of "Option" > "With Surfaces" menu. */
+	public final SurfaceOptionWindow surfaceOptionWindow = new SurfaceOptionWindow();
+
 
 	// !!! IMPORTANT NOTE !!!
 	//   Don't store the configuration as a field of this instance or subcomponents. It is Model layer's role.
@@ -177,6 +180,7 @@ public final class View {
 		this.lightSettingWindow.configure(configuration);
 		this.scaleSettingWindow.configure(configuration);
 		this.pointOptionWindow.configure(configuration);
+		this.surfaceOptionWindow.configure(configuration);
 	}
 
 	/**
@@ -196,5 +200,6 @@ public final class View {
 		this.lightSettingWindow.dispose();
 		this.scaleSettingWindow.dispose();
 		this.pointOptionWindow.dispose();
+		this.surfaceOptionWindow.dispose();
 	}
 }
