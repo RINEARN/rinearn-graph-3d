@@ -43,11 +43,20 @@ public final class PointOptionHandler {
 	/** The event handler of right-click menu of the marker-symbol text field. */
 	private final TextRightClickMenuHandler markerSymbolMenuHandler;
 
-	/** The event handler of right-click menu of the series indices text field. */
-	private final TextRightClickMenuHandler seriesFilterMenuHandler;
+	/** The event handler of UI components for series filter settings. */
+	private final SeriesFilterHandler seriesFilterHandler;
 
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
+
+
+	/** The getter class to get the series filters from the configuration of this option. */
+	private final class SeriesFilterGetter implements SeriesFilterHandler.SeriesFilterGetterInterface {
+		@Override
+		public IndexSeriesFilter getIndexSeriesFilter() {
+			return model.config.getOptionConfiguration().getSurfaceOptionConfiguration().getIndexSeriesFilter();
+		}
+	}
 
 
 	/**
@@ -69,15 +78,14 @@ public final class PointOptionHandler {
 		// Add the event listener handling the event that the selected item of the point-style-mode box is changed.
 		window.styleModeBox.addActionListener(new StyleModeBoxChangedEventListener());
 
-		// Add the event listener handling the event that the series filter is enabled/disabled.
-		window.seriesFilterComponents.enabledBox.addActionListener(new SeriesFilterBoxSelectedEventListener());
-
 		// Add the event listeners to the right-click menus.
 		circleRadiusMenuHandler = new TextRightClickMenuHandler(window.circleModeComponents.radiusFieldRightClickMenu, window.circleModeComponents.radiusField);
 		markerSizeMenuHandler = new TextRightClickMenuHandler(window.markerModeComponents.sizeFieldRightClickMenu, window.markerModeComponents.sizeField);
 		markerOffsetRatioMenuHandler = new TextRightClickMenuHandler(window.markerModeComponents.verticalOffsetRatioFieldRightClickMenu, window.markerModeComponents.verticalOffsetRatioField);
 		markerSymbolMenuHandler = new TextRightClickMenuHandler(window.markerModeComponents.symbolFieldRightClickMenu, window.markerModeComponents.symbolField);
-		seriesFilterMenuHandler = new TextRightClickMenuHandler(window.seriesFilterComponents.indexFieldRightClickMenu, window.seriesFilterComponents.indexField);
+
+		// Add the event handler to UI components for series filter settings.
+		seriesFilterHandler = new SeriesFilterHandler(window.seriesFilterComponents, new SeriesFilterGetter());
 	}
 
 
@@ -92,7 +100,7 @@ public final class PointOptionHandler {
 		markerSizeMenuHandler.setEventHandlingEnabled(enabled);
 		markerOffsetRatioMenuHandler.setEventHandlingEnabled(enabled);
 		markerSymbolMenuHandler.setEventHandlingEnabled(enabled);
-		seriesFilterMenuHandler.setEventHandlingEnabled(enabled);
+		seriesFilterHandler.setEventHandlingEnabled(enabled);
 	}
 
 
@@ -285,28 +293,6 @@ public final class PointOptionHandler {
 			PointOptionWindow window = view.pointOptionWindow;
 			OptionConfiguration.PointStyleMode pointStyleMode = window.getSelectedPointStyleMode();
 			window.setSelectedPointStyleMode(pointStyleMode);
-		}
-	}
-
-
-	/**
-	 * The event listener handling the event that the series filter is enabled/disabled.
-	 */
-	private final class SeriesFilterBoxSelectedEventListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (!isEventHandlingEnabled()) {
-				return;
-			}
-			PointOptionWindow window = view.pointOptionWindow;
-			OptionConfiguration optionConfig = model.config.getOptionConfiguration();
-			OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
-
-			if (window.seriesFilterComponents.enabledBox.isSelected()) {
-				window.setSeriesFilterMode(SeriesFilterMode.INDEX, pointOptionConfig.getIndexSeriesFilter());
-			} else {
-				window.setSeriesFilterMode(SeriesFilterMode.NONE, pointOptionConfig.getIndexSeriesFilter());
-			}
 		}
 	}
 }

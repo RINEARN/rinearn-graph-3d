@@ -30,11 +30,20 @@ public final class SurfaceOptionHandler {
 	/** The front-end class of "Presenter" layer, which invokes Model's procedures triggered by user's action on GUI. */
 	private final Presenter presenter;
 
-	/** The event handler of right-click menu of the series indices text field. */
-	private final TextRightClickMenuHandler seriesFilterMenuHandler;
+	/** The event handler of UI components for series filter settings. */
+	private final SeriesFilterHandler seriesFilterHandler;
 
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
+
+
+	/** The getter class to get the series filters from the configuration of this option. */
+	private final class SeriesFilterGetter implements SeriesFilterHandler.SeriesFilterGetterInterface {
+		@Override
+		public IndexSeriesFilter getIndexSeriesFilter() {
+			return model.config.getOptionConfiguration().getSurfaceOptionConfiguration().getIndexSeriesFilter();
+		}
+	}
 
 
 	/**
@@ -53,14 +62,8 @@ public final class SurfaceOptionHandler {
 		SurfaceOptionWindow window = this.view.surfaceOptionWindow;
 		window.setButton.addActionListener(new SetPressedEventListener());
 
-		// Add the event listener handling the event that the series filter is enabled/disabled.
-		window.seriesFilterComponents.enabledBox.addActionListener(new SeriesFilterBoxSelectedEventListener());
-
-		// Add the event listeners to the right-click menus.
-		seriesFilterMenuHandler = new TextRightClickMenuHandler(
-				window.seriesFilterComponents.indexFieldRightClickMenu,
-				window.seriesFilterComponents.indexField
-		);
+		// Add the event handler to UI components for series filter settings.
+		seriesFilterHandler = new SeriesFilterHandler(window.seriesFilterComponents, new SeriesFilterGetter());
 	}
 
 
@@ -71,7 +74,7 @@ public final class SurfaceOptionHandler {
 	 */
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
-		seriesFilterMenuHandler.setEventHandlingEnabled(enabled);
+		this.seriesFilterHandler.setEventHandlingEnabled(enabled);
 	}
 
 
@@ -153,29 +156,6 @@ public final class SurfaceOptionHandler {
 
 			// Replot the graph.
 			presenter.plot();
-		}
-
-	}
-
-
-	/**
-	 * The event listener handling the event that the series filter is enabled/disabled.
-	 */
-	private final class SeriesFilterBoxSelectedEventListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (!isEventHandlingEnabled()) {
-				return;
-			}
-			SurfaceOptionWindow window = view.surfaceOptionWindow;
-			OptionConfiguration optionConfig = model.config.getOptionConfiguration();
-			OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
-
-			if (window.seriesFilterComponents.enabledBox.isSelected()) {
-				window.setSeriesFilterMode(SeriesFilterMode.INDEX, pointOptionConfig.getIndexSeriesFilter());
-			} else {
-				window.setSeriesFilterMode(SeriesFilterMode.NONE, pointOptionConfig.getIndexSeriesFilter());
-			}
 		}
 	}
 }

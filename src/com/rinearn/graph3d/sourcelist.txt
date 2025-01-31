@@ -65,6 +65,7 @@ com/rinearn/graph3d/presenter/handler/ScaleSettingHandler.java
 com/rinearn/graph3d/presenter/handler/ScreenHandler.java
 com/rinearn/graph3d/presenter/handler/ScreenRightClickMenuHandler.java
 com/rinearn/graph3d/presenter/handler/ScreenSideUIHandler.java
+com/rinearn/graph3d/presenter/handler/SeriesFilterHandler.java
 com/rinearn/graph3d/presenter/handler/SurfaceOptionHandler.java
 com/rinearn/graph3d/presenter/handler/TextRightClickMenuHandler.java
 com/rinearn/graph3d/presenter/handler/XtYtZtMathHandler.java
