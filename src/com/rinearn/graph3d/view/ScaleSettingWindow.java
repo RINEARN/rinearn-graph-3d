@@ -4,9 +4,12 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.FontConfiguration;
 import com.rinearn.graph3d.config.ScaleConfiguration;
 import com.rinearn.graph3d.config.FrameConfiguration;
+import com.rinearn.graph3d.config.scale.TickerMode;
+import com.rinearn.graph3d.config.scale.TickLabelFormatterMode;
 import com.rinearn.graph3d.config.scale.NumericTickLabelFormatter;
 import com.rinearn.graph3d.config.scale.ManualTicker;
 import com.rinearn.graph3d.config.scale.EqualDivisionTicker;
+import com.rinearn.graph3d.config.scale.ScaleVisibilityMode;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -337,7 +340,7 @@ public class ScaleSettingWindow {
 		 *
 		 * @return The TickerMode enum element corresponding to the selected item of xModeBox.
 		 */
-		public ScaleConfiguration.TickerMode getXTickerMode() {
+		public TickerMode getXTickerMode() {
 			return this.getSelectedTickerModeOf(this.xModeBox);
 		}
 
@@ -347,7 +350,7 @@ public class ScaleSettingWindow {
 		 *
 		 * @return The TickerMode enum element corresponding to the selected item of yModeBox.
 		 */
-		public ScaleConfiguration.TickerMode getYTickerMode() {
+		public TickerMode getYTickerMode() {
 			return this.getSelectedTickerModeOf(this.yModeBox);
 		}
 
@@ -357,7 +360,7 @@ public class ScaleSettingWindow {
 		 *
 		 * @return The TickerMode enum element corresponding to the selected item of zModeBox.
 		 */
-		public ScaleConfiguration.TickerMode getZTickerMode() {
+		public TickerMode getZTickerMode() {
 			return this.getSelectedTickerModeOf(this.zModeBox);
 		}
 
@@ -367,7 +370,7 @@ public class ScaleSettingWindow {
 		 *
 		 * @return The TickerMode enum element corresponding to the selected item of colorBarModeBox.
 		 */
-		public ScaleConfiguration.TickerMode getColorBarTickerMode() {
+		public TickerMode getColorBarTickerMode() {
 			return this.getSelectedTickerModeOf(this.colorBarModeBox);
 		}
 
@@ -378,7 +381,7 @@ public class ScaleSettingWindow {
 		 * @param comboBox The combo box for selecting the ticker mode.
 		 * @return The TickerMode enum element corresponding to the selected item of the specified JComboBox.
 		 */
-		public ScaleConfiguration.TickerMode getSelectedTickerModeOf(JComboBox<MultilingualItem> comboBox) {
+		public TickerMode getSelectedTickerModeOf(JComboBox<MultilingualItem> comboBox) {
 			if (!SwingUtilities.isEventDispatchThread()) {
 				throw new IllegalStateException("This method is invokable only on the event-dispatch thread.");
 			}
@@ -386,15 +389,15 @@ public class ScaleSettingWindow {
 			switch (selectedItemText) {
 				case TICKER_MODE_EQUAL_DIVISION_EN :
 				case TICKER_MODE_EQUAL_DIVISION_JA : {
-					return ScaleConfiguration.TickerMode.EQUAL_DIVISION;
+					return TickerMode.EQUAL_DIVISION;
 				}
 				case TICKER_MODE_MANUAL_EN :
 				case TICKER_MODE_MANUAL_JA : {
-					return ScaleConfiguration.TickerMode.MANUAL;
+					return TickerMode.MANUAL;
 				}
 				case TICKER_MODE_CUSTOM_EN :
 				case TICKER_MODE_CUSTOM_JA : {
-					return ScaleConfiguration.TickerMode.CUSTOM;
+					return TickerMode.CUSTOM;
 				}
 				default : {
 					throw new IllegalStateException("Unexpected ticker mode: " + selectedItemText);
@@ -563,7 +566,7 @@ public class ScaleSettingWindow {
 		 *
 		 * @return The TickLabelFormatterMode enum element corresponding to the selected item of the specified JComboBox.
 		 */
-		public ScaleConfiguration.TickLabelFormatterMode getXTickLabelFormatterMode() {
+		public TickLabelFormatterMode getXTickLabelFormatterMode() {
 			return this.getSelectedTickLabelFormatterModeOf(this.xAutoBox);
 		}
 
@@ -574,7 +577,7 @@ public class ScaleSettingWindow {
 		 *
 		 * @return The TickLabelFormatterMode enum element corresponding to the selected item of the specified JComboBox.
 		 */
-		public ScaleConfiguration.TickLabelFormatterMode getYTickLabelFormatterMode() {
+		public TickLabelFormatterMode getYTickLabelFormatterMode() {
 			return this.getSelectedTickLabelFormatterModeOf(this.yAutoBox);
 		}
 
@@ -585,7 +588,7 @@ public class ScaleSettingWindow {
 		 *
 		 * @return The TickLabelFormatterMode enum element corresponding to the selected item of the specified JComboBox.
 		 */
-		public ScaleConfiguration.TickLabelFormatterMode getZTickLabelFormatterMode() {
+		public TickLabelFormatterMode getZTickLabelFormatterMode() {
 			return this.getSelectedTickLabelFormatterModeOf(this.zAutoBox);
 		}
 
@@ -597,14 +600,14 @@ public class ScaleSettingWindow {
 		 * @param checkBox The check box which controls ON/OFF of the auto-formatter.
 		 * @return The TickLabelFormatterMode enum element corresponding to the selected item of the specified JComboBox.
 		 */
-		public ScaleConfiguration.TickLabelFormatterMode getSelectedTickLabelFormatterModeOf(JCheckBox checkBox) {
+		public TickLabelFormatterMode getSelectedTickLabelFormatterModeOf(JCheckBox checkBox) {
 			if (!SwingUtilities.isEventDispatchThread()) {
 				throw new IllegalStateException("This method is invokable only on the event-dispatch thread.");
 			}
 			if (checkBox.isSelected()) {
-				return ScaleConfiguration.TickLabelFormatterMode.AUTO;
+				return TickLabelFormatterMode.AUTO;
 			} else {
-				return ScaleConfiguration.TickLabelFormatterMode.NUMERIC;
+				return TickLabelFormatterMode.NUMERIC;
 			}
 		}
 	}
@@ -1551,12 +1554,12 @@ public class ScaleSettingWindow {
 
 			// "Formats" tab:
 			{
-				ScaleConfiguration.TickLabelFormatterMode xFormatterMode = xScaleConfig.getTickLabelFormatterMode();
-				ScaleConfiguration.TickLabelFormatterMode yFormatterMode = yScaleConfig.getTickLabelFormatterMode();
-				ScaleConfiguration.TickLabelFormatterMode zFormatterMode = zScaleConfig.getTickLabelFormatterMode();
-				boolean isXFormatAuto = xFormatterMode == ScaleConfiguration.TickLabelFormatterMode.AUTO;
-				boolean isYFormatAuto = yFormatterMode == ScaleConfiguration.TickLabelFormatterMode.AUTO;
-				boolean isZFormatAuto = zFormatterMode == ScaleConfiguration.TickLabelFormatterMode.AUTO;
+				TickLabelFormatterMode xFormatterMode = xScaleConfig.getTickLabelFormatterMode();
+				TickLabelFormatterMode yFormatterMode = yScaleConfig.getTickLabelFormatterMode();
+				TickLabelFormatterMode zFormatterMode = zScaleConfig.getTickLabelFormatterMode();
+				boolean isXFormatAuto = xFormatterMode == TickLabelFormatterMode.AUTO;
+				boolean isYFormatAuto = yFormatterMode == TickLabelFormatterMode.AUTO;
+				boolean isZFormatAuto = zFormatterMode == TickLabelFormatterMode.AUTO;
 				formatsTabItems.xAutoBox.setSelected(isXFormatAuto);
 				formatsTabItems.yAutoBox.setSelected(isYFormatAuto);
 				formatsTabItems.zAutoBox.setSelected(isZFormatAuto);
@@ -1609,35 +1612,35 @@ public class ScaleSettingWindow {
 
 			// "Visibilities" tab:
 			{
-				ScaleConfiguration.VisibilityMode xAVisibilityMode = xScaleConfig.getScaleAVisibilityMode();
-				ScaleConfiguration.VisibilityMode xBVisibilityMode = xScaleConfig.getScaleBVisibilityMode();
-				ScaleConfiguration.VisibilityMode xCVisibilityMode = xScaleConfig.getScaleCVisibilityMode();
-				ScaleConfiguration.VisibilityMode xDVisibilityMode = xScaleConfig.getScaleDVisibilityMode();
+				ScaleVisibilityMode xAVisibilityMode = xScaleConfig.getScaleAVisibilityMode();
+				ScaleVisibilityMode xBVisibilityMode = xScaleConfig.getScaleBVisibilityMode();
+				ScaleVisibilityMode xCVisibilityMode = xScaleConfig.getScaleCVisibilityMode();
+				ScaleVisibilityMode xDVisibilityMode = xScaleConfig.getScaleDVisibilityMode();
 
-				ScaleConfiguration.VisibilityMode yAVisibilityMode = yScaleConfig.getScaleAVisibilityMode();
-				ScaleConfiguration.VisibilityMode yBVisibilityMode = yScaleConfig.getScaleBVisibilityMode();
-				ScaleConfiguration.VisibilityMode yCVisibilityMode = yScaleConfig.getScaleCVisibilityMode();
-				ScaleConfiguration.VisibilityMode yDVisibilityMode = yScaleConfig.getScaleDVisibilityMode();
+				ScaleVisibilityMode yAVisibilityMode = yScaleConfig.getScaleAVisibilityMode();
+				ScaleVisibilityMode yBVisibilityMode = yScaleConfig.getScaleBVisibilityMode();
+				ScaleVisibilityMode yCVisibilityMode = yScaleConfig.getScaleCVisibilityMode();
+				ScaleVisibilityMode yDVisibilityMode = yScaleConfig.getScaleDVisibilityMode();
 
-				ScaleConfiguration.VisibilityMode zAVisibilityMode = zScaleConfig.getScaleAVisibilityMode();
-				ScaleConfiguration.VisibilityMode zBVisibilityMode = zScaleConfig.getScaleBVisibilityMode();
-				ScaleConfiguration.VisibilityMode zCVisibilityMode = zScaleConfig.getScaleCVisibilityMode();
-				ScaleConfiguration.VisibilityMode zDVisibilityMode = zScaleConfig.getScaleDVisibilityMode();
+				ScaleVisibilityMode zAVisibilityMode = zScaleConfig.getScaleAVisibilityMode();
+				ScaleVisibilityMode zBVisibilityMode = zScaleConfig.getScaleBVisibilityMode();
+				ScaleVisibilityMode zCVisibilityMode = zScaleConfig.getScaleCVisibilityMode();
+				ScaleVisibilityMode zDVisibilityMode = zScaleConfig.getScaleDVisibilityMode();
 
-				boolean isXVisibilityAuto = xAVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
-						&& xBVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
-						&& xCVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
-						&& xDVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO;
+				boolean isXVisibilityAuto = xAVisibilityMode == ScaleVisibilityMode.AUTO
+						&& xBVisibilityMode == ScaleVisibilityMode.AUTO
+						&& xCVisibilityMode == ScaleVisibilityMode.AUTO
+						&& xDVisibilityMode == ScaleVisibilityMode.AUTO;
 
-				boolean isYVisibilityAuto = yAVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
-						&& yBVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
-						&& yCVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
-						&& yDVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO;
+				boolean isYVisibilityAuto = yAVisibilityMode == ScaleVisibilityMode.AUTO
+						&& yBVisibilityMode == ScaleVisibilityMode.AUTO
+						&& yCVisibilityMode == ScaleVisibilityMode.AUTO
+						&& yDVisibilityMode == ScaleVisibilityMode.AUTO;
 
-				boolean isZVisibilityAuto = zAVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
-						&& zBVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
-						&& zCVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO
-						&& zDVisibilityMode == ScaleConfiguration.VisibilityMode.AUTO;
+				boolean isZVisibilityAuto = zAVisibilityMode == ScaleVisibilityMode.AUTO
+						&& zBVisibilityMode == ScaleVisibilityMode.AUTO
+						&& zCVisibilityMode == ScaleVisibilityMode.AUTO
+						&& zDVisibilityMode == ScaleVisibilityMode.AUTO;
 
 				visibilitiesTabItems.xAutoBox.setSelected(isXVisibilityAuto);
 				visibilitiesTabItems.xABox.setEnabled(!isXVisibilityAuto);
@@ -1650,10 +1653,10 @@ public class ScaleSettingWindow {
 					visibilitiesTabItems.xCBox.setSelected(false);
 					visibilitiesTabItems.xDBox.setSelected(false);
 				} else {
-					visibilitiesTabItems.xABox.setSelected(xAVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.xBBox.setSelected(xBVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.xCBox.setSelected(xCVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.xDBox.setSelected(xDVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.xABox.setSelected(xAVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.xBBox.setSelected(xBVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.xCBox.setSelected(xCVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.xDBox.setSelected(xDVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
 				}
 
 				visibilitiesTabItems.yAutoBox.setSelected(isYVisibilityAuto);
@@ -1667,10 +1670,10 @@ public class ScaleSettingWindow {
 					visibilitiesTabItems.yCBox.setSelected(false);
 					visibilitiesTabItems.yDBox.setSelected(false);
 				} else {
-					visibilitiesTabItems.yABox.setSelected(yAVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.yBBox.setSelected(yBVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.yCBox.setSelected(yCVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.yDBox.setSelected(yDVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.yABox.setSelected(yAVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.yBBox.setSelected(yBVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.yCBox.setSelected(yCVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.yDBox.setSelected(yDVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
 				}
 
 				visibilitiesTabItems.zAutoBox.setSelected(isZVisibilityAuto);
@@ -1684,10 +1687,10 @@ public class ScaleSettingWindow {
 					visibilitiesTabItems.zCBox.setSelected(false);
 					visibilitiesTabItems.zDBox.setSelected(false);
 				} else {
-					visibilitiesTabItems.zABox.setSelected(zAVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.zBBox.setSelected(zBVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.zCBox.setSelected(zCVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.zDBox.setSelected(zDVisibilityMode == ScaleConfiguration.VisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.zABox.setSelected(zAVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.zBBox.setSelected(zBVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.zCBox.setSelected(zCVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.zDBox.setSelected(zDVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
 				}
 			}
 

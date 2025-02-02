@@ -5,8 +5,11 @@ import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.ScaleSettingWindow;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.view.MultilingualItem;
-import com.rinearn.graph3d.config.ScaleConfiguration;
 import com.rinearn.graph3d.config.FrameConfiguration;
+import com.rinearn.graph3d.config.ScaleConfiguration;
+import com.rinearn.graph3d.config.scale.ScaleVisibilityMode;
+import com.rinearn.graph3d.config.scale.TickLabelFormatterMode;
+import com.rinearn.graph3d.config.scale.TickerMode;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -214,10 +217,10 @@ public class ScaleSettingHandler {
 			// "Ticks" tab:
 			{
 				// Ticker modes.
-				ScaleConfiguration.TickerMode xTickerMode = window.ticksTabItems.getXTickerMode();
-				ScaleConfiguration.TickerMode yTickerMode = window.ticksTabItems.getYTickerMode();
-				ScaleConfiguration.TickerMode zTickerMode = window.ticksTabItems.getZTickerMode();
-				ScaleConfiguration.TickerMode cTickerMode = window.ticksTabItems.getColorBarTickerMode();
+				TickerMode xTickerMode = window.ticksTabItems.getXTickerMode();
+				TickerMode yTickerMode = window.ticksTabItems.getYTickerMode();
+				TickerMode zTickerMode = window.ticksTabItems.getZTickerMode();
+				TickerMode cTickerMode = window.ticksTabItems.getColorBarTickerMode();
 				xScaleConfig.setTickerMode(xTickerMode);
 				yScaleConfig.setTickerMode(yTickerMode);
 				zScaleConfig.setTickerMode(zTickerMode);
@@ -295,10 +298,10 @@ public class ScaleSettingHandler {
 			// "Formatters" tab:
 			{
 				// Formatter modes.
-				ScaleConfiguration.TickLabelFormatterMode xFormatterMode = window.formatsTabItems.getXTickLabelFormatterMode();
-				ScaleConfiguration.TickLabelFormatterMode yFormatterMode = window.formatsTabItems.getYTickLabelFormatterMode();
-				ScaleConfiguration.TickLabelFormatterMode zFormatterMode = window.formatsTabItems.getZTickLabelFormatterMode();
-				ScaleConfiguration.TickLabelFormatterMode cFormatterMode = zFormatterMode;
+				TickLabelFormatterMode xFormatterMode = window.formatsTabItems.getXTickLabelFormatterMode();
+				TickLabelFormatterMode yFormatterMode = window.formatsTabItems.getYTickLabelFormatterMode();
+				TickLabelFormatterMode zFormatterMode = window.formatsTabItems.getZTickLabelFormatterMode();
+				TickLabelFormatterMode cFormatterMode = zFormatterMode;
 				xScaleConfig.setTickLabelFormatterMode(xFormatterMode);
 				yScaleConfig.setTickLabelFormatterMode(yFormatterMode);
 				zScaleConfig.setTickLabelFormatterMode(zFormatterMode);
@@ -450,7 +453,7 @@ public class ScaleSettingHandler {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			ScaleSettingWindow window = view.scaleSettingWindow;
-			ScaleConfiguration.TickerMode tickerMode = window.ticksTabItems.getSelectedTickerModeOf(this.modeBox);
+			TickerMode tickerMode = window.ticksTabItems.getSelectedTickerModeOf(this.modeBox);
 
 			// Swaps the UI panel, depending on the ticker mode.
 			this.swappablePanel.removeAll();
@@ -932,7 +935,7 @@ public class ScaleSettingHandler {
 			ScaleConfiguration.AxisScaleConfiguration xScaleConfig
 					= model.config.getScaleConfiguration().getXScaleConfiguration();
 
-			xScaleConfig.setTickerMode(ScaleConfiguration.TickerMode.MANUAL);
+			xScaleConfig.setTickerMode(TickerMode.MANUAL);
 			xScaleConfig.getManualTicker().setTickCoordinates(tickCoordinates);
 			xScaleConfig.getManualTicker().setTickLabelTexts(tickLabelTexts);
 			presenter.propagateConfiguration();
@@ -991,7 +994,7 @@ public class ScaleSettingHandler {
 			ScaleConfiguration.AxisScaleConfiguration yScaleConfig
 					= model.config.getScaleConfiguration().getYScaleConfiguration();
 
-			yScaleConfig.setTickerMode(ScaleConfiguration.TickerMode.MANUAL);
+			yScaleConfig.setTickerMode(TickerMode.MANUAL);
 			yScaleConfig.getManualTicker().setTickCoordinates(tickCoordinates);
 			yScaleConfig.getManualTicker().setTickLabelTexts(tickLabelTexts);
 			presenter.propagateConfiguration();
@@ -1050,7 +1053,7 @@ public class ScaleSettingHandler {
 			ScaleConfiguration.AxisScaleConfiguration zScaleConfig
 					= model.config.getScaleConfiguration().getZScaleConfiguration();
 
-			zScaleConfig.setTickerMode(ScaleConfiguration.TickerMode.MANUAL);
+			zScaleConfig.setTickerMode(TickerMode.MANUAL);
 			zScaleConfig.getManualTicker().setTickCoordinates(tickCoordinates);
 			zScaleConfig.getManualTicker().setTickLabelTexts(tickLabelTexts);
 			presenter.propagateConfiguration();

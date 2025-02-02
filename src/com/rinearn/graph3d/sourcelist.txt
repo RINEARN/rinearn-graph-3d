@@ -16,8 +16,11 @@ com/rinearn/graph3d/config/RinearnGraph3DConfiguration.java
 com/rinearn/graph3d/config/scale/EqualDivisionTicker.java
 com/rinearn/graph3d/config/scale/ManualTicker.java
 com/rinearn/graph3d/config/scale/NumericTickLabelFormatter.java
+com/rinearn/graph3d/config/scale/ScaleVisibilityMode.java
 com/rinearn/graph3d/config/scale/Ticker.java
+com/rinearn/graph3d/config/scale/TickerMode.java
 com/rinearn/graph3d/config/scale/TickLabelFormatter.java
+com/rinearn/graph3d/config/scale/TickLabelFormatterMode.java
 com/rinearn/graph3d/config/ScaleConfiguration.java
 com/rinearn/graph3d/def/CommunicationMessage.java
 com/rinearn/graph3d/def/CommunicationType.java

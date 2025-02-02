@@ -3,8 +3,11 @@ package com.rinearn.graph3d.config;
 import com.rinearn.graph3d.config.scale.TickLabelFormatter;
 import com.rinearn.graph3d.config.scale.NumericTickLabelFormatter;
 import com.rinearn.graph3d.config.scale.Ticker;
+import com.rinearn.graph3d.config.scale.TickerMode;
 import com.rinearn.graph3d.config.scale.EqualDivisionTicker;
 import com.rinearn.graph3d.config.scale.ManualTicker;
+import com.rinearn.graph3d.config.scale.TickLabelFormatterMode;
+import com.rinearn.graph3d.config.scale.ScaleVisibilityMode;
 
 // !!!!!
 // NOTE
@@ -278,69 +281,6 @@ public final class ScaleConfiguration {
 
 
 	/**
-	 * The enum representing each mode for specifying alignment of ticks of a scale.
-	 */
-	public static enum TickerMode {
-
-		/** Divides an axis's range (from min to max) equally by scale ticks. */
-		EQUAL_DIVISION,
-
-		/** Align scale ticks as an arithmetic sequence. */
-		ARITHMETIC_PROGRESSION,
-
-		/** Align scale ticks as a geometric sequence. */
-		GEOMETRIC_PROGRESSION,
-
-		// !!!!! Note !!!!!  Should be renamed to 'AUTO' ?
-		// -> このソフトでは setAutoRangingEnabled とか、短縮形接頭語の auto を既に結構使ってるので、auto で統一してもいいんじゃない？ ここだけ厳格にしてもなぁって感じ。要検討
-		/** Align scale ticks automatically. */
-		AUTOMATIC,
-
-		/** Align scale ticks manually, and also specify arbitrary tick labels. */
-		MANUAL,
-
-		/** Uses the custom ticker implemented by users or third party developers. */
-		CUSTOM,
-	}
-
-	/**
-	 * The enum representing each mode to format tick labels.
-	 */
-	public static enum TickLabelFormatterMode {
-
-		// !!!!! Note !!!!!  Should be renamed to 'AUTOMATIC' ?
-		// -> 上の enum の AUTOMATIC のコメント参照。少なくともどっちかに統一はしておきたい。今のところは AUTO が有力かな。要検討。
-		/** Formats the tick coordinates into the numeric labels in the default format.  */
-		AUTO,
-
-		/** Formats the tick coordinates into the numeric labels in the user-specified format.  */
-		NUMERIC,
-
-		/** Uses the custom formmatter implemented by users or third party developers. */
-		CUSTOM,
-	}
-
-	/**
-	 * The enum representing each mode to control the visibility of the scales.
-	 */
-	public static enum VisibilityMode {
-
-		/** Switches the visibility automatically, depending on the angle of the graph.  */
-		AUTO,
-
-		/** Always keeps the scale visible.  */
-		ALWAYS_VISIBLE,
-		// !!!!! NOTE !!!!!  ちょっと冗長すぎる？ VISIBLE だけでいい？
-		// -> もし後々でモードが増えていった時に、単に VISIBLE/INVISIBLE では微妙になる可能性もあるが…それでも分かるかな？
-		//    -> 逆に微妙になるパターンを思い浮かぶかどうか。現実的にありそうなやつで。
-		//       -> まあ微妙っちゃ AUTO がある時点で既に VISIBLE/INVISIBLE は微妙でもある。
-		//          これら3つだけなら、VISIBLE/INVISIBLE の切り替えを自動でやるのが AUTO って解釈でギリ許容でも、あと1つ生えると難解化するかも。
-
-		/** Always keeps the scale invisible. */
-		ALWAYS_INVISIBLE,
-	}
-
-	/**
 	 * The class storing configuration values of the scale of an axis (X, Y, or Z).
 	 */
 	public static class AxisScaleConfiguration {
@@ -383,18 +323,18 @@ public final class ScaleConfiguration {
 		// 少し塩漬けにしてまた要再検討。
 
 		/** The visibility of 'scale A' of this axis's scale. */
-		private volatile VisibilityMode scaleAVisibilityMode = VisibilityMode.AUTO;
-		// private volatile VisibilityMode tickSeriesAVisiblityMode = VisibilityMode.AUTO;
+		private volatile ScaleVisibilityMode scaleAVisibilityMode = ScaleVisibilityMode.AUTO;
+		// private volatile ScaleVisibilityMode tickSeriesAVisiblityMode = ScaleVisibilityMode.AUTO;
 		// NOTE: ↑やっぱ tickSeriesA っての変だよ。scaleA の方がいいよ。scale 単独なら概念粒度的に大きすぎるけど scale 'A' なんだしいいでしょ。
 
 		/** The visibility of 'scale B' of this axis's scale. */
-		private volatile VisibilityMode scaleBVisibilityMode = VisibilityMode.AUTO;
+		private volatile ScaleVisibilityMode scaleBVisibilityMode = ScaleVisibilityMode.AUTO;
 
 		/** The visibility of 'scale C' of this axis's scale. */
-		private volatile VisibilityMode scaleCVisibilityMode = VisibilityMode.AUTO;
+		private volatile ScaleVisibilityMode scaleCVisibilityMode = ScaleVisibilityMode.AUTO;
 
 		/** The visibility of 'scale D' of this axis's scale. */
-		private volatile VisibilityMode scaleDVisibilityMode = VisibilityMode.AUTO;
+		private volatile ScaleVisibilityMode scaleDVisibilityMode = ScaleVisibilityMode.AUTO;
 
 		/** The length of tick lines. */
 		private volatile double tickLineLength = 0.05;
@@ -442,7 +382,7 @@ public final class ScaleConfiguration {
 		 *
 		 * @param scaleAVisibilityMode The visibility mode of the 'scale A' of this axis.
 		 */
-		public synchronized void setScaleAVisibilityMode(VisibilityMode scaleAVisibilityMode) {
+		public synchronized void setScaleAVisibilityMode(ScaleVisibilityMode scaleAVisibilityMode) {
 			this.scaleAVisibilityMode = scaleAVisibilityMode;
 		}
 
@@ -451,7 +391,7 @@ public final class ScaleConfiguration {
 		 *
 		 * @return The visibility mode of the 'scale A' of this axis.
 		 */
-		public synchronized VisibilityMode getScaleAVisibilityMode() {
+		public synchronized ScaleVisibilityMode getScaleAVisibilityMode() {
 			return this.scaleAVisibilityMode;
 		}
 
@@ -461,7 +401,7 @@ public final class ScaleConfiguration {
 		 *
 		 * @param scaleBVisibilityMode The visibility mode of the 'scale B' of this axis.
 		 */
-		public synchronized void setScaleBVisibilityMode(VisibilityMode scaleBVisibilityMode) {
+		public synchronized void setScaleBVisibilityMode(ScaleVisibilityMode scaleBVisibilityMode) {
 			this.scaleBVisibilityMode = scaleBVisibilityMode;
 		}
 
@@ -470,7 +410,7 @@ public final class ScaleConfiguration {
 		 *
 		 * @return The visibility mode of the 'scale B' of this axis.
 		 */
-		public synchronized VisibilityMode getScaleBVisibilityMode() {
+		public synchronized ScaleVisibilityMode getScaleBVisibilityMode() {
 			return this.scaleBVisibilityMode;
 		}
 
@@ -480,7 +420,7 @@ public final class ScaleConfiguration {
 		 *
 		 * @param scaleBVisibilityMode The visibility mode of the 'scale C' of this axis.
 		 */
-		public synchronized void setScaleCVisibilityMode(VisibilityMode scaleCVisibilityMode) {
+		public synchronized void setScaleCVisibilityMode(ScaleVisibilityMode scaleCVisibilityMode) {
 			this.scaleCVisibilityMode = scaleCVisibilityMode;
 		}
 
@@ -489,7 +429,7 @@ public final class ScaleConfiguration {
 		 *
 		 * @return The visibility mode of the 'scale C' of this axis.
 		 */
-		public synchronized VisibilityMode getScaleCVisibilityMode() {
+		public synchronized ScaleVisibilityMode getScaleCVisibilityMode() {
 			return this.scaleCVisibilityMode;
 		}
 
@@ -500,7 +440,7 @@ public final class ScaleConfiguration {
 		 *
 		 * @param scaleBVisibilityMode The visibility mode of the 'scale D' of this axis.
 		 */
-		public synchronized void setScaleDVisibilityMode(VisibilityMode scaleDVisibilityMode) {
+		public synchronized void setScaleDVisibilityMode(ScaleVisibilityMode scaleDVisibilityMode) {
 			this.scaleDVisibilityMode = scaleDVisibilityMode;
 		}
 
@@ -509,7 +449,7 @@ public final class ScaleConfiguration {
 		 *
 		 * @return The visibility mode of the 'scale D' of this axis.
 		 */
-		public synchronized VisibilityMode getScaleDVisibilityMode() {
+		public synchronized ScaleVisibilityMode getScaleDVisibilityMode() {
 			return this.scaleDVisibilityMode;
 		}
 
@@ -808,14 +748,14 @@ public final class ScaleConfiguration {
 			}
 
 			// The visibility mode "AUTO" can not be used together with other modes in one axis, so check them.
-			boolean containsAutoVisibilityMode = this.scaleAVisibilityMode == VisibilityMode.AUTO
-					|| this.scaleBVisibilityMode == VisibilityMode.AUTO
-					|| this.scaleCVisibilityMode == VisibilityMode.AUTO
-					|| this.scaleDVisibilityMode == VisibilityMode.AUTO;
-			boolean containsOtherVisibilityMode = this.scaleAVisibilityMode != VisibilityMode.AUTO
-					|| this.scaleBVisibilityMode != VisibilityMode.AUTO
-					|| this.scaleCVisibilityMode != VisibilityMode.AUTO
-					|| this.scaleDVisibilityMode != VisibilityMode.AUTO;
+			boolean containsAutoVisibilityMode = this.scaleAVisibilityMode == ScaleVisibilityMode.AUTO
+					|| this.scaleBVisibilityMode == ScaleVisibilityMode.AUTO
+					|| this.scaleCVisibilityMode == ScaleVisibilityMode.AUTO
+					|| this.scaleDVisibilityMode == ScaleVisibilityMode.AUTO;
+			boolean containsOtherVisibilityMode = this.scaleAVisibilityMode != ScaleVisibilityMode.AUTO
+					|| this.scaleBVisibilityMode != ScaleVisibilityMode.AUTO
+					|| this.scaleCVisibilityMode != ScaleVisibilityMode.AUTO
+					|| this.scaleDVisibilityMode != ScaleVisibilityMode.AUTO;
 			if (containsAutoVisibilityMode && containsOtherVisibilityMode) {
 				throw new IllegalStateException(
 						"On the current version, the visibility mode 'AUTO' can not be used together with the other modes, in one axis."
