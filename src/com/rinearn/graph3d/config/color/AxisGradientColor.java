@@ -46,7 +46,7 @@ public final class AxisGradientColor {
 	private volatile BigDecimal maxBoundaryCoordinate = BigDecimal.ONE;
 
 	/** The flag to detect the min/max coords of boundary points automatically from the data, in EQUAL_DIVISION mode. */
-	private volatile boolean autoBoundaryRangingEnabled = true;
+	private volatile boolean boundaryAutoRangeEnabled = true;
 
 
 	/**
@@ -207,8 +207,8 @@ public final class AxisGradientColor {
 	 *
 	 * @param autoRangingEnabled Specify true for detecting the min/max coordinates automatically.
 	 */
-	public synchronized void setAutoBoundaryRangingEnabled(boolean autoBoundaryRangingEnabled) {
-		this.autoBoundaryRangingEnabled = autoBoundaryRangingEnabled;
+	public synchronized void setBoundaryAutoRangeEnabled(boolean boundaryAutoRangeEnabled) {
+		this.boundaryAutoRangeEnabled = boundaryAutoRangeEnabled;
 	}
 
 	/**
@@ -218,8 +218,8 @@ public final class AxisGradientColor {
 	 *
 	 * @return Returns true if the auto boundary ranging feature is enabled.
 	 */
-	public synchronized boolean isAutoBoundaryRangingEnabled() {
-		return this.autoBoundaryRangingEnabled;
+	public synchronized boolean isBoundaryAutoRangeEnabled() {
+		return this.boundaryAutoRangeEnabled;
 	}
 
 	/**
@@ -277,7 +277,7 @@ public final class AxisGradientColor {
 		}
 
 		// Validate min/max coordinates.
-		if (this.boundaryMode == GradientBoundaryMode.EQUAL_DIVISION && !this.autoBoundaryRangingEnabled) {
+		if (this.boundaryMode == GradientBoundaryMode.EQUAL_DIVISION && !this.boundaryAutoRangeEnabled) {
 			if (this.minBoundaryCoordinate == null) {
 				throw new IllegalStateException(
 					"The minimum boundary coordinate is null. In EQUAL_DIVISION mode, it is mandatory when the auto-ranging is disabled."

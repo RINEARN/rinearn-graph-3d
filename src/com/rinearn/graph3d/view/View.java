@@ -151,6 +151,9 @@ public final class View {
 	/** The setting window of "Option" > "With Surfaces" menu. */
 	public final SurfaceOptionWindow surfaceOptionWindow = new SurfaceOptionWindow();
 
+	/** The setting window of "Option" > "Gradient Coloring" menu. */
+	public final GradientOptionWindow gradientOptionWindow = new GradientOptionWindow();
+
 
 	// !!! IMPORTANT NOTE !!!
 	//   Don't store the configuration as a field of this instance or subcomponents. It is Model layer's role.
@@ -189,6 +192,7 @@ public final class View {
 		this.lineOptionWindow.configure(configuration);
 		this.meshOptionWindow.configure(configuration);
 		this.surfaceOptionWindow.configure(configuration);
+		this.gradientOptionWindow.configure(configuration);
 	}
 
 	/**
@@ -211,5 +215,6 @@ public final class View {
 		this.lineOptionWindow.dispose();
 		this.meshOptionWindow.dispose();
 		this.surfaceOptionWindow.dispose();
+		this.gradientOptionWindow.dispose();
 	}
 }

@@ -276,7 +276,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		ColorConfiguration colorConfig = this.config.getColorConfiguration();
 		for (GradientColor gradientColor: colorConfig.getDataGradientColors()) {
 			for (AxisGradientColor axisGradientColor: gradientColor.getAxisGradientColors()) {
-				if (!axisGradientColor.isAutoBoundaryRangingEnabled()) {
+				if (!axisGradientColor.isBoundaryAutoRangeEnabled()) {
 					continue;
 				}
 				switch (axisGradientColor.getAxis()) {
