@@ -1,5 +1,10 @@
 package com.rinearn.graph3d.config.color;
 
+import com.rinearn.graph3d.config.data.SeriesFilter;
+import com.rinearn.graph3d.config.data.SeriesFilterHub;
+import com.rinearn.graph3d.config.data.SeriesFilterMode;
+import com.rinearn.graph3d.config.data.IndexSeriesFilter;
+
 import java.awt.Color;
 
 
@@ -66,6 +71,10 @@ public final class GradientColor {
 	/** The background color on which the gradients of all axes are blended. */
 	private volatile Color backgroundColor = new Color(0, 0, 0, 0); // Clear black
 
+	/** The object which stores multiple kinds of SeriesFilter instances, and provides their setters and getters. */
+	private volatile SeriesFilterHub seriesFilterHub = new SeriesFilterHub();
+
+
 	/**
 	 * Gets the total number of the axes (dimensions) of this gradient color.
 	 *
@@ -110,6 +119,70 @@ public final class GradientColor {
 	public synchronized Color getBackgroundColor() {
 		return this.backgroundColor;
 	}
+
+	/**
+	 * Sets the mode of the series filter.
+	 *
+	 * @param seriesFilterMode the mode of the series filter.
+	 */
+	public synchronized void setSeriesFilterMode(SeriesFilterMode seriesFilterMode) {
+		this.seriesFilterHub.setSeriesFilterMode(seriesFilterMode);
+	}
+
+	/**
+	 * Gets the mode of the series filter.
+	 *
+	 * @param seriesFilterMode the mode of the series filter.
+	 */
+	public synchronized SeriesFilterMode getSeriesFilterMode() {
+		return this.seriesFilterHub.getSeriesFilterMode();
+	}
+
+	/**
+	 * Gets the series filter corresponding to the current mode.
+	 *
+	 * @return The series filter corresponding to the current mode.
+	 */
+	public synchronized SeriesFilter getSeriesFilter() {
+		return this.seriesFilterHub.getSeriesFilter();
+	}
+
+	/**
+	 * Sets the index-based series filter, used in INDEX mode.
+	 *
+	 * @param indexSeriesFilter The index-based series filter, used in INDEX mode.
+	 */
+	public synchronized void setIndexSeriesFilter(IndexSeriesFilter indexSeriesFilter) {
+		this.seriesFilterHub.setIndexSeriesFilter(indexSeriesFilter);
+	}
+
+	/**
+	 * Gets the index-based series filter, used in INDEX mode.
+	 *
+	 * @return The index-based series filter, used in INDEX mode.
+	 */
+	public synchronized IndexSeriesFilter getIndexSeriesFilter() {
+		return this.seriesFilterHub.getIndexSeriesFilter();
+	}
+
+	/**
+	 * Sets the custom implementation of a filter, used in CUSTOM mode.
+	 *
+	 * @param customSeriesFilter The custom implementation of a  series filter, used in CUSTOM mode.
+	 */
+	public synchronized void setCustomSeriesFilter(SeriesFilter customSeriesFilter) {
+		this.seriesFilterHub.setCustomSeriesFilter(customSeriesFilter);
+	}
+
+	/**
+	 * Gets the custom implementation of a filter, used in CUSTOM mode.
+	 *
+	 * @return The custom implementation of a  series filter, used in CUSTOM mode.
+	 */
+	public synchronized SeriesFilter getCustomSeriesFilter() {
+		return this.seriesFilterHub.getCustomSeriesFilter();
+	}
+
 
 	/**
 	 * Validates correctness and consistency of parameters stored in this instance.
