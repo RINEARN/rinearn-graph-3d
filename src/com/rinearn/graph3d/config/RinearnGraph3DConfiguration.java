@@ -247,10 +247,10 @@ public final class RinearnGraph3DConfiguration {
 					// If any gradient color's axis is set to an extra dimension (e.g.: 4-th column),
 					// the range of the extra dimension must be stored in that range configuration.
 					GradientAxis axis = axisGradientColor.getAxis();
-					if (axis == GradientAxis.COLUMN_4) {
+					if (axis == GradientAxis.SCALAR) {
 						if (this.rangeConfiguration.getExtraDimensionCount() < 1) {
 							throw new IllegalStateException(
-								"For setting a gradient color's axis to COLUMN_4," +
+								"For setting a gradient color's axis to SCALAR," +
 								"the range settings for the 4-th dimension must exist in the range configuration," +
 								"but it does not exist."
 							);

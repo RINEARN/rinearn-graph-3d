@@ -14,6 +14,6 @@ public enum GradientAxis {
 	/** Represents the gradient for the direction of Z axis. */
 	Z,
 
-	/** Represents the gradient by coordinate values of 4-th column in data files. */
-	COLUMN_4; // Note: Should rename to more abstract one?
+	/** Represents the gradient by 4th coordinate values for visualize a scalar field. */
+	SCALAR;
 }

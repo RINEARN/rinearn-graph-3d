@@ -147,7 +147,7 @@ public class ColorBarDrawer {
 			case Z :
 				gradientAxisIndex = 2;
 				break;
-			case COLUMN_4 :
+			case SCALAR :
 				gradientAxisIndex = 3;
 				break;
 			default:

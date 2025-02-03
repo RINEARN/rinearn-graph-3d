@@ -295,7 +295,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 						axisGradientColor.setMaximumBoundaryCoordinate(zRangeConfig.getMaximum());
 						break;
 					}
-					case COLUMN_4 : {
+					case SCALAR : {
 						RangeConfiguration.AxisRangeConfiguration[] extraRangeConfig = rangeConfig.getExtraDimensionRangeConfigurations();
 						axisGradientColor.setMinimumBoundaryCoordinate(extraRangeConfig[0].getMinimum());
 						axisGradientColor.setMaximumBoundaryCoordinate(extraRangeConfig[0].getMaximum());

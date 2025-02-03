@@ -387,7 +387,7 @@ public final class ColorMixer {
 			case X : return coordinates[X];
 			case Y : return coordinates[Y];
 			case Z : return coordinates[Z];
-			case COLUMN_4 : return coordinates[SCALAR];
+			case SCALAR : return coordinates[SCALAR];
 			default : throw new IllegalArgumentException("Unknown axis: " + axis);
 		}
 	}
