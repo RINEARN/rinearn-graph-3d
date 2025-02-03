@@ -3,6 +3,9 @@ package com.rinearn.graph3d.renderer.simple;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.config.ColorConfiguration;
 import com.rinearn.graph3d.config.color.GradientColor;
+import com.rinearn.graph3d.config.data.SeriesAttribute;
+import com.rinearn.graph3d.config.data.SeriesFilter;
+import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.GradientAxis;
 import com.rinearn.graph3d.config.color.ColorBlendMode;
@@ -98,68 +101,43 @@ public final class ColorMixer {
 		if (!drawingParam.isAutoColoringEnabled()) {
 			return drawingParam.getColor();
 		}
-
-		/*
-		// Gets the coloring modes defined in the color configuration.
-		ColorConfiguration.DataColoringMode[] coloringModes = colorConfig.getDataSeriesColoringModes();
-		int coloringModeCount = coloringModes.length;
-
-		// The index of the above array is basically equals to the data series index.
-		// Also, if the data series index exceeds the length of the array, regard the array as "circular array".
 		int seriesIndex = drawingParam.getSeriesIndex();
-		int coloringModeIndex = seriesIndex % coloringModeCount;
-		ColorConfiguration.DataColoringMode coloringMode = coloringModes[coloringModeIndex];
-		*/
 
-		/*
-		// Generate the color corresponding with the coloring mode.
-		switch (coloringMode) {
-			case SOLID : {
+		// Gets the solid color corresponding the series index.
+		Color solidColor = this.extractSolidColorFromConfig(seriesIndex, colorConfig);
 
-				// Extract the solid color defined in the color configuration.
-				Color solidColor = this.extractSolidColorFromConfig(seriesIndex, colorConfig);
-				return solidColor;
+		// Gets all the registered gradient colors.
+		GradientColor[] gradientColors = colorConfig.getDataGradientColors();
+
+		// Firstly, set the solid color as a tentative result color.
+		Color resultColor = solidColor;
+
+		// If the gradient coloring is disabled, return the above as the result.
+		if (!colorConfig.isDataGradientColorEnabled()) {
+			return resultColor;
+		}
+
+		// Overwrite the tentative result color by each gradient color,
+		// if the series index is included by the gradient color's series filter.
+		for (GradientColor gradientColor: gradientColors) {
+
+			// If no series filter is set, apply this gradient color.
+			if (gradientColor.getSeriesFilterMode() == SeriesFilterMode.NONE) {
+				resultColor = this.determineColorFromGradientColor(coordinates, gradientColor);
+				continue; // Don't return the result here. Other gradient color may be applied.
 			}
-			case GRADIENT : {
 
-				// Extract the color gradient defined in the color configuration.
-				GradientColor gradientColor = this.extractGradientColorFromConfig(seriesIndex, colorConfig);
-
-				// Generate the color of the gradient color at the specified coordinate.
-				Color gradientColorAtCoord = this.determineColorFromGradientColor(coordinates, gradientColor);
-
-				return gradientColorAtCoord;
-			}
-			default : {
-				throw new IllegalArgumentException("Unknown coloring mode: " + coloringMode);
+			// If any series filter is set, check whether the series index is included by the filter,
+			// and apply this gradient color only when the series index is included.
+			SeriesFilter seriesFilter = gradientColor.getSeriesFilter();
+			SeriesAttribute seriesAttribute = new SeriesAttribute();
+			seriesAttribute.setGlobalSeriesIndex(seriesIndex);
+			if (seriesFilter.isSeriesIncluded(seriesAttribute)) {
+				resultColor = this.determineColorFromGradientColor(coordinates, gradientColor);
+				continue; // Don't return the result here. Other gradient color may be applied.
 			}
 		}
-		*/
-
-		int seriesIndex = drawingParam.getSeriesIndex();
-		boolean isGradientEnabled = true;
-		boolean isSeriesIncludedInFilter = true;
-
-		if (isGradientEnabled && isSeriesIncludedInFilter) {
-
-			// Extract the color gradient defined in the color configuration.
-			GradientColor gradientColor = this.extractGradientColorFromConfig(seriesIndex, colorConfig);
-
-			// Generate the color of the gradient color at the specified coordinate.
-			Color gradientColorAtCoord = this.determineColorFromGradientColor(coordinates, gradientColor);
-
-			return gradientColorAtCoord;
-
-		} else {
-
-			// Extract the color gradient defined in the color configuration.
-			GradientColor gradientColor = this.extractGradientColorFromConfig(seriesIndex, colorConfig);
-
-			// Generate the color of the gradient color at the specified coordinate.
-			Color gradientColorAtCoord = this.determineColorFromGradientColor(coordinates, gradientColor);
-
-			return gradientColorAtCoord;
-		}
+		return resultColor;
 	}
 
 
@@ -181,27 +159,6 @@ public final class ColorMixer {
 		int solidColorIndex = seriesIndex % solidColorCount;
 		Color solidColor = solidColors[solidColorIndex];
 		return solidColor;
-	}
-
-
-	/**
-	 * Extracts a color gradient corresponding to the specified data series index, from the color configuration.
-	 *
-	 * @param seriesIndex The index of the data series.
-	 * @param colorConfig The color configuration.
-	 * @return The color gradient.
-	 */
-	private GradientColor extractGradientColorFromConfig(int seriesIndex, ColorConfiguration colorConfig) {
-
-		// Gets the color gradients defined in the color configuration.
-		GradientColor[] gradients = colorConfig.getDataGradientColors();
-		int gradientCount = gradients.length;
-
-		// The index of the above array is basically equals to the data series index.
-		// Also, if the data series index exceeds the length of the array, regard the array as "circular array".
-		int gradientIndex = seriesIndex % gradientCount;
-		GradientColor gradient = gradients[gradientIndex];
-		return gradient;
 	}
 
 

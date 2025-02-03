@@ -3,8 +3,6 @@ package com.rinearn.graph3d.config;
 import java.awt.Color;
 
 import com.rinearn.graph3d.config.color.GradientColor;
-import com.rinearn.graph3d.config.data.SeriesFilterMode;
-import com.rinearn.graph3d.config.data.SeriesFilter;
 
 /*
 
@@ -243,26 +241,16 @@ public final class ColorConfiguration {
 		return dataGradientColorEnabled;
 	}
 
-	// 以下のやつ、Series って付くのよくないんじゃない？
-	// ここで定義されるのはあくまでソリッド色やグラデ色のリストで、
-	// インデックスは別に系列インデックスではないよな？ 色番号だよな？
-	//
-	// -> いや、mode があってればインデックスはそのまま系列インデックス（%N）に一致するよ。
-	//    %Nされるからといって、別に「 n個目のソリッド色 」みたいな感じでインクリメンタルに参照されるわけじゃない。のでこれでいい。
-	//
-	//    -> それはどちらかというとミキサー側の事情であって、ここでSeriesって決めてしまうと将来性に足枷にならない？
-	//       %N ではない方式での色の割り振りとかもあり得るでしょ。N以降は特定色にするとか。
-	//
-	//       -> そんなら setDataSolidColors とかにすべき？
-	//          で、各系列がどの色に割り当てられるかは dataColors[ 系列インデックス % N ] になります、的な。
-	//          確かにこっちの方が説明もわかりやすいかも。
-	//
-	//          -> 全般的に series -> data に改名した。まだ変えてみただけなので仕様が固まるまでこの Note は消さない。
-
 	/**
-	 * Sets solid colors used for drawing data series, applied when their coloring modes are SOLID.
+	 * Sets solid colors used for drawing data series.
 	 *
-	 * @param dataSolidColors The array storing a solid color for each data series.
+	 * When dataGradientColorEnabled is false,
+	 * each data series are drawn using each solid color in the specified array.
+	 * The index of a solid color for a data series is determined as:
+	 *   solidColorIndex = dataSeriesIndex % solidColorCount,
+	 * where solidColorCount is the total number of the solid colors.
+	 *
+	 * @param dataSolidColors The array storing a solid colors.
 	 */
 	public synchronized void setDataSolidsColors(Color[] dataSolidColors) {
 		this.dataSolidColors = dataSolidColors;
@@ -270,9 +258,15 @@ public final class ColorConfiguration {
 
 
 	/**
-	 * Gets solid colors used for drawing data series, applied when their coloring modes are SOLID.
+	 * Gets solid colors used for drawing data series.
 	 *
-	 * @return The array storing a solid color for each data series.
+	 * When dataGradientColorEnabled is false,
+	 * each data series are drawn using each solid color in the returned array.
+	 * The index of a solid color for a data series is determined as:
+	 *   solidColorIndex = dataSeriesIndex % solidColorCount,
+	 * where solidColorCount is the total number of the solid colors.
+	 *
+	 * @return The array storing a solid colors.
 	 */
 	public synchronized Color[] getDataSolidColors() {
 		return this.dataSolidColors;
@@ -280,18 +274,26 @@ public final class ColorConfiguration {
 
 
 	/**
-	 * Sets gradient colors used for drawing data series, applied when their coloring modes are GRADIENT.
+	 * Sets gradient colors used for drawing data series.
 	 *
-	 * @param dataGradientColors The array storing a GradientColor instance for each data series.
+	 * When dataGradientColorEnabled is true,
+	 * by default, all the gradient color of the specified array are applied to all the data series.
+	 * To coloring each data series separately, use series filter feature of each gradient color.
+	 *
+	 * @param dataGradientColors The array storing gradient colors.
 	 */
 	public synchronized void setDataGradientColors(GradientColor[] dataGradientColors) {
 		this.dataGradientColors = dataGradientColors;
 	}
 
 	/**
-	 * Gets gradient colors used for drawing data series, applied when their coloring modes are GRADIENT.
+	 * Gets gradient colors used for drawing data series.
 	 *
-	 * @return The array storing a GradientColor instance for each data series.
+	 * When dataGradientColorEnabled is true,
+	 * by default, all the gradient color of the returned array are applied to all the data series.
+	 * To coloring each data series separately, use series filter feature of each gradient color.
+	 *
+	 * @return The array storing gradient colors.
 	 */
 	public synchronized GradientColor[] getDataGradientColors() {
 		return this.dataGradientColors;
