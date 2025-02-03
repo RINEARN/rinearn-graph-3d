@@ -24,7 +24,6 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 import java.lang.reflect.InvocationTargetException;
-import java.text.DecimalFormat;
 
 
 /**
@@ -164,7 +163,6 @@ public final class GradientOptionWindow {
 			);
 			frame.setLayout(null);
 			frame.setVisible(false);
-			frame.setVisible(true);
 
 			// Prepare the layout manager and resources.
 			Container basePanel = frame.getContentPane();
@@ -485,9 +483,6 @@ public final class GradientOptionWindow {
 
 			// Enable/disable the auto range feature of the gradient.
 			setAutoRangeEnabled(axisGradientColor.isBoundaryAutoRangeEnabled());
-
-			//lineWidthField.setText(formatter.format(meshOptionConfig.getLineWidth()));
-			//DecimalFormat formatter = new DecimalFormat("#0.0#####");
 		}
 	}
 

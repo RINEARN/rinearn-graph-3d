@@ -88,6 +88,7 @@ public final class MainMenuHandler {
 		window.mainMenu.lineOptionMenuItem.addActionListener(new LineOptionMenuItemSelectedEventListener());
 		window.mainMenu.meshOptionMenuItem.addActionListener(new MeshOptionMenuItemSelectedEventListener());
 		window.mainMenu.surfaceOptionMenuItem.addActionListener(new SurfaceOptionMenuItemSelectedEventListener());
+		window.mainMenu.gradientOptionMenuItem.addActionListener(new GradientOptionMenuItemSelectedEventListener());
 	}
 
 
@@ -506,7 +507,6 @@ public final class MainMenuHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
-
 			boolean isOptionSepected = view.mainWindow.mainMenu.meshOptionMenuItem.isSelected();
 
 			// Show/hide the option settings window.
@@ -529,7 +529,6 @@ public final class MainMenuHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
-
 			boolean isOptionSepected = view.mainWindow.mainMenu.surfaceOptionMenuItem.isSelected();
 
 			// Show/hide the option settings window.
@@ -537,6 +536,28 @@ public final class MainMenuHandler {
 
 			// Enable/disable the option.
 			model.config.getOptionConfiguration().getSurfaceOptionConfiguration().setSelected(isOptionSepected);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Options" > "Gradient Coloring" menu item is selected.
+	 */
+	private final class GradientOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			boolean isOptionSepected = view.mainWindow.mainMenu.gradientOptionMenuItem.isSelected();
+
+			// Show/hide the option settings window.
+			view.gradientOptionWindow.setWindowVisible(isOptionSepected);
+
+			// Enable/disable the option.
+			model.config.getColorConfiguration().setDataGradientColorEnabled(isOptionSepected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}

@@ -7,11 +7,15 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 
+import com.rinearn.graph3d.config.ColorConfiguration;
 import com.rinearn.graph3d.config.FontConfiguration;
 import com.rinearn.graph3d.config.OptionConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.color.AxisGradientColor;
+import com.rinearn.graph3d.config.color.GradientColor;
 
 
 
@@ -95,6 +99,9 @@ public class MainMenu {
 
 	/** "Options" > "With Surfaces" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem surfaceOptionMenuItem;
+
+	/** "Options" > "Gradient Coloring" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem gradientOptionMenuItem;
 
 
 	/**
@@ -227,6 +234,13 @@ public class MainMenu {
 				// "Options" > "With Surfaces" menu item:
 				surfaceOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
 				optionsMenu.add(surfaceOptionMenuItem);
+
+				// --- Separator ---
+				optionsMenu.add(new JSeparator());
+
+				// "Options" > "Gradient Coloring" menu item:
+				gradientOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
+				optionsMenu.add(gradientOptionMenuItem);
 			}
 		}
 	}
@@ -356,6 +370,7 @@ public class MainMenu {
 				lineOptionMenuItem.setText("線プロット");
 				meshOptionMenuItem.setText("メッシュプロット");
 				surfaceOptionMenuItem.setText("曲面プロット");
+				gradientOptionMenuItem.setText("グラデーション彩色");
 			}
 		}
 
@@ -401,6 +416,7 @@ public class MainMenu {
 				lineOptionMenuItem.setText("With Lines");
 				meshOptionMenuItem.setText("With Meshes");
 				surfaceOptionMenuItem.setText("With Surfaces (Membranes)");
+				gradientOptionMenuItem.setText("Gradient Coloring");
 			}
 		}
 
@@ -448,6 +464,7 @@ public class MainMenu {
 				lineOptionMenuItem.setFont(uiBoldFont);
 				meshOptionMenuItem.setFont(uiBoldFont);
 				surfaceOptionMenuItem.setFont(uiBoldFont);
+				gradientOptionMenuItem.setFont(uiBoldFont);
 			}
 		}
 
@@ -455,11 +472,21 @@ public class MainMenu {
 		 * Sets the selection-states of the menu items in "Option" menu.
 		 */
 		private void setOptionStates() {
-			OptionConfiguration optionConfig = configuration.getOptionConfiguration();
-			pointOptionMenuItem.setSelected(optionConfig.getPointOptionConfiguration().isOptionEnabled());
-			lineOptionMenuItem.setSelected(optionConfig.getLineOptionConfiguration().isOptionEnabled());
-			meshOptionMenuItem.setSelected(optionConfig.getMeshOptionConfiguration().isOptionEnabled());
-			surfaceOptionMenuItem.setSelected(optionConfig.getSurfaceOptionConfiguration().isOptionEnabled());
+
+			// Standard options.
+			{
+				OptionConfiguration optionConfig = configuration.getOptionConfiguration();
+				pointOptionMenuItem.setSelected(optionConfig.getPointOptionConfiguration().isOptionEnabled());
+				lineOptionMenuItem.setSelected(optionConfig.getLineOptionConfiguration().isOptionEnabled());
+				meshOptionMenuItem.setSelected(optionConfig.getMeshOptionConfiguration().isOptionEnabled());
+				surfaceOptionMenuItem.setSelected(optionConfig.getSurfaceOptionConfiguration().isOptionEnabled());
+			}
+
+			// Gradient Coloring option:
+			{
+				ColorConfiguration colorConfig = configuration.getColorConfiguration();
+				gradientOptionMenuItem.setSelected(colorConfig.isDataGradientColorEnabled());
+			}
 		}
 	}
 
