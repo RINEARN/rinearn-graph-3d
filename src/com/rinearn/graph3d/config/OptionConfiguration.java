@@ -1,5 +1,6 @@
 package com.rinearn.graph3d.config;
 
+import com.rinearn.graph3d.config.data.SeriesFilterHub;
 import com.rinearn.graph3d.config.data.SeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
@@ -142,21 +143,15 @@ public final class OptionConfiguration {
 
 
 	/**
-	 * The base class of *OptionConfiguration classes.
+	 * The base class of *OptionConfiguration classes supporting the series filter feature.
 	 */
-	private static abstract class AbstractOptionConfiguration {
+	private static abstract class SeriesFilterableOptionConfiguration {
 
 		/** The flag representing whether this option is enabled. */
 		private volatile boolean optionEnabled = false;
 
-		/** The mode of the series filter. */
-		private volatile SeriesFilterMode seriesFilterMode = SeriesFilterMode.NONE;
-
-		/** The index-based series filter, used in INDEX mode. */
-		private volatile IndexSeriesFilter indexSeriesFilter = new IndexSeriesFilter(new int[] { 0, 1, 2 });
-
-		/** The custom implementation of a series filter, used in CUSTOM mode. */
-		private volatile SeriesFilter customSeriesFilter = null;
+		/** The object which stores multiple kinds of SeriesFilter instances, and provides their setters and getters. */
+		private volatile SeriesFilterHub seriesFilterHub = new SeriesFilterHub();
 
 		/**
 		 * Enable or disable this option.
@@ -182,7 +177,7 @@ public final class OptionConfiguration {
 		 * @param seriesFilterMode the mode of the series filter.
 		 */
 		public synchronized void setSeriesFilterMode(SeriesFilterMode seriesFilterMode) {
-			this.seriesFilterMode = seriesFilterMode;
+			this.seriesFilterHub.setSeriesFilterMode(seriesFilterMode);
 		}
 
 		/**
@@ -191,7 +186,7 @@ public final class OptionConfiguration {
 		 * @param seriesFilterMode the mode of the series filter.
 		 */
 		public synchronized SeriesFilterMode getSeriesFilterMode() {
-			return this.seriesFilterMode;
+			return this.seriesFilterHub.getSeriesFilterMode();
 		}
 
 		/**
@@ -200,11 +195,7 @@ public final class OptionConfiguration {
 		 * @return The series filter corresponding to the current mode.
 		 */
 		public synchronized SeriesFilter getSeriesFilter() {
-			switch (this.seriesFilterMode) {
-				case INDEX: return this.indexSeriesFilter;
-				case CUSTOM: return this.customSeriesFilter;
-				default: throw new IllegalStateException("Unexpected series filter mode: " + this.seriesFilterMode);
-			}
+			return this.seriesFilterHub.getSeriesFilter();
 		}
 
 		/**
@@ -213,7 +204,7 @@ public final class OptionConfiguration {
 		 * @param indexSeriesFilter The index-based series filter, used in INDEX mode.
 		 */
 		public synchronized void setIndexSeriesFilter(IndexSeriesFilter indexSeriesFilter) {
-			this.indexSeriesFilter = indexSeriesFilter;
+			this.seriesFilterHub.setIndexSeriesFilter(indexSeriesFilter);
 		}
 
 		/**
@@ -222,7 +213,7 @@ public final class OptionConfiguration {
 		 * @return The index-based series filter, used in INDEX mode.
 		 */
 		public synchronized IndexSeriesFilter getIndexSeriesFilter() {
-			return this.indexSeriesFilter;
+			return this.seriesFilterHub.getIndexSeriesFilter();
 		}
 
 		/**
@@ -231,7 +222,7 @@ public final class OptionConfiguration {
 		 * @param customSeriesFilter The custom implementation of a  series filter, used in CUSTOM mode.
 		 */
 		public synchronized void setCustomSeriesFilter(SeriesFilter customSeriesFilter) {
-			this.customSeriesFilter = customSeriesFilter;
+			this.seriesFilterHub.setCustomSeriesFilter(customSeriesFilter);
 		}
 
 		/**
@@ -240,7 +231,7 @@ public final class OptionConfiguration {
 		 * @return The custom implementation of a  series filter, used in CUSTOM mode.
 		 */
 		public synchronized SeriesFilter getCustomSeriesFilter() {
-			return this.customSeriesFilter;
+			return this.seriesFilterHub.getCustomSeriesFilter();
 		}
 	}
 
@@ -258,7 +249,7 @@ public final class OptionConfiguration {
 	/**
 	 * The class storing configuration values of "With Points" option.
 	 */
-	public static final class PointOptionConfiguration extends AbstractOptionConfiguration {
+	public static final class PointOptionConfiguration extends SeriesFilterableOptionConfiguration {
 
 		/** The style mode for drawing points. */
 		private volatile PointStyleMode pointStyleMode = PointStyleMode.CIRCLE;
@@ -398,7 +389,7 @@ public final class OptionConfiguration {
 	/**
 	 * The class storing configuration values of "With Lines" option.
 	 */
-	public static final class LineOptionConfiguration extends AbstractOptionConfiguration {
+	public static final class LineOptionConfiguration extends SeriesFilterableOptionConfiguration {
 
 		/** The width (in pixels) of lines plotted by this option. */
 		private volatile double lineWidth = 1.0;
@@ -433,7 +424,7 @@ public final class OptionConfiguration {
 	/**
 	 * The class storing configuration values of "With Meshes" option.
 	 */
-	public static final class MeshOptionConfiguration extends AbstractOptionConfiguration {
+	public static final class MeshOptionConfiguration extends SeriesFilterableOptionConfiguration {
 
 		/** The width (in pixels) of lines composing meshes plotted by this option. */
 		private volatile double lineWidth = 1.0;
@@ -468,7 +459,7 @@ public final class OptionConfiguration {
 	/**
 	 * The class storing configuration values of "With Surfaces" option.
 	 */
-	public static final class SurfaceOptionConfiguration extends AbstractOptionConfiguration {
+	public static final class SurfaceOptionConfiguration extends SeriesFilterableOptionConfiguration {
 
 		/**
 		 * Creates a new instance.
@@ -482,7 +473,7 @@ public final class OptionConfiguration {
 	/**
 	 * The class storing configuration values of "Gradient" option.
 	 */
-	public static final class GradientOptionConfiguration extends AbstractOptionConfiguration {
+	public static final class GradientOptionConfiguration extends SeriesFilterableOptionConfiguration {
 
 		/**
 		 * Creates a new instance.
