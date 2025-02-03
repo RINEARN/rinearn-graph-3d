@@ -3,6 +3,8 @@ package com.rinearn.graph3d.config;
 import java.awt.Color;
 
 import com.rinearn.graph3d.config.color.GradientColor;
+import com.rinearn.graph3d.config.data.SeriesFilterMode;
+import com.rinearn.graph3d.config.data.SeriesFilter;
 
 /*
 
@@ -197,27 +199,12 @@ NOTE 4
  */
 public final class ColorConfiguration {
 
-	/**
-	 * The enum for specifying coloring mode of data on the graph.
-	 */
-	public enum DataColoringMode {
+	/** The flag to enable/disable the gradient colors on the data coloring. */
+	private volatile boolean dataGradientColorEnabled = true;
 
-		/** Represents the solid coloring mode.. */
-		SOLID,
-
-		/** Represents the gradient coloring mode. */
-		GRADIENT,
-
-		/** Represents the mode to draw each data series with a solid or a gradient color, depending on a value in dataSeriesColoringModes. */
-		MIXED;
-	}
-
-	/** The coloring mode of data on the graph. */
-	private volatile DataColoringMode dataColoringMode = DataColoringMode.GRADIENT;
-
-	/** The coloring modes independently for each data series, referred in dataColoringMode is MIXED mode. */
-	private volatile DataColoringMode[] dataSeriesColoringModes = {
-		DataColoringMode.GRADIENT // Because the gradient option is enabled by default.
+	/** The array storing a gradient color(s) for each of data series. */
+	private volatile GradientColor[] dataGradientColors = {
+		new GradientColor()
 	};
 
 	/** The array storing a solid color for each data series. */
@@ -230,11 +217,6 @@ public final class ColorConfiguration {
 		Color.CYAN,
 		Color.PINK,
 		Color.ORANGE
-	};
-
-	/** The array storing a gradient color(s) for each of data series. */
-	private volatile GradientColor[] dataGradientColors = {
-		new GradientColor()
 	};
 
 	/** The background color of the graph screen. */
@@ -253,32 +235,13 @@ public final class ColorConfiguration {
 	public ColorConfiguration() {
 	}
 
-	public synchronized void setDataColoringMode(DataColoringMode dataColoringMode) {
-		this.dataColoringMode = dataColoringMode;
+	public synchronized void setDataGradientColorEnabled(boolean dataGradientColorEnabled) {
+		this.dataGradientColorEnabled = dataGradientColorEnabled;
 	}
 
-	public synchronized DataColoringMode getDataColoringMode() {
-		return this.dataColoringMode;
+	public synchronized boolean isDataGradientColorEnabled() {
+		return dataGradientColorEnabled;
 	}
-
-	/**
-	 * Sets the coloring modes independently for each data series, referred in dataColoringMode is MIXED mode.
-	 *
-	 * @param dataSeriesColoringModes The array storing a coloring mode for each data series.
-	 */
-	public synchronized void setDataSeriesColoringModes(DataColoringMode[] dataSeriesColoringModes) {
-		this.dataSeriesColoringModes = dataSeriesColoringModes;
-	}
-
-	/**
-	 * Gets the coloring modes independently for each data series, referred in dataColoringMode is MIXED mode.
-	 *
-	 * @return The array storing a coloring mode for each data series.
-	 */
-	public synchronized DataColoringMode[] getDataSeriesColoringModes() {
-		return this.dataSeriesColoringModes;
-	}
-
 
 	// 以下のやつ、Series って付くのよくないんじゃない？
 	// ここで定義されるのはあくまでソリッド色やグラデ色のリストで、
@@ -398,17 +361,6 @@ public final class ColorConfiguration {
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws IllegalStateException {
-
-		// Validate data-coloring modes.
-		if (this.dataSeriesColoringModes == null) {
-			throw new IllegalStateException("The data-coloring modes are null.");
-		} else {
-			for (DataColoringMode coloringMode: this.dataSeriesColoringModes) {
-				if (coloringMode == null) {
-					throw new IllegalStateException("There is a null element in the data-coloring modes.");
-				}
-			}
-		}
 
 		// Validate data solid colors.
 		if (this.dataSolidColors == null) {

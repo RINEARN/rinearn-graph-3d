@@ -3,6 +3,7 @@ package com.rinearn.graph3d.renderer.simple;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.config.ScaleConfiguration;
@@ -274,7 +275,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 		ColorConfiguration colorConfig = this.config.getColorConfiguration();
 		for (GradientColor gradientColor: colorConfig.getDataGradientColors()) {
-			for (GradientColor.AxisGradientColor axisGradientColor: gradientColor.getAxisGradientColors()) {
+			for (AxisGradientColor axisGradientColor: gradientColor.getAxisGradientColors()) {
 				if (!axisGradientColor.isAutoBoundaryRangingEnabled()) {
 					continue;
 				}

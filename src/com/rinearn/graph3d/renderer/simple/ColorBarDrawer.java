@@ -4,6 +4,7 @@ import com.rinearn.graph3d.config.ColorConfiguration;
 import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.color.GradientColor;
+import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 
 import java.awt.Graphics2D;
@@ -128,11 +129,11 @@ public class ColorBarDrawer {
 
 		// For same reason as the above, extract the first AxisGradientColor from the ColorGradient instance.
 		// ColorGradient supports multiple-axes gradients with considering future compatibility, but probably we can not support it on 6.0 yet.
-		GradientColor.AxisGradientColor[] axisGradientColors = gradientColor.getAxisGradientColors();
+		AxisGradientColor[] axisGradientColors = gradientColor.getAxisGradientColors();
 		if (axisGradientColors.length == 0) {
 			throw new IllegalStateException("No AxisGradientColor is defined in GradientColor instance. At least one axis is required for using gradient coloring mode.");
 		}
-		GradientColor.AxisGradientColor axisGradientColor = axisGradientColors[0];
+		AxisGradientColor axisGradientColor = axisGradientColors[0];
 
 		/** Convert the dimension of the gradient's axis to the index in a coordinate array. */
 		int gradientAxisIndex = -1;

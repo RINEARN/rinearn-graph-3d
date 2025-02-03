@@ -1,6 +1,8 @@
 package com.rinearn.graph3d.config;
 
 import com.rinearn.graph3d.config.color.GradientColor;
+import com.rinearn.graph3d.config.color.GradientAxis;
+import com.rinearn.graph3d.config.color.AxisGradientColor;
 
 // !!!!!
 // NOTE
@@ -240,12 +242,12 @@ public final class RinearnGraph3DConfiguration {
 
 			// Extract each axis's gradient color stored in the color configuration.
 			for (GradientColor dataGradientColor: this.colorConfiguration.getDataGradientColors()) {
-				for (GradientColor.AxisGradientColor axisGradientColor: dataGradientColor.getAxisGradientColors()) {
+				for (AxisGradientColor axisGradientColor: dataGradientColor.getAxisGradientColors()) {
 
 					// If any gradient color's axis is set to an extra dimension (e.g.: 4-th column),
 					// the range of the extra dimension must be stored in that range configuration.
-					GradientColor.Axis axis = axisGradientColor.getAxis();
-					if (axis == GradientColor.Axis.COLUMN_4) {
+					GradientAxis axis = axisGradientColor.getAxis();
+					if (axis == GradientAxis.COLUMN_4) {
 						if (this.rangeConfiguration.getExtraDimensionCount() < 1) {
 							throw new IllegalStateException(
 								"For setting a gradient color's axis to COLUMN_4," +

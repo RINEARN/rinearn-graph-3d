@@ -1,9 +1,15 @@
 com/rinearn/graph3d/config/CameraConfiguration.java
+com/rinearn/graph3d/config/color/AxisGradientColor.java
+com/rinearn/graph3d/config/color/ColorBlendMode.java
+com/rinearn/graph3d/config/color/GradientAxis.java
+com/rinearn/graph3d/config/color/GradientBoundaryMode.java
 com/rinearn/graph3d/config/color/GradientColor.java
+com/rinearn/graph3d/config/color/GradientInterpolationMode.java
 com/rinearn/graph3d/config/ColorConfiguration.java
 com/rinearn/graph3d/config/data/IndexSeriesFilter.java
 com/rinearn/graph3d/config/data/SeriesAttribute.java
 com/rinearn/graph3d/config/data/SeriesFilter.java
+com/rinearn/graph3d/config/data/SeriesFilterHub.java
 com/rinearn/graph3d/config/data/SeriesFilterMode.java
 com/rinearn/graph3d/config/EnvironmentConfiguration.java
 com/rinearn/graph3d/config/FontConfiguration.java

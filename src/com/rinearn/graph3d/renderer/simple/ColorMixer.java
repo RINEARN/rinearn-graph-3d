@@ -3,6 +3,9 @@ package com.rinearn.graph3d.renderer.simple;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.config.ColorConfiguration;
 import com.rinearn.graph3d.config.color.GradientColor;
+import com.rinearn.graph3d.config.color.AxisGradientColor;
+import com.rinearn.graph3d.config.color.GradientAxis;
+import com.rinearn.graph3d.config.color.ColorBlendMode;
 
 import java.awt.Color;
 import java.math.BigDecimal;
@@ -96,6 +99,7 @@ public final class ColorMixer {
 			return drawingParam.getColor();
 		}
 
+		/*
 		// Gets the coloring modes defined in the color configuration.
 		ColorConfiguration.DataColoringMode[] coloringModes = colorConfig.getDataSeriesColoringModes();
 		int coloringModeCount = coloringModes.length;
@@ -105,7 +109,9 @@ public final class ColorMixer {
 		int seriesIndex = drawingParam.getSeriesIndex();
 		int coloringModeIndex = seriesIndex % coloringModeCount;
 		ColorConfiguration.DataColoringMode coloringMode = coloringModes[coloringModeIndex];
+		*/
 
+		/*
 		// Generate the color corresponding with the coloring mode.
 		switch (coloringMode) {
 			case SOLID : {
@@ -127,6 +133,32 @@ public final class ColorMixer {
 			default : {
 				throw new IllegalArgumentException("Unknown coloring mode: " + coloringMode);
 			}
+		}
+		*/
+
+		int seriesIndex = drawingParam.getSeriesIndex();
+		boolean isGradientEnabled = true;
+		boolean isSeriesIncludedInFilter = true;
+
+		if (isGradientEnabled && isSeriesIncludedInFilter) {
+
+			// Extract the color gradient defined in the color configuration.
+			GradientColor gradientColor = this.extractGradientColorFromConfig(seriesIndex, colorConfig);
+
+			// Generate the color of the gradient color at the specified coordinate.
+			Color gradientColorAtCoord = this.determineColorFromGradientColor(coordinates, gradientColor);
+
+			return gradientColorAtCoord;
+
+		} else {
+
+			// Extract the color gradient defined in the color configuration.
+			GradientColor gradientColor = this.extractGradientColorFromConfig(seriesIndex, colorConfig);
+
+			// Generate the color of the gradient color at the specified coordinate.
+			Color gradientColorAtCoord = this.determineColorFromGradientColor(coordinates, gradientColor);
+
+			return gradientColorAtCoord;
 		}
 	}
 
@@ -186,11 +218,11 @@ public final class ColorMixer {
 
 		// Get the number of axes (dimensions), and gradients for the directions of them.
 		int axisCount = gradientColor.getAxisCount();
-		GradientColor.AxisGradientColor[] axisGradients = gradientColor.getAxisGradientColors();
+		AxisGradientColor[] axisGradients = gradientColor.getAxisGradientColors();
 
 		// Generate a color for each axis by its gradient.
 		Color[] axisColors = new Color[axisCount];
-		GradientColor.BlendMode[] axisBlendModes = new GradientColor.BlendMode[axisCount];
+		ColorBlendMode[] axisBlendModes = new ColorBlendMode[axisCount];
 		for (int iaxis=0; iaxis<axisCount; iaxis++) {
 			axisColors[iaxis] = this.determineColorFromAxisGradientColor(coordinates, axisGradients[iaxis]);
 			axisBlendModes[iaxis] = axisGradients[iaxis].getBlendMode();
@@ -211,7 +243,7 @@ public final class ColorMixer {
 	 * @param backgroundColor The background color of the blending.
 	 * @return The blended color.
 	 */
-	private Color blendAxisColors(Color[] axisColors, GradientColor.BlendMode[] axisBlendModes, int axisCount, Color backgroundColor) {
+	private Color blendAxisColors(Color[] axisColors, ColorBlendMode[] axisBlendModes, int axisCount, Color backgroundColor) {
 
 		// Extract Red/Green/Blue/Alpha component of the background color.
 		double resultR = backgroundColor.getRed() / 255.0;
@@ -277,7 +309,7 @@ public final class ColorMixer {
 	 * @param axisGradientColor 1D gradient color for the axis.
 	 * @return The generated color.
 	 */
-	private Color determineColorFromAxisGradientColor(BigDecimal[] coordinates, GradientColor.AxisGradientColor axisGradientColor) {
+	private Color determineColorFromAxisGradientColor(BigDecimal[] coordinates, AxisGradientColor axisGradientColor) {
 
 		// Get the colors at the boundary points.
 		int boundaryCount = axisGradientColor.getBoundaryCount();
@@ -393,7 +425,7 @@ public final class ColorMixer {
 	 * @param axis The axis.
 	 * @return The coordinate value corresponding to the specified axis.
 	 */
-	private BigDecimal extractCoordinateFromArray(BigDecimal[] coordinates, GradientColor.Axis axis) {
+	private BigDecimal extractCoordinateFromArray(BigDecimal[] coordinates, GradientAxis axis) {
 		switch (axis) {
 			case X : return coordinates[X];
 			case Y : return coordinates[Y];
@@ -410,7 +442,7 @@ public final class ColorMixer {
 	 * @param axisGradient The color gradient of the axis.
 	 * @return The coordinate values of the boundary points.
 	 */
-	private BigDecimal[] getOrGenerateBoundaryCoordinates(GradientColor.AxisGradientColor axisGradient) {
+	private BigDecimal[] getOrGenerateBoundaryCoordinates(AxisGradientColor axisGradient) {
 		switch (axisGradient.getBoundaryMode()) {
 			case MANUAL : {
 				return axisGradient.getBoundaryCoordinates();
