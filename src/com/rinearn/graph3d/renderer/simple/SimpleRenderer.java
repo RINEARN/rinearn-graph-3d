@@ -6,7 +6,6 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.RangeConfiguration;
-import com.rinearn.graph3d.config.ScaleConfiguration;
 import com.rinearn.graph3d.config.CameraConfiguration;
 import com.rinearn.graph3d.config.ColorConfiguration;
 
@@ -19,7 +18,6 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.math.BigDecimal;
 
 
 // !!!!!
@@ -190,92 +188,22 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		this.spaceConverters[Y].setRange(yRangeConfig.getMinimum(), yRangeConfig.getMaximum());
 		this.spaceConverters[Z].setRange(zRangeConfig.getMinimum(), zRangeConfig.getMaximum());
 
-		// Updates the ranges of the gradient colors, from the updated configuration.
-		this.updateGradientColors(); // Do before updateTicks(), because updateTicks() depends on the updated range of the gradient by this method.
-
-		// Sets the configuration for drawing scales, frames, etc.
-		this.scaleTickDrawer.setConfiguration(this.config);
-		this.frameDrawer.setConfiguration(this.config);
-		this.labelDrawer.setConfiguration(this.config);
-		this.colorBarDrawer.setConfiguration(this.config);
-
-		// Update the tick coordinates and tick labels, from the updated configuration.
-		this.updateTicks();
-
 		// Update the camera angles and parameters.
 		this.updateCamera();
+
+		// Updates the ranges of the gradient colors, from the updated configuration.
+		this.updateGradientColors(); // Do before generateTicks(), because updateTicks() depends on the updated range of the gradient by this method.
+
+		// Generate tick coordinates and tick labels from the configuration.
+		ScaleTickGenerator.Result scaleTicks = ScaleTickGenerator.generateTicks(this.config);
+
+		// Sets the configuration for drawing scales, frames, etc.
+		this.scaleTickDrawer.setConfiguration(this.config, scaleTicks);
+		this.frameDrawer.setConfiguration(this.config, scaleTicks);
+		this.labelDrawer.setConfiguration(this.config, scaleTicks);
+		this.colorBarDrawer.setConfiguration(this.config, scaleTicks);
 	}
 
-
-	/**
-	 * Updates the tick coordinates and tick labels, from the current configuration.
-	 */
-	private void updateTicks() {
-
-		boolean isLogPlot = false; // Temporary
-
-		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
-		// RangeConfiguration.AxisRangeConfiguration cRangeConfig = zRangeConfig; // Temporary
-
-		ScaleConfiguration scaleConfig = this.config.getScaleConfiguration();
-		ScaleConfiguration.AxisScaleConfiguration xScaleConfig = scaleConfig.getXScaleConfiguration();
-		ScaleConfiguration.AxisScaleConfiguration yScaleConfig = scaleConfig.getYScaleConfiguration();
-		ScaleConfiguration.AxisScaleConfiguration zScaleConfig = scaleConfig.getZScaleConfiguration();
-		ScaleConfiguration.AxisScaleConfiguration cScaleConfig = scaleConfig.getColorBarScaleConfiguration();
-
-		// Extract an axis's gradient color.
-		ColorConfiguration colorConfig = this.config.getColorConfiguration();
-		GradientColor[] gradientColors = colorConfig.getDataGradientColors();
-		if (gradientColors.length != 1) {
-			throw new IllegalStateException("Multiple gradient coloring is not supported on this version yet.");
-		}
-		GradientColor gradientColor = gradientColors[0];
-		AxisGradientColor[] axisGradientColors = gradientColor.getAxisGradientColors();
-		if (axisGradientColors.length != 1) {
-			throw new IllegalStateException("Multi-axis gradient color is not supported on this version yet.");
-		}
-		AxisGradientColor axisGradientColor = axisGradientColors[0];
-
-		BigDecimal[] xTickCoords = xScaleConfig.getTicker().generateTickCoordinates(
-				xRangeConfig.getMinimum(), xRangeConfig.getMaximum(), isLogPlot
-		);
-		BigDecimal[] yTickCoords = yScaleConfig.getTicker().generateTickCoordinates(
-				yRangeConfig.getMinimum(), yRangeConfig.getMaximum(), isLogPlot
-		);
-		BigDecimal[] zTickCoords = zScaleConfig.getTicker().generateTickCoordinates(
-				zRangeConfig.getMinimum(), zRangeConfig.getMaximum(), isLogPlot
-		);
-		BigDecimal[] cTickCoords = cScaleConfig.getTicker().generateTickCoordinates(
-				axisGradientColor.getMinimumBoundaryCoordinate(), axisGradientColor.getMaximumBoundaryCoordinate(), isLogPlot
-		);
-
-		String[] xTickLabelTexts = xScaleConfig.getTicker().generateTickLabelTexts(
-				xTickCoords, xScaleConfig.getTickLabelFormatter()
-		);
-		String[] yTickLabelTexts = yScaleConfig.getTicker().generateTickLabelTexts(
-				yTickCoords, yScaleConfig.getTickLabelFormatter()
-		);
-		String[] zTickLabelTexts = zScaleConfig.getTicker().generateTickLabelTexts(
-				zTickCoords, zScaleConfig.getTickLabelFormatter()
-		);
-		String[] cTickLabelTexts = cScaleConfig.getTicker().generateTickLabelTexts(
-				cTickCoords, cScaleConfig.getTickLabelFormatter()
-		);
-
-		this.frameDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
-		this.labelDrawer.setTickLabelTexts(xTickLabelTexts, yTickLabelTexts, zTickLabelTexts);
-		this.scaleTickDrawer.setTickCoordinates(xTickCoords, yTickCoords, zTickCoords);
-		this.scaleTickDrawer.setTickLabelTexts(xTickLabelTexts, yTickLabelTexts, zTickLabelTexts);
-		this.colorBarDrawer.setTickCoordinates(cTickCoords);
-		this.colorBarDrawer.setTickLabelTexts(cTickLabelTexts);
-
-		// Note:
-		// We can generate tick coordinates and labels, also inside the above classes from the configuration.
-		// However, to avid avid duplicate code between them, we generate here and pass the result to them.
-	}
 
 	/**
 	 * Updates the ranges of the gradients of the colors, from the current configuration.

@@ -1,7 +1,6 @@
 package com.rinearn.graph3d.renderer.simple;
 
 import com.rinearn.graph3d.config.ColorConfiguration;
-import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
@@ -47,14 +46,11 @@ public class ColorBarDrawer {
 	/** The height (px) of the left-top edge of the color bar. */
 	private volatile int colorBarHeight = DEFAULT_COLOR_BAR_HEIGHT;
 
-	/** The coordinates (locations) of the ticks. */
-	private volatile BigDecimal[] tickCoordinates;
-
-	/** The labels of the ticks. */
-	private volatile String[] tickLabels;
-
 	/** Stores the configuration of this application. */
-	private volatile RinearnGraph3DConfiguration config;
+	private volatile RinearnGraph3DConfiguration config = null;
+
+	/** The scale ticks generated from the configuration. */
+	private ScaleTickGenerator.Result scaleTicks = null;
 
 
 	/**
@@ -67,9 +63,10 @@ public class ColorBarDrawer {
 	/**
 	 * Sets the configuration.
 	 *
-	 * @param config The configuration.
+	 * @param configuration The configuration.
+	 * @param scaleTicks The scale ticks generated from the configuration.
 	 */
-	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
+	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration, ScaleTickGenerator.Result scaleTicks) {
 		if (!configuration.hasRangeConfiguration()) {
 			throw new IllegalArgumentException("The range configuration is stored in the specified configuration.");
 		}
@@ -77,25 +74,7 @@ public class ColorBarDrawer {
 			throw new IllegalArgumentException("No color configuration is stored in the specified configuration.");
 		}
 		this.config = configuration;
-	}
-
-
-	/**
-	 * Sets the coordinates (locations) of the ticks.
-	 *
-	 * @param tickCoordinates The coordinates of the ticks.
-	 */
-	public synchronized void setTickCoordinates(BigDecimal[] tickCoordinates) {
-		this.tickCoordinates = tickCoordinates;
-	}
-
-	/**
-	 * Sets the labels of the ticks.
-	 *
-	 * @param tickLabels The labels of the ticks.
-	 */
-	public synchronized void setTickLabelTexts(String[] tickLabels) {
-		this.tickLabels = tickLabels;
+		this.scaleTicks = scaleTicks;
 	}
 
 
@@ -178,17 +157,17 @@ public class ColorBarDrawer {
 		graphics.setColor(colorConfig.getForegroundColor());
 		graphics.setFont(this.config.getFontConfiguration().getTickLabelFont());
 		int fontHeight = graphics.getFontMetrics().getAscent() - graphics.getFontMetrics().getDescent();
-		int tickCount = this.tickCoordinates.length;
+		int tickCount = this.scaleTicks.colorBarTickCoordinates.length;
 		for (int itick=0; itick<tickCount; itick++) {
 
 			// Compute the screen coordinates of the tick line and label.
-			double yRelativeCoord = (this.tickCoordinates[itick].doubleValue() - min.doubleValue()) / (max.doubleValue() - min.doubleValue());
+			double yRelativeCoord = (this.scaleTicks.colorBarTickCoordinates[itick].doubleValue() - min.doubleValue()) / (max.doubleValue() - min.doubleValue());
 			int yPixelCoord = (int)StrictMath.round(this.colorBarY + (this.colorBarHeight - 1) * (1.0 -  yRelativeCoord));
 			int xPixelCoord = this.colorBarX + this.colorBarWidth;
 
 			// Draw tick the line and label.
 			graphics.drawLine(xPixelCoord, yPixelCoord, xPixelCoord - ICK_LINE_LENGTH, yPixelCoord);
-			graphics.drawString(this.tickLabels[itick], xPixelCoord + TICK_LABEL_MARGIN, yPixelCoord + fontHeight/2);
+			graphics.drawString(this.scaleTicks.colorBarTickLabelTexts[itick], xPixelCoord + TICK_LABEL_MARGIN, yPixelCoord + fontHeight/2);
 		}
 	}
 }

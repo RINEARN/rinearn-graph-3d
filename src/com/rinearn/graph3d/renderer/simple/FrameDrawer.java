@@ -26,16 +26,10 @@ public final class FrameDrawer {
 	public static final int LINE_PIECE_COUNT = 32;
 
 	/** Stores the configuration of this application. */
-	private volatile RinearnGraph3DConfiguration config;
+	private volatile RinearnGraph3DConfiguration config = null;
 
-	/** The coordinates of the ticks on X axis. */
-	private BigDecimal[] xTickCoordinates = {};
-
-	/** The coordinates of the ticks on Y axis. */
-	private BigDecimal[] yTickCoordinates = {};
-
-	/** The coordinates of the ticks on Z axis. */
-	private BigDecimal[] zTickCoordinates = {};
+	/** The scale ticks generated from the configuration. */
+	private ScaleTickGenerator.Result scaleTicks = null;
 
 
 	/**
@@ -48,9 +42,10 @@ public final class FrameDrawer {
 	/**
 	 * Sets the configuration.
 	 *
-	 * @param config The configuration.
+	 * @param configuration The configuration.
+	 * @param scaleTicks The scale ticks generated from the configuration.
 	 */
-	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
+	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration, ScaleTickGenerator.Result scaleTicks) {
 		if (!configuration.hasFrameConfiguration()) {
 			throw new IllegalArgumentException("The frame configuration is stored in the specified configuration.");
 		}
@@ -61,22 +56,7 @@ public final class FrameDrawer {
 			throw new IllegalArgumentException("No color configuration is stored in the specified configuration.");
 		}
 		this.config = configuration;
-	}
-
-
-	/**
-	 * Sets the coordinates of the ticks on X, Y, and Z axes.
-	 *
-	 * @param xTickCoordinates The coordinates of the ticks on X axis.
-	 * @param yTickCoordinates The coordinates of the ticks on Y axis.
-	 * @param zTickCoordinates The coordinates of the ticks on Z axis.
-	 */
-	public synchronized void setTickCoordinates(
-			BigDecimal[] xTickCoordinates, BigDecimal[] yTickCoordinates, BigDecimal[] zTickCoordinates) {
-
-		this.xTickCoordinates = xTickCoordinates;
-		this.yTickCoordinates = yTickCoordinates;
-		this.zTickCoordinates = zTickCoordinates;
+		this.scaleTicks = scaleTicks;
 	}
 
 
@@ -191,19 +171,19 @@ public final class FrameDrawer {
 		SpaceConverter zSpaceConverter = new SpaceConverter(zRangeConfig.getMinimum(), zRangeConfig.getMaximum());
 
 		// Draw ticks on X axis.
-		for (BigDecimal tickCoord: this.xTickCoordinates) {
+		for (BigDecimal tickCoord: this.scaleTicks.xTickCoordinates) {
 			double scaledCoord = xSpaceConverter.toScaledSpaceCoordinate(tickCoord.doubleValue());
 			this.drawXGridLines(geometricPieceList, scaledCoord);
 		}
 
 		// Draw ticks on Y axis.
-		for (BigDecimal tickCoord: this.yTickCoordinates) {
+		for (BigDecimal tickCoord: this.scaleTicks.yTickCoordinates) {
 			double scaledCoord = ySpaceConverter.toScaledSpaceCoordinate(tickCoord.doubleValue());
 			this.drawYGridLines(geometricPieceList, scaledCoord);
 		}
 
 		// Draw ticks on Z axis.
-		for (BigDecimal tickCoord: this.zTickCoordinates) {
+		for (BigDecimal tickCoord: this.scaleTicks.zTickCoordinates) {
 			double scaledCoord = zSpaceConverter.toScaledSpaceCoordinate(tickCoord.doubleValue());
 			this.drawZGridLines(geometricPieceList, scaledCoord);
 		}

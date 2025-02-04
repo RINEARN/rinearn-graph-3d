@@ -38,22 +38,16 @@ public class LabelDrawer {
 			= RinearnGraph3DDrawingParameter.HorizontalAlignment.RADIAL;
 
 	/** Stores the configuration of this application. */
-	RinearnGraph3DConfiguration config;
+	RinearnGraph3DConfiguration config = null;
+
+	/** The scale ticks generated from the configuration. */
+	private ScaleTickGenerator.Result scaleTicks = null;
 
 	/** The vertical distance [px] from the reference point, at which the alignment of tick labels change. */
 	private int verticalAlignThreshold;
 
 	/** The horizontal distance [px] from the reference point, at which the alignment of tick labels change. */
 	private int horizontalAlignThreshold;
-
-	/** The texts of the tick labels on X axis. */
-	private String[] xTickLabelTexts = {};
-
-	/** The texts of the tick labels on Y axis. */
-	private String[] yTickLabelTexts = {};
-
-	/** The texts of the tick labels on Z axis. */
-	private String[] zTickLabelTexts = {};
 
 
 	/**
@@ -71,9 +65,10 @@ public class LabelDrawer {
 	/**
 	 * Sets the configuration.
 	 *
-	 * @param config The configuration.
+	 * @param configuration The configuration.
+	 * @param scaleTicks The scale ticks generated from the configuration.
 	 */
-	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration) {
+	public synchronized void setConfiguration(RinearnGraph3DConfiguration configuration, ScaleTickGenerator.Result scaleTicks) {
 		if (!configuration.hasScaleConfiguration()) {
 			throw new IllegalArgumentException("No scale configuration is stored in the specified configuration.");
 		}
@@ -84,22 +79,7 @@ public class LabelDrawer {
 			throw new IllegalArgumentException("No label configuration is stored in the specified configuration.");
 		}
 		this.config = configuration;
-	}
-
-
-	/**
-	 * Sets the texts of the tick labels on X, Y, and Z axes.
-	 *
-	 * @param xTickLabelTexts The texts of the tick labels on X axis.
-	 * @param yTickLabelTexts The texts of the tick labels on Y axis.
-	 * @param zTickLabelTexts The texts of the tick labels on Z axis.
-	 */
-	public synchronized void setTickLabelTexts(
-			String[] xTickLabelTexts, String[] yTickLabelTexts, String[] zTickLabelTexts) {
-
-		this.xTickLabelTexts = xTickLabelTexts;
-		this.yTickLabelTexts = yTickLabelTexts;
-		this.zTickLabelTexts = zTickLabelTexts;
+		this.scaleTicks = scaleTicks;
 	}
 
 
@@ -182,7 +162,7 @@ public class LabelDrawer {
 		int vThreshold   = this.verticalAlignThreshold;
 		int hThreshold = this.horizontalAlignThreshold;
 		double tickLabelMargin = this.config.getScaleConfiguration().getXScaleConfiguration().getTickLabelMargin();
-		String[] tickLabelTexts = this.xTickLabelTexts;
+		String[] tickLabelTexts = this.scaleTicks.xTickLabelTexts;
 		String axisLabel = this.config.getLabelConfiguration().getXLabelConfiguration().getText();
 
 		int hOffset = this.getTickLabelMaxWidth(tickLabelTexts, tickLabelFontMetrics);
@@ -297,7 +277,7 @@ public class LabelDrawer {
 		int vThreshold   = this.verticalAlignThreshold;
 		int hThreshold = this.horizontalAlignThreshold;
 		double tickLabelMargin = this.config.getScaleConfiguration().getYScaleConfiguration().getTickLabelMargin();
-		String[] tickLabels = this.yTickLabelTexts;
+		String[] tickLabels = this.scaleTicks.yTickLabelTexts;
 		String axisLabel = this.config.getLabelConfiguration().getYLabelConfiguration().getText();
 
 		int hOffset = this.getTickLabelMaxWidth(tickLabels, tickLabelFontMetrics);
@@ -410,7 +390,7 @@ public class LabelDrawer {
 		int vThreshold   = this.verticalAlignThreshold;
 		int hThreshold = this.horizontalAlignThreshold;
 		double tickLabelMargin = this.config.getScaleConfiguration().getZScaleConfiguration().getTickLabelMargin();
-		String[] tickLabels = this.zTickLabelTexts;
+		String[] tickLabels = this.scaleTicks.zTickLabelTexts;
 		String axisLabel = this.config.getLabelConfiguration().getZLabelConfiguration().getText();
 
 		int hOffset = this.getTickLabelMaxWidth(tickLabels, tickLabelFontMetrics);
