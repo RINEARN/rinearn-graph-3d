@@ -91,13 +91,15 @@
 
 ## ちょっと思いつき 20250202, 04
 
-* SimpleRenderer.configure の中で SimpleRenderer.updateGradientColors 呼んで
+* 済: SimpleRenderer.configure の中で SimpleRenderer.updateGradientColors 呼んで
   そこでグラデの座標範囲が（オートレンジON時に）更新されてんの、管轄的におかしくない？
   「とにかくグラデを描く所まで到達するための投げやりの足場実装」だったのが、そのまま残ってる可能性がある。
 
   普通に考えて、もっと上層で処理する必用があるでしょ。replot 処理の一部として。
   RangeConfig のオートレンジと同じくらいの所で。
   renderer の内部でグラデの範囲とか書き換えちゃいけないよ絶対。
+
+  -> Presenter.adjustRanges の中で行うように変更した。
 
 * configのやつら、やっぱ内部クラス/enum入れ子にするのやめて全部サブパッケージに展開すべきかも。
   当初はコンパクトさ重視でよかったかもしれないけど、やっぱ scale config とかで無理が生じてサブパッケージ作ったし、
