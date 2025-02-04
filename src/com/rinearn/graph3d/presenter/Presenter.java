@@ -15,6 +15,7 @@ import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
 
 import com.rinearn.graph3d.presenter.handler.CameraSettingHandler;
 import com.rinearn.graph3d.presenter.handler.FontSettingHandler;
+import com.rinearn.graph3d.presenter.handler.GradientOptionHandler;
 import com.rinearn.graph3d.presenter.handler.MainWindowFrameHandler;
 import com.rinearn.graph3d.presenter.handler.LabelSettingHandler;
 import com.rinearn.graph3d.presenter.handler.LightSettingHandler;
@@ -199,6 +200,9 @@ public final class Presenter {
 	/** The handler of "With Surfaces" option window. */
 	public final SurfaceOptionHandler surfaceOptionHandler;
 
+	/** The handler of "Gradient Coloring" option window. */
+	public final GradientOptionHandler gradientOptionHandler;
+
 	/** The plotter to plot points. */
 	public final PointPlotter pointPlotter;
 
@@ -262,6 +266,7 @@ public final class Presenter {
 		this.lineOptionHandler = new LineOptionHandler(model, view, this);
 		this.meshOptionHandler = new MeshOptionHandler(model, view, this);
 		this.surfaceOptionHandler = new SurfaceOptionHandler(model, view, this);
+		this.gradientOptionHandler = new GradientOptionHandler(model, view, this);
 
 		// Create "plotter"s, which perform plottings/re-plottings in event-driven flow.
 		this.pointPlotter = new PointPlotter(model, view, this, renderer);
@@ -309,6 +314,7 @@ public final class Presenter {
 		this.lineOptionHandler.setEventHandlingEnabled(enabled);
 		this.meshOptionHandler.setEventHandlingEnabled(enabled);
 		this.surfaceOptionHandler.setEventHandlingEnabled(enabled);
+		this.gradientOptionHandler.setEventHandlingEnabled(enabled);
 	}
 
 

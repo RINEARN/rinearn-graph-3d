@@ -3,14 +3,11 @@ package com.rinearn.graph3d.presenter.handler;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import com.rinearn.graph3d.config.EnvironmentConfiguration;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
-import com.rinearn.graph3d.def.ErrorMessage;
-import com.rinearn.graph3d.def.ErrorType;
 import com.rinearn.graph3d.view.SeriesFilterComponents;
 
 

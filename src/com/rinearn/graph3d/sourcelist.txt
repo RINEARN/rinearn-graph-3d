@@ -62,6 +62,7 @@ com/rinearn/graph3d/presenter/handler/DataArrayIOHandler.java
 com/rinearn/graph3d/presenter/handler/DataFileIOHandler.java
 com/rinearn/graph3d/presenter/handler/DataTextIOHandler.java
 com/rinearn/graph3d/presenter/handler/FontSettingHandler.java
+com/rinearn/graph3d/presenter/handler/GradientOptionHandler.java
 com/rinearn/graph3d/presenter/handler/ImageIOHandler.java
 com/rinearn/graph3d/presenter/handler/LabelSettingHandler.java
 com/rinearn/graph3d/presenter/handler/LightSettingHandler.java

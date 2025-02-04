@@ -478,7 +478,7 @@ public final class GradientOptionWindow {
 			setSelectedGradientAxis(axisGradientColor.getAxis());
 
 			// Probably rounding is necessary in future.
-			minField.setText(axisGradientColor.getMaximumBoundaryCoordinate().toString());
+			minField.setText(axisGradientColor.getMinimumBoundaryCoordinate().toString());
 			maxField.setText(axisGradientColor.getMaximumBoundaryCoordinate().toString());
 
 			// Enable/disable the auto range feature of the gradient.
