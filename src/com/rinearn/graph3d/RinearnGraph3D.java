@@ -67,7 +67,7 @@ public final class RinearnGraph3D {
 
 		// When instantiated as a stand-alone application, not a library,
 		// enable the feature to exit the entire application when the graph window is closed.
-		graph3D.setAutoExitingEnabled(true);
+		graph3D.setAutoExitEnabled(true);
 	}
 
 
@@ -259,7 +259,7 @@ public final class RinearnGraph3D {
 	 * <span class="lang-en">
 	 * Set the window title of the graph window
 	 * </span>
-	 * <span class="lang-ha">
+	 * <span class="lang-ja">
 	 * グラフ画面のウィンドウタイトルを設定します
 	 * </span>
 	 * .
@@ -284,10 +284,25 @@ public final class RinearnGraph3D {
 	 * グラフウィンドウを閉じた際に, 自動でリソースを破棄する機能の有効/無効を設定します（デフォルトで有効）
 	 * </span>
 	 * .
+	 * <span class="lang-en">
+	 * This method is renamed from setAutoDisposingEnabled(boolean) in Ver.6.
+	 * The old name is also available for keeping compatibility.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドは, Ver.6 において, setAutoExittingEnabled(boolean) から改名されました.
+	 * 互換性維持のため, 旧名も使用できます.
+	 * </span>
+	 *
 	 * @param enabled Specify true to enable, or false to disable.
 	 */
-	public void setAutoDisposingEnabled(boolean enabled) {
+	public void setAutoDisposeEnabled(boolean enabled) {
 		this.presenter.mainWindowFrameHandler.setAutoDisposingEnabled(enabled);
+	}
+	/**
+	 * @hidden
+	 */
+	public void setAutoDisposingEnabled(boolean enabled) {
+		this.setAutoDisposeEnabled(enabled);
 	}
 
 
@@ -301,6 +316,15 @@ public final class RinearnGraph3D {
 	 * 自動でアプリケーション全体を終了させる機能の有効/無効を設定します（デフォルトで無効）
 	 * </span>
 	 * .
+	 * <span class="lang-en">
+	 * This method is renamed from setAutoExittingEnabled(boolean) in Ver.6.
+	 * The old name is also available for keeping compatibility.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドは, Ver.6 において, setAutoExittingEnabled(boolean) から改名されました.
+	 * 互換性維持のため, 旧名も使用できます.
+	 * </span>
+	 *
 	 * @param enabled
 	 *   <span class="lang-en">
 	 *   Specify true to enable, false to disable
@@ -309,35 +333,14 @@ public final class RinearnGraph3D {
 	 *   有効化する場合にtrue, 無効化する場合に false を指定
 	 *   </span>
 	 */
-	public synchronized void setAutoExitingEnabled(boolean enabled) {
+	public synchronized void setAutoExitEnabled(boolean enabled) {
 		this.presenter.mainWindowFrameHandler.setAutoExitingEnabled(enabled);
 	}
-
 	/**
-	 * <span class="lang-en">
-	 * This method name contains a mis-spelling, so use setAutoExitingEnabled(boolean enabled) instead
-	 * </span>
-	 * <span class="lang-ja">
-	 * このメソッド名にはスペルミスが含まれているため, 代わりに setAutoExitingEnabled(boolean enabled) を使用してください
-	 * </span>
-	 * .
-	 * <span class="lang-en">
-	 * This method is supported only for keeping compatibility of old code depending on this method.
-	 * </span>
-	 * <span class="lang-ja">
-	 * このメソッドは, このメソッドに依存している古いコードの互換性を保つためだけにサポートされています.
-	 * </span>
-	 *
-	 * @param enabled
-	 *   <span class="lang-en">
-	 *   Same as setAutoExitingEnabled(boolean enabled)
-	 *   </span>
-	 *   <span class="lang-ja">
-	 *   setAutoExitingEnabled(boolean enabled) と同様
-	 *   </span>
+	 * @hidden
 	 */
 	public void setAutoExittingEnabled(boolean enabled) {
-		this.setAutoExitingEnabled(enabled);
+		this.setAutoExitEnabled(enabled);
 	}
 
 
@@ -1070,6 +1073,9 @@ public final class RinearnGraph3D {
 	public synchronized void setXAutoRangeEnabled(boolean enabled) {
 		this.presenter.rangeSettingHandler.setXAutoRangeEnabled(enabled);
 	}
+	/**
+	 * @hidden
+	 */
 	public synchronized void setXAutoRangingEnabled(boolean enabled) {
 		this.setXAutoRangeEnabled(enabled);
 	}
@@ -1106,6 +1112,9 @@ public final class RinearnGraph3D {
 	public synchronized void setYAutoRangeEnabled(boolean enabled) {
 		this.presenter.rangeSettingHandler.setYAutoRangeEnabled(enabled);
 	}
+	/**
+	 * @hidden
+	 */
 	public synchronized void setYAutoRangingEnabled(boolean enabled) {
 		this.setYAutoRangeEnabled(enabled);
 	}
@@ -1142,6 +1151,9 @@ public final class RinearnGraph3D {
 	public synchronized void setZAutoRangeEnabled(boolean enabled) {
 		this.presenter.rangeSettingHandler.setZAutoRangeEnabled(enabled);
 	}
+	/**
+	 * @hidden
+	 */
 	public synchronized void setZAutoRangingEnabled(boolean enabled) {
 		this.setZAutoRangeEnabled(enabled);
 	}
