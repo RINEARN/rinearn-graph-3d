@@ -171,6 +171,15 @@
            なら確かに描画エンジンでは本体と独立にモード切替えできる必要があるな。
 
 
+## ネイティブ的に変な命名を直す（旧名も互換を保ちつつ）
+
+* 済: ルートAPIの set~AutoRangingEnabled 系は明らかに変っぽいから set~AutoRangeEnabled にする
+* 済: setAutoDisposing/ExitingEnabled も名詞にする
+* 済: setAsynchronousPlottingEnabled は意外と名詞にしない方がいいのでは？ みたいな感じらしい。あと PlottingEvent と PlottingListener も。なのでこれらは現状維持。
+* 済: RenderingParameter の setAutoColoringEnabled, setRangeClippingEnabled, setRangeScalingEnabled もそれぞれ名詞にしたほうがいい。
+* 上記の改名後の setRangeClipEnabled, setRangeScaleEnabled については、そもそも論として、より適切な命名があるのでは？ Range の箇所がちょっと微妙。まあ目盛りのスケールとの混同を避けるために何かしらは要るが。
+* DataFileFormat の enum 名、あの場合の COLUMNS は単数形の方が適切っぽいので単数形に直す
+
 ## オプションメニューの実装を進める
 
 * 済: 基本系のプロットオプション（点、線、メッシュ、曲面）
