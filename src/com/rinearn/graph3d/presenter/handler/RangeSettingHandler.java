@@ -136,7 +136,7 @@ public final class RangeSettingHandler {
 			// X range:
 			{
 				// Get the inputted values and check them.
-				boolean xAutoRangingEnabled = window.xAutoRangingBox.isSelected();
+				boolean xAutoRangeEnabled = window.xAutoRangeBox.isSelected();
 				BigDecimal xMax = null;
 				BigDecimal xMin = null;
 				try {
@@ -159,7 +159,7 @@ public final class RangeSettingHandler {
 				}
 
 				// Store the above into the configuration container.
-				xRangeConfig.setAutoRangingEnabled(xAutoRangingEnabled);
+				xRangeConfig.setAutoRangeEnabled(xAutoRangeEnabled);
 				xRangeConfig.setMaximum(xMax);
 				xRangeConfig.setMinimum(xMin);
 			}
@@ -167,7 +167,7 @@ public final class RangeSettingHandler {
 			// Y range:
 			{
 				// Get the inputted values and check them.
-				boolean yAutoRangingEnabled = window.yAutoRangingBox.isSelected();
+				boolean yAutoRangeEnabled = window.yAutoRangeBox.isSelected();
 				BigDecimal yMax = null;
 				BigDecimal yMin = null;
 				try {
@@ -190,7 +190,7 @@ public final class RangeSettingHandler {
 				}
 
 				// Store the above into the configuration container.
-				yRangeConfig.setAutoRangingEnabled(yAutoRangingEnabled);
+				yRangeConfig.setAutoRangeEnabled(yAutoRangeEnabled);
 				yRangeConfig.setMaximum(yMax);
 				yRangeConfig.setMinimum(yMin);
 			}
@@ -198,7 +198,7 @@ public final class RangeSettingHandler {
 			// Z range:
 			{
 				// Get the inputted values and check them.
-				boolean zAutoRangingEnabled = window.zAutoRangingBox.isSelected();
+				boolean zAutoRangeEnabled = window.zAutoRangeBox.isSelected();
 				BigDecimal zMax = null;
 				BigDecimal zMin = null;
 				try {
@@ -221,7 +221,7 @@ public final class RangeSettingHandler {
 				}
 
 				// Store the above into the configuration container.
-				zRangeConfig.setAutoRangingEnabled(zAutoRangingEnabled);
+				zRangeConfig.setAutoRangeEnabled(zAutoRangeEnabled);
 				zRangeConfig.setMaximum(zMax);
 				zRangeConfig.setMinimum(zMin);
 			}
@@ -304,15 +304,15 @@ public final class RangeSettingHandler {
 
 
 	/**
-	 * Turns on/off the auto-ranging feature for X axis.
+	 * Turns on/off the auto-range feature for X axis.
 	 * (API Implementation)
 	 *
 	 * @param enabled Specify true/false for turning on/off (the default is on).
 	 */
-	public void setXAutoRangingEnabled(boolean enabled) {
+	public void setXAutoRangeEnabled(boolean enabled) {
 
 		// Handle the API on the event-dispatcher thread.
-		SetXAutoRangingEnabledAPIListener apiListener = new SetXAutoRangingEnabledAPIListener(enabled);
+		SetXAutoRangeEnabledAPIListener apiListener = new SetXAutoRangeEnabledAPIListener(enabled);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -326,20 +326,20 @@ public final class RangeSettingHandler {
 	}
 
 	/**
-	 * The class handling API requests from setXAutoRangingEnabled(-) method,
+	 * The class handling API requests from setXAutoRangeEnabled(-) method,
 	 * on event-dispatcher thread.
 	 */
-	private final class SetXAutoRangingEnabledAPIListener implements Runnable {
+	private final class SetXAutoRangeEnabledAPIListener implements Runnable {
 
 		/** The flag representing whether the auto ranging feature is enabled. */
 		private final boolean enabled;
 
 		/**
-		 * Create an instance handling setXAutoRangingEnabled(-) API with the specified argument.
+		 * Create an instance handling setXAutoRangeEnabled(-) API with the specified argument.
 		 *
 		 * @param enabled Specify true/false for turning on/off (the default is on).
 		 */
-		public SetXAutoRangingEnabledAPIListener(boolean enabled) {
+		public SetXAutoRangeEnabledAPIListener(boolean enabled) {
 			this.enabled = enabled;
 		}
 
@@ -347,7 +347,7 @@ public final class RangeSettingHandler {
 		public void run() {
 			RangeConfiguration.AxisRangeConfiguration xRangeConfig
 					= model.config.getRangeConfiguration().getXRangeConfiguration();
-			xRangeConfig.setAutoRangingEnabled(enabled);
+			xRangeConfig.setAutoRangeEnabled(enabled);
 			presenter.propagateConfiguration();
 			// presenter.replot(); // Not necessary.
 		}
@@ -412,15 +412,15 @@ public final class RangeSettingHandler {
 	}
 
 	/**
-	 * Turns on/off the auto-ranging feature for Y axis.
+	 * Turns on/off the auto-range feature for Y axis.
 	 * (API Implementation)
 	 *
 	 * @param enabled Specify true/false for turning on/off (the default is on).
 	 */
-	public void setYAutoRangingEnabled(boolean enabled) {
+	public void setYAutoRangeEnabled(boolean enabled) {
 
 		// Handle the API on the event-dispatcher thread.
-		SetYAutoRangingEnabledAPIListener apiListener = new SetYAutoRangingEnabledAPIListener(enabled);
+		SetYAutoRangeEnabledAPIListener apiListener = new SetYAutoRangeEnabledAPIListener(enabled);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -434,20 +434,20 @@ public final class RangeSettingHandler {
 	}
 
 	/**
-	 * The class handling API requests from setYAutoRangingEnabled(-) method,
+	 * The class handling API requests from setYAutoRangeEnabled(-) method,
 	 * on event-dispatcher thread.
 	 */
-	private final class SetYAutoRangingEnabledAPIListener implements Runnable {
+	private final class SetYAutoRangeEnabledAPIListener implements Runnable {
 
 		/** The flag representing whether the auto ranging feature is enabled. */
 		private final boolean enabled;
 
 		/**
-		 * Create an instance handling setYAutoRangingEnabled(-) API with the specified argument.
+		 * Create an instance handling setYAutoRangeEnabled(-) API with the specified argument.
 		 *
 		 * @param enabled Specify true/false for turning on/off (the default is on).
 		 */
-		public SetYAutoRangingEnabledAPIListener(boolean enabled) {
+		public SetYAutoRangeEnabledAPIListener(boolean enabled) {
 			this.enabled = enabled;
 		}
 
@@ -455,7 +455,7 @@ public final class RangeSettingHandler {
 		public void run() {
 			RangeConfiguration.AxisRangeConfiguration yRangeConfig
 					= model.config.getRangeConfiguration().getYRangeConfiguration();
-			yRangeConfig.setAutoRangingEnabled(enabled);
+			yRangeConfig.setAutoRangeEnabled(enabled);
 			presenter.propagateConfiguration();
 			// presenter.replot(); Not necessary.
 		}
@@ -526,10 +526,10 @@ public final class RangeSettingHandler {
 	 *
 	 * @param enabled Specify true/false for turning on/off (the default is on).
 	 */
-	public void setZAutoRangingEnabled(boolean enabled) {
+	public void setZAutoRangeEnabled(boolean enabled) {
 
 		// Handle the API on the event-dispatcher thread.
-		SetZAutoRangingEnabledAPIListener apiListener = new SetZAutoRangingEnabledAPIListener(enabled);
+		SetZAutoRangeEnabledAPIListener apiListener = new SetZAutoRangeEnabledAPIListener(enabled);
 		if (SwingUtilities.isEventDispatchThread()) {
 			apiListener.run();
 		} else {
@@ -543,20 +543,20 @@ public final class RangeSettingHandler {
 	}
 
 	/**
-	 * The class handling API requests from setZAutoRangingEnabled(-) method,
+	 * The class handling API requests from setZAutoRangeEnabled(-) method,
 	 * on event-dispatcher thread.
 	 */
-	private final class SetZAutoRangingEnabledAPIListener implements Runnable {
+	private final class SetZAutoRangeEnabledAPIListener implements Runnable {
 
 		/** The flag representing whether the auto ranging feature is enabled. */
 		private final boolean enabled;
 
 		/**
-		 * Create an instance handling setZAutoRangingEnabled(-) API with the specified argument.
+		 * Create an instance handling setZAutoRangeEnabled(-) API with the specified argument.
 		 *
 		 * @param enabled Specify true/false for turning on/off (the default is on).
 		 */
-		public SetZAutoRangingEnabledAPIListener(boolean enabled) {
+		public SetZAutoRangeEnabledAPIListener(boolean enabled) {
 			this.enabled = enabled;
 		}
 
@@ -564,7 +564,7 @@ public final class RangeSettingHandler {
 		public void run() {
 			RangeConfiguration.AxisRangeConfiguration zRangeConfig
 					= model.config.getRangeConfiguration().getZRangeConfiguration();
-			zRangeConfig.setAutoRangingEnabled(enabled);
+			zRangeConfig.setAutoRangeEnabled(enabled);
 			presenter.propagateConfiguration();
 			// presenter.replot(); Not necessary.
 		}

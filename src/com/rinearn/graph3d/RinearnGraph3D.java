@@ -1062,10 +1062,16 @@ public final class RinearnGraph3D {
 	/**
 	 * Turns on/off the auto-ranging feature for X axis.
 	 *
+	 * This method is renamed from setXAutoRangingEnabled(boolean) in Ver.6.
+	 * The old name is also available for keeping compatibility.
+	 *
 	 * @param enabled Specify true/false for turning on/off (the default is on).
 	 */
+	public synchronized void setXAutoRangeEnabled(boolean enabled) {
+		this.presenter.rangeSettingHandler.setXAutoRangeEnabled(enabled);
+	}
 	public synchronized void setXAutoRangingEnabled(boolean enabled) {
-		this.presenter.rangeSettingHandler.setXAutoRangingEnabled(enabled);
+		this.setXAutoRangeEnabled(enabled);
 	}
 
 
@@ -1092,10 +1098,16 @@ public final class RinearnGraph3D {
 	/**
 	 * Turns on/off the auto-ranging feature for Y axis.
 	 *
+	 * This method is renamed from setYAutoRangingEnabled(boolean) in Ver.6.
+	 * The old name is also available for keeping compatibility.
+	 *
 	 * @param enabled Specify true/false for turning on/off (the default is on).
 	 */
+	public synchronized void setYAutoRangeEnabled(boolean enabled) {
+		this.presenter.rangeSettingHandler.setYAutoRangeEnabled(enabled);
+	}
 	public synchronized void setYAutoRangingEnabled(boolean enabled) {
-		this.presenter.rangeSettingHandler.setYAutoRangingEnabled(enabled);
+		this.setYAutoRangeEnabled(enabled);
 	}
 
 
@@ -1122,10 +1134,16 @@ public final class RinearnGraph3D {
 	/**
 	 * Turns on/off the auto-ranging feature for Z axis.
 	 *
+	 * This method is renamed from setZAutoRangingEnabled(boolean) in Ver.6.
+	 * The old name is also available for keeping compatibility.
+	 *
 	 * @param enabled Specify true/false for turning on/off (the default is on).
 	 */
+	public synchronized void setZAutoRangeEnabled(boolean enabled) {
+		this.presenter.rangeSettingHandler.setZAutoRangeEnabled(enabled);
+	}
 	public synchronized void setZAutoRangingEnabled(boolean enabled) {
-		this.presenter.rangeSettingHandler.setZAutoRangingEnabled(enabled);
+		this.setZAutoRangeEnabled(enabled);
 	}
 
 

@@ -56,8 +56,8 @@ public class RangeSettingWindow {
 	/** The right-click menu of xMinField. */
 	public volatile TextRightClickMenu xMinFieldRightClickMenu;
 
-	/** The check box for turning on/off the auto ranging feature of X range. */
-	public volatile JCheckBox xAutoRangingBox;
+	/** The check box for turning on/off the auto range feature of X range. */
+	public volatile JCheckBox xAutoRangeBox;
 
 
 	/** The title label of the section of Y axis. */
@@ -81,8 +81,8 @@ public class RangeSettingWindow {
 	/** The right-click menu of yMinField. */
 	public volatile TextRightClickMenu yMinFieldRightClickMenu;
 
-	/** The check box for turning on/off the auto ranging feature of Y range. */
-	public volatile JCheckBox yAutoRangingBox;
+	/** The check box for turning on/off the auto range feature of Y range. */
+	public volatile JCheckBox yAutoRangeBox;
 
 
 	/** The title label of the section of Z axis. */
@@ -106,8 +106,8 @@ public class RangeSettingWindow {
 	/** The right-click menu of zMinField. */
 	public volatile TextRightClickMenu zMinFieldRightClickMenu;
 
-	/** The check box for turning on/off the auto ranging feature of Z range. */
-	public volatile JCheckBox zAutoRangingBox;
+	/** The check box for turning on/off the auto range feature of Z range. */
+	public volatile JCheckBox zAutoRangeBox;
 
 
 	/** The button to reflect settings. */
@@ -211,12 +211,12 @@ public class RangeSettingWindow {
 				constraints.gridy++;
 				constraints.gridwidth = 2;
 
-				// Create the check box for turning on/off the auto-ranging feature of X axis.
-				xAutoRangingBox = new JCheckBox("Unconfigured");
+				// Create the check box for turning on/off the auto-range feature of X axis.
+				xAutoRangeBox = new JCheckBox("Unconfigured");
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginInSection, rightMargin);
-				layout.setConstraints(xAutoRangingBox, constraints);
-				basePanel.add(xAutoRangingBox);
+				layout.setConstraints(xAutoRangeBox, constraints);
+				basePanel.add(xAutoRangeBox);
 
 				constraints.gridy++;
 				constraints.gridwidth = 1;
@@ -281,12 +281,12 @@ public class RangeSettingWindow {
 				constraints.gridy++;
 				constraints.gridwidth = 2;
 
-				// Create the check box for turning on/off the auto-ranging feature of Y axis.
-				yAutoRangingBox = new JCheckBox("Unconfigured");
+				// Create the check box for turning on/off the auto-range feature of Y axis.
+				yAutoRangeBox = new JCheckBox("Unconfigured");
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginInSection, rightMargin);
-				layout.setConstraints(yAutoRangingBox, constraints);
-				basePanel.add(yAutoRangingBox);
+				layout.setConstraints(yAutoRangeBox, constraints);
+				basePanel.add(yAutoRangeBox);
 
 				constraints.gridy++;
 				constraints.gridwidth = 1;
@@ -351,12 +351,12 @@ public class RangeSettingWindow {
 				constraints.gridy++;
 				constraints.gridwidth = 2;
 
-				// Create the check box for turning on/off the auto-ranging feature of Z axis.
-				zAutoRangingBox = new JCheckBox("Unconfigured");
+				// Create the check box for turning on/off the auto-range feature of Z axis.
+				zAutoRangeBox = new JCheckBox("Unconfigured");
 				constraints.gridx = 0;
 				constraints.insets = new Insets(topMargin, leftMarginInSection, bottomMarginInSection, rightMargin);
-				layout.setConstraints(zAutoRangingBox, constraints);
-				basePanel.add(zAutoRangingBox);
+				layout.setConstraints(zAutoRangeBox, constraints);
+				basePanel.add(zAutoRangeBox);
 
 				constraints.gridy++;
 				constraints.gridwidth = 1;
@@ -500,9 +500,9 @@ public class RangeSettingWindow {
 			xAxisLabel.setText("- X軸 -");
 			yAxisLabel.setText("- Y軸 -");
 			zAxisLabel.setText("- Z軸 -");
-			xAutoRangingBox.setText("データ読み込み時に自動調整");
-			yAutoRangingBox.setText("データ読み込み時に自動調整");
-			zAutoRangingBox.setText("データ読み込み時に自動調整");
+			xAutoRangeBox.setText("データ読み込み時に自動調整");
+			yAutoRangeBox.setText("データ読み込み時に自動調整");
+			zAutoRangeBox.setText("データ読み込み時に自動調整");
 			xMaxLabel.setText("最大:");
 			xMinLabel.setText("最小:");
 			yMaxLabel.setText("最大:");
@@ -520,9 +520,9 @@ public class RangeSettingWindow {
 			xAxisLabel.setText("- X Axis -");
 			yAxisLabel.setText("- Y Axis -");
 			zAxisLabel.setText("- Z Axis -");
-			xAutoRangingBox.setText("Auto-Set When Loading Data");
-			yAutoRangingBox.setText("Auto-Set When Loading Data");
-			zAutoRangingBox.setText("Auto-Set When Loading Data");
+			xAutoRangeBox.setText("Auto-Set When Loading Data");
+			yAutoRangeBox.setText("Auto-Set When Loading Data");
+			zAutoRangeBox.setText("Auto-Set When Loading Data");
 			xMaxLabel.setText("Max:");
 			xMinLabel.setText("Min:");
 			yMaxLabel.setText("Max:");
@@ -546,9 +546,9 @@ public class RangeSettingWindow {
 			yAxisLabel.setFont(uiBoldFont);
 			zAxisLabel.setFont(uiBoldFont);
 
-			xAutoRangingBox.setFont(uiBoldFont);
-			yAutoRangingBox.setFont(uiBoldFont);
-			zAutoRangingBox.setFont(uiBoldFont);
+			xAutoRangeBox.setFont(uiBoldFont);
+			yAutoRangeBox.setFont(uiBoldFont);
+			zAutoRangeBox.setFont(uiBoldFont);
 
 			xMaxLabel.setFont(uiBoldFont);
 			xMinLabel.setFont(uiBoldFont);
@@ -583,9 +583,9 @@ public class RangeSettingWindow {
 			zMaxField.setText(zRangeConfig.getMaximum().toString());
 			zMinField.setText(zRangeConfig.getMinimum().toString());
 
-			xAutoRangingBox.setSelected(xRangeConfig.isAutoRangingEnabled());
-			yAutoRangingBox.setSelected(yRangeConfig.isAutoRangingEnabled());
-			zAutoRangingBox.setSelected(zRangeConfig.isAutoRangingEnabled());
+			xAutoRangeBox.setSelected(xRangeConfig.isAutoRangeEnabled());
+			yAutoRangeBox.setSelected(yRangeConfig.isAutoRangeEnabled());
+			zAutoRangeBox.setSelected(zRangeConfig.isAutoRangeEnabled());
 		}
 	}
 

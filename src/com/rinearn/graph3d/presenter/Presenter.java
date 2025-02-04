@@ -468,7 +468,7 @@ public final class Presenter {
 		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 
 		// Auto-adjust the X range to fit to the data, if enabled.
-		if (xRangeConfig.isAutoRangingEnabled()) {
+		if (xRangeConfig.isAutoRangeEnabled()) {
 			if (dataSeriesGroup.hasXMin()) {
 				xRangeConfig.setMinimum(dataSeriesGroup.getXMin());
 			}
@@ -478,7 +478,7 @@ public final class Presenter {
 		}
 
 		// Auto-adjust the Y range to fit to the data, if enabled.
-		if (yRangeConfig.isAutoRangingEnabled()) {
+		if (yRangeConfig.isAutoRangeEnabled()) {
 			if (dataSeriesGroup.hasYMin()) {
 				yRangeConfig.setMinimum(dataSeriesGroup.getYMin());
 			}
@@ -488,7 +488,7 @@ public final class Presenter {
 		}
 
 		// Auto-adjust the Z range to fit to the data, if enabled.
-		if (zRangeConfig.isAutoRangingEnabled()) {
+		if (zRangeConfig.isAutoRangeEnabled()) {
 			if (dataSeriesGroup.hasZMin()) {
 				zRangeConfig.setMinimum(dataSeriesGroup.getZMin());
 			}

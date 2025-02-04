@@ -148,8 +148,8 @@ public final class RangeConfiguration {
 		/** The maximum value of this range. */
 		private volatile BigDecimal max = BigDecimal.ONE;
 
-		/** The flag representing whether the auto-ranging feature is enabled. For details, see the setter method. */
-		private volatile boolean autoRangingEnabled = true;
+		/** The flag representing whether the auto-range feature is enabled. For details, see the setter method. */
+		private volatile boolean autoRangeEnabled = true;
 
 		/**
 		 * Sets the minimum value of this range.
@@ -188,24 +188,24 @@ public final class RangeConfiguration {
 		}
 
 		/**
-		 * Turns on/off the auto-ranging feature.
+		 * Turns on/off the auto-range feature.
 		 *
 		 * When this feature is enabled, the range are set automatically
 		 * from the minimum and the maximum coordinate values in the data, when plot it.
 		 *
 		 * @param enabled Specify true/false for turning on/off the auto-ranging feature (the default is on).
 		 */
-		public synchronized void setAutoRangingEnabled(boolean enabled) {
-			this.autoRangingEnabled = enabled;
+		public synchronized void setAutoRangeEnabled(boolean enabled) {
+			this.autoRangeEnabled = enabled;
 		}
 
 		/**
-		 * Gets whether the auto-ranging feature is enabled.
+		 * Gets whether the auto-range feature is enabled.
 		 *
 		 * @return Returns true if the auto-ranging feature is enabled.
 		 */
-		public synchronized boolean isAutoRangingEnabled() {
-			return this.autoRangingEnabled;
+		public synchronized boolean isAutoRangeEnabled() {
+			return this.autoRangeEnabled;
 		}
 
 		/**
