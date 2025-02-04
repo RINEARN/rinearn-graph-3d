@@ -188,12 +188,6 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		this.spaceConverters[Y].setRange(yRangeConfig.getMinimum(), yRangeConfig.getMaximum());
 		this.spaceConverters[Z].setRange(zRangeConfig.getMinimum(), zRangeConfig.getMaximum());
 
-		// Update the camera angles and parameters.
-		this.updateCamera();
-
-		// Updates the ranges of the gradient colors, from the updated configuration.
-		this.updateGradientColors(); // Do before generateTicks(), because updateTicks() depends on the updated range of the gradient by this method.
-
 		// Generate tick coordinates and tick labels from the configuration.
 		ScaleTickGenerator.Result scaleTicks = ScaleTickGenerator.generateTicks(this.config);
 
@@ -202,54 +196,11 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		this.frameDrawer.setConfiguration(this.config, scaleTicks);
 		this.labelDrawer.setConfiguration(this.config, scaleTicks);
 		this.colorBarDrawer.setConfiguration(this.config, scaleTicks);
+
+		// Update the camera angles and parameters.
+		this.updateCamera();
 	}
 
-
-	/**
-	 * Updates the ranges of the gradients of the colors, from the current configuration.
-	 */
-	private void updateGradientColors() {
-		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
-
-		ColorConfiguration colorConfig = this.config.getColorConfiguration();
-		for (GradientColor gradientColor: colorConfig.getDataGradientColors()) {
-			for (AxisGradientColor axisGradientColor: gradientColor.getAxisGradientColors()) {
-				if (!axisGradientColor.isBoundaryAutoRangeEnabled()) {
-					continue;
-				}
-				switch (axisGradientColor.getAxis()) {
-					case X : {
-						axisGradientColor.setMinimumBoundaryCoordinate(xRangeConfig.getMinimum());
-						axisGradientColor.setMaximumBoundaryCoordinate(xRangeConfig.getMaximum());
-						break;
-					}
-					case Y : {
-						axisGradientColor.setMinimumBoundaryCoordinate(yRangeConfig.getMinimum());
-						axisGradientColor.setMaximumBoundaryCoordinate(yRangeConfig.getMaximum());
-						break;
-					}
-					case Z : {
-						axisGradientColor.setMinimumBoundaryCoordinate(zRangeConfig.getMinimum());
-						axisGradientColor.setMaximumBoundaryCoordinate(zRangeConfig.getMaximum());
-						break;
-					}
-					case SCALAR : {
-						RangeConfiguration.AxisRangeConfiguration[] extraRangeConfig = rangeConfig.getExtraDimensionRangeConfigurations();
-						axisGradientColor.setMinimumBoundaryCoordinate(extraRangeConfig[0].getMinimum());
-						axisGradientColor.setMaximumBoundaryCoordinate(extraRangeConfig[0].getMaximum());
-						// Existence of extraRangeConfig[0] has been checked in the validation.
-						break;
-					}
-					default : {
-						throw new UnsupportedOperationException("Unknown gradient axis: " + axisGradientColor.getAxis());
-					}
-				}
-			}
-		}
-	}
 
 	/**
 	 * Updates the camera angle and parameters, from the current camera configuration.

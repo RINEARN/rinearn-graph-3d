@@ -1,6 +1,9 @@
 package com.rinearn.graph3d.presenter;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.color.AxisGradientColor;
+import com.rinearn.graph3d.config.color.GradientColor;
+import com.rinearn.graph3d.config.ColorConfiguration;
 import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.model.data.series.AbstractDataSeries;
@@ -445,7 +448,7 @@ public final class Presenter {
 
 
 	/**
-	 * Adjusts the ranges of each axis for witch auto-ranging feature is enabled, to fit to the currently registered data.
+	 * Adjusts the ranges of axes and gradient colors to fit to the currently registered data.
 	 */
 	private synchronized void adjustRanges() {
 
@@ -485,6 +488,43 @@ public final class Presenter {
 			}
 			if (dataSeriesGroup.hasZMax()) {
 				zRangeConfig.setMaximum(dataSeriesGroup.getZMax());
+			}
+		}
+
+		// Auto-adjust the range of the gradient colors.
+		ColorConfiguration colorConfig = this.model.config.getColorConfiguration();
+		for (GradientColor gradientColor: colorConfig.getDataGradientColors()) {
+			for (AxisGradientColor axisGradientColor: gradientColor.getAxisGradientColors()) {
+				if (!axisGradientColor.isBoundaryAutoRangeEnabled()) {
+					continue;
+				}
+				switch (axisGradientColor.getAxis()) {
+					case X : {
+						axisGradientColor.setMinimumBoundaryCoordinate(xRangeConfig.getMinimum());
+						axisGradientColor.setMaximumBoundaryCoordinate(xRangeConfig.getMaximum());
+						break;
+					}
+					case Y : {
+						axisGradientColor.setMinimumBoundaryCoordinate(yRangeConfig.getMinimum());
+						axisGradientColor.setMaximumBoundaryCoordinate(yRangeConfig.getMaximum());
+						break;
+					}
+					case Z : {
+						axisGradientColor.setMinimumBoundaryCoordinate(zRangeConfig.getMinimum());
+						axisGradientColor.setMaximumBoundaryCoordinate(zRangeConfig.getMaximum());
+						break;
+					}
+					case SCALAR : {
+						RangeConfiguration.AxisRangeConfiguration[] extraRangeConfig = rangeConfig.getExtraDimensionRangeConfigurations();
+						axisGradientColor.setMinimumBoundaryCoordinate(extraRangeConfig[0].getMinimum());
+						axisGradientColor.setMaximumBoundaryCoordinate(extraRangeConfig[0].getMaximum());
+						// Existence of extraRangeConfig[0] has been checked in the validation.
+						break;
+					}
+					default : {
+						throw new UnsupportedOperationException("Unknown gradient axis: " + axisGradientColor.getAxis());
+					}
+				}
 			}
 		}
 
