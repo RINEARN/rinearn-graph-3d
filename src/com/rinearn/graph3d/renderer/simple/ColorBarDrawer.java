@@ -106,18 +106,15 @@ public class ColorBarDrawer {
 	 * @param colorMixer The color mixer, which is the object to convert coordinates to gradient colors.
 	 */
 	public void draw(Graphics2D graphics, ColorMixer colorMixer) {
-
-		// Determine the range of the color bar from RangeConfiguration.
-		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration colorBarRangeConfig = rangeConfig.getZRangeConfiguration(); // Temporary
-		BigDecimal min = colorBarRangeConfig.getMinimum();
-		BigDecimal max = colorBarRangeConfig.getMaximum();
+		ColorConfiguration colorConfig = this.config.getColorConfiguration();
 
 		// Extract the gradient colors defined in ColorConfiguration.
-		ColorConfiguration colorConfig = this.config.getColorConfiguration();
 		GradientColor[] gradientColors = colorConfig.getDataGradientColors();
 		if (gradientColors.length == 0) {
 			throw new IllegalStateException("No gradient color is defined in ColorConfiguration. At least one gradient color is required for gradient coloring mode.");
+		}
+		if (gradientColors.length != 1) {
+			throw new IllegalStateException("Multiple gradient coloring is not supported on this version yet.");
 		}
 
 		// As the temporary specification, draw the color bar for only the first gradient color,
@@ -134,6 +131,10 @@ public class ColorBarDrawer {
 			throw new IllegalStateException("No AxisGradientColor is defined in GradientColor instance. At least one axis is required for using gradient coloring mode.");
 		}
 		AxisGradientColor axisGradientColor = axisGradientColors[0];
+
+		// Determine the range of the color bar from RangeConfiguration.
+		BigDecimal min = axisGradientColor.getMinimumBoundaryCoordinate();
+		BigDecimal max = axisGradientColor.getMaximumBoundaryCoordinate();
 
 		/** Convert the dimension of the gradient's axis to the index in a coordinate array. */
 		int gradientAxisIndex = -1;

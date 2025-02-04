@@ -190,6 +190,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		this.spaceConverters[Y].setRange(yRangeConfig.getMinimum(), yRangeConfig.getMaximum());
 		this.spaceConverters[Z].setRange(zRangeConfig.getMinimum(), zRangeConfig.getMaximum());
 
+		// Updates the ranges of the gradient colors, from the updated configuration.
+		this.updateGradientColors(); // Do before updateTicks(), because updateTicks() depends on the updated range of the gradient by this method.
+
 		// Sets the configuration for drawing scales, frames, etc.
 		this.scaleTickDrawer.setConfiguration(this.config);
 		this.frameDrawer.setConfiguration(this.config);
@@ -201,9 +204,6 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 		// Update the camera angles and parameters.
 		this.updateCamera();
-
-		// Updates the ranges of the gradient colors, from the updated configuration.
-		this.updateGradientColors();
 	}
 
 
@@ -218,13 +218,26 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
 		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
 		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration cRangeConfig = zRangeConfig; // Temporary
+		// RangeConfiguration.AxisRangeConfiguration cRangeConfig = zRangeConfig; // Temporary
 
 		ScaleConfiguration scaleConfig = this.config.getScaleConfiguration();
 		ScaleConfiguration.AxisScaleConfiguration xScaleConfig = scaleConfig.getXScaleConfiguration();
 		ScaleConfiguration.AxisScaleConfiguration yScaleConfig = scaleConfig.getYScaleConfiguration();
 		ScaleConfiguration.AxisScaleConfiguration zScaleConfig = scaleConfig.getZScaleConfiguration();
 		ScaleConfiguration.AxisScaleConfiguration cScaleConfig = scaleConfig.getColorBarScaleConfiguration();
+
+		// Extract an axis's gradient color.
+		ColorConfiguration colorConfig = this.config.getColorConfiguration();
+		GradientColor[] gradientColors = colorConfig.getDataGradientColors();
+		if (gradientColors.length != 1) {
+			throw new IllegalStateException("Multiple gradient coloring is not supported on this version yet.");
+		}
+		GradientColor gradientColor = gradientColors[0];
+		AxisGradientColor[] axisGradientColors = gradientColor.getAxisGradientColors();
+		if (axisGradientColors.length != 1) {
+			throw new IllegalStateException("Multi-axis gradient color is not supported on this version yet.");
+		}
+		AxisGradientColor axisGradientColor = axisGradientColors[0];
 
 		BigDecimal[] xTickCoords = xScaleConfig.getTicker().generateTickCoordinates(
 				xRangeConfig.getMinimum(), xRangeConfig.getMaximum(), isLogPlot
@@ -236,7 +249,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 				zRangeConfig.getMinimum(), zRangeConfig.getMaximum(), isLogPlot
 		);
 		BigDecimal[] cTickCoords = cScaleConfig.getTicker().generateTickCoordinates(
-				cRangeConfig.getMinimum(), cRangeConfig.getMaximum(), isLogPlot
+				axisGradientColor.getMinimumBoundaryCoordinate(), axisGradientColor.getMaximumBoundaryCoordinate(), isLogPlot
 		);
 
 		String[] xTickLabelTexts = xScaleConfig.getTicker().generateTickLabelTexts(
