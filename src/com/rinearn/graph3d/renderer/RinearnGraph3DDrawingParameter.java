@@ -179,7 +179,7 @@ public final class RinearnGraph3DDrawingParameter {
 	 * <span class="lang-ja">自動彩色機能が有効化されているかどうかを表すフラグです</span>
 	 * .
 	 */
-	private volatile boolean autoColoringEnabled = true; // デフォルトだとColor未設定だし, それで引数に指定してエラーってのも不親切だから, デフォルトで自動彩色をONにしておく.
+	private volatile boolean autoColorEnabled = true; // デフォルトだとColor未設定だし, それで引数に指定してエラーってのも不親切だから, デフォルトで自動彩色をONにしておく.
 
 	/**
 	 * <span class="lang-en">
@@ -200,12 +200,27 @@ public final class RinearnGraph3DDrawingParameter {
 	 * その場合は {@link RinearnGraph3DDrawingParameter#setColor} メソッドで描画色を明示指定してください.
 	 * </div>
 	 *
+	 * <span class="lang-en">
+	 * This method is renamed from setAutoColoringEnabled(boolean) in Ver.6.
+	 * The old name is also available for keeping compatibility.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドは, Ver.6 において, setAutoColoringEnabled(boolean) から改名されました.
+	 * 互換性維持のため, 旧名も使用できます.
+	 * </span>
+	 *
 	 * @param enabled
 	 *   <span class="lang-en">Specify true to enable, false to disable</span>
 	 *   <span class="lang-ja">有効化する場合は true, 無効化する場合は false を指定</span>
 	 */
+	public synchronized void setAutoColorEnabled (boolean enabled) {
+		this.autoColorEnabled = enabled;
+	}
+	/**
+	 * @hidden
+	 */
 	public synchronized void setAutoColoringEnabled (boolean enabled) {
-		this.autoColoringEnabled = enabled;
+		this.setAutoColorEnabled(enabled);
 	}
 
 	/**
@@ -216,12 +231,27 @@ public final class RinearnGraph3DDrawingParameter {
 	 * 自動彩色機能が有効化されているかどうかを取得します
 	 * </span>
 	 * .
+	 * <span class="lang-en">
+	 * This method is renamed from isAutoColoringEnabled() in Ver.6.
+	 * The old name is also available for keeping compatibility.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドは, Ver.6 において, isAutoColoringEnabled() から改名されました.
+	 * 互換性維持のため, 旧名も使用できます.
+	 * </span>
+	 *
 	 * @return
 	 *   <span class="lang-en">Returns true if the feature enabled</span>
 	 *   <span class="lang-ja">有効化されていれば true</span>
 	 */
+	public synchronized boolean isAutoColorEnabled () {
+		return this.autoColorEnabled;
+	}
+	/**
+	 * @hidden
+	 */
 	public synchronized boolean isAutoColoringEnabled () {
-		return this.autoColoringEnabled;
+		return this.isAutoColorEnabled();
 	}
 
 
@@ -230,7 +260,7 @@ public final class RinearnGraph3DDrawingParameter {
 	 * <span class="lang-ja">グラフの範囲設定に応じた, 頂点座標の変換機能が、有効化されているかどうかを表すフラグです</span>
 	 * .
 	 */
-	private volatile boolean rangeScalingEnabled = true;
+	private volatile boolean rangeScaleEnabled = true;
 
 	/**
 	 * <span class="lang-en">
@@ -262,13 +292,29 @@ public final class RinearnGraph3DDrawingParameter {
 	 * Unscaled 座標系は, 例えばグラフの目盛りやグリッド線の描画をカスタマイズしたい場合などに有用です.
 	 * </div>
 	 *
+	 * <span class="lang-en">
+	 * This method is renamed from setRangeScalingEnabled(boolean) in Ver.6.
+	 * The old name is also available for keeping compatibility.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドは, Ver.6 において, setRangeScalingEnabled(boolean) から改名されました.
+	 * 互換性維持のため, 旧名も使用できます.
+	 * </span>
+	 *
 	 * @param enabled
 	 *   <span class="lang-en">Specify true to enable, false to disable</span>
 	 *   <span class="lang-ja">有効化する場合は true, 無効化する場合は false を指定</span>
 	 */
-	public synchronized void setRangeScalingEnabled (boolean enabled) {
-		this.rangeScalingEnabled = enabled;
+	public synchronized void setRangeScaleEnabled (boolean enabled) {
+		this.rangeScaleEnabled = enabled;
 	}
+	/**
+	 * @hidden
+	 */
+	public synchronized void setRangeScalingEnabled (boolean enabled) {
+		this.setRangeScaleEnabled(enabled);
+	}
+
 
 	/**
 	 * <span class="lang-en">
@@ -278,12 +324,27 @@ public final class RinearnGraph3DDrawingParameter {
 	 * グラフの範囲設定に応じた, 頂点座標の変換機能が有効化されているかどうかを取得します
 	 * </span>
 	 * .
+	 * <span class="lang-en">
+	 * This method is renamed from isRangeScalingEnabled() in Ver.6.
+	 * The old name is also available for keeping compatibility.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドは, Ver.6 において, isRangeScalingEnabled() から改名されました.
+	 * 互換性維持のため, 旧名も使用できます.
+	 * </span>
+	 *
 	 * @return
 	 *   <span class="lang-en">Returns true if the feature enabled</span>
 	 *   <span class="lang-ja">有効化されていれば true</span>
 	 */
 	public synchronized boolean isRangeScalingEnabled () {
-		return this.rangeScalingEnabled;
+		return this.rangeScaleEnabled;
+	}
+	/**
+	 * @hidden
+	 */
+	public synchronized boolean isRangeScaleEnabled () {
+		return this.isRangeScalingEnabled();
 	}
 
 
@@ -292,7 +353,7 @@ public final class RinearnGraph3DDrawingParameter {
 	 * <span class="lang-ja">グラフ範囲外にはみ出した部分を, クリッピングする機能が、有効化されているかどうかを表すフラグです</span>
 	 * .
 	 */
-	private volatile boolean rangeClippingEnabled = true;
+	private volatile boolean rangeClipEnabled = true;
 
 	/**
 	 * <span class="lang-en">
@@ -302,13 +363,29 @@ public final class RinearnGraph3DDrawingParameter {
 	 * グラフ範囲外にはみ出した部分を, クリッピングする機能の有効/無効を設定します
 	 * </span>
 	 * .
+	 * <span class="lang-en">
+	 * This method is renamed from setRangeClippingEnabled(boolean) in Ver.6.
+	 * The old name is also available for keeping compatibility.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドは, Ver.6 において, setRangeClippingEnabled(boolean) から改名されました.
+	 * 互換性維持のため, 旧名も使用できます.
+	 * </span>
+	 *
 	 * @param enabled
 	 *   <span class="lang-en">Specify true to enable, false to disable</span>
 	 *   <span class="lang-ja">有効化する場合は true, 無効化する場合は false を指定</span>
 	 */
-	public synchronized void setRangeClippingEnabled (boolean enabled) {
-		this.rangeClippingEnabled = enabled;
+	public synchronized void setRangeClipEnabled (boolean enabled) {
+		this.rangeClipEnabled = enabled;
 	}
+	/**
+	 * @hidden
+	 */
+	public synchronized void setRangeClippingEnabled (boolean enabled) {
+		this.setRangeClipEnabled(enabled);
+	}
+
 
 	/**
 	 * <span class="lang-en">
@@ -322,8 +399,14 @@ public final class RinearnGraph3DDrawingParameter {
 	 *   <span class="lang-en">Returns true if the feature enabled</span>
 	 *   <span class="lang-ja">有効化されていれば true</span>
 	 */
+	public synchronized boolean isRangeClipEnabled () {
+		return this.rangeClipEnabled;
+	}
+	/**
+	 * @hidden
+	 */
 	public synchronized boolean isRangeClippingEnabled () {
-		return this.rangeClippingEnabled;
+		return this.isRangeClipEnabled();
 	}
 
 
