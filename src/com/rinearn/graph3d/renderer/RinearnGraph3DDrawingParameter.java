@@ -260,7 +260,7 @@ public final class RinearnGraph3DDrawingParameter {
 	 * <span class="lang-ja">グラフの範囲設定に応じた, 頂点座標の変換機能が、有効化されているかどうかを表すフラグです</span>
 	 * .
 	 */
-	private volatile boolean rangeScaleEnabled = true;
+	private volatile boolean rangeScalingEnabled = true;
 
 	/**
 	 * <span class="lang-en">
@@ -292,27 +292,12 @@ public final class RinearnGraph3DDrawingParameter {
 	 * Unscaled 座標系は, 例えばグラフの目盛りやグリッド線の描画をカスタマイズしたい場合などに有用です.
 	 * </div>
 	 *
-	 * <span class="lang-en">
-	 * This method is renamed from setRangeScalingEnabled(boolean) in Ver.6.
-	 * The old name is also available for keeping compatibility.
-	 * </span>
-	 * <span class="lang-ja">
-	 * このメソッドは, Ver.6 において, setRangeScalingEnabled(boolean) から改名されました.
-	 * 互換性維持のため, 旧名も使用できます.
-	 * </span>
-	 *
 	 * @param enabled
 	 *   <span class="lang-en">Specify true to enable, false to disable</span>
 	 *   <span class="lang-ja">有効化する場合は true, 無効化する場合は false を指定</span>
 	 */
-	public synchronized void setRangeScaleEnabled (boolean enabled) {
-		this.rangeScaleEnabled = enabled;
-	}
-	/**
-	 * @hidden
-	 */
 	public synchronized void setRangeScalingEnabled (boolean enabled) {
-		this.setRangeScaleEnabled(enabled);
+		this.rangeScalingEnabled = enabled;
 	}
 
 
@@ -338,13 +323,7 @@ public final class RinearnGraph3DDrawingParameter {
 	 *   <span class="lang-ja">有効化されていれば true</span>
 	 */
 	public synchronized boolean isRangeScalingEnabled () {
-		return this.rangeScaleEnabled;
-	}
-	/**
-	 * @hidden
-	 */
-	public synchronized boolean isRangeScaleEnabled () {
-		return this.isRangeScalingEnabled();
+		return this.rangeScalingEnabled;
 	}
 
 
@@ -353,7 +332,7 @@ public final class RinearnGraph3DDrawingParameter {
 	 * <span class="lang-ja">グラフ範囲外にはみ出した部分を, クリッピングする機能が、有効化されているかどうかを表すフラグです</span>
 	 * .
 	 */
-	private volatile boolean rangeClipEnabled = true;
+	private volatile boolean rangeClippingEnabled = true;
 
 	/**
 	 * <span class="lang-en">
@@ -363,29 +342,13 @@ public final class RinearnGraph3DDrawingParameter {
 	 * グラフ範囲外にはみ出した部分を, クリッピングする機能の有効/無効を設定します
 	 * </span>
 	 * .
-	 * <span class="lang-en">
-	 * This method is renamed from setRangeClippingEnabled(boolean) in Ver.6.
-	 * The old name is also available for keeping compatibility.
-	 * </span>
-	 * <span class="lang-ja">
-	 * このメソッドは, Ver.6 において, setRangeClippingEnabled(boolean) から改名されました.
-	 * 互換性維持のため, 旧名も使用できます.
-	 * </span>
-	 *
 	 * @param enabled
 	 *   <span class="lang-en">Specify true to enable, false to disable</span>
 	 *   <span class="lang-ja">有効化する場合は true, 無効化する場合は false を指定</span>
 	 */
-	public synchronized void setRangeClipEnabled (boolean enabled) {
-		this.rangeClipEnabled = enabled;
-	}
-	/**
-	 * @hidden
-	 */
 	public synchronized void setRangeClippingEnabled (boolean enabled) {
-		this.setRangeClipEnabled(enabled);
+		this.rangeClippingEnabled = enabled;
 	}
-
 
 	/**
 	 * <span class="lang-en">
@@ -399,14 +362,8 @@ public final class RinearnGraph3DDrawingParameter {
 	 *   <span class="lang-en">Returns true if the feature enabled</span>
 	 *   <span class="lang-ja">有効化されていれば true</span>
 	 */
-	public synchronized boolean isRangeClipEnabled () {
-		return this.rangeClipEnabled;
-	}
-	/**
-	 * @hidden
-	 */
 	public synchronized boolean isRangeClippingEnabled () {
-		return this.isRangeClipEnabled();
+		return this.rangeClippingEnabled;
 	}
 
 
