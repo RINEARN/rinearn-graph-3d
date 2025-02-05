@@ -177,7 +177,7 @@
 * 済: setAutoDisposing/ExitingEnabled も名詞にする
 * 済: setAsynchronousPlottingEnabled は意外と名詞にしない方がいいのでは？ みたいな感じらしい。あと PlottingEvent と PlottingListener も。なのでこれらは現状維持。
 * 済: RenderingParameter の setAutoColoringEnabled, setRangeClippingEnabled, setRangeScalingEnabled もそれぞれ名詞にしたほうがいい。
-* 上記の改名後の setRangeClipEnabled, setRangeScaleEnabled については、そもそも論として、より適切な命名があるのでは？ Range の箇所がちょっと微妙。まあ目盛りのスケールとの混同を避けるために何かしらは要るが。
+* 済: 上記の改名後の setRangeClipEnabled, setRangeScaleEnabled については、そもそも論として、より適切な命名があるのでは？ Range の箇所がちょっと微妙。まあ目盛りのスケールとの混同を避けるために何かしらは要るが。 -> かなりがっつりと再検討した結果、結局は改名前の setRangeClippingEnabled と setRangeScalingEnabled が十分よくてベストに近く、この場合は動名詞も自然で、それなら変えるデメリットの方が大きいので現状維持の一択になった。という事で結局これらは元の命名に戻した。現状がベストと迷うくらいの自然形なら、後でどうしても変えたい場合になってから変えてもいいし、そして恐らくその時は来ない。なお、 setAutoColoringEnabled については、再検討したがやはりだいぶ変なので setAutoColorEnabled への改名は正しいという結論になった。
 * DataFileFormat の enum 名、あの場合の COLUMNS は単数形の方が適切っぽいので単数形に直す
 
 ## オプションメニューの実装を進める
