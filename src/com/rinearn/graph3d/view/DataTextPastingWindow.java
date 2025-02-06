@@ -347,13 +347,13 @@ public class DataTextPastingWindow {
 				autoFormatItem.setText(FormatDisplayNames.AUTO_JA);
 				spreadsheetFormatItem.setText(FormatDisplayNames.SPREADSHEET_JA);
 
-				threeColumnsCSVFormatItem.setText(FormatDisplayNames.THREE_COLUMNS_CSV_JA);
-				threeColumnsSTSVFormatItem.setText(FormatDisplayNames.THREE_COLUMNS_STSV_JA);
-				threeColumnsTSVStrictFormatItem.setText(FormatDisplayNames.THREE_COLUMNS_TSV_JA);
+				threeColumnsCSVFormatItem.setText(FormatDisplayNames.THREE_COLUMN_CSV_JA);
+				threeColumnsSTSVFormatItem.setText(FormatDisplayNames.THREE_COLUMN_STSV_JA);
+				threeColumnsTSVStrictFormatItem.setText(FormatDisplayNames.THREE_COLUMN_TSV_JA);
 
-				fourColumnsCSVFormatItem.setText(FormatDisplayNames.FOUR_COLUMNS_CSV_JA);
-				fourColumnsSTSVFormatItem.setText(FormatDisplayNames.FOUR_COLUMNS_STSV_JA);
-				fourColumnsTSVStrictFormatItem.setText(FormatDisplayNames.FOUR_COLUMNS_TSV_JA);
+				fourColumnsCSVFormatItem.setText(FormatDisplayNames.FOUR_COLUMN_CSV_JA);
+				fourColumnsSTSVFormatItem.setText(FormatDisplayNames.FOUR_COLUMN_STSV_JA);
+				fourColumnsTSVStrictFormatItem.setText(FormatDisplayNames.FOUR_COLUMN_TSV_JA);
 
 				matrixCSVFormatItem.setText(FormatDisplayNames.MATRIX_CSV_JA);
 				matrixSTSVFormatItem.setText(FormatDisplayNames.MATRIX_STSV_JA);
@@ -375,13 +375,13 @@ public class DataTextPastingWindow {
 				autoFormatItem.setText(FormatDisplayNames.AUTO_EN);
 				spreadsheetFormatItem.setText(FormatDisplayNames.SPREADSHEET_EN);
 
-				threeColumnsCSVFormatItem.setText(FormatDisplayNames.THREE_COLUMNS_CSV_EN);
-				threeColumnsSTSVFormatItem.setText(FormatDisplayNames.THREE_COLUMNS_STSV_EN);
-				threeColumnsTSVStrictFormatItem.setText(FormatDisplayNames.THREE_COLUMNS_TSV_EN);
+				threeColumnsCSVFormatItem.setText(FormatDisplayNames.THREE_COLUMN_CSV_EN);
+				threeColumnsSTSVFormatItem.setText(FormatDisplayNames.THREE_COLUMN_STSV_EN);
+				threeColumnsTSVStrictFormatItem.setText(FormatDisplayNames.THREE_COLUMN_TSV_EN);
 
-				fourColumnsCSVFormatItem.setText(FormatDisplayNames.FOUR_COLUMNS_CSV_EN);
-				fourColumnsSTSVFormatItem.setText(FormatDisplayNames.FOUR_COLUMNS_STSV_EN);
-				fourColumnsTSVStrictFormatItem.setText(FormatDisplayNames.FOUR_COLUMNS_TSV_EN);
+				fourColumnsCSVFormatItem.setText(FormatDisplayNames.FOUR_COLUMN_CSV_EN);
+				fourColumnsSTSVFormatItem.setText(FormatDisplayNames.FOUR_COLUMN_STSV_EN);
+				fourColumnsTSVStrictFormatItem.setText(FormatDisplayNames.FOUR_COLUMN_TSV_EN);
 
 				matrixCSVFormatItem.setText(FormatDisplayNames.MATRIX_CSV_EN);
 				matrixSTSVFormatItem.setText(FormatDisplayNames.MATRIX_STSV_EN);

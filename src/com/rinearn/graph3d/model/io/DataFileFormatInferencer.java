@@ -121,18 +121,18 @@ public class DataFileFormatInferencer {
 		switch (alignment) {
 			case THREE_COLUMNS : {
 				if (delimiter == Delimiter.CSV) {
-					return RinearnGraph3DDataFileFormat.THREE_COLUMNS_CSV;
+					return RinearnGraph3DDataFileFormat.THREE_COLUMN_CSV;
 				} else if (delimiter == Delimiter.STSV) {
-					return RinearnGraph3DDataFileFormat.THREE_COLUMNS_STSV;
+					return RinearnGraph3DDataFileFormat.THREE_COLUMN_STSV;
 				} else {
 					throw new IllegalArgumentException("Unexpected delimiter: " + delimiter);
 				}
 			}
 			case FOUR_COLUMNS : {
 				if (delimiter == Delimiter.CSV) {
-					return RinearnGraph3DDataFileFormat.FOUR_COLUMNS_CSV;
+					return RinearnGraph3DDataFileFormat.FOUR_COLUMN_CSV;
 				} else if (delimiter == Delimiter.STSV) {
-					return RinearnGraph3DDataFileFormat.FOUR_COLUMNS_STSV;
+					return RinearnGraph3DDataFileFormat.FOUR_COLUMN_STSV;
 				} else {
 					throw new IllegalArgumentException("Unexpected delimiter: " + delimiter);
 				}

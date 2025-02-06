@@ -287,12 +287,16 @@ public final class ColumnDataParser {
 		// Define the delimiter of columns, depending the format.
 		String delimiter = null;
 		switch(format) {
+			case THREE_COLUMN_CSV:
 			case THREE_COLUMNS_CSV:
+			case FOUR_COLUMN_CSV:
 			case FOUR_COLUMNS_CSV: {
 				delimiter = ",";
 				break;
 			}
+			case THREE_COLUMN_STSV:
 			case THREE_COLUMNS_STSV:
+			case FOUR_COLUMN_STSV:
 			case FOUR_COLUMNS_STSV: {
 				delimiter = "\\s";
 				break;
@@ -307,12 +311,16 @@ public final class ColumnDataParser {
 		// Define the expected number of the columns.
 		int expectedColumnCount = -1;
 		switch(format) {
+			case THREE_COLUMN_CSV:
 			case THREE_COLUMNS_CSV:
+			case THREE_COLUMN_STSV:
 			case THREE_COLUMNS_STSV: {
 				expectedColumnCount = 3;
 				break;
 			}
+			case FOUR_COLUMN_CSV:
 			case FOUR_COLUMNS_CSV:
+			case FOUR_COLUMN_STSV:
 			case FOUR_COLUMNS_STSV: {
 				expectedColumnCount = 4;
 				break;
