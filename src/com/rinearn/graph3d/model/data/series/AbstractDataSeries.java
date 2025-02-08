@@ -1,5 +1,6 @@
 package com.rinearn.graph3d.model.data.series;
 
+import com.rinearn.graph3d.config.data.SeriesAttribute;
 import java.math.BigDecimal;
 
 /*
@@ -26,6 +27,21 @@ public abstract class AbstractDataSeries {
 	//      最初から分派させると工程が難解になり過ぎるし、たぶん結果も無駄に冗長気味になりそうなので。
 	//
 	// ・宣言するのすっかり忘れてたけど各点ごとの可視性の配列要るでしょ。
+
+	/**
+	 * Gets the container of the attribute (meta information) of this series.
+	 *
+	 * @return The container of the attribute of this series.
+	 */
+	public abstract SeriesAttribute getSeriesAttribtue();
+
+	/**
+	 * Sets the container of the attribute (meta information) of this series.
+	 *
+	 * @param The container of the attribute of this series.
+	 */
+	public abstract void setSeriesAttribtue(SeriesAttribute seriesAttribute);
+
 
 	/**
 	 * Gets the X-coordinate values of the points of this data series.

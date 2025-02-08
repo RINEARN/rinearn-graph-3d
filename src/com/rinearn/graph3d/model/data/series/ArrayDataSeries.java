@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.model.data.series;
 
+import com.rinearn.graph3d.config.data.SeriesAttribute;
+
 import java.math.BigDecimal;
 
 /*
@@ -18,6 +20,9 @@ import java.math.BigDecimal;
 
 
 public final class ArrayDataSeries extends AbstractDataSeries {
+
+	/** The containers of the attribute (meta information) of this series. */
+	private volatile SeriesAttribute seriesAttribute;
 
 	/** The X-coordinate values of the points of this data series. */
 	private volatile double[][] xCoordinates = null; // [irow][icol]
@@ -79,6 +84,8 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 		this.detectXRange();
 		this.detectYRange();
 		this.detectZRange();
+
+		this.seriesAttribute = new SeriesAttribute();
 	}
 
 
@@ -102,6 +109,29 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 		this.detectXRange();
 		this.detectYRange();
 		this.detectZRange();
+
+		this.seriesAttribute = new SeriesAttribute();
+	}
+
+
+	/**
+	 * Gets the container of the attribute (meta information) of this series.
+	 *
+	 * @return The container of the attribute of this series.
+	 */
+	@Override
+	public synchronized SeriesAttribute getSeriesAttribtue() {
+		return this.seriesAttribute;
+	}
+
+	/**
+	 * Sets the container of the attribute (meta information) of this series.
+	 *
+	 * @param The container of the attribute of this series.
+	 */
+	@Override
+	public synchronized void setSeriesAttribtue(SeriesAttribute seriesAttribute) {
+		this.seriesAttribute = seriesAttribute;
 	}
 
 

@@ -1,6 +1,7 @@
 package com.rinearn.graph3d.model.data.series;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.model.ScriptEngineMount;
 
 import org.vcssl.nano.VnanoException;
@@ -42,6 +43,9 @@ import java.math.BigDecimal;
  */
 
 public class ZxyMathDataSeries extends MathDataSeries {
+
+	/** The containers of the attribute (meta information) of this series. */
+	private volatile SeriesAttribute seriesAttribute;
 
 	/** The "engine-mount", provides a script engine for computing coordinates from math expressions. */
 	private final ScriptEngineMount scriptEngineMount;
@@ -95,6 +99,8 @@ public class ZxyMathDataSeries extends MathDataSeries {
 		this.yDiscretizationCount = yDiscretizationCount;
 		this.scriptEngineMount = scriptEngineMount;
 		this.config = config;
+
+		this.seriesAttribute = new SeriesAttribute();
 	}
 
 
@@ -109,6 +115,27 @@ public class ZxyMathDataSeries extends MathDataSeries {
 		this.zMathExpression = zMathExpression;
 		this.xDiscretizationCount = xDiscretizationCount;
 		this.yDiscretizationCount = yDiscretizationCount;
+	}
+
+
+	/**
+	 * Gets the container of the attribute (meta information) of this series.
+	 *
+	 * @return The container of the attribute of this series.
+	 */
+	@Override
+	public synchronized SeriesAttribute getSeriesAttribtue() {
+		return this.seriesAttribute;
+	}
+
+	/**
+	 * Sets the container of the attribute (meta information) of this series.
+	 *
+	 * @param The container of the attribute of this series.
+	 */
+	@Override
+	public synchronized void setSeriesAttribtue(SeriesAttribute seriesAttribute) {
+		this.seriesAttribute = seriesAttribute;
 	}
 
 
