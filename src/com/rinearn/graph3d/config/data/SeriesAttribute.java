@@ -67,10 +67,10 @@ public class SeriesAttribute {
 	/**
 	 * Sets the modifiable legend of this series.
 	 *
-	 * @param unmodifiedLegend The modifiable legend of this series.
+	 * @param modifiableLegend The modifiable legend of this series.
 	 */
-	public synchronized void setModifiableLegend(String unmodifiedLegend) {
-		this.unmodifiedLegend = unmodifiedLegend;
+	public synchronized void setModifiableLegend(String modifiableLegend) {
+		this.modifiableLegend = modifiableLegend;
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class SeriesAttribute {
 	 * @return The modifiable legend of this series.
 	 */
 	public synchronized String getModifiableLegend() {
-		return this.unmodifiedLegend;
+		return this.modifiableLegend;
 	}
 
 
