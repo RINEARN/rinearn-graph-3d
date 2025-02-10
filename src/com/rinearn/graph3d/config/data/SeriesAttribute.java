@@ -12,8 +12,11 @@ public class SeriesAttribute {
 	/** The index of this series in the source file or the source math expression. */
 	private volatile int localSeriesIndex = 0;
 
-	/** The legend of this series.*/
-	private volatile String legend = "";
+	/** The modifiable legend of this series.*/
+	private volatile String modifiableLegend = "";
+
+	/** The unmodified (original) legend of this series.*/
+	private volatile String unmodifiedLegend = "";
 
 
 	/**
@@ -62,20 +65,39 @@ public class SeriesAttribute {
 
 
 	/**
-	 * Sets the legend of this series.
+	 * Sets the modifiable legend of this series.
 	 *
-	 * @param legend The legend of this series.
+	 * @param unmodifiedLegend The modifiable legend of this series.
 	 */
-	public synchronized void setLegend(String lenegnd) {
-		this.legend = legend;
+	public synchronized void setModifiableLegend(String unmodifiedLegend) {
+		this.unmodifiedLegend = unmodifiedLegend;
 	}
 
 	/**
-	 * Gets the legend of this series.
+	 * Gets the modifiable legend of this series.
 	 *
-	 * @return The legend of this series.
+	 * @return The modifiable legend of this series.
 	 */
-	public synchronized String getLegend() {
-		return this.legend;
+	public synchronized String getModifiableLegend() {
+		return this.unmodifiedLegend;
+	}
+
+
+	/**
+	 * Sets the unmodified (original) legend of this series.
+	 *
+	 * @param unmodifiedLegend The unmodified (original) legend of this series.
+	 */
+	public synchronized void setUnmodifiedLegend(String unmodifiedLegend) {
+		this.unmodifiedLegend = unmodifiedLegend;
+	}
+
+	/**
+	 * Gets the unmodified (original) legend of this series.
+	 *
+	 * @return The unmodified (original) of this series.
+	 */
+	public synchronized String getUnmodifiedLegend() {
+		return this.unmodifiedLegend;
 	}
 }

@@ -101,7 +101,8 @@ public final class ZxyMathDataSeries extends MathDataSeries {
 		this.config = config;
 
 		this.seriesAttribute = new SeriesAttribute();
-		this.seriesAttribute.setLegend(this.getDisplayName());
+		this.seriesAttribute.setUnmodifiedLegend(this.getDisplayName());
+		this.seriesAttribute.setModifiableLegend(this.getDisplayName());
 	}
 
 
@@ -116,7 +117,8 @@ public final class ZxyMathDataSeries extends MathDataSeries {
 		this.zMathExpression = zMathExpression;
 		this.xDiscretizationCount = xDiscretizationCount;
 		this.yDiscretizationCount = yDiscretizationCount;
-		this.seriesAttribute.setLegend(this.getDisplayName());
+		this.seriesAttribute.setUnmodifiedLegend(this.getDisplayName());
+		this.seriesAttribute.setModifiableLegend(this.getDisplayName());
 	}
 
 

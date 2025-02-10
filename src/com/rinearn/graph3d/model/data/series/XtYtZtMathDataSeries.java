@@ -112,7 +112,8 @@ public final class XtYtZtMathDataSeries extends MathDataSeries {
 		this.config = config;
 
 		this.seriesAttribute = new SeriesAttribute();
-		this.seriesAttribute.setLegend(this.getDisplayName());
+		this.seriesAttribute.setUnmodifiedLegend(this.getDisplayName());
+		this.seriesAttribute.setModifiableLegend(this.getDisplayName());
 	}
 
 
@@ -137,7 +138,8 @@ public final class XtYtZtMathDataSeries extends MathDataSeries {
 		this.timeMin = timeMin;
 		this.timeMax = timeMax;
 		this.timeDiscretizationCount = timeDiscretizationCount;
-		this.seriesAttribute.setLegend(this.getDisplayName());
+		this.seriesAttribute.setUnmodifiedLegend(this.getDisplayName());
+		this.seriesAttribute.setModifiableLegend(this.getDisplayName());
 	}
 
 

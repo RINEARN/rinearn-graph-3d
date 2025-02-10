@@ -71,8 +71,9 @@ public final class DataSeriesGroup<DataSeriesType extends AbstractDataSeries>
 
 			// If this group contains multiple data series, Adds numbers (1, 2, 3, ...) to the end of their legends.
 			if (1 < seriesCount) {
-				String legendWithNumber = attribute.getLegend() + " " + (iseries + 1);
-				attribute.setLegend(legendWithNumber);
+				String legendWithNumber = attribute.getUnmodifiedLegend() + " " + (iseries + 1);
+				attribute.setUnmodifiedLegend(legendWithNumber);
+				attribute.setModifiableLegend(legendWithNumber);
 			}
 
 			dataSeries.setSeriesAttribute(attribute);
