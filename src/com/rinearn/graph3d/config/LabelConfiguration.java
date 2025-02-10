@@ -130,8 +130,29 @@ public final class LabelConfiguration {
 
 		// To be added: margin, alignment, etc.
 
+		/** The flag representing whether the legends display is enabled. */
+		private volatile boolean enabled = true;
+
 		/** The displayed text of this label. */
 		private volatile String text = "";
+
+		/**
+		 * Sets whether this axis label is enabled.
+		 *
+		 * @return Specify true if this axis label is enabled.
+		 */
+		public synchronized void setEnabled(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		/**
+		 * Gets whether this axis label is enabled.
+		 *
+		 * @return Returns true if this axis label is enabled.
+		 */
+		public synchronized boolean isEnabled() {
+			return this.enabled;
+		}
 
 		/**
 		 * Sets the displayed text of this label.
@@ -163,6 +184,75 @@ public final class LabelConfiguration {
 		public synchronized void validate() throws IllegalStateException {
 			if (this.text == null) {
 				throw new IllegalStateException("The label text is null.");
+			}
+		}
+	}
+
+
+	/**
+	 * The class storing configuration values of the legend labels.
+	 */
+	public final class LegendLabelConfiguration {
+
+		/** The flag representing whether the legends display is enabled. */
+		private volatile boolean enabled = true;
+
+		/** The texts of the legend labels. */
+		private volatile String[] texts = { };
+
+		/**
+		 * Sets whether the legend display is enabled.
+		 *
+		 * @return Specify true if the legend display is enabled.
+		 */
+		public synchronized void setEnabled(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		/**
+		 * Gets whether the legend display is enabled.
+		 *
+		 * @return Returns true if the legend display is enabled.
+		 */
+		public synchronized boolean isEnabled() {
+			return this.enabled;
+		}
+
+		/**
+		 * Sets the texts of the legend labels.
+		 *
+		 * @param texts The texts of the legend labels.
+		 */
+		public synchronized void setTexts(String[] texts) {
+			this.texts = texts;
+		}
+
+		/**
+		 * Gets the texts of the legend labels.
+		 *
+		 * @return The texts of the legend labels.
+		 */
+		public synchronized String[] getTexts() {
+			return this.texts;
+		}
+
+		/**
+		 * Validates correctness and consistency of configuration parameters stored in this instance.
+		 *
+		 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
+		 * If no issue is detected, nothing occurs.
+		 * If any issue is detected, throws IllegalStateException.
+		 *
+		 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+		 */
+		public synchronized void validate() throws IllegalStateException {
+			if (this.texts == null) {
+				throw new IllegalStateException("The legend label texts are null.");
+			}
+			for (String text: this.texts) {
+				if (text == null) {
+					throw new IllegalStateException("The legend label texts contains null as an element.");
+				}
 			}
 		}
 	}
