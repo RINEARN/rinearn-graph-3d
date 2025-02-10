@@ -42,7 +42,7 @@ import java.math.BigDecimal;
   6. The generated 3D mesh data is drawn by an array of polygons, in 3D graph space.
  */
 
-public class ZxyMathDataSeries extends MathDataSeries {
+public final class ZxyMathDataSeries extends MathDataSeries {
 
 	/** The containers of the attribute (meta information) of this series. */
 	private volatile SeriesAttribute seriesAttribute;
@@ -101,6 +101,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 		this.config = config;
 
 		this.seriesAttribute = new SeriesAttribute();
+		this.seriesAttribute.setLegend(this.getDisplayName());
 	}
 
 
@@ -115,6 +116,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 		this.zMathExpression = zMathExpression;
 		this.xDiscretizationCount = xDiscretizationCount;
 		this.yDiscretizationCount = yDiscretizationCount;
+		this.seriesAttribute.setLegend(this.getDisplayName());
 	}
 
 
@@ -124,7 +126,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 * @return The container of the attribute of this series.
 	 */
 	@Override
-	public synchronized SeriesAttribute getSeriesAttribtue() {
+	public synchronized SeriesAttribute getSeriesAttribute() {
 		return this.seriesAttribute;
 	}
 
@@ -134,7 +136,7 @@ public class ZxyMathDataSeries extends MathDataSeries {
 	 * @param The container of the attribute of this series.
 	 */
 	@Override
-	public synchronized void setSeriesAttribtue(SeriesAttribute seriesAttribute) {
+	public synchronized void setSeriesAttribute(SeriesAttribute seriesAttribute) {
 		this.seriesAttribute = seriesAttribute;
 	}
 

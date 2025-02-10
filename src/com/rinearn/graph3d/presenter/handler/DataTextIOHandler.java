@@ -111,7 +111,8 @@ public final class DataTextIOHandler {
 			DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = null;
 			try {
 				DataFileIO dataFileIO = new DataFileIO();
-				dataSeriesGroup = dataFileIO.parseDataFileContent(dataText, format);
+				String legend = "No Name";
+				dataSeriesGroup = dataFileIO.parseDataFileContent(dataText, format, legend);
 
 			// If any error occurred, display it to users as a pop-up message.
 			} catch (DataFileFormatException dffe) {

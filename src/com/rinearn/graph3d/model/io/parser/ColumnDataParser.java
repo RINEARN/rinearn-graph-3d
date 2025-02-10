@@ -75,17 +75,18 @@ public final class ColumnDataParser {
 	 *
 	 * @param dataString The string loaded from the data file.
 	 * @param format The format of the data file.
+	 * @param legend The legend of the parsed data series.
 	 * @return The DataSeriesGroup instance storing all data series contained in the data file.
 	 * @throw DataFileFormatException
 	 *   Thrown if the specified format is unsupported, or the contents is syntactically incorrect.
 	 */
-	public DataSeriesGroup<ArrayDataSeries> parse(String dataString, RinearnGraph3DDataFileFormat format)
+	public DataSeriesGroup<ArrayDataSeries> parse(String dataString, RinearnGraph3DDataFileFormat format, String legend)
 			throws DataFileFormatException {
 
 		try (StringReader stringReader = new StringReader(dataString);
 				BufferedReader bufferedReader = new BufferedReader(stringReader)) {
 
-			DataSeriesGroup<ArrayDataSeries> result = this.parse(bufferedReader, format);
+			DataSeriesGroup<ArrayDataSeries> result = this.parse(bufferedReader, format, legend);
 			return result;
 
 		} catch (IOException ioe) {
@@ -99,11 +100,12 @@ public final class ColumnDataParser {
 	 *
 	 * @param bufferedReader The stream reading the content of the data file
 	 * @param format The format of the data file.
+	 * @param legend The legend of the parsed data series.
 	 * @return The DataSeriesGroup instance storing all data series contained in the data file.
 	 * @throw DataFileFormatException
 	 *   Thrown if the specified format is unsupported, or the contents is syntactically incorrect.
 	 */
-	public DataSeriesGroup<ArrayDataSeries> parse(BufferedReader bufferedReader, RinearnGraph3DDataFileFormat format)
+	public DataSeriesGroup<ArrayDataSeries> parse(BufferedReader bufferedReader, RinearnGraph3DDataFileFormat format, String legend)
 			throws DataFileFormatException, IOException {
 
 		// Stores the decoded result to be returned.
@@ -147,7 +149,7 @@ public final class ColumnDataParser {
 				// Double empty data lines or EOL: a separator of "data series".
 				if (emptyDataLineCount == 2 || isEndOfFile) {
 					if (subDataSeriesList.size() != 0) {
-						ArrayDataSeries dataSeries = this.parseAndPackSubDataSeries(subDataSeriesList);
+						ArrayDataSeries dataSeries = this.parseAndPackSubDataSeries(subDataSeriesList, legend);
 						dataSeriesGroup.addDataSeries(dataSeries);
 						subDataSeriesList = new ArrayList<SubDataSeries>();
 						columnsList = new ArrayList<String[]>();
@@ -178,6 +180,9 @@ public final class ColumnDataParser {
 
 		} // The end of the reading loop.
 
+		// Add the series index in the group to the legends of all the data series, if necessary.
+		dataSeriesGroup.addSeriesIndicesToLegends();
+
 		return dataSeriesGroup;
 	}
 
@@ -186,11 +191,12 @@ public final class ColumnDataParser {
 	 * Parses the columns of multiple sub data series, and packs the results into an ArrayDataSeries instance.
 	 *
 	 * @param subDataSeriesList The list of the multiple sub data series to be packed.
+	 * @param legend The legend of the parsed data series.
 	 * @return The ArrayDataSeries instance storing the parsed result.
 	 * @throw DataFileFormatException
 	 *     Thrown if any non-number value is detected.
 	 */
-	private ArrayDataSeries parseAndPackSubDataSeries(List<SubDataSeries> subDataSeriesList)
+	private ArrayDataSeries parseAndPackSubDataSeries(List<SubDataSeries> subDataSeriesList, String legend)
 			throws DataFileFormatException {
 
 		int subSeriesCount = subDataSeriesList.size();
@@ -245,9 +251,9 @@ public final class ColumnDataParser {
 		// Pack the parsed result into an ArrayDataSeries instance.
 		ArrayDataSeries dataSeries;
 		if (columnCount == 3) {
-			dataSeries = new ArrayDataSeries(xCoords, yCoords, zCoords, visibilities);
+			dataSeries = new ArrayDataSeries(xCoords, yCoords, zCoords, visibilities, legend);
 		} else {
-			dataSeries = new ArrayDataSeries(xCoords, yCoords, zCoords, extraCoords, visibilities);
+			dataSeries = new ArrayDataSeries(xCoords, yCoords, zCoords, extraCoords, visibilities, legend);
 		}
 		return dataSeries;
 	}

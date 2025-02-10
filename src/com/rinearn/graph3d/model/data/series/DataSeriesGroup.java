@@ -2,6 +2,9 @@ package com.rinearn.graph3d.model.data.series;
 
 import java.util.Iterator;
 import java.util.List;
+
+import com.rinearn.graph3d.config.data.SeriesAttribute;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.math.BigDecimal;
@@ -48,6 +51,28 @@ public final class DataSeriesGroup<DataSeriesType extends AbstractDataSeries>
 				Collections.unmodifiableList(this.dataSeriesList)
 		);
 		return unmodifiableClone;
+	}
+
+
+	/**
+	 * Adds the series indices in this group to the legends of all the data series,
+	 * if necessary ( = if the number of series in this group is greater than 1).
+	 */
+	public synchronized void addSeriesIndicesToLegends() {
+		int seriesCount = this.getDataSeriesCount();
+		if (seriesCount <= 1) {
+			return;
+		}
+		for (int iseries=0; iseries<seriesCount; iseries++) {
+			DataSeriesType dataSeries = this.dataSeriesList.get(iseries);
+			SeriesAttribute attribute = dataSeries.getSeriesAttribute();
+
+			String legend = attribute.getLegend();
+			String legendWithIndex = legend + " " + (iseries + 1);
+
+			attribute.setLegend(legendWithIndex);
+			dataSeries.setSeriesAttribute(attribute);
+		}
 	}
 
 

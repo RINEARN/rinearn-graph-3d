@@ -416,8 +416,9 @@ public class DataArrayIOHandler {
 			DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new DataSeriesGroup<ArrayDataSeries>();
 			for (int iseries=0; iseries<dataSeriesCount; iseries++) {
 
+				String legend = "No Name";
 				ArrayDataSeries arrayDataSeries = new ArrayDataSeries(
-						this.x[iseries], this.y[iseries], this.z[iseries], this.generateVisibilities(iseries)
+						this.x[iseries], this.y[iseries], this.z[iseries], this.generateVisibilities(iseries), legend
 				);
 				dataSeriesGroup.addDataSeries(arrayDataSeries);
 

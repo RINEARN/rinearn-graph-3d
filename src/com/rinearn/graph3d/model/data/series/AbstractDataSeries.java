@@ -33,14 +33,14 @@ public abstract class AbstractDataSeries {
 	 *
 	 * @return The container of the attribute of this series.
 	 */
-	public abstract SeriesAttribute getSeriesAttribtue();
+	public abstract SeriesAttribute getSeriesAttribute();
 
 	/**
 	 * Sets the container of the attribute (meta information) of this series.
 	 *
 	 * @param The container of the attribute of this series.
 	 */
-	public abstract void setSeriesAttribtue(SeriesAttribute seriesAttribute);
+	public abstract void setSeriesAttribute(SeriesAttribute seriesAttribute);
 
 
 	/**

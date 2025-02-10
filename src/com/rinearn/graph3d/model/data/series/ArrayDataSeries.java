@@ -72,9 +72,10 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 * @param xCoordinates The X-coordinate values of the points of this data series ([irow][icol]).
 	 * @param yCoordinates The Y-coordinate values of the points of this data series ([irow][icol]).
 	 * @param zCoordinates The Z-coordinate values of the points of this data series ([irow][icol]).
+	 * @param legend The legend of this data series.
 	 */
 	public ArrayDataSeries(double[][] xCoordinates, double[][] yCoordinates, double[][] zCoordinates,
-			boolean[][] visibilities) {
+			boolean[][] visibilities, String legend) {
 
 		this.xCoordinates = xCoordinates;
 		this.yCoordinates = yCoordinates;
@@ -96,9 +97,10 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 * @param yCoordinates The Y-coordinate values of the points of this data series ([irow][icol]).
 	 * @param zCoordinates The Z-coordinate values of the points of this data series ([irow][icol]).
 	 * @param extraCoordinates The coordinate values of the extra dimensions ([idim][irow][icol]).
+	 * @param legend The legend of this data series.
 	 */
 	public ArrayDataSeries(double[][] xCoordinates, double[][] yCoordinates, double[][] zCoordinates, double[][][] extraCoordinates,
-			boolean[][] visibilities) {
+			boolean[][] visibilities, String legend) {
 
 		this.xCoordinates = xCoordinates;
 		this.yCoordinates = yCoordinates;
@@ -120,7 +122,7 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 * @return The container of the attribute of this series.
 	 */
 	@Override
-	public synchronized SeriesAttribute getSeriesAttribtue() {
+	public synchronized SeriesAttribute getSeriesAttribute() {
 		return this.seriesAttribute;
 	}
 
@@ -130,7 +132,7 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 	 * @param The container of the attribute of this series.
 	 */
 	@Override
-	public synchronized void setSeriesAttribtue(SeriesAttribute seriesAttribute) {
+	public synchronized void setSeriesAttribute(SeriesAttribute seriesAttribute) {
 		this.seriesAttribute = seriesAttribute;
 	}
 

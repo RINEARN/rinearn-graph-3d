@@ -360,17 +360,18 @@ public final class MatrixDataParser {
 	 *
 	 * @param dataString The string loaded from the data file.
 	 * @param format The format of the data file.
+	 * @param legend The legend of the parsed data series.
 	 * @return The DataSeriesGroup instance storing all data series contained in the data file.
 	 * @throw DataFileFormatException
 	 *   Thrown if the specified format is unsupported, or the contents is syntactically incorrect.
 	 */
-	public DataSeriesGroup<ArrayDataSeries> parse(String dataString, RinearnGraph3DDataFileFormat format)
+	public DataSeriesGroup<ArrayDataSeries> parse(String dataString, RinearnGraph3DDataFileFormat format, String legend)
 			throws DataFileFormatException {
 
 		try (StringReader stringReader = new StringReader(dataString);
 				BufferedReader bufferedReader = new BufferedReader(stringReader)) {
 
-			DataSeriesGroup<ArrayDataSeries> result = this.parse(bufferedReader, format);
+			DataSeriesGroup<ArrayDataSeries> result = this.parse(bufferedReader, format, legend);
 			return result;
 
 		} catch (IOException ioe) {
@@ -384,11 +385,12 @@ public final class MatrixDataParser {
 	 *
 	 * @param bufferedReader The stream reading the content of the data file
 	 * @param format The format of the data file.
+	 * @param legend The legend of the parsed data series.
 	 * @return The DataSeriesGroup instance storing all data series contained in the data file.
 	 * @throw DataFileFormatException
 	 *   Thrown if the specified format is unsupported, or the contents is syntactically incorrect.
 	 */
-	public DataSeriesGroup<ArrayDataSeries> parse(BufferedReader bufferedReader, RinearnGraph3DDataFileFormat format)
+	public DataSeriesGroup<ArrayDataSeries> parse(BufferedReader bufferedReader, RinearnGraph3DDataFileFormat format, String legend)
 			throws DataFileFormatException, IOException {
 
 		// Stores the parsed result to be returned.
@@ -412,16 +414,28 @@ public final class MatrixDataParser {
 
 			// Convert each matrix to ArrayDataSeries, and store it into the result.
 			for (Matrix matrix: matrixList) {
-				ArrayDataSeries dataSeries = this.convertMatrixToArrayDataSeries(matrix);
+				ArrayDataSeries dataSeries = this.convertMatrixToArrayDataSeries(matrix, legend);
 				dataSeriesGroup.addDataSeries(dataSeries);
 			}
 		}
+
+		// Add the series index in the group to the legends of all the data series, if necessary.
+		dataSeriesGroup.addSeriesIndicesToLegends();
 
 		return dataSeriesGroup;
 	}
 
 
-	private ArrayDataSeries convertMatrixToArrayDataSeries(Matrix matrix)
+	/**
+	 * Converts the content of a Matrix into an ArrayDataSeries.
+	 *
+	 * @param matrix The matrix to be converted.
+	 * @param legend The legend of the converted data series.
+	 * @return The converted data series.
+	 * @throws DataFileFormatException
+	 *   Thrown if the specified format is unsupported, or the contents is syntactically incorrect.
+	 */
+	private ArrayDataSeries convertMatrixToArrayDataSeries(Matrix matrix, String legend)
 			throws DataFileFormatException {
 
 		boolean splitsVertical = matrix.optionList.contains(OPTION_VERTICAL_SPLIT);
@@ -472,7 +486,7 @@ public final class MatrixDataParser {
 			}
 		}
 
-		ArrayDataSeries arrayDataSeries = new ArrayDataSeries(xArray, yArray, zArray, visibilities);
+		ArrayDataSeries arrayDataSeries = new ArrayDataSeries(xArray, yArray, zArray, visibilities, legend);
 		return arrayDataSeries;
 	}
 

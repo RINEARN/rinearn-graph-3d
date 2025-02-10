@@ -37,7 +37,8 @@ public final class DataFileIO {
 				FileReader fileReaderToLoad = new FileReader(file);
 				BufferedReader bufferedReaderToLoad = new BufferedReader(fileReaderToLoad) ) {
 
-			dataSeriesGroup = this.loadAndParseDataFromStreams(bufferedReaderToInfer, bufferedReaderToLoad, format);
+			String legend = file.getName();
+			dataSeriesGroup = this.loadAndParseDataFromStreams(bufferedReaderToInfer, bufferedReaderToLoad, format, legend);
 
 		// Don't remove the following catch-and-rethrowing steps.
 		// Maybe it seems to be meaningless, but is to close the resources.
@@ -53,10 +54,11 @@ public final class DataFileIO {
 	 *
 	 * @param fileContent The string to be parsed as the content of a data file.
 	 * @param format The format of the data file. Specify AUTO to infer the format from the file content.
+	 * @param legend The legend of the parsed data series.
 	 * @return The parsed result (multiple data series can be contained).
 	 * @throws DataFileFormatException Thrown if the content of the data file is syntactically incorrect, or unsupported format.
 	 */
-	public DataSeriesGroup<ArrayDataSeries> parseDataFileContent(String fileContent, RinearnGraph3DDataFileFormat format)
+	public DataSeriesGroup<ArrayDataSeries> parseDataFileContent(String fileContent, RinearnGraph3DDataFileFormat format, String legend)
 			throws DataFileFormatException {
 
 		// Parse the file content.
@@ -66,7 +68,7 @@ public final class DataFileIO {
 				StringReader stringReaderToLoad = new StringReader(fileContent);
 				BufferedReader bufferedReaderToLoad = new BufferedReader(stringReaderToLoad) ) {
 
-			dataSeriesGroup = this.loadAndParseDataFromStreams(bufferedReaderToInfer, bufferedReaderToLoad, format);
+			dataSeriesGroup = this.loadAndParseDataFromStreams(bufferedReaderToInfer, bufferedReaderToLoad, format, legend);
 
 		// Don't remove the following catch-and-rethrowing steps.
 		// Maybe it seems to be meaningless, but is to close the resources.
@@ -89,12 +91,13 @@ public final class DataFileIO {
 	 * @param bufferedReaderToInfer The BufferedReader of the stream to infer the data file format.
 	 * @param bufferedReaderToLoad The BufferedReader of the stream to load the data file content.
 	 * @param format The format of the data file.
+	 * @param legend The legend of the parsed data series.
 	 * @return The parsed data.
 	 * @throws IOException Thrown if any I/O error occurred for loading the data file content.
 	 * @throws DataFileFormatException Thrown if the content of the data file is syntactically incorrect, or unsupported format.
 	 */
 	private DataSeriesGroup<ArrayDataSeries> loadAndParseDataFromStreams(
-			BufferedReader bufferedReaderToInfer, BufferedReader bufferedReaderToLoad, RinearnGraph3DDataFileFormat format)
+			BufferedReader bufferedReaderToInfer, BufferedReader bufferedReaderToLoad, RinearnGraph3DDataFileFormat format, String legend)
 					throws IOException, DataFileFormatException {
 
 		// If the data file format is AUTO, infer the format from the content of the data file automatically.
@@ -110,11 +113,11 @@ public final class DataFileIO {
 			}
 			case MATRIX_CSV :
 			case MATRIX_STSV : {
-				DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new MatrixDataParser().parse(bufferedReaderToLoad, format);
+				DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new MatrixDataParser().parse(bufferedReaderToLoad, format, legend);
 				return dataSeriesGroup;
 			}
 			default : {
-				DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new ColumnDataParser().parse(bufferedReaderToLoad, format);
+				DataSeriesGroup<ArrayDataSeries> dataSeriesGroup = new ColumnDataParser().parse(bufferedReaderToLoad, format, legend);
 				return dataSeriesGroup;
 			}
 		}

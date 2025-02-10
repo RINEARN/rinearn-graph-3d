@@ -23,7 +23,7 @@ import org.vcssl.nano.VnanoException;
  */
 
 
-public class XtYtZtMathDataSeries extends MathDataSeries {
+public final class XtYtZtMathDataSeries extends MathDataSeries {
 
 	/** The containers of the attribute (meta information) of this series. */
 	private volatile SeriesAttribute seriesAttribute;
@@ -112,6 +112,7 @@ public class XtYtZtMathDataSeries extends MathDataSeries {
 		this.config = config;
 
 		this.seriesAttribute = new SeriesAttribute();
+		this.seriesAttribute.setLegend(this.getDisplayName());
 	}
 
 
@@ -136,6 +137,7 @@ public class XtYtZtMathDataSeries extends MathDataSeries {
 		this.timeMin = timeMin;
 		this.timeMax = timeMax;
 		this.timeDiscretizationCount = timeDiscretizationCount;
+		this.seriesAttribute.setLegend(this.getDisplayName());
 	}
 
 
@@ -145,7 +147,7 @@ public class XtYtZtMathDataSeries extends MathDataSeries {
 	 * @return The container of the attribute of this series.
 	 */
 	@Override
-	public synchronized SeriesAttribute getSeriesAttribtue() {
+	public synchronized SeriesAttribute getSeriesAttribute() {
 		return this.seriesAttribute;
 	}
 
@@ -155,7 +157,7 @@ public class XtYtZtMathDataSeries extends MathDataSeries {
 	 * @param The container of the attribute of this series.
 	 */
 	@Override
-	public synchronized void setSeriesAttribtue(SeriesAttribute seriesAttribute) {
+	public synchronized void setSeriesAttribute(SeriesAttribute seriesAttribute) {
 		this.seriesAttribute = seriesAttribute;
 	}
 
