@@ -9,6 +9,9 @@ public class SeriesAttribute {
 	/** The index of this series in all the series in the graph. */
 	private volatile int globalSeriesIndex = 0;
 
+	/** The index of this series in the source file or the source math expression. */
+	private volatile int localSeriesIndex = 0;
+
 	/** The legend of this series.*/
 	private volatile String legend = "";
 
@@ -21,21 +24,40 @@ public class SeriesAttribute {
 
 
 	/**
-	 * Sets the index of this series in all the series in the graph.
+	 * Sets the index of this series in all the series in the graph, called "global index".
 	 *
-	 * @param globalSeriesIndex The index of this series in all the series in the graph.
+	 * @param globalSeriesIndex The global index of this series.
 	 */
 	public synchronized void setGlobalSeriesIndex(int globalSeriesIndex) {
 		this.globalSeriesIndex = globalSeriesIndex;
 	}
 
 	/**
-	 * Gets the index of this series in all the series in the graph.
+	 * Gets the index of this series all the series in the graph, called "global index".
 	 *
-	 * @return The index of this series in all the series in the graph.
+	 * @return The global index of this series.
 	 */
 	public synchronized int getGlobalSeriesIndex() {
 		return this.globalSeriesIndex;
+	}
+
+
+	/**
+	 * Sets the index of this series in the source file or the source math expression, called "local index".
+	 *
+	 * @param localSeriesIndex The local index of this series.
+	 */
+	public synchronized void setLocalSeriesIndex(int localSeriesIndex) {
+		this.localSeriesIndex = localSeriesIndex;
+	}
+
+	/**
+	 * Gets the index of this series in the source file or the source math expression, called "local index".
+	 *
+	 * @return The local index of this series.
+	 */
+	public synchronized int getLocalSeriesIndex() {
+		return this.localSeriesIndex;
 	}
 
 

@@ -55,22 +55,26 @@ public final class DataSeriesGroup<DataSeriesType extends AbstractDataSeries>
 
 
 	/**
-	 * Adds the series indices in this group to the legends of all the data series,
-	 * if necessary ( = if the number of series in this group is greater than 1).
+	 * Supplements the series attributes of all the data series in this group.
 	 */
-	public synchronized void addSeriesIndicesToLegends() {
+	public synchronized void supplementSeriesAttributes() {
 		int seriesCount = this.getDataSeriesCount();
-		if (seriesCount <= 1) {
-			return;
-		}
+
 		for (int iseries=0; iseries<seriesCount; iseries++) {
+
+			// Get the iseries-th data series and its attribute.
 			DataSeriesType dataSeries = this.dataSeriesList.get(iseries);
 			SeriesAttribute attribute = dataSeries.getSeriesAttribute();
 
-			String legend = attribute.getLegend();
-			String legendWithIndex = legend + " " + (iseries + 1);
+			// Set the local series index in this group.
+			attribute.setLocalSeriesIndex(iseries);
 
-			attribute.setLegend(legendWithIndex);
+			// If this group contains multiple data series, Adds numbers (1, 2, 3, ...) to the end of their legends.
+			if (1 < seriesCount) {
+				String legendWithNumber = attribute.getLegend() + " " + (iseries + 1);
+				attribute.setLegend(legendWithNumber);
+			}
+
 			dataSeries.setSeriesAttribute(attribute);
 		}
 	}

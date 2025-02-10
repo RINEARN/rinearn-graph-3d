@@ -419,8 +419,8 @@ public final class MatrixDataParser {
 			}
 		}
 
-		// Add the series index in the group to the legends of all the data series, if necessary.
-		dataSeriesGroup.addSeriesIndicesToLegends();
+		// Supplements the series attributes of all the data series in the group.
+		dataSeriesGroup.supplementSeriesAttributes();
 
 		return dataSeriesGroup;
 	}
