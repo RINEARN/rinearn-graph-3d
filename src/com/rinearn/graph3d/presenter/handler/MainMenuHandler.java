@@ -89,6 +89,7 @@ public final class MainMenuHandler {
 		window.mainMenu.meshOptionMenuItem.addActionListener(new MeshOptionMenuItemSelectedEventListener());
 		window.mainMenu.surfaceOptionMenuItem.addActionListener(new SurfaceOptionMenuItemSelectedEventListener());
 		window.mainMenu.gradientOptionMenuItem.addActionListener(new GradientOptionMenuItemSelectedEventListener());
+		window.mainMenu.legendOptionMenuItem.addActionListener(new LegendOptionMenuItemSelectedEventListener());
 	}
 
 
@@ -543,7 +544,7 @@ public final class MainMenuHandler {
 
 
 	/**
-	 * The listener handling the event that "Options" > "Gradient Coloring" menu item is selected.
+	 * The listener handling the event that "Options" > "Gradient Color" menu item is selected.
 	 */
 	private final class GradientOptionMenuItemSelectedEventListener implements ActionListener {
 		@Override
@@ -563,6 +564,24 @@ public final class MainMenuHandler {
 		}
 	}
 
+
+	/**
+	 * The listener handling the event that "Options" > "Legends" menu item is selected.
+	 */
+	private final class LegendOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			boolean isOptionSepected = view.mainWindow.mainMenu.legendOptionMenuItem.isSelected();
+
+			// Enable/disable the option.
+			model.config.getLabelConfiguration().getLegendLabelConfiguration().setVisible(isOptionSepected);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
 
 
 

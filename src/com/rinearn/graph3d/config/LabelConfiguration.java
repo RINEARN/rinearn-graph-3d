@@ -220,7 +220,7 @@ public final class LabelConfiguration {
 	public final class LegendLabelConfiguration {
 
 		/** The flag representing whether the legends display is visible. */
-		private volatile boolean visible = true;
+		private volatile boolean visible = false;
 
 		/** The flag representing whether the auto-legend-generation feature is enabled. */
 		private volatile boolean autoLegendGenerationEnabled = true;

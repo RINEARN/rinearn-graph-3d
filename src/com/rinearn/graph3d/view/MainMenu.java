@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 
 import com.rinearn.graph3d.config.ColorConfiguration;
 import com.rinearn.graph3d.config.FontConfiguration;
+import com.rinearn.graph3d.config.LabelConfiguration;
 import com.rinearn.graph3d.config.OptionConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 
@@ -97,8 +98,11 @@ public class MainMenu {
 	/** "Options" > "With Surfaces" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem surfaceOptionMenuItem;
 
-	/** "Options" > "Gradient Coloring" menu item on the menu bar.  */
+	/** "Options" > "Gradient Colors" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem gradientOptionMenuItem;
+
+	/** "Options" > "Legends" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem legendOptionMenuItem;
 
 
 	/**
@@ -238,6 +242,10 @@ public class MainMenu {
 				// "Options" > "Gradient Coloring" menu item:
 				gradientOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
 				optionsMenu.add(gradientOptionMenuItem);
+
+				// "Options" > "Legends" menu item:
+				legendOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
+				optionsMenu.add(legendOptionMenuItem);
 			}
 		}
 	}
@@ -368,6 +376,7 @@ public class MainMenu {
 				meshOptionMenuItem.setText("メッシュプロット");
 				surfaceOptionMenuItem.setText("曲面プロット");
 				gradientOptionMenuItem.setText("グラデーション彩色");
+				legendOptionMenuItem.setText("凡例");
 			}
 		}
 
@@ -413,7 +422,8 @@ public class MainMenu {
 				lineOptionMenuItem.setText("With Lines");
 				meshOptionMenuItem.setText("With Meshes");
 				surfaceOptionMenuItem.setText("With Surfaces (Membranes)");
-				gradientOptionMenuItem.setText("Gradient Coloring");
+				gradientOptionMenuItem.setText("Gradient Colors");
+				legendOptionMenuItem.setText("Legends");
 			}
 		}
 
@@ -462,6 +472,7 @@ public class MainMenu {
 				meshOptionMenuItem.setFont(uiBoldFont);
 				surfaceOptionMenuItem.setFont(uiBoldFont);
 				gradientOptionMenuItem.setFont(uiBoldFont);
+				legendOptionMenuItem.setFont(uiBoldFont);
 			}
 		}
 
@@ -479,10 +490,17 @@ public class MainMenu {
 				surfaceOptionMenuItem.setSelected(optionConfig.getSurfaceOptionConfiguration().isOptionEnabled());
 			}
 
-			// Gradient Coloring option:
+			// Gradient Colors option:
 			{
 				ColorConfiguration colorConfig = configuration.getColorConfiguration();
 				gradientOptionMenuItem.setSelected(colorConfig.isDataGradientColorEnabled());
+			}
+
+			// Legends option:
+			{
+				LabelConfiguration labelConfig = configuration.getLabelConfiguration();
+				LabelConfiguration.LegendLabelConfiguration legendConfig = labelConfig.getLegendLabelConfiguration();
+				legendOptionMenuItem.setSelected(legendConfig.isVisible());
 			}
 		}
 	}
