@@ -197,13 +197,16 @@ public final class LabelConfiguration {
 		/** The flag representing whether the legends display is enabled. */
 		private volatile boolean enabled = true;
 
+		/** The flag representing whether the auto-legend-generation feature is enabled. */
+		private volatile boolean autoLegendGenerationEnabled = true;
+
 		/** The texts of the legend labels. */
 		private volatile String[] texts = { };
 
 		/**
 		 * Sets whether the legend display is enabled.
 		 *
-		 * @return Specify true if the legend display is enabled.
+		 * @return Specify true to enable the legend display is enabled.
 		 */
 		public synchronized void setEnabled(boolean enabled) {
 			this.enabled = enabled;
@@ -216,6 +219,24 @@ public final class LabelConfiguration {
 		 */
 		public synchronized boolean isEnabled() {
 			return this.enabled;
+		}
+
+		/**
+		 * Enables/disables the auto-legend-generation feature.
+		 *
+		 * @return Specify true to enable the auto-legend-generation feature.
+		 */
+		public synchronized void setAutoLegendGenerationEnabled(boolean autoLegendGenerationEnabled) {
+			this.enabled = autoLegendGenerationEnabled;
+		}
+
+		/**
+		 * Gets whether the auto-legend-generation feature is enabled.
+		 *
+		 * @return Returns true if the auto-legend-generation feature is enabled.
+		 */
+		public synchronized boolean isAutoLegendGenerationEnabled() {
+			return this.autoLegendGenerationEnabled;
 		}
 
 		/**
