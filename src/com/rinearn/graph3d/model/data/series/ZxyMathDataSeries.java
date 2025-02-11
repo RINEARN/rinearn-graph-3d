@@ -101,8 +101,8 @@ public final class ZxyMathDataSeries extends MathDataSeries {
 		this.config = config;
 
 		this.seriesAttribute = new SeriesAttribute();
-		this.seriesAttribute.setUnmodifiedLegend(this.getDisplayName());
-		this.seriesAttribute.setModifiableLegend(this.getDisplayName());
+		this.seriesAttribute.setUnmodifiedLegend(this.getShortDisplayName());
+		this.seriesAttribute.setModifiableLegend(this.getShortDisplayName());
 	}
 
 
@@ -117,8 +117,8 @@ public final class ZxyMathDataSeries extends MathDataSeries {
 		this.zMathExpression = zMathExpression;
 		this.xDiscretizationCount = xDiscretizationCount;
 		this.yDiscretizationCount = yDiscretizationCount;
-		this.seriesAttribute.setUnmodifiedLegend(this.getDisplayName());
-		this.seriesAttribute.setModifiableLegend(this.getDisplayName());
+		this.seriesAttribute.setUnmodifiedLegend(this.getShortDisplayName());
+		this.seriesAttribute.setModifiableLegend(this.getShortDisplayName());
 	}
 
 
@@ -174,11 +174,21 @@ public final class ZxyMathDataSeries extends MathDataSeries {
 
 
 	/**
-	 * Returns a single-line name of this data series, to be displayed on UI.
+	 * Returns a single-line full name of this data series, to be displayed on UI, etc.
 	 */
 	@Override
-	public synchronized String getDisplayName() {
+	public synchronized String getFullDisplayName() {
 		String displayedExpression = "z(x,y)=" + this.zMathExpression.replaceAll(" ", "");
+		return displayedExpression;
+	}
+
+
+	/**
+	 * Returns a single-line short name of this data series, to be displayed on UI, etc.
+	 */
+	@Override
+	public synchronized String getShortDisplayName() {
+		String displayedExpression = "z=" + this.zMathExpression.replaceAll(" ", "");
 		return displayedExpression;
 	}
 

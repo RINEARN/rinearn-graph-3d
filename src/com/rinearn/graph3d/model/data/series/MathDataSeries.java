@@ -26,9 +26,15 @@ public abstract class MathDataSeries extends AbstractDataSeries {
 
 
 	/**
-	 * Returns a single-line name of this data series, to be displayed on UI.
+	 * Returns a single-line full name of this data series, to be displayed on UI, etc.
 	 */
-	public abstract String getDisplayName();
+	public abstract String getFullDisplayName();
+
+
+	/**
+	 * Returns a single-line short name of this data series, to be displayed as a legend, etc.
+	 */
+	public abstract String getShortDisplayName();
 
 
 	/**

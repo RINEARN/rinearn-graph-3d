@@ -41,6 +41,9 @@ public final class LabelConfiguration {
 	/** The configuration of the Z axis label. */
 	public volatile AxisLabelConfiguration zLabelConfiguration = new AxisLabelConfiguration();;
 
+	/** The configuration of the legend labels. */
+	public volatile LegendLabelConfiguration legendLabelConfiguration = new LegendLabelConfiguration();
+
 
 	/**
 	 * Creates a new configuration storing default values.
@@ -108,6 +111,26 @@ public final class LabelConfiguration {
 		return this.zLabelConfiguration;
 	}
 
+
+	/**
+	 * Set the configuration of legend labels.
+	 *
+	 * @param xLabelConfiguration The configuration of legend labels.
+	 */
+	public synchronized void setLegendLabelConfiguration(LegendLabelConfiguration legendLabelConfiguration) {
+		this.legendLabelConfiguration = legendLabelConfiguration;
+	}
+
+	/**
+	 * Get the configuration of legend labels.
+	 *
+	 * @return The configuration of legend labels.
+	 */
+	public synchronized LegendLabelConfiguration getLegendLabelConfiguration() {
+		return this.legendLabelConfiguration;
+	}
+
+
 	/**
 	 * Validates correctness and consistency of configuration parameters stored in this instance.
 	 *
@@ -118,11 +141,10 @@ public final class LabelConfiguration {
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws IllegalStateException {
-
-		// Validate configs of X/Y/Z axes.
 		this.xLabelConfiguration.validate();
 		this.yLabelConfiguration.validate();
 		this.zLabelConfiguration.validate();
+		this.legendLabelConfiguration.validate();
 	}
 
 

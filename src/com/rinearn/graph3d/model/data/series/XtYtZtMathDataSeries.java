@@ -112,8 +112,8 @@ public final class XtYtZtMathDataSeries extends MathDataSeries {
 		this.config = config;
 
 		this.seriesAttribute = new SeriesAttribute();
-		this.seriesAttribute.setUnmodifiedLegend(this.getDisplayName());
-		this.seriesAttribute.setModifiableLegend(this.getDisplayName());
+		this.seriesAttribute.setUnmodifiedLegend(this.getFullDisplayName());
+		this.seriesAttribute.setModifiableLegend(this.getFullDisplayName());
 	}
 
 
@@ -138,8 +138,8 @@ public final class XtYtZtMathDataSeries extends MathDataSeries {
 		this.timeMin = timeMin;
 		this.timeMax = timeMax;
 		this.timeDiscretizationCount = timeDiscretizationCount;
-		this.seriesAttribute.setUnmodifiedLegend(this.getDisplayName());
-		this.seriesAttribute.setModifiableLegend(this.getDisplayName());
+		this.seriesAttribute.setUnmodifiedLegend(this.getFullDisplayName());
+		this.seriesAttribute.setModifiableLegend(this.getFullDisplayName());
 	}
 
 
@@ -219,15 +219,28 @@ public final class XtYtZtMathDataSeries extends MathDataSeries {
 
 
 	/**
-	 * Returns a single-line name of this data series, to be displayed on UI.
+	 * Returns a single-line full name of this data series, to be displayed on UI.
 	 */
 	@Override
-	public synchronized String getDisplayName() {
+	public synchronized String getFullDisplayName() {
 		String displayedExpression
 				=  "x(t)=" + this.xtMathExpression.replaceAll(" ", "")
 				+ ", y(t)=" + this.ytMathExpression.replaceAll(" ", "")
 				+ ", z(t)=" + this.ztMathExpression.replaceAll(" ", "");
 
+		return displayedExpression;
+	}
+
+
+	/**
+	 * Returns a single-line short name of this data series, to be displayed on UI, etc.
+	 */
+	@Override
+	public synchronized String getShortDisplayName() {
+		String displayedExpression
+		=  "x=" + this.xtMathExpression.replaceAll(" ", "")
+		+ ", y=" + this.ytMathExpression.replaceAll(" ", "")
+		+ ", z=" + this.ztMathExpression.replaceAll(" ", "");
 		return displayedExpression;
 	}
 

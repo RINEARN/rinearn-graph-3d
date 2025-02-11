@@ -266,7 +266,7 @@ public final class MainMenuHandler {
 		// Gets the display names of all the math data series.
 		String[] seriesDisplayNames = new String[seriesCount];
 		for (int iseries=0; iseries<seriesCount; iseries++) {
-			seriesDisplayNames[iseries] = (iseries + 1) + ":  " + mathDataSeriesGroup.getDataSeriesAt(iseries).getDisplayName();
+			seriesDisplayNames[iseries] = (iseries + 1) + ":  " + mathDataSeriesGroup.getDataSeriesAt(iseries).getFullDisplayName();
 		}
 
 		// Show the pop-up window to select the math data series to be removed.

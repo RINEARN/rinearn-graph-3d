@@ -87,6 +87,8 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 		this.detectZRange();
 
 		this.seriesAttribute = new SeriesAttribute();
+		this.seriesAttribute.setUnmodifiedLegend(legend);
+		this.seriesAttribute.setModifiableLegend(legend);
 	}
 
 
@@ -113,6 +115,8 @@ public final class ArrayDataSeries extends AbstractDataSeries {
 		this.detectZRange();
 
 		this.seriesAttribute = new SeriesAttribute();
+		this.seriesAttribute.setUnmodifiedLegend(legend);
+		this.seriesAttribute.setModifiableLegend(legend);
 	}
 
 

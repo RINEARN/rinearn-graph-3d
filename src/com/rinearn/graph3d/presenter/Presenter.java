@@ -3,7 +3,9 @@ package com.rinearn.graph3d.presenter;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.GradientColor;
+import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.config.ColorConfiguration;
+import com.rinearn.graph3d.config.LabelConfiguration;
 import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.model.data.series.AbstractDataSeries;
@@ -42,6 +44,8 @@ import com.rinearn.graph3d.presenter.plotter.SurfacePlotter;
 
 import org.vcssl.nano.VnanoException;
 
+import java.util.List;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import java.lang.reflect.InvocationTargetException;
@@ -365,7 +369,10 @@ public final class Presenter {
 		// Update coordinate values of math data series.
 		this.updateMathDataSeriesCoordinates();
 
-		// Adjust the ranges to fit to the currently registered data (containing the data added above).
+		// Update the legend configuration from the currently registered data.
+		this.updateLegends();
+
+		// Adjust the ranges to fit to the currently registered data.
 		this.adjustRanges();
 
 		// Clear all currently drawn contents registered to the renderer.
@@ -430,7 +437,7 @@ public final class Presenter {
 
 
 	/**
-	 * Update coordinate values of math data series.
+	 * Updates coordinate values of math data series.
 	 */
 	private void updateMathDataSeriesCoordinates() {
 		DataSeriesGroup<MathDataSeries> mathDataSeriesGroup = this.model.dataStore.getMathDataSeriesGroup();
@@ -442,12 +449,62 @@ public final class Presenter {
 
 			// The scripting engine may throw exceptions, when the expression(s) contains syntax errors, and so on.
 			} catch (VnanoException vne) {
-				String expression = mathDataSeries.getDisplayName();
+				String expression = mathDataSeries.getFullDisplayName();
 				String errorMessage = this.model.config.getEnvironmentConfiguration().isLocaleJapanese() ?
 						"数式「" + expression + "」のプロットでエラーが発生しました。\n詳細は標準エラー出力を参照してください。" :
 						"An error occurred for plotting the math expression \"" + expression + "\".\nSee the standard error output for datails.";
 				JOptionPane.showMessageDialog(this.view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
 				vne.printStackTrace();
+			}
+		}
+	}
+
+
+	/**
+	 * Update the legend configuration from the currently registered data.
+	 */
+	private void updateLegends() {
+		LabelConfiguration labelConfig = model.config.getLabelConfiguration();
+		LabelConfiguration.LegendLabelConfiguration legendLabelConfig = labelConfig.getLegendLabelConfiguration();
+
+		// Get the group of all the registered data series.
+		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = model.dataStore.getCombinedDataSeriesGroup();
+		int dataSeriesCount = dataSeriesGroup.getDataSeriesCount();
+
+		// If the auto-legend-generation feature is disabled is enabled:
+		// Extract the unmodified (original) legend from each data series's attribute,
+		// and set it to the legend configuration.
+		if (legendLabelConfig.isAutoLegendGenerationEnabled()) {
+
+			// Stores the legend to be displayed.
+			List<String> legendList = new ArrayList<String>();
+
+			// Get the unmodified (original) legend from each series's attribute, and set it to the legend list to be displayed.
+			// Also, set it to the modifiable legend of the series's attribute.
+			for (AbstractDataSeries dataSeries: dataSeriesGroup) {
+				SeriesAttribute attribute = dataSeries.getSeriesAttribute();
+				String unmodifiedLegend = attribute.getUnmodifiedLegend();
+				legendList.add(unmodifiedLegend);
+
+				attribute.setModifiableLegend(unmodifiedLegend);
+			}
+
+			// Set to the legend label configuration to display.
+			String[] legendTexts = new String[ legendList.size() ];
+			legendTexts = legendList.toArray(legendTexts);
+			legendLabelConfig.setLabelTexts(legendTexts);
+
+		// If the auto-legend-generation feature is disabled is disabled:
+		// Update the "modifiable legend" of the data series's atttribute.
+		} else {
+			String[] currentLegends = legendLabelConfig.getLabelTexts();
+			int legendCount = currentLegends.length;
+			for (int ilegend=0; ilegend<legendCount; ilegend++) {
+				if (ilegend < dataSeriesCount) {
+					AbstractDataSeries dataSeries = dataSeriesGroup.getDataSeriesAt(ilegend);
+					SeriesAttribute attribute = dataSeries.getSeriesAttribute();
+					attribute.setModifiableLegend(currentLegends[ilegend]);
+				}
 			}
 		}
 	}
