@@ -20,6 +20,9 @@ public class FontConfiguration {
 	/** The font for rendering tick labels. */
 	private volatile Font tickLabelFont = new Font("Dialog", Font.BOLD, 12);
 
+	/** The font for rendering legends. */
+	private volatile Font legendLabelFont = new Font("Dialog", Font.PLAIN, 14);
+
 	// To be added: markerFont
 
 
@@ -96,6 +99,25 @@ public class FontConfiguration {
 	 */
 	public synchronized Font getTickLabelFont() {
 		return this.tickLabelFont;
+	}
+
+
+	/**
+	 * Sets the font for rendering legend labels.
+	 *
+	 * @param tickLabelFont The font for rendering legend labels.
+	 */
+	public synchronized void setLegendLabelFont(Font legendLabelFont) {
+		this.legendLabelFont = legendLabelFont;
+	}
+
+	/**
+	 * Gets the font for rendering legend labels.
+	 *
+	 * @return The font for rendering legend labels.
+	 */
+	public synchronized Font getLegendLabelFont() {
+		return this.legendLabelFont;
 	}
 
 
