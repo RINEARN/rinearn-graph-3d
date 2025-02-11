@@ -11,7 +11,7 @@ import com.rinearn.graph3d.config.color.GradientColor;
 
 /**
  * The class to generate scale ticks from configuration,
- * used in FrameDrawer, LabelDrawer, ScaleTickDrawer, ColorBarDrawer, ColorBarDrawer, etc.
+ * used in FrameDrawer, AxisLabelDrawer, ScaleTickDrawer, ColorBarDrawer, ColorBarDrawer, etc.
  */
 public final class ScaleTickGenerator {
 

@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * The class for drawing axis labels.
  */
-public class LabelDrawer {
+public class AxisLabelDrawer {
 
 	/** The array index representing X, in three-dimensional arrays. */
 	public static final int X = 0;
@@ -56,7 +56,7 @@ public class LabelDrawer {
 	 * @param vertcalAlignThreshold The vertical distance [px] from the reference point, at which the alignment of tick labels change.
 	 * @param horizontalAlignThreshold The horizontal distance [px] from the reference point, at which the alignment of tick labels change.
 	 */
-	public LabelDrawer(int verticalAlignThreshold, int horizontalAlignThreshold) {
+	public AxisLabelDrawer(int verticalAlignThreshold, int horizontalAlignThreshold) {
 		this.verticalAlignThreshold = verticalAlignThreshold;
 		this.horizontalAlignThreshold = horizontalAlignThreshold;
 	}

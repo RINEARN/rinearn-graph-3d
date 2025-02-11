@@ -94,6 +94,7 @@ com/rinearn/graph3d/presenter/RenderingLoop.java
 com/rinearn/graph3d/renderer/package-info.java
 com/rinearn/graph3d/renderer/RinearnGraph3DDrawingParameter.java
 com/rinearn/graph3d/renderer/RinearnGraph3DRenderer.java
+com/rinearn/graph3d/renderer/simple/AxisLabelDrawer.java
 com/rinearn/graph3d/renderer/simple/ColorBarDrawer.java
 com/rinearn/graph3d/renderer/simple/ColorMixer.java
 com/rinearn/graph3d/renderer/simple/DirectionalLineGeometricPiece.java
@@ -101,7 +102,6 @@ com/rinearn/graph3d/renderer/simple/DirectionalTextGeometricPiece.java
 com/rinearn/graph3d/renderer/simple/FrameDrawer.java
 com/rinearn/graph3d/renderer/simple/GeometricDepthComparator.java
 com/rinearn/graph3d/renderer/simple/GeometricPiece.java
-com/rinearn/graph3d/renderer/simple/LabelDrawer.java
 com/rinearn/graph3d/renderer/simple/LineGeometricPiece.java
 com/rinearn/graph3d/renderer/simple/package-info.java
 com/rinearn/graph3d/renderer/simple/PointGeometricPiece.java

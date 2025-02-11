@@ -90,7 +90,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	);
 
 	/** The object to draw the axis labels. */
-	private final LabelDrawer labelDrawer = new LabelDrawer(
+	private final AxisLabelDrawer labelDrawer = new AxisLabelDrawer(
 		this.verticalAlignThreshold, this.horizontalAlignThreshold
 	);
 
