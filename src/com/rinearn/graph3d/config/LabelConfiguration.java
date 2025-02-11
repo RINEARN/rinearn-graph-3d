@@ -133,28 +133,28 @@ public final class LabelConfiguration {
 
 		// To be added: margin, alignment, etc.
 
-		/** The flag representing whether the legends display is enabled. */
-		private volatile boolean enabled = true;
+		/** The flag representing whether this axis's label is visible */
+		private volatile boolean visible = true;
 
 		/** The displayed text of this label. */
 		private volatile String labelText = "";
 
 		/**
-		 * Sets whether this axis label is enabled.
+		 * Sets whether this axis's label is visible.
 		 *
-		 * @return Specify true if this axis label is enabled.
+		 * @return Specify true/false to show/hide this axis's label.
 		 */
-		public synchronized void setEnabled(boolean enabled) {
-			this.enabled = enabled;
+		public synchronized void setVisible(boolean visible) {
+			this.visible = visible;
 		}
 
 		/**
-		 * Gets whether this axis label is enabled.
+		 * Gets whether this axis's label is visible.
 		 *
-		 * @return Returns true if this axis label is enabled.
+		 * @return Returns true if this axis's label is visible.
 		 */
-		public synchronized boolean isEnabled() {
-			return this.enabled;
+		public synchronized boolean isVisible() {
+			return this.visible;
 		}
 
 		/**
@@ -197,8 +197,8 @@ public final class LabelConfiguration {
 	 */
 	public final class LegendLabelConfiguration {
 
-		/** The flag representing whether the legends display is enabled. */
-		private volatile boolean enabled = true;
+		/** The flag representing whether the legends display is visible. */
+		private volatile boolean visible = true;
 
 		/** The flag representing whether the auto-legend-generation feature is enabled. */
 		private volatile boolean autoLegendGenerationEnabled = true;
@@ -207,21 +207,21 @@ public final class LabelConfiguration {
 		private volatile String[] labelTexts = { };
 
 		/**
-		 * Sets whether the legend display is enabled.
+		 * Sets whether the legends display is visible.
 		 *
-		 * @return Specify true to enable the legend display is enabled.
+		 * @return Specify true/false to show/hide the legends display.
 		 */
-		public synchronized void setEnabled(boolean enabled) {
-			this.enabled = enabled;
+		public synchronized void setVisible(boolean visible) {
+			this.visible = visible;
 		}
 
 		/**
-		 * Gets whether the legend display is enabled.
+		 * Gets whether the legends display is visible.
 		 *
-		 * @return Returns true if the legend display is enabled.
+		 * @return Returns true if the legend display is visible.
 		 */
-		public synchronized boolean isEnabled() {
-			return this.enabled;
+		public synchronized boolean isVisible() {
+			return this.visible;
 		}
 
 		/**
@@ -230,7 +230,7 @@ public final class LabelConfiguration {
 		 * @return Specify true to enable the auto-legend-generation feature.
 		 */
 		public synchronized void setAutoLegendGenerationEnabled(boolean autoLegendGenerationEnabled) {
-			this.enabled = autoLegendGenerationEnabled;
+			this.autoLegendGenerationEnabled = autoLegendGenerationEnabled;
 		}
 
 		/**
