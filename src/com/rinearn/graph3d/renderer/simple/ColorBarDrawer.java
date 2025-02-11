@@ -54,7 +54,7 @@ public class ColorBarDrawer {
 
 
 	/**
-	 * Creates a new instance for drawing graph frames under the specified configurations.
+	 * Creates a new instance.
 	 */
 	public ColorBarDrawer() {
 	}

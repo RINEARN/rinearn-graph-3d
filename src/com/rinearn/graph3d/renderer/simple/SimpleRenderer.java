@@ -97,6 +97,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The object to draw the graph frame and the grid lines. */
 	private final FrameDrawer frameDrawer = new FrameDrawer();
 
+	/** The object to draw the legends. */
+	private final LegendDrawer legendDrawer = new LegendDrawer();
+
 	/** The object to draw the color bar. */
 	private final ColorBarDrawer colorBarDrawer = new ColorBarDrawer();
 
@@ -193,6 +196,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		this.frameDrawer.setConfiguration(this.config, scaleTicks);
 		this.labelDrawer.setConfiguration(this.config, scaleTicks);
 		this.colorBarDrawer.setConfiguration(this.config, scaleTicks);
+		this.legendDrawer.setConfiguration(this.config);
 
 		// Update the camera angles and parameters.
 		this.updateCamera();
@@ -335,6 +339,11 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			}
 			piece.project(screenWidth, screenHeight, screenOffsetX, screenOffsetY, magnification);
 			piece.draw(this.screenGraphics);
+		}
+
+		// Draw legends.
+		if (this.config.getLabelConfiguration().getLegendLabelConfiguration().isVisible()) {
+			this.legendDrawer.draw(this.screenGraphics);
 		}
 
 		// Draw the color bar.

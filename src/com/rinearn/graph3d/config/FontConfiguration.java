@@ -21,7 +21,7 @@ public class FontConfiguration {
 	private volatile Font tickLabelFont = new Font("Dialog", Font.BOLD, 12);
 
 	/** The font for rendering legends. */
-	private volatile Font legendLabelFont = new Font("Dialog", Font.PLAIN, 14);
+	private volatile Font legendLabelFont = new Font("Dialog", Font.PLAIN, 15);
 
 	// To be added: markerFont
 
