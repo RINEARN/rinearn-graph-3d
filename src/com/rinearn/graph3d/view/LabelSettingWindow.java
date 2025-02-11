@@ -336,9 +336,9 @@ public final class LabelSettingWindow {
 		 * Updates the values of text fields, by the values stored in the configuration.
 		 */
 		private void updateValuesByConfiguration() {
-			String xLabel = this.configuration.getLabelConfiguration().getXLabelConfiguration().getText();
-			String yLabel = this.configuration.getLabelConfiguration().getYLabelConfiguration().getText();
-			String zLabel = this.configuration.getLabelConfiguration().getZLabelConfiguration().getText();
+			String xLabel = this.configuration.getLabelConfiguration().getXLabelConfiguration().getLabelText();
+			String yLabel = this.configuration.getLabelConfiguration().getYLabelConfiguration().getLabelText();
+			String zLabel = this.configuration.getLabelConfiguration().getZLabelConfiguration().getLabelText();
 			xLabelTextField.setText(xLabel);
 			yLabelTextField.setText(yLabel);
 			zLabelTextField.setText(zLabel);

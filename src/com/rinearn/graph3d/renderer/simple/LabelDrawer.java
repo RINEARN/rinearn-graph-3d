@@ -163,7 +163,7 @@ public class LabelDrawer {
 		int hThreshold = this.horizontalAlignThreshold;
 		double tickLabelMargin = this.config.getScaleConfiguration().getXScaleConfiguration().getTickLabelMargin();
 		String[] tickLabelTexts = this.scaleTicks.xTickLabelTexts;
-		String axisLabel = this.config.getLabelConfiguration().getXLabelConfiguration().getText();
+		String axisLabel = this.config.getLabelConfiguration().getXLabelConfiguration().getLabelText();
 
 		int hOffset = this.getTickLabelMaxWidth(tickLabelTexts, tickLabelFontMetrics);
 		int vOffset = tickLabelFontMetrics.getHeight();
@@ -278,7 +278,7 @@ public class LabelDrawer {
 		int hThreshold = this.horizontalAlignThreshold;
 		double tickLabelMargin = this.config.getScaleConfiguration().getYScaleConfiguration().getTickLabelMargin();
 		String[] tickLabels = this.scaleTicks.yTickLabelTexts;
-		String axisLabel = this.config.getLabelConfiguration().getYLabelConfiguration().getText();
+		String axisLabel = this.config.getLabelConfiguration().getYLabelConfiguration().getLabelText();
 
 		int hOffset = this.getTickLabelMaxWidth(tickLabels, tickLabelFontMetrics);
 		int vOffset = tickLabelFontMetrics.getHeight();
@@ -391,7 +391,7 @@ public class LabelDrawer {
 		int hThreshold = this.horizontalAlignThreshold;
 		double tickLabelMargin = this.config.getScaleConfiguration().getZScaleConfiguration().getTickLabelMargin();
 		String[] tickLabels = this.scaleTicks.zTickLabelTexts;
-		String axisLabel = this.config.getLabelConfiguration().getZLabelConfiguration().getText();
+		String axisLabel = this.config.getLabelConfiguration().getZLabelConfiguration().getLabelText();
 
 		int hOffset = this.getTickLabelMaxWidth(tickLabels, tickLabelFontMetrics);
 		int vOffset = tickLabelFontMetrics.getHeight();

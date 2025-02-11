@@ -19,6 +19,9 @@ package com.rinearn.graph3d.config;
 // 　とすると Config 類のラベル的なもののあちこちに Text が付くのは、イメージ上の階層構造では綺麗になるが、
 // 　そのために実用上は（微妙に面倒くさいという）不利益を生み出すだけになるのって方針としてどうなの？という。
 //
+//  -> 以上の議論から一時期は AxisLabelConfiguration.setText 等にしてたが、結局なんのテキストなのか微妙さが残るので
+//     冗長さを承知で setLabelText にした。これでまあ確実に伝わるのは伝わるし、別のクラスとの命名ブレもなくなる。
+//
 // また後々で要検討
 //
 //!!! NOTE !!!
@@ -43,9 +46,9 @@ public final class LabelConfiguration {
 	 * Creates a new configuration storing default values.
 	 */
 	public LabelConfiguration() {
-		this.xLabelConfiguration.setText("X");
-		this.yLabelConfiguration.setText("Y");
-		this.zLabelConfiguration.setText("Z");
+		this.xLabelConfiguration.setLabelText("X");
+		this.yLabelConfiguration.setLabelText("Y");
+		this.zLabelConfiguration.setLabelText("Z");
 	}
 
 
@@ -134,7 +137,7 @@ public final class LabelConfiguration {
 		private volatile boolean enabled = true;
 
 		/** The displayed text of this label. */
-		private volatile String text = "";
+		private volatile String labelText = "";
 
 		/**
 		 * Sets whether this axis label is enabled.
@@ -159,8 +162,8 @@ public final class LabelConfiguration {
 		 *
 		 * @param text The displayed text of this label.
 		 */
-		public synchronized void setText(String text) { // NOTEのText付ける案が却下になったらこいつは setLabel にする？ setValue はなんか曖昧すぎる
-			this.text = text;
+		public synchronized void setLabelText(String text) {
+			this.labelText = text;
 		}
 
 		/**
@@ -168,8 +171,8 @@ public final class LabelConfiguration {
 		 *
 		 * @return The displayed text of this label.
 		 */
-		public synchronized String getText() { // 上と同様、getLabel にする？ 要検討
-			return this.text;
+		public synchronized String getLabelText() {
+			return this.labelText;
 		}
 
 		/**
@@ -182,7 +185,7 @@ public final class LabelConfiguration {
 		 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 		 */
 		public synchronized void validate() throws IllegalStateException {
-			if (this.text == null) {
+			if (this.labelText == null) {
 				throw new IllegalStateException("The label text is null.");
 			}
 		}
@@ -201,7 +204,7 @@ public final class LabelConfiguration {
 		private volatile boolean autoLegendGenerationEnabled = true;
 
 		/** The texts of the legend labels. */
-		private volatile String[] texts = { };
+		private volatile String[] labelTexts = { };
 
 		/**
 		 * Sets whether the legend display is enabled.
@@ -244,8 +247,8 @@ public final class LabelConfiguration {
 		 *
 		 * @param texts The texts of the legend labels.
 		 */
-		public synchronized void setTexts(String[] texts) {
-			this.texts = texts;
+		public synchronized void setLabelTexts(String[] texts) {
+			this.labelTexts = texts;
 		}
 
 		/**
@@ -253,8 +256,8 @@ public final class LabelConfiguration {
 		 *
 		 * @return The texts of the legend labels.
 		 */
-		public synchronized String[] getTexts() {
-			return this.texts;
+		public synchronized String[] getLabelTexts() {
+			return this.labelTexts;
 		}
 
 		/**
@@ -267,10 +270,10 @@ public final class LabelConfiguration {
 		 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 		 */
 		public synchronized void validate() throws IllegalStateException {
-			if (this.texts == null) {
+			if (this.labelTexts == null) {
 				throw new IllegalStateException("The legend label texts are null.");
 			}
-			for (String text: this.texts) {
+			for (String text: this.labelTexts) {
 				if (text == null) {
 					throw new IllegalStateException("The legend label texts contains null as an element.");
 				}
