@@ -370,10 +370,11 @@ public final class ImageIOHandler {
 	private final class CopyImageAPIListener implements Runnable, Transferable, ClipboardOwner {
 
 		/** The supported flavor. This method copies images to the clipboard, so DataFlavor.imageFlavor is necessary. */
-		private static final DataFlavor SUPPORTED_DATA_FLAVER = DataFlavor.imageFlavor;
+		private final DataFlavor SUPPORTED_DATA_FLAVER = DataFlavor.imageFlavor;
+		// CAUTION: don't define the above as "static", otherwise it does not pass the compilation on the recent environment.
 
 		/** The array storing the supported flavor(s), to be returned by getTransferDataFlavors() method.  */
-		private static final DataFlavor[] SUPPORTED_DATA_FLAVERS = { SUPPORTED_DATA_FLAVER };
+		private final DataFlavor[] SUPPORTED_DATA_FLAVERS = { SUPPORTED_DATA_FLAVER };
 
 		/** The Image instance of the copy of the graph screen. */
 		private volatile BufferedImage copiedImage = null;
