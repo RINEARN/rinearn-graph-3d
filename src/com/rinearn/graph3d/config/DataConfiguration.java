@@ -32,7 +32,7 @@ public class DataConfiguration {
 	 *
 	 * @return The array storing series attributes of all the data series.
 	 */
-	public synchronized SeriesAttribute[] getGlobalSeriesAttribute() {
+	public synchronized SeriesAttribute[] getGlobalSeriesAttributes() {
 		return this.globalSeriesAttributes;
 	}
 

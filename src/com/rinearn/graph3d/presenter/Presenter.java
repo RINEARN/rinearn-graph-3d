@@ -5,6 +5,7 @@ import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.config.ColorConfiguration;
+import com.rinearn.graph3d.config.DataConfiguration;
 import com.rinearn.graph3d.config.LabelConfiguration;
 import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.model.Model;
@@ -369,6 +370,9 @@ public final class Presenter {
 		// Update coordinate values of math data series.
 		this.updateMathDataSeriesCoordinates();
 
+		// Update the data configuration from the currently registered data.
+		this.updateDataConfiguration();
+
 		// Update the legend configuration from the currently registered data.
 		this.updateLegends();
 
@@ -461,7 +465,29 @@ public final class Presenter {
 
 
 	/**
-	 * Update the legend configuration from the currently registered data.
+	 * Updates the data configuration from the currently registered data.
+	 */
+	private void updateDataConfiguration() {
+		DataConfiguration dataConfig = model.config.getDataConfiguration();
+
+		// Get the group of all the registered data series.
+		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = model.dataStore.getCombinedDataSeriesGroup();
+
+		// Store the series atttributes of all the data series into an array.
+		List<SeriesAttribute> seriesAttributeList = new ArrayList<SeriesAttribute>();
+		for (AbstractDataSeries dataSeries: dataSeriesGroup) {
+			seriesAttributeList.add(dataSeries.getSeriesAttribute());
+		}
+		SeriesAttribute[] seriesAttributes = new SeriesAttribute[seriesAttributeList.size()];
+		seriesAttributes = seriesAttributeList.toArray(seriesAttributes);
+
+		// Store the above to the configuration container.
+		dataConfig.setGlobalSeriesAttributes(seriesAttributes);
+	}
+
+
+	/**
+	 * Updates the legend configuration from the currently registered data.
 	 */
 	private void updateLegends() {
 		LabelConfiguration labelConfig = model.config.getLabelConfiguration();
