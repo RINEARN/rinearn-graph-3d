@@ -23,7 +23,8 @@ public class FontConfiguration {
 	/** The font for rendering legends. */
 	private volatile Font legendLabelFont = new Font("Dialog", Font.PLAIN, 15);
 
-	// To be added: markerFont
+	/** The font for rendering point markers. */
+	private volatile Font pointMarkerFont = new Font("Dialog", Font.PLAIN, 14);
 
 
 	/**
@@ -122,6 +123,25 @@ public class FontConfiguration {
 
 
 	/**
+	 * Sets the font for rendering point markers.
+	 *
+	 * @param pointMarkerFont The font for rendering point markers.
+	 */
+	public synchronized void setPointMarkerFont(Font pointMarkerFont) {
+		this.pointMarkerFont = pointMarkerFont;
+	}
+
+	/**
+	 * Gets the font for rendering point markers.
+	 *
+	 * @return The font for rendering point markers.
+	 */
+	public synchronized Font getPointMarkerFont() {
+		return this.pointMarkerFont;
+	}
+
+
+	/**
 	 * Validates correctness and consistency of configuration parameters stored in this instance.
 	 *
 	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
@@ -131,12 +151,23 @@ public class FontConfiguration {
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws IllegalStateException {
+		if (this.uiPlainFont == null) {
+			throw new IllegalStateException("The UI plain font is null.");
+		}
+		if (this.uiBoldFont == null) {
+			throw new IllegalStateException("The UI bold font is null.");
+		}
 		if (this.axisLabelFont == null) {
 			throw new IllegalStateException("The axis label font is null.");
 		}
 		if (this.tickLabelFont == null) {
 			throw new IllegalStateException("The tick label font is null.");
 		}
+		if (this.legendLabelFont == null) {
+			throw new IllegalStateException("The legend label font is null.");
+		}
+		if (this.pointMarkerFont == null) {
+			throw new IllegalStateException("The point marker font is null.");
+		}
 	}
-
 }
