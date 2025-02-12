@@ -112,8 +112,8 @@ public final class XtYtZtMathDataSeries extends MathDataSeries {
 		this.config = config;
 
 		this.seriesAttribute = new SeriesAttribute();
-		this.seriesAttribute.setUnmodifiedLegend(this.getFullDisplayName());
-		this.seriesAttribute.setModifiableLegend(this.getFullDisplayName());
+		this.seriesAttribute.setUnmodifiedLegend(this.getShortDisplayName());
+		this.seriesAttribute.setModifiableLegend(this.getShortDisplayName());
 	}
 
 
