@@ -2,6 +2,7 @@ package com.rinearn.graph3d.renderer.simple;
 
 import com.rinearn.graph3d.config.CameraConfiguration;
 import com.rinearn.graph3d.config.ColorConfiguration;
+import com.rinearn.graph3d.config.DataConfiguration;
 import com.rinearn.graph3d.config.OptionConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
@@ -9,6 +10,7 @@ import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesAttribute;
+import com.rinearn.graph3d.config.data.SeriesFilter;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -123,23 +125,153 @@ public final class LegendDrawer {
 		this.config = configuration;
 	}
 
+
+	/**
+	 * The container storing the enabled/disabled states of plot options for each data series after filtering,
+	 * called "filtered result flags".
+	 */
+	private static class FilteredResultFlags {
+		public boolean[] pointOptionTargetFlags;
+		public boolean[] lineOptionTargetFlags;
+		public boolean[] meshOptionTargetFlags;
+		public boolean[] surfaceOptionTargetFlags;
+		public boolean[] contourOptionTargetFlags;
+		public boolean[] lineGroupOptionTargetFlags;
+		public boolean[] tileGroupOptionTargetFlags;
+
+		/**
+		 * Creates a new instance for storing results of data series of which number is seriesCount.
+		 *
+		 * @param length The number of the data series.
+		 */
+		public FilteredResultFlags(int seriesCount) {
+			this.pointOptionTargetFlags = new boolean[seriesCount];
+			this.lineOptionTargetFlags = new boolean[seriesCount];
+			this.meshOptionTargetFlags = new boolean[seriesCount];
+			this.surfaceOptionTargetFlags = new boolean[seriesCount];
+			this.contourOptionTargetFlags = new boolean[seriesCount];
+			this.lineGroupOptionTargetFlags = new boolean[seriesCount];
+			this.tileGroupOptionTargetFlags = new boolean[seriesCount];
+		}
+	}
+
+
+	/**
+	 * Generates the container storing the enabled/disabled states of plot options for each data series after filtering,
+	 * called "filtered result flags".
+	 *
+	 * @return The filtered result flags.
+	 */
+	private FilteredResultFlags generateFilteredResultFlags() {
+
+		// Get series attributes of all the registered data series.
+		DataConfiguration dataConfig = this.config.getDataConfiguration();
+		SeriesAttribute[] seriesAttributes = dataConfig.getGlobalSeriesAttributes();
+		int seriesCount = seriesAttributes.length;
+
+		// Create the container of the flags.
+		FilteredResultFlags flags = new FilteredResultFlags(seriesCount);
+
+		// Get configurations of plot options.
+		OptionConfiguration optionConfig = this.config.getOptionConfiguration();
+		OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
+		OptionConfiguration.LineOptionConfiguration lineOptionConfig = optionConfig.getLineOptionConfiguration();
+		OptionConfiguration.MeshOptionConfiguration meshOptionConfig = optionConfig.getMeshOptionConfiguration();
+		OptionConfiguration.SurfaceOptionConfiguration surfaceOptionConfig = optionConfig.getSurfaceOptionConfiguration();
+		OptionConfiguration.ContourOptionConfiguration contourOptionConfig = optionConfig.getContourOptionConfiguration();
+
+		// Get enabled/disabled states for each plot option.
+		boolean pointOptionEnabled = pointOptionConfig.isOptionEnabled();
+		boolean lineOptionEnabled = lineOptionConfig.isOptionEnabled();
+		boolean meshOptionEnabled = meshOptionConfig.isOptionEnabled();
+		boolean surfaceOptionEnabled = surfaceOptionConfig.isOptionEnabled();
+		boolean contourOptionEnabled = contourOptionConfig.isOptionEnabled();
+
+		// Extract series filters for each plot option.
+		boolean pointOptionFilterEnabled = pointOptionConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
+		boolean lineOptionFilterEnabled = lineOptionConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
+		boolean meshOptionFilterEnabled = meshOptionConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
+		boolean surfaceOptionFilterEnabled = surfaceOptionConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
+		boolean contourOptionFilterEnabled = contourOptionConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
+		SeriesFilter pointOptionFilter = pointOptionFilterEnabled ? pointOptionConfig.getSeriesFilter() : null;
+		SeriesFilter lineOptionFilter = lineOptionFilterEnabled ? lineOptionConfig.getSeriesFilter() : null;
+		SeriesFilter meshOptionFilter = meshOptionFilterEnabled ? meshOptionConfig.getSeriesFilter() : null;
+		SeriesFilter surfaceOptionFilter = surfaceOptionFilterEnabled ? surfaceOptionConfig.getSeriesFilter() : null;
+		SeriesFilter contourOptionFilter = contourOptionFilterEnabled ? contourOptionConfig.getSeriesFilter() : null;
+
+		// Calculate and set values of the results.
+		for (int iseries=0; iseries<seriesCount; iseries++) {
+			SeriesAttribute seriesAttribute = seriesAttributes[iseries];
+
+			// Set the enabled/disabled state of "With Points" option for this series.
+			if (pointOptionEnabled) {
+				if (pointOptionFilterEnabled) {
+					flags.pointOptionTargetFlags[iseries] = pointOptionFilter.isSeriesIncluded(seriesAttribute);
+				} else {
+					flags.pointOptionTargetFlags[iseries] = true;
+				}
+			} else {
+				flags.pointOptionTargetFlags[iseries] = false;
+			}
+
+			// Set the enabled/disabled state of "With Lines" option for this series.
+			if (lineOptionEnabled) {
+				if (lineOptionFilterEnabled) {
+					flags.lineOptionTargetFlags[iseries] = lineOptionFilter.isSeriesIncluded(seriesAttribute);
+				} else {
+					flags.lineOptionTargetFlags[iseries] = true;
+				}
+			} else {
+				flags.lineOptionTargetFlags[iseries] = false;
+			}
+
+			// Set the enabled/disabled state of "With Meshes" option for this series.
+			if (meshOptionEnabled) {
+				if (meshOptionFilterEnabled) {
+					flags.meshOptionTargetFlags[iseries] = meshOptionFilter.isSeriesIncluded(seriesAttribute);
+				} else {
+					flags.meshOptionTargetFlags[iseries] = true;
+				}
+			} else {
+				flags.meshOptionTargetFlags[iseries] = false;
+			}
+
+			// Set the enabled/disabled state of "With Surfaces" option for this series.
+			if (surfaceOptionEnabled) {
+				if (surfaceOptionFilterEnabled) {
+					flags.surfaceOptionTargetFlags[iseries] = surfaceOptionFilter.isSeriesIncluded(seriesAttribute);
+				} else {
+					flags.surfaceOptionTargetFlags[iseries] = true;
+				}
+			} else {
+				flags.surfaceOptionTargetFlags[iseries] = false;
+			}
+
+			// Set the enabled/disabled state of "With Contours" option for this series.
+			if (contourOptionEnabled) {
+				if (contourOptionFilterEnabled) {
+					flags.contourOptionTargetFlags[iseries] = contourOptionFilter.isSeriesIncluded(seriesAttribute);
+				} else {
+					flags.contourOptionTargetFlags[iseries] = true;
+				}
+			} else {
+				flags.contourOptionTargetFlags[iseries] = false;
+			}
+
+			// Calculate the values of the compound flags.
+			flags.lineGroupOptionTargetFlags[iseries] = flags.lineOptionTargetFlags[iseries] || flags.contourOptionTargetFlags[iseries];
+			flags.tileGroupOptionTargetFlags[iseries] = flags.surfaceOptionTargetFlags[iseries] || flags.meshOptionTargetFlags[iseries];
+		}
+		return flags;
+	}
+
+
 	/**
 	 * Draws the color bar on the graph screen image.
 	 *
 	 * @param graphics The Graphics2D object to draw contents on the graph screen image.
 	 */
 	public void draw(Graphics2D graphics) {
-
-		System.out.println("以下もフィルタが要る。なのでここではなく、各オプション内で系列ループの中でやる必用がありそう。" + this);
-		OptionConfiguration optionConfig = this.config.getOptionConfiguration();
-		boolean pointOptionEnabled = optionConfig.getPointOptionConfiguration().isOptionEnabled();
-		boolean lineOptionEnabled = optionConfig.getLineOptionConfiguration().isOptionEnabled();
-		boolean meshOptionEnabled = optionConfig.getMeshOptionConfiguration().isOptionEnabled();
-		boolean surfaceOptionEnabled = optionConfig.getSurfaceOptionConfiguration().isOptionEnabled();
-		boolean contourOptionEnabled = false; // Temporary.
-
-		boolean lineGroupOptionEnabled = lineOptionEnabled || contourOptionEnabled;
-		boolean tileGroupOptionEnabled = surfaceOptionEnabled || meshOptionEnabled;
 
 		// Extract/define position parameters.
 		CameraConfiguration cameraConfig = this.config.getCameraConfiguration();
@@ -155,35 +287,34 @@ public final class LegendDrawer {
 		// Calculate whether each data series is drawn by gradient colors, and store the results into an array.
 		boolean[] gradientTargetFlags = this.calculateGradientTargetFlags();
 
+		// Generates the container storing the enabled/disabled states of plot options for each data series after filtering,
+		// called "filtered result flags".
+		FilteredResultFlags filteredResultFlags = generateFilteredResultFlags();
+
 		// Draw legend texts.
 		this.drawLegendTexts(graphics, legendTextAreaPosition, legendTextLineHeight);
 
 		// Draw line icons.
-		if (lineGroupOptionEnabled && !tileGroupOptionEnabled) {
-			int lineOffsetX = -6;
-			this.drawLineIcons(
-					graphics, legendTextAreaPosition, legendTextLineHeight, lineOffsetX, gradientTargetFlags
-			);
-		}
+		int lineOffsetX = -6;
+		this.drawLineIcons(
+				graphics, legendTextAreaPosition, legendTextLineHeight, lineOffsetX, filteredResultFlags, gradientTargetFlags
+		);
 
 		// Draw point marker icons.
-		if (pointOptionEnabled && !tileGroupOptionEnabled) {
-			int markerOffsetX = lineGroupOptionEnabled ? -20 : -6;
-			// boolean useForegroundColorInsteadOfGradient = !lineGroupOptionEnabled;
-			boolean useForegroundColorInsteadOfGradient = true;
-			this.drawPointMarkerIcons(
-					graphics, legendTextAreaPosition, legendTextLineHeight, markerOffsetX,
-					gradientTargetFlags, useForegroundColorInsteadOfGradient
-			);
-		}
+		// boolean useForegroundColorInsteadOfGradient = !lineGroupOptionEnabled;
+		boolean useForegroundColorInsteadOfGradient = true;
+		int markerOffsetXWithLine = -20;
+		int markerOffsetXWithoutLine = -6;
+		this.drawPointMarkerIcons(
+				graphics, legendTextAreaPosition, legendTextLineHeight, markerOffsetXWithLine, markerOffsetXWithoutLine,
+				filteredResultFlags, gradientTargetFlags, useForegroundColorInsteadOfGradient
+		);
 
 		// Draw tiles icons.
-		if (tileGroupOptionEnabled) {
-			int tileOffsetX = -8;
-			this.drawTileIcons(
-					graphics, legendTextAreaPosition, legendTextLineHeight, tileOffsetX, gradientTargetFlags
-			);
-		}
+		int tileOffsetX = -8;
+		this.drawTileIcons(
+				graphics, legendTextAreaPosition, legendTextLineHeight, tileOffsetX, filteredResultFlags, gradientTargetFlags
+		);
 	}
 
 
@@ -320,13 +451,15 @@ public final class LegendDrawer {
 	 * @param graphics The Graphics2D object to draw contents on the graph screen image.
 	 * @param legendTextAreaPosition The array storing x (at [0]) and y (at [1]) of the left-top point of the legend text area (not including markers).
 	 * @param legendTextLineHeight The line-height of the legend texts.
-	 * @param tileOffsetX The horizontal offset amount of marker's positions.
+	 * @param markerOffsetXWithLine
+	 * @param markerOffsetXWithoutLine
+	 * @param filteredResultFlags The container storing the enabled/disabled states of plot options for each data series after filtering.
 	 * @param gradientTargetFlags The flag array representing whether each data series is drawn by gradient colors.
 	 * @param useForegroundColorInsteadOfGradient The flag to draw markers by the foreground color, instead of gradient colors.
 	 */
 	private void drawPointMarkerIcons(Graphics2D graphics,
-			int[] legendTextAreaPosition, int legendTextLineHeight, int markerOffsetX,
-			boolean[] gradientTargetFlags, boolean useForegroundColorInsteadOfGradient) {
+			int[] legendTextAreaPosition, int legendTextLineHeight, int markerOffsetXWithLine, int markerOffsetXWithoutLine,
+			FilteredResultFlags filteredResultFlags, boolean[] gradientTargetFlags, boolean useForegroundColorInsteadOfGradient) {
 
 		int legendCount = this.config.getLabelConfiguration().getLegendLabelConfiguration().getLabelTexts().length;
 		ColorMixer colorMixer = new ColorMixer();
@@ -365,11 +498,15 @@ public final class LegendDrawer {
 		// Draw markers.
 		for (int iseries=0; iseries<legendCount; iseries++) {
 
-			System.out.println("TODO: 後でここ系列フィルター居る: " + this);
-			boolean isSeriesIncluded = true;
-			if (!isSeriesIncluded) {
+			// Determine whether we should draw a line for this series.
+			boolean pointOptionFlags = filteredResultFlags.pointOptionTargetFlags[iseries];
+			boolean tileGroupOptionFlags = filteredResultFlags.tileGroupOptionTargetFlags[iseries];
+			boolean shouldDrawThisSeries = pointOptionFlags && !tileGroupOptionFlags;
+			if (!shouldDrawThisSeries) {
 				continue;
 			}
+
+			int markerOffsetX = filteredResultFlags.lineGroupOptionTargetFlags[iseries] ? markerOffsetXWithLine : markerOffsetXWithoutLine;
 
 			// If this data series is drawn by gradient colors.
 			if (gradientTargetFlags[iseries]) {
@@ -414,12 +551,12 @@ public final class LegendDrawer {
 	 * @param graphics The Graphics2D object to draw contents on the graph screen image.
 	 * @param legendTextAreaPosition The array storing x (at [0]) and y (at [1]) of the left-top point of the legend text area (not including markers).
 	 * @param legendTextLineHeight The line-height of the legend texts.
-	 * @param lineOffsetX The horizontal offset amount of tile's positions.
+	 * @param filteredResultFlags The container storing the enabled/disabled states of plot options for each data series after filtering.
 	 * @param gradientTargetFlags The flag array representing whether each data series is drawn by gradient colors.
 	 */
 	private void drawLineIcons(Graphics2D graphics,
 			int[] legendTextAreaPosition, int legendTextLineHeight, int lineOffsetX,
-			boolean[] gradientTargetFlags) {
+			FilteredResultFlags filteredResultFlags, boolean[] gradientTargetFlags) {
 
 		int legendCount = this.config.getLabelConfiguration().getLegendLabelConfiguration().getLabelTexts().length;
 		ColorMixer colorMixer = new ColorMixer();
@@ -450,9 +587,11 @@ public final class LegendDrawer {
 		// Draw surface tiles.
 		for (int iseries=0; iseries<legendCount; iseries++) {
 
-			System.out.println("TODO: 後でここ系列フィルター居る: " + this);
-			boolean isSeriesIncluded = true;
-			if (!isSeriesIncluded) {
+			// Determine whether we should draw a line for this series.
+			boolean lineGroupOptionFlags = filteredResultFlags.lineGroupOptionTargetFlags[iseries];
+			boolean tileGroupOptionFlags = filteredResultFlags.tileGroupOptionTargetFlags[iseries];
+			boolean shouldDrawThisSeries = lineGroupOptionFlags && !tileGroupOptionFlags;
+			if (!shouldDrawThisSeries) {
 				continue;
 			}
 
@@ -489,12 +628,12 @@ public final class LegendDrawer {
 	 * @param graphics The Graphics2D object to draw contents on the graph screen image.
 	 * @param legendTextAreaPosition The array storing x (at [0]) and y (at [1]) of the left-top point of the legend text area (not including markers).
 	 * @param legendTextLineHeight The line-height of the legend texts.
-	 * @param tileOffsetX The horizontal offset amount of tile's positions.
+	 * @param filteredResultFlags The container storing the enabled/disabled states of plot options for each data series after filtering.
 	 * @param gradientTargetFlags The flag array representing whether each data series is drawn by gradient colors.
 	 */
 	private void drawTileIcons(Graphics2D graphics,
 			int[] legendTextAreaPosition, int legendTextLineHeight, int tileOffsetX,
-			boolean[] gradientTargetFlags) {
+			FilteredResultFlags filteredResultFlags, boolean[] gradientTargetFlags) {
 
 		int legendCount = this.config.getLabelConfiguration().getLegendLabelConfiguration().getLabelTexts().length;
 		ColorMixer colorMixer = new ColorMixer();
@@ -526,9 +665,10 @@ public final class LegendDrawer {
 		// Draw surface tiles.
 		for (int iseries=0; iseries<legendCount; iseries++) {
 
-			System.out.println("TODO: 後でここ系列フィルター居る: " + this);
-			boolean isSeriesIncluded = true;
-			if (!isSeriesIncluded) {
+			// Determine whether we should draw a line for this series.
+			boolean tileGroupOptionFlags = filteredResultFlags.tileGroupOptionTargetFlags[iseries];
+			boolean shouldDrawThisSeries = tileGroupOptionFlags;
+			if (!shouldDrawThisSeries) {
 				continue;
 			}
 

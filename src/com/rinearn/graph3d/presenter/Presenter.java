@@ -472,10 +472,14 @@ public final class Presenter {
 
 		// Get the group of all the registered data series.
 		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = model.dataStore.getCombinedDataSeriesGroup();
+		int seriesCount = dataSeriesGroup.getDataSeriesCount();
 
 		// Store the series atttributes of all the data series into an array.
 		List<SeriesAttribute> seriesAttributeList = new ArrayList<SeriesAttribute>();
-		for (AbstractDataSeries dataSeries: dataSeriesGroup) {
+		for (int iseries=0; iseries<seriesCount; iseries++) {
+			AbstractDataSeries dataSeries = dataSeriesGroup.getDataSeriesAt(iseries);
+			SeriesAttribute attribute = dataSeries.getSeriesAttribute();
+			attribute.setGlobalSeriesIndex(iseries);
 			seriesAttributeList.add(dataSeries.getSeriesAttribute());
 		}
 		SeriesAttribute[] seriesAttributes = new SeriesAttribute[seriesAttributeList.size()];
