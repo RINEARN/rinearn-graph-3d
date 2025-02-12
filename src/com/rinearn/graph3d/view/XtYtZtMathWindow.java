@@ -36,7 +36,7 @@ public class XtYtZtMathWindow {
 	private static final String DEFAULT_YT_MATH_EXPRESSION = "cos(3.2 * t)";
 
 	/** The default value of the text field of the math expression z(t). */
-	private static final String DEFAULT_ZT_MATH_EXPRESSION = "5.6 * t";
+	private static final String DEFAULT_ZT_MATH_EXPRESSION = "0.1 * t";
 
 	/** The default value of the text field of the starting time. */
 	private static final String DEFAULT_STARTING_TIME = "0.0";
