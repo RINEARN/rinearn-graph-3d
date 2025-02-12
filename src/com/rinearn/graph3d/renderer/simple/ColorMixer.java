@@ -145,15 +145,20 @@ public final class ColorMixer {
 	 * Generates a color from the specified AxisGradientColor.
 	 * This method is mainly used for drawing icons of legends.
 	 *
-	 * @param normalizedCoord The coordinate in the normalized space [0, 1], where 0/1 corresponds the min/max boundary coords of the gradient.
+	 * @param representCoordinate The coordinate on the gradient axis.
 	 * @param axisGradient The axis gradient color.
+	 * @param normalized Specify true if representCoordinate is normalized in the range [0, 1].
 	 * @return The generated color.
 	 */
-	public synchronized Color generateColorFromAxisGradientColor(BigDecimal normalizedCoord, AxisGradientColor axisGradient) {
-		BigDecimal gradientRangeLength = axisGradient.getMaximumBoundaryCoordinate().subtract(axisGradient.getMinimumBoundaryCoordinate());
-		BigDecimal delta = gradientRangeLength.multiply(normalizedCoord);
-		BigDecimal representCoord = axisGradient.getMinimumBoundaryCoordinate().add(delta);
-		return this.determineColorFromAxisGradientColor(representCoord, axisGradient);
+	public synchronized Color generateColorFromAxisGradientColor(BigDecimal representCoordinate, AxisGradientColor axisGradient, boolean normalized) {
+		if (normalized) {
+			BigDecimal gradientRangeLength = axisGradient.getMaximumBoundaryCoordinate().subtract(axisGradient.getMinimumBoundaryCoordinate());
+			BigDecimal delta = gradientRangeLength.multiply(representCoordinate);
+			BigDecimal denormalizedCoord = axisGradient.getMinimumBoundaryCoordinate().add(delta);
+			return this.determineColorFromAxisGradientColor(denormalizedCoord, axisGradient);
+		} else {
+			return this.determineColorFromAxisGradientColor(representCoordinate, axisGradient);
+		}
 	}
 
 

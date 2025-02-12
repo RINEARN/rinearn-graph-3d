@@ -115,38 +115,20 @@ public class ColorBarDrawer {
 		BigDecimal min = axisGradientColor.getMinimumBoundaryCoordinate();
 		BigDecimal max = axisGradientColor.getMaximumBoundaryCoordinate();
 
-		/** Convert the dimension of the gradient's axis to the index in a coordinate array. */
-		int gradientAxisIndex = -1;
-		switch (axisGradientColor.getAxis()) {
-			case X :
-				gradientAxisIndex = 0;
-				break;
-			case Y :
-				gradientAxisIndex = 1;
-				break;
-			case Z :
-				gradientAxisIndex = 2;
-				break;
-			case SCALAR :
-				gradientAxisIndex = 3;
-				break;
-			default:
-				throw new IllegalStateException("Unexpected gradient axis: " + axisGradientColor.getAxis());
-		}
-
 		// Draw the color bar by drawing horizontal lines repeatedly, from the top to the bottom.
 		for (int iline=0; iline<this.colorBarHeight; iline++) {
 
 			// Convert the position of the line (iline) in the color bar to the corresponding 3D coordinate in the graph space.
 			double gradientRatio = (double)(this.colorBarHeight - iline) / (double)this.colorBarHeight;
 			double gradientAxisCoord = min.doubleValue() + (max.doubleValue() - min.doubleValue()) * gradientRatio;
-			double[] coordsIn3D = new double[3];
-			coordsIn3D[gradientAxisIndex] = gradientAxisCoord;
 
 			// Generate the color of the line.
 			RinearnGraph3DDrawingParameter drawingParam = new RinearnGraph3DDrawingParameter();
 			drawingParam.setAutoColoringEnabled(true);
-			Color lineColor = colorMixer.generateColor(coordsIn3D, drawingParam, colorConfig);
+			boolean isCoordNormalized = false;
+			Color lineColor = colorMixer.generateColorFromAxisGradientColor(
+					new BigDecimal(gradientAxisCoord), axisGradientColor, isCoordNormalized
+			);
 
 			// Draw the line
 			graphics.setColor(lineColor);
