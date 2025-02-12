@@ -138,8 +138,8 @@ public final class XtYtZtMathDataSeries extends MathDataSeries {
 		this.timeMin = timeMin;
 		this.timeMax = timeMax;
 		this.timeDiscretizationCount = timeDiscretizationCount;
-		this.seriesAttribute.setUnmodifiedLegend(this.getFullDisplayName());
-		this.seriesAttribute.setModifiableLegend(this.getFullDisplayName());
+		this.seriesAttribute.setUnmodifiedLegend(this.getShortDisplayName());
+		this.seriesAttribute.setModifiableLegend(this.getShortDisplayName());
 	}
 
 

@@ -39,7 +39,6 @@ public final class LegendDrawer {
 	 * Draws the color bar on the graph screen image.
 	 *
 	 * @param graphics The Graphics2D object to draw contents on the graph screen image.
-	 * @param colorMixer The color mixer, which is the object to convert coordinates to gradient colors.
 	 */
 	public void draw(Graphics2D graphics) {
 		FontConfiguration fontConfig = this.config.getFontConfiguration();
@@ -47,11 +46,42 @@ public final class LegendDrawer {
 		CameraConfiguration cameraConfig = this.config.getCameraConfiguration();
 		LabelConfiguration labelConfig = this.config.getLabelConfiguration();
 		LabelConfiguration.LegendLabelConfiguration legendConfig = labelConfig.getLegendLabelConfiguration();
+
 		String[] legendTexts = legendConfig.getLabelTexts();
 
 		// Set the color and font to render legends.
 		Color forgroundColor = colorConfig.getForegroundColor();
 		Font legendFont = fontConfig.getLegendLabelFont();
+
+		int screenWidth = cameraConfig.getScreenWidth();
+		int screenHeight = cameraConfig.getScreenHeight();
+		int legendOffsetX = 30;
+		int legendOffsetY = -30;
+
+		// Draw legend texts.
+		this.drawLegendTexts(
+				graphics, legendTexts,
+				screenWidth, screenHeight, legendOffsetX, legendOffsetY,
+				legendFont, forgroundColor
+		);
+	}
+
+	/**
+	 * Draws legend texts.
+	 *
+	 * @param graphics The Graphics2D object to draw contents on the graph screen image.
+	 * @param legendTexts The texts of the legends.
+	 * @param screenWidth The width of the graph screen.
+	 * @param screenHeight The height of the graph screen.
+	 * @param legendOffsetX The offset amount [pixels] of the X-position of the legends.
+	 * @param legendOffsetY The offset amount [pixels] of the Y-position of the legends.
+	 * @param legendFont The font to draw the legends.
+	 * @param forgroundColor The color of the legends.
+	 */
+	private void drawLegendTexts(Graphics2D graphics, String[] legendTexts,
+			int screenWidth, int screenHeight, int legendOffsetX, int legendOffsetY,
+			Font legendFont, Color forgroundColor) {
+
 		graphics.setColor(forgroundColor);
 		graphics.setFont(legendFont);
 
@@ -68,8 +98,7 @@ public final class LegendDrawer {
 			}
 		}
 
-		// Draw legends.
-		int screenWidth = cameraConfig.getScreenWidth();
+		// Draw legend texts.
 		for (int ilegend=0; ilegend<legendTexts.length; ilegend++) {
 			String legendText = legendTexts[ilegend];
 			int textY = (int)(ilegend * fontHeight * 1.35) + 30;
