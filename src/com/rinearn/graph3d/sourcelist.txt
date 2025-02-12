@@ -11,6 +11,7 @@ com/rinearn/graph3d/config/data/SeriesAttribute.java
 com/rinearn/graph3d/config/data/SeriesFilter.java
 com/rinearn/graph3d/config/data/SeriesFilterHub.java
 com/rinearn/graph3d/config/data/SeriesFilterMode.java
+com/rinearn/graph3d/config/DataConfiguration.java
 com/rinearn/graph3d/config/EnvironmentConfiguration.java
 com/rinearn/graph3d/config/FontConfiguration.java
 com/rinearn/graph3d/config/FrameConfiguration.java

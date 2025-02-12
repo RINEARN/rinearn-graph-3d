@@ -79,6 +79,9 @@ import com.rinearn.graph3d.config.color.AxisGradientColor;
  */
 public final class RinearnGraph3DConfiguration {
 
+	/** The data-related configuration. */
+	private volatile DataConfiguration dataConfiguration = null;
+
 	/** The configuration depending on the user's environment and basic preferences. */
 	private volatile EnvironmentConfiguration environmentConfiguration = null;
 
@@ -135,6 +138,7 @@ public final class RinearnGraph3DConfiguration {
 	public static RinearnGraph3DConfiguration createDefaultConfiguration() {
 		RinearnGraph3DConfiguration configuration = new RinearnGraph3DConfiguration();
 
+		configuration.setDataConfiguration(new DataConfiguration());
 		configuration.setEnvironmentConfiguration(new EnvironmentConfiguration());
 		configuration.setRangeConfiguration(new RangeConfiguration());
 		configuration.setScaleConfiguration(new ScaleConfiguration());
@@ -163,6 +167,9 @@ public final class RinearnGraph3DConfiguration {
 	 * @param mergedConfiguration The configuration to be merged to this configuration.
 	 */
 	public synchronized void merge(RinearnGraph3DConfiguration mergedConfiguration) {
+		if (mergedConfiguration.hasDataConfiguration()) {
+			this.setDataConfiguration(mergedConfiguration.getDataConfiguration());
+		}
 		if (mergedConfiguration.hasEnvironmentConfiguration()) {
 			this.setEnvironmentConfiguration(mergedConfiguration.getEnvironmentConfiguration());
 		}
@@ -206,6 +213,11 @@ public final class RinearnGraph3DConfiguration {
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws IllegalStateException {
+
+		// Validate the data configuration.
+		if (this.hasDataConfiguration()) {
+			this.dataConfiguration.validate();
+		}
 
 		// Validate the environment configuration.
 		if (this.hasEnvironmentConfiguration()) {
@@ -263,6 +275,34 @@ public final class RinearnGraph3DConfiguration {
 
 
 	/**
+	 * Checks whether any data configuration is set to this instance.
+	 *
+	 * @return Returns true if any data configuration is set to this instance.
+	 */
+	public synchronized boolean hasDataConfiguration() {
+		return this.dataConfiguration != null;
+	}
+
+	/**
+	 * Sets the data-related configuration..
+	 *
+	 * @param dataConfiguration The data-related configuration..
+	 */
+	public synchronized void setDataConfiguration(DataConfiguration dataConfiguration) {
+		this.dataConfiguration = dataConfiguration;
+	}
+
+	/**
+	 * Gets the data-related configuration.
+	 *
+	 * @return The data-related configuration..
+	 */
+	public synchronized DataConfiguration getDataConfiguration() {
+		return this.dataConfiguration;
+	}
+
+
+	/**
 	 * Checks whether any environment configuration is set to this instance.
 	 *
 	 * @return Returns true if any environment configuration is set to this instance.
@@ -274,7 +314,7 @@ public final class RinearnGraph3DConfiguration {
 	/**
 	 * Sets the configuration related to the user's environment and basic preferences.
 	 *
-	 * @param scaleConfiguration The configuration related to the user's environment and basic preferences.
+	 * @param environmentConfiguration The configuration related to the user's environment and basic preferences.
 	 */
 	public synchronized void setEnvironmentConfiguration(EnvironmentConfiguration environmentConfiguration) {
 		this.environmentConfiguration = environmentConfiguration;
@@ -302,7 +342,7 @@ public final class RinearnGraph3DConfiguration {
 	/**
 	 * Sets the configuration of the ranges of X/Y/Z axes.
 	 *
-	 * @param scaleConfiguration The configuration of the ranges of X/Y/Z axes.
+	 * @param rangeConfiguration The configuration of the ranges of X/Y/Z axes.
 	 */
 	public synchronized void setRangeConfiguration(RangeConfiguration rangeConfiguration) {
 		this.rangeConfiguration = rangeConfiguration;
