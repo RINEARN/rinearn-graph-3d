@@ -63,6 +63,9 @@ public final class OptionConfiguration {
 	/** Stores the configuration of "With Surfaces" option. */
 	private volatile SurfaceOptionConfiguration surfaceOptionConfiguration = new SurfaceOptionConfiguration();
 
+	/** Stores the configuration of "With Contours" option. */
+	private volatile ContourOptionConfiguration contourOptionConfiguration = new ContourOptionConfiguration();
+
 	/** Stores the configuration of "Gradient" option. */
 	private volatile GradientOptionConfiguration gradientOptionConfiguration = new GradientOptionConfiguration();
 
@@ -128,6 +131,21 @@ public final class OptionConfiguration {
 
 
 	/**
+	 * Sets the configuration of "With Contours" option.
+	 */
+	public synchronized void setContourOptionConfiguration(ContourOptionConfiguration contourOptionConfiguration) {
+		this.contourOptionConfiguration = contourOptionConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of "With Contours" option.
+	 */
+	public synchronized ContourOptionConfiguration getContourOptionConfiguration() {
+		return this.contourOptionConfiguration;
+	}
+
+
+	/**
 	 * Sets the configuration of "Gradient" option.
 	 */
 	public synchronized void setGradientOptionConfiguration(GradientOptionConfiguration gradientOptionConfiguration) {
@@ -158,7 +176,7 @@ public final class OptionConfiguration {
 		 *
 		 * @param optionEnabled Specify true to enable, false to disable.
 		 */
-		public synchronized final void setSelected(boolean optionEnabled) {
+		public synchronized final void setOptionEnabled(boolean optionEnabled) {
 			this.optionEnabled = optionEnabled;
 		}
 
@@ -273,7 +291,7 @@ public final class OptionConfiguration {
 		 * Creates a new instance.
 		 */
 		public PointOptionConfiguration() {
-			super.setSelected(true);
+			super.setOptionEnabled(true);
 		}
 
 		/**
@@ -398,7 +416,7 @@ public final class OptionConfiguration {
 		 * Creates a new instance.
 		 */
 		public LineOptionConfiguration() {
-			super.setSelected(false);
+			super.setOptionEnabled(false);
 		}
 
 		/**
@@ -433,7 +451,7 @@ public final class OptionConfiguration {
 		 * Creates a new instance.
 		 */
 		public MeshOptionConfiguration() {
-			super.setSelected(false);
+			super.setOptionEnabled(false);
 		}
 
 		/**
@@ -465,7 +483,21 @@ public final class OptionConfiguration {
 		 * Creates a new instance.
 		 */
 		public SurfaceOptionConfiguration() {
-			super.setSelected(false);
+			super.setOptionEnabled(false);
+		}
+	}
+
+
+	/**
+	 * The class storing configuration values of "With Contours" option.
+	 */
+	public static final class ContourOptionConfiguration extends SeriesFilterableOptionConfiguration {
+
+		/**
+		 * Creates a new instance.
+		 */
+		public ContourOptionConfiguration() {
+			super.setOptionEnabled(false);
 		}
 	}
 
@@ -479,7 +511,7 @@ public final class OptionConfiguration {
 		 * Creates a new instance.
 		 */
 		public GradientOptionConfiguration() {
-			super.setSelected(false);
+			super.setOptionEnabled(false);
 		}
 
 		// !!! NOTE !!!
