@@ -79,7 +79,6 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 		// Get the series filter, which filters the data series to which this option is applied.
 		boolean existsSeriesFilter = pointOptionConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
 		SeriesFilter seriesFilter = existsSeriesFilter ? pointOptionConfig.getSeriesFilter() : null;
-		SeriesAttribute seriesAttribute = new SeriesAttribute();
 
 		// Plots all data series.
 		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = this.model.dataStore.getCombinedDataSeriesGroup();
@@ -87,7 +86,7 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 		for (int dataSeriesIndex=0; dataSeriesIndex<dataSeriesCount; dataSeriesIndex++) {
 
 			// Filter the data series.
-			seriesAttribute.setGlobalSeriesIndex(dataSeriesIndex);
+			SeriesAttribute seriesAttribute = dataSeriesGroup.getDataSeriesAt(dataSeriesIndex).getSeriesAttribute();
 			if (existsSeriesFilter && !seriesFilter.isSeriesIncluded(seriesAttribute)) {
 				continue;
 			}
