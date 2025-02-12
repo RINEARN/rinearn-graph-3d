@@ -142,6 +142,22 @@ public final class ColorMixer {
 
 
 	/**
+	 * Generates a color from the specified AxisGradientColor.
+	 * This method is mainly used for drawing icons of legends.
+	 *
+	 * @param normalizedCoord The coordinate in the normalized space [0, 1], where 0/1 corresponds the min/max boundary coords of the gradient.
+	 * @param axisGradient The axis gradient color.
+	 * @return The generated color.
+	 */
+	public synchronized Color generateColorFromAxisGradientColor(BigDecimal normalizedCoord, AxisGradientColor axisGradient) {
+		BigDecimal gradientRangeLength = axisGradient.getMaximumBoundaryCoordinate().subtract(axisGradient.getMinimumBoundaryCoordinate());
+		BigDecimal delta = gradientRangeLength.multiply(normalizedCoord);
+		BigDecimal representCoord = axisGradient.getMinimumBoundaryCoordinate().add(delta);
+		return this.determineColorFromAxisGradientColor(representCoord, axisGradient);
+	}
+
+
+	/**
 	 * Extracts a solid color corresponding to the specified data series index, from the color configuration.
 	 *
 	 * @param seriesIndex The index of the data series.
@@ -181,7 +197,8 @@ public final class ColorMixer {
 		Color[] axisColors = new Color[axisCount];
 		ColorBlendMode[] axisBlendModes = new ColorBlendMode[axisCount];
 		for (int iaxis=0; iaxis<axisCount; iaxis++) {
-			axisColors[iaxis] = this.determineColorFromAxisGradientColor(coordinates, axisGradients[iaxis]);
+			BigDecimal representCoord = this.extractCoordinateFromArray(coordinates, axisGradients[iaxis].getAxis());
+			axisColors[iaxis] = this.determineColorFromAxisGradientColor(representCoord, axisGradients[iaxis]);
 			axisBlendModes[iaxis] = axisGradients[iaxis].getBlendMode();
 		}
 
@@ -260,13 +277,11 @@ public final class ColorMixer {
 	/**
 	 * Generate a color corresponding the specified coordinate on a axis, from the axis's 1D gradient color.
 	 *
-	 * @param coordinates
-	 *     The coordinate values of the representative point to determine the color.
-	 *     The array index is [0:X, 1:Y, 2:Z, 3:scalar-dimension].
+	 * @param representCoord the coordinate value of the representative point, on the gradient axis.
 	 * @param axisGradientColor 1D gradient color for the axis.
 	 * @return The generated color.
 	 */
-	private Color determineColorFromAxisGradientColor(BigDecimal[] coordinates, AxisGradientColor axisGradientColor) {
+	private Color determineColorFromAxisGradientColor(BigDecimal representCoord, AxisGradientColor axisGradientColor) {
 
 		// Get the colors at the boundary points.
 		int boundaryCount = axisGradientColor.getBoundaryCount();
@@ -274,9 +289,6 @@ public final class ColorMixer {
 
 		// Get/generate the coordinate values of the boundary points.
 		BigDecimal[] boundaryCoords = this.getOrGenerateBoundaryCoordinates(axisGradientColor);
-
-		// Extract the coordinate value of the representative point, on the gradient axis.
-		BigDecimal representCoord = this.extractCoordinateFromArray(coordinates, axisGradientColor.getAxis());
 
 		// If the representative coord's  is smaller than (or equals to) the minimum coord,
 		// return the color of the boundary point of which coord is minimum.
