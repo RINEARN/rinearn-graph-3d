@@ -66,6 +66,26 @@ import java.math.BigDecimal;
 */
 
 
+/*
+	Note:
+
+	凡例テキストの左のアイコン、点でも線でも、グラデのやつはタイルでいいんじゃない？ もう。
+
+	-> しかし、グラデで点プロットでマーカーを使った場合、どれがどれか分からなくなる。
+	   ので、マーカーはやっぱりグラデON時は白でマーカー記号を描くのが妥当かと。
+	   そういう利用シーンを考えたら、やっぱりそれが一番見やすいでしょ。
+
+	   * 確かに。で、それをそうすべきなら、線も線で描かなきゃ変か。
+
+	   * 逆にメッシュは面っぽいのでタイルでいい。surface と併用もするだろうし。
+
+	   * 等高線は線だな。-> いや、カラーマップっぽいからタイルじゃないの？ -> いや、やっぱり線な気がする。
+
+	   * 面とマーカーの併用とか、面と線の併用とかは？ -> それはタイルでいいと思う。変に重ねるとややこしい。
+
+*/
+
+
 /**
  * The class to draw legends over the 3D-rendered graph screen.
  */
@@ -96,6 +116,15 @@ public final class LegendDrawer {
 	 * @param graphics The Graphics2D object to draw contents on the graph screen image.
 	 */
 	public void draw(Graphics2D graphics) {
+		OptionConfiguration optionConfig = this.config.getOptionConfiguration();
+		boolean pointOptionEnabled = optionConfig.getPointOptionConfiguration().isOptionEnabled();
+		boolean lineOptionEnabled = optionConfig.getLineOptionConfiguration().isOptionEnabled();
+		boolean meshOptionEnabled = optionConfig.getMeshOptionConfiguration().isOptionEnabled();
+		boolean surfaceOptionEnabled = optionConfig.getSurfaceOptionConfiguration().isOptionEnabled();
+		boolean contourOptionEnabled = false; // Temporary.
+
+		boolean lineGroupOptionEnabled = lineOptionEnabled || contourOptionEnabled;
+		boolean tileGroupOptionEnabled = surfaceOptionEnabled || meshOptionEnabled;
 
 		// Extract/define position parameters.
 		CameraConfiguration cameraConfig = this.config.getCameraConfiguration();
@@ -114,11 +143,17 @@ public final class LegendDrawer {
 		// Draw legend texts.
 		this.drawLegendTexts(graphics, legendTextAreaPosition, legendTextLineHeight);
 
-		// Draw point markers.
-		this.drawPointMarkers(graphics, legendTextAreaPosition, legendTextLineHeight, gradientTargetFlags);
+		// Draw point marker icons.
+		if (pointOptionEnabled && !tileGroupOptionEnabled) {
+			int markerOffsetX = lineGroupOptionEnabled ? -20 : -6;
+			this.drawPointMarkerIcons(graphics, legendTextAreaPosition, legendTextLineHeight, markerOffsetX, gradientTargetFlags);
+		}
 
-		// Draw surface tiles.
-		this.drawLegendSurfaceTiles(graphics, legendTextAreaPosition, legendTextLineHeight, gradientTargetFlags);
+		// Draw tiles icons.
+		if (tileGroupOptionEnabled) {
+			int tileOffsetX = -8;
+			this.drawTileIcons(graphics, legendTextAreaPosition, legendTextLineHeight, tileOffsetX, gradientTargetFlags);
+		}
 	}
 
 
@@ -250,14 +285,16 @@ public final class LegendDrawer {
 
 
 	/**
-	 * Draws point markers, at the left-side of legend texts.
+	 * Draws point-marker type icons, at the left-side of legend texts.
 	 *
 	 * @param graphics The Graphics2D object to draw contents on the graph screen image.
 	 * @param legendTextAreaPosition The array storing x (at [0]) and y (at [1]) of the left-top point of the legend text area (not including markers).
 	 * @param legendTextLineHeight The line-height of the legend texts.
+	 * @param tileOffsetX The horizontal offset amount of marker's positions.
 	 * @param gradientTargetFlags The flag array representing whether each data series is drawn by gradient colors.
 	 */
-	private void drawPointMarkers(Graphics2D graphics, int[] legendTextAreaPosition, int legendTextLineHeight,
+	private void drawPointMarkerIcons(Graphics2D graphics,
+			int[] legendTextAreaPosition, int legendTextLineHeight, int markerOffsetX,
 			boolean[] gradientTargetFlags) {
 
 		int legendCount = this.config.getLabelConfiguration().getLegendLabelConfiguration().getLabelTexts().length;
@@ -267,11 +304,6 @@ public final class LegendDrawer {
 		OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
 		boolean isMarkerEnabled = pointOptionConfig.getPointStyleMode() == OptionConfiguration.PointStyleMode.MARKER;
 		String[] markerTexts = pointOptionConfig.getMarkerTexts();
-
-		// If "With Points" is disabled, don't draw markers.
-		if (!pointOptionConfig.isOptionEnabled()) {
-			return;
-		}
 
 		// Get font information.
 		Font markerFont = this.config.getFontConfiguration().getPointMarkerFont();
@@ -307,7 +339,7 @@ public final class LegendDrawer {
 			}
 
 			// Calculate the position of the marker.
-			int markerX = legendTextAreaPosition[0] - 15;
+			int markerX = legendTextAreaPosition[0] + markerOffsetX;
 			int markerY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight);
 
 			// Draw a marker.
@@ -329,34 +361,26 @@ public final class LegendDrawer {
 
 
 	/**
-	 * Draws surface tiles, at the left-side of legend texts.
+	 * Draws tile-type icons, at the left-side of legend texts.
 	 *
 	 * @param graphics The Graphics2D object to draw contents on the graph screen image.
 	 * @param legendTextAreaPosition The array storing x (at [0]) and y (at [1]) of the left-top point of the legend text area (not including markers).
 	 * @param legendTextLineHeight The line-height of the legend texts.
+	 * @param tileOffsetX The horizontal offset amount of tile's positions.
 	 * @param gradientTargetFlags The flag array representing whether each data series is drawn by gradient colors.
 	 */
-	private void drawLegendSurfaceTiles(Graphics2D graphics, int[] legendTextAreaPosition, int legendTextLineHeight,
+	private void drawTileIcons(Graphics2D graphics,
+			int[] legendTextAreaPosition, int legendTextLineHeight, int tileOffsetX,
 			boolean[] gradientTargetFlags) {
 
 		int legendCount = this.config.getLabelConfiguration().getLegendLabelConfiguration().getLabelTexts().length;
 		ColorMixer colorMixer = new ColorMixer();
-
-		// Extract surface settings.
-		OptionConfiguration optionConfig = this.config.getOptionConfiguration();
-		OptionConfiguration.SurfaceOptionConfiguration surfaceOptionConfig = optionConfig.getSurfaceOptionConfiguration();
-
-		// If "With Surfaces" is disabled, don't draw surface tiles.
-		if (!surfaceOptionConfig.isOptionEnabled()) {
-			return;
-		}
 
 		// Get font information.
 		Font markerFont = this.config.getFontConfiguration().getPointMarkerFont();
 		Font textFont = this.config.getFontConfiguration().getLegendLabelFont();
 		int legendFontSize = this.config.getFontConfiguration().getLegendLabelFont().getSize();
 		markerFont = new Font(markerFont.getName(), markerFont.getStyle(), legendFontSize); // Resizing to adjust marker heights to text heights.
-		FontMetrics markerFontMetrics = graphics.getFontMetrics(markerFont);
 		FontMetrics textFontMetrics = graphics.getFontMetrics(textFont);
 		int textFontHeight = textFontMetrics.getAscent();
 
@@ -388,7 +412,7 @@ public final class LegendDrawer {
 			// Calculate the position of the marker.
 			int tileWidth = (int)(textFontHeight * 0.8);
 			int tileHeight = (int)(textFontHeight * 0.8);
-			int tileX = legendTextAreaPosition[0] - 15 - tileWidth;
+			int tileX = legendTextAreaPosition[0] + tileOffsetX - tileWidth;
 			int tileY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight) - tileHeight;
 
 			// Draw the tile by the gradient color.
@@ -396,7 +420,7 @@ public final class LegendDrawer {
 				graphics.setColor(foregroundColor);
 				graphics.drawRect(tileX, tileY, tileWidth, tileHeight);
 
-				for (int iline=1; iline<tileHeight-1; iline++) {
+				for (int iline=1; iline<=tileHeight-1; iline++) {
 					int lineY = tileY + iline;
 					double representCoord = (double)(iline - 1) / (double)(tileHeight - 2);
 					Color lineColor = colorMixer.generateColorFromAxisGradientColor(new BigDecimal(representCoord), axisGradientColor);
