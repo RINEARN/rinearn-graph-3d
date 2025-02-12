@@ -4,6 +4,7 @@ import com.rinearn.graph3d.config.CameraConfiguration;
 import com.rinearn.graph3d.config.ColorConfiguration;
 import com.rinearn.graph3d.config.OptionConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
@@ -13,6 +14,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.math.BigDecimal;
 
 /*
 	Note:
@@ -34,6 +36,31 @@ import java.awt.Graphics2D;
        避けた方がいいような。
 
        * 確かに、案1が設計としては本来あるべき形で、案2は利便性のためにちょっとトリッキーな事をやってる感はある。プロット中に状態変わるのなら。
+
+       -> しかし凡例のマーカー描く際にも各オプションのフィルタ要る事にいま気付いた。
+          案1じゃないと無理かもしれん。
+          だって全プロットオプションの対象系列インデックスを上層から渡すのは非現実的でしょ。さすがに。
+          ここはもう案1にするしかしょうがないんじゃないか。
+
+          -> そもそもオプションや系列フィルタを勘案の上で、描画エンジンに点や線とかの描画処理を発行してるのって上層の Handlers の役割だし、
+             この凡例だけ内部でそんな事をやる必用が生じる設計がそもそもまずい、という観点もある。
+
+             * 確かに、ここでそれをやるんだったら Handlers もエンジン内にあるのが妥当で、ちぐはぐか。
+
+             -> でもわざわざ凡例描くために上層で大量のコマンド発行したくないなあ。
+
+             -> 上層で Handlers という枠組みを用意して、低抽象度な描画コマンドを使って描いてるのは、カスタマイズ性を上げるための構造でもある。
+                つまり PlottingListeners を implements した Handler クラスが、Renderer のインターフェースを使って描く、という制約を入れる事で、
+                プロットオプションを自作可能にしている。
+
+                で、果たして凡例でそんな独自クラス実装するレベルのカスタマイズ性が要るか？っていう。
+
+                -> いや、あったら普通に欲しいなそれは。
+
+                   -> そんなんもう画面の Graphics2D に描けばええやんって思う。そこゴツくするメリットに釣り合わないでしょ。学習コストも。
+
+                      もう案1でええやん。考えすぎやって。悪い癖や。案1で全て解決するんや。実装もシンプルに。
+                      プロット中に config がバッファ的に状態持つとか、こっち側で気を付ければいいだけで、ユーザー側をややこしくするわけではないし。
 
 	また要検討。
 */
@@ -88,7 +115,10 @@ public final class LegendDrawer {
 		this.drawLegendTexts(graphics, legendTextAreaPosition, legendTextLineHeight);
 
 		// Draw point markers.
-		this.drawLegendPointMarkers(graphics, legendTextAreaPosition, legendTextLineHeight, gradientTargetFlags);
+		this.drawPointMarkers(graphics, legendTextAreaPosition, legendTextLineHeight, gradientTargetFlags);
+
+		// Draw surface tiles.
+		this.drawLegendSurfaceTiles(graphics, legendTextAreaPosition, legendTextLineHeight, gradientTargetFlags);
 	}
 
 
@@ -158,7 +188,7 @@ public final class LegendDrawer {
 
 		// Extract gradient filter settings.
 		boolean gradientFilterEnabled = gradientColor.getSeriesFilterMode() != SeriesFilterMode.NONE;
-		boolean isIndexGradientFilter = gradientColor.getSeriesFilterMode() != SeriesFilterMode.INDEX;
+		boolean isIndexGradientFilter = gradientColor.getSeriesFilterMode() == SeriesFilterMode.INDEX;
 		if (gradientFilterEnabled && !isIndexGradientFilter) {
 			throw new IllegalStateException("Only index-based series filter is supported in this version.");
 		}
@@ -220,23 +250,28 @@ public final class LegendDrawer {
 
 
 	/**
-	 * Draws legend markers.
+	 * Draws point markers, at the left-side of legend texts.
 	 *
 	 * @param graphics The Graphics2D object to draw contents on the graph screen image.
 	 * @param legendTextAreaPosition The array storing x (at [0]) and y (at [1]) of the left-top point of the legend text area (not including markers).
 	 * @param legendTextLineHeight The line-height of the legend texts.
 	 * @param gradientTargetFlags The flag array representing whether each data series is drawn by gradient colors.
 	 */
-	private void drawLegendPointMarkers(Graphics2D graphics, int[] legendTextAreaPosition, int legendTextLineHeight,
+	private void drawPointMarkers(Graphics2D graphics, int[] legendTextAreaPosition, int legendTextLineHeight,
 			boolean[] gradientTargetFlags) {
 
 		int legendCount = this.config.getLabelConfiguration().getLegendLabelConfiguration().getLabelTexts().length;
 
-		// Extract marger settings.
+		// Extract point/marker settings.
 		OptionConfiguration optionConfig = this.config.getOptionConfiguration();
 		OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
 		boolean isMarkerEnabled = pointOptionConfig.getPointStyleMode() == OptionConfiguration.PointStyleMode.MARKER;
 		String[] markerTexts = pointOptionConfig.getMarkerTexts();
+
+		// If "With Points" is disabled, don't draw markers.
+		if (!pointOptionConfig.isOptionEnabled()) {
+			return;
+		}
 
 		// Get font information.
 		Font markerFont = this.config.getFontConfiguration().getPointMarkerFont();
@@ -254,6 +289,12 @@ public final class LegendDrawer {
 
 		// Draw markers.
 		for (int iseries=0; iseries<legendCount; iseries++) {
+
+			System.out.println("TODO: 後でここ系列フィルター居る: " + this);
+			boolean isSeriesIncluded = true;
+			if (!isSeriesIncluded) {
+				continue;
+			}
 
 			// If this data series is drawn by gradient colors.
 			if (gradientTargetFlags[iseries]) {
@@ -285,4 +326,91 @@ public final class LegendDrawer {
 			}
 		}
 	}
+
+
+	/**
+	 * Draws surface tiles, at the left-side of legend texts.
+	 *
+	 * @param graphics The Graphics2D object to draw contents on the graph screen image.
+	 * @param legendTextAreaPosition The array storing x (at [0]) and y (at [1]) of the left-top point of the legend text area (not including markers).
+	 * @param legendTextLineHeight The line-height of the legend texts.
+	 * @param gradientTargetFlags The flag array representing whether each data series is drawn by gradient colors.
+	 */
+	private void drawLegendSurfaceTiles(Graphics2D graphics, int[] legendTextAreaPosition, int legendTextLineHeight,
+			boolean[] gradientTargetFlags) {
+
+		int legendCount = this.config.getLabelConfiguration().getLegendLabelConfiguration().getLabelTexts().length;
+		ColorMixer colorMixer = new ColorMixer();
+
+		// Extract surface settings.
+		OptionConfiguration optionConfig = this.config.getOptionConfiguration();
+		OptionConfiguration.SurfaceOptionConfiguration surfaceOptionConfig = optionConfig.getSurfaceOptionConfiguration();
+
+		// If "With Surfaces" is disabled, don't draw surface tiles.
+		if (!surfaceOptionConfig.isOptionEnabled()) {
+			return;
+		}
+
+		// Get font information.
+		Font markerFont = this.config.getFontConfiguration().getPointMarkerFont();
+		Font textFont = this.config.getFontConfiguration().getLegendLabelFont();
+		int legendFontSize = this.config.getFontConfiguration().getLegendLabelFont().getSize();
+		markerFont = new Font(markerFont.getName(), markerFont.getStyle(), legendFontSize); // Resizing to adjust marker heights to text heights.
+		FontMetrics markerFontMetrics = graphics.getFontMetrics(markerFont);
+		FontMetrics textFontMetrics = graphics.getFontMetrics(textFont);
+		int textFontHeight = textFontMetrics.getAscent();
+
+		// Extract color settings.
+		ColorConfiguration colorConfig = this.config.getColorConfiguration();
+		Color foregroundColor = colorConfig.getForegroundColor();
+		Color[] solidColors = colorConfig.getDataSolidColors();
+
+		GradientColor[] gradientColors = colorConfig.getDataGradientColors();
+		if (gradientColors.length != 1) {
+			throw new IllegalStateException("This version does not support multiple gradient colors yet.");
+		}
+		GradientColor gradientColor = gradientColors[0];
+		AxisGradientColor[] axisGradientColors = gradientColor.getAxisGradientColors();
+		if (axisGradientColors.length != 1) {
+			throw new IllegalStateException("This version does not support multiple axis gradient colors yet.");
+		}
+		AxisGradientColor axisGradientColor = axisGradientColors[0];
+
+		// Draw surface tiles.
+		for (int iseries=0; iseries<legendCount; iseries++) {
+
+			System.out.println("TODO: 後でここ系列フィルター居る: " + this);
+			boolean isSeriesIncluded = true;
+			if (!isSeriesIncluded) {
+				continue;
+			}
+
+			// Calculate the position of the marker.
+			int tileWidth = (int)(textFontHeight * 0.8);
+			int tileHeight = (int)(textFontHeight * 0.8);
+			int tileX = legendTextAreaPosition[0] - 15 - tileWidth;
+			int tileY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight) - tileHeight;
+
+			// Draw the tile by the gradient color.
+			if (gradientTargetFlags[iseries]) {
+				graphics.setColor(foregroundColor);
+				graphics.drawRect(tileX, tileY, tileWidth, tileHeight);
+
+				for (int iline=1; iline<tileHeight-1; iline++) {
+					int lineY = tileY + iline;
+					double representCoord = (double)(iline - 1) / (double)(tileHeight - 2);
+					Color lineColor = colorMixer.generateColorFromAxisGradientColor(new BigDecimal(representCoord), axisGradientColor);
+					graphics.setColor(lineColor);
+					graphics.drawLine(tileX + 1, lineY, tileX + tileWidth - 1, lineY);
+				}
+
+			// Draw the tile by a solid color.
+			} else {
+				int solidColorIndex = iseries % solidColors.length;
+				graphics.setColor(solidColors[solidColorIndex]);
+				graphics.fillRect(tileX, tileY, tileWidth, tileHeight);
+			}
+		}
+	}
+
 }
