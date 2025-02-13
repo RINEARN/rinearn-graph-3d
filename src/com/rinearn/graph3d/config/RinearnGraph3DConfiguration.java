@@ -110,7 +110,7 @@ public final class RinearnGraph3DConfiguration {
 	private volatile LabelConfiguration labelConfiguration = null;
 
 	/** The configuration of plotting options. */
-	private volatile OptionConfiguration optionConfiguration = null;
+	private volatile PlotterConfiguration plotterConfiguration = null;
 
 
 	/**
@@ -148,7 +148,7 @@ public final class RinearnGraph3DConfiguration {
 		configuration.setColorConfiguration(new ColorConfiguration());
 		configuration.setFontConfiguration(new FontConfiguration());
 		configuration.setLabelConfiguration(new LabelConfiguration());
-		configuration.setOptionConfiguration(new OptionConfiguration());
+		configuration.setPlotterConfiguration(new PlotterConfiguration());
 
 		return configuration;
 	}
@@ -197,8 +197,8 @@ public final class RinearnGraph3DConfiguration {
 		if (mergedConfiguration.hasLabelConfiguration()) {
 			this.setLabelConfiguration(mergedConfiguration.getLabelConfiguration());
 		}
-		if (mergedConfiguration.hasOptionConfiguration()) {
-			this.setOptionConfiguration(mergedConfiguration.getOptionConfiguration());
+		if (mergedConfiguration.hasPlotterConfiguration()) {
+			this.setPlotterConfiguration(mergedConfiguration.getPlotterConfiguration());
 		}
 	}
 
@@ -538,7 +538,7 @@ public final class RinearnGraph3DConfiguration {
 	/**
 	 * Sets the configuration of the labels of X/Y/Z axes.
 	 *
-	 * @param scaleConfiguration The configuration of the labels of X/Y/Z axes.
+	 * @param labelConfiguration The configuration of the labels of X/Y/Z axes.
 	 */
 	public synchronized void setLabelConfiguration(LabelConfiguration labelConfiguration) {
 		this.labelConfiguration = labelConfiguration;
@@ -559,17 +559,17 @@ public final class RinearnGraph3DConfiguration {
 	 *
 	 * @return Returns true if any plotting-option configuration is set to this instance.
 	 */
-	public synchronized boolean hasOptionConfiguration() {
-		return this.optionConfiguration != null;
+	public synchronized boolean hasPlotterConfiguration() {
+		return this.plotterConfiguration != null;
 	}
 
 	/**
 	 * Sets the configuration of plotting-options.
 	 *
-	 * @param scaleConfiguration The configuration of plotting-options.
+	 * @param plotterConfiguration The configuration of plotting-options.
 	 */
-	public synchronized void setOptionConfiguration(OptionConfiguration optionConfiguration) {
-		this.optionConfiguration = optionConfiguration;
+	public synchronized void setPlotterConfiguration(PlotterConfiguration plotterConfiguration) {
+		this.plotterConfiguration = plotterConfiguration;
 	}
 
 	/**
@@ -577,7 +577,7 @@ public final class RinearnGraph3DConfiguration {
 	 *
 	 * @return The configuration of plotting-options.
 	 */
-	public synchronized OptionConfiguration getOptionConfiguration() {
-		return this.optionConfiguration;
+	public synchronized PlotterConfiguration getPlotterConfiguration() {
+		return this.plotterConfiguration;
 	}
 }

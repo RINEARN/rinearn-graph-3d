@@ -1,8 +1,8 @@
 package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.config.EnvironmentConfiguration;
-import com.rinearn.graph3d.config.OptionConfiguration;
-import com.rinearn.graph3d.config.OptionConfiguration.PointStyleMode;
+import com.rinearn.graph3d.config.PlotterConfiguration;
+import com.rinearn.graph3d.config.PlotterConfiguration.PointStyleMode;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.model.Model;
@@ -52,19 +52,19 @@ public final class PointOptionHandler {
 	private final class SeriesFilterAccessor implements SeriesFilterHandler.SeriesFilterAccessorInterface {
 		@Override
 		public void setSeriesFilterMode(SeriesFilterMode seriesFilterMode) {
-			model.config.getOptionConfiguration().getPointOptionConfiguration().setSeriesFilterMode(seriesFilterMode);
+			model.config.getPlotterConfiguration().getPointPlotterConfiguration().setSeriesFilterMode(seriesFilterMode);
 		}
 		@Override
 		public SeriesFilterMode getSeriesFilterMode() {
-			return model.config.getOptionConfiguration().getPointOptionConfiguration().getSeriesFilterMode();
+			return model.config.getPlotterConfiguration().getPointPlotterConfiguration().getSeriesFilterMode();
 		}
 		@Override
 		public void setIndexSeriesFilter(IndexSeriesFilter indexSeriesFilter) {
-			model.config.getOptionConfiguration().getPointOptionConfiguration().setIndexSeriesFilter(indexSeriesFilter);
+			model.config.getPlotterConfiguration().getPointPlotterConfiguration().setIndexSeriesFilter(indexSeriesFilter);
 		}
 		@Override
 		public IndexSeriesFilter getIndexSeriesFilter() {
-			return model.config.getOptionConfiguration().getPointOptionConfiguration().getIndexSeriesFilter();
+			return model.config.getPlotterConfiguration().getPointPlotterConfiguration().getIndexSeriesFilter();
 		}
 	}
 
@@ -144,15 +144,15 @@ public final class PointOptionHandler {
 				return;
 			}
 			PointOptionWindow window = view.pointOptionWindow;
-			OptionConfiguration optionConfig = model.config.getOptionConfiguration();
-			OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
+			PlotterConfiguration plotterConfig = model.config.getPlotterConfiguration();
+			PlotterConfiguration.PointPlotterConfiguration pointPlotterConfig = plotterConfig.getPointPlotterConfiguration();
 			EnvironmentConfiguration envConfig = model.config.getEnvironmentConfiguration();
 			boolean isJapanese = envConfig.isLocaleJapanese();
 
 			// Point Style Mode:
 			{
 				PointStyleMode mode = window.getSelectedPointStyleMode();
-				pointOptionConfig.setPointStyleMode(mode);
+				pointPlotterConfig.setPointStyleMode(mode);
 
 				if (mode != PointStyleMode.CIRCLE) {
 					String errorMessage = isJapanese ? mode + "モードはまだ実装されていません" : mode + " mode is not supported yet.";
@@ -165,7 +165,7 @@ public final class PointOptionHandler {
 			try {
 				String circleRadiusText = window.circleModeComponents.radiusField.getText();
 				double circleRadius = UIParameterParser.parseDoubleParameter(circleRadiusText, "円の半径", "Circle Radius", 0.0, 10000.0, envConfig);
-				pointOptionConfig.setCircleRadius(circleRadius);
+				pointPlotterConfig.setCircleRadius(circleRadius);
 			} catch (UIParameterParser.ParsingException e) {
 				// The error message is already shown to the user by UIParameterParser.
 				return;
@@ -175,7 +175,7 @@ public final class PointOptionHandler {
 			try {
 				String markerText = window.markerModeComponents.symbolField.getText().trim();
 				String[] markerTexts = UIParameterParser.parseCommaSeparatedStringParameters(markerText, "マーカー記号", "Marker Symbols", envConfig);
-				pointOptionConfig.setMarkerTexts(markerTexts);
+				pointPlotterConfig.setMarkerTexts(markerTexts);
 			} catch (UIParameterParser.ParsingException e) {
 				// The error message is already shown to the user by UIParameterParser.
 				return;
@@ -184,14 +184,14 @@ public final class PointOptionHandler {
 			// Marker bold font:
 			{
 				boolean isMarkerBold = window.markerModeComponents.boldBox.isSelected();
-				pointOptionConfig.setMarkerBold(isMarkerBold);
+				pointPlotterConfig.setMarkerBold(isMarkerBold);
 			}
 
 			// Marker size:
 			try {
 				String markerSizeText = window.markerModeComponents.sizeField.getText();
 				double markerSize = UIParameterParser.parseDoubleParameter(markerSizeText, "文字サイズ", "Font Size", 0.0, 10000.0, envConfig);
-				pointOptionConfig.setMarkerSize(markerSize);
+				pointPlotterConfig.setMarkerSize(markerSize);
 			} catch (UIParameterParser.ParsingException e) {
 				// The error message is already shown to the user by UIParameterParser.
 				return;
@@ -201,7 +201,7 @@ public final class PointOptionHandler {
 			try {
 				String markerOffsetRatioText = window.markerModeComponents.verticalOffsetRatioField.getText();
 				double markerOffsetRatio = UIParameterParser.parseDoubleParameter(markerOffsetRatioText, "位置補正率", "Offset Ratio", -10000.0, 10000.0, envConfig);
-				pointOptionConfig.setMarkerVerticalOffsetRatio(markerOffsetRatio);
+				pointPlotterConfig.setMarkerVerticalOffsetRatio(markerOffsetRatio);
 			} catch (UIParameterParser.ParsingException e) {
 				// The error message is already shown to the user by UIParameterParser.
 				return;
@@ -229,7 +229,7 @@ public final class PointOptionHandler {
 				return;
 			}
 			PointOptionWindow window = view.pointOptionWindow;
-			OptionConfiguration.PointStyleMode pointStyleMode = window.getSelectedPointStyleMode();
+			PlotterConfiguration.PointStyleMode pointStyleMode = window.getSelectedPointStyleMode();
 			window.setSelectedPointStyleMode(pointStyleMode);
 		}
 	}

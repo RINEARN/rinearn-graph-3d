@@ -36,19 +36,19 @@ public final class SurfaceOptionHandler {
 	private final class SeriesFilterAccessor implements SeriesFilterHandler.SeriesFilterAccessorInterface {
 		@Override
 		public void setSeriesFilterMode(SeriesFilterMode seriesFilterMode) {
-			model.config.getOptionConfiguration().getSurfaceOptionConfiguration().setSeriesFilterMode(seriesFilterMode);
+			model.config.getPlotterConfiguration().getSurfacePlotterConfiguration().setSeriesFilterMode(seriesFilterMode);
 		}
 		@Override
 		public SeriesFilterMode getSeriesFilterMode() {
-			return model.config.getOptionConfiguration().getSurfaceOptionConfiguration().getSeriesFilterMode();
+			return model.config.getPlotterConfiguration().getSurfacePlotterConfiguration().getSeriesFilterMode();
 		}
 		@Override
 		public void setIndexSeriesFilter(IndexSeriesFilter indexSeriesFilter) {
-			model.config.getOptionConfiguration().getSurfaceOptionConfiguration().setIndexSeriesFilter(indexSeriesFilter);
+			model.config.getPlotterConfiguration().getSurfacePlotterConfiguration().setIndexSeriesFilter(indexSeriesFilter);
 		}
 		@Override
 		public IndexSeriesFilter getIndexSeriesFilter() {
-			return model.config.getOptionConfiguration().getSurfaceOptionConfiguration().getIndexSeriesFilter();
+			return model.config.getPlotterConfiguration().getSurfacePlotterConfiguration().getIndexSeriesFilter();
 		}
 	}
 

@@ -1,7 +1,7 @@
 package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.config.EnvironmentConfiguration;
-import com.rinearn.graph3d.config.OptionConfiguration;
+import com.rinearn.graph3d.config.PlotterConfiguration;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.model.Model;
@@ -41,19 +41,19 @@ public final class LineOptionHandler {
 	private final class SeriesFilterAccessor implements SeriesFilterHandler.SeriesFilterAccessorInterface {
 		@Override
 		public void setSeriesFilterMode(SeriesFilterMode seriesFilterMode) {
-			model.config.getOptionConfiguration().getLineOptionConfiguration().setSeriesFilterMode(seriesFilterMode);
+			model.config.getPlotterConfiguration().getLinePlotterConfiguration().setSeriesFilterMode(seriesFilterMode);
 		}
 		@Override
 		public SeriesFilterMode getSeriesFilterMode() {
-			return model.config.getOptionConfiguration().getLineOptionConfiguration().getSeriesFilterMode();
+			return model.config.getPlotterConfiguration().getLinePlotterConfiguration().getSeriesFilterMode();
 		}
 		@Override
 		public void setIndexSeriesFilter(IndexSeriesFilter indexSeriesFilter) {
-			model.config.getOptionConfiguration().getLineOptionConfiguration().setIndexSeriesFilter(indexSeriesFilter);
+			model.config.getPlotterConfiguration().getLinePlotterConfiguration().setIndexSeriesFilter(indexSeriesFilter);
 		}
 		@Override
 		public IndexSeriesFilter getIndexSeriesFilter() {
-			return model.config.getOptionConfiguration().getLineOptionConfiguration().getIndexSeriesFilter();
+			return model.config.getPlotterConfiguration().getLinePlotterConfiguration().getIndexSeriesFilter();
 		}
 	}
 
@@ -124,8 +124,8 @@ public final class LineOptionHandler {
 				return;
 			}
 			LineOptionWindow window = view.lineOptionWindow;
-			OptionConfiguration optionConfig = model.config.getOptionConfiguration();
-			OptionConfiguration.LineOptionConfiguration lineOptionConfig = optionConfig.getLineOptionConfiguration();
+			PlotterConfiguration plotterConfig = model.config.getPlotterConfiguration();
+			PlotterConfiguration.LinePlotterConfiguration lineOptionConfig = plotterConfig.getLinePlotterConfiguration();
 			EnvironmentConfiguration envConfig = model.config.getEnvironmentConfiguration();
 
 			// Line width:

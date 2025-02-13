@@ -9,7 +9,7 @@ import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;
-import com.rinearn.graph3d.config.OptionConfiguration;
+import com.rinearn.graph3d.config.PlotterConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.data.SeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
@@ -66,10 +66,10 @@ public class LinePlotter implements RinearnGraph3DPlottingListener {
 
 		// Get the configuration of "With Lines" option.
 		RinearnGraph3DConfiguration config = this.model.config;
-		OptionConfiguration optionConfig = config.getOptionConfiguration();
-		OptionConfiguration.LineOptionConfiguration lineOptionConfig = optionConfig.getLineOptionConfiguration();
-		double lineWidth = lineOptionConfig.getLineWidth();
-		boolean isLineOptionEnabled = lineOptionConfig.isOptionEnabled();
+		PlotterConfiguration plotterConfig = config.getPlotterConfiguration();
+		PlotterConfiguration.LinePlotterConfiguration linePlotterConfig = plotterConfig.getLinePlotterConfiguration();
+		double lineWidth = linePlotterConfig.getLineWidth();
+		boolean isLineOptionEnabled = linePlotterConfig.isPlotterEnabled();
 
 		// This plotter do nothing if "With Lines" option is not selected.
 		if(!isLineOptionEnabled) {
@@ -77,8 +77,8 @@ public class LinePlotter implements RinearnGraph3DPlottingListener {
 		}
 
 		// Get the series filter, which filters the data series to which this option is applied.
-		boolean existsSeriesFilter = lineOptionConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
-		SeriesFilter seriesFilter = existsSeriesFilter ? lineOptionConfig.getSeriesFilter() : null;
+		boolean existsSeriesFilter = linePlotterConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
+		SeriesFilter seriesFilter = existsSeriesFilter ? linePlotterConfig.getSeriesFilter() : null;
 
 		// Plots all data series.
 		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = this.model.dataStore.getCombinedDataSeriesGroup();

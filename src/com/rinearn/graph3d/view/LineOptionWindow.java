@@ -2,7 +2,7 @@ package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.FontConfiguration;
-import com.rinearn.graph3d.config.OptionConfiguration;
+import com.rinearn.graph3d.config.PlotterConfiguration;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -253,10 +253,10 @@ public final class LineOptionWindow {
 			lineWidthFieldRightClickMenu.configure(this.configuration);
 
 			// Update the series filter UI.
-			OptionConfiguration optionConfig = this.configuration.getOptionConfiguration();
-			OptionConfiguration.LineOptionConfiguration lineOptionConfig = optionConfig.getLineOptionConfiguration();
+			PlotterConfiguration plotterConfig = this.configuration.getPlotterConfiguration();
+			PlotterConfiguration.LinePlotterConfiguration linePlotterConfig = plotterConfig.getLinePlotterConfiguration();
 			seriesFilterComponents.configure(
-					this.configuration, lineOptionConfig.getSeriesFilterMode(), lineOptionConfig.getIndexSeriesFilter()
+					this.configuration, linePlotterConfig.getSeriesFilterMode(), linePlotterConfig.getIndexSeriesFilter()
 			);
 		}
 
@@ -297,11 +297,11 @@ public final class LineOptionWindow {
 		 * Updates the values of text fields, by the values stored in the configuration.
 		 */
 		private void updateValuesByConfiguration() {
-			OptionConfiguration optionConfig = this.configuration.getOptionConfiguration();
-			OptionConfiguration.LineOptionConfiguration lineOptionConfig = optionConfig.getLineOptionConfiguration();
+			PlotterConfiguration plotterConfig = this.configuration.getPlotterConfiguration();
+			PlotterConfiguration.LinePlotterConfiguration linePlotterConfig = plotterConfig.getLinePlotterConfiguration();
 			DecimalFormat formatter = new DecimalFormat("#0.0#####");
 
-			lineWidthField.setText(formatter.format(lineOptionConfig.getLineWidth()));
+			lineWidthField.setText(formatter.format(linePlotterConfig.getLineWidth()));
 		}
 	}
 

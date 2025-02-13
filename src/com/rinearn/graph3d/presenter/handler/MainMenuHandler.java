@@ -469,8 +469,8 @@ public final class MainMenuHandler {
 			// Show/hide the option settings window.
 			view.pointOptionWindow.setWindowVisible(isOptionSepected);
 
-			// Enable/disable the option.
-			model.config.getOptionConfiguration().getPointOptionConfiguration().setOptionEnabled(isOptionSepected);
+			// Enable/disable the plotting option.
+			model.config.getPlotterConfiguration().getPointPlotterConfiguration().setPlotterEnabled(isOptionSepected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -491,8 +491,8 @@ public final class MainMenuHandler {
 			// Show/hide the option settings window.
 			view.lineOptionWindow.setWindowVisible(isOptionSepected);
 
-			// Enable/disable the option.
-			model.config.getOptionConfiguration().getLineOptionConfiguration().setOptionEnabled(isOptionSepected);
+			// Enable/disable the plotting option.
+			model.config.getPlotterConfiguration().getLinePlotterConfiguration().setPlotterEnabled(isOptionSepected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -513,8 +513,8 @@ public final class MainMenuHandler {
 			// Show/hide the option settings window.
 			view.meshOptionWindow.setWindowVisible(isOptionSepected);
 
-			// Enable/disable the option.
-			model.config.getOptionConfiguration().getMeshOptionConfiguration().setOptionEnabled(isOptionSepected);
+			// Enable/disable the plotting option.
+			model.config.getPlotterConfiguration().getMeshPlotterConfiguration().setPlotterEnabled(isOptionSepected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -536,7 +536,7 @@ public final class MainMenuHandler {
 			view.surfaceOptionWindow.setWindowVisible(isOptionSepected);
 
 			// Enable/disable the option.
-			model.config.getOptionConfiguration().getSurfaceOptionConfiguration().setOptionEnabled(isOptionSepected);
+			model.config.getPlotterConfiguration().getSurfacePlotterConfiguration().setPlotterEnabled(isOptionSepected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}

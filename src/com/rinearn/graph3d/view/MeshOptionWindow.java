@@ -2,7 +2,7 @@ package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.FontConfiguration;
-import com.rinearn.graph3d.config.OptionConfiguration;
+import com.rinearn.graph3d.config.PlotterConfiguration;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -253,10 +253,10 @@ public final class MeshOptionWindow {
 			lineWidthFieldRightClickMenu.configure(this.configuration);
 
 			// Update the series filter UI.
-			OptionConfiguration optionConfig = this.configuration.getOptionConfiguration();
-			OptionConfiguration.MeshOptionConfiguration meshOptionConfig = optionConfig.getMeshOptionConfiguration();
+			PlotterConfiguration plotterConfig = this.configuration.getPlotterConfiguration();
+			PlotterConfiguration.MeshPlotterConfiguration meshPlotterConfig = plotterConfig.getMeshPlotterConfiguration();
 			seriesFilterComponents.configure(
-					this.configuration, meshOptionConfig.getSeriesFilterMode(), meshOptionConfig.getIndexSeriesFilter()
+					this.configuration, meshPlotterConfig.getSeriesFilterMode(), meshPlotterConfig.getIndexSeriesFilter()
 			);
 		}
 
@@ -297,11 +297,11 @@ public final class MeshOptionWindow {
 		 * Updates the values of text fields, by the values stored in the configuration.
 		 */
 		private void updateValuesByConfiguration() {
-			OptionConfiguration optionConfig = this.configuration.getOptionConfiguration();
-			OptionConfiguration.MeshOptionConfiguration meshOptionConfig = optionConfig.getMeshOptionConfiguration();
+			PlotterConfiguration plotterConfig = this.configuration.getPlotterConfiguration();
+			PlotterConfiguration.MeshPlotterConfiguration meshPlotterConfig = plotterConfig.getMeshPlotterConfiguration();
 			DecimalFormat formatter = new DecimalFormat("#0.0#####");
 
-			lineWidthField.setText(formatter.format(meshOptionConfig.getLineWidth()));
+			lineWidthField.setText(formatter.format(meshPlotterConfig.getLineWidth()));
 		}
 	}
 

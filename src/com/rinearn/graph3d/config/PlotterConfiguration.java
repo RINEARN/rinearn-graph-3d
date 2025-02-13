@@ -36,96 +36,98 @@ RinearnGraph3DOptionItem/OptionParameter というenum/コンテナオブジェ�
    そもそも他のAPIもほぼそういう役割になりつつあるし。
    本気で細かい所まで制御するには粒度不足で config 作って投げるしかない。極論 config と同じ粒度で細かいAPI生やすとどえらい事になる。
    APIの表層は「ざっと docs 読んで使ってみるかー」ってなる粒度であるべき。OptionParameter はそれ用。
+
+-> さらにTODOノートでの考察の結果、OptionConfiguration から PlotterConfiguration に改名した。
+   なのでここで RinearnGraph3DOptionItem は使わなくていい。概念整理の粒度や世代が完全に異なる。
+   RinearnGraph3DOptionItem はGUIに対応した簡易設定用で確定。
+
 */
 
 
 /**
  * The class storing configuration values of plotting options.
  */
-public final class OptionConfiguration {
+public final class PlotterConfiguration {
 
 	/**
 	 * Creates a new configuration storing default values.
 	 */
-	public OptionConfiguration() {
+	public PlotterConfiguration() {
 	}
 
 
 	/** Stores the configuration of "With Points" option. */
-	private volatile PointOptionConfiguration pointOptionConfiguration = new PointOptionConfiguration();
+	private volatile PointPlotterConfiguration pointPlotterConfiguration = new PointPlotterConfiguration();
 
 	/** Stores the configuration of "With Lines" option. */
-	private volatile LineOptionConfiguration lineOptionConfiguration = new LineOptionConfiguration();
+	private volatile LinePlotterConfiguration linePlotterConfiguration = new LinePlotterConfiguration();
 
 	/** Stores the configuration of "With Meshes" option. */
-	private volatile MeshOptionConfiguration meshOptionConfiguration = new MeshOptionConfiguration();
+	private volatile MeshPlotterConfiguration meshPlotterConfiguration = new MeshPlotterConfiguration();
 
 	/** Stores the configuration of "With Surfaces" option. */
-	private volatile SurfaceOptionConfiguration surfaceOptionConfiguration = new SurfaceOptionConfiguration();
+	private volatile SurfacePlotterConfiguration surfaceOptionConfiguration = new SurfacePlotterConfiguration();
 
 	/** Stores the configuration of "With Contours" option. */
-	private volatile ContourOptionConfiguration contourOptionConfiguration = new ContourOptionConfiguration();
-
-	/** Stores the configuration of "Gradient" option. */
-	private volatile GradientOptionConfiguration gradientOptionConfiguration = new GradientOptionConfiguration();
+	private volatile ContourPlotterConfiguration contourPlotterConfiguration = new ContourPlotterConfiguration();
 
 
 	/**
 	 * Sets the configuration of "With Points" option.
 	 */
-	public synchronized void setPointOptionConfiguration(PointOptionConfiguration pointOptionConfiguration) {
-		this.pointOptionConfiguration = pointOptionConfiguration;
+	public synchronized void setPointPlotterConfiguration(PointPlotterConfiguration pointPlotterConfiguration) {
+		this.pointPlotterConfiguration = pointPlotterConfiguration;
 	}
 
 	/**
 	 * Gets the configuration of "With Points" option.
 	 */
-	public synchronized PointOptionConfiguration getPointOptionConfiguration() {
-		return this.pointOptionConfiguration;
+	public synchronized PointPlotterConfiguration getPointPlotterConfiguration() {
+		return this.pointPlotterConfiguration;
 	}
 
 
 	/**
 	 * Sets the configuration of "With Lines" option.
 	 */
-	public synchronized void setLineOptionConfiguration(LineOptionConfiguration lineOptionConfiguration) {
-		this.lineOptionConfiguration = lineOptionConfiguration;
+	public synchronized void setLinePlotterConfiguration(LinePlotterConfiguration linePlotterConfiguration) {
+		this.linePlotterConfiguration = linePlotterConfiguration;
 	}
 
 	/**
 	 * Gets the configuration of "With Lines" option.
 	 */
-	public synchronized LineOptionConfiguration getLineOptionConfiguration() {
-		return this.lineOptionConfiguration;
+	public synchronized LinePlotterConfiguration getLinePlotterConfiguration() {
+		return this.linePlotterConfiguration;
 	}
 
 
 	/**
 	 * Sets the configuration of "With Meshes" option.
 	 */
-	public synchronized void setMeshOptionConfiguration(MeshOptionConfiguration meshOptionConfiguration) {
-		this.meshOptionConfiguration = meshOptionConfiguration;
+	public synchronized void setMeshPlotterConfiguration(MeshPlotterConfiguration meshPlotterConfiguration) {
+		this.meshPlotterConfiguration = meshPlotterConfiguration;
 	}
 
 	/**
 	 * Gets the configuration of "With Meshes" option.
 	 */
-	public synchronized MeshOptionConfiguration getMeshOptionConfiguration() {
-		return this.meshOptionConfiguration;
+	public synchronized MeshPlotterConfiguration getMeshPlotterConfiguration() {
+		return this.meshPlotterConfiguration;
 	}
 
 
 	/**
 	 * Sets the configuration of "With Surfaces" option.
 	 */
-	public synchronized void setSurfaceOptionConfiguration(SurfaceOptionConfiguration surfaceOptionConfiguration) {
+	public synchronized void setSurfacePlotterConfiguration(SurfacePlotterConfiguration surfaceOptionConfiguration) {
 		this.surfaceOptionConfiguration = surfaceOptionConfiguration;
 	}
 
 	/**
 	 * Gets the configuration of "With Surfaces" option.
 	 */
-	public synchronized SurfaceOptionConfiguration getSurfaceOptionConfiguration() {
+	public synchronized SurfacePlotterConfiguration getSurfacePlotterConfiguration() {
 		return this.surfaceOptionConfiguration;
 	}
 
@@ -133,60 +135,45 @@ public final class OptionConfiguration {
 	/**
 	 * Sets the configuration of "With Contours" option.
 	 */
-	public synchronized void setContourOptionConfiguration(ContourOptionConfiguration contourOptionConfiguration) {
-		this.contourOptionConfiguration = contourOptionConfiguration;
+	public synchronized void setContourPlotterConfiguration(ContourPlotterConfiguration contourPlotterConfiguration) {
+		this.contourPlotterConfiguration = contourPlotterConfiguration;
 	}
 
 	/**
 	 * Gets the configuration of "With Contours" option.
 	 */
-	public synchronized ContourOptionConfiguration getContourOptionConfiguration() {
-		return this.contourOptionConfiguration;
+	public synchronized ContourPlotterConfiguration getContourPlotterConfiguration() {
+		return this.contourPlotterConfiguration;
 	}
 
 
 	/**
-	 * Sets the configuration of "Gradient" option.
+	 * The base class of *PlotterConfiguration classes supporting the series filter feature.
 	 */
-	public synchronized void setGradientOptionConfiguration(GradientOptionConfiguration gradientOptionConfiguration) {
-		this.gradientOptionConfiguration = gradientOptionConfiguration;
-	}
-
-	/**
-	 * Gets the configuration of "Gradient" option.
-	 */
-	public synchronized GradientOptionConfiguration getGradientOptionConfiguration() {
-		return this.gradientOptionConfiguration;
-	}
-
-
-	/**
-	 * The base class of *OptionConfiguration classes supporting the series filter feature.
-	 */
-	private static abstract class SeriesFilterableOptionConfiguration {
+	private static abstract class SeriesFilterablePlotterConfiguration {
 
 		/** The flag representing whether this option is enabled. */
-		private volatile boolean optionEnabled = false;
+		private volatile boolean plotterEnabled = false;
 
 		/** The object which stores multiple kinds of SeriesFilter instances, and provides their setters and getters. */
 		private volatile SeriesFilterHub seriesFilterHub = new SeriesFilterHub();
 
 		/**
-		 * Enable or disable this option.
+		 * Enable or disable this plotter.
 		 *
 		 * @param optionEnabled Specify true to enable, false to disable.
 		 */
-		public synchronized final void setOptionEnabled(boolean optionEnabled) {
-			this.optionEnabled = optionEnabled;
+		public synchronized final void setPlotterEnabled(boolean plotterEnabled) {
+			this.plotterEnabled = plotterEnabled;
 		}
 
 		/**
-		 * Checks whether this option is enabled.
+		 * Checks whether this plotter is enabled.
 		 *
 		 * @return Returns true if this option is enabled.
 		 */
-		public synchronized final boolean isOptionEnabled() {
-			return this.optionEnabled;
+		public synchronized final boolean isPlotterEnabled() {
+			return this.plotterEnabled;
 		}
 
 		/**
@@ -267,7 +254,7 @@ public final class OptionConfiguration {
 	/**
 	 * The class storing configuration values of "With Points" option.
 	 */
-	public static final class PointOptionConfiguration extends SeriesFilterableOptionConfiguration {
+	public static final class PointPlotterConfiguration extends SeriesFilterablePlotterConfiguration {
 
 		/** The style mode for drawing points. */
 		private volatile PointStyleMode pointStyleMode = PointStyleMode.CIRCLE;
@@ -290,8 +277,8 @@ public final class OptionConfiguration {
 		/**
 		 * Creates a new instance.
 		 */
-		public PointOptionConfiguration() {
-			super.setOptionEnabled(true);
+		public PointPlotterConfiguration() {
+			super.setPlotterEnabled(true);
 		}
 
 		/**
@@ -407,7 +394,7 @@ public final class OptionConfiguration {
 	/**
 	 * The class storing configuration values of "With Lines" option.
 	 */
-	public static final class LineOptionConfiguration extends SeriesFilterableOptionConfiguration {
+	public static final class LinePlotterConfiguration extends SeriesFilterablePlotterConfiguration {
 
 		/** The width (in pixels) of lines plotted by this option. */
 		private volatile double lineWidth = 1.0;
@@ -415,8 +402,8 @@ public final class OptionConfiguration {
 		/**
 		 * Creates a new instance.
 		 */
-		public LineOptionConfiguration() {
-			super.setOptionEnabled(false);
+		public LinePlotterConfiguration() {
+			super.setPlotterEnabled(false);
 		}
 
 		/**
@@ -442,7 +429,7 @@ public final class OptionConfiguration {
 	/**
 	 * The class storing configuration values of "With Meshes" option.
 	 */
-	public static final class MeshOptionConfiguration extends SeriesFilterableOptionConfiguration {
+	public static final class MeshPlotterConfiguration extends SeriesFilterablePlotterConfiguration {
 
 		/** The width (in pixels) of lines composing meshes plotted by this option. */
 		private volatile double lineWidth = 1.0;
@@ -450,8 +437,8 @@ public final class OptionConfiguration {
 		/**
 		 * Creates a new instance.
 		 */
-		public MeshOptionConfiguration() {
-			super.setOptionEnabled(false);
+		public MeshPlotterConfiguration() {
+			super.setPlotterEnabled(false);
 		}
 
 		/**
@@ -477,13 +464,13 @@ public final class OptionConfiguration {
 	/**
 	 * The class storing configuration values of "With Surfaces" option.
 	 */
-	public static final class SurfaceOptionConfiguration extends SeriesFilterableOptionConfiguration {
+	public static final class SurfacePlotterConfiguration extends SeriesFilterablePlotterConfiguration {
 
 		/**
 		 * Creates a new instance.
 		 */
-		public SurfaceOptionConfiguration() {
-			super.setOptionEnabled(false);
+		public SurfacePlotterConfiguration() {
+			super.setPlotterEnabled(false);
 		}
 	}
 
@@ -491,32 +478,13 @@ public final class OptionConfiguration {
 	/**
 	 * The class storing configuration values of "With Contours" option.
 	 */
-	public static final class ContourOptionConfiguration extends SeriesFilterableOptionConfiguration {
+	public static final class ContourPlotterConfiguration extends SeriesFilterablePlotterConfiguration {
 
 		/**
 		 * Creates a new instance.
 		 */
-		public ContourOptionConfiguration() {
-			super.setOptionEnabled(false);
+		public ContourPlotterConfiguration() {
+			super.setPlotterEnabled(false);
 		}
-	}
-
-
-	/**
-	 * The class storing configuration values of "Gradient" option.
-	 */
-	public static final class GradientOptionConfiguration extends SeriesFilterableOptionConfiguration {
-
-		/**
-		 * Creates a new instance.
-		 */
-		public GradientOptionConfiguration() {
-			super.setOptionEnabled(false);
-		}
-
-		// !!! NOTE !!!
-		// On Ver.6, this "Gradient" option works as a short-cut UI
-		// for switching the current coloring mode optionEnabled in "Settings" > "Set Colors" menu.
-		// So we don't define detailed parameters here. They are defined in "ColorConfiguration" class.
 	}
 }

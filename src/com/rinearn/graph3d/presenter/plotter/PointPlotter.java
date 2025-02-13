@@ -9,7 +9,7 @@ import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;
-import com.rinearn.graph3d.config.OptionConfiguration;
+import com.rinearn.graph3d.config.PlotterConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.config.data.SeriesFilter;
@@ -66,10 +66,10 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 
 		// Get the configuration of "With Points" option.
 		RinearnGraph3DConfiguration config = this.model.config;
-		OptionConfiguration optionConfig = config.getOptionConfiguration();
-		OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
-		double pointRadius = pointOptionConfig.getCircleRadius();
-		boolean isPointOptionEnabled = pointOptionConfig.isOptionEnabled();
+		PlotterConfiguration plotterConfig = config.getPlotterConfiguration();
+		PlotterConfiguration.PointPlotterConfiguration pointPlotterConfig = plotterConfig.getPointPlotterConfiguration();
+		double pointRadius = pointPlotterConfig.getCircleRadius();
+		boolean isPointOptionEnabled = pointPlotterConfig.isPlotterEnabled();
 
 		// This plotter do nothing if "With Points" option is not selected.
 		if(!isPointOptionEnabled) {
@@ -77,8 +77,8 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 		}
 
 		// Get the series filter, which filters the data series to which this option is applied.
-		boolean existsSeriesFilter = pointOptionConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
-		SeriesFilter seriesFilter = existsSeriesFilter ? pointOptionConfig.getSeriesFilter() : null;
+		boolean existsSeriesFilter = pointPlotterConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
+		SeriesFilter seriesFilter = existsSeriesFilter ? pointPlotterConfig.getSeriesFilter() : null;
 
 		// Plots all data series.
 		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = this.model.dataStore.getCombinedDataSeriesGroup();

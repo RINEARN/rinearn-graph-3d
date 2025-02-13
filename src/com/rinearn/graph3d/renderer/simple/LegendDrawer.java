@@ -3,7 +3,7 @@ package com.rinearn.graph3d.renderer.simple;
 import com.rinearn.graph3d.config.CameraConfiguration;
 import com.rinearn.graph3d.config.ColorConfiguration;
 import com.rinearn.graph3d.config.DataConfiguration;
-import com.rinearn.graph3d.config.OptionConfiguration;
+import com.rinearn.graph3d.config.PlotterConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.GradientColor;
@@ -131,13 +131,13 @@ public final class LegendDrawer {
 	 * called "filtered result flags".
 	 */
 	private static class FilteredResultFlags {
-		public boolean[] pointOptionTargetFlags;
-		public boolean[] lineOptionTargetFlags;
-		public boolean[] meshOptionTargetFlags;
-		public boolean[] surfaceOptionTargetFlags;
-		public boolean[] contourOptionTargetFlags;
-		public boolean[] lineGroupOptionTargetFlags;
-		public boolean[] tileGroupOptionTargetFlags;
+		public boolean[] pointPlotterTargetFlags;
+		public boolean[] linePlotterTargetFlags;
+		public boolean[] meshPlotterTargetFlags;
+		public boolean[] surfacePlotterTargetFlags;
+		public boolean[] contourPlotterTargetFlags;
+		public boolean[] lineGroupPlotterTargetFlags;
+		public boolean[] tileGroupPlotterTargetFlags;
 
 		/**
 		 * Creates a new instance for storing results of data series of which number is seriesCount.
@@ -145,13 +145,13 @@ public final class LegendDrawer {
 		 * @param length The number of the data series.
 		 */
 		public FilteredResultFlags(int seriesCount) {
-			this.pointOptionTargetFlags = new boolean[seriesCount];
-			this.lineOptionTargetFlags = new boolean[seriesCount];
-			this.meshOptionTargetFlags = new boolean[seriesCount];
-			this.surfaceOptionTargetFlags = new boolean[seriesCount];
-			this.contourOptionTargetFlags = new boolean[seriesCount];
-			this.lineGroupOptionTargetFlags = new boolean[seriesCount];
-			this.tileGroupOptionTargetFlags = new boolean[seriesCount];
+			this.pointPlotterTargetFlags = new boolean[seriesCount];
+			this.linePlotterTargetFlags = new boolean[seriesCount];
+			this.meshPlotterTargetFlags = new boolean[seriesCount];
+			this.surfacePlotterTargetFlags = new boolean[seriesCount];
+			this.contourPlotterTargetFlags = new boolean[seriesCount];
+			this.lineGroupPlotterTargetFlags = new boolean[seriesCount];
+			this.tileGroupPlotterTargetFlags = new boolean[seriesCount];
 		}
 	}
 
@@ -173,94 +173,94 @@ public final class LegendDrawer {
 		FilteredResultFlags flags = new FilteredResultFlags(seriesCount);
 
 		// Get configurations of plot options.
-		OptionConfiguration optionConfig = this.config.getOptionConfiguration();
-		OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
-		OptionConfiguration.LineOptionConfiguration lineOptionConfig = optionConfig.getLineOptionConfiguration();
-		OptionConfiguration.MeshOptionConfiguration meshOptionConfig = optionConfig.getMeshOptionConfiguration();
-		OptionConfiguration.SurfaceOptionConfiguration surfaceOptionConfig = optionConfig.getSurfaceOptionConfiguration();
-		OptionConfiguration.ContourOptionConfiguration contourOptionConfig = optionConfig.getContourOptionConfiguration();
+		PlotterConfiguration optionConfig = this.config.getPlotterConfiguration();
+		PlotterConfiguration.PointPlotterConfiguration pointPlotterConfig = optionConfig.getPointPlotterConfiguration();
+		PlotterConfiguration.LinePlotterConfiguration linePlotterConfig = optionConfig.getLinePlotterConfiguration();
+		PlotterConfiguration.MeshPlotterConfiguration meshPlotterConfig = optionConfig.getMeshPlotterConfiguration();
+		PlotterConfiguration.SurfacePlotterConfiguration surfacePlotterConfig = optionConfig.getSurfacePlotterConfiguration();
+		PlotterConfiguration.ContourPlotterConfiguration contourPlotterConfig = optionConfig.getContourPlotterConfiguration();
 
 		// Get enabled/disabled states for each plot option.
-		boolean pointOptionEnabled = pointOptionConfig.isOptionEnabled();
-		boolean lineOptionEnabled = lineOptionConfig.isOptionEnabled();
-		boolean meshOptionEnabled = meshOptionConfig.isOptionEnabled();
-		boolean surfaceOptionEnabled = surfaceOptionConfig.isOptionEnabled();
-		boolean contourOptionEnabled = contourOptionConfig.isOptionEnabled();
+		boolean pointPlotterEnabled = pointPlotterConfig.isPlotterEnabled();
+		boolean linePlotterEnabled = linePlotterConfig.isPlotterEnabled();
+		boolean meshPlotterEnabled = meshPlotterConfig.isPlotterEnabled();
+		boolean surfacePlotterEnabled = surfacePlotterConfig.isPlotterEnabled();
+		boolean contourPlotterEnabled = contourPlotterConfig.isPlotterEnabled();
 
 		// Extract series filters for each plot option.
-		boolean pointOptionFilterEnabled = pointOptionConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
-		boolean lineOptionFilterEnabled = lineOptionConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
-		boolean meshOptionFilterEnabled = meshOptionConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
-		boolean surfaceOptionFilterEnabled = surfaceOptionConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
-		boolean contourOptionFilterEnabled = contourOptionConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
-		SeriesFilter pointOptionFilter = pointOptionFilterEnabled ? pointOptionConfig.getSeriesFilter() : null;
-		SeriesFilter lineOptionFilter = lineOptionFilterEnabled ? lineOptionConfig.getSeriesFilter() : null;
-		SeriesFilter meshOptionFilter = meshOptionFilterEnabled ? meshOptionConfig.getSeriesFilter() : null;
-		SeriesFilter surfaceOptionFilter = surfaceOptionFilterEnabled ? surfaceOptionConfig.getSeriesFilter() : null;
-		SeriesFilter contourOptionFilter = contourOptionFilterEnabled ? contourOptionConfig.getSeriesFilter() : null;
+		boolean pointFilterEnabled = pointPlotterConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
+		boolean lineFilterEnabled = linePlotterConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
+		boolean meshFilterEnabled = meshPlotterConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
+		boolean surfacePlotterFilterEnabled = surfacePlotterConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
+		boolean contourFilterEnabled = contourPlotterConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
+		SeriesFilter pointFilter = pointFilterEnabled ? pointPlotterConfig.getSeriesFilter() : null;
+		SeriesFilter lineFilter = lineFilterEnabled ? linePlotterConfig.getSeriesFilter() : null;
+		SeriesFilter meshFilter = meshFilterEnabled ? meshPlotterConfig.getSeriesFilter() : null;
+		SeriesFilter surfaceFilter = surfacePlotterFilterEnabled ? surfacePlotterConfig.getSeriesFilter() : null;
+		SeriesFilter contourFilter = contourFilterEnabled ? contourPlotterConfig.getSeriesFilter() : null;
 
 		// Calculate and set values of the results.
 		for (int iseries=0; iseries<seriesCount; iseries++) {
 			SeriesAttribute seriesAttribute = seriesAttributes[iseries];
 
 			// Set the enabled/disabled state of "With Points" option for this series.
-			if (pointOptionEnabled) {
-				if (pointOptionFilterEnabled) {
-					flags.pointOptionTargetFlags[iseries] = pointOptionFilter.isSeriesIncluded(seriesAttribute);
+			if (pointPlotterEnabled) {
+				if (pointFilterEnabled) {
+					flags.pointPlotterTargetFlags[iseries] = pointFilter.isSeriesIncluded(seriesAttribute);
 				} else {
-					flags.pointOptionTargetFlags[iseries] = true;
+					flags.pointPlotterTargetFlags[iseries] = true;
 				}
 			} else {
-				flags.pointOptionTargetFlags[iseries] = false;
+				flags.pointPlotterTargetFlags[iseries] = false;
 			}
 
 			// Set the enabled/disabled state of "With Lines" option for this series.
-			if (lineOptionEnabled) {
-				if (lineOptionFilterEnabled) {
-					flags.lineOptionTargetFlags[iseries] = lineOptionFilter.isSeriesIncluded(seriesAttribute);
+			if (linePlotterEnabled) {
+				if (lineFilterEnabled) {
+					flags.linePlotterTargetFlags[iseries] = lineFilter.isSeriesIncluded(seriesAttribute);
 				} else {
-					flags.lineOptionTargetFlags[iseries] = true;
+					flags.linePlotterTargetFlags[iseries] = true;
 				}
 			} else {
-				flags.lineOptionTargetFlags[iseries] = false;
+				flags.linePlotterTargetFlags[iseries] = false;
 			}
 
 			// Set the enabled/disabled state of "With Meshes" option for this series.
-			if (meshOptionEnabled) {
-				if (meshOptionFilterEnabled) {
-					flags.meshOptionTargetFlags[iseries] = meshOptionFilter.isSeriesIncluded(seriesAttribute);
+			if (meshPlotterEnabled) {
+				if (meshFilterEnabled) {
+					flags.meshPlotterTargetFlags[iseries] = meshFilter.isSeriesIncluded(seriesAttribute);
 				} else {
-					flags.meshOptionTargetFlags[iseries] = true;
+					flags.meshPlotterTargetFlags[iseries] = true;
 				}
 			} else {
-				flags.meshOptionTargetFlags[iseries] = false;
+				flags.meshPlotterTargetFlags[iseries] = false;
 			}
 
 			// Set the enabled/disabled state of "With Surfaces" option for this series.
-			if (surfaceOptionEnabled) {
-				if (surfaceOptionFilterEnabled) {
-					flags.surfaceOptionTargetFlags[iseries] = surfaceOptionFilter.isSeriesIncluded(seriesAttribute);
+			if (surfacePlotterEnabled) {
+				if (surfacePlotterFilterEnabled) {
+					flags.surfacePlotterTargetFlags[iseries] = surfaceFilter.isSeriesIncluded(seriesAttribute);
 				} else {
-					flags.surfaceOptionTargetFlags[iseries] = true;
+					flags.surfacePlotterTargetFlags[iseries] = true;
 				}
 			} else {
-				flags.surfaceOptionTargetFlags[iseries] = false;
+				flags.surfacePlotterTargetFlags[iseries] = false;
 			}
 
 			// Set the enabled/disabled state of "With Contours" option for this series.
-			if (contourOptionEnabled) {
-				if (contourOptionFilterEnabled) {
-					flags.contourOptionTargetFlags[iseries] = contourOptionFilter.isSeriesIncluded(seriesAttribute);
+			if (contourPlotterEnabled) {
+				if (contourFilterEnabled) {
+					flags.contourPlotterTargetFlags[iseries] = contourFilter.isSeriesIncluded(seriesAttribute);
 				} else {
-					flags.contourOptionTargetFlags[iseries] = true;
+					flags.contourPlotterTargetFlags[iseries] = true;
 				}
 			} else {
-				flags.contourOptionTargetFlags[iseries] = false;
+				flags.contourPlotterTargetFlags[iseries] = false;
 			}
 
 			// Calculate the values of the compound flags.
-			flags.lineGroupOptionTargetFlags[iseries] = flags.lineOptionTargetFlags[iseries] || flags.contourOptionTargetFlags[iseries];
-			flags.tileGroupOptionTargetFlags[iseries] = flags.surfaceOptionTargetFlags[iseries] || flags.meshOptionTargetFlags[iseries];
+			flags.lineGroupPlotterTargetFlags[iseries] = flags.linePlotterTargetFlags[iseries] || flags.contourPlotterTargetFlags[iseries];
+			flags.tileGroupPlotterTargetFlags[iseries] = flags.surfacePlotterTargetFlags[iseries] || flags.meshPlotterTargetFlags[iseries];
 		}
 		return flags;
 	}
@@ -465,10 +465,10 @@ public final class LegendDrawer {
 		ColorMixer colorMixer = new ColorMixer();
 
 		// Extract point/marker settings.
-		OptionConfiguration optionConfig = this.config.getOptionConfiguration();
-		OptionConfiguration.PointOptionConfiguration pointOptionConfig = optionConfig.getPointOptionConfiguration();
-		boolean isMarkerEnabled = pointOptionConfig.getPointStyleMode() == OptionConfiguration.PointStyleMode.MARKER;
-		String[] markerTexts = pointOptionConfig.getMarkerTexts();
+		PlotterConfiguration plotterConfig = this.config.getPlotterConfiguration();
+		PlotterConfiguration.PointPlotterConfiguration pointPlotterConfig = plotterConfig.getPointPlotterConfiguration();
+		boolean isMarkerEnabled = pointPlotterConfig.getPointStyleMode() == PlotterConfiguration.PointStyleMode.MARKER;
+		String[] markerTexts = pointPlotterConfig.getMarkerTexts();
 
 		// Get font information.
 		Font markerFont = this.config.getFontConfiguration().getPointMarkerFont();
@@ -499,14 +499,14 @@ public final class LegendDrawer {
 		for (int iseries=0; iseries<legendCount; iseries++) {
 
 			// Determine whether we should draw a line for this series.
-			boolean pointOptionFlags = filteredResultFlags.pointOptionTargetFlags[iseries];
-			boolean tileGroupOptionFlags = filteredResultFlags.tileGroupOptionTargetFlags[iseries];
-			boolean shouldDrawThisSeries = pointOptionFlags && !tileGroupOptionFlags;
+			boolean pointPlotterFlags = filteredResultFlags.pointPlotterTargetFlags[iseries];
+			boolean tileGroupPlotterFlags = filteredResultFlags.tileGroupPlotterTargetFlags[iseries];
+			boolean shouldDrawThisSeries = pointPlotterFlags && !tileGroupPlotterFlags;
 			if (!shouldDrawThisSeries) {
 				continue;
 			}
 
-			int markerOffsetX = filteredResultFlags.lineGroupOptionTargetFlags[iseries] ? markerOffsetXWithLine : markerOffsetXWithoutLine;
+			int markerOffsetX = filteredResultFlags.lineGroupPlotterTargetFlags[iseries] ? markerOffsetXWithLine : markerOffsetXWithoutLine;
 
 			// If this data series is drawn by gradient colors.
 			if (gradientTargetFlags[iseries]) {
@@ -591,9 +591,9 @@ public final class LegendDrawer {
 		for (int iseries=0; iseries<legendCount; iseries++) {
 
 			// Determine whether we should draw a line for this series.
-			boolean lineGroupOptionFlags = filteredResultFlags.lineGroupOptionTargetFlags[iseries];
-			boolean tileGroupOptionFlags = filteredResultFlags.tileGroupOptionTargetFlags[iseries];
-			boolean shouldDrawThisSeries = lineGroupOptionFlags && !tileGroupOptionFlags;
+			boolean lineGroupPlotterFlags = filteredResultFlags.lineGroupPlotterTargetFlags[iseries];
+			boolean tileGroupPlotterFlags = filteredResultFlags.tileGroupPlotterTargetFlags[iseries];
+			boolean shouldDrawThisSeries = lineGroupPlotterFlags && !tileGroupPlotterFlags;
 			if (!shouldDrawThisSeries) {
 				continue;
 			}
@@ -672,8 +672,8 @@ public final class LegendDrawer {
 		for (int iseries=0; iseries<legendCount; iseries++) {
 
 			// Determine whether we should draw a line for this series.
-			boolean tileGroupOptionFlags = filteredResultFlags.tileGroupOptionTargetFlags[iseries];
-			boolean shouldDrawThisSeries = tileGroupOptionFlags;
+			boolean tileGroupPlotterFlags = filteredResultFlags.tileGroupPlotterTargetFlags[iseries];
+			boolean shouldDrawThisSeries = tileGroupPlotterFlags;
 			if (!shouldDrawThisSeries) {
 				continue;
 			}

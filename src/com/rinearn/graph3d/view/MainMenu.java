@@ -13,7 +13,7 @@ import javax.swing.SwingUtilities;
 import com.rinearn.graph3d.config.ColorConfiguration;
 import com.rinearn.graph3d.config.FontConfiguration;
 import com.rinearn.graph3d.config.LabelConfiguration;
-import com.rinearn.graph3d.config.OptionConfiguration;
+import com.rinearn.graph3d.config.PlotterConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 
 
@@ -375,7 +375,7 @@ public class MainMenu {
 				lineOptionMenuItem.setText("線プロット");
 				meshOptionMenuItem.setText("メッシュプロット");
 				surfaceOptionMenuItem.setText("曲面プロット");
-				gradientOptionMenuItem.setText("グラデーション彩色");
+				gradientOptionMenuItem.setText("グラデーション");
 				legendOptionMenuItem.setText("凡例");
 			}
 		}
@@ -481,13 +481,13 @@ public class MainMenu {
 		 */
 		private void setOptionStates() {
 
-			// Standard options.
+			// Plot options.
 			{
-				OptionConfiguration optionConfig = configuration.getOptionConfiguration();
-				pointOptionMenuItem.setSelected(optionConfig.getPointOptionConfiguration().isOptionEnabled());
-				lineOptionMenuItem.setSelected(optionConfig.getLineOptionConfiguration().isOptionEnabled());
-				meshOptionMenuItem.setSelected(optionConfig.getMeshOptionConfiguration().isOptionEnabled());
-				surfaceOptionMenuItem.setSelected(optionConfig.getSurfaceOptionConfiguration().isOptionEnabled());
+				PlotterConfiguration plotterConfig = configuration.getPlotterConfiguration();
+				pointOptionMenuItem.setSelected(plotterConfig.getPointPlotterConfiguration().isPlotterEnabled());
+				lineOptionMenuItem.setSelected(plotterConfig.getLinePlotterConfiguration().isPlotterEnabled());
+				meshOptionMenuItem.setSelected(plotterConfig.getMeshPlotterConfiguration().isPlotterEnabled());
+				surfaceOptionMenuItem.setSelected(plotterConfig.getSurfacePlotterConfiguration().isPlotterEnabled());
 			}
 
 			// Gradient Colors option:

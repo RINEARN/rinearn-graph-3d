@@ -1,7 +1,7 @@
 package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.config.EnvironmentConfiguration;
-import com.rinearn.graph3d.config.OptionConfiguration;
+import com.rinearn.graph3d.config.PlotterConfiguration;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.model.Model;
@@ -41,19 +41,19 @@ public final class MeshOptionHandler {
 	private final class SeriesFilterAccessor implements SeriesFilterHandler.SeriesFilterAccessorInterface {
 		@Override
 		public void setSeriesFilterMode(SeriesFilterMode seriesFilterMode) {
-			model.config.getOptionConfiguration().getMeshOptionConfiguration().setSeriesFilterMode(seriesFilterMode);
+			model.config.getPlotterConfiguration().getMeshPlotterConfiguration().setSeriesFilterMode(seriesFilterMode);
 		}
 		@Override
 		public SeriesFilterMode getSeriesFilterMode() {
-			return model.config.getOptionConfiguration().getMeshOptionConfiguration().getSeriesFilterMode();
+			return model.config.getPlotterConfiguration().getMeshPlotterConfiguration().getSeriesFilterMode();
 		}
 		@Override
 		public void setIndexSeriesFilter(IndexSeriesFilter indexSeriesFilter) {
-			model.config.getOptionConfiguration().getMeshOptionConfiguration().setIndexSeriesFilter(indexSeriesFilter);
+			model.config.getPlotterConfiguration().getMeshPlotterConfiguration().setIndexSeriesFilter(indexSeriesFilter);
 		}
 		@Override
 		public IndexSeriesFilter getIndexSeriesFilter() {
-			return model.config.getOptionConfiguration().getMeshOptionConfiguration().getIndexSeriesFilter();
+			return model.config.getPlotterConfiguration().getMeshPlotterConfiguration().getIndexSeriesFilter();
 		}
 	}
 
@@ -124,15 +124,15 @@ public final class MeshOptionHandler {
 				return;
 			}
 			MeshOptionWindow window = view.meshOptionWindow;
-			OptionConfiguration optionConfig = model.config.getOptionConfiguration();
-			OptionConfiguration.MeshOptionConfiguration meshOptionConfig = optionConfig.getMeshOptionConfiguration();
+			PlotterConfiguration plotterConfig = model.config.getPlotterConfiguration();
+			PlotterConfiguration.MeshPlotterConfiguration meshPlotterConfig = plotterConfig.getMeshPlotterConfiguration();
 			EnvironmentConfiguration envConfig = model.config.getEnvironmentConfiguration();
 
 			// Line width:
 			try {
 				String lineWidthText = window.lineWidthField.getText();
 				double lineWidth = UIParameterParser.parseDoubleParameter(lineWidthText, "線の幅", "Line Width", 0.0, 10000.0, envConfig);
-				meshOptionConfig.setLineWidth(lineWidth);
+				meshPlotterConfig.setLineWidth(lineWidth);
 			} catch (UIParameterParser.ParsingException e) {
 				// The error message is already shown to the user by UIParameterParser.
 				return;

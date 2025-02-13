@@ -9,7 +9,7 @@ import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;
-import com.rinearn.graph3d.config.OptionConfiguration;
+import com.rinearn.graph3d.config.PlotterConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.config.data.SeriesFilter;
@@ -66,9 +66,9 @@ public class SurfacePlotter implements RinearnGraph3DPlottingListener {
 
 		// Get the configuration of "With Membranes" option.
 		RinearnGraph3DConfiguration config = this.model.config;
-		OptionConfiguration optionConfig = config.getOptionConfiguration();
-		OptionConfiguration.SurfaceOptionConfiguration surfaceOptionConfig = optionConfig.getSurfaceOptionConfiguration();
-		boolean isSurfaceOptionEnabled = surfaceOptionConfig.isOptionEnabled();
+		PlotterConfiguration plotterConfig = config.getPlotterConfiguration();
+		PlotterConfiguration.SurfacePlotterConfiguration surfacePlotterConfig = plotterConfig.getSurfacePlotterConfiguration();
+		boolean isSurfaceOptionEnabled = surfacePlotterConfig.isPlotterEnabled();
 
 		// This plotter do nothing if "With Membranes" option is not selected.
 		if(!isSurfaceOptionEnabled) {
@@ -76,8 +76,8 @@ public class SurfacePlotter implements RinearnGraph3DPlottingListener {
 		}
 
 		// Get the series filter, which filters the data series to which this option is applied.
-		boolean existsSeriesFilter = surfaceOptionConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
-		SeriesFilter seriesFilter = existsSeriesFilter ? surfaceOptionConfig.getSeriesFilter() : null;
+		boolean existsSeriesFilter = surfacePlotterConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
+		SeriesFilter seriesFilter = existsSeriesFilter ? surfacePlotterConfig.getSeriesFilter() : null;
 
 		// Plots all data series.
 		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = this.model.dataStore.getCombinedDataSeriesGroup();
