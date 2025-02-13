@@ -91,6 +91,7 @@
 
 ## ちょっと思いつき 20250202, 04, 13
 
+済: 2025/02/13 に改名済み
 * config の OptionConfiguration 、UIとは乖離するけど PlotterConfiguration の方が意味的に適切では？
   Option は曖昧だし、その気持ち悪さはUIでも生じてるけど、UIは所見での分かりやすさ優先でそうなってる。でも、API の config までそれを引き継ぐ必要はないような。
 
