@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.config;
+package com.rinearn.graph3d.config.camera;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.sin;

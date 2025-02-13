@@ -5,9 +5,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.SwingUtilities;
 
-import com.rinearn.graph3d.config.EnvironmentConfiguration;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
+import com.rinearn.graph3d.config.environment.EnvironmentConfiguration;
 import com.rinearn.graph3d.view.SeriesFilterComponents;
 
 

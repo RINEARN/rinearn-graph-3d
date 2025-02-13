@@ -3,7 +3,7 @@ package com.rinearn.graph3d.renderer.simple;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import com.rinearn.graph3d.config.LightConfiguration;
+import com.rinearn.graph3d.config.light.LightConfiguration;
 
 
 /**

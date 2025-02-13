@@ -5,8 +5,8 @@ import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.ScaleSettingWindow;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.view.MultilingualItem;
-import com.rinearn.graph3d.config.FrameConfiguration;
-import com.rinearn.graph3d.config.ScaleConfiguration;
+import com.rinearn.graph3d.config.frame.FrameConfiguration;
+import com.rinearn.graph3d.config.scale.ScaleConfiguration;
 import com.rinearn.graph3d.config.scale.TickLabelFormatterMode;
 import com.rinearn.graph3d.config.scale.TickerMode;
 

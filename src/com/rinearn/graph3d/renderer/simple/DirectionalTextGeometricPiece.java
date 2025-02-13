@@ -1,6 +1,6 @@
 package com.rinearn.graph3d.renderer.simple;
 
-import com.rinearn.graph3d.config.LightConfiguration;
+import com.rinearn.graph3d.config.light.LightConfiguration;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 
 import java.awt.Color;

@@ -1,8 +1,8 @@
 package com.rinearn.graph3d.renderer.simple;
 
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
-import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.range.RangeConfiguration;
 
 import java.awt.Color;
 import java.awt.Font;

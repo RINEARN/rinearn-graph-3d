@@ -1,9 +1,9 @@
 package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.view.View;
+import com.rinearn.graph3d.config.camera.CameraConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
-import com.rinearn.graph3d.config.CameraConfiguration;
 
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;

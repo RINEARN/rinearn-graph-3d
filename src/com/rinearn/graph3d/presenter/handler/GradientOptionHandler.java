@@ -1,13 +1,13 @@
 package com.rinearn.graph3d.presenter.handler;
 
-import com.rinearn.graph3d.config.ColorConfiguration;
-import com.rinearn.graph3d.config.EnvironmentConfiguration;
-import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
+import com.rinearn.graph3d.config.color.ColorConfiguration;
 import com.rinearn.graph3d.config.color.GradientAxis;
 import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
+import com.rinearn.graph3d.config.environment.EnvironmentConfiguration;
+import com.rinearn.graph3d.config.range.RangeConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.GradientOptionWindow;

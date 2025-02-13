@@ -1,10 +1,10 @@
 package com.rinearn.graph3d.presenter.handler;
 
+import com.rinearn.graph3d.config.camera.CameraConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.CameraSettingWindow;
 import com.rinearn.graph3d.view.View;
-import com.rinearn.graph3d.config.CameraConfiguration;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

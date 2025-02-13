@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.config;
+package com.rinearn.graph3d.config.frame;
 
 import java.io.File;
 import java.awt.Image;

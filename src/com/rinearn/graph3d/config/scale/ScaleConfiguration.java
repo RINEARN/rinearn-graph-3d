@@ -1,13 +1,4 @@
-package com.rinearn.graph3d.config;
-
-import com.rinearn.graph3d.config.scale.TickLabelFormatter;
-import com.rinearn.graph3d.config.scale.NumericTickLabelFormatter;
-import com.rinearn.graph3d.config.scale.Ticker;
-import com.rinearn.graph3d.config.scale.TickerMode;
-import com.rinearn.graph3d.config.scale.EqualDivisionTicker;
-import com.rinearn.graph3d.config.scale.ManualTicker;
-import com.rinearn.graph3d.config.scale.TickLabelFormatterMode;
-import com.rinearn.graph3d.config.scale.ScaleVisibilityMode;
+package com.rinearn.graph3d.config.scale;
 
 // !!!!!
 // NOTE

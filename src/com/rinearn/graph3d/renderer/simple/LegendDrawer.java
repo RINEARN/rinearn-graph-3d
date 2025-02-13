@@ -1,13 +1,13 @@
 package com.rinearn.graph3d.renderer.simple;
 
-import com.rinearn.graph3d.config.CameraConfiguration;
-import com.rinearn.graph3d.config.ColorConfiguration;
-import com.rinearn.graph3d.config.DataConfiguration;
-import com.rinearn.graph3d.config.PlotterConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.camera.CameraConfiguration;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
+import com.rinearn.graph3d.config.color.ColorConfiguration;
 import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
+import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
+import com.rinearn.graph3d.config.data.DataConfiguration;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.config.data.SeriesFilter;

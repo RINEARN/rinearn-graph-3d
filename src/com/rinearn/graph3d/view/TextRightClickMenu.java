@@ -3,8 +3,8 @@ package com.rinearn.graph3d.view;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
-import com.rinearn.graph3d.config.FontConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.font.FontConfiguration;
 
 import java.awt.Font;
 import java.lang.reflect.InvocationTargetException;

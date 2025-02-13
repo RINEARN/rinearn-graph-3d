@@ -10,11 +10,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 
-import com.rinearn.graph3d.config.ColorConfiguration;
-import com.rinearn.graph3d.config.FontConfiguration;
-import com.rinearn.graph3d.config.LabelConfiguration;
-import com.rinearn.graph3d.config.PlotterConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.color.ColorConfiguration;
+import com.rinearn.graph3d.config.font.FontConfiguration;
+import com.rinearn.graph3d.config.label.LabelConfiguration;
+import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
 
 
 /**

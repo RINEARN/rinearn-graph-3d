@@ -1,7 +1,4 @@
-package com.rinearn.graph3d.config;
-
-import com.rinearn.graph3d.config.data.SeriesAttribute;
-
+package com.rinearn.graph3d.config.data;
 
 /**
  * The class for storing data-related configuration.

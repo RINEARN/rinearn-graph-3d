@@ -1,6 +1,6 @@
 package com.rinearn.graph3d.presenter.handler;
 
-import com.rinearn.graph3d.config.EnvironmentConfiguration;
+import com.rinearn.graph3d.config.environment.EnvironmentConfiguration;
 import com.rinearn.graph3d.def.ErrorMessage;
 import com.rinearn.graph3d.def.ErrorType;
 

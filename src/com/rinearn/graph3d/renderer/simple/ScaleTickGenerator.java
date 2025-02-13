@@ -2,12 +2,12 @@ package com.rinearn.graph3d.renderer.simple;
 
 import java.math.BigDecimal;
 
-import com.rinearn.graph3d.config.ColorConfiguration;
-import com.rinearn.graph3d.config.RangeConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.config.ScaleConfiguration;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
+import com.rinearn.graph3d.config.color.ColorConfiguration;
 import com.rinearn.graph3d.config.color.GradientColor;
+import com.rinearn.graph3d.config.range.RangeConfiguration;
+import com.rinearn.graph3d.config.scale.ScaleConfiguration;
 
 /**
  * The class to generate scale ticks from configuration,

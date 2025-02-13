@@ -1,6 +1,6 @@
 package com.rinearn.graph3d.presenter.handler;
 
-import com.rinearn.graph3d.config.LabelConfiguration;
+import com.rinearn.graph3d.config.label.LabelConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.View;

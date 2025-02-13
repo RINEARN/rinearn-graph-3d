@@ -1,10 +1,10 @@
 package com.rinearn.graph3d.presenter.handler;
 
+import com.rinearn.graph3d.config.font.FontConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.FontSettingWindow;
 import com.rinearn.graph3d.view.View;
-import com.rinearn.graph3d.config.FontConfiguration;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;

@@ -9,8 +9,8 @@ import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.config.EnvironmentConfiguration;
-import com.rinearn.graph3d.config.CameraConfiguration;
+import com.rinearn.graph3d.config.camera.CameraConfiguration;
+import com.rinearn.graph3d.config.environment.EnvironmentConfiguration;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;

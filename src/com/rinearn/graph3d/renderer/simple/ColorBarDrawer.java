@@ -1,9 +1,9 @@
 package com.rinearn.graph3d.renderer.simple;
 
-import com.rinearn.graph3d.config.ColorConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
+import com.rinearn.graph3d.config.color.ColorConfiguration;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 
 import java.awt.Graphics2D;

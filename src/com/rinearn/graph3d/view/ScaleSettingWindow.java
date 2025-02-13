@@ -1,12 +1,12 @@
 package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.config.FontConfiguration;
-import com.rinearn.graph3d.config.ScaleConfiguration;
-import com.rinearn.graph3d.config.FrameConfiguration;
+import com.rinearn.graph3d.config.font.FontConfiguration;
+import com.rinearn.graph3d.config.frame.FrameConfiguration;
 import com.rinearn.graph3d.config.scale.TickerMode;
 import com.rinearn.graph3d.config.scale.TickLabelFormatterMode;
 import com.rinearn.graph3d.config.scale.NumericTickLabelFormatter;
+import com.rinearn.graph3d.config.scale.ScaleConfiguration;
 import com.rinearn.graph3d.config.scale.ManualTicker;
 import com.rinearn.graph3d.config.scale.EqualDivisionTicker;
 import com.rinearn.graph3d.config.scale.ScaleVisibilityMode;

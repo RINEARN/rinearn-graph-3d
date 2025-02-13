@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.config;
+package com.rinearn.graph3d.config.range;
 
 import java.math.BigDecimal;
 

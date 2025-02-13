@@ -1,6 +1,6 @@
 package com.rinearn.graph3d.presenter.handler;
 
-import com.rinearn.graph3d.config.LightConfiguration;
+import com.rinearn.graph3d.config.light.LightConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.View;

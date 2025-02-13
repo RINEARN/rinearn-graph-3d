@@ -1,8 +1,8 @@
 package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.config.RangeConfiguration;
-import com.rinearn.graph3d.config.FontConfiguration;
+import com.rinearn.graph3d.config.font.FontConfiguration;
+import com.rinearn.graph3d.config.range.RangeConfiguration;
 
 import java.awt.Container;
 import java.awt.Font;

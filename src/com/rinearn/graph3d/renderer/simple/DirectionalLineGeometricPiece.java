@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
-import com.rinearn.graph3d.config.LightConfiguration;
+import com.rinearn.graph3d.config.light.LightConfiguration;
 
 
 /**

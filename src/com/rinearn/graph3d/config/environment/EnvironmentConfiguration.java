@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.config;
+package com.rinearn.graph3d.config.environment;
 
 import java.util.Locale;
 

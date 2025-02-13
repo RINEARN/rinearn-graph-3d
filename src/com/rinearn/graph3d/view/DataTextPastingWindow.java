@@ -1,8 +1,8 @@
 package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.RinearnGraph3DDataFileFormat;
-import com.rinearn.graph3d.config.FontConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.font.FontConfiguration;
 
 import javax.swing.JLabel;
 import javax.swing.JFrame;

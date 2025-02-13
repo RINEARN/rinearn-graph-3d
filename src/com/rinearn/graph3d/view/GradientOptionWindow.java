@@ -2,10 +2,10 @@ package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
+import com.rinearn.graph3d.config.color.ColorConfiguration;
 import com.rinearn.graph3d.config.color.GradientAxis;
 import com.rinearn.graph3d.config.color.GradientColor;
-import com.rinearn.graph3d.config.ColorConfiguration;
-import com.rinearn.graph3d.config.FontConfiguration;
+import com.rinearn.graph3d.config.font.FontConfiguration;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;

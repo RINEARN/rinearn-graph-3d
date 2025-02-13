@@ -1,7 +1,6 @@
 package com.rinearn.graph3d.renderer.simple;
 
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
-import com.rinearn.graph3d.config.ColorConfiguration;
 import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.config.data.SeriesFilter;
@@ -9,6 +8,7 @@ import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.GradientAxis;
 import com.rinearn.graph3d.config.color.ColorBlendMode;
+import com.rinearn.graph3d.config.color.ColorConfiguration;
 
 import java.awt.Color;
 import java.math.BigDecimal;

@@ -1,9 +1,9 @@
 package com.rinearn.graph3d.presenter.handler;
 
-import com.rinearn.graph3d.config.EnvironmentConfiguration;
-import com.rinearn.graph3d.config.PlotterConfiguration;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
+import com.rinearn.graph3d.config.environment.EnvironmentConfiguration;
+import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.LineOptionWindow;

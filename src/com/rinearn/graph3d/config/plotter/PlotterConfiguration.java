@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.config;
+package com.rinearn.graph3d.config.plotter;
 
 import com.rinearn.graph3d.config.data.SeriesFilterHub;
 import com.rinearn.graph3d.config.data.SeriesFilter;
