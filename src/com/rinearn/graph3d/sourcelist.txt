@@ -23,7 +23,14 @@ com/rinearn/graph3d/config/label/AxisLabelConfiguration.java
 com/rinearn/graph3d/config/label/LabelConfiguration.java
 com/rinearn/graph3d/config/label/LegendLabelConfiguration.java
 com/rinearn/graph3d/config/light/LightConfiguration.java
+com/rinearn/graph3d/config/plotter/ContourPlotterConfiguration.java
+com/rinearn/graph3d/config/plotter/LinePlotterConfiguration.java
+com/rinearn/graph3d/config/plotter/MeshPlotterConfiguration.java
 com/rinearn/graph3d/config/plotter/PlotterConfiguration.java
+com/rinearn/graph3d/config/plotter/PointPlotterConfiguration.java
+com/rinearn/graph3d/config/plotter/PointStyleMode.java
+com/rinearn/graph3d/config/plotter/SeriesFilterablePlotterConfiguration.java
+com/rinearn/graph3d/config/plotter/SurfacePlotterConfiguration.java
 com/rinearn/graph3d/config/range/RangeConfiguration.java
 com/rinearn/graph3d/config/RinearnGraph3DConfiguration.java
 com/rinearn/graph3d/config/scale/EqualDivisionTicker.java

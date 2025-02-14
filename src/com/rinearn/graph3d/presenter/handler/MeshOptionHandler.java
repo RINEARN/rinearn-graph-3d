@@ -4,6 +4,7 @@ import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.environment.EnvironmentConfiguration;
 import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.MeshPlotterConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.MeshOptionWindow;
@@ -125,7 +126,7 @@ public final class MeshOptionHandler {
 			}
 			MeshOptionWindow window = view.meshOptionWindow;
 			PlotterConfiguration plotterConfig = model.config.getPlotterConfiguration();
-			PlotterConfiguration.MeshPlotterConfiguration meshPlotterConfig = plotterConfig.getMeshPlotterConfiguration();
+			MeshPlotterConfiguration meshPlotterConfig = plotterConfig.getMeshPlotterConfiguration();
 			EnvironmentConfiguration envConfig = model.config.getEnvironmentConfiguration();
 
 			// Line width:

@@ -4,6 +4,7 @@ import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.environment.EnvironmentConfiguration;
 import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.LinePlotterConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.LineOptionWindow;
@@ -125,7 +126,7 @@ public final class LineOptionHandler {
 			}
 			LineOptionWindow window = view.lineOptionWindow;
 			PlotterConfiguration plotterConfig = model.config.getPlotterConfiguration();
-			PlotterConfiguration.LinePlotterConfiguration lineOptionConfig = plotterConfig.getLinePlotterConfiguration();
+			LinePlotterConfiguration lineOptionConfig = plotterConfig.getLinePlotterConfiguration();
 			EnvironmentConfiguration envConfig = model.config.getEnvironmentConfiguration();
 
 			// Line width:

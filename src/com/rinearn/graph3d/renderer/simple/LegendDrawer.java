@@ -6,11 +6,17 @@ import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.ColorConfiguration;
 import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
-import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
 import com.rinearn.graph3d.config.data.DataConfiguration;
 import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.config.data.SeriesFilter;
+import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.PointPlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.LinePlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.MeshPlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.SurfacePlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.ContourPlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.PointStyleMode;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -174,11 +180,11 @@ public final class LegendDrawer {
 
 		// Get configurations of plot options.
 		PlotterConfiguration optionConfig = this.config.getPlotterConfiguration();
-		PlotterConfiguration.PointPlotterConfiguration pointPlotterConfig = optionConfig.getPointPlotterConfiguration();
-		PlotterConfiguration.LinePlotterConfiguration linePlotterConfig = optionConfig.getLinePlotterConfiguration();
-		PlotterConfiguration.MeshPlotterConfiguration meshPlotterConfig = optionConfig.getMeshPlotterConfiguration();
-		PlotterConfiguration.SurfacePlotterConfiguration surfacePlotterConfig = optionConfig.getSurfacePlotterConfiguration();
-		PlotterConfiguration.ContourPlotterConfiguration contourPlotterConfig = optionConfig.getContourPlotterConfiguration();
+		PointPlotterConfiguration pointPlotterConfig = optionConfig.getPointPlotterConfiguration();
+		LinePlotterConfiguration linePlotterConfig = optionConfig.getLinePlotterConfiguration();
+		MeshPlotterConfiguration meshPlotterConfig = optionConfig.getMeshPlotterConfiguration();
+		SurfacePlotterConfiguration surfacePlotterConfig = optionConfig.getSurfacePlotterConfiguration();
+		ContourPlotterConfiguration contourPlotterConfig = optionConfig.getContourPlotterConfiguration();
 
 		// Get enabled/disabled states for each plot option.
 		boolean pointPlotterEnabled = pointPlotterConfig.isPlotterEnabled();
@@ -466,8 +472,8 @@ public final class LegendDrawer {
 
 		// Extract point/marker settings.
 		PlotterConfiguration plotterConfig = this.config.getPlotterConfiguration();
-		PlotterConfiguration.PointPlotterConfiguration pointPlotterConfig = plotterConfig.getPointPlotterConfiguration();
-		boolean isMarkerEnabled = pointPlotterConfig.getPointStyleMode() == PlotterConfiguration.PointStyleMode.MARKER;
+		PointPlotterConfiguration pointPlotterConfig = plotterConfig.getPointPlotterConfiguration();
+		boolean isMarkerEnabled = pointPlotterConfig.getPointStyleMode() == PointStyleMode.MARKER;
 		String[] markerTexts = pointPlotterConfig.getMarkerTexts();
 
 		// Get font information.

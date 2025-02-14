@@ -3,6 +3,7 @@ package com.rinearn.graph3d.view;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.font.FontConfiguration;
 import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.SurfacePlotterConfiguration;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -204,7 +205,7 @@ public final class SurfaceOptionWindow {
 
 			// Update the series filter UI.
 			PlotterConfiguration plotterConfig = this.configuration.getPlotterConfiguration();
-			PlotterConfiguration.SurfacePlotterConfiguration surfacePlotterConfig = plotterConfig.getSurfacePlotterConfiguration();
+			SurfacePlotterConfiguration surfacePlotterConfig = plotterConfig.getSurfacePlotterConfiguration();
 			seriesFilterComponents.configure(
 					this.configuration, surfacePlotterConfig.getSeriesFilterMode(), surfacePlotterConfig.getIndexSeriesFilter()
 			);

@@ -1,9 +1,5 @@
 package com.rinearn.graph3d.config.plotter;
 
-import com.rinearn.graph3d.config.data.SeriesFilterHub;
-import com.rinearn.graph3d.config.data.SeriesFilter;
-import com.rinearn.graph3d.config.data.SeriesFilterMode;
-import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 
 /*
 [!!!!! NOTE !!!!!]
@@ -66,7 +62,7 @@ public final class PlotterConfiguration {
 	private volatile MeshPlotterConfiguration meshPlotterConfiguration = new MeshPlotterConfiguration();
 
 	/** Stores the configuration of "With Surfaces" option. */
-	private volatile SurfacePlotterConfiguration surfaceOptionConfiguration = new SurfacePlotterConfiguration();
+	private volatile SurfacePlotterConfiguration surfacePlotterConfiguration = new SurfacePlotterConfiguration();
 
 	/** Stores the configuration of "With Contours" option. */
 	private volatile ContourPlotterConfiguration contourPlotterConfiguration = new ContourPlotterConfiguration();
@@ -121,14 +117,14 @@ public final class PlotterConfiguration {
 	 * Sets the configuration of "With Surfaces" option.
 	 */
 	public synchronized void setSurfacePlotterConfiguration(SurfacePlotterConfiguration surfaceOptionConfiguration) {
-		this.surfaceOptionConfiguration = surfaceOptionConfiguration;
+		this.surfacePlotterConfiguration = surfaceOptionConfiguration;
 	}
 
 	/**
 	 * Gets the configuration of "With Surfaces" option.
 	 */
 	public synchronized SurfacePlotterConfiguration getSurfacePlotterConfiguration() {
-		return this.surfaceOptionConfiguration;
+		return this.surfacePlotterConfiguration;
 	}
 
 
@@ -147,344 +143,21 @@ public final class PlotterConfiguration {
 	}
 
 
-	/**
-	 * The base class of *PlotterConfiguration classes supporting the series filter feature.
-	 */
-	private static abstract class SeriesFilterablePlotterConfiguration {
-
-		/** The flag representing whether this option is enabled. */
-		private volatile boolean plotterEnabled = false;
-
-		/** The object which stores multiple kinds of SeriesFilter instances, and provides their setters and getters. */
-		private volatile SeriesFilterHub seriesFilterHub = new SeriesFilterHub();
-
-		/**
-		 * Enable or disable this plotter.
-		 *
-		 * @param optionEnabled Specify true to enable, false to disable.
-		 */
-		public synchronized final void setPlotterEnabled(boolean plotterEnabled) {
-			this.plotterEnabled = plotterEnabled;
-		}
-
-		/**
-		 * Checks whether this plotter is enabled.
-		 *
-		 * @return Returns true if this option is enabled.
-		 */
-		public synchronized final boolean isPlotterEnabled() {
-			return this.plotterEnabled;
-		}
-
-		/**
-		 * Sets the mode of the series filter.
-		 *
-		 * @param seriesFilterMode the mode of the series filter.
-		 */
-		public synchronized void setSeriesFilterMode(SeriesFilterMode seriesFilterMode) {
-			this.seriesFilterHub.setSeriesFilterMode(seriesFilterMode);
-		}
-
-		/**
-		 * Gets the mode of the series filter.
-		 *
-		 * @param seriesFilterMode the mode of the series filter.
-		 */
-		public synchronized SeriesFilterMode getSeriesFilterMode() {
-			return this.seriesFilterHub.getSeriesFilterMode();
-		}
-
-		/**
-		 * Gets the series filter corresponding to the current mode.
-		 *
-		 * @return The series filter corresponding to the current mode.
-		 */
-		public synchronized SeriesFilter getSeriesFilter() {
-			return this.seriesFilterHub.getSeriesFilter();
-		}
-
-		/**
-		 * Sets the index-based series filter, used in INDEX mode.
-		 *
-		 * @param indexSeriesFilter The index-based series filter, used in INDEX mode.
-		 */
-		public synchronized void setIndexSeriesFilter(IndexSeriesFilter indexSeriesFilter) {
-			this.seriesFilterHub.setIndexSeriesFilter(indexSeriesFilter);
-		}
-
-		/**
-		 * Gets the index-based series filter, used in INDEX mode.
-		 *
-		 * @return The index-based series filter, used in INDEX mode.
-		 */
-		public synchronized IndexSeriesFilter getIndexSeriesFilter() {
-			return this.seriesFilterHub.getIndexSeriesFilter();
-		}
-
-		/**
-		 * Sets the custom implementation of a filter, used in CUSTOM mode.
-		 *
-		 * @param customSeriesFilter The custom implementation of a  series filter, used in CUSTOM mode.
-		 */
-		public synchronized void setCustomSeriesFilter(SeriesFilter customSeriesFilter) {
-			this.seriesFilterHub.setCustomSeriesFilter(customSeriesFilter);
-		}
-
-		/**
-		 * Gets the custom implementation of a filter, used in CUSTOM mode.
-		 *
-		 * @return The custom implementation of a  series filter, used in CUSTOM mode.
-		 */
-		public synchronized SeriesFilter getCustomSeriesFilter() {
-			return this.seriesFilterHub.getCustomSeriesFilter();
-		}
-	}
-
-
-	/** The enum representing each style mode of "With Points" option. */
-	public enum PointStyleMode {
-
-		/** Draws coordinate points by circles. */
-		CIRCLE,
-
-		/** Draws coordinate points by markers. */
-		MARKER;
-	}
 
 	/**
-	 * The class storing configuration values of "With Points" option.
+	 * Validates correctness and consistency of configuration parameters stored in this instance.
+	 *
+	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
+	 * If no issue is detected, nothing occurs.
+	 * If any issue is detected, throws IllegalStateException.
+	 *
+	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public static final class PointPlotterConfiguration extends SeriesFilterablePlotterConfiguration {
-
-		/** The style mode for drawing points. */
-		private volatile PointStyleMode pointStyleMode = PointStyleMode.CIRCLE;
-
-		/** The radius (in pixels) of points in CIRCLE mode. */
-		private volatile double circleRadius = 2.0;
-
-		/** The font size of markers in MARKER mode. */
-		private volatile double markerSize = 10.0;
-
-		/** The ratio to correct the vartical position of markers. */
-		private volatile double markerVerticalOffsetRatio = 0.2;
-
-		/** The texts (of the symbols) of the markers. */
-		private volatile String[] markerTexts = { "●", "■", "▲", "▼", "〇", "□", "△", "▽", "◇", "×" };
-
-		/** The flag to whether draw markers in bold fonts. */
-		private volatile boolean markerBold = false;
-
-		/**
-		 * Creates a new instance.
-		 */
-		public PointPlotterConfiguration() {
-			super.setPlotterEnabled(true);
-		}
-
-		/**
-		 * Sets the style mode for drawing points.
-		 *
-		 * @param pointStyleMode The style mode for drawing points.
-		 */
-		public synchronized void setPointStyleMode(PointStyleMode pointStyleMode) {
-			this.pointStyleMode = pointStyleMode;
-		}
-
-		/**
-		 * Gets the style mode for drawing points.
-		 *
-		 * @return The style mode for drawing points.
-		 */
-		public synchronized PointStyleMode getPointStyleMode() {
-			return this.pointStyleMode;
-		}
-
-		/**
-		 * Sets the radius (in pixels) of points in CIRCLE mode.
-		 *
-		 * @param pointRadius The radius (in pixels) of points plotted by this option.
-		 */
-		public synchronized void setCircleRadius(double circleRadius) {
-			this.circleRadius = circleRadius;
-		}
-
-		/**
-		 * Gets the radius (in pixels) of points in CIRCLE mode.
-		 *
-		 * @return The radius (in pixels) of points plotted by this option.
-		 */
-		public synchronized double getCircleRadius() {
-			return this.circleRadius;
-		}
-
-		/**
-		 * Sets the font size of markers.
-		 *
-		 * @param markerSize The font size of markers.
-		 */
-		public synchronized void setMarkerSize(double markerSize) {
-			this.markerSize = markerSize;
-		}
-
-		/**
-		 * Gets the radius (in pixels) of points plotted by this option.
-		 *
-		 * @return The font size of markers.
-		 */
-		public synchronized double getMarkerSize() {
-			return this.markerSize;
-		}
-
-		/**
-		 * Sets the ratio to correct the vartical position of markers.
-		 *
-		 * @param markerVerticalOffsetRatio The ratio to correct the vartical position of markers.
-		 */
-		public void setMarkerVerticalOffsetRatio(double markerVerticalOffsetRatio) {
-			this.markerVerticalOffsetRatio = markerVerticalOffsetRatio;
-		}
-
-		/**
-		 * Gets the ratio to correct the vartical position of markers.
-		 *
-		 * @return markerVerticalOffsetRatio The ratio to correct the vartical position of markers.
-		 */
-		public double getMarkerVerticalOffsetRatio() {
-			return this.markerVerticalOffsetRatio;
-		}
-
-		/**
-		 * Sets the texts (of the symbols) of the markers.
-		 *
-		 * @param markerTexts The texts (of the symbols) of the markers.
-		 */
-		public void setMarkerTexts(String[] markerTexts) {
-			this.markerTexts = markerTexts;
-		}
-
-		/**
-		 * Gets the texts (of the symbols) of the markers.
-		 *
-		 * @return The texts (of the symbols) of the markers.
-		 */
-		public String[] getMarkerTexts() {
-			return this.markerTexts;
-		}
-
-		/**
-		 * Sets the flag to whether draw markers in bold fonts.
-		 *
-		 * @param markerBold The flag to whether draw markers in bold fonts.
-		 */
-		public void setMarkerBold(boolean markerBold) {
-			this.markerBold = markerBold;
-		}
-
-		/**
-		 * Gets the flag to whether draw markers in bold fonts.
-		 *
-		 * @return The flag to whether draw markers in bold fonts.
-		 */
-		public boolean isMarkerBold() {
-			return this.markerBold;
-		}
-	}
-
-
-	/**
-	 * The class storing configuration values of "With Lines" option.
-	 */
-	public static final class LinePlotterConfiguration extends SeriesFilterablePlotterConfiguration {
-
-		/** The width (in pixels) of lines plotted by this option. */
-		private volatile double lineWidth = 1.0;
-
-		/**
-		 * Creates a new instance.
-		 */
-		public LinePlotterConfiguration() {
-			super.setPlotterEnabled(false);
-		}
-
-		/**
-		 * Sets the width (in pixels) of lines plotted by this option.
-		 *
-		 * @param lineWidth The width (in pixels) of lines plotted by this option.
-		 */
-		public synchronized void setLineWidth(double lineWidth) {
-			this.lineWidth = lineWidth;
-		}
-
-		/**
-		 * Gets the width (in pixels) of lines plotted by this option.
-		 *
-		 * @return The width (in pixels) of lines plotted by this option.
-		 */
-		public synchronized double getLineWidth() {
-			return this.lineWidth;
-		}
-	}
-
-
-	/**
-	 * The class storing configuration values of "With Meshes" option.
-	 */
-	public static final class MeshPlotterConfiguration extends SeriesFilterablePlotterConfiguration {
-
-		/** The width (in pixels) of lines composing meshes plotted by this option. */
-		private volatile double lineWidth = 1.0;
-
-		/**
-		 * Creates a new instance.
-		 */
-		public MeshPlotterConfiguration() {
-			super.setPlotterEnabled(false);
-		}
-
-		/**
-		 * Sets the width (in pixels) of lines composing meshes plotted by this option.
-		 *
-		 * @param lineWidth The width (in pixels) of lines.
-		 */
-		public synchronized void setLineWidth(double lineWidth) {
-			this.lineWidth = lineWidth;
-		}
-
-		/**
-		 * Gets the width (in pixels) of lines composing meshes plotted by this option.
-		 *
-		 * @return The width (in pixels) of lines.
-		 */
-		public synchronized double getLineWidth() {
-			return this.lineWidth;
-		}
-	}
-
-
-	/**
-	 * The class storing configuration values of "With Surfaces" option.
-	 */
-	public static final class SurfacePlotterConfiguration extends SeriesFilterablePlotterConfiguration {
-
-		/**
-		 * Creates a new instance.
-		 */
-		public SurfacePlotterConfiguration() {
-			super.setPlotterEnabled(false);
-		}
-	}
-
-
-	/**
-	 * The class storing configuration values of "With Contours" option.
-	 */
-	public static final class ContourPlotterConfiguration extends SeriesFilterablePlotterConfiguration {
-
-		/**
-		 * Creates a new instance.
-		 */
-		public ContourPlotterConfiguration() {
-			super.setPlotterEnabled(false);
-		}
+	public synchronized void validate() throws IllegalStateException {
+		this.pointPlotterConfiguration.validate();
+		this.linePlotterConfiguration.validate();
+		this.meshPlotterConfiguration.validate();
+		this.surfacePlotterConfiguration.validate();
+		this.contourPlotterConfiguration.validate();
 	}
 }

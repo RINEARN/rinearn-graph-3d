@@ -3,6 +3,7 @@ package com.rinearn.graph3d.view;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.font.FontConfiguration;
 import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.MeshPlotterConfiguration;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -254,7 +255,7 @@ public final class MeshOptionWindow {
 
 			// Update the series filter UI.
 			PlotterConfiguration plotterConfig = this.configuration.getPlotterConfiguration();
-			PlotterConfiguration.MeshPlotterConfiguration meshPlotterConfig = plotterConfig.getMeshPlotterConfiguration();
+			MeshPlotterConfiguration meshPlotterConfig = plotterConfig.getMeshPlotterConfiguration();
 			seriesFilterComponents.configure(
 					this.configuration, meshPlotterConfig.getSeriesFilterMode(), meshPlotterConfig.getIndexSeriesFilter()
 			);
@@ -298,7 +299,7 @@ public final class MeshOptionWindow {
 		 */
 		private void updateValuesByConfiguration() {
 			PlotterConfiguration plotterConfig = this.configuration.getPlotterConfiguration();
-			PlotterConfiguration.MeshPlotterConfiguration meshPlotterConfig = plotterConfig.getMeshPlotterConfiguration();
+			MeshPlotterConfiguration meshPlotterConfig = plotterConfig.getMeshPlotterConfiguration();
 			DecimalFormat formatter = new DecimalFormat("#0.0#####");
 
 			lineWidthField.setText(formatter.format(meshPlotterConfig.getLineWidth()));

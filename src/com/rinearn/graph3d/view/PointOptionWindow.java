@@ -3,6 +3,8 @@ package com.rinearn.graph3d.view;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.font.FontConfiguration;
 import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.PointPlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.PointStyleMode;
 
 import javax.swing.JPanel;
 import javax.swing.JFrame;
@@ -566,7 +568,7 @@ public final class PointOptionWindow {
 
 			// Update the series filter UI.
 			PlotterConfiguration plotterConfig = this.configuration.getPlotterConfiguration();
-			PlotterConfiguration.PointPlotterConfiguration pointPlotterConfig = plotterConfig.getPointPlotterConfiguration();
+			PointPlotterConfiguration pointPlotterConfig = plotterConfig.getPointPlotterConfiguration();
 			seriesFilterComponents.configure(
 					this.configuration, pointPlotterConfig.getSeriesFilterMode(), pointPlotterConfig.getIndexSeriesFilter()
 			);
@@ -656,7 +658,7 @@ public final class PointOptionWindow {
 		 */
 		private void updateValuesByConfiguration() {
 			PlotterConfiguration plotterConfig = this.configuration.getPlotterConfiguration();
-			PlotterConfiguration.PointPlotterConfiguration pointPlotterConfig = plotterConfig.getPointPlotterConfiguration();
+			PointPlotterConfiguration pointPlotterConfig = plotterConfig.getPointPlotterConfiguration();
 			DecimalFormat formatter = new DecimalFormat("#0.0#####");
 
 			setSelectedPointStyleMode(pointPlotterConfig.getPointStyleMode());
@@ -705,7 +707,7 @@ public final class PointOptionWindow {
 	 *
 	 * @return The ShapeMode enum element corresponding to the selected item of styleModeBox.
 	 */
-	public PlotterConfiguration.PointStyleMode getSelectedPointStyleMode() {
+	public PointStyleMode getSelectedPointStyleMode() {
 		if (!SwingUtilities.isEventDispatchThread()) {
 			throw new IllegalStateException("This method is invokable only on the event-dispatch thread.");
 		}
@@ -713,11 +715,11 @@ public final class PointOptionWindow {
 		switch (selectedItemText) {
 			case POINT_STYLE_MODE_CIRCLE_EN:
 			case POINT_STYLE_MODE_CIRCLE_JA: {
-				return PlotterConfiguration.PointStyleMode.CIRCLE;
+				return PointStyleMode.CIRCLE;
 			}
 			case POINT_STYLE_MODE_MARKER_EN:
 			case POINT_STYLE_MODE_MARKER_JA: {
-				return PlotterConfiguration.PointStyleMode.MARKER;
+				return PointStyleMode.MARKER;
 			}
 			default: {
 				throw new IllegalStateException("Unexpected point style mode: " + selectedItemText);
@@ -731,7 +733,7 @@ public final class PointOptionWindow {
 	 *
 	 * @return The ShapeMode enum element corresponding to the selected item of styleModeBox to be selected.
 	 */
-	public void setSelectedPointStyleMode(PlotterConfiguration.PointStyleMode mode) {
+	public void setSelectedPointStyleMode(PointStyleMode mode) {
 		if (!SwingUtilities.isEventDispatchThread()) {
 			throw new IllegalStateException("This method is invokable only on the event-dispatch thread.");
 		}

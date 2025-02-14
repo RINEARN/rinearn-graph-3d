@@ -14,6 +14,7 @@ import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.config.data.SeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.SurfacePlotterConfiguration;
 
 
 /**
@@ -67,7 +68,7 @@ public class SurfacePlotter implements RinearnGraph3DPlottingListener {
 		// Get the configuration of "With Membranes" option.
 		RinearnGraph3DConfiguration config = this.model.config;
 		PlotterConfiguration plotterConfig = config.getPlotterConfiguration();
-		PlotterConfiguration.SurfacePlotterConfiguration surfacePlotterConfig = plotterConfig.getSurfacePlotterConfiguration();
+		SurfacePlotterConfiguration surfacePlotterConfig = plotterConfig.getSurfacePlotterConfiguration();
 		boolean isSurfaceOptionEnabled = surfacePlotterConfig.isPlotterEnabled();
 
 		// This plotter do nothing if "With Membranes" option is not selected.

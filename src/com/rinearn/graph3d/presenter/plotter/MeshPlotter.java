@@ -14,6 +14,7 @@ import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.config.data.SeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.MeshPlotterConfiguration;
 
 
 /**
@@ -67,7 +68,7 @@ public class MeshPlotter implements RinearnGraph3DPlottingListener {
 		// Get the configuration of "With Membranes" option.
 		RinearnGraph3DConfiguration config = this.model.config;
 		PlotterConfiguration plotterConfig = config.getPlotterConfiguration();
-		PlotterConfiguration.MeshPlotterConfiguration meshPlotterConfig = plotterConfig.getMeshPlotterConfiguration();
+		MeshPlotterConfiguration meshPlotterConfig = plotterConfig.getMeshPlotterConfiguration();
 		double lineWidth = meshPlotterConfig.getLineWidth();
 		boolean isMeshOptionEnabled = meshPlotterConfig.isPlotterEnabled();
 

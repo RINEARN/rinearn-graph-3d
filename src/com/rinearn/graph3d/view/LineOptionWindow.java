@@ -3,6 +3,7 @@ package com.rinearn.graph3d.view;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.font.FontConfiguration;
 import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.LinePlotterConfiguration;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -254,7 +255,7 @@ public final class LineOptionWindow {
 
 			// Update the series filter UI.
 			PlotterConfiguration plotterConfig = this.configuration.getPlotterConfiguration();
-			PlotterConfiguration.LinePlotterConfiguration linePlotterConfig = plotterConfig.getLinePlotterConfiguration();
+			LinePlotterConfiguration linePlotterConfig = plotterConfig.getLinePlotterConfiguration();
 			seriesFilterComponents.configure(
 					this.configuration, linePlotterConfig.getSeriesFilterMode(), linePlotterConfig.getIndexSeriesFilter()
 			);
@@ -298,7 +299,7 @@ public final class LineOptionWindow {
 		 */
 		private void updateValuesByConfiguration() {
 			PlotterConfiguration plotterConfig = this.configuration.getPlotterConfiguration();
-			PlotterConfiguration.LinePlotterConfiguration linePlotterConfig = plotterConfig.getLinePlotterConfiguration();
+			LinePlotterConfiguration linePlotterConfig = plotterConfig.getLinePlotterConfiguration();
 			DecimalFormat formatter = new DecimalFormat("#0.0#####");
 
 			lineWidthField.setText(formatter.format(linePlotterConfig.getLineWidth()));

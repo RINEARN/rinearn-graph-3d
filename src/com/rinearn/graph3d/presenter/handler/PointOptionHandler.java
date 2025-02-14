@@ -4,7 +4,8 @@ import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.environment.EnvironmentConfiguration;
 import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
-import com.rinearn.graph3d.config.plotter.PlotterConfiguration.PointStyleMode;
+import com.rinearn.graph3d.config.plotter.PointPlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.PointStyleMode;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.PointOptionWindow;
@@ -145,7 +146,7 @@ public final class PointOptionHandler {
 			}
 			PointOptionWindow window = view.pointOptionWindow;
 			PlotterConfiguration plotterConfig = model.config.getPlotterConfiguration();
-			PlotterConfiguration.PointPlotterConfiguration pointPlotterConfig = plotterConfig.getPointPlotterConfiguration();
+			PointPlotterConfiguration pointPlotterConfig = plotterConfig.getPointPlotterConfiguration();
 			EnvironmentConfiguration envConfig = model.config.getEnvironmentConfiguration();
 			boolean isJapanese = envConfig.isLocaleJapanese();
 
@@ -229,7 +230,7 @@ public final class PointOptionHandler {
 				return;
 			}
 			PointOptionWindow window = view.pointOptionWindow;
-			PlotterConfiguration.PointStyleMode pointStyleMode = window.getSelectedPointStyleMode();
+			PointStyleMode pointStyleMode = window.getSelectedPointStyleMode();
 			window.setSelectedPointStyleMode(pointStyleMode);
 		}
 	}

@@ -14,6 +14,7 @@ import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.config.data.SeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.PointPlotterConfiguration;
 
 
 /**
@@ -67,7 +68,7 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 		// Get the configuration of "With Points" option.
 		RinearnGraph3DConfiguration config = this.model.config;
 		PlotterConfiguration plotterConfig = config.getPlotterConfiguration();
-		PlotterConfiguration.PointPlotterConfiguration pointPlotterConfig = plotterConfig.getPointPlotterConfiguration();
+		PointPlotterConfiguration pointPlotterConfig = plotterConfig.getPointPlotterConfiguration();
 		double pointRadius = pointPlotterConfig.getCircleRadius();
 		boolean isPointOptionEnabled = pointPlotterConfig.isPlotterEnabled();
 

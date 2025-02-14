@@ -13,6 +13,7 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.data.SeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
+import com.rinearn.graph3d.config.plotter.LinePlotterConfiguration;
 import com.rinearn.graph3d.config.data.SeriesAttribute;
 
 
@@ -67,7 +68,7 @@ public class LinePlotter implements RinearnGraph3DPlottingListener {
 		// Get the configuration of "With Lines" option.
 		RinearnGraph3DConfiguration config = this.model.config;
 		PlotterConfiguration plotterConfig = config.getPlotterConfiguration();
-		PlotterConfiguration.LinePlotterConfiguration linePlotterConfig = plotterConfig.getLinePlotterConfiguration();
+		LinePlotterConfiguration linePlotterConfig = plotterConfig.getLinePlotterConfiguration();
 		double lineWidth = linePlotterConfig.getLineWidth();
 		boolean isLineOptionEnabled = linePlotterConfig.isPlotterEnabled();
 
