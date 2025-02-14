@@ -34,6 +34,7 @@ com/rinearn/graph3d/config/plotter/SurfacePlotterConfiguration.java
 com/rinearn/graph3d/config/range/AxisRangeConfiguration.java
 com/rinearn/graph3d/config/range/RangeConfiguration.java
 com/rinearn/graph3d/config/RinearnGraph3DConfiguration.java
+com/rinearn/graph3d/config/scale/AxisScaleConfiguration.java
 com/rinearn/graph3d/config/scale/EqualDivisionTicker.java
 com/rinearn/graph3d/config/scale/ManualTicker.java
 com/rinearn/graph3d/config/scale/NumericTickLabelFormatter.java

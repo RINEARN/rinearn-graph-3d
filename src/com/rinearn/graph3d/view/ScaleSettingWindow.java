@@ -9,6 +9,7 @@ import com.rinearn.graph3d.config.scale.TickerMode;
 import com.rinearn.graph3d.config.scale.TickLabelFormatterMode;
 import com.rinearn.graph3d.config.scale.NumericTickLabelFormatter;
 import com.rinearn.graph3d.config.scale.ScaleConfiguration;
+import com.rinearn.graph3d.config.scale.AxisScaleConfiguration;
 import com.rinearn.graph3d.config.scale.ManualTicker;
 import com.rinearn.graph3d.config.scale.EqualDivisionTicker;
 import com.rinearn.graph3d.config.scale.ScaleVisibilityMode;
@@ -1400,10 +1401,10 @@ public class ScaleSettingWindow {
 		private void updateValuesByConfiguration() {
 			ScaleConfiguration scaleConfig = this.configuration.getScaleConfiguration();
 			FrameConfiguration frameConfig = this.configuration.getFrameConfiguration();
-			ScaleConfiguration.AxisScaleConfiguration xScaleConfig = scaleConfig.getXScaleConfiguration();
-			ScaleConfiguration.AxisScaleConfiguration yScaleConfig = scaleConfig.getYScaleConfiguration();
-			ScaleConfiguration.AxisScaleConfiguration zScaleConfig = scaleConfig.getZScaleConfiguration();
-			ScaleConfiguration.AxisScaleConfiguration cScaleConfig = scaleConfig.getColorBarScaleConfiguration();
+			AxisScaleConfiguration xScaleConfig = scaleConfig.getXScaleConfiguration();
+			AxisScaleConfiguration yScaleConfig = scaleConfig.getYScaleConfiguration();
+			AxisScaleConfiguration zScaleConfig = scaleConfig.getZScaleConfiguration();
+			AxisScaleConfiguration cScaleConfig = scaleConfig.getColorBarScaleConfiguration();
 
 			// "Design" tab:
 			{

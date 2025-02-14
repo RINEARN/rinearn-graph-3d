@@ -1,14 +1,16 @@
 package com.rinearn.graph3d.renderer.simple;
 
-import java.math.BigDecimal;
-
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.ColorConfiguration;
 import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.scale.ScaleConfiguration;
+import com.rinearn.graph3d.config.scale.AxisScaleConfiguration;
 import com.rinearn.graph3d.config.range.RangeConfiguration;
 import com.rinearn.graph3d.config.range.AxisRangeConfiguration;
+
+import java.math.BigDecimal;
+
 
 /**
  * The class to generate scale ticks from configuration,
@@ -66,10 +68,10 @@ public final class ScaleTickGenerator {
 		// RangeConfiguration.AxisRangeConfiguration cRangeConfig = zRangeConfig; // Temporary
 
 		ScaleConfiguration scaleConfig = config.getScaleConfiguration();
-		ScaleConfiguration.AxisScaleConfiguration xScaleConfig = scaleConfig.getXScaleConfiguration();
-		ScaleConfiguration.AxisScaleConfiguration yScaleConfig = scaleConfig.getYScaleConfiguration();
-		ScaleConfiguration.AxisScaleConfiguration zScaleConfig = scaleConfig.getZScaleConfiguration();
-		ScaleConfiguration.AxisScaleConfiguration cScaleConfig = scaleConfig.getColorBarScaleConfiguration();
+		AxisScaleConfiguration xScaleConfig = scaleConfig.getXScaleConfiguration();
+		AxisScaleConfiguration yScaleConfig = scaleConfig.getYScaleConfiguration();
+		AxisScaleConfiguration zScaleConfig = scaleConfig.getZScaleConfiguration();
+		AxisScaleConfiguration cScaleConfig = scaleConfig.getColorBarScaleConfiguration();
 
 		// Extract an axis's gradient color.
 		ColorConfiguration colorConfig = config.getColorConfiguration();

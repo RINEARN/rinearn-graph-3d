@@ -8,6 +8,7 @@ import com.rinearn.graph3d.view.MultilingualItem;
 import com.rinearn.graph3d.config.frame.FrameConfiguration;
 import com.rinearn.graph3d.config.frame.FrameShapeMode;
 import com.rinearn.graph3d.config.scale.ScaleConfiguration;
+import com.rinearn.graph3d.config.scale.AxisScaleConfiguration;
 import com.rinearn.graph3d.config.scale.TickLabelFormatterMode;
 import com.rinearn.graph3d.config.scale.TickerMode;
 
@@ -167,10 +168,10 @@ public class ScaleSettingHandler {
 			// Get the configuration containers.
 			ScaleConfiguration scaleConfig = model.config.getScaleConfiguration();
 			FrameConfiguration frameConfig = model.config.getFrameConfiguration();
-			ScaleConfiguration.AxisScaleConfiguration xScaleConfig = scaleConfig.getXScaleConfiguration();
-			ScaleConfiguration.AxisScaleConfiguration yScaleConfig = scaleConfig.getYScaleConfiguration();
-			ScaleConfiguration.AxisScaleConfiguration zScaleConfig = scaleConfig.getZScaleConfiguration();
-			ScaleConfiguration.AxisScaleConfiguration cScaleConfig = scaleConfig.getColorBarScaleConfiguration();
+			AxisScaleConfiguration xScaleConfig = scaleConfig.getXScaleConfiguration();
+			AxisScaleConfiguration yScaleConfig = scaleConfig.getYScaleConfiguration();
+			AxisScaleConfiguration zScaleConfig = scaleConfig.getZScaleConfiguration();
+			AxisScaleConfiguration cScaleConfig = scaleConfig.getColorBarScaleConfiguration();
 
 			// Get the inputteds, and store them into the configuration containers.
 			ScaleSettingWindow window = view.scaleSettingWindow;
@@ -932,8 +933,7 @@ public class ScaleSettingHandler {
 
 		@Override
 		public void run() {
-			ScaleConfiguration.AxisScaleConfiguration xScaleConfig
-					= model.config.getScaleConfiguration().getXScaleConfiguration();
+			AxisScaleConfiguration xScaleConfig = model.config.getScaleConfiguration().getXScaleConfiguration();
 
 			xScaleConfig.setTickerMode(TickerMode.MANUAL);
 			xScaleConfig.getManualTicker().setTickCoordinates(tickCoordinates);
@@ -991,8 +991,7 @@ public class ScaleSettingHandler {
 
 		@Override
 		public void run() {
-			ScaleConfiguration.AxisScaleConfiguration yScaleConfig
-					= model.config.getScaleConfiguration().getYScaleConfiguration();
+			AxisScaleConfiguration yScaleConfig = model.config.getScaleConfiguration().getYScaleConfiguration();
 
 			yScaleConfig.setTickerMode(TickerMode.MANUAL);
 			yScaleConfig.getManualTicker().setTickCoordinates(tickCoordinates);
@@ -1050,8 +1049,7 @@ public class ScaleSettingHandler {
 
 		@Override
 		public void run() {
-			ScaleConfiguration.AxisScaleConfiguration zScaleConfig
-					= model.config.getScaleConfiguration().getZScaleConfiguration();
+			AxisScaleConfiguration zScaleConfig = model.config.getScaleConfiguration().getZScaleConfiguration();
 
 			zScaleConfig.setTickerMode(TickerMode.MANUAL);
 			zScaleConfig.getManualTicker().setTickCoordinates(tickCoordinates);
