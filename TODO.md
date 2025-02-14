@@ -231,6 +231,11 @@
            なら確かに描画エンジンでは本体と独立にモード切替えできる必要があるな。
 
 
+## 気付いた事（対応が必用な事）
+
+* CameraConfig に validate() 実装してない。LightConfiguration も。
+* FrameConfig を内部クラス分離してない
+
 ## 済か？ でもまだ新たに浮上はしそう） ネイティブ的に変な命名を直す（旧名も互換を保ちつつ）
 
 * 済: ルートAPIの set~AutoRangingEnabled 系は明らかに変っぽいから set~AutoRangeEnabled にする
