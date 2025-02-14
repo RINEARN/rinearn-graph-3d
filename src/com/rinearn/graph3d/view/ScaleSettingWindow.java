@@ -3,6 +3,8 @@ package com.rinearn.graph3d.view;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.font.FontConfiguration;
 import com.rinearn.graph3d.config.frame.FrameConfiguration;
+import com.rinearn.graph3d.config.frame.FrameShapeMode;
+import com.rinearn.graph3d.config.frame.FrameImageDirectionMode;
 import com.rinearn.graph3d.config.scale.TickerMode;
 import com.rinearn.graph3d.config.scale.TickLabelFormatterMode;
 import com.rinearn.graph3d.config.scale.NumericTickLabelFormatter;
@@ -191,7 +193,7 @@ public class ScaleSettingWindow {
 		 *
 		 * @return The ShapeMode enum element corresponding to the selected item of frameShapeModeBox.
 		 */
-		public FrameConfiguration.ShapeMode getSelectedFrameShapeMode() {
+		public FrameShapeMode getSelectedFrameShapeMode() {
 			if (!SwingUtilities.isEventDispatchThread()) {
 				throw new IllegalStateException("This method is invokable only on the event-dispatch thread.");
 			}
@@ -199,19 +201,19 @@ public class ScaleSettingWindow {
 			switch (selectedItemText) {
 				case SHAPE_MODE_BOX_EN :
 				case SHAPE_MODE_BOX_JA : {
-					return FrameConfiguration.ShapeMode.BOX;
+					return FrameShapeMode.BOX;
 				}
 				case SHAPE_MODE_BACKWALL_EN :
 				case SHAPE_MODE_BACKWALL_JA : {
-					return FrameConfiguration.ShapeMode.BACKWALL;
+					return FrameShapeMode.BACKWALL;
 				}
 				case SHAPE_MODE_FLOOR_EN :
 				case SHAPE_MODE_FLOOR_JA : {
-					return FrameConfiguration.ShapeMode.FLOOR;
+					return FrameShapeMode.FLOOR;
 				}
 				case SHAPE_MODE_NONE_EN :
 				case SHAPE_MODE_NONE_JA : {
-					return FrameConfiguration.ShapeMode.NONE;
+					return FrameShapeMode.NONE;
 				}
 				default : {
 					throw new IllegalStateException("Unexpected frame shape mode: " + selectedItemText);
@@ -1731,7 +1733,7 @@ public class ScaleSettingWindow {
 				imagesTabItems.zxLowerPlaneItems.imageHeightField.setText(Integer.toString(zxLowerFrameConfig.getImageResolutionConversionHeight()));
 				imagesTabItems.zxUpperPlaneItems.imageHeightField.setText(Integer.toString(zxUpperFrameConfig.getImageResolutionConversionHeight()));
 
-				imagesTabItems.insideBox.setSelected(frameConfig.getImageDirectionMode() == FrameConfiguration.ImageDirectionMode.INSIDE);
+				imagesTabItems.insideBox.setSelected(frameConfig.getImageDirectionMode() == FrameImageDirectionMode.INSIDE);
 			}
 		}
 

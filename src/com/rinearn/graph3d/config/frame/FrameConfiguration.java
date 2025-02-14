@@ -21,39 +21,6 @@ import java.awt.Image;
  */
 public final class FrameConfiguration {
 
-	/**
-	 * The enum representing each shape mode of the graph frame.
-	 */
-	public static enum ShapeMode {
-
-		/** Represents the mode drawing no frame. */
-		NONE,
-
-		/** Represents the mode drawing a standard box-type frame. */
-		BOX,
-
-		/** Represents the mode drawing only backwalls (inside) of a box-type frame. */
-		BACKWALL,
-
-		/** Represents the mode drawing only the floor. */
-		FLOOR;
-	}
-
-	/**
-	 * The enum representing each direction mode of images displayed on the graph frame.
-	 */
-	public static enum ImageDirectionMode {
-
-		/** Representing the mode drawing images only on the inside of the graph frame. */
-		INSIDE,
-
-		/** Representing the mode drawing images only on the outside of the graph frame. */
-		OUTSIDE,
-
-		/** Representing the mode drawing images on both the inside and outside of the graph frame. */
-		BOTH;
-	}
-
 
 	/**
 	 * Creates new configuration storing default values.
@@ -63,10 +30,10 @@ public final class FrameConfiguration {
 
 
 	/** Stores the shape mode of the graph frame. */
-	private volatile ShapeMode shapeMode = ShapeMode.BOX;
+	private volatile FrameShapeMode shapeMode = FrameShapeMode.BOX;
 
 	/** Stores the direction mode of images displayed on the graph frame. */
-	private volatile ImageDirectionMode imageDirectionMode = ImageDirectionMode.INSIDE;
+	private volatile FrameImageDirectionMode imageDirectionMode = FrameImageDirectionMode.INSIDE;
 
 	/** The width of the frame lines. */
 	private volatile double lineWidth = 1.0;
@@ -95,7 +62,7 @@ public final class FrameConfiguration {
 	 *
 	 * @param shapeMode The shape mode of the graph frame.
 	 */
-	public synchronized void setShapeMode(ShapeMode frameMode) {
+	public synchronized void setShapeMode(FrameShapeMode frameMode) {
 		this.shapeMode = frameMode;
 	}
 
@@ -104,7 +71,7 @@ public final class FrameConfiguration {
 	 *
 	 * @return The shape mode of the graph frame.
 	 */
-	public synchronized ShapeMode getShapeMode() {
+	public synchronized FrameShapeMode getShapeMode() {
 		return this.shapeMode;
 	}
 
@@ -114,7 +81,7 @@ public final class FrameConfiguration {
 	 *
 	 * @param shapeMode The direction mode of the images.
 	 */
-	public synchronized void setImageDirectionMode(ImageDirectionMode imageDirectionMode) {
+	public synchronized void setImageDirectionMode(FrameImageDirectionMode imageDirectionMode) {
 		this.imageDirectionMode = imageDirectionMode;
 	}
 
@@ -123,7 +90,7 @@ public final class FrameConfiguration {
 	 *
 	 * @return The direction mode of the images.
 	 */
-	public synchronized ImageDirectionMode getImageDirectionMode() {
+	public synchronized FrameImageDirectionMode getImageDirectionMode() {
 		return this.imageDirectionMode;
 	}
 

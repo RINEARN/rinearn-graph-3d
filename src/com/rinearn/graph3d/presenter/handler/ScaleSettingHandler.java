@@ -6,6 +6,7 @@ import com.rinearn.graph3d.view.ScaleSettingWindow;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.view.MultilingualItem;
 import com.rinearn.graph3d.config.frame.FrameConfiguration;
+import com.rinearn.graph3d.config.frame.FrameShapeMode;
 import com.rinearn.graph3d.config.scale.ScaleConfiguration;
 import com.rinearn.graph3d.config.scale.TickLabelFormatterMode;
 import com.rinearn.graph3d.config.scale.TickerMode;
@@ -177,7 +178,7 @@ public class ScaleSettingHandler {
 			// "Frame" tab:
 			{
 				// Frame shape mode
-				FrameConfiguration.ShapeMode frameShapeMode = window.designTabItems.getSelectedFrameShapeMode();
+				FrameShapeMode frameShapeMode = window.designTabItems.getSelectedFrameShapeMode();
 				frameConfig.setShapeMode(frameShapeMode);
 
 				// Frame line length
