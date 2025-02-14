@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.config.scale;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -107,12 +109,12 @@ public class EqualDivisionTicker extends Ticker {
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
 	 *
-	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	@Override
-	public void validate() throws IllegalStateException {
+	public void validate() throws RinearnGraph3DConfigurationException {
 		if (this.getDividedSectionCount() < 1) {
-			throw new IllegalStateException("The length of tick lines must be greater than 1.");
+			throw new RinearnGraph3DConfigurationException("The length of tick lines must be greater than 1.");
 		}
 	}
 }

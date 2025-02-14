@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.config.range;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
 
 /**
  * The class storing configuration values of the ranges of X/Y/Z axes.
@@ -115,9 +117,9 @@ public final class RangeConfiguration {
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
 	 *
-	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public synchronized void validate() throws IllegalStateException {
+	public synchronized void validate() throws RinearnGraph3DConfigurationException {
 
 		// Validate configs of X/Y/Z axes.
 		this.xRangeConfiguration.validate();
@@ -126,11 +128,11 @@ public final class RangeConfiguration {
 
 		// Validate configs of extra dimensions.
 		if (this.extraDimensionRangeConfigurations == null) {
-			throw new IllegalStateException("The extra-dimension's range configurations are null.");
+			throw new RinearnGraph3DConfigurationException("The extra-dimension's range configurations are null.");
 		}
 		for (AxisRangeConfiguration extraDimConfig: this.extraDimensionRangeConfigurations) {
 			if (extraDimConfig == null) {
-				throw new IllegalStateException("There is a null element in the extra dimension's range configurations.");
+				throw new RinearnGraph3DConfigurationException("There is a null element in the extra dimension's range configurations.");
 			}
 			extraDimConfig.validate();
 		}

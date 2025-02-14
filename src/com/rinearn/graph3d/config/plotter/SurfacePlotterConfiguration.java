@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.config.plotter;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
 
 /**
  * The class storing configuration values of "With Surfaces" option.
@@ -23,6 +25,6 @@ public final class SurfacePlotterConfiguration extends SeriesFilterablePlotterCo
 	 *
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public synchronized void validate() throws IllegalStateException {
+	public synchronized void validate() throws RinearnGraph3DConfigurationException {
 	}
 }

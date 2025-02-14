@@ -1,5 +1,8 @@
 package com.rinearn.graph3d.config.scale;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
+
 // !!!!!
 // NOTE
 //
@@ -261,9 +264,9 @@ public final class ScaleConfiguration {
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
 	 *
-	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public synchronized void validate() {
+	public synchronized void validate() throws RinearnGraph3DConfigurationException {
 		this.xScaleConfiguration.validate();
 		this.yScaleConfiguration.validate();
 		this.zScaleConfiguration.validate();

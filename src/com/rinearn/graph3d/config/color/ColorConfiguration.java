@@ -1,5 +1,6 @@
 package com.rinearn.graph3d.config.color;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
 import java.awt.Color;
 
 /*
@@ -358,34 +359,34 @@ public final class ColorConfiguration {
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
 	 *
-	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public synchronized void validate() throws IllegalStateException {
+	public synchronized void validate() throws RinearnGraph3DConfigurationException {
 
 		// Validate data solid colors.
 		if (this.dataSolidColors == null) {
-			throw new IllegalStateException("The data-solid-colors are null.");
+			throw new RinearnGraph3DConfigurationException("The data-solid-colors are null.");
 		} else {
 			if (this.dataSolidColors.length == 0) {
-				throw new IllegalStateException("For data-solid-colors, at least one element is required, but nothing is stored.");
+				throw new RinearnGraph3DConfigurationException("For data-solid-colors, at least one element is required, but nothing is stored.");
 			}
 			for (Color solidColor: this.dataSolidColors) {
 				if (solidColor == null) {
-					throw new IllegalStateException("There is a null element in the data-solid-colors.");
+					throw new RinearnGraph3DConfigurationException("There is a null element in the data-solid-colors.");
 				}
 			}
 		}
 
 		// Validate data color gradients.
 		if (this.dataGradientColors == null) {
-			throw new IllegalStateException("The data-gradient-colors are null.");
+			throw new RinearnGraph3DConfigurationException("The data-gradient-colors are null.");
 		} else {
 			if (this.dataGradientColors.length == 0) {
-				throw new IllegalStateException("For data-gradient-colors, at least one element is required, but nothing is stored.");
+				throw new RinearnGraph3DConfigurationException("For data-gradient-colors, at least one element is required, but nothing is stored.");
 			}
 			for (GradientColor colorGradient: this.dataGradientColors) {
 				if (colorGradient == null) {
-					throw new IllegalStateException("There is a null element in the data-gradient-colors.");
+					throw new RinearnGraph3DConfigurationException("There is a null element in the data-gradient-colors.");
 				}
 				colorGradient.validate();
 			}

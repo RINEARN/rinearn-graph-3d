@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.config.scale;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
 
 /**
  * The class storing configuration values of the scale of an axis (X, Y, or Z).
@@ -435,20 +437,20 @@ public final class AxisScaleConfiguration {
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
 	 *
-	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public synchronized void validate() {
+	public synchronized void validate() throws RinearnGraph3DConfigurationException {
 		if (this.tickLineLength < 0.0) {
-			throw new IllegalStateException("The length of tick lines must be a positive value.");
+			throw new RinearnGraph3DConfigurationException("The length of tick lines must be a positive value.");
 		}
 		if (this.tickLabelMargin < 0.0) {
-			throw new IllegalStateException("The margin of tick labels must be a positive value.");
+			throw new RinearnGraph3DConfigurationException("The margin of tick labels must be a positive value.");
 		}
 		if (this.tickerMode == null) {
-			throw new IllegalStateException("The tick mode is null.");
+			throw new RinearnGraph3DConfigurationException("The tick mode is null.");
 		}
 		if (this.calculationPrecision < 1) {
-			throw new IllegalStateException("The calculation precision must be greater than 1.");
+			throw new RinearnGraph3DConfigurationException("The calculation precision must be greater than 1.");
 		}
 
 		// Validate parameters of tickers and formatters.
@@ -457,13 +459,13 @@ public final class AxisScaleConfiguration {
 		this.numericTickLabelFormatter.validate();
 		if (this.tickerMode == TickerMode.CUSTOM) {
 			if (this.customTicker == null) {
-				throw new IllegalStateException("The custom ticker is null although the ticker mode is set to CUSTOM.");
+				throw new RinearnGraph3DConfigurationException("The custom ticker is null although the ticker mode is set to CUSTOM.");
 			}
 			this.customTickLabelFormatter.validate();
 		}
 		if (this.tickLabelFormatterMode == TickLabelFormatterMode.CUSTOM) {
 			if (this.customTickLabelFormatter == null) {
-				throw new IllegalStateException("The custom tick label formatter is null although the formatter mode is set to CUSTOM.");
+				throw new RinearnGraph3DConfigurationException("The custom tick label formatter is null although the formatter mode is set to CUSTOM.");
 			}
 			this.customTickLabelFormatter.validate();
 		}
@@ -478,7 +480,7 @@ public final class AxisScaleConfiguration {
 				|| this.scaleCVisibilityMode != ScaleVisibilityMode.AUTO
 				|| this.scaleDVisibilityMode != ScaleVisibilityMode.AUTO;
 		if (containsAutoVisibilityMode && containsOtherVisibilityMode) {
-			throw new IllegalStateException(
+			throw new RinearnGraph3DConfigurationException(
 					"On the current version, the visibility mode 'AUTO' can not be used together with the other modes, in one axis."
 			);
 		}

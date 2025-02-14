@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.config.label;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
 // !!! NOTE !!!
 //
 // なんかこれ書いてて、あちこちの set...Labels 的なやつ（setTickLabelsとか）の命名を
@@ -138,9 +140,9 @@ public final class LabelConfiguration {
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
 	 *
-	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public synchronized void validate() throws IllegalStateException {
+	public synchronized void validate() throws RinearnGraph3DConfigurationException {
 		this.xLabelConfiguration.validate();
 		this.yLabelConfiguration.validate();
 		this.zLabelConfiguration.validate();

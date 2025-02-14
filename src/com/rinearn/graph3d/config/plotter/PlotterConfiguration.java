@@ -1,5 +1,6 @@
 package com.rinearn.graph3d.config.plotter;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
 
 /*
 [!!!!! NOTE !!!!!]
@@ -151,9 +152,9 @@ public final class PlotterConfiguration {
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
 	 *
-	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public synchronized void validate() throws IllegalStateException {
+	public synchronized void validate() throws RinearnGraph3DConfigurationException {
 		this.pointPlotterConfiguration.validate();
 		this.linePlotterConfiguration.validate();
 		this.meshPlotterConfiguration.validate();

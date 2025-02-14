@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.config.scale;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
 import java.math.BigDecimal;
 
 /**
@@ -29,7 +31,7 @@ public abstract class TickLabelFormatter {
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
 	 *
-	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public abstract void validate() throws IllegalStateException;
+	public abstract void validate() throws RinearnGraph3DConfigurationException;
 }

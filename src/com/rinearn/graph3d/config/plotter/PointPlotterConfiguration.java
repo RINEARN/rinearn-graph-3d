@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.config.plotter;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
 
 /**
  * The class storing configuration values of "With Points" option.
@@ -147,23 +149,23 @@ public final class PointPlotterConfiguration extends SeriesFilterablePlotterConf
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
 	 *
-	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public synchronized void validate() throws IllegalStateException {
+	public synchronized void validate() throws RinearnGraph3DConfigurationException {
 		if (this.pointStyleMode == null) {
-			throw new IllegalStateException("The point style mode is null.");
+			throw new RinearnGraph3DConfigurationException("The point style mode is null.");
 		}
 		if (this.circleRadius < 0.0) {
-			throw new IllegalStateException("The circle radius is negative, must be zero or positive value.");
+			throw new RinearnGraph3DConfigurationException("The circle radius is negative, must be zero or positive value.");
 		}
 		if (this.markerSize < 0.0) {
-			throw new IllegalStateException("The marker size is negative, must be zero or positive value.");
+			throw new RinearnGraph3DConfigurationException("The marker size is negative, must be zero or positive value.");
 		}
 		if (this.markerTexts == null) {
-			throw new IllegalStateException("The marker texts is null.");
+			throw new RinearnGraph3DConfigurationException("The marker texts is null.");
 		}
 		if (this.markerTexts.length == 0) {
-			throw new IllegalStateException("The number of marker texts is 0, but at least 1 element is required.");
+			throw new RinearnGraph3DConfigurationException("The number of marker texts is 0, but at least 1 element is required.");
 		}
 	}
 }

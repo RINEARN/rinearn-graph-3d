@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.config.scale;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
@@ -226,36 +228,36 @@ public final class NumericTickLabelFormatter extends TickLabelFormatter implemen
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
 	 *
-	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	@Override
-	public void validate() throws IllegalStateException {
+	public void validate() throws RinearnGraph3DConfigurationException {
 		if (this.zeroRangeFormat == null) {
-			throw new IllegalStateException("zeroRangeFormat is null");
+			throw new RinearnGraph3DConfigurationException("zeroRangeFormat is null");
 		}
 		if (this.shortRangeFormat == null) {
-			throw new IllegalStateException("shortRangeFormat is null");
+			throw new RinearnGraph3DConfigurationException("shortRangeFormat is null");
 		}
 		if (this.mediumRangeFormat == null) {
-			throw new IllegalStateException("mediumRangeFormat is null");
+			throw new RinearnGraph3DConfigurationException("mediumRangeFormat is null");
 		}
 		if (this.longRangeFormat == null) {
-			throw new IllegalStateException("longRangeFormat is null");
+			throw new RinearnGraph3DConfigurationException("longRangeFormat is null");
 		}
 		if (this.shortMediumRangeThreshold == null) {
-			throw new IllegalStateException("shortMediumRangeThreshold is null");
+			throw new RinearnGraph3DConfigurationException("shortMediumRangeThreshold is null");
 		}
 		if (this.mediumLongRangeThreshold == null) {
-			throw new IllegalStateException("mediumLongRangeThreshold is null");
+			throw new RinearnGraph3DConfigurationException("mediumLongRangeThreshold is null");
 		}
 		if (0 <= this.shortMediumRangeThreshold.compareTo(this.mediumLongRangeThreshold)) {
-			throw new IllegalStateException("mediumLongRangeThreshold must be grater than shortMediumRangeThreshold");
+			throw new RinearnGraph3DConfigurationException("mediumLongRangeThreshold must be grater than shortMediumRangeThreshold");
 		}
 		if (this.shortMediumRangeThreshold.compareTo(BigDecimal.ZERO) <= 0) {
-			throw new IllegalStateException("shortMediumRangeThreshold must be a positive value (excluding zero).");
+			throw new RinearnGraph3DConfigurationException("shortMediumRangeThreshold must be a positive value (excluding zero).");
 		}
 		if (this.mediumLongRangeThreshold.compareTo(BigDecimal.ZERO) <= 0) {
-			throw new IllegalStateException("mediumLongRangeThreshold must be a positive value (excluding zero).");
+			throw new RinearnGraph3DConfigurationException("mediumLongRangeThreshold must be a positive value (excluding zero).");
 		}
 	}
 }

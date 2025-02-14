@@ -1,5 +1,6 @@
 package com.rinearn.graph3d.config.font;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
 import java.awt.Font;
 
 
@@ -148,26 +149,26 @@ public class FontConfiguration {
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
 	 *
-	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public synchronized void validate() throws IllegalStateException {
+	public synchronized void validate() throws RinearnGraph3DConfigurationException {
 		if (this.uiPlainFont == null) {
-			throw new IllegalStateException("The UI plain font is null.");
+			throw new RinearnGraph3DConfigurationException("The UI plain font is null.");
 		}
 		if (this.uiBoldFont == null) {
-			throw new IllegalStateException("The UI bold font is null.");
+			throw new RinearnGraph3DConfigurationException("The UI bold font is null.");
 		}
 		if (this.axisLabelFont == null) {
-			throw new IllegalStateException("The axis label font is null.");
+			throw new RinearnGraph3DConfigurationException("The axis label font is null.");
 		}
 		if (this.tickLabelFont == null) {
-			throw new IllegalStateException("The tick label font is null.");
+			throw new RinearnGraph3DConfigurationException("The tick label font is null.");
 		}
 		if (this.legendLabelFont == null) {
-			throw new IllegalStateException("The legend label font is null.");
+			throw new RinearnGraph3DConfigurationException("The legend label font is null.");
 		}
 		if (this.pointMarkerFont == null) {
-			throw new IllegalStateException("The point marker font is null.");
+			throw new RinearnGraph3DConfigurationException("The point marker font is null.");
 		}
 	}
 }

@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.config.plotter;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
 
 /**
  * The class storing configuration values of "With Meshes" option.
@@ -42,11 +44,11 @@ public final class MeshPlotterConfiguration extends SeriesFilterablePlotterConfi
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
 	 *
-	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public synchronized void validate() throws IllegalStateException {
+	public synchronized void validate() throws RinearnGraph3DConfigurationException {
 		if (this.lineWidth < 0.0) {
-			throw new IllegalStateException("The line width is negative, must be zero or positive value.");
+			throw new RinearnGraph3DConfigurationException("The line width is negative, must be zero or positive value.");
 		}
 	}
 }

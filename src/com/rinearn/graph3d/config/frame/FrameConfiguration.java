@@ -1,5 +1,6 @@
 package com.rinearn.graph3d.config.frame;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
 import java.io.File;
 import java.awt.Image;
 
@@ -234,9 +235,9 @@ public final class FrameConfiguration {
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
 	 *
-	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public synchronized void validate() throws IllegalStateException {
+	public synchronized void validate() throws RinearnGraph3DConfigurationException {
 		if (this.lineWidth < 0.0) {
 			throw new IllegalStateException("The width of the frame lines must be a positive value.");
 		}
@@ -396,33 +397,33 @@ public final class FrameConfiguration {
 		 * If no issue is detected, nothing occurs.
 		 * If any issue is detected, throws IllegalStateException.
 		 *
-		 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+		 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 		 */
-		public synchronized void validate() throws IllegalStateException {
+		public synchronized void validate() throws RinearnGraph3DConfigurationException {
 
 			// Check the image file/instance depending the specified image mode.
 			if (this.imageMode == ImageMode.FILE) {
 				if (this.imageFile == null) {
-					throw new IllegalStateException("The image mode is set to FILE but the image file has not been set.");
+					throw new RinearnGraph3DConfigurationException("The image mode is set to FILE but the image file has not been set.");
 				}
 			} else if (this.imageMode == ImageMode.CUSTOM) {
 				if (this.imageFile == null) {
-					throw new IllegalStateException("The image mode is set to CUSTOM but the custom Image instance has not been set.");
+					throw new RinearnGraph3DConfigurationException("The image mode is set to CUSTOM but the custom Image instance has not been set.");
 				}
 			}
 
 			// Check the resolution conversion size.
 			if (this.imageResolutionConversionWidth < 0) {
-				throw new IllegalStateException("The width of the resolution-conversion must be a positive value, excluding zero.");
+				throw new RinearnGraph3DConfigurationException("The width of the resolution-conversion must be a positive value, excluding zero.");
 			}
 			if (this.imageResolutionConversionHeight < 0) {
-				throw new IllegalStateException("The height of the resolution-conversion must be a positive value, excluding zero.");
+				throw new RinearnGraph3DConfigurationException("The height of the resolution-conversion must be a positive value, excluding zero.");
 			}
 			if (10000 < this.imageResolutionConversionWidth) {
-				throw new IllegalStateException("The width of the resolution-conversion is too large (must be <= 10000).");
+				throw new RinearnGraph3DConfigurationException("The width of the resolution-conversion is too large (must be <= 10000).");
 			}
 			if (10000 < this.imageResolutionConversionHeight) {
-				throw new IllegalStateException("The height of the resolution-conversion is too large (must be <= 10000).");
+				throw new RinearnGraph3DConfigurationException("The height of the resolution-conversion is too large (must be <= 10000).");
 			}
 		}
 	}

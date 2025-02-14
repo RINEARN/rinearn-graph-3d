@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.config.range;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
 import java.math.BigDecimal;
 
 
@@ -83,12 +85,12 @@ public final class AxisRangeConfiguration {
 	 *
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public synchronized void validate() throws IllegalStateException {
+	public synchronized void validate() throws RinearnGraph3DConfigurationException {
 		if (this.min == null) {
-			throw new IllegalStateException("The minimum value of the range is null.");
+			throw new RinearnGraph3DConfigurationException("The minimum value of the range is null.");
 		}
 		if (this.max == null) {
-			throw new IllegalStateException("The maximum value of the range is null.");
+			throw new RinearnGraph3DConfigurationException("The maximum value of the range is null.");
 		}
 	}
 }

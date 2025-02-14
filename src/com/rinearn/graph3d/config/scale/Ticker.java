@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.config.scale;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
 import java.math.BigDecimal;
 
 /**
@@ -74,5 +76,5 @@ public abstract class Ticker {
 	 *
 	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public abstract void validate() throws IllegalStateException;
+	public abstract void validate() throws RinearnGraph3DConfigurationException;
 }

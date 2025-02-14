@@ -1,5 +1,8 @@
 package com.rinearn.graph3d.config.data;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
+
 /**
  * The class for storing data-related configuration.
  *
@@ -41,11 +44,11 @@ public class DataConfiguration {
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
 	 *
-	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
-	public synchronized void validate() throws IllegalStateException {
+	public synchronized void validate() throws RinearnGraph3DConfigurationException {
 		if (this.globalSeriesAttributes == null) {
-			throw new IllegalStateException("The series attributes is null.");
+			throw new RinearnGraph3DConfigurationException("The series attributes is null.");
 		}
 	}
 }

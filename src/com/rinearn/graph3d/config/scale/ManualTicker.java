@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.config.scale;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
 import java.math.BigDecimal;
 
 
@@ -89,21 +91,21 @@ public class ManualTicker extends Ticker {
 	 * If no issue is detected, nothing occurs.
 	 * If any issue is detected, throws IllegalStateException.
 	 *
-	 * @throws IllegalStateException Thrown when incorrect or inconsistent settings are detected.
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	@Override
-	public void validate() throws IllegalStateException {
+	public void validate() throws RinearnGraph3DConfigurationException {
 		if (this.tickCoordinates.length != this.tickLabelTexts.length) {
-			throw new IllegalStateException("The number of the tick coordinates does not match with the number of the tick labels.");
+			throw new RinearnGraph3DConfigurationException("The number of the tick coordinates does not match with the number of the tick labels.");
 		}
 		for (BigDecimal coord: this.tickCoordinates) {
 			if (coord == null) {
-				throw new IllegalStateException("Null value is contained in the tick coordinates.");
+				throw new RinearnGraph3DConfigurationException("Null value is contained in the tick coordinates.");
 			}
 		}
 		for (String label: this.tickLabelTexts) {
 			if (label == null) {
-				throw new IllegalStateException("Null label is contained in the tick labels.");
+				throw new RinearnGraph3DConfigurationException("Null label is contained in the tick labels.");
 			}
 		}
 	}
