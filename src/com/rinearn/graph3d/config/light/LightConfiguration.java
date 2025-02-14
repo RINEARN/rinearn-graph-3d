@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.config.light;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
 
 /**
  * <span class="lang-en">
@@ -304,5 +306,33 @@ public final class LightConfiguration {
 	 */
 	public synchronized double getLightSourceDirectionZ() {
 		return this.lightSourceDirectionVector[2];
+	}
+
+
+	/**
+	 * Validates correctness and consistency of configuration parameters stored in this instance.
+	 *
+	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
+	 * If no issue is detected, nothing occurs.
+	 * If any issue is detected, throws IllegalStateException.
+	 *
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
+	 */
+	public synchronized void validate() throws RinearnGraph3DConfigurationException {
+		if (this.ambientReflectionStrength < 0.0) {
+			throw new RinearnGraph3DConfigurationException("The ambient reflection strength is negative, but must be zero or positive value.");
+		}
+		if (this.diffuseReflectionStrength < 0.0) {
+			throw new RinearnGraph3DConfigurationException("The diffuse reflection strength is negative, but must be zero or positive value.");
+		}
+		if (this.diffractiveReflectionStrength < 0.0) {
+			throw new RinearnGraph3DConfigurationException("The diffractive reflection strength is negative, but must be zero or positive value.");
+		}
+		if (this.specularReflectionStrength < 0.0) {
+			throw new RinearnGraph3DConfigurationException("The specular reflection strength is negative, but must be zero or positive value.");
+		}
+		if (this.specularReflectionAngle < 0.0) {
+			throw new RinearnGraph3DConfigurationException("The specular reflection angle is negative, but must be zero or positive value.");
+		}
 	}
 }
