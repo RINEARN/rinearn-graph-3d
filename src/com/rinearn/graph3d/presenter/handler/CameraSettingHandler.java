@@ -1,6 +1,7 @@
 package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.config.camera.CameraConfiguration;
+import com.rinearn.graph3d.config.camera.CameraAngleMode;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.CameraSettingWindow;
@@ -122,15 +123,15 @@ public final class CameraSettingHandler {
 			// Set the angle mode corresponding the above, into the configuration container.
 			switch (zenithAngle) {
 				case CameraSettingWindow.ZENITH_AXIS_BOX_ITEM_X : {
-					cameraConfig.setAngleMode(CameraConfiguration.AngleMode.X_ZENITH);
+					cameraConfig.setAngleMode(CameraAngleMode.X_ZENITH);
 					break;
 				}
 				case CameraSettingWindow.ZENITH_AXIS_BOX_ITEM_Y : {
-					cameraConfig.setAngleMode(CameraConfiguration.AngleMode.Y_ZENITH);
+					cameraConfig.setAngleMode(CameraAngleMode.Y_ZENITH);
 					break;
 				}
 				case CameraSettingWindow.ZENITH_AXIS_BOX_ITEM_Z : {
-					cameraConfig.setAngleMode(CameraConfiguration.AngleMode.Z_ZENITH);
+					cameraConfig.setAngleMode(CameraAngleMode.Z_ZENITH);
 					break;
 				}
 				default : {
@@ -362,7 +363,7 @@ public final class CameraSettingHandler {
 	 * @param angleMode Specify X_ZENITH/Y_ZENITH/Z_ZENITH for regarding X/Y/Z axis as the zenith angle.
 	 */
 	public void setZenithCameraAngle(double horizontalAngle, double verticalAngle, double screwAngle,
-			CameraConfiguration.AngleMode angleMode) {
+			CameraAngleMode angleMode) {
 
 		// Handle the API on the event-dispatcher thread.
 		SetZenithCameraAngleAPIListener apiListener = new SetZenithCameraAngleAPIListener(
@@ -396,7 +397,7 @@ public final class CameraSettingHandler {
 		private volatile double screwAngle;
 
 		/** The angle mode. Specify X_ZENITH/Y_ZENITH/Z_ZENITH for regarding X/Y/Z axis as the zenith angle. */
-		private volatile CameraConfiguration.AngleMode angleMode;
+		private volatile CameraAngleMode angleMode;
 
 		/**
 		 * Create an instance handling setZenithCameraAngle(-) API with the specified argument.
@@ -407,7 +408,7 @@ public final class CameraSettingHandler {
 		 * @param angleMode Specify X_ZENITH/Y_ZENITH/Z_ZENITH for regarding X/Y/Z axis as the zenith angle.
 		 */
 		public SetZenithCameraAngleAPIListener(double horizontalAngle, double verticalAngle, double screwAngle,
-				CameraConfiguration.AngleMode angleMode) {
+				CameraAngleMode angleMode) {
 
 			this.horizontalAngle = horizontalAngle;
 			this.verticalAngle = verticalAngle;

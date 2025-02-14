@@ -39,21 +39,8 @@ public final class CameraConfiguration {
 	/** The height (pixels) of the screen. */
 	private volatile int screenHeight = 500;
 
-	/** The enum representing each angle mode, for switching how specify the camera angle(s). */
-	public static enum AngleMode {
-
-		/** Specifies vertical/horizontal/screw angles of the camera's position, regarding X axis as the zenith axis. */
-		X_ZENITH,
-
-		/** Specifies vertical/horizontal/screw angles of the camera's position, regarding Y axis as the zenith axis. */
-		Y_ZENITH,
-
-		/** Specifies vertical/horizontal/screw angles of the camera's position, regarding Z axis as the zenith axis. */
-		Z_ZENITH;
-	}
-
 	/** The angle mode, for switching how specify the camera angle(s). */
-	private volatile AngleMode angleMode = AngleMode.Z_ZENITH;
+	private volatile CameraAngleMode angleMode = CameraAngleMode.Z_ZENITH;
 
 	/** The vertical angle, which is the angle between the zenith axis and the direction toward the camera. */
 	private volatile double verticalAngle = 1.04;
@@ -70,18 +57,6 @@ public final class CameraConfiguration {
  		{ 0.0, 1.0, 0.0 },
  		{ 0.0, 0.0, 1.0 }
  	};
-
- 	/** The enum representing each rendering mode. */
- 	public static enum RenderingMode {
-
- 		/** Prioritizes quality of rendered images, than rendering speed. */
- 		QUALITY,
-
- 		/** Prioritizes rendering speed, than quality of rendered images. */
- 		SPEED;
-
- 		// CUSTOM; // For future. Refers an detailed renderer-optimization container instance.
- 	}
 
  	/** The rendering mode, */
  	private volatile RenderingMode renderingMode = RenderingMode.QUALITY;
@@ -489,7 +464,7 @@ public final class CameraConfiguration {
 	 *
 	 * @param angleMode The angle mode.
 	 */
-	public synchronized void setAngleMode(AngleMode angleMode) {
+	public synchronized void setAngleMode(CameraAngleMode angleMode) {
 		this.angleMode = angleMode;
 		this.cancelRotaion();
 	}
@@ -500,7 +475,7 @@ public final class CameraConfiguration {
 	 *
 	 * @return The angle mode.
 	 */
-	public synchronized AngleMode getAngleMode() {
+	public synchronized CameraAngleMode getAngleMode() {
 		return this.angleMode;
 	}
 

@@ -2,6 +2,7 @@ package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.camera.CameraConfiguration;
+import com.rinearn.graph3d.config.camera.CameraAngleMode;
 import com.rinearn.graph3d.config.font.FontConfiguration;
 
 import java.awt.Color;
@@ -640,10 +641,10 @@ public class CameraSettingWindow {
 			CameraConfiguration cameraConfig = this.configuration.getCameraConfiguration();
 
 			// Extract the current values of the camera parameters from the configuration container.
-			CameraConfiguration.AngleMode angleMode = cameraConfig.getAngleMode();
-			boolean isZenithAngleMode = (angleMode == CameraConfiguration.AngleMode.X_ZENITH) ||
-					(angleMode == CameraConfiguration.AngleMode.Y_ZENITH) ||
-					(angleMode == CameraConfiguration.AngleMode.Z_ZENITH);
+			CameraAngleMode angleMode = cameraConfig.getAngleMode();
+			boolean isZenithAngleMode = (angleMode == CameraAngleMode.X_ZENITH) ||
+					(angleMode == CameraAngleMode.Y_ZENITH) ||
+					(angleMode == CameraAngleMode.Z_ZENITH);
 			double horizontalAngle = isZenithAngleMode ? cameraConfig.getHorizontalAngle() : 0.0;
 			double verticalAngle = isZenithAngleMode ? cameraConfig.getVerticalAngle() : 0.0;
 			double screwAngle = isZenithAngleMode ? cameraConfig.getScrewAngle() : 0.0;

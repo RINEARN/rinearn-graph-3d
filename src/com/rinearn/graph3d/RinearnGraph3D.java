@@ -9,7 +9,7 @@ import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.config.camera.CameraConfiguration;
+import com.rinearn.graph3d.config.camera.CameraAngleMode;
 import com.rinearn.graph3d.config.environment.EnvironmentConfiguration;
 
 import java.awt.Image;
@@ -1217,7 +1217,7 @@ public final class RinearnGraph3D {
 	 */
 	public synchronized void setXZenithCameraAngle(double horizontalAngle, double verticalAngle) {
 		this.presenter.cameraSettingHandler.setZenithCameraAngle(
-				horizontalAngle, verticalAngle, 0.0, CameraConfiguration.AngleMode.X_ZENITH
+				horizontalAngle, verticalAngle, 0.0, CameraAngleMode.X_ZENITH
 		);
 	}
 
@@ -1230,7 +1230,7 @@ public final class RinearnGraph3D {
 	 */
 	public synchronized void setXZenithCameraAngle(double horizontalAngle, double verticalAngle, double screwAngle) {
 		this.presenter.cameraSettingHandler.setZenithCameraAngle(
-				horizontalAngle, verticalAngle, screwAngle, CameraConfiguration.AngleMode.X_ZENITH
+				horizontalAngle, verticalAngle, screwAngle, CameraAngleMode.X_ZENITH
 		);
 	}
 
@@ -1246,7 +1246,7 @@ public final class RinearnGraph3D {
 	 */
 	public synchronized void setYZenithCameraAngle(double horizontalAngle, double verticalAngle) {
 		this.presenter.cameraSettingHandler.setZenithCameraAngle(
-				horizontalAngle, verticalAngle, 0.0, CameraConfiguration.AngleMode.Y_ZENITH
+				horizontalAngle, verticalAngle, 0.0, CameraAngleMode.Y_ZENITH
 		);
 	}
 
@@ -1259,7 +1259,7 @@ public final class RinearnGraph3D {
 	 */
 	public synchronized void setYZenithCameraAngle(double horizontalAngle, double verticalAngle, double screwAngle) {
 		this.presenter.cameraSettingHandler.setZenithCameraAngle(
-				horizontalAngle, verticalAngle, screwAngle, CameraConfiguration.AngleMode.Y_ZENITH
+				horizontalAngle, verticalAngle, screwAngle, CameraAngleMode.Y_ZENITH
 		);
 	}
 
@@ -1275,7 +1275,7 @@ public final class RinearnGraph3D {
 	 */
 	public synchronized void setZZenithCameraAngle(double horizontalAngle, double verticalAngle) {
 		this.presenter.cameraSettingHandler.setZenithCameraAngle(
-				horizontalAngle, verticalAngle, 0.0, CameraConfiguration.AngleMode.Z_ZENITH
+				horizontalAngle, verticalAngle, 0.0, CameraAngleMode.Z_ZENITH
 		);
 	}
 
@@ -1288,7 +1288,7 @@ public final class RinearnGraph3D {
 	 */
 	public synchronized void setZZenithCameraAngle(double horizontalAngle, double verticalAngle, double screwAngle) {
 		this.presenter.cameraSettingHandler.setZenithCameraAngle(
-				horizontalAngle, verticalAngle, screwAngle, CameraConfiguration.AngleMode.Z_ZENITH
+				horizontalAngle, verticalAngle, screwAngle, CameraAngleMode.Z_ZENITH
 		);
 	}
 

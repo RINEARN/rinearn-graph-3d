@@ -1,4 +1,6 @@
+com/rinearn/graph3d/config/camera/CameraAngleMode.java
 com/rinearn/graph3d/config/camera/CameraConfiguration.java
+com/rinearn/graph3d/config/camera/RenderingMode.java
 com/rinearn/graph3d/config/color/AxisGradientColor.java
 com/rinearn/graph3d/config/color/ColorBlendMode.java
 com/rinearn/graph3d/config/color/ColorConfiguration.java
