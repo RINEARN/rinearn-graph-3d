@@ -3,6 +3,7 @@ package com.rinearn.graph3d.renderer.simple;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
 import com.rinearn.graph3d.config.camera.CameraConfiguration;
 import com.rinearn.graph3d.config.camera.RenderingMode;
 import com.rinearn.graph3d.config.range.RangeConfiguration;
@@ -150,8 +151,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * To reflect the changes, please clear() and re-draw all contents again.
 	 *
 	 * @param configuration The container storing configuration parameters.
-	 * @throws IllegalArgumentException
-	 *     Thrown when incorrect or inconsistent settings are detected in the specified configuration.
+	 * @throws IllegalArgumentException Throws if the values in the specified configuration container are inconsistent or incorrect.
 	 */
 	public synchronized void configure(RinearnGraph3DConfiguration configuration) {
 
@@ -161,7 +161,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		// Validate the specified (may be partial) configuration at first.
 		try {
 			configuration.validate();
-		} catch (Exception e) {
+		} catch (RinearnGraph3DConfigurationException e) {
 			throw new IllegalArgumentException(e);
 		}
 

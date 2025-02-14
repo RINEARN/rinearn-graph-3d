@@ -11,6 +11,7 @@ import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.camera.CameraAngleMode;
 import com.rinearn.graph3d.config.environment.EnvironmentConfiguration;
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -219,8 +220,21 @@ public final class RinearnGraph3D {
 	 *   <span class="lang-ja">
 	 *   設定値を格納しているコンテナ
 	 *   </span>
+	 *
+	 * @throws IllegalArgumentException
+	 *   <span class="lang-en">
+	 *   Throws if the values in the specified configuration container are inconsistent or incorrect.
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   指定された設定コンテナ内の値が, 整合していないか誤っている場合にスローされます.
+	 *   </span>
 	 */
-	public synchronized void configure(RinearnGraph3DConfiguration configuration) {
+	public synchronized void configure(RinearnGraph3DConfiguration configuration) throws IllegalArgumentException {
+		try {
+			configuration.validate();
+		} catch (RinearnGraph3DConfigurationException e) {
+			throw new IllegalArgumentException(e);
+		}
 
 		// RinearnGraph3DConfiguration is a container of subpart configurations.
 		// Some of them are set and others are not set,

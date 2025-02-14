@@ -45,8 +45,16 @@ public interface RinearnGraph3DRenderer {
 	 *   <span class="lang-ja">
 	 *   設定値を格納しているコンテナ
 	 *   </span>
+	 *
+	 * @throws IllegalArgumentException
+	 *   <span class="lang-en">
+	 *   Throws if the values in the specified configuration container are inconsistent or incorrect.
+	 *   </span>
+	 *   <span class="lang-ja">
+	 *   指定された設定コンテナ内の値が, 整合していないか誤っている場合にスローされます.
+	 *   </span>
 	 */
-	public void configure(RinearnGraph3DConfiguration configuration);
+	public void configure(RinearnGraph3DConfiguration configuration) throws IllegalArgumentException;
 
 
 	/**
