@@ -7,6 +7,7 @@ import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.data.DataConfiguration;
 import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.config.label.LabelConfiguration;
+import com.rinearn.graph3d.config.label.LegendLabelConfiguration;
 import com.rinearn.graph3d.config.range.RangeConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.model.data.series.AbstractDataSeries;
@@ -495,7 +496,7 @@ public final class Presenter {
 	 */
 	private void updateLegends() {
 		LabelConfiguration labelConfig = model.config.getLabelConfiguration();
-		LabelConfiguration.LegendLabelConfiguration legendLabelConfig = labelConfig.getLegendLabelConfiguration();
+		LegendLabelConfiguration legendLabelConfig = labelConfig.getLegendLabelConfiguration();
 
 		// Get the group of all the registered data series.
 		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = model.dataStore.getCombinedDataSeriesGroup();

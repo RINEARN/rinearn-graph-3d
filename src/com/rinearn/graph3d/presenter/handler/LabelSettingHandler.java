@@ -1,6 +1,7 @@
 package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.config.label.LabelConfiguration;
+import com.rinearn.graph3d.config.label.AxisLabelConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.View;
@@ -180,8 +181,7 @@ public class LabelSettingHandler {
 
 		@Override
 		public void run() {
-			LabelConfiguration.AxisLabelConfiguration xLabelConfig
-					= model.config.getLabelConfiguration().getXLabelConfiguration();
+			AxisLabelConfiguration xLabelConfig = model.config.getLabelConfiguration().getXLabelConfiguration();
 			xLabelConfig.setLabelText(xLabel);
 			presenter.propagateConfiguration();
 			presenter.plot();
@@ -231,8 +231,7 @@ public class LabelSettingHandler {
 
 		@Override
 		public void run() {
-			LabelConfiguration.AxisLabelConfiguration yLabelConfig
-					= model.config.getLabelConfiguration().getYLabelConfiguration();
+			AxisLabelConfiguration yLabelConfig = model.config.getLabelConfiguration().getYLabelConfiguration();
 			yLabelConfig.setLabelText(yLabel);
 			presenter.propagateConfiguration();
 			presenter.plot();
@@ -281,8 +280,7 @@ public class LabelSettingHandler {
 
 		@Override
 		public void run() {
-			LabelConfiguration.AxisLabelConfiguration zLabelConfig
-					= model.config.getLabelConfiguration().getZLabelConfiguration();
+			AxisLabelConfiguration zLabelConfig = model.config.getLabelConfiguration().getZLabelConfiguration();
 			zLabelConfig.setLabelText(zLabel);
 			presenter.propagateConfiguration();
 			presenter.plot();

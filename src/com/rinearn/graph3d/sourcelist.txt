@@ -19,7 +19,9 @@ com/rinearn/graph3d/config/font/FontConfiguration.java
 com/rinearn/graph3d/config/frame/FrameConfiguration.java
 com/rinearn/graph3d/config/frame/FrameImageDirectionMode.java
 com/rinearn/graph3d/config/frame/FrameShapeMode.java
+com/rinearn/graph3d/config/label/AxisLabelConfiguration.java
 com/rinearn/graph3d/config/label/LabelConfiguration.java
+com/rinearn/graph3d/config/label/LegendLabelConfiguration.java
 com/rinearn/graph3d/config/light/LightConfiguration.java
 com/rinearn/graph3d/config/plotter/PlotterConfiguration.java
 com/rinearn/graph3d/config/range/RangeConfiguration.java

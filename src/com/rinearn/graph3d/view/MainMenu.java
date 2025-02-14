@@ -14,6 +14,7 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.color.ColorConfiguration;
 import com.rinearn.graph3d.config.font.FontConfiguration;
 import com.rinearn.graph3d.config.label.LabelConfiguration;
+import com.rinearn.graph3d.config.label.LegendLabelConfiguration;
 import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
 
 
@@ -499,7 +500,7 @@ public class MainMenu {
 			// Legends option:
 			{
 				LabelConfiguration labelConfig = configuration.getLabelConfiguration();
-				LabelConfiguration.LegendLabelConfiguration legendConfig = labelConfig.getLegendLabelConfiguration();
+				LegendLabelConfiguration legendConfig = labelConfig.getLegendLabelConfiguration();
 				legendOptionMenuItem.setSelected(legendConfig.isVisible());
 			}
 		}
