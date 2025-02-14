@@ -6,6 +6,7 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.camera.CameraConfiguration;
 import com.rinearn.graph3d.config.camera.RenderingMode;
 import com.rinearn.graph3d.config.range.RangeConfiguration;
+import com.rinearn.graph3d.config.range.AxisRangeConfiguration;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -182,9 +183,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 		// Set the ranges of X/Y/Z axes, to the range converter for each axis.
 		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
+		AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+		AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+		AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 		this.spaceConverters[X].setRange(xRangeConfig.getMinimum(), xRangeConfig.getMaximum());
 		this.spaceConverters[Y].setRange(yRangeConfig.getMinimum(), yRangeConfig.getMaximum());
 		this.spaceConverters[Z].setRange(zRangeConfig.getMinimum(), zRangeConfig.getMaximum());

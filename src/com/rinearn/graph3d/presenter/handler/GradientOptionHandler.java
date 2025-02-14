@@ -8,6 +8,7 @@ import com.rinearn.graph3d.config.data.IndexSeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
 import com.rinearn.graph3d.config.environment.EnvironmentConfiguration;
 import com.rinearn.graph3d.config.range.RangeConfiguration;
+import com.rinearn.graph3d.config.range.AxisRangeConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.GradientOptionWindow;
@@ -239,25 +240,25 @@ public final class GradientOptionHandler {
 		GradientAxis axis = window.getSelectedGradientAxis();
 		switch (axis) {
 			case X : {
-				RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+				AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
 				window.minField.setText(xRangeConfig.getMinimum().toString());
 				window.maxField.setText(xRangeConfig.getMaximum().toString());
 				break;
 			}
 			case Y : {
-				RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+				AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
 				window.minField.setText(yRangeConfig.getMinimum().toString());
 				window.maxField.setText(yRangeConfig.getMaximum().toString());
 				break;
 			}
 			case Z : {
-				RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
+				AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 				window.minField.setText(zRangeConfig.getMinimum().toString());
 				window.maxField.setText(zRangeConfig.getMaximum().toString());
 				break;
 			}
 			case SCALAR : {
-				RangeConfiguration.AxisRangeConfiguration[] extraRangeConfig = rangeConfig.getExtraDimensionRangeConfigurations();
+				AxisRangeConfiguration[] extraRangeConfig = rangeConfig.getExtraDimensionRangeConfigurations();
 				if (1 <= extraRangeConfig.length) {
 					window.minField.setText(extraRangeConfig[0].getMinimum().toString());
 					window.maxField.setText(extraRangeConfig[0].getMaximum().toString());

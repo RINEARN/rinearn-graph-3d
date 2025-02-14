@@ -9,6 +9,7 @@ import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.config.label.LabelConfiguration;
 import com.rinearn.graph3d.config.label.LegendLabelConfiguration;
 import com.rinearn.graph3d.config.range.RangeConfiguration;
+import com.rinearn.graph3d.config.range.AxisRangeConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.model.data.series.AbstractDataSeries;
 import com.rinearn.graph3d.model.data.series.MathDataSeries;
@@ -551,9 +552,9 @@ public final class Presenter {
 
 		// Get the configurations of each axis's range.
 		RangeConfiguration rangeConfig = model.config.getRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
+		AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+		AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+		AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 
 		// Auto-adjust the X range to fit to the data, if enabled.
 		if (xRangeConfig.isAutoRangeEnabled()) {
@@ -609,7 +610,7 @@ public final class Presenter {
 						break;
 					}
 					case SCALAR : {
-						RangeConfiguration.AxisRangeConfiguration[] extraRangeConfig = rangeConfig.getExtraDimensionRangeConfigurations();
+						AxisRangeConfiguration[] extraRangeConfig = rangeConfig.getExtraDimensionRangeConfigurations();
 						axisGradientColor.setMinimumBoundaryCoordinate(extraRangeConfig[0].getMinimum());
 						axisGradientColor.setMaximumBoundaryCoordinate(extraRangeConfig[0].getMaximum());
 						// Existence of extraRangeConfig[0] has been checked in the validation.

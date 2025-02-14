@@ -6,8 +6,9 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.ColorConfiguration;
 import com.rinearn.graph3d.config.color.GradientColor;
-import com.rinearn.graph3d.config.range.RangeConfiguration;
 import com.rinearn.graph3d.config.scale.ScaleConfiguration;
+import com.rinearn.graph3d.config.range.RangeConfiguration;
+import com.rinearn.graph3d.config.range.AxisRangeConfiguration;
 
 /**
  * The class to generate scale ticks from configuration,
@@ -59,9 +60,9 @@ public final class ScaleTickGenerator {
 		boolean isLogPlot = false; // Temporary
 
 		RangeConfiguration rangeConfig = config.getRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
+		AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+		AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+		AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 		// RangeConfiguration.AxisRangeConfiguration cRangeConfig = zRangeConfig; // Temporary
 
 		ScaleConfiguration scaleConfig = config.getScaleConfiguration();

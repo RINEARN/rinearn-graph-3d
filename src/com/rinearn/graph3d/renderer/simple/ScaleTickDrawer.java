@@ -3,6 +3,7 @@ package com.rinearn.graph3d.renderer.simple;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.range.RangeConfiguration;
+import com.rinearn.graph3d.config.range.AxisRangeConfiguration;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -104,9 +105,9 @@ public final class ScaleTickDrawer {
 			throw new IllegalArgumentException("This drawer instance has not been configured yet.");
 		}
 		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
-		RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
+		AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+		AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+		AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 
 		SpaceConverter xSpaceConverter = new SpaceConverter(xRangeConfig.getMinimum(), xRangeConfig.getMaximum());
 		SpaceConverter ySpaceConverter = new SpaceConverter(yRangeConfig.getMinimum(), yRangeConfig.getMaximum());

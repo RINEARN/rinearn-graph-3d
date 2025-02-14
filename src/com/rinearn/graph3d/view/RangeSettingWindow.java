@@ -3,6 +3,7 @@ package com.rinearn.graph3d.view;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.font.FontConfiguration;
 import com.rinearn.graph3d.config.range.RangeConfiguration;
+import com.rinearn.graph3d.config.range.AxisRangeConfiguration;
 
 import java.awt.Container;
 import java.awt.Font;
@@ -572,9 +573,9 @@ public class RangeSettingWindow {
 		 */
 		private void updateValuesByConfiguration() {
 			RangeConfiguration rangeConfig = this.configuration.getRangeConfiguration();
-			RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
-			RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
-			RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
+			AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+			AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+			AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 
 			xMaxField.setText(xRangeConfig.getMaximum().toString());
 			xMinField.setText(xRangeConfig.getMinimum().toString());

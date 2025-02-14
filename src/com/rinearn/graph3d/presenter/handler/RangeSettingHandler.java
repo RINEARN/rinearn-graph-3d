@@ -1,6 +1,7 @@
 package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.config.range.RangeConfiguration;
+import com.rinearn.graph3d.config.range.AxisRangeConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.RangeSettingWindow;
@@ -126,9 +127,9 @@ public final class RangeSettingHandler {
 
 			// Get the references to the configuration containers to be modified.
 			RangeConfiguration rangeConfig = model.config.getRangeConfiguration();
-			RangeConfiguration.AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
-			RangeConfiguration.AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
-			RangeConfiguration.AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
+			AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+			AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+			AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 
 			// Detect whether the UI language is set to Japanese. (Necessary for generating error messages.)
 			boolean isJapanese = model.config.getEnvironmentConfiguration().isLocaleJapanese();
@@ -293,8 +294,7 @@ public final class RangeSettingHandler {
 
 		@Override
 		public void run() {
-			RangeConfiguration.AxisRangeConfiguration xRangeConfig
-					= model.config.getRangeConfiguration().getXRangeConfiguration();
+			AxisRangeConfiguration xRangeConfig = model.config.getRangeConfiguration().getXRangeConfiguration();
 			xRangeConfig.setMinimum(min);
 			xRangeConfig.setMaximum(max);
 			presenter.propagateConfiguration();
@@ -345,8 +345,7 @@ public final class RangeSettingHandler {
 
 		@Override
 		public void run() {
-			RangeConfiguration.AxisRangeConfiguration xRangeConfig
-					= model.config.getRangeConfiguration().getXRangeConfiguration();
+			AxisRangeConfiguration xRangeConfig = model.config.getRangeConfiguration().getXRangeConfiguration();
 			xRangeConfig.setAutoRangeEnabled(enabled);
 			presenter.propagateConfiguration();
 			// presenter.replot(); // Not necessary.
@@ -402,8 +401,7 @@ public final class RangeSettingHandler {
 
 		@Override
 		public void run() {
-			RangeConfiguration.AxisRangeConfiguration yRangeConfig
-					= model.config.getRangeConfiguration().getYRangeConfiguration();
+			AxisRangeConfiguration yRangeConfig = model.config.getRangeConfiguration().getYRangeConfiguration();
 			yRangeConfig.setMinimum(min);
 			yRangeConfig.setMaximum(max);
 			presenter.propagateConfiguration();
@@ -453,8 +451,7 @@ public final class RangeSettingHandler {
 
 		@Override
 		public void run() {
-			RangeConfiguration.AxisRangeConfiguration yRangeConfig
-					= model.config.getRangeConfiguration().getYRangeConfiguration();
+			AxisRangeConfiguration yRangeConfig = model.config.getRangeConfiguration().getYRangeConfiguration();
 			yRangeConfig.setAutoRangeEnabled(enabled);
 			presenter.propagateConfiguration();
 			// presenter.replot(); Not necessary.
@@ -510,8 +507,7 @@ public final class RangeSettingHandler {
 
 		@Override
 		public void run() {
-			RangeConfiguration.AxisRangeConfiguration zRangeConfig
-					= model.config.getRangeConfiguration().getZRangeConfiguration();
+			AxisRangeConfiguration zRangeConfig = model.config.getRangeConfiguration().getZRangeConfiguration();
 			zRangeConfig.setMinimum(min);
 			zRangeConfig.setMaximum(max);
 			presenter.propagateConfiguration();
@@ -562,8 +558,7 @@ public final class RangeSettingHandler {
 
 		@Override
 		public void run() {
-			RangeConfiguration.AxisRangeConfiguration zRangeConfig
-					= model.config.getRangeConfiguration().getZRangeConfiguration();
+			AxisRangeConfiguration zRangeConfig = model.config.getRangeConfiguration().getZRangeConfiguration();
 			zRangeConfig.setAutoRangeEnabled(enabled);
 			presenter.propagateConfiguration();
 			// presenter.replot(); Not necessary.
