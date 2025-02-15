@@ -496,11 +496,11 @@ public final class Presenter {
 	 * Updates the legend configuration from the currently registered data.
 	 */
 	private void updateLegends() {
-		LabelConfiguration labelConfig = model.config.getLabelConfiguration();
+		LabelConfiguration labelConfig = this.model.config.getLabelConfiguration();
 		LegendLabelConfiguration legendLabelConfig = labelConfig.getLegendLabelConfiguration();
 
 		// Get the group of all the registered data series.
-		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = model.dataStore.getCombinedDataSeriesGroup();
+		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = this.model.dataStore.getCombinedDataSeriesGroup();
 		int dataSeriesCount = dataSeriesGroup.getDataSeriesCount();
 
 		// If the auto-legend-generation feature is disabled is enabled:
@@ -529,7 +529,16 @@ public final class Presenter {
 		// If the auto-legend-generation feature is disabled is disabled:
 		// Update the "modifiable legend" of the data series's atttribute.
 		} else {
-			String[] currentLegends = legendLabelConfig.getLabelTexts();
+
+			// Get the input legend from UI.
+			String currentLegendsUIContent = this.view.labelSettingWindow.legendArea.getText();
+			currentLegendsUIContent = currentLegendsUIContent.trim().replaceAll("\\r\\n", "\n").replaceAll("\\n\\r", "\n");
+			String[] currentLegends = currentLegendsUIContent.split("\\n");
+
+			// Set to the legend config.
+			legendLabelConfig.setLabelTexts(currentLegends);
+
+			// Update attributes of the data series.
 			int legendCount = currentLegends.length;
 			for (int ilegend=0; ilegend<legendCount; ilegend++) {
 				if (ilegend < dataSeriesCount) {

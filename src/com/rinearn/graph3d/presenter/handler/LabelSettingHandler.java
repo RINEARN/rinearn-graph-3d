@@ -2,6 +2,7 @@ package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.config.label.LabelConfiguration;
 import com.rinearn.graph3d.config.label.AxisLabelConfiguration;
+import com.rinearn.graph3d.config.label.LegendLabelConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.View;
@@ -38,6 +39,9 @@ public class LabelSettingHandler {
 	/** The event handler of the right-click menu of the text field to input the z-label. */
 	private final TextRightClickMenuHandler zLabelTextFieldMenuHandler;
 
+	/** The event handler of the right-click menu of the text area to edit legends. */
+	private final TextRightClickMenuHandler legendAreaMenuHandler;
+
 	/** The flag for turning on/off the event handling feature of this instance. */
 	private volatile boolean eventHandlingEnabled = true;
 
@@ -58,10 +62,14 @@ public class LabelSettingHandler {
 		LabelSettingWindow window = this.view.labelSettingWindow;
 		window.okButton.addActionListener(new OkPressedEventListener());
 
-		// Add the event handlers to the right-click menus of the text fields.
+		// Add the action listener to the checkbox to enable/disable the auto-legend-generation feature.
+		window.autoLegendGenerationBox.addActionListener(new AutoLegendGenerationBoxSelectedEventListener());
+
+		// Add the event handlers to the right-click menus of the text fields/area.
 		xLabelTextFieldMenuHandler = new TextRightClickMenuHandler(window.xLabelFieldRightClickMenu, window.xLabelField);
 		yLabelTextFieldMenuHandler = new TextRightClickMenuHandler(window.yLabelFieldRightClickMenu, window.yLabelField);
-		zLabelTextFieldMenuHandler = new TextRightClickMenuHandler(window.zLabelTextFieldRightClickMenu, window.zLabelTextField);
+		zLabelTextFieldMenuHandler = new TextRightClickMenuHandler(window.zLabelFieldRightClickMenu, window.zLabelTextField);
+		legendAreaMenuHandler = new TextRightClickMenuHandler(window.legendAreaRightClickMenu, window.legendArea);
 	}
 
 
@@ -75,6 +83,7 @@ public class LabelSettingHandler {
 		xLabelTextFieldMenuHandler.setEventHandlingEnabled(enabled);
 		yLabelTextFieldMenuHandler.setEventHandlingEnabled(enabled);
 		zLabelTextFieldMenuHandler.setEventHandlingEnabled(enabled);
+		legendAreaMenuHandler.setEventHandlingEnabled(enabled);
 	}
 
 
@@ -96,6 +105,28 @@ public class LabelSettingHandler {
 	// - Event Listeners -
 	//
 	// ================================================================================
+
+	/**
+	 *
+	 *
+	 */
+	private final class AutoLegendGenerationBoxSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			LabelSettingWindow window = view.labelSettingWindow;
+			boolean enabled = window.autoLegendGenerationBox.isSelected();
+
+			// Update config.
+			LegendLabelConfiguration legendLabelConfig = model.config.getLabelConfiguration().getLegendLabelConfiguration();
+			legendLabelConfig.setAutoLegendGenerationEnabled(enabled);
+
+			// Update UI.
+			window.updateLegendSection(model.config.getLabelConfiguration().getLegendLabelConfiguration());
+		}
+	}
 
 
 	/**
