@@ -62,25 +62,25 @@ public class MainMenu {
 	public volatile JMenuItem xtYtZtMathMenuItem;
 
 
-	/** "Settings" menu on the menu bar. */
-	public volatile JMenu settingsMenu;
+	/** "Edit" menu on the menu bar. */
+	public volatile JMenu editMenu;
 
-	/** "Settings" > "Set Ranges" menu item on the menu bar. */
+	/** "Edit" > "Set Ranges" menu item on the menu bar. */
 	public volatile JMenuItem rangeSettingMenuItem;
 
-	/** "Settings" > "Set Labels" menu item on the menu bar. */
+	/** "Edit" > "Set Labels" menu item on the menu bar. */
 	public volatile JMenuItem labelSettingMenuItem;
 
-	/** "Settings" > "Set Fonts" menu item on the menu bar. */
+	/** "Edit" > "Set Fonts" menu item on the menu bar. */
 	public volatile JMenuItem fontSettingMenuItem;
 
-	/** "Settings" > "Set Camera" menu item on the menu bar. */
+	/** "Edit" > "Set Camera" menu item on the menu bar. */
 	public volatile JMenuItem cameraSettingMenuItem;
 
-	/** "Settings" > "Set Light" menu item on the menu bar. */
+	/** "Edit" > "Set Light" menu item on the menu bar. */
 	public volatile JMenuItem lightSettingMenuItem;
 
-	/** "Settings" > "Set Scale" menu item on the menu bar. */
+	/** "Edit" > "Set Scale" menu item on the menu bar. */
 	public volatile JMenuItem scaleSettingMenuItem;
 
 
@@ -186,34 +186,34 @@ public class MainMenu {
 				mathMenu.add(clearMathMenuItem);
 			}
 
-			// "Settings" menu:
+			// "Edit" menu:
 			{
-				settingsMenu = new JMenu("Unconfigured");
-				menuBar.add(settingsMenu);
+				editMenu = new JMenu("Unconfigured");
+				menuBar.add(editMenu);
 
-				// "Settings" > "Set Ranges" menu item:
+				// "Edit" > "Set Ranges" menu item:
 				rangeSettingMenuItem = new JMenuItem("Unconfigured");
-				settingsMenu.add(rangeSettingMenuItem);
+				editMenu.add(rangeSettingMenuItem);
 
-				// "Settings" > "Set Labels" menu item:
+				// "Edit" > "Set Labels" menu item:
 				labelSettingMenuItem = new JMenuItem("Unconfigured");
-				settingsMenu.add(labelSettingMenuItem);
+				editMenu.add(labelSettingMenuItem);
 
-				// "Settings" > "Set Fonts" menu item:
+				// "Edit" > "Set Fonts" menu item:
 				fontSettingMenuItem = new JMenuItem("Unconfigured");
-				settingsMenu.add(fontSettingMenuItem);
+				editMenu.add(fontSettingMenuItem);
 
-				// "Settings" > "Set Camera" menu item:
+				// "Edit" > "Set Camera" menu item:
 				cameraSettingMenuItem = new JMenuItem("Unconfigured");
-				settingsMenu.add(cameraSettingMenuItem);
+				editMenu.add(cameraSettingMenuItem);
 
-				// "Settings" > "Set Light" menu item:
+				// "Edit" > "Set Light" menu item:
 				lightSettingMenuItem = new JMenuItem("Unconfigured");
-				settingsMenu.add(lightSettingMenuItem);
+				editMenu.add(lightSettingMenuItem);
 
-				// "Settings" > "Set Scale" menu item:
+				// "Edit" > "Set Scale" menu item:
 				scaleSettingMenuItem = new JMenuItem("Unconfigured");
-				settingsMenu.add(scaleSettingMenuItem);
+				editMenu.add(scaleSettingMenuItem);
 			}
 
 			// "Options" menu:
@@ -358,9 +358,9 @@ public class MainMenu {
 				clearMathMenuItem.setText("数式をクリア");
 			}
 
-			// "Settings" menu and sub menu items.
+			// "Edit" menu and sub menu items.
 			{
-				settingsMenu.setText("設定");
+				editMenu.setText("編集");
 				rangeSettingMenuItem.setText("範囲の設定");
 				labelSettingMenuItem.setText("ラベルの設定");
 				fontSettingMenuItem.setText("フォントの設定");
@@ -405,9 +405,9 @@ public class MainMenu {
 				clearMathMenuItem.setText("Clear Math Expressions");
 			}
 
-			// "Settings" menu and sub menu items.
+			// "Edit" menu and sub menu items.
 			{
-				settingsMenu.setText("Settings");
+				editMenu.setText("Edit");
 				rangeSettingMenuItem.setText("Set Ranges");
 				labelSettingMenuItem.setText("Set Labels");
 				fontSettingMenuItem.setText("Set Fonts");
@@ -454,9 +454,9 @@ public class MainMenu {
 				xtYtZtMathMenuItem.setFont(uiBoldFont);
 			}
 
-			// "Settings" menu and sub menu items.
+			// "Edit" menu and sub menu items.
 			{
-				settingsMenu.setFont(uiBoldFont);
+				editMenu.setFont(uiBoldFont);
 				rangeSettingMenuItem.setFont(uiBoldFont);
 				labelSettingMenuItem.setFont(uiBoldFont);
 				fontSettingMenuItem.setFont(uiBoldFont);
