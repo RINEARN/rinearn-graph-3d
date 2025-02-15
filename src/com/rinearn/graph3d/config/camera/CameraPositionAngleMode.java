@@ -1,9 +1,9 @@
 package com.rinearn.graph3d.config.camera;
 
 /**
- * The enum representing each angle mode, for switching how specify the camera angle(s).
+ * The enum representing each mode of camera position angle, for switching how specify the camera angle(s).
  */
-public enum CameraAngleMode {
+public enum CameraPositionAngleMode {
 
 	/** Specifies vertical/horizontal/screw angles of the camera's position, regarding X axis as the zenith axis. */
 	X_ZENITH,

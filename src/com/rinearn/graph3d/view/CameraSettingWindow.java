@@ -2,7 +2,7 @@ package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.camera.CameraConfiguration;
-import com.rinearn.graph3d.config.camera.CameraAngleMode;
+import com.rinearn.graph3d.config.camera.CameraPositionAngleMode;
 import com.rinearn.graph3d.config.font.FontConfiguration;
 
 import java.awt.Color;
@@ -641,13 +641,13 @@ public class CameraSettingWindow {
 			CameraConfiguration cameraConfig = this.configuration.getCameraConfiguration();
 
 			// Extract the current values of the camera parameters from the configuration container.
-			CameraAngleMode angleMode = cameraConfig.getAngleMode();
-			boolean isZenithAngleMode = (angleMode == CameraAngleMode.X_ZENITH) ||
-					(angleMode == CameraAngleMode.Y_ZENITH) ||
-					(angleMode == CameraAngleMode.Z_ZENITH);
-			double horizontalAngle = isZenithAngleMode ? cameraConfig.getHorizontalAngle() : 0.0;
-			double verticalAngle = isZenithAngleMode ? cameraConfig.getVerticalAngle() : 0.0;
-			double screwAngle = isZenithAngleMode ? cameraConfig.getScrewAngle() : 0.0;
+			CameraPositionAngleMode angleMode = cameraConfig.getPositionAngleMode();
+			boolean isZenithAngleMode = (angleMode == CameraPositionAngleMode.X_ZENITH) ||
+					(angleMode == CameraPositionAngleMode.Y_ZENITH) ||
+					(angleMode == CameraPositionAngleMode.Z_ZENITH);
+			double horizontalAngle = isZenithAngleMode ? cameraConfig.getPositionHorizontalAngle() : 0.0;
+			double verticalAngle = isZenithAngleMode ? cameraConfig.getPositionVerticalAngle() : 0.0;
+			double screwAngle = isZenithAngleMode ? cameraConfig.getPositionScrewAngle() : 0.0;
 			double magnification = cameraConfig.getMagnification();
 			double distance = cameraConfig.getDistance();
 			int horizontalCenterOffset = cameraConfig.getHorizontalCenterOffset();

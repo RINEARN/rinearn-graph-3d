@@ -107,6 +107,12 @@
 
         * ああ確かに。そっかそうかもしれん
 
+        * CameraConfig の angle 系 は、2024/02/15 に上記の通り setPositionVerticalAngle とかに変えた。
+          これをさらに setCameraPositionVerticalAngle とかにすると明らかに冗長すぎるのし、
+          cameraConfig.setPositionVerticalAngle でしっくりくるようになったので、まあこれでベストか。
+
+          つまりやっぱり「クラス名から分かる目的語を省いて短縮形にする」が基本でよくて、それで違和感があるやつはそもそも命名がまずいかもって感じか。
+
 * EnvironmentConfiguration, SystemConfiguration とかに変えるべき？ というか命名時も絶対思い浮かんだはずだけど、なんで採用しなかった？
   綴りが長て読み書きコスト高く、非直感的で抽象的な命名で、さらにメッセージの言語ロケールの取得とかで頻繁に参照する。もうちょいなんとかすべきかも。
 

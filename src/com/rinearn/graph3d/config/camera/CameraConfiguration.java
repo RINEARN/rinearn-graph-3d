@@ -63,17 +63,17 @@ public final class CameraConfiguration {
 	/** The height (pixels) of the screen. */
 	private volatile int screenHeight = 500;
 
-	/** The angle mode, for switching how specify the camera angle(s). */
-	private volatile CameraAngleMode angleMode = CameraAngleMode.Z_ZENITH;
+	/** The angle mode, for switching how specify the camera position by angles. */
+	private volatile CameraPositionAngleMode positionAngleMode = CameraPositionAngleMode.Z_ZENITH;
 
 	/** The vertical angle, which is the angle between the zenith axis and the direction toward the camera. */
-	private volatile double verticalAngle = 1.04;
+	private volatile double positionVerticalAngle = 1.04;
 
 	/** The horizontal angle, which is the rotation angle of the camera's location around the zenith axis. */
-	private volatile double horizontalAngle = 0.65;
+	private volatile double positionHorizontalAngle = 0.65;
 
 	/** The screw angle, which is the rotation angle of the camera itself (not location) around the screen center. */
-	private volatile double screwAngle = 0.0;
+	private volatile double positionScrewAngle = 0.0;
 
 	/** The matrix representing the rotation of the graph to the current state from the initial state. */
  	private volatile double[][] rotationMatrix = {
@@ -92,12 +92,12 @@ public final class CameraConfiguration {
  	public CameraConfiguration() {
 
  		// Reflect the default horizontal/vertical/screw angles to the rotation matrix();
- 		double defaultHorizontalAngele = horizontalAngle;
- 		double defaultVerticalAngele = verticalAngle;
- 		double defaultScrewAngele = screwAngle;
- 		this.setHorizontalAngle(defaultHorizontalAngele);
- 		this.setVerticalAngle(defaultVerticalAngele);
- 		this.setScrewAngle(defaultScrewAngele);
+ 		double defaultHorizontalAngele = positionHorizontalAngle;
+ 		double defaultVerticalAngele = positionVerticalAngle;
+ 		double defaultScrewAngele = positionScrewAngle;
+ 		this.setPositionHorizontalAngle(defaultHorizontalAngele);
+ 		this.setPositionVerticalAngle(defaultVerticalAngele);
+ 		this.setPositionScrewAngle(defaultScrewAngele);
  	}
 
  	/**
@@ -250,9 +250,9 @@ public final class CameraConfiguration {
 		this.resetMatrix();
 
 		// Reset the values of camera angles.
-	 	this.verticalAngle = 0.0;
-	 	this.horizontalAngle = 0.0;
-	 	this.screwAngle = 0.0;
+	 	this.positionVerticalAngle = 0.0;
+	 	this.positionHorizontalAngle = 0.0;
+	 	this.positionScrewAngle = 0.0;
 	}
 
 
@@ -265,7 +265,7 @@ public final class CameraConfiguration {
 
 		// Reset the rotation matrix of the graph.
 		// (Don't call cancelRotation() here, because it resets vertical/horizontal/screw angles to 0.0.)
-		switch (this.angleMode) {
+		switch (this.positionAngleMode) {
 
 			// Under X_ZENITH mode, X axis faces to the user,
 			// Y axis faces to the right, and Z axis faces to the upside on the screen.
@@ -344,7 +344,7 @@ public final class CameraConfiguration {
 		}
 
 		// Update values of camera angles.
-		switch (this.angleMode) {
+		switch (this.positionAngleMode) {
 			case X_ZENITH: {
 				this.computeXZenithAnglesFromMatrix();
 				return;
@@ -358,7 +358,7 @@ public final class CameraConfiguration {
 				return;
 			}
 			default: {
-				throw new RuntimeException("Unexpected angle mode: " + this.angleMode);
+				throw new RuntimeException("Unexpected angle mode: " + this.positionAngleMode);
 			}
 		}
 	}
@@ -402,7 +402,7 @@ public final class CameraConfiguration {
 		}
 
 		// Update values of camera angles.
-		switch (this.angleMode) {
+		switch (this.positionAngleMode) {
 			case X_ZENITH: {
 				this.computeXZenithAnglesFromMatrix();
 				return;
@@ -416,7 +416,7 @@ public final class CameraConfiguration {
 				return;
 			}
 			default: {
-				throw new RuntimeException("Unexpected angle mode: " + this.angleMode);
+				throw new RuntimeException("Unexpected angle mode: " + this.positionAngleMode);
 			}
 		}
 	}
@@ -460,7 +460,7 @@ public final class CameraConfiguration {
 		}
 
 		// Update values of camera angles.
-		switch (this.angleMode) {
+		switch (this.positionAngleMode) {
 			case X_ZENITH: {
 				this.computeXZenithAnglesFromMatrix();
 				return;
@@ -474,44 +474,44 @@ public final class CameraConfiguration {
 				return;
 			}
 			default: {
-				throw new RuntimeException("Unexpected angle mode: " + this.angleMode);
+				throw new RuntimeException("Unexpected angle mode: " + this.positionAngleMode);
 			}
 		}
 	}
 
 
 	/**
-	 * Sets the camera angle mode, for switching how specify the camera angle(s).
+	 * Sets the camera position angle mode, for switching how specify the camera position by angles.
 	 *
 	 * Note that, when the angle mode is changed (by calling this method),
-	 * all camera angles are reset to 0.
+	 * all camera position angles are reset to 0.
 	 *
-	 * @param angleMode The camera angle mode.
+	 * @param positionAngleMode The camera angle mode.
 	 */
-	public synchronized void setAngleMode(CameraAngleMode angleMode) {
-		this.angleMode = angleMode;
+	public synchronized void setAngleMode(CameraPositionAngleMode angleMode) {
+		this.positionAngleMode = angleMode;
 		this.cancelRotaion();
 	}
 
 
 	/**
-	 * Gets the angle mode.
+	 * Gets the camera position angle mode.
 	 *
 	 * @return The angle mode.
 	 */
-	public synchronized CameraAngleMode getAngleMode() {
-		return this.angleMode;
+	public synchronized CameraPositionAngleMode getPositionAngleMode() {
+		return this.positionAngleMode;
 	}
 
 
 	/**
-	 * Sets the vertical angle,
+	 * Sets the vertical angle of the camera position,
 	 * which is the angle between the zenith axis and the direction toward the camera.
 	 *
-	 * @param verticalAngle The vertical angle.
+	 * @param positionVerticalAngle The vertical angle.
 	 */
-	public synchronized void setVerticalAngle(double verticalAngle) {
-		this.verticalAngle = verticalAngle;
+	public synchronized void setPositionVerticalAngle(double positionVerticalAngle) {
+		this.positionVerticalAngle = positionVerticalAngle;
 
 		// Update the rotation matrix from vertical/horizontal/screw angles.
 		this.computeMatrixFromZenithAngles();
@@ -519,24 +519,24 @@ public final class CameraConfiguration {
 
 
 	/**
-	 * Gets the vertical angle,
+	 * Gets the vertical angle of the camera position,
 	 * which is the angle between the zenith axis and the direction toward the camera.
 	 *
 	 * @return The verticcal angle.
 	 */
-	public synchronized double getVerticalAngle() {
-		return this.verticalAngle;
+	public synchronized double getPositionVerticalAngle() {
+		return this.positionVerticalAngle;
 	}
 
 
 	/**
-	 * Sets the horizontal angle,
+	 * Sets the horizontal angle of the camera position,
 	 * which is the rotation angle of the camera's location around the zenith axis.
 	 *
-	 * @param horizontalAngle The horizontal angle.
+	 * @param positionHorizontalAngle The horizontal angle.
 	 */
-	public synchronized void setHorizontalAngle(double horizontalAngle) {
-		this.horizontalAngle = horizontalAngle;
+	public synchronized void setPositionHorizontalAngle(double positionHorizontalAngle) {
+		this.positionHorizontalAngle = positionHorizontalAngle;
 
 		// Update the rotation matrix from vertical/horizontal/screw angles.
 		this.computeMatrixFromZenithAngles();
@@ -544,24 +544,24 @@ public final class CameraConfiguration {
 
 
 	/**
-	 * Gets the horizontal angle,
+	 * Gets the horizontal angle of the camera position,
 	 * which is the rotation angle of the camera's location around the zenith axis.
 	 *
 	 * @return The horizontal angle.
 	 */
-	public synchronized double getHorizontalAngle() {
-		return this.horizontalAngle;
+	public synchronized double getPositionHorizontalAngle() {
+		return this.positionHorizontalAngle;
 	}
 
 
 	/**
-	 * Sets the screw angle,
+	 * Sets the screw angle of the camera position,
 	 * which is the rotation angle of the camera itself (not location) around the screen center.
 	 *
-	 * @param screwAngle The screw angle.
+	 * @param positionScrewAngle The screw angle.
 	 */
-	public synchronized void setScrewAngle(double screwAngle) {
-		this.screwAngle = screwAngle;
+	public synchronized void setPositionScrewAngle(double positionScrewAngle) {
+		this.positionScrewAngle = positionScrewAngle;
 
 		// Update the rotation matrix from vertical/horizontal/screw angles.
 		this.computeMatrixFromZenithAngles();
@@ -569,13 +569,13 @@ public final class CameraConfiguration {
 
 
 	/**
-	 * Gets the screw angle,
+	 * Gets the screw angle of the camera position,
 	 * which is the rotation angle of the camera itself (not location) around the screen center.
 	 *
 	 * @return The screw angle.
 	 */
-	public synchronized double getScrewAngle() {
-		return this.screwAngle;
+	public synchronized double getPositionScrewAngle() {
+		return this.positionScrewAngle;
 	}
 
 
@@ -615,17 +615,17 @@ public final class CameraConfiguration {
 
 			// When X axis faces to the user.
 			if (0 < graphXAxis[Z]) {
-				this.verticalAngle = 0.0;
-				this.screwAngle = 0.0;
-				this.horizontalAngle = 0.5 * PI - atan2(graphZAxis[Y], graphZAxis[X]); // Don't use Y axis here. Otherwise it does not work under the situation that vertical angle = pi.
-				this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle);
+				this.positionVerticalAngle = 0.0;
+				this.positionScrewAngle = 0.0;
+				this.positionHorizontalAngle = 0.5 * PI - atan2(graphZAxis[Y], graphZAxis[X]); // Don't use Y axis here. Otherwise it does not work under the situation that vertical angle = pi.
+				this.positionHorizontalAngle = this.shiftAngleFrom0To2Pi(this.positionHorizontalAngle);
 
 			// When X axis faces to the depth-direction of the screen.
 			} else {
-				this.verticalAngle = PI;
-				this.screwAngle = 0.0;
-				this.horizontalAngle = atan2(graphZAxis[Y], graphZAxis[X]) - 1.5 * Math.PI; // Don't use Y axis here. Otherwise it does not work under the situation that vertical angle = pi.
-				this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle);
+				this.positionVerticalAngle = PI;
+				this.positionScrewAngle = 0.0;
+				this.positionHorizontalAngle = atan2(graphZAxis[Y], graphZAxis[X]) - 1.5 * Math.PI; // Don't use Y axis here. Otherwise it does not work under the situation that vertical angle = pi.
+				this.positionHorizontalAngle = this.shiftAngleFrom0To2Pi(this.positionHorizontalAngle);
 			}
 			return;
 		}
@@ -634,18 +634,18 @@ public final class CameraConfiguration {
 		// is independent of the horizontal angle and the screw angle.
 		// So determine the vertical angle at first.
 		double innerProductBetweenCameraXandGraphX = graphXAxis[Z];
-		this.verticalAngle = acos(innerProductBetweenCameraXandGraphX);
+		this.positionVerticalAngle = acos(innerProductBetweenCameraXandGraphX);
 
 		// Next, consider about the projected vector of the graph's X axis to the screen.
 		// Its direction is independent of the horizontal angle, but dependent on the screw angle.
 		// So we can determine the screw angle from the projected vector.
 		double[] graphXAxisOnScreen = new double[] { graphXAxis[X], graphXAxis[Y] };
-		this.screwAngle = 0.5 * PI - atan2(graphXAxisOnScreen[Y], graphXAxisOnScreen[X]);
-		this.screwAngle = this.shiftAngleFrom0To2Pi(this.screwAngle);
+		this.positionScrewAngle = 0.5 * PI - atan2(graphXAxisOnScreen[Y], graphXAxisOnScreen[X]);
+		this.positionScrewAngle = this.shiftAngleFrom0To2Pi(this.positionScrewAngle);
 
 		// If the horizontal angle is 0, Y axis of the graph is parallel with the screen.
 		// Call it as "graphYDash". We can compute its vector component from the screw angle, as follows:
-		double[] graphYDash = new double[] { cos(this.screwAngle), -sin(this.screwAngle), 0.0 };
+		double[] graphYDash = new double[] { cos(this.positionScrewAngle), -sin(this.positionScrewAngle), 0.0 };
 
 		// Call the Z axis of the graph under the same situation as "graphZDash".
 		// We can compute it as the cross product vector between graphXAxis and graphYDash:
@@ -663,8 +663,8 @@ public final class CameraConfiguration {
 
 		// Finally, we can determine horizontal value from ux and uy:
 		//this.horizontalAngle = atan2(ux, uy);
-		this.horizontalAngle = -atan2(uy, ux);
-		this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle);
+		this.positionHorizontalAngle = -atan2(uy, ux);
+		this.positionHorizontalAngle = this.shiftAngleFrom0To2Pi(this.positionHorizontalAngle);
 	}
 
 
@@ -685,19 +685,19 @@ public final class CameraConfiguration {
 
 			// When Y axis faces to the user.
 			if (0 < graphYAxis[Z]) {
-				this.verticalAngle = 0.0;
-				this.screwAngle = 0.0;
+				this.positionVerticalAngle = 0.0;
+				this.positionScrewAngle = 0.0;
 				// Don't use Z axis here. Otherwise it does not work under the situation that vertical angle = pi.
-				this.horizontalAngle = 0.5 * PI - atan2(graphXAxis[Y], graphXAxis[X]);
-				this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle);
+				this.positionHorizontalAngle = 0.5 * PI - atan2(graphXAxis[Y], graphXAxis[X]);
+				this.positionHorizontalAngle = this.shiftAngleFrom0To2Pi(this.positionHorizontalAngle);
 
 			// When Y axis faces to the depth-direction of the screen.
 			} else {
-				this.verticalAngle = PI;
-				this.screwAngle = 0.0;
+				this.positionVerticalAngle = PI;
+				this.positionScrewAngle = 0.0;
 				// Don't use Z axis here. Otherwise it does not work under the situation that vertical angle = pi.
-				this.horizontalAngle = atan2(graphXAxis[Y], graphXAxis[X]) - 1.5 * Math.PI;
-				this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle);
+				this.positionHorizontalAngle = atan2(graphXAxis[Y], graphXAxis[X]) - 1.5 * Math.PI;
+				this.positionHorizontalAngle = this.shiftAngleFrom0To2Pi(this.positionHorizontalAngle);
 			}
 			return;
 		}
@@ -706,18 +706,18 @@ public final class CameraConfiguration {
 		// is independent of the horizontal angle and the screw angle.
 		// So determine the vertical angle at first.
 		double innerProductBetweenCameraYandGraphY = graphYAxis[Z];
-		this.verticalAngle = acos(innerProductBetweenCameraYandGraphY);
+		this.positionVerticalAngle = acos(innerProductBetweenCameraYandGraphY);
 
 		// Next, consider about the projected vector of the graph's Y axis to the screen.
 		// Its direction is independent of the horizontal angle, but dependent on the screw angle.
 		// So we can determine the screw angle from the projected vector.
 		double[] graphYAxisOnScreen = new double[] { graphYAxis[X], graphYAxis[Y] };
-		this.screwAngle = 0.5 * PI - atan2(graphYAxisOnScreen[Y], graphYAxisOnScreen[X]);
-		this.screwAngle = this.shiftAngleFrom0To2Pi(this.screwAngle);
+		this.positionScrewAngle = 0.5 * PI - atan2(graphYAxisOnScreen[Y], graphYAxisOnScreen[X]);
+		this.positionScrewAngle = this.shiftAngleFrom0To2Pi(this.positionScrewAngle);
 
 		// If the horizontal angle is 0, Z axis of the graph is parallel with the screen.
 		// Call it as "graphZDash". We can compute its vector component from the screw angle, as follows:
-		double[] graphZDash = new double[] { cos(this.screwAngle), -sin(this.screwAngle), 0.0 };
+		double[] graphZDash = new double[] { cos(this.positionScrewAngle), -sin(this.positionScrewAngle), 0.0 };
 
 		// Call the X axis of the graph under the same situation as "graphXDash".
 		// We can compute it as the cross product vector between graphYAxis and graphZDash:
@@ -735,8 +735,8 @@ public final class CameraConfiguration {
 
 		// Finally, we can determine horizontal value from ux and uy:
 		//this.horizontalAngle = atan2(ux, uy);
-		this.horizontalAngle = -atan2(uy, ux);
-		this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle);
+		this.positionHorizontalAngle = -atan2(uy, ux);
+		this.positionHorizontalAngle = this.shiftAngleFrom0To2Pi(this.positionHorizontalAngle);
 	}
 
 
@@ -757,17 +757,17 @@ public final class CameraConfiguration {
 
 			// When Z axis faces to the user.
 			if (0 < graphZAxis[Z]) {
-				this.verticalAngle = 0.0;
-				this.screwAngle = 0.0;
-				this.horizontalAngle = 0.5 * PI - atan2(graphYAxis[Y], graphYAxis[X]); // Don't use X axis here. Otherwise it does not work under the situation that vertical angle = pi.
-				this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle);
+				this.positionVerticalAngle = 0.0;
+				this.positionScrewAngle = 0.0;
+				this.positionHorizontalAngle = 0.5 * PI - atan2(graphYAxis[Y], graphYAxis[X]); // Don't use X axis here. Otherwise it does not work under the situation that vertical angle = pi.
+				this.positionHorizontalAngle = this.shiftAngleFrom0To2Pi(this.positionHorizontalAngle);
 
 			// When Z axis faces to the depth-direction of the screen.
 			} else {
-				this.verticalAngle = PI;
-				this.screwAngle = 0.0;
-				this.horizontalAngle = atan2(graphYAxis[Y], graphYAxis[X]) - 1.5 * Math.PI; // Don't use X axis here. Otherwise it does not work under the situation that vertical angle = pi.
-				this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle);
+				this.positionVerticalAngle = PI;
+				this.positionScrewAngle = 0.0;
+				this.positionHorizontalAngle = atan2(graphYAxis[Y], graphYAxis[X]) - 1.5 * Math.PI; // Don't use X axis here. Otherwise it does not work under the situation that vertical angle = pi.
+				this.positionHorizontalAngle = this.shiftAngleFrom0To2Pi(this.positionHorizontalAngle);
 
 			}
 			return;
@@ -777,18 +777,18 @@ public final class CameraConfiguration {
 		// is independent of the horizontal angle and the screw angle.
 		// So determine the vertical angle at first.
 		double innerProductBetweenCameraZandGraphZ = graphZAxis[Z];
-		this.verticalAngle = acos(innerProductBetweenCameraZandGraphZ);
+		this.positionVerticalAngle = acos(innerProductBetweenCameraZandGraphZ);
 
 		// Next, consider about the projected vector of the graph's Z axis to the screen.
 		// Its direction is independent of the horizontal angle, but dependent on the screw angle.
 		// So we can determine the screw angle from the projected vector.
 		double[] graphZAxisOnScreen = new double[] { graphZAxis[X], graphZAxis[Y] };
-		this.screwAngle = 0.5 * PI - atan2(graphZAxisOnScreen[Y], graphZAxisOnScreen[X]);
-		this.screwAngle = this.shiftAngleFrom0To2Pi(this.screwAngle);
+		this.positionScrewAngle = 0.5 * PI - atan2(graphZAxisOnScreen[Y], graphZAxisOnScreen[X]);
+		this.positionScrewAngle = this.shiftAngleFrom0To2Pi(this.positionScrewAngle);
 
 		// If the horizontal angle is 0, X axis of the graph is parallel with the screen.
 		// Call it as "graphXDash". We can compute its vector component from the screw angle, as follows:
-		double[] graphXDash = new double[] { cos(this.screwAngle), -sin(this.screwAngle), 0.0 };
+		double[] graphXDash = new double[] { cos(this.positionScrewAngle), -sin(this.positionScrewAngle), 0.0 };
 
 		// Call the Y axis of the graph under the same situation as "graphYDash".
 		// We can compute it as the cross product vector between graphZAxis and graphXDash:
@@ -806,14 +806,14 @@ public final class CameraConfiguration {
 
 		// Finally, we can determine horizontal value from ux and uy:
 		//this.horizontalAngle = atan2(ux, uy);
-		this.horizontalAngle = -atan2(uy, ux);
-		this.horizontalAngle = this.shiftAngleFrom0To2Pi(this.horizontalAngle);
+		this.positionHorizontalAngle = -atan2(uy, ux);
+		this.positionHorizontalAngle = this.shiftAngleFrom0To2Pi(this.positionHorizontalAngle);
 	}
 
 
 	/**
 	 * Computes the rotation matrix from the values of vertical/horizontal/screw angles,
-	 * regarding X/Y/Z axis as the zenith axis, specified to the "angleMode" field.
+	 * regarding X/Y/Z axis as the zenith axis, specified to the "positionAngleMode" field.
 	 */
 	private void computeMatrixFromZenithAngles() {
 
@@ -833,8 +833,8 @@ public final class CameraConfiguration {
 		// The rotation by horizontal angle can be expressed as
 		// rotation around Z axis OF CAMERA/VIEW COORDINATE SYSTEM (not the graph's axis).
 		// Call its matrix as "Rh":
-		sin = sin(-this.horizontalAngle); // Be careful of the direction of the rotation.
-		cos = cos(-this.horizontalAngle);
+		sin = sin(-this.positionHorizontalAngle); // Be careful of the direction of the rotation.
+		cos = cos(-this.positionHorizontalAngle);
 		double[][] rh = {
 				{ cos,-sin, 0.0 },
 				{ sin, cos, 0.0 },
@@ -856,8 +856,8 @@ public final class CameraConfiguration {
 		// The rotation by vertical angle can be expressed as
 		// rotation around X axis OF CAMERA/VIEW COORDINATE SYSTEM (not the graph's axis).
 		// Call its matrix as "Rh":
-		sin = sin(-this.verticalAngle); // Be careful of the direction of the rotation.
-		cos = cos(-this.verticalAngle);
+		sin = sin(-this.positionVerticalAngle); // Be careful of the direction of the rotation.
+		cos = cos(-this.positionVerticalAngle);
 		double[][] rv = {
 				{ 1.0, 0.0, 0.0 },
 				{ 0.0, cos,-sin },
@@ -879,8 +879,8 @@ public final class CameraConfiguration {
 		// The rotation by screw angle can be expressed as
 		// re-rotation around Z axis OF CAMERA/VIEW COORDINATE SYSTEM (not the graph's axis).
 		// Call its matrix as "Rh":
-		sin = sin(-this.screwAngle); // Be careful of the direction of the rotation.
-		cos = cos(-this.screwAngle);
+		sin = sin(-this.positionScrewAngle); // Be careful of the direction of the rotation.
+		cos = cos(-this.positionScrewAngle);
 		double[][] rs = {
 				{ cos,-sin, 0.0 },
 				{ sin, cos, 0.0 },
@@ -936,7 +936,7 @@ public final class CameraConfiguration {
 		if (distance < 0.0) {
 			throw new RinearnGraph3DConfigurationException("The distance is negative, must be zero or positive.");
 		}
-		if (angleMode == null) {
+		if (positionAngleMode == null) {
 			throw new RinearnGraph3DConfigurationException("The angle mode is null.");
 		}
 		if (renderingMode == null) {

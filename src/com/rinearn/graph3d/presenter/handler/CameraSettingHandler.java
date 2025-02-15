@@ -1,7 +1,7 @@
 package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.config.camera.CameraConfiguration;
-import com.rinearn.graph3d.config.camera.CameraAngleMode;
+import com.rinearn.graph3d.config.camera.CameraPositionAngleMode;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.CameraSettingWindow;
@@ -123,15 +123,15 @@ public final class CameraSettingHandler {
 			// Set the angle mode corresponding the above, into the configuration container.
 			switch (zenithAngle) {
 				case CameraSettingWindow.ZENITH_AXIS_BOX_ITEM_X : {
-					cameraConfig.setAngleMode(CameraAngleMode.X_ZENITH);
+					cameraConfig.setAngleMode(CameraPositionAngleMode.X_ZENITH);
 					break;
 				}
 				case CameraSettingWindow.ZENITH_AXIS_BOX_ITEM_Y : {
-					cameraConfig.setAngleMode(CameraAngleMode.Y_ZENITH);
+					cameraConfig.setAngleMode(CameraPositionAngleMode.Y_ZENITH);
 					break;
 				}
 				case CameraSettingWindow.ZENITH_AXIS_BOX_ITEM_Z : {
-					cameraConfig.setAngleMode(CameraAngleMode.Z_ZENITH);
+					cameraConfig.setAngleMode(CameraPositionAngleMode.Z_ZENITH);
 					break;
 				}
 				default : {
@@ -165,7 +165,7 @@ public final class CameraSettingHandler {
 			// Get the modified value from the slider, and store it into the configuration container.
 			double angle = (double)window.horizontalAngleBar.getValue() / (double)CameraSettingWindow.BASIC_SCROLL_BAR_MAX_COUNT;
 			angle *= 2.0 * PI;
-			cameraConfig.setHorizontalAngle(angle);
+			cameraConfig.setPositionHorizontalAngle(angle);
 
 			// Propagate the above update of the configuration to the entire application.
 			setEventHandlingEnabled(false);
@@ -193,7 +193,7 @@ public final class CameraSettingHandler {
 			// Get the modified value from the slider, and store it into the configuration container.
 			double angle = (double)window.verticalAngleBar.getValue() / (double)CameraSettingWindow.BASIC_SCROLL_BAR_MAX_COUNT;
 			angle *= PI;
-			cameraConfig.setVerticalAngle(angle);
+			cameraConfig.setPositionVerticalAngle(angle);
 
 			// Propagate the above update of the configuration to the entire application.
 			setEventHandlingEnabled(false);
@@ -221,7 +221,7 @@ public final class CameraSettingHandler {
 			// Get the modified value from the slider, and store it into the configuration container.
 			double angle = (double)window.screwAngleBar.getValue() / (double)CameraSettingWindow.BASIC_SCROLL_BAR_MAX_COUNT;
 			angle *= 2.0 * PI;
-			cameraConfig.setScrewAngle(angle);
+			cameraConfig.setPositionScrewAngle(angle);
 
 			// Propagate the above update of the configuration to the entire application.
 			setEventHandlingEnabled(false);
@@ -363,7 +363,7 @@ public final class CameraSettingHandler {
 	 * @param angleMode Specify X_ZENITH/Y_ZENITH/Z_ZENITH for regarding X/Y/Z axis as the zenith angle.
 	 */
 	public void setZenithCameraAngle(double horizontalAngle, double verticalAngle, double screwAngle,
-			CameraAngleMode angleMode) {
+			CameraPositionAngleMode angleMode) {
 
 		// Handle the API on the event-dispatcher thread.
 		SetZenithCameraAngleAPIListener apiListener = new SetZenithCameraAngleAPIListener(
@@ -397,7 +397,7 @@ public final class CameraSettingHandler {
 		private volatile double screwAngle;
 
 		/** The angle mode. Specify X_ZENITH/Y_ZENITH/Z_ZENITH for regarding X/Y/Z axis as the zenith angle. */
-		private volatile CameraAngleMode angleMode;
+		private volatile CameraPositionAngleMode angleMode;
 
 		/**
 		 * Create an instance handling setZenithCameraAngle(-) API with the specified argument.
@@ -408,7 +408,7 @@ public final class CameraSettingHandler {
 		 * @param angleMode Specify X_ZENITH/Y_ZENITH/Z_ZENITH for regarding X/Y/Z axis as the zenith angle.
 		 */
 		public SetZenithCameraAngleAPIListener(double horizontalAngle, double verticalAngle, double screwAngle,
-				CameraAngleMode angleMode) {
+				CameraPositionAngleMode angleMode) {
 
 			this.horizontalAngle = horizontalAngle;
 			this.verticalAngle = verticalAngle;
@@ -420,9 +420,9 @@ public final class CameraSettingHandler {
 		public void run() {
 			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
 			cameraConfig.setAngleMode(angleMode);
-			cameraConfig.setHorizontalAngle(horizontalAngle);
-			cameraConfig.setVerticalAngle(verticalAngle);
-			cameraConfig.setScrewAngle(screwAngle);
+			cameraConfig.setPositionHorizontalAngle(horizontalAngle);
+			cameraConfig.setPositionVerticalAngle(verticalAngle);
+			cameraConfig.setPositionScrewAngle(screwAngle);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
