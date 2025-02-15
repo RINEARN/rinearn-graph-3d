@@ -3,6 +3,7 @@ package com.rinearn.graph3d.view;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.font.FontConfiguration;
 import com.rinearn.graph3d.config.frame.FrameConfiguration;
+import com.rinearn.graph3d.config.frame.PlaneFrameConfiguration;
 import com.rinearn.graph3d.config.frame.FrameShapeMode;
 import com.rinearn.graph3d.config.frame.FrameImageDirectionMode;
 import com.rinearn.graph3d.config.scale.TickerMode;
@@ -1699,12 +1700,12 @@ public class ScaleSettingWindow {
 
 			// "Images" tab:
 			{
-				FrameConfiguration.PlaneFrameConfiguration xyLowerFrameConfig = frameConfig.getXyLowerFrameConfiguration();
-				FrameConfiguration.PlaneFrameConfiguration xyUpperFrameConfig = frameConfig.getXyUpperFrameConfiguration();
-				FrameConfiguration.PlaneFrameConfiguration yzLowerFrameConfig = frameConfig.getYzLowerFrameConfiguration();
-				FrameConfiguration.PlaneFrameConfiguration yzUpperFrameConfig = frameConfig.getYzUpperFrameConfiguration();
-				FrameConfiguration.PlaneFrameConfiguration zxLowerFrameConfig = frameConfig.getZxLowerFrameConfiguration();
-				FrameConfiguration.PlaneFrameConfiguration zxUpperFrameConfig = frameConfig.getZxUpperFrameConfiguration();
+				PlaneFrameConfiguration xyLowerFrameConfig = frameConfig.getXyLowerFrameConfiguration();
+				PlaneFrameConfiguration xyUpperFrameConfig = frameConfig.getXyUpperFrameConfiguration();
+				PlaneFrameConfiguration yzLowerFrameConfig = frameConfig.getYzLowerFrameConfiguration();
+				PlaneFrameConfiguration yzUpperFrameConfig = frameConfig.getYzUpperFrameConfiguration();
+				PlaneFrameConfiguration zxLowerFrameConfig = frameConfig.getZxLowerFrameConfiguration();
+				PlaneFrameConfiguration zxUpperFrameConfig = frameConfig.getZxUpperFrameConfiguration();
 
 				File xyLowerImageFile = xyLowerFrameConfig.getImageFile();
 				File xyUpperImageFile = xyUpperFrameConfig.getImageFile();
