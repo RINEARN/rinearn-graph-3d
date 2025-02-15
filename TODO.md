@@ -91,6 +91,22 @@
 
 ## ちょっと思いつき 20250202, 04, 13
 
+* Configs の各 getter/setter の名前、「クラス名から分かる目的語を省いて短縮形にする」のか、それとも「メソッド名だけでも成立する形にする」のかまだブレがある。
+  例えば現状 CameraConfig は前者だけど、LegendLabelConfig の setAutoLegendGenerationEnabled とかは後者。
+  で、CameraConfig の setAngleMode とか setVerticalAngle はちょっと削り過ぎな気がしないでもない。そこは setCameraAngleMode の方がいいかもしれん。
+
+  -> いやーでも LegendLabelConfig の setLabelText とかを setLegendLabelConfig にするのは明らかに冗長な気がするし、短縮形を基本にした方がいい気がするけどなあ。
+
+     -> しかしまあ、たぶん setVerticalAngle とかは、カメラの位置を指す角度なのか、視野の角度なのか、それが分かり辛い。
+        なのでこの命名自体がそもそも悪くて、それによる違和感な可能性もある。
+        結局「何の角度なの？」ってのが、CameraConfig の中にあっても曖昧に感じるわけでしょ。そこにメソッド名の中に Camera を付けてもたぶん完全解消はしないよ。
+
+        例えば、 setPositionVerticalAngle とかなら普通にいい気もする。
+        つまりこれはそもそも脳内で Camera を補っても変だから違和感がある。
+        CameraConfig の setScreenWidth を setWidth にしたら変になるのと一緒。Camera の Width って何やねんって話になるやん。その違和感や。
+
+        * ああ確かに。そっかそうかもしれん
+
 * EnvironmentConfiguration, SystemConfiguration とかに変えるべき？ というか命名時も絶対思い浮かんだはずだけど、なんで採用しなかった？
   綴りが長て読み書きコスト高く、非直感的で抽象的な命名で、さらにメッセージの言語ロケールの取得とかで頻繁に参照する。もうちょいなんとかすべきかも。
 
@@ -108,6 +124,26 @@
 
    * 確かこれってそもそも setAntialiasingEnabled みたいな案から始まって、でも単にアンチエイリアスON/OFFだけじゃなくて、品質重視か速度重視か、もしくはバランスか、
      みたいな選択の方が将来的によさそうって考えての結果だったと思う。そこに RenderingMode みたいな仰々しい名を付けてしまったのが間違いだったか。
+
+コード内コメントにも関連した話がある。以下、CaneraConfig のコードコメントから抜粋：
+
+ 2Dの方には Camera って概念が無いので、screenWidth とか renderingMode とかは別の config を作って移しておいた方がいいかも。
+ 2Dと3Dのライブラリとしての対称性を上げるには。
+
+ * そうすると magnification, distance, angles, rotationMatrix がこの config 管轄として残る。
+   まあ3Dのカメラってそうな気がするしそれでいいか。
+
+ * 問題はその新しい config をどう命名するか？ RendererConfiguration は粒度が大きすぎる。だってレンダラーは他の config も読むし。
+
+   * スクリーンサイズとかジオメトリだけなら ScreenConfiguration で、アンチエイリアスもギリ入れられるけど、
+     しかしアンチエイリアス以外に色々な画質も変化するようになったらもはや ScreenConfiguration ではないよねってなる。
+     そういう点では RendererConfiguration がいいんだが…
+
+ * UI上はどうする？ 別にUIと config コンテナの構造が一対一対応でなくてもいい（むしろそれぞれで最適を探るべき）なのは過去の議論の通り。
+
+   -> カメラに入れてしまってもいいけど、カスタムレンダラーの選択とかを入れる事考えたら、別の新規ウィンドウを作ってもいいかも。
+      あと、2Dの方でも同じウィンドウ作ってそこにスクリーンとかアンチエイリアス系の設定とかする感じで。
+
 
 済: 2025/02/13 に改名済み
 * config の OptionConfiguration 、UIとは乖離するけど PlotterConfiguration の方が意味的に適切では？
@@ -235,6 +271,7 @@
 
 * CameraConfig に validate() 実装してない。LightConfiguration も。
 * FrameConfig を内部クラス分離してない
+* LightConfig の中の ambientReflectionStrength の Strength ってなんか微妙かも。要再検討
 
 ## 済か？ でもまだ新たに浮上はしそう） ネイティブ的に変な命名を直す（旧名も互換を保ちつつ）
 
