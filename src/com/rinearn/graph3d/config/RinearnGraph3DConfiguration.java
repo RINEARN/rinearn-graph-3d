@@ -245,6 +245,21 @@ public final class RinearnGraph3DConfiguration {
 			this.scaleConfiguration.validate();
 		}
 
+		// Validate the frame configuration.
+		if (this.hasFrameConfiguration()) {
+			this.frameConfiguration.validate();
+		}
+
+		// Validate the camera configuration.
+		if (this.hasCameraConfiguration()) {
+			this.cameraConfiguration.validate();
+		}
+
+		// Validate the light configuration.
+		if (this.hasLightConfiguration()) {
+			this.lightConfiguration.validate();
+		}
+
 		// Validate the color configuration.
 		if (this.hasFontConfiguration()) {
 			this.fontConfiguration.validate();

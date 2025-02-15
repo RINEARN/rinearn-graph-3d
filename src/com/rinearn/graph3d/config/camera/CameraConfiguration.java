@@ -2,9 +2,33 @@ package com.rinearn.graph3d.config.camera;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.sin;
+
+import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
+
 import static java.lang.Math.cos;
 import static java.lang.Math.acos;
 import static java.lang.Math.atan2;
+
+/*
+ NOTE:
+
+ 2Dの方には Camera って概念が無いので、screenWidth とか renderingMode とかは別の config を作って移しておいた方がいいかも。
+ 2Dと3Dのライブラリとしての対称性を上げるには。
+
+ * そうすると magnification, distance, angles, rotationMatrix がこの config 管轄として残る。
+   まあ3Dのカメラってそうな気がするしそれでいいか。
+
+ * 問題はその新しい config をどう命名するか？ RendererConfiguration は粒度が大きすぎる。だってレンダラーは他の config も読むし。
+
+   * スクリーンサイズとかジオメトリだけなら ScreenConfiguration で、アンチエイリアスもギリ入れられるけど、
+     しかしアンチエイリアス以外に色々な画質も変化するようになったらもはや ScreenConfiguration ではないよねってなる。
+     そういう点では RendererConfiguration がいいんだが…
+
+ * UI上はどうする？ 別にUIと config コンテナの構造が一対一対応でなくてもいい（むしろそれぞれで最適を探るべき）なのは過去の議論の通り。
+
+   -> カメラに入れてしまってもいいけど、カスタムレンダラーの選択とかを入れる事考えたら、別の新規ウィンドウを作ってもいいかも。
+      あと、2Dの方でも同じウィンドウ作ってそこにスクリーンとかアンチエイリアス系の設定とかする感じで。
+ */
 
 
 /**
@@ -457,12 +481,12 @@ public final class CameraConfiguration {
 
 
 	/**
-	 * Sets the angle mode, for switching how specify the camera angle(s).
+	 * Sets the camera angle mode, for switching how specify the camera angle(s).
 	 *
 	 * Note that, when the angle mode is changed (by calling this method),
 	 * all camera angles are reset to 0.
 	 *
-	 * @param angleMode The angle mode.
+	 * @param angleMode The camera angle mode.
 	 */
 	public synchronized void setAngleMode(CameraAngleMode angleMode) {
 		this.angleMode = angleMode;
@@ -893,5 +917,30 @@ public final class CameraConfiguration {
 	 */
 	public synchronized RenderingMode getRenderingMode() {
 		return this.renderingMode;
+	}
+
+
+	/**
+	 * Validates correctness and consistency of configuration parameters stored in this instance.
+	 *
+	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
+	 * If no issue is detected, nothing occurs.
+	 * If any issue is detected, throws IllegalStateException.
+	 *
+	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
+	 */
+	public synchronized void validate() throws RinearnGraph3DConfigurationException {
+		if (magnification < 0.0) {
+			throw new RinearnGraph3DConfigurationException("The value of magnification is negative, must be zero or positive.");
+		}
+		if (distance < 0.0) {
+			throw new RinearnGraph3DConfigurationException("The distance is negative, must be zero or positive.");
+		}
+		if (angleMode == null) {
+			throw new RinearnGraph3DConfigurationException("The angle mode is null.");
+		}
+		if (renderingMode == null) {
+			throw new RinearnGraph3DConfigurationException("The rendering mode is null.");
+		}
 	}
 }
