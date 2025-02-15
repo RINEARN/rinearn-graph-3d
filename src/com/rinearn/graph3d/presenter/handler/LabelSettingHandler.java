@@ -59,8 +59,8 @@ public class LabelSettingHandler {
 		window.okButton.addActionListener(new OkPressedEventListener());
 
 		// Add the event handlers to the right-click menus of the text fields.
-		xLabelTextFieldMenuHandler = new TextRightClickMenuHandler(window.xLabelTextFieldRightClickMenu, window.xLabelTextField);
-		yLabelTextFieldMenuHandler = new TextRightClickMenuHandler(window.yLabelTextFieldRightClickMenu, window.yLabelTextField);
+		xLabelTextFieldMenuHandler = new TextRightClickMenuHandler(window.xLabelFieldRightClickMenu, window.xLabelField);
+		yLabelTextFieldMenuHandler = new TextRightClickMenuHandler(window.yLabelFieldRightClickMenu, window.yLabelField);
 		zLabelTextFieldMenuHandler = new TextRightClickMenuHandler(window.zLabelTextFieldRightClickMenu, window.zLabelTextField);
 	}
 
@@ -110,8 +110,8 @@ public class LabelSettingHandler {
 
 			// Get the inputted value of the labels of X/Y/Z axes.
 			LabelSettingWindow window = view.labelSettingWindow;
-			String xLabel = window.xLabelTextField.getText();
-			String yLabel = window.yLabelTextField.getText();
+			String xLabel = window.xLabelField.getText();
+			String yLabel = window.yLabelField.getText();
 			String zLabel = window.zLabelTextField.getText();
 
 			// Store the above into the configuration container.

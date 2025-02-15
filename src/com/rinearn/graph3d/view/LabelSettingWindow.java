@@ -2,14 +2,20 @@ package com.rinearn.graph3d.view;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.font.FontConfiguration;
+import com.rinearn.graph3d.config.label.LabelConfiguration;
+import com.rinearn.graph3d.config.label.LegendLabelConfiguration;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.JCheckBox;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import java.awt.Container;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -27,37 +33,53 @@ public final class LabelSettingWindow {
 	public static final int DEFAULT_WINDOW_WIDTH = 360;
 
 	/** The default height [px] of this window. */
-	public static final int DEFAULT_WINDOW_HEIGHT = 330;
+	public static final int DEFAULT_WINDOW_HEIGHT = 600;
 
 	/** The frame of this window. */
 	public volatile JFrame frame;
 
 	/** The title label of the text field for inputting the X label's text. */
-	public volatile JLabel xLabelTextLabel;
+	public volatile JLabel xLabelSectionLabel;
 
 	/** The text field for inputting the X label's text. */
-	public volatile JTextField xLabelTextField;
+	public volatile JTextField xLabelField;
 
-	/** The right-click menu of xLabelTextField. */
-	public volatile TextRightClickMenu xLabelTextFieldRightClickMenu;
+	/** The right-click menu of xLabelField. */
+	public volatile TextRightClickMenu xLabelFieldRightClickMenu;
 
 	/** The title label of the text field for inputting the Y label's text. */
-	public volatile JLabel yLabelTextLabel;
+	public volatile JLabel yLabelSectionLabel;
 
 	/** The text field for inputting the Y label's text. */
-	public volatile JTextField yLabelTextField;
+	public volatile JTextField yLabelField;
 
-	/** The right-click menu of yLabelTextField. */
-	public volatile TextRightClickMenu yLabelTextFieldRightClickMenu;
+	/** The right-click menu of yLabelField. */
+	public volatile TextRightClickMenu yLabelFieldRightClickMenu;
 
 	/** The title label of the text field for inputting the Z label's text. */
-	public volatile JLabel zLabelTextLabel;
+	public volatile JLabel zLabelSectionLabel;
 
 	/** The text field for inputting the Z label's text. */
 	public volatile JTextField zLabelTextField;
 
 	/** The right-click menu of zLabelTextField. */
-	public volatile TextRightClickMenu zLabelTextFieldRightClickMenu;
+	public volatile TextRightClickMenu zLabelFieldRightClickMenu;
+
+	/** The label of the legend section. */
+	public volatile JLabel legendSectionLabel;
+
+	/** The checkbox to enable/disable auto-legend-generation feature. */
+	public volatile JCheckBox autoLegendGenerationBox;
+
+	/** The text area to input legends. */
+	public volatile JTextArea legendArea;
+
+	/** The right-click menu of legendArea. */
+	public volatile TextRightClickMenu legendAreaRightClickMenu;
+
+	/** The scroll pane of legendArea. */
+	public volatile JScrollPane legendAreaScrollPane;
+
 
 	/** The button to reflect settings. */
 	public volatile JButton okButton;
@@ -140,72 +162,114 @@ public final class LabelSettingWindow {
 			int topMargin = 5;
 			int bottomMargin = 5;
 			int leftMargin = 5;
-			int leftMarginOfFields = 20;
+			int leftMarginLong = 20;
 			int rightMargin = 5;
 			int marginBetweenLabelAndField = 10;
 
 			// Create the title label of the text field for inputting the X label's text.
-			xLabelTextLabel = new JLabel("Unconfigured");
-			xLabelTextLabel.setVerticalAlignment(JLabel.BOTTOM);
+			xLabelSectionLabel = new JLabel("Unconfigured");
+			xLabelSectionLabel.setVerticalAlignment(JLabel.BOTTOM);
 			constraints.insets = new Insets(topMargin, leftMargin, marginBetweenLabelAndField, rightMargin);
-			layout.setConstraints(xLabelTextLabel, constraints);
-			basePanel.add(xLabelTextLabel);
+			layout.setConstraints(xLabelSectionLabel, constraints);
+			basePanel.add(xLabelSectionLabel);
 
 			constraints.gridy++;
 
 			// Create the text field for inputting the X label's text.
-			xLabelTextField = new JTextField("Unconfigured");
-			constraints.insets = new Insets(0, leftMarginOfFields, 0, rightMargin);
-			layout.setConstraints(xLabelTextField, constraints);
-			basePanel.add(xLabelTextField);
+			xLabelField = new JTextField("Unconfigured");
+			constraints.insets = new Insets(0, leftMarginLong, 0, rightMargin);
+			layout.setConstraints(xLabelField, constraints);
+			basePanel.add(xLabelField);
 
 			// The right click menu for the above text field.
-			xLabelTextFieldRightClickMenu = new TextRightClickMenu();
+			xLabelFieldRightClickMenu = new TextRightClickMenu();
 
 			constraints.gridy++;
 
 			// Create the title label of the text field for inputting the Y label's text.
-			yLabelTextLabel = new JLabel("Unconfigured");
-			yLabelTextLabel.setVerticalAlignment(JLabel.BOTTOM);
+			yLabelSectionLabel = new JLabel("Unconfigured");
+			yLabelSectionLabel.setVerticalAlignment(JLabel.BOTTOM);
 			constraints.insets = new Insets(topMargin, leftMargin, marginBetweenLabelAndField, rightMargin);
-			layout.setConstraints(yLabelTextLabel, constraints);
-			basePanel.add(yLabelTextLabel);
+			layout.setConstraints(yLabelSectionLabel, constraints);
+			basePanel.add(yLabelSectionLabel);
 
 			constraints.gridy++;
 
 			// Create the text field for inputting the Y label's text.
-			yLabelTextField = new JTextField("Unconfigured");
-			constraints.insets = new Insets(0, leftMarginOfFields, 0, rightMargin);
-			layout.setConstraints(yLabelTextField, constraints);
-			basePanel.add(yLabelTextField);
+			yLabelField = new JTextField("Unconfigured");
+			constraints.insets = new Insets(0, leftMarginLong, 0, rightMargin);
+			layout.setConstraints(yLabelField, constraints);
+			basePanel.add(yLabelField);
 
 			// The right click menu for the above text field.
-			yLabelTextFieldRightClickMenu = new TextRightClickMenu();
+			yLabelFieldRightClickMenu = new TextRightClickMenu();
 
 			constraints.gridy++;
 
 			// Create the title label of the text field for inputting the Z label's text.
-			zLabelTextLabel = new JLabel("Unconfigured");
-			zLabelTextLabel.setVerticalAlignment(JLabel.BOTTOM);
+			zLabelSectionLabel = new JLabel("Unconfigured");
+			zLabelSectionLabel.setVerticalAlignment(JLabel.BOTTOM);
 			constraints.insets = new Insets(topMargin, leftMargin, marginBetweenLabelAndField, rightMargin);
-			layout.setConstraints(zLabelTextLabel, constraints);
-			basePanel.add(zLabelTextLabel);
+			layout.setConstraints(zLabelSectionLabel, constraints);
+			basePanel.add(zLabelSectionLabel);
 
 			constraints.gridy++;
 
 			// Create the text field for inputting the Y label's text.
 			zLabelTextField = new JTextField("Unconfigured");
-			constraints.insets = new Insets(0, leftMarginOfFields, 0, rightMargin);
+			constraints.insets = new Insets(0, leftMarginLong, 0, rightMargin);
 			layout.setConstraints(zLabelTextField, constraints);
 			basePanel.add(zLabelTextField);
 
 			// The right click menu for the above text field.
-			zLabelTextFieldRightClickMenu = new TextRightClickMenu();
+			zLabelFieldRightClickMenu = new TextRightClickMenu();
 
 			constraints.gridy++;
 
 			// Insert an empty row.
 			JLabel emptyLabel = new JLabel(" ");
+			constraints.insets = new Insets(0, 0, 0, 0);
+			layout.setConstraints(emptyLabel, constraints);
+			basePanel.add(emptyLabel);
+
+			constraints.gridy++;
+
+			// The label of the section to edit legends.
+			legendSectionLabel = new JLabel("Unconfigured");
+			constraints.insets = new Insets(topMargin, leftMargin, 0, rightMargin);
+			layout.setConstraints(legendSectionLabel, constraints);
+			basePanel.add(legendSectionLabel);
+
+			constraints.gridy++;
+
+			// The checkbox to enable/disable the auto-legend-generation feature.
+			autoLegendGenerationBox = new JCheckBox("Unconfigured");
+			constraints.insets = new Insets(0, leftMarginLong, 0, rightMargin);
+			layout.setConstraints(autoLegendGenerationBox, constraints);
+			basePanel.add(autoLegendGenerationBox);
+
+			constraints.gridy++;
+
+			// The text area to input legend.
+			legendArea = new JTextArea();
+			constraints.insets = new Insets(topMargin, leftMarginLong, bottomMargin, rightMargin);
+			layout.setConstraints(legendArea, constraints);
+
+			legendAreaRightClickMenu = new TextRightClickMenu();
+
+			legendAreaScrollPane = new JScrollPane(legendArea);
+			legendAreaScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			legendAreaScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			constraints.insets = new Insets(topMargin, leftMarginLong, bottomMargin, rightMargin);
+			constraints.weighty = 20.0;
+			layout.setConstraints(legendAreaScrollPane, constraints);
+			basePanel.add(legendAreaScrollPane);
+
+			constraints.weighty = 1.0;
+			constraints.gridy++;
+
+			// Insert an empty row.
+			emptyLabel = new JLabel(" ");
 			constraints.insets = new Insets(0, 0, 0, 0);
 			layout.setConstraints(emptyLabel, constraints);
 			basePanel.add(emptyLabel);
@@ -286,9 +350,10 @@ public final class LabelSettingWindow {
 			this.updateValuesByConfiguration();
 
 			// Update the right-click menus.
-			xLabelTextFieldRightClickMenu.configure(this.configuration);
-			yLabelTextFieldRightClickMenu.configure(this.configuration);
-			zLabelTextFieldRightClickMenu.configure(this.configuration);
+			xLabelFieldRightClickMenu.configure(this.configuration);
+			yLabelFieldRightClickMenu.configure(this.configuration);
+			zLabelFieldRightClickMenu.configure(this.configuration);
+			legendAreaRightClickMenu.configure(this.configuration);
 		}
 
 		/**
@@ -296,9 +361,11 @@ public final class LabelSettingWindow {
 		 */
 		private void setJapaneseTexts() {
 			frame.setTitle("ラベルの設定");
-			xLabelTextLabel.setText("X軸ラベル:");
-			yLabelTextLabel.setText("Y軸ラベル:");
-			zLabelTextLabel.setText("Z軸ラベル:");
+			xLabelSectionLabel.setText("X軸ラベル:");
+			yLabelSectionLabel.setText("Y軸ラベル:");
+			zLabelSectionLabel.setText("Z軸ラベル:");
+			legendSectionLabel.setText("凡例:");
+			autoLegendGenerationBox.setText("自動生成");
 			okButton.setText("OK");
 		}
 
@@ -307,9 +374,11 @@ public final class LabelSettingWindow {
 		 */
 		private void setEnglishTexts() {
 			frame.setTitle("Set Labels");
-			xLabelTextLabel.setText("X Axis Label:");
-			yLabelTextLabel.setText("Y Axis Label:");
-			zLabelTextLabel.setText("Z Axis Label:");
+			xLabelSectionLabel.setText("X Axis Label:");
+			yLabelSectionLabel.setText("Y Axis Label:");
+			zLabelSectionLabel.setText("Z Axis Label:");
+			legendSectionLabel.setText("Legend:");
+			autoLegendGenerationBox.setText("Auto Generation");
 			okButton.setText("OK");
 		}
 
@@ -322,26 +391,68 @@ public final class LabelSettingWindow {
 			Font uiPlainFont = fontConfig.getUIPlainFont();
 
 			frame.setFont(uiBoldFont);
-			xLabelTextLabel.setFont(uiBoldFont);
-			yLabelTextLabel.setFont(uiBoldFont);
-			zLabelTextLabel.setFont(uiBoldFont);
+			xLabelSectionLabel.setFont(uiBoldFont);
+			yLabelSectionLabel.setFont(uiBoldFont);
+			zLabelSectionLabel.setFont(uiBoldFont);
 			okButton.setFont(uiBoldFont);
 
-			xLabelTextField.setFont(uiPlainFont);
-			yLabelTextField.setFont(uiPlainFont);
+			xLabelField.setFont(uiPlainFont);
+			yLabelField.setFont(uiPlainFont);
 			zLabelTextField.setFont(uiPlainFont);
+
+			legendSectionLabel.setFont(uiBoldFont);
+			autoLegendGenerationBox.setFont(uiBoldFont);
+			legendArea.setFont(uiPlainFont);
 		}
 
 		/**
 		 * Updates the values of text fields, by the values stored in the configuration.
 		 */
 		private void updateValuesByConfiguration() {
-			String xLabel = this.configuration.getLabelConfiguration().getXLabelConfiguration().getLabelText();
-			String yLabel = this.configuration.getLabelConfiguration().getYLabelConfiguration().getLabelText();
-			String zLabel = this.configuration.getLabelConfiguration().getZLabelConfiguration().getLabelText();
-			xLabelTextField.setText(xLabel);
-			yLabelTextField.setText(yLabel);
+
+			// Update axis labels:
+			LabelConfiguration labelConfig = this.configuration.getLabelConfiguration();
+			String xLabel = labelConfig.getXLabelConfiguration().getLabelText();
+			String yLabel = labelConfig.getYLabelConfiguration().getLabelText();
+			String zLabel = labelConfig.getZLabelConfiguration().getLabelText();
+			xLabelField.setText(xLabel);
+			yLabelField.setText(yLabel);
 			zLabelTextField.setText(zLabel);
+
+			// Update legends:
+			updateLegendSection(labelConfig.getLegendLabelConfiguration());
+		}
+	}
+
+
+	/**
+	 * Updates the legend section of UI from the configuration.
+	 *
+	 * @param legendLabelConfig The legend label configuration.
+	 */
+	public void updateLegendSection(LegendLabelConfiguration legendLabelConfig) {
+		if (!SwingUtilities.isEventDispatchThread()) {
+			throw new IllegalStateException("This method is only invokable from the event dispatch thread.");
+		}
+		boolean isAutoLegendGenerationEnabled = legendLabelConfig.isAutoLegendGenerationEnabled();
+		autoLegendGenerationBox.setSelected(isAutoLegendGenerationEnabled);
+		if (isAutoLegendGenerationEnabled) {
+			legendArea.setEditable(false);
+			legendArea.setBackground(Color.LIGHT_GRAY);
+			legendArea.setForeground(Color.GRAY);
+
+			String[] legends = legendLabelConfig.getLabelTexts();
+			StringBuilder legendAreaContentBuilder = new StringBuilder();
+			for (String legend: legends) {
+				legendAreaContentBuilder.append(legend);
+				legendAreaContentBuilder.append("\n");
+			}
+			legendArea.setText(legendAreaContentBuilder.toString());
+
+		} else {
+			legendArea.setEditable(true);
+			legendArea.setBackground(Color.WHITE);
+			legendArea.setForeground(Color.BLACK);
 		}
 	}
 
