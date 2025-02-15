@@ -137,6 +137,7 @@ public final class LegendDrawer {
 	 * called "filtered result flags".
 	 */
 	private static class FilteredResultFlags {
+		private int seriesCount;
 		public boolean[] pointPlotterTargetFlags;
 		public boolean[] linePlotterTargetFlags;
 		public boolean[] meshPlotterTargetFlags;
@@ -151,6 +152,7 @@ public final class LegendDrawer {
 		 * @param length The number of the data series.
 		 */
 		public FilteredResultFlags(int seriesCount) {
+			this.seriesCount = seriesCount;
 			this.pointPlotterTargetFlags = new boolean[seriesCount];
 			this.linePlotterTargetFlags = new boolean[seriesCount];
 			this.meshPlotterTargetFlags = new boolean[seriesCount];
@@ -298,7 +300,7 @@ public final class LegendDrawer {
 		FilteredResultFlags filteredResultFlags = generateFilteredResultFlags();
 
 		// Draw legend texts.
-		this.drawLegendTexts(graphics, legendTextAreaPosition, legendTextLineHeight);
+		this.drawLegendTexts(graphics, legendTextAreaPosition, legendTextLineHeight, filteredResultFlags);
 
 		// Draw line icons.
 		int lineOffsetX = -6;
@@ -428,11 +430,14 @@ public final class LegendDrawer {
 	 * @param graphics The Graphics2D object to draw contents on the graph screen image.
 	 * @param legendTextAreaPosition The array storing x (at [0]) and y (at [1]) of the left-top point of the legend text area (not including markers).
 	 * @param legendTextLineHeight The line-height of the legend texts.
+	 * @param filteredResultFlags The container storing the enabled/disabled states of plot options for each data series after filtering.
 	 */
-	private void drawLegendTexts(Graphics2D graphics, int[] legendTextAreaPosition, int legendTextLineHeight) {
+	private void drawLegendTexts(Graphics2D graphics, int[] legendTextAreaPosition, int legendTextLineHeight,
+			FilteredResultFlags filteredResultFlags) {
 
 		// Extract legend settings.
 		String[] legendTexts = this.config.getLabelConfiguration().getLegendLabelConfiguration().getLabelTexts();
+		int legendCount = legendTexts.length;
 		Font legendFont = this.config.getFontConfiguration().getLegendLabelFont();
 
 		// Extract color settings.
@@ -442,7 +447,8 @@ public final class LegendDrawer {
 		graphics.setFont(legendFont);
 
 		// Draw legend texts.
-		for (int iseries=0; iseries<legendTexts.length; iseries++) {
+		int legendDrawableSeriesCount = Math.min(filteredResultFlags.seriesCount, legendCount);
+		for (int iseries=0; iseries<legendDrawableSeriesCount; iseries++) {
 			String legendText = legendTexts[iseries];
 			int textX = legendTextAreaPosition[0];
 			int textY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight);
@@ -502,7 +508,8 @@ public final class LegendDrawer {
 		AxisGradientColor axisGradientColor = axisGradientColors[0];
 
 		// Draw markers.
-		for (int iseries=0; iseries<legendCount; iseries++) {
+		int legendDrawableSeriesCount = Math.min(filteredResultFlags.seriesCount, legendCount);
+		for (int iseries=0; iseries<legendDrawableSeriesCount; iseries++) {
 
 			// Determine whether we should draw a line for this series.
 			boolean pointPlotterFlags = filteredResultFlags.pointPlotterTargetFlags[iseries];
@@ -594,7 +601,8 @@ public final class LegendDrawer {
 		AxisGradientColor axisGradientColor = axisGradientColors[0];
 
 		// Draw surface tiles.
-		for (int iseries=0; iseries<legendCount; iseries++) {
+		int legendDrawableSeriesCount = Math.min(filteredResultFlags.seriesCount, legendCount);
+		for (int iseries=0; iseries<legendDrawableSeriesCount; iseries++) {
 
 			// Determine whether we should draw a line for this series.
 			boolean lineGroupPlotterFlags = filteredResultFlags.lineGroupPlotterTargetFlags[iseries];
@@ -675,7 +683,8 @@ public final class LegendDrawer {
 		AxisGradientColor axisGradientColor = axisGradientColors[0];
 
 		// Draw surface tiles.
-		for (int iseries=0; iseries<legendCount; iseries++) {
+		int legendDrawableSeriesCount = Math.min(filteredResultFlags.seriesCount, legendCount);
+		for (int iseries=0; iseries<legendDrawableSeriesCount; iseries++) {
 
 			// Determine whether we should draw a line for this series.
 			boolean tileGroupPlotterFlags = filteredResultFlags.tileGroupPlotterTargetFlags[iseries];
