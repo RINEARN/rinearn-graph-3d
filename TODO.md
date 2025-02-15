@@ -91,7 +91,7 @@
 
 ## ちょっと思いつき 20250202, 04, 13
 
-* Configs の各 getter/setter の名前、「クラス名から分かる目的語を省いて短縮形にする」のか、それとも「メソッド名だけでも成立する形にする」のかまだブレがある。
+* 済: Configs の各 getter/setter の名前、「クラス名から分かる目的語を省いて短縮形にする」のか、それとも「メソッド名だけでも成立する形にする」のかまだブレがある。
   例えば現状 CameraConfig は前者だけど、LegendLabelConfig の setAutoLegendGenerationEnabled とかは後者。
   で、CameraConfig の setAngleMode とか setVerticalAngle はちょっと削り過ぎな気がしないでもない。そこは setCameraAngleMode の方がいいかもしれん。
 
@@ -113,8 +113,12 @@
 
           つまりやっぱり「クラス名から分かる目的語を省いて短縮形にする」が基本でよくて、それで違和感があるやつはそもそも命名がまずいかもって感じか。
 
-* EnvironmentConfiguration, SystemConfiguration とかに変えるべき？ というか命名時も絶対思い浮かんだはずだけど、なんで採用しなかった？
+* 済: EnvironmentConfiguration, SystemConfiguration とかに変えるべき？ というか命名時も絶対思い浮かんだはずだけど、なんで採用しなかった？
   綴りが長て読み書きコスト高く、非直感的で抽象的な命名で、さらにメッセージの言語ロケールの取得とかで頻繁に参照する。もうちょいなんとかすべきかも。
+
+  -> いやでも走りながら考えてきたらやっぱUIでは「環境設定」即ち「Environment Settings」が良い気がしてきたし、
+     それだとコンテナが EnvironmentConfiguration になるのは妥当な気がする。
+     UIでメニューに「環境設定」と「システム設定」がある時、どっちが分かりやすいか？って話。日本語/英語とか切り替えるのに。前者では。
 
 * config.camera の RenderingMode、存在位置か命名のどちらかを変えるべき。以下コード内NOTE抜粋：
 
@@ -203,7 +207,9 @@
 
   -> Presenter.adjustRanges の中で行うように変更した。
 
-* configのやつら、やっぱ内部クラス/enum入れ子にするのやめて全部サブパッケージに展開すべきかも。
+
+以下は2025年2月15日に実施済み:
+* 済: configのやつら、やっぱ内部クラス/enum入れ子にするのやめて全部サブパッケージに展開すべきかも。
   当初はコンパクトさ重視でよかったかもしれないけど、やっぱ scale config とかで無理が生じてサブパッケージ作ったし、
   それならもう全部サブパッケージにした方がいいような。例外がある時点でもはやコンパクトじゃないし。
 
@@ -275,7 +281,7 @@
 
 ## 気付いた事（対応が必用な事）
 
-* CameraConfig に validate() 実装してない。LightConfiguration も。
+* 済: CameraConfig に validate() 実装してない。LightConfiguration も。
 * FrameConfig を内部クラス分離してない
 * LightConfig の中の ambientReflectionStrength の Strength ってなんか微妙かも。要再検討
 
