@@ -14,6 +14,9 @@ public final class LegendLabelConfiguration {
 	/** The flag representing whether the auto-legend-generation feature is enabled. */
 	private volatile boolean autoLegendGenerationEnabled = true;
 
+	/** The flag representing whether the gap-removal feature, which removes empty lines in legends, is enabled. */
+	private volatile boolean gapRemovalEnabled = false;
+
 	/** The texts of the legend labels. */
 	private volatile String[] labelTexts = { };
 
@@ -52,6 +55,26 @@ public final class LegendLabelConfiguration {
 	public synchronized boolean isAutoLegendGenerationEnabled() {
 		return this.autoLegendGenerationEnabled;
 	}
+
+
+	/**
+	 * Sets whether the gap-removal feature, which removes empty lines in legends, is enabled.
+	 *
+	 * @param gapRemovalEnabled Specify true to enable the gap-removal feature.
+	 */
+	public synchronized void setGapRemovalEnabled(boolean gapRemovalEnabled) {
+		this.gapRemovalEnabled = gapRemovalEnabled;
+	}
+
+	/**
+	 * Gets whether the gap-removal feature, which removes empty lines in legends, is enabled.
+	 *
+	 * @return Returns true to enable the gap-removal feature.
+	 */
+	public synchronized boolean isGapRemovalEnabled() {
+		return this.gapRemovalEnabled;
+	}
+
 
 	/**
 	 * Sets the texts of the legend labels.
