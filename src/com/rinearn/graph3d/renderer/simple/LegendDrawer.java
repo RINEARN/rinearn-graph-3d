@@ -2,6 +2,7 @@ package com.rinearn.graph3d.renderer.simple;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.camera.CameraConfiguration;
+import com.rinearn.graph3d.config.label.LegendLabelConfiguration;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.ColorConfiguration;
 import com.rinearn.graph3d.config.color.GradientColor;
@@ -442,7 +443,8 @@ public final class LegendDrawer {
 			FilteredResultFlags filteredResultFlags) {
 
 		// Extract legend settings.
-		String[] legendTexts = this.config.getLabelConfiguration().getLegendLabelConfiguration().getLabelTexts();
+		LegendLabelConfiguration legendConfig = this.config.getLabelConfiguration().getLegendLabelConfiguration();
+		String[] legendTexts = legendConfig.getLabelTexts();
 		int legendCount = legendTexts.length;
 		Font legendFont = this.config.getFontConfiguration().getLegendLabelFont();
 
@@ -454,6 +456,7 @@ public final class LegendDrawer {
 
 		// Draw legend texts.
 		int legendDrawableSeriesCount = Math.min(filteredResultFlags.seriesCount, legendCount);
+		int drawnLegendCount = 0;
 		for (int iseries=0; iseries<legendDrawableSeriesCount; iseries++) {
 			if (!filteredResultFlags.legendExistFlags[iseries]) {
 				continue;
@@ -461,7 +464,11 @@ public final class LegendDrawer {
 			String legendText = legendTexts[iseries];
 			int textX = legendTextAreaPosition[0];
 			int textY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight);
+			if (legendConfig.isGapRemovalEnabled()) {
+				textY = legendTextAreaPosition[1] + (drawnLegendCount * legendTextLineHeight);
+			}
 			graphics.drawString(legendText, textX, textY);
+			drawnLegendCount++;
 		}
 	}
 
@@ -482,7 +489,8 @@ public final class LegendDrawer {
 			int[] legendTextAreaPosition, int legendTextLineHeight, int markerOffsetXWithLine, int markerOffsetXWithoutLine,
 			FilteredResultFlags filteredResultFlags, boolean[] gradientTargetFlags, boolean useForegroundColorInsteadOfGradient) {
 
-		int legendCount = this.config.getLabelConfiguration().getLegendLabelConfiguration().getLabelTexts().length;
+		LegendLabelConfiguration legendConfig = this.config.getLabelConfiguration().getLegendLabelConfiguration();
+		int legendCount = legendConfig.getLabelTexts().length;
 		ColorMixer colorMixer = new ColorMixer();
 
 		// Extract point/marker settings.
@@ -518,6 +526,7 @@ public final class LegendDrawer {
 
 		// Draw markers.
 		int legendDrawableSeriesCount = Math.min(filteredResultFlags.seriesCount, legendCount);
+		int drawnLegendCount = 0;
 		for (int iseries=0; iseries<legendDrawableSeriesCount; iseries++) {
 
 			// Determine whether we should draw a line for this series.
@@ -554,6 +563,9 @@ public final class LegendDrawer {
 			// Calculate the position of the marker.
 			int markerX = legendTextAreaPosition[0] + markerOffsetX;
 			int markerY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight);
+			if (legendConfig.isGapRemovalEnabled()) {
+				markerY = legendTextAreaPosition[1] + (drawnLegendCount * legendTextLineHeight);
+			}
 
 			// Draw a marker.
 			if (isMarkerEnabled) {
@@ -569,6 +581,7 @@ public final class LegendDrawer {
 				markerY -= (textFontHeight * 0.6);
 				graphics.fillOval(markerX, markerY, pointSize, pointSize);
 			}
+			drawnLegendCount++;
 		}
 	}
 
@@ -586,7 +599,8 @@ public final class LegendDrawer {
 			int[] legendTextAreaPosition, int legendTextLineHeight, int lineOffsetX,
 			FilteredResultFlags filteredResultFlags, boolean[] gradientTargetFlags) {
 
-		int legendCount = this.config.getLabelConfiguration().getLegendLabelConfiguration().getLabelTexts().length;
+		LegendLabelConfiguration legendConfig = this.config.getLabelConfiguration().getLegendLabelConfiguration();
+		int legendCount = legendConfig.getLabelTexts().length;
 		ColorMixer colorMixer = new ColorMixer();
 
 		// Get font information.
@@ -614,6 +628,7 @@ public final class LegendDrawer {
 
 		// Draw surface tiles.
 		int legendDrawableSeriesCount = Math.min(filteredResultFlags.seriesCount, legendCount);
+		int drawnLegendCount = 0;
 		for (int iseries=0; iseries<legendDrawableSeriesCount; iseries++) {
 
 			// Determine whether we should draw a line for this series.
@@ -632,6 +647,9 @@ public final class LegendDrawer {
 			int lineIconHeight = 2;
 			int lineX = legendTextAreaPosition[0] + lineOffsetX - lineIconWidth;
 			int lineY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight) - (int)(textFontHeight * 0.4);
+			if (legendConfig.isGapRemovalEnabled()) {
+				lineY = legendTextAreaPosition[1] + (drawnLegendCount * legendTextLineHeight);
+			}
 
 			// Draw the line by the gradient color.
 			if (gradientTargetFlags[iseries]) {
@@ -653,6 +671,7 @@ public final class LegendDrawer {
 					graphics.drawLine(lineX, lineY + iline, lineX + lineIconWidth, lineY + iline);
 				}
 			}
+			drawnLegendCount++;
 		}
 	}
 
@@ -670,7 +689,8 @@ public final class LegendDrawer {
 			int[] legendTextAreaPosition, int legendTextLineHeight, int tileOffsetX,
 			FilteredResultFlags filteredResultFlags, boolean[] gradientTargetFlags) {
 
-		int legendCount = this.config.getLabelConfiguration().getLegendLabelConfiguration().getLabelTexts().length;
+		LegendLabelConfiguration legendConfig = this.config.getLabelConfiguration().getLegendLabelConfiguration();
+		int legendCount = legendConfig.getLabelTexts().length;
 		ColorMixer colorMixer = new ColorMixer();
 
 		// Get font information.
@@ -699,6 +719,7 @@ public final class LegendDrawer {
 
 		// Draw surface tiles.
 		int legendDrawableSeriesCount = Math.min(filteredResultFlags.seriesCount, legendCount);
+		int drawnLegendCount = 0;
 		for (int iseries=0; iseries<legendDrawableSeriesCount; iseries++) {
 
 			// Determine whether we should draw a line for this series.
@@ -716,6 +737,9 @@ public final class LegendDrawer {
 			int tileHeight = (int)(textFontHeight * 0.8);
 			int tileX = legendTextAreaPosition[0] + tileOffsetX - tileWidth;
 			int tileY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight) - tileHeight;
+			if (legendConfig.isGapRemovalEnabled()) {
+				tileY = legendTextAreaPosition[1] + (drawnLegendCount * legendTextLineHeight);
+			}
 
 			// Draw the tile by the gradient color.
 			if (gradientTargetFlags[iseries]) {
@@ -739,6 +763,7 @@ public final class LegendDrawer {
 				graphics.setColor(solidColors[solidColorIndex]);
 				graphics.fillRect(tileX, tileY, tileWidth, tileHeight);
 			}
+			drawnLegendCount++;
 		}
 	}
 
