@@ -138,6 +138,7 @@ public final class LegendDrawer {
 	 */
 	private static class FilteredResultFlags {
 		private int seriesCount;
+		public boolean[] legendExistFlags;
 		public boolean[] pointPlotterTargetFlags;
 		public boolean[] linePlotterTargetFlags;
 		public boolean[] meshPlotterTargetFlags;
@@ -153,6 +154,7 @@ public final class LegendDrawer {
 		 */
 		public FilteredResultFlags(int seriesCount) {
 			this.seriesCount = seriesCount;
+			this.legendExistFlags = new boolean[seriesCount];
 			this.pointPlotterTargetFlags = new boolean[seriesCount];
 			this.linePlotterTargetFlags = new boolean[seriesCount];
 			this.meshPlotterTargetFlags = new boolean[seriesCount];
@@ -210,6 +212,10 @@ public final class LegendDrawer {
 		// Calculate and set values of the results.
 		for (int iseries=0; iseries<seriesCount; iseries++) {
 			SeriesAttribute seriesAttribute = seriesAttributes[iseries];
+
+			// Set whether the legend is not empty.
+			// (We regard that legends consisting of white-spaces are NOT empty here, so don't use trim() or isEmpty())
+			flags.legendExistFlags[iseries] = seriesAttribute.getModifiableLegend().length() != 0;
 
 			// Set the enabled/disabled state of "With Points" option for this series.
 			if (pointPlotterEnabled) {
@@ -449,6 +455,9 @@ public final class LegendDrawer {
 		// Draw legend texts.
 		int legendDrawableSeriesCount = Math.min(filteredResultFlags.seriesCount, legendCount);
 		for (int iseries=0; iseries<legendDrawableSeriesCount; iseries++) {
+			if (!filteredResultFlags.legendExistFlags[iseries]) {
+				continue;
+			}
 			String legendText = legendTexts[iseries];
 			int textX = legendTextAreaPosition[0];
 			int textY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight);
@@ -516,6 +525,9 @@ public final class LegendDrawer {
 			boolean tileGroupPlotterFlags = filteredResultFlags.tileGroupPlotterTargetFlags[iseries];
 			boolean shouldDrawThisSeries = pointPlotterFlags && !tileGroupPlotterFlags;
 			if (!shouldDrawThisSeries) {
+				continue;
+			}
+			if (!filteredResultFlags.legendExistFlags[iseries]) {
 				continue;
 			}
 
@@ -611,6 +623,9 @@ public final class LegendDrawer {
 			if (!shouldDrawThisSeries) {
 				continue;
 			}
+			if (!filteredResultFlags.legendExistFlags[iseries]) {
+				continue;
+			}
 
 			// Calculate the position of the marker.
 			int lineIconWidth = 40;
@@ -690,6 +705,9 @@ public final class LegendDrawer {
 			boolean tileGroupPlotterFlags = filteredResultFlags.tileGroupPlotterTargetFlags[iseries];
 			boolean shouldDrawThisSeries = tileGroupPlotterFlags;
 			if (!shouldDrawThisSeries) {
+				continue;
+			}
+			if (!filteredResultFlags.legendExistFlags[iseries]) {
 				continue;
 			}
 
