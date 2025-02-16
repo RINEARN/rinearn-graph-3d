@@ -30,7 +30,7 @@ import java.lang.reflect.InvocationTargetException;
 public final class LabelSettingWindow {
 
 	/** The default width [px] of this window. */
-	public static final int DEFAULT_WINDOW_WIDTH = 360;
+	public static final int DEFAULT_WINDOW_WIDTH = 480;
 
 	/** The default height [px] of this window. */
 	public static final int DEFAULT_WINDOW_HEIGHT = 600;
@@ -70,6 +70,9 @@ public final class LabelSettingWindow {
 
 	/** The checkbox to enable/disable auto-legend-generation feature. */
 	public volatile JCheckBox autoLegendGenerationBox;
+
+	/** The checkbox to enable/disable gap-removal feature. */
+	public volatile JCheckBox gapRemovalBox;
 
 	/** The text area to input legends. */
 	public volatile JTextArea legendArea;
@@ -166,6 +169,9 @@ public final class LabelSettingWindow {
 			int rightMargin = 5;
 			int marginBetweenLabelAndField = 10;
 
+			constraints.gridwidth = 2;
+			constraints.weightx = 1.0;
+
 			// Create the title label of the text field for inputting the X label's text.
 			xLabelSectionLabel = new JLabel("Unconfigured");
 			xLabelSectionLabel.setVerticalAlignment(JLabel.BOTTOM);
@@ -241,6 +247,7 @@ public final class LabelSettingWindow {
 			basePanel.add(legendSectionLabel);
 
 			constraints.gridy++;
+			constraints.gridwidth = 1;
 
 			// The checkbox to enable/disable the auto-legend-generation feature.
 			autoLegendGenerationBox = new JCheckBox("Unconfigured");
@@ -248,6 +255,18 @@ public final class LabelSettingWindow {
 			layout.setConstraints(autoLegendGenerationBox, constraints);
 			basePanel.add(autoLegendGenerationBox);
 
+			constraints.gridx++;
+			constraints.weightx = 30.0;
+
+			// The checkbox to enable/disable the gap-removal feature.
+			gapRemovalBox = new JCheckBox("Unconfigured");
+			constraints.insets = new Insets(0, leftMarginLong, 0, rightMargin);
+			layout.setConstraints(gapRemovalBox, constraints);
+			basePanel.add(gapRemovalBox);
+
+			constraints.gridx = 0;
+			constraints.weightx = 1.0;
+			constraints.gridwidth = 2;
 			constraints.gridy++;
 
 			// The text area to input legend.
@@ -366,6 +385,7 @@ public final class LabelSettingWindow {
 			zLabelSectionLabel.setText("Z軸ラベル:");
 			legendSectionLabel.setText("凡例:");
 			autoLegendGenerationBox.setText("自動生成");
+			gapRemovalBox.setText("隙間を除去");
 			okButton.setText("OK");
 		}
 
@@ -379,6 +399,7 @@ public final class LabelSettingWindow {
 			zLabelSectionLabel.setText("Z Axis Label:");
 			legendSectionLabel.setText("Legend:");
 			autoLegendGenerationBox.setText("Auto Generation");
+			gapRemovalBox.setText("Remove Gaps");
 			okButton.setText("OK");
 		}
 
@@ -402,6 +423,7 @@ public final class LabelSettingWindow {
 
 			legendSectionLabel.setFont(uiBoldFont);
 			autoLegendGenerationBox.setFont(uiBoldFont);
+			gapRemovalBox.setFont(uiBoldFont);
 			legendArea.setFont(uiPlainFont);
 		}
 
@@ -454,6 +476,9 @@ public final class LabelSettingWindow {
 			legendArea.setBackground(Color.WHITE);
 			legendArea.setForeground(Color.BLACK);
 		}
+
+		boolean isGapRemovalEnabled = legendLabelConfig.isGapRemovalEnabled();
+		gapRemovalBox.setSelected(isGapRemovalEnabled);
 	}
 
 

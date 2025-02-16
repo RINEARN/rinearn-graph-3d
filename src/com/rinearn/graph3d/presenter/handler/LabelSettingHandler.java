@@ -62,8 +62,11 @@ public class LabelSettingHandler {
 		LabelSettingWindow window = this.view.labelSettingWindow;
 		window.okButton.addActionListener(new OkPressedEventListener());
 
-		// Add the action listener to the checkbox to enable/disable the auto-legend-generation feature.
+		// Add the action listener to the check box to enable/disable the auto-legend-generation feature.
 		window.autoLegendGenerationBox.addActionListener(new AutoLegendGenerationBoxSelectedEventListener());
+
+		// Add the action listener to the check box to enable/disable the gap-removal feature.
+		window.gapRemovalBox.addActionListener(new GapRemovalBoxSelectedEventListener());
 
 		// Add the event handlers to the right-click menus of the text fields/area.
 		xLabelTextFieldMenuHandler = new TextRightClickMenuHandler(window.xLabelFieldRightClickMenu, window.xLabelField);
@@ -107,8 +110,7 @@ public class LabelSettingHandler {
 	// ================================================================================
 
 	/**
-	 *
-	 *
+	 * The event listener handling the event that the auto-legend-generation check box is selected/unselected.
 	 */
 	private final class AutoLegendGenerationBoxSelectedEventListener implements ActionListener {
 		@Override
@@ -122,6 +124,28 @@ public class LabelSettingHandler {
 			// Update config.
 			LegendLabelConfiguration legendLabelConfig = model.config.getLabelConfiguration().getLegendLabelConfiguration();
 			legendLabelConfig.setAutoLegendGenerationEnabled(enabled);
+
+			// Update UI.
+			window.updateLegendSection(model.config.getLabelConfiguration().getLegendLabelConfiguration());
+		}
+	}
+
+
+	/**
+	 * The event listener handling the event that the gap-removal check box in legend section is selected/unselected.
+	 */
+	private final class GapRemovalBoxSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			LabelSettingWindow window = view.labelSettingWindow;
+			boolean enabled = window.gapRemovalBox.isSelected();
+
+			// Update config.
+			LegendLabelConfiguration legendLabelConfig = model.config.getLabelConfiguration().getLegendLabelConfiguration();
+			legendLabelConfig.setGapRemovalEnabled(enabled);
 
 			// Update UI.
 			window.updateLegendSection(model.config.getLabelConfiguration().getLegendLabelConfiguration());
