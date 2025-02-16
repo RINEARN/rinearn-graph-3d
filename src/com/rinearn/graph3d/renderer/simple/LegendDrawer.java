@@ -139,7 +139,7 @@ public final class LegendDrawer {
 	 */
 	private static class FilteredResultFlags {
 		private int seriesCount;
-		public boolean[] legendExistFlags;
+		public boolean[] legendTextExistFlags;
 		public boolean[] pointPlotterTargetFlags;
 		public boolean[] linePlotterTargetFlags;
 		public boolean[] meshPlotterTargetFlags;
@@ -155,7 +155,7 @@ public final class LegendDrawer {
 		 */
 		public FilteredResultFlags(int seriesCount) {
 			this.seriesCount = seriesCount;
-			this.legendExistFlags = new boolean[seriesCount];
+			this.legendTextExistFlags = new boolean[seriesCount];
 			this.pointPlotterTargetFlags = new boolean[seriesCount];
 			this.linePlotterTargetFlags = new boolean[seriesCount];
 			this.meshPlotterTargetFlags = new boolean[seriesCount];
@@ -216,7 +216,7 @@ public final class LegendDrawer {
 
 			// Set whether the legend is not empty.
 			// (We regard that legends consisting of white-spaces are NOT empty here, so don't use trim() or isEmpty())
-			flags.legendExistFlags[iseries] = seriesAttribute.getModifiableLegend().length() != 0;
+			flags.legendTextExistFlags[iseries] = seriesAttribute.getModifiableLegend().length() != 0;
 
 			// Set the enabled/disabled state of "With Points" option for this series.
 			if (pointPlotterEnabled) {
@@ -456,19 +456,19 @@ public final class LegendDrawer {
 
 		// Draw legend texts.
 		int legendDrawableSeriesCount = Math.min(filteredResultFlags.seriesCount, legendCount);
-		int drawnLegendCount = 0;
+		int drawnLegendTextCount = 0;
 		for (int iseries=0; iseries<legendDrawableSeriesCount; iseries++) {
-			if (!filteredResultFlags.legendExistFlags[iseries]) {
+			if (!filteredResultFlags.legendTextExistFlags[iseries]) {
 				continue;
 			}
 			String legendText = legendTexts[iseries];
 			int textX = legendTextAreaPosition[0];
 			int textY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight);
 			if (legendConfig.isGapRemovalEnabled()) {
-				textY = legendTextAreaPosition[1] + (drawnLegendCount * legendTextLineHeight);
+				textY = legendTextAreaPosition[1] + (drawnLegendTextCount * legendTextLineHeight);
 			}
 			graphics.drawString(legendText, textX, textY);
-			drawnLegendCount++;
+			drawnLegendTextCount++;
 		}
 	}
 
@@ -526,7 +526,7 @@ public final class LegendDrawer {
 
 		// Draw markers.
 		int legendDrawableSeriesCount = Math.min(filteredResultFlags.seriesCount, legendCount);
-		int drawnLegendCount = 0;
+		int drawnLegendTextCount = 0;
 		for (int iseries=0; iseries<legendDrawableSeriesCount; iseries++) {
 
 			// Determine whether we should draw a line for this series.
@@ -534,9 +534,6 @@ public final class LegendDrawer {
 			boolean tileGroupPlotterFlags = filteredResultFlags.tileGroupPlotterTargetFlags[iseries];
 			boolean shouldDrawThisSeries = pointPlotterFlags && !tileGroupPlotterFlags;
 			if (!shouldDrawThisSeries) {
-				continue;
-			}
-			if (!filteredResultFlags.legendExistFlags[iseries]) {
 				continue;
 			}
 
@@ -564,7 +561,7 @@ public final class LegendDrawer {
 			int markerX = legendTextAreaPosition[0] + markerOffsetX;
 			int markerY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight);
 			if (legendConfig.isGapRemovalEnabled()) {
-				markerY = legendTextAreaPosition[1] + (drawnLegendCount * legendTextLineHeight);
+				markerY = legendTextAreaPosition[1] + (drawnLegendTextCount * legendTextLineHeight);
 			}
 
 			// Draw a marker.
@@ -581,7 +578,11 @@ public final class LegendDrawer {
 				markerY -= (textFontHeight * 0.6);
 				graphics.fillOval(markerX, markerY, pointSize, pointSize);
 			}
-			drawnLegendCount++;
+
+			// Count-up the drawn legend text.
+			if (filteredResultFlags.legendTextExistFlags[iseries]) {
+				drawnLegendTextCount++;
+			}
 		}
 	}
 
@@ -628,7 +629,7 @@ public final class LegendDrawer {
 
 		// Draw surface tiles.
 		int legendDrawableSeriesCount = Math.min(filteredResultFlags.seriesCount, legendCount);
-		int drawnLegendCount = 0;
+		int drawnLegendTextCount = 0;
 		for (int iseries=0; iseries<legendDrawableSeriesCount; iseries++) {
 
 			// Determine whether we should draw a line for this series.
@@ -638,9 +639,6 @@ public final class LegendDrawer {
 			if (!shouldDrawThisSeries) {
 				continue;
 			}
-			if (!filteredResultFlags.legendExistFlags[iseries]) {
-				continue;
-			}
 
 			// Calculate the position of the marker.
 			int lineIconWidth = 40;
@@ -648,7 +646,7 @@ public final class LegendDrawer {
 			int lineX = legendTextAreaPosition[0] + lineOffsetX - lineIconWidth;
 			int lineY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight) - (int)(textFontHeight * 0.4);
 			if (legendConfig.isGapRemovalEnabled()) {
-				lineY = legendTextAreaPosition[1] + (drawnLegendCount * legendTextLineHeight);
+				lineY = legendTextAreaPosition[1] + (drawnLegendTextCount * legendTextLineHeight) - (int)(textFontHeight * 0.4);
 			}
 
 			// Draw the line by the gradient color.
@@ -671,7 +669,11 @@ public final class LegendDrawer {
 					graphics.drawLine(lineX, lineY + iline, lineX + lineIconWidth, lineY + iline);
 				}
 			}
-			drawnLegendCount++;
+
+			// Count-up the drawn legend text.
+			if (filteredResultFlags.legendTextExistFlags[iseries]) {
+				drawnLegendTextCount++;
+			}
 		}
 	}
 
@@ -719,16 +721,13 @@ public final class LegendDrawer {
 
 		// Draw surface tiles.
 		int legendDrawableSeriesCount = Math.min(filteredResultFlags.seriesCount, legendCount);
-		int drawnLegendCount = 0;
+		int drawnLegendTextCount = 0;
 		for (int iseries=0; iseries<legendDrawableSeriesCount; iseries++) {
 
 			// Determine whether we should draw a line for this series.
 			boolean tileGroupPlotterFlags = filteredResultFlags.tileGroupPlotterTargetFlags[iseries];
 			boolean shouldDrawThisSeries = tileGroupPlotterFlags;
 			if (!shouldDrawThisSeries) {
-				continue;
-			}
-			if (!filteredResultFlags.legendExistFlags[iseries]) {
 				continue;
 			}
 
@@ -738,7 +737,7 @@ public final class LegendDrawer {
 			int tileX = legendTextAreaPosition[0] + tileOffsetX - tileWidth;
 			int tileY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight) - tileHeight;
 			if (legendConfig.isGapRemovalEnabled()) {
-				tileY = legendTextAreaPosition[1] + (drawnLegendCount * legendTextLineHeight);
+				tileY = legendTextAreaPosition[1] + (drawnLegendTextCount * legendTextLineHeight) - tileHeight;
 			}
 
 			// Draw the tile by the gradient color.
@@ -763,7 +762,11 @@ public final class LegendDrawer {
 				graphics.setColor(solidColors[solidColorIndex]);
 				graphics.fillRect(tileX, tileY, tileWidth, tileHeight);
 			}
-			drawnLegendCount++;
+
+			// Count-up the drawn legend text.
+			if (filteredResultFlags.legendTextExistFlags[iseries]) {
+				drawnLegendTextCount++;
+			}
 		}
 	}
 
