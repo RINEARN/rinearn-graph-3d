@@ -12,6 +12,8 @@ import javax.swing.SwingUtilities;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.color.ColorConfiguration;
+import com.rinearn.graph3d.config.scale.ScaleConfiguration;
+import com.rinearn.graph3d.config.scale.AxisScaleConfiguration;
 import com.rinearn.graph3d.config.font.FontConfiguration;
 import com.rinearn.graph3d.config.label.LabelConfiguration;
 import com.rinearn.graph3d.config.label.LegendLabelConfiguration;
@@ -101,6 +103,24 @@ public class MainMenu {
 
 	/** "Options" > "With Surfaces" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem surfaceOptionMenuItem;
+
+	/** "Options" > "Log X" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem logXOptionMenuItem;
+
+	/** "Options" > "Log Y" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem logYOptionMenuItem;
+
+	/** "Options" > "Log Z" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem logZOptionMenuItem;
+
+	/** "Options" > "Invert X" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem invertXOptionMenuItem;
+
+	/** "Options" > "Invert Y" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem invertYOptionMenuItem;
+
+	/** "Options" > "Invert Z" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem invertZOptionMenuItem;
 
 	/** "Options" > "Gradient Colors" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem gradientOptionMenuItem;
@@ -247,6 +267,27 @@ public class MainMenu {
 				// --- Separator ---
 				optionsMenu.add(new JSeparator());
 
+				logXOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
+				optionsMenu.add(logXOptionMenuItem);
+
+				logYOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
+				optionsMenu.add(logYOptionMenuItem);
+
+				logZOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
+				optionsMenu.add(logZOptionMenuItem);
+
+				invertXOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
+				optionsMenu.add(invertXOptionMenuItem);
+
+				invertYOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
+				optionsMenu.add(invertYOptionMenuItem);
+
+				invertZOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
+				optionsMenu.add(invertZOptionMenuItem);
+
+				// --- Separator ---
+				optionsMenu.add(new JSeparator());
+
 				// "Options" > "Gradient Coloring" menu item:
 				gradientOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
 				optionsMenu.add(gradientOptionMenuItem);
@@ -384,6 +425,15 @@ public class MainMenu {
 				lineOptionMenuItem.setText("線プロット");
 				meshOptionMenuItem.setText("メッシュプロット");
 				surfaceOptionMenuItem.setText("曲面プロット");
+
+				logXOptionMenuItem.setText("対数軸 X");
+				logYOptionMenuItem.setText("対数軸 Y");
+				logZOptionMenuItem.setText("対数軸 Z");
+
+				invertXOptionMenuItem.setText("軸反転 X");
+				invertYOptionMenuItem.setText("軸反転 Y");
+				invertZOptionMenuItem.setText("軸反転 Z");
+
 				gradientOptionMenuItem.setText("グラデーション");
 				legendOptionMenuItem.setText("凡例");
 			}
@@ -432,6 +482,15 @@ public class MainMenu {
 				lineOptionMenuItem.setText("With Lines");
 				meshOptionMenuItem.setText("With Meshes");
 				surfaceOptionMenuItem.setText("With Surfaces (Membranes)");
+
+				logXOptionMenuItem.setText("Log X");
+				logYOptionMenuItem.setText("Log Y");
+				logZOptionMenuItem.setText("Log Z");
+
+				invertXOptionMenuItem.setText("Invert X");
+				invertYOptionMenuItem.setText("Invert Y");
+				invertZOptionMenuItem.setText("Invert Z");
+
 				gradientOptionMenuItem.setText("Gradient Colors");
 				legendOptionMenuItem.setText("Legends");
 			}
@@ -482,6 +541,15 @@ public class MainMenu {
 				lineOptionMenuItem.setFont(uiBoldFont);
 				meshOptionMenuItem.setFont(uiBoldFont);
 				surfaceOptionMenuItem.setFont(uiBoldFont);
+
+				logXOptionMenuItem.setFont(uiBoldFont);
+				logYOptionMenuItem.setFont(uiBoldFont);
+				logZOptionMenuItem.setFont(uiBoldFont);
+
+				invertXOptionMenuItem.setFont(uiBoldFont);
+				invertYOptionMenuItem.setFont(uiBoldFont);
+				invertZOptionMenuItem.setFont(uiBoldFont);
+
 				gradientOptionMenuItem.setFont(uiBoldFont);
 				legendOptionMenuItem.setFont(uiBoldFont);
 			}
@@ -492,13 +560,29 @@ public class MainMenu {
 		 */
 		private void setOptionStates() {
 
-			// Plot options.
+			// Plot options:
 			{
 				PlotterConfiguration plotterConfig = configuration.getPlotterConfiguration();
 				pointOptionMenuItem.setSelected(plotterConfig.getPointPlotterConfiguration().isPlotterEnabled());
 				lineOptionMenuItem.setSelected(plotterConfig.getLinePlotterConfiguration().isPlotterEnabled());
 				meshOptionMenuItem.setSelected(plotterConfig.getMeshPlotterConfiguration().isPlotterEnabled());
 				surfaceOptionMenuItem.setSelected(plotterConfig.getSurfacePlotterConfiguration().isPlotterEnabled());
+			}
+
+			// Scale options:
+			{
+				ScaleConfiguration scaleConfig = configuration.getScaleConfiguration();
+				AxisScaleConfiguration xScaleConfig = scaleConfig.getXScaleConfiguration();
+				AxisScaleConfiguration yScaleConfig = scaleConfig.getYScaleConfiguration();
+				AxisScaleConfiguration zScaleConfig = scaleConfig.getZScaleConfiguration();
+
+				logXOptionMenuItem.setSelected(xScaleConfig.isLogScaleEnabled());
+				logYOptionMenuItem.setSelected(yScaleConfig.isLogScaleEnabled());
+				logZOptionMenuItem.setSelected(zScaleConfig.isLogScaleEnabled());
+
+				invertXOptionMenuItem.setSelected(xScaleConfig.isInversionEnabled());
+				invertYOptionMenuItem.setSelected(yScaleConfig.isInversionEnabled());
+				invertZOptionMenuItem.setSelected(zScaleConfig.isInversionEnabled());
 			}
 
 			// Gradient Colors option:
