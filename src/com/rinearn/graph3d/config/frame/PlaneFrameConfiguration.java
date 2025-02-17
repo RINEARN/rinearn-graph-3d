@@ -7,7 +7,7 @@ import java.io.File;
 
 
 /**
- * The class storing configuration values of a plane.
+ * The class storing configuration values of a plane of the graph frame.
  */
 public class PlaneFrameConfiguration {
 

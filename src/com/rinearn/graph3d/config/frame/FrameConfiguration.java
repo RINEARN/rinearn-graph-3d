@@ -37,6 +37,15 @@ public final class FrameConfiguration {
 	/** The width of the frame lines. */
 	private volatile double lineWidth = 1.0;
 
+	/** The configuration of the frame of X-axis. */
+	private volatile AxisFrameConfiguration xFrameConfiguration = new AxisFrameConfiguration();
+
+	/** The configuration of the frame of Y-axis. */
+	private volatile AxisFrameConfiguration yFrameConfiguration = new AxisFrameConfiguration();
+
+	/** The configuration of the frame of Z-axis. */
+	private volatile AxisFrameConfiguration zFrameConfiguration = new AxisFrameConfiguration();
+
 	/** The configuration of the lower (Z-min) side X-Y plane's frame. */
 	private volatile PlaneFrameConfiguration xyLowerFrameConfiguration = new PlaneFrameConfiguration();
 
@@ -110,6 +119,63 @@ public final class FrameConfiguration {
 	 */
 	public synchronized double getLineWidth() {
 		return this.lineWidth;
+	}
+
+
+	/**
+	 * Sets the configuration of the frame of X axis.
+	 *
+	 * @param xFrameConfiguration The configuration of the frame of X axis.
+	 */
+	public synchronized void setXFrameConfiguration(AxisFrameConfiguration xFrameConfiguration) {
+		this.xFrameConfiguration = xFrameConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of the frame of X axis.
+	 *
+	 * @return The configuration of the frame of X axis.
+	 */
+	public synchronized AxisFrameConfiguration getXFrameConfiguration() {
+		return this.xFrameConfiguration;
+	}
+
+
+	/**
+	 * Sets the configuration of the frame of Y axis.
+	 *
+	 * @param yFrameConfiguration The configuration of the frame of Y axis.
+	 */
+	public synchronized void setYFrameConfiguration(AxisFrameConfiguration yFrameConfiguration) {
+		this.yFrameConfiguration = yFrameConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of the frame of Y axis.
+	 *
+	 * @return The configuration of the frame of Y axis.
+	 */
+	public synchronized AxisFrameConfiguration getYFrameConfiguration() {
+		return this.yFrameConfiguration;
+	}
+
+
+	/**
+	 * Sets the configuration of the frame of Z axis.
+	 *
+	 * @param zFrameConfiguration The configuration of the frame of Z axis.
+	 */
+	public synchronized void setZFrameConfiguration(AxisFrameConfiguration zFrameConfiguration) {
+		this.zFrameConfiguration = zFrameConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of the frame of Z axis.
+	 *
+	 * @return The configuration of the frame of Z axis.
+	 */
+	public synchronized AxisFrameConfiguration getZFrameConfiguration() {
+		return this.zFrameConfiguration;
 	}
 
 
