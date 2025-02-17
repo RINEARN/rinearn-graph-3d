@@ -92,6 +92,12 @@ public final class AxisScaleConfiguration {
 	/** The formmatter of tick labels implemented by users or third party developers, used in CUSTOM mode. */
 	private volatile TickLabelFormatter customTickLabelFormatter = null;
 
+	/** The flags representing whether the log scale feature is enabled for this axis. */
+	private volatile boolean logScaleEnabled = false;
+
+	/** The flags representing whether the direction of this axis is inverted. */
+	private volatile boolean inversionEnabled = false;
+
 
 	/**
 	 * Creates a new configuration storing default values.
@@ -427,6 +433,44 @@ public final class AxisScaleConfiguration {
 	 */
 	public synchronized TickLabelFormatter getCustomTickLabelFormatter() {
 		return this.customTickLabelFormatter;
+	}
+
+
+	/**
+	 * Enables/disables the log-scale feature for this axis.
+	 *
+	 * @param logScaleEnabled Specify true to enable the log-scale feature.
+	 */
+	public synchronized void setLogScaleEnabled(boolean logScaleEnabled) {
+		this.logScaleEnabled = logScaleEnabled;
+	}
+
+	/**
+	 * Gets whether the log-scale feature is enabled for this axis.
+	 *
+	 * @param Returns true if the log-scale feature is enabled.
+	 */
+	public synchronized boolean isLogScaleEnabled() {
+		return this.logScaleEnabled;
+	}
+
+
+	/**
+	 * Enables/disables the inversion feature for this axis.
+	 *
+	 * @param inversionEnabled Specify true to invert this axis.
+	 */
+	public synchronized void setInversionEnabled(boolean inversionEnabled) {
+		this.inversionEnabled = inversionEnabled;
+	}
+
+	/**
+	 * Gets whether this axis is inverted.
+	 *
+	 * @param Returns true if this axis is inverted.
+	 */
+	public synchronized boolean isInversionEnabled() {
+		return this.inversionEnabled;
 	}
 
 
