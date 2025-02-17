@@ -2,6 +2,7 @@ package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.config.camera.CameraConfiguration;
+import com.rinearn.graph3d.config.screen.ScreenConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 
@@ -632,8 +633,9 @@ public final class ScreenHandler {
 			}
 
 			// Store the above size into the configuration container.
-			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
-			cameraConfig.setScreenSize(this.screenWidth, this.screenHeight);
+			ScreenConfiguration screenConfig = model.config.getScreenConfiguration();
+			screenConfig.setScreenWidth(this.screenWidth);
+			screenConfig.setScreenHeight(this.screenHeight);
 
 			// Reflect the updated screen size.
 			presenter.propagateConfiguration();

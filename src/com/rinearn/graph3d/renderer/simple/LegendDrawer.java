@@ -1,7 +1,7 @@
 package com.rinearn.graph3d.renderer.simple;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.config.camera.CameraConfiguration;
+import com.rinearn.graph3d.config.screen.ScreenConfiguration;
 import com.rinearn.graph3d.config.label.LegendLabelConfiguration;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.ColorConfiguration;
@@ -289,9 +289,9 @@ public final class LegendDrawer {
 	public void draw(Graphics2D graphics) {
 
 		// Extract/define position parameters.
-		CameraConfiguration cameraConfig = this.config.getCameraConfiguration();
-		int screenWidth = cameraConfig.getScreenWidth();
-		int screenHeight = cameraConfig.getScreenHeight();
+		ScreenConfiguration screenConfig = this.config.getScreenConfiguration();
+		int screenWidth = screenConfig.getScreenWidth();
+		int screenHeight = screenConfig.getScreenHeight();
 		int legendOffsetX = 30;
 		int legendOffsetY = 30;
 

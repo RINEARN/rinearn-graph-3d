@@ -2,6 +2,7 @@ package com.rinearn.graph3d.presenter.handler;
 
 import com.rinearn.graph3d.config.camera.CameraConfiguration;
 import com.rinearn.graph3d.config.camera.CameraPositionAngleMode;
+import com.rinearn.graph3d.config.screen.ScreenConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.view.CameraSettingWindow;
@@ -538,7 +539,8 @@ public final class CameraSettingHandler {
 				return;
 			}
 			CameraSettingWindow window = view.cameraSettingWindow;
-			CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
+			// CameraConfiguration cameraConfig = model.config.getCameraConfiguration();
+			ScreenConfiguration screenConfig = model.config.getScreenConfiguration();
 
 			// Get screen-width/height parameters from their text fields.
 			String screenWidthText = window.widthField.getText();
@@ -586,7 +588,8 @@ public final class CameraSettingHandler {
 			}
 
 			// Store the inputted values into the configuration container.
-			cameraConfig.setScreenSize(screenWidth, screenHeight);
+			screenConfig.setScreenWidth(screenWidth);
+			screenConfig.setScreenHeight(screenHeight);
 
 			// Propagate the above update of the configuration to the entire application.
 			// In addition, request the MainWindowFrameHandler to resize the main window,

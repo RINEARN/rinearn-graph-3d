@@ -3,6 +3,7 @@ package com.rinearn.graph3d.view;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.camera.CameraConfiguration;
 import com.rinearn.graph3d.config.camera.CameraPositionAngleMode;
+import com.rinearn.graph3d.config.screen.ScreenConfiguration;
 import com.rinearn.graph3d.config.font.FontConfiguration;
 
 import java.awt.Color;
@@ -639,6 +640,7 @@ public class CameraSettingWindow {
 		 */
 		private void updateValuesByConfiguration() {
 			CameraConfiguration cameraConfig = this.configuration.getCameraConfiguration();
+			ScreenConfiguration screenConfig = this.configuration.getScreenConfiguration();
 
 			// Extract the current values of the camera parameters from the configuration container.
 			CameraPositionAngleMode angleMode = cameraConfig.getPositionAngleMode();
@@ -652,8 +654,8 @@ public class CameraSettingWindow {
 			double distance = cameraConfig.getDistance();
 			int horizontalCenterOffset = cameraConfig.getHorizontalCenterOffset();
 			int verticalCenterOffset = cameraConfig.getVerticalCenterOffset();
-			int screenWidth = cameraConfig.getScreenWidth();
-			int screenHeight = cameraConfig.getScreenHeight();
+			int screenWidth = screenConfig.getScreenWidth();
+			int screenHeight = screenConfig.getScreenHeight();
 
 			// Convert the above values to the counts of the scroll bars.
 			double pi2 = 2.0 * PI;

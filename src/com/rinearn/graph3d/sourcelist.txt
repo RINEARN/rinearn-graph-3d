@@ -47,6 +47,7 @@ com/rinearn/graph3d/config/scale/Ticker.java
 com/rinearn/graph3d/config/scale/TickerMode.java
 com/rinearn/graph3d/config/scale/TickLabelFormatter.java
 com/rinearn/graph3d/config/scale/TickLabelFormatterMode.java
+com/rinearn/graph3d/config/screen/ScreenConfiguration.java
 com/rinearn/graph3d/def/CommunicationMessage.java
 com/rinearn/graph3d/def/CommunicationType.java
 com/rinearn/graph3d/def/ErrorMessage.java

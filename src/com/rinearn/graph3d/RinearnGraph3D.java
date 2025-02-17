@@ -152,7 +152,8 @@ public final class RinearnGraph3D {
 
 		// Update some parameters in the configuration.
 		Dimension screenSize = view.mainWindow.getScreenSize(); // The screen size depends on the default window size.
-		configuration.getCameraConfiguration().setScreenSize((int)screenSize.getWidth(), (int)screenSize.getHeight());
+		configuration.getScreenConfiguration().setScreenWidth((int)screenSize.getWidth());
+		configuration.getScreenConfiguration().setScreenHeight((int)screenSize.getHeight());
 
 		// !!! NOTE !!!
 		// ↑これ、というか逆に、config 内のスクリーンサイズに合わせてデフォルトウィンドウが決まるべきか？

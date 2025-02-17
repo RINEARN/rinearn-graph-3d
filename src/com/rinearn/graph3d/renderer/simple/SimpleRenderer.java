@@ -6,6 +6,7 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
 import com.rinearn.graph3d.config.camera.CameraConfiguration;
 import com.rinearn.graph3d.config.camera.RenderingMode;
+import com.rinearn.graph3d.config.screen.ScreenConfiguration;
 import com.rinearn.graph3d.config.range.RangeConfiguration;
 import com.rinearn.graph3d.config.range.AxisRangeConfiguration;
 
@@ -210,6 +211,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 */
 	private void updateCamera() {
 		CameraConfiguration cameraConfig = this.config.getCameraConfiguration();
+		ScreenConfiguration screenConfig = this.config.getScreenConfiguration();
 		double[][] rotationMatrix = cameraConfig.getRotationMatrix();
 
 		// Resets the rotation-related elements of the transformation matrix.
@@ -239,8 +241,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		}
 
 		// Update the size of the screen.
-		int updatedScreenWidth = cameraConfig.getScreenWidth();
-		int updatedScreenHeight = cameraConfig.getScreenHeight();
+		int updatedScreenWidth = screenConfig.getScreenWidth();
+		int updatedScreenHeight = screenConfig.getScreenHeight();
 		if (this.screenImage == null ||
 				this.screenImage.getWidth() != updatedScreenWidth ||
 				this.screenImage.getHeight() != updatedScreenHeight) {

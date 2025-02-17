@@ -28,6 +28,8 @@ import static java.lang.Math.atan2;
 
    -> カメラに入れてしまってもいいけど、カスタムレンダラーの選択とかを入れる事考えたら、別の新規ウィンドウを作ってもいいかも。
       あと、2Dの方でも同じウィンドウ作ってそこにスクリーンとかアンチエイリアス系の設定とかする感じで。
+
+ -> ScreenConfig と RendererConfig をそれぞれ作って、スクリーンサイズは前者、画質オプションは後者に入れるようにした。
  */
 
 
@@ -56,12 +58,6 @@ public final class CameraConfiguration {
 
 	/** The vertical offset amount of the graph center (= rotation center), from the screen center. */
 	private volatile int verticalCenterOffset = 0;
-
-	/** The width (pixels) of the screen. */
-	private volatile int screenWidth = 500;
-
-	/** The height (pixels) of the screen. */
-	private volatile int screenHeight = 500;
 
 	/** The angle mode, for switching how specify the camera position by angles. */
 	private volatile CameraPositionAngleMode positionAngleMode = CameraPositionAngleMode.Z_ZENITH;
@@ -185,38 +181,6 @@ public final class CameraConfiguration {
  	 */
  	public synchronized int getVerticalCenterOffset() {
  		return this.verticalCenterOffset;
- 	}
-
-
- 	/**
- 	 * Sets the size of the screen.
- 	 *
- 	 * @param screenWidth The width (pixels) of the screen.
- 	 * @param screenHeight The height (pixels) of the screen.
- 	 */
- 	public synchronized void setScreenSize(int screenWidth, int screenHeight) {
- 		this.screenWidth = screenWidth;
- 		this.screenHeight = screenHeight;
- 	}
-
-
- 	/**
- 	 * Gets the width (pixels) of the screen.
- 	 *
- 	 * @return The width (pixels) of the screen.
- 	 */
- 	public synchronized int getScreenWidth() {
- 		return this.screenWidth;
- 	}
-
-
- 	/**
- 	 * Gets the height (pixels) of the screen.
- 	 *
- 	 * @return The height (pixels) of the screen.
- 	 */
-	public synchronized int getScreenHeight() {
- 		return this.screenHeight;
  	}
 
 

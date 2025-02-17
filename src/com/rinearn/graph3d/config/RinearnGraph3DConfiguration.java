@@ -12,6 +12,7 @@ import com.rinearn.graph3d.config.range.RangeConfiguration;
 import com.rinearn.graph3d.config.scale.ScaleConfiguration;
 import com.rinearn.graph3d.config.color.GradientAxis;
 import com.rinearn.graph3d.config.camera.CameraConfiguration;
+import com.rinearn.graph3d.config.screen.ScreenConfiguration;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.ColorConfiguration;
 
@@ -111,6 +112,9 @@ public final class RinearnGraph3DConfiguration {
 	/** The configuration of the camera (angles, magnification, and so on). */
 	private volatile CameraConfiguration cameraConfiguration = null;
 
+	/** The configuration of the screen. */
+	private volatile ScreenConfiguration screenConfiguration = null;
+
 	/** The configuration of colors. */
 	private volatile ColorConfiguration colorConfiguration = null;
 
@@ -156,6 +160,7 @@ public final class RinearnGraph3DConfiguration {
 		configuration.setFrameConfiguration(new FrameConfiguration());
 		configuration.setLightConfiguration(new LightConfiguration());
 		configuration.setCameraConfiguration(new CameraConfiguration());
+		configuration.setScreenConfiguration(new ScreenConfiguration());
 		configuration.setColorConfiguration(new ColorConfiguration());
 		configuration.setFontConfiguration(new FontConfiguration());
 		configuration.setLabelConfiguration(new LabelConfiguration());
@@ -198,6 +203,9 @@ public final class RinearnGraph3DConfiguration {
 		}
 		if (mergedConfiguration.hasCameraConfiguration()) {
 			this.setCameraConfiguration(mergedConfiguration.getCameraConfiguration());
+		}
+		if (mergedConfiguration.hasScreenConfiguration()) {
+			this.setScreenConfiguration(mergedConfiguration.getScreenConfiguration());
 		}
 		if (mergedConfiguration.hasColorConfiguration()) {
 			this.setColorConfiguration(mergedConfiguration.getColorConfiguration());
@@ -253,6 +261,10 @@ public final class RinearnGraph3DConfiguration {
 		// Validate the camera configuration.
 		if (this.hasCameraConfiguration()) {
 			this.cameraConfiguration.validate();
+		}
+
+		if (this.hasScreenConfiguration()) {
+			this.screenConfiguration.validate();
 		}
 
 		// Validate the light configuration.
@@ -493,6 +505,34 @@ public final class RinearnGraph3DConfiguration {
 	 */
 	public synchronized CameraConfiguration getCameraConfiguration() {
 		return this.cameraConfiguration;
+	}
+
+
+	/**
+	 * Checks whether any screen configuration is set to this instance.
+	 *
+	 * @return Returns true if any screen configuration is set to this instance.
+	 */
+	public synchronized boolean hasScreenConfiguration() {
+		return this.screenConfiguration != null;
+	}
+
+	/**
+	 * Sets the configuration of the screen.
+	 *
+	 * @param frameConfiguration The configuration of the screen.
+	 */
+	public synchronized void setScreenConfiguration(ScreenConfiguration screenConfiguration) {
+		this.screenConfiguration = screenConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of the screen.
+	 *
+	 * @return The configuration of the screen.
+	 */
+	public synchronized ScreenConfiguration getScreenConfiguration() {
+		return this.screenConfiguration;
 	}
 
 
