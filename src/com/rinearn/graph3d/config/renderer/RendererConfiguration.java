@@ -7,25 +7,26 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
  */
 public class RendererConfiguration {
 
- 	/** The rendering mode, */
- 	private volatile RenderingMode renderingMode = RenderingMode.QUALITY;
+	/** The flag representing whether the anti-aliasing feature is enabled. */
+	private volatile boolean antialiasingEnabled = true;
+
 
 	/**
-	 * Sets the rendering mode.
+	 * Enables/disables the anti-aliasing feature.
 	 *
-	 * @param renderingMode The rendering mode.
+	 * @param antialiasingEnabled Specify true to enable the anti-aliasing feature.
 	 */
-	public synchronized void setRenderingMode(RenderingMode renderingMode) {
-		this.renderingMode = renderingMode;
+	public synchronized void setAntialiasingEnabled(boolean antialiasingEnabled) {
+		this.antialiasingEnabled = antialiasingEnabled;
 	}
 
 	/**
-	 * Gets the current rendering mode.
+	 * Gets whether the anti-aliasing feature is enabled.
 	 *
-	 * @param renderingMode The current rendering mode.
+	 * @return Returns true if the anti-aliasing feature is enabled.
 	 */
-	public synchronized RenderingMode getRenderingMode() {
-		return this.renderingMode;
+	public synchronized boolean isAntialiasingEnabled() {
+		return this.antialiasingEnabled;
 	}
 
 
@@ -39,8 +40,5 @@ public class RendererConfiguration {
 	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws RinearnGraph3DConfigurationException {
-		if (renderingMode == null) {
-			throw new RinearnGraph3DConfigurationException("The rendering mode is null.");
-		}
 	}
 }

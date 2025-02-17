@@ -35,7 +35,6 @@ com/rinearn/graph3d/config/plotter/SurfacePlotterConfiguration.java
 com/rinearn/graph3d/config/range/AxisRangeConfiguration.java
 com/rinearn/graph3d/config/range/RangeConfiguration.java
 com/rinearn/graph3d/config/renderer/RendererConfiguration.java
-com/rinearn/graph3d/config/renderer/RenderingMode.java
 com/rinearn/graph3d/config/RinearnGraph3DConfiguration.java
 com/rinearn/graph3d/config/RinearnGraph3DConfigurationException.java
 com/rinearn/graph3d/config/scale/AxisScaleConfiguration.java

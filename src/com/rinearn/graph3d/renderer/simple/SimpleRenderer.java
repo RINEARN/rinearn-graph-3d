@@ -7,7 +7,6 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
 import com.rinearn.graph3d.config.camera.CameraConfiguration;
 import com.rinearn.graph3d.config.screen.ScreenConfiguration;
 import com.rinearn.graph3d.config.range.RangeConfiguration;
-import com.rinearn.graph3d.config.renderer.RenderingMode;
 import com.rinearn.graph3d.config.range.AxisRangeConfiguration;
 
 import java.util.List;
@@ -298,10 +297,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	@Override
 	public synchronized void render() {
 
-		// Gets the quality mode, and turn on/off text-antialiasing option.
-		RenderingMode renderingMode = this.config.getRendererConfiguration().getRenderingMode();
-		boolean isQualityMode = renderingMode == RenderingMode.QUALITY;
-		if (isQualityMode) {
+		// Turn on/off anti-aliasing option of screenGraphics.
+		boolean isAntialiasingEnabled = this.config.getRendererConfiguration().isAntialiasingEnabled();
+		if (isAntialiasingEnabled) {
 			this.screenGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		} else {
 			this.screenGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
@@ -336,7 +334,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		for (GeometricPiece piece: this.geometricPieceList) {
 
 			// Turn on/off antialiasing option for drawing geometric shape, depending on the kind of the piece.
-			if (isQualityMode && piece.isAntialiasingAvailable()) {
+			if (isAntialiasingEnabled && piece.isAntialiasingAvailable()) {
 				this.screenGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			} else {
 				this.screenGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
