@@ -22,6 +22,7 @@ import com.rinearn.graph3d.presenter.handler.CameraSettingHandler;
 import com.rinearn.graph3d.presenter.handler.FontSettingHandler;
 import com.rinearn.graph3d.presenter.handler.GradientOptionHandler;
 import com.rinearn.graph3d.presenter.handler.MainWindowFrameHandler;
+import com.rinearn.graph3d.presenter.handler.MainWindowSideUIHandler;
 import com.rinearn.graph3d.presenter.handler.LabelSettingHandler;
 import com.rinearn.graph3d.presenter.handler.LightSettingHandler;
 import com.rinearn.graph3d.presenter.handler.RendererSettingHandler;
@@ -148,6 +149,9 @@ public final class Presenter {
 	/** The handler of events of (the frame of) the main window. */
 	public final MainWindowFrameHandler mainWindowFrameHandler;
 
+	/** The handler of events of the screen-side UI components on the main window. */
+	public final MainWindowSideUIHandler mainWindowSideUIHandler;
+
 	/** The handler of events and API requests related to the menu bar and right click menus. */
 	public final MainMenuHandler mainMenuHandler;
 
@@ -257,6 +261,9 @@ public final class Presenter {
 		// Create a handler of events of the graph screen, handling mouse-dragging events for rotate a graph, etc.
 		this.screenHandler = new ScreenHandler(model, view, this);
 
+		// Creates a handler of the screen-side UI components.
+		this.mainWindowSideUIHandler = new MainWindowSideUIHandler(model, view, this);
+
 		// Create handlers for various events and API requests.
 		this.mainMenuHandler = new MainMenuHandler(model, view, this);
 		this.screenSideUIHandler = new ScreenSideUIHandler(model, view, this);
@@ -306,6 +313,7 @@ public final class Presenter {
 	public synchronized void setEventHandlingEnabled(boolean enabled) {
 		this.eventHandlingEnabled = enabled;
 		this.mainWindowFrameHandler.setEventHandlingEnabled(enabled);
+		this.mainWindowSideUIHandler.setEventHandlingEnabled(enabled);
 		this.screenHandler.setEventHandlingEnabled(enabled);
 		this.mainMenuHandler.setEventHandlingEnabled(enabled);
 		this.screenSideUIHandler.setEventHandlingEnabled(enabled);

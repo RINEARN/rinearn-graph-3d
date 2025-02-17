@@ -55,10 +55,10 @@ public final class MainWindow {
 	public static final int DEFAULT_SCREEN_HEIGHT = DEFAULT_WINDOW_HEIGHT - APPROX_WINDOW_HEADER_HEIGHT - APPROX_MENU_BAR_HEIGHT;
 
 	/** The the max value (integer count) of the dimension length bars. */
-	public static final int DIMENSION_LENGTH_BAR_MAX_COUNT = 1000;
+	public static final int AXIS_LENGTH_BAR_MAX_COUNT = 2000;
 
 	/** The color of the dimension length bars. */
-	public static final Color DIMENSION_LENGTH_BAR_COLOR = new Color(100, 120, 200);
+	public static final Color AXIS_LENGTH_BAR_COLOR = new Color(100, 120, 200);
 
 
 	/** The frame of this window. */
@@ -73,14 +73,14 @@ public final class MainWindow {
 	/** The UI panel at the left-side of the screen. */
 	public volatile JPanel leftSideUIPanel;
 
-	/** The scroll bar for controlling the length of X dimension. */
-	public volatile JScrollBar xDimensionLengthBar;
+	/** The scroll bar for controlling the length of X axis. */
+	public volatile JScrollBar xAxisLengthBar;
 
-	/** The scroll bar for controlling the length of Y dimension. */
-	public volatile JScrollBar yDimensionLengthBar;
+	/** The scroll bar for controlling the length of Y axis. */
+	public volatile JScrollBar yAxisLengthBar;
 
-	/** The scroll bar for controlling the length of Z dimension. */
-	public volatile JScrollBar zDimensionLengthBar;
+	/** The scroll bar for controlling the length of Z axis. */
+	public volatile JScrollBar zAxisLengthBar;
 
 	/** The main menu, displayed on the menu bar. */
 	public volatile MainMenu mainMenu;
@@ -183,47 +183,47 @@ public final class MainWindow {
 		constraints.fill = GridBagConstraints.BOTH;
 		constraints.insets = new Insets(5, 5, 5, 5);
 
-		// The scroll bar for controlling the length of X dimension.
+		// The scroll bar for controlling the length of X axis.
 		constraints.gridx = 0;
-		xDimensionLengthBar = new JScrollBar(
+		xAxisLengthBar = new JScrollBar(
 				JScrollBar.VERTICAL,
-				DIMENSION_LENGTH_BAR_MAX_COUNT / 2, // default value
+				AXIS_LENGTH_BAR_MAX_COUNT / 2, // default value
 				0, // extent
 				0, // min
-				DIMENSION_LENGTH_BAR_MAX_COUNT // max
+				AXIS_LENGTH_BAR_MAX_COUNT // max
 		);
-		xDimensionLengthBar.setBackground(DIMENSION_LENGTH_BAR_COLOR);
-		layout.setConstraints(xDimensionLengthBar, constraints);
-		leftSideUIPanel.add(xDimensionLengthBar);
-		xDimensionLengthBar.setVisible(true);
+		xAxisLengthBar.setBackground(AXIS_LENGTH_BAR_COLOR);
+		layout.setConstraints(xAxisLengthBar, constraints);
+		leftSideUIPanel.add(xAxisLengthBar);
+		xAxisLengthBar.setVisible(true);
 
-		// The scroll bar for controlling the length of Y dimension.
+		// The scroll bar for controlling the length of Y axis.
 		constraints.gridx = 1;
-		yDimensionLengthBar = new JScrollBar(
+		yAxisLengthBar = new JScrollBar(
 				JScrollBar.VERTICAL,
-				DIMENSION_LENGTH_BAR_MAX_COUNT / 2, // default value
+				AXIS_LENGTH_BAR_MAX_COUNT / 2, // default value
 				0, // extent
 				0, // min
-				DIMENSION_LENGTH_BAR_MAX_COUNT // max
+				AXIS_LENGTH_BAR_MAX_COUNT // max
 		);
-		yDimensionLengthBar.setBackground(DIMENSION_LENGTH_BAR_COLOR);
-		layout.setConstraints(yDimensionLengthBar, constraints);
-		leftSideUIPanel.add(yDimensionLengthBar);
-		yDimensionLengthBar.setVisible(true);
+		yAxisLengthBar.setBackground(AXIS_LENGTH_BAR_COLOR);
+		layout.setConstraints(yAxisLengthBar, constraints);
+		leftSideUIPanel.add(yAxisLengthBar);
+		yAxisLengthBar.setVisible(true);
 
-		// The scroll bar for controlling the length of Z dimension.
+		// The scroll bar for controlling the length of Z axis.
 		constraints.gridx = 2;
-		zDimensionLengthBar = new JScrollBar(
+		zAxisLengthBar = new JScrollBar(
 				JScrollBar.VERTICAL,
-				DIMENSION_LENGTH_BAR_MAX_COUNT / 2, // default value
+				AXIS_LENGTH_BAR_MAX_COUNT / 2, // default value
 				0, // extent
 				0, // min
-				DIMENSION_LENGTH_BAR_MAX_COUNT // max
+				AXIS_LENGTH_BAR_MAX_COUNT // max
 		);
-		zDimensionLengthBar.setBackground(DIMENSION_LENGTH_BAR_COLOR);
-		layout.setConstraints(zDimensionLengthBar, constraints);
-		leftSideUIPanel.add(zDimensionLengthBar);
-		zDimensionLengthBar.setVisible(true);
+		zAxisLengthBar.setBackground(AXIS_LENGTH_BAR_COLOR);
+		layout.setConstraints(zAxisLengthBar, constraints);
+		leftSideUIPanel.add(zAxisLengthBar);
+		zAxisLengthBar.setVisible(true);
 	}
 
 
