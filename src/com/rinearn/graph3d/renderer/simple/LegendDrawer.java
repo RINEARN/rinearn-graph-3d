@@ -464,7 +464,7 @@ public final class LegendDrawer {
 			String legendText = legendTexts[iseries];
 			int textX = legendTextAreaPosition[0];
 			int textY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight);
-			if (legendConfig.isGapRemovalEnabled()) {
+			if (legendConfig.isEmptyLegendExclusionEnabled()) {
 				textY = legendTextAreaPosition[1] + (drawnLegendTextCount * legendTextLineHeight);
 			}
 			graphics.drawString(legendText, textX, textY);
@@ -560,7 +560,7 @@ public final class LegendDrawer {
 			// Calculate the position of the marker.
 			int markerX = legendTextAreaPosition[0] + markerOffsetX;
 			int markerY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight);
-			if (legendConfig.isGapRemovalEnabled()) {
+			if (legendConfig.isEmptyLegendExclusionEnabled()) {
 				markerY = legendTextAreaPosition[1] + (drawnLegendTextCount * legendTextLineHeight);
 			}
 
@@ -645,7 +645,7 @@ public final class LegendDrawer {
 			int lineIconHeight = 2;
 			int lineX = legendTextAreaPosition[0] + lineOffsetX - lineIconWidth;
 			int lineY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight) - (int)(textFontHeight * 0.4);
-			if (legendConfig.isGapRemovalEnabled()) {
+			if (legendConfig.isEmptyLegendExclusionEnabled()) {
 				lineY = legendTextAreaPosition[1] + (drawnLegendTextCount * legendTextLineHeight) - (int)(textFontHeight * 0.4);
 			}
 
@@ -736,7 +736,7 @@ public final class LegendDrawer {
 			int tileHeight = (int)(textFontHeight * 0.8);
 			int tileX = legendTextAreaPosition[0] + tileOffsetX - tileWidth;
 			int tileY = legendTextAreaPosition[1] + (iseries * legendTextLineHeight) - tileHeight;
-			if (legendConfig.isGapRemovalEnabled()) {
+			if (legendConfig.isEmptyLegendExclusionEnabled()) {
 				tileY = legendTextAreaPosition[1] + (drawnLegendTextCount * legendTextLineHeight) - tileHeight;
 			}
 

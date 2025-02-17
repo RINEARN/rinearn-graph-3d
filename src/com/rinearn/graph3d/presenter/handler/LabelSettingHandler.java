@@ -145,7 +145,7 @@ public class LabelSettingHandler {
 
 			// Update config.
 			LegendLabelConfiguration legendLabelConfig = model.config.getLabelConfiguration().getLegendLabelConfiguration();
-			legendLabelConfig.setGapRemovalEnabled(enabled);
+			legendLabelConfig.setEmptyLegendExclusionEnabled(enabled);
 
 			// Update UI.
 			window.updateLegendSection(model.config.getLabelConfiguration().getLegendLabelConfiguration());

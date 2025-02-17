@@ -477,7 +477,7 @@ public final class LabelSettingWindow {
 			legendArea.setForeground(Color.BLACK);
 		}
 
-		boolean isGapRemovalEnabled = legendLabelConfig.isGapRemovalEnabled();
+		boolean isGapRemovalEnabled = legendLabelConfig.isEmptyLegendExclusionEnabled();
 		gapRemovalBox.setSelected(isGapRemovalEnabled);
 	}
 
