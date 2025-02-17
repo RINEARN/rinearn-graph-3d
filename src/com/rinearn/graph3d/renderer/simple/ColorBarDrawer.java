@@ -4,6 +4,7 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.ColorConfiguration;
+import com.rinearn.graph3d.config.scale.ScaleConfiguration;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 
 import java.awt.Graphics2D;
@@ -86,6 +87,7 @@ public class ColorBarDrawer {
 	 */
 	public void draw(Graphics2D graphics, ColorMixer colorMixer) {
 		ColorConfiguration colorConfig = this.config.getColorConfiguration();
+		ScaleConfiguration scaleConfig = this.config.getScaleConfiguration();
 
 		// Extract the gradient colors defined in ColorConfiguration.
 		GradientColor[] gradientColors = colorConfig.getDataGradientColors();
@@ -115,6 +117,25 @@ public class ColorBarDrawer {
 		BigDecimal min = axisGradientColor.getMinimumBoundaryCoordinate();
 		BigDecimal max = axisGradientColor.getMaximumBoundaryCoordinate();
 
+		boolean isLogScaleEnabled = false;
+		switch(axisGradientColor.getAxis()) {
+			case X: {
+				isLogScaleEnabled = scaleConfig.getXScaleConfiguration().isLogScaleEnabled();
+				break;
+			}
+			case Y: {
+				isLogScaleEnabled = scaleConfig.getYScaleConfiguration().isLogScaleEnabled();
+				break;
+			}
+			case Z: {
+				isLogScaleEnabled = scaleConfig.getZScaleConfiguration().isLogScaleEnabled();
+				break;
+			}
+			default: {
+				break;
+			}
+		}
+
 		// Draw the color bar by drawing horizontal lines repeatedly, from the top to the bottom.
 		for (int iline=0; iline<this.colorBarHeight; iline++) {
 
@@ -142,8 +163,18 @@ public class ColorBarDrawer {
 		int tickCount = this.scaleTicks.colorBarTickCoordinates.length;
 		for (int itick=0; itick<tickCount; itick++) {
 
+			// Get/convert the coordinates in the graph space.
+			double spaceMax = max.doubleValue();
+			double spaceMin = min.doubleValue();
+			double spaceCoord = this.scaleTicks.colorBarTickCoordinates[itick].doubleValue();
+			if (isLogScaleEnabled) {
+				spaceMax = StrictMath.log(spaceMax);
+				spaceMin = StrictMath.log(spaceMin);
+				spaceCoord = StrictMath.log(spaceCoord);
+			}
+
 			// Compute the screen coordinates of the tick line and label.
-			double yRelativeCoord = (this.scaleTicks.colorBarTickCoordinates[itick].doubleValue() - min.doubleValue()) / (max.doubleValue() - min.doubleValue());
+			double yRelativeCoord = (spaceCoord - spaceMin) / (spaceMax - spaceMin);
 			int yPixelCoord = (int)StrictMath.round(this.colorBarY + (this.colorBarHeight - 1) * (1.0 -  yRelativeCoord));
 			int xPixelCoord = this.colorBarX + this.colorBarWidth;
 
