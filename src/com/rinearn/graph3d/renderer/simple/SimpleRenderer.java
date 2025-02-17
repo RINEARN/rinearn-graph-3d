@@ -221,15 +221,28 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	private void updateCamera() {
 		CameraConfiguration cameraConfig = this.config.getCameraConfiguration();
 		ScreenConfiguration screenConfig = this.config.getScreenConfiguration();
+		ScaleConfiguration scaleConfig = this.config.getScaleConfiguration();
 		double[][] rotationMatrix = cameraConfig.getRotationMatrix();
 
 		// Resets the rotation-related elements of the transformation matrix.
 		double dx = this.transformationMatrix[0][3];
 		double dy = this.transformationMatrix[1][3];
 		double distance = cameraConfig.getDistance();
-		this.transformationMatrix[0] = new double[] { 1.0, 0.0, 0.0, dx };
-		this.transformationMatrix[1] = new double[] { 0.0, 1.0, 0.0, dy };
-		this.transformationMatrix[2] = new double[] { 0.0, 0.0, 1.0, -distance }; // Z takes a negative value for the depth direction.
+		double xElement = 1.0;
+		double yElement = 1.0;
+		double zElement = 1.0;
+		if (scaleConfig.getXScaleConfiguration().isInversionEnabled()) {
+			xElement = -xElement;
+		}
+		if (scaleConfig.getYScaleConfiguration().isInversionEnabled()) {
+			yElement = -yElement;
+		}
+		if (scaleConfig.getZScaleConfiguration().isInversionEnabled()) {
+			zElement = -zElement;
+		}
+		this.transformationMatrix[0] = new double[] { xElement, 0.0, 0.0, dx };
+		this.transformationMatrix[1] = new double[] { 0.0, yElement, 0.0, dy };
+		this.transformationMatrix[2] = new double[] { 0.0, 0.0, zElement, -distance }; // Z takes a negative value for the depth direction.
 		this.transformationMatrix[3] = new double[] { 0.0, 0.0, 0.0, 1.0 };
 
 		// Create a matrix for temporary storing updated values of the transformation matrix.

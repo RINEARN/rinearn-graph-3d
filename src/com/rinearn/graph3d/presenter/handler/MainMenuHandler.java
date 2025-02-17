@@ -94,6 +94,9 @@ public final class MainMenuHandler {
 		window.mainMenu.logXOptionMenuItem.addActionListener(new LogXOptionMenuItemSelectedEventListener());
 		window.mainMenu.logYOptionMenuItem.addActionListener(new LogYOptionMenuItemSelectedEventListener());
 		window.mainMenu.logZOptionMenuItem.addActionListener(new LogZOptionMenuItemSelectedEventListener());
+		window.mainMenu.invertXOptionMenuItem.addActionListener(new InvertXOptionMenuItemSelectedEventListener());
+		window.mainMenu.invertYOptionMenuItem.addActionListener(new InvertYOptionMenuItemSelectedEventListener());
+		window.mainMenu.invertZOptionMenuItem.addActionListener(new InvertZOptionMenuItemSelectedEventListener());
 	}
 
 
@@ -656,6 +659,60 @@ public final class MainMenuHandler {
 		}
 	}
 
+
+	/**
+	 * The listener handling the event that "Option" > "Invert X" menu item is selected.
+	 */
+	public final class InvertXOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			boolean isOptionSelected = view.mainWindow.mainMenu.invertXOptionMenuItem.isSelected();
+
+			// Enable/disable the option.
+			model.config.getScaleConfiguration().getXScaleConfiguration().setInversionEnabled(isOptionSelected);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
+	/**
+	 * The listener handling the event that "Option" > "Invert Y" menu item is selected.
+	 */
+	public final class InvertYOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			boolean isOptionSelected = view.mainWindow.mainMenu.invertYOptionMenuItem.isSelected();
+
+			// Enable/disable the option.
+			model.config.getScaleConfiguration().getYScaleConfiguration().setInversionEnabled(isOptionSelected);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
+	/**
+	 * The listener handling the event that "Option" > "Invert Z" menu item is selected.
+	 */
+	public final class InvertZOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			boolean isOptionSelected = view.mainWindow.mainMenu.invertZOptionMenuItem.isSelected();
+
+			// Enable/disable the option.
+			model.config.getScaleConfiguration().getZScaleConfiguration().setInversionEnabled(isOptionSelected);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
 
 
 	// ================================================================================
