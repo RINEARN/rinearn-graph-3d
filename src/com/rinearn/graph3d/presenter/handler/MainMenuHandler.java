@@ -91,6 +91,9 @@ public final class MainMenuHandler {
 		window.mainMenu.surfaceOptionMenuItem.addActionListener(new SurfaceOptionMenuItemSelectedEventListener());
 		window.mainMenu.gradientOptionMenuItem.addActionListener(new GradientOptionMenuItemSelectedEventListener());
 		window.mainMenu.legendOptionMenuItem.addActionListener(new LegendOptionMenuItemSelectedEventListener());
+		window.mainMenu.logXOptionMenuItem.addActionListener(new LogXOptionMenuItemSelectedEventListener());
+		window.mainMenu.logYOptionMenuItem.addActionListener(new LogYOptionMenuItemSelectedEventListener());
+		window.mainMenu.logZOptionMenuItem.addActionListener(new LogZOptionMenuItemSelectedEventListener());
 	}
 
 
@@ -479,13 +482,13 @@ public final class MainMenuHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
-			boolean isOptionSepected = view.mainWindow.mainMenu.pointOptionMenuItem.isSelected();
+			boolean isOptionSelected = view.mainWindow.mainMenu.pointOptionMenuItem.isSelected();
 
 			// Show/hide the option settings window.
-			view.pointOptionWindow.setWindowVisible(isOptionSepected);
+			view.pointOptionWindow.setWindowVisible(isOptionSelected);
 
 			// Enable/disable the plotting option.
-			model.config.getPlotterConfiguration().getPointPlotterConfiguration().setPlotterEnabled(isOptionSepected);
+			model.config.getPlotterConfiguration().getPointPlotterConfiguration().setPlotterEnabled(isOptionSelected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -501,13 +504,13 @@ public final class MainMenuHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
-			boolean isOptionSepected = view.mainWindow.mainMenu.lineOptionMenuItem.isSelected();
+			boolean isOptionSelected = view.mainWindow.mainMenu.lineOptionMenuItem.isSelected();
 
 			// Show/hide the option settings window.
-			view.lineOptionWindow.setWindowVisible(isOptionSepected);
+			view.lineOptionWindow.setWindowVisible(isOptionSelected);
 
 			// Enable/disable the plotting option.
-			model.config.getPlotterConfiguration().getLinePlotterConfiguration().setPlotterEnabled(isOptionSepected);
+			model.config.getPlotterConfiguration().getLinePlotterConfiguration().setPlotterEnabled(isOptionSelected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -523,13 +526,13 @@ public final class MainMenuHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
-			boolean isOptionSepected = view.mainWindow.mainMenu.meshOptionMenuItem.isSelected();
+			boolean isOptionSelected = view.mainWindow.mainMenu.meshOptionMenuItem.isSelected();
 
 			// Show/hide the option settings window.
-			view.meshOptionWindow.setWindowVisible(isOptionSepected);
+			view.meshOptionWindow.setWindowVisible(isOptionSelected);
 
 			// Enable/disable the plotting option.
-			model.config.getPlotterConfiguration().getMeshPlotterConfiguration().setPlotterEnabled(isOptionSepected);
+			model.config.getPlotterConfiguration().getMeshPlotterConfiguration().setPlotterEnabled(isOptionSelected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -545,13 +548,13 @@ public final class MainMenuHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
-			boolean isOptionSepected = view.mainWindow.mainMenu.surfaceOptionMenuItem.isSelected();
+			boolean isOptionSelected = view.mainWindow.mainMenu.surfaceOptionMenuItem.isSelected();
 
 			// Show/hide the option settings window.
-			view.surfaceOptionWindow.setWindowVisible(isOptionSepected);
+			view.surfaceOptionWindow.setWindowVisible(isOptionSelected);
 
 			// Enable/disable the option.
-			model.config.getPlotterConfiguration().getSurfacePlotterConfiguration().setPlotterEnabled(isOptionSepected);
+			model.config.getPlotterConfiguration().getSurfacePlotterConfiguration().setPlotterEnabled(isOptionSelected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -567,13 +570,13 @@ public final class MainMenuHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
-			boolean isOptionSepected = view.mainWindow.mainMenu.gradientOptionMenuItem.isSelected();
+			boolean isOptionSelected = view.mainWindow.mainMenu.gradientOptionMenuItem.isSelected();
 
 			// Show/hide the option settings window.
-			view.gradientOptionWindow.setWindowVisible(isOptionSepected);
+			view.gradientOptionWindow.setWindowVisible(isOptionSelected);
 
 			// Enable/disable the option.
-			model.config.getColorConfiguration().setDataGradientColorEnabled(isOptionSepected);
+			model.config.getColorConfiguration().setDataGradientColorEnabled(isOptionSelected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -589,15 +592,69 @@ public final class MainMenuHandler {
 			if (!isEventHandlingEnabled()) {
 				return;
 			}
-			boolean isOptionSepected = view.mainWindow.mainMenu.legendOptionMenuItem.isSelected();
+			boolean isOptionSelected = view.mainWindow.mainMenu.legendOptionMenuItem.isSelected();
 
 			// Enable/disable the option.
-			model.config.getLabelConfiguration().getLegendLabelConfiguration().setVisible(isOptionSepected);
+			model.config.getLabelConfiguration().getLegendLabelConfiguration().setVisible(isOptionSelected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
 	}
 
+
+	/**
+	 * The listener handling the event that "Option" > "Log X" menu item is selected.
+	 */
+	public final class LogXOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			boolean isOptionSelected = view.mainWindow.mainMenu.logXOptionMenuItem.isSelected();
+
+			// Enable/disable the option.
+			model.config.getScaleConfiguration().getXScaleConfiguration().setLogScaleEnabled(isOptionSelected);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
+	/**
+	 * The listener handling the event that "Option" > "Log Y" menu item is selected.
+	 */
+	public final class LogYOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			boolean isOptionSelected = view.mainWindow.mainMenu.logYOptionMenuItem.isSelected();
+
+			// Enable/disable the option.
+			model.config.getScaleConfiguration().getYScaleConfiguration().setLogScaleEnabled(isOptionSelected);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
+	/**
+	 * The listener handling the event that "Option" > "Log Z" menu item is selected.
+	 */
+	public final class LogZOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			boolean isOptionSelected = view.mainWindow.mainMenu.logZOptionMenuItem.isSelected();
+
+			// Enable/disable the option.
+			model.config.getScaleConfiguration().getZScaleConfiguration().setLogScaleEnabled(isOptionSelected);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
 
 
 
