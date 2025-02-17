@@ -8,6 +8,8 @@ import com.rinearn.graph3d.config.camera.CameraConfiguration;
 import com.rinearn.graph3d.config.screen.ScreenConfiguration;
 import com.rinearn.graph3d.config.range.RangeConfiguration;
 import com.rinearn.graph3d.config.range.AxisRangeConfiguration;
+import com.rinearn.graph3d.config.scale.ScaleConfiguration;
+import com.rinearn.graph3d.config.scale.AxisScaleConfiguration;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -189,6 +191,14 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		this.spaceConverters[X].setRange(xRangeConfig.getMinimum(), xRangeConfig.getMaximum());
 		this.spaceConverters[Y].setRange(yRangeConfig.getMinimum(), yRangeConfig.getMaximum());
 		this.spaceConverters[Z].setRange(zRangeConfig.getMinimum(), zRangeConfig.getMaximum());
+
+		ScaleConfiguration scaleConfig = this.config.getScaleConfiguration();
+		AxisScaleConfiguration xScaleConfig = scaleConfig.getXScaleConfiguration();
+		AxisScaleConfiguration yScaleConfig = scaleConfig.getYScaleConfiguration();
+		AxisScaleConfiguration zScaleConfig = scaleConfig.getZScaleConfiguration();
+		this.spaceConverters[X].setLogScaleEnabled(xScaleConfig.isLogScaleEnabled());
+		this.spaceConverters[Y].setLogScaleEnabled(yScaleConfig.isLogScaleEnabled());
+		this.spaceConverters[Z].setLogScaleEnabled(zScaleConfig.isLogScaleEnabled());
 
 		// Generate tick coordinates and tick labels from the configuration.
 		ScaleTickGenerator.Result scaleTicks = ScaleTickGenerator.generateTicks(this.config);

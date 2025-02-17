@@ -22,6 +22,9 @@ public final class SpaceConverter {
 	/** The default precision of the result value of scaleCoordinate(BigDecimal) method. */
 	private static final int DEFAULT_SCALED_SPACE_PRECISION = 20;
 
+	/** The ratio of rangeMinDoubleMargin (or rangeMaxDoubleMargin) to rangeMinDoubleValue (or rangeMaxDoubleValue). */
+	private static final double MARGINE_RATIO = 1.0E-12;
+
 	/** Stores the minimum value of the range of this axis. */
 	private volatile BigDecimal rangeMin = BigDecimal.ONE.negate(); // -1.0
 
@@ -48,8 +51,8 @@ public final class SpaceConverter {
 	 */
 	private volatile double rangeMaxDoubleMargin = MARGINE_RATIO;
 
-	/** The ratio of rangeMinDoubleMargin (or rangeMaxDoubleMargin) to rangeMinDoubleValue (or rangeMaxDoubleValue). */
-	private static final double MARGINE_RATIO = 1.0E-12;
+	/** The flag representing whether the log-scale feature is enabled for this space. */
+	private volatile boolean logScaleEnabled = false;
 
 
 	/**
@@ -61,9 +64,14 @@ public final class SpaceConverter {
 
 	/**
 	 * Creates a new converter based on the specified range.
+	 *
+	 * @param min The minimum value of the range of this axis.
+	 * @param max The maximum value of the range of this axis.
+	 * @param logScaleEnabled Specify true to enable the log-scale feature.
 	 */
-	public SpaceConverter(BigDecimal min, BigDecimal max) {
+	public SpaceConverter(BigDecimal min, BigDecimal max, boolean logScaleEnabled) {
 		this.setRange(min, max);
+		this.setLogScaleEnabled(logScaleEnabled);
 	}
 
 
@@ -86,6 +94,16 @@ public final class SpaceConverter {
 		// Update margins of double-double comparisons.
 		this.rangeMinDoubleMargin = Math.abs(this.rangeMinDoubleValue * MARGINE_RATIO);
 		this.rangeMaxDoubleMargin = Math.abs(this.rangeMaxDoubleValue * MARGINE_RATIO);
+	}
+
+
+	/**
+	 * Enables/disables the log-scale feature for this space.
+	 *
+	 * @param logScaleEnabled Specify true to enable the log-scale feature.
+	 */
+	public synchronized void setLogScaleEnabled(boolean logScaleEnabled) {
+		this.logScaleEnabled = logScaleEnabled;
 	}
 
 
@@ -127,14 +145,26 @@ public final class SpaceConverter {
 	 * @return The scaled coordinate value.
 	 */
 	public synchronized double toScaledSpaceCoordinate(double rawCoordinate) {
+		if (this.logScaleEnabled) {
 
-		// Firstly, scale into the range [0.0, 1.0].
-		double axisLength = this.rangeMaxDoubleValue - this.rangeMinDoubleValue;
-		double scaledInto01 = (rawCoordinate - this.rangeMinDoubleValue) / axisLength;
+			// Firstly, scale into the range [0.0, 1.0].
+			double axisLength = StrictMath.log(this.rangeMaxDoubleValue) - StrictMath.log(this.rangeMinDoubleValue);
+			double scaledInto01 = (StrictMath.log(rawCoordinate) - StrictMath.log(this.rangeMinDoubleValue)) / axisLength;
 
-		// Then, scale into the range [-1.0, 1.0].
-		double scaledInto11 = scaledInto01 * 2.0 - 1.0;
-		return scaledInto11;
+			// Then, scale into the range [-1.0, 1.0].
+			double scaledInto11 = scaledInto01 * 2.0 - 1.0;
+			return scaledInto11;
+
+		} else {
+
+			// Firstly, scale into the range [0.0, 1.0].
+			double axisLength = this.rangeMaxDoubleValue - this.rangeMinDoubleValue;
+			double scaledInto01 = (rawCoordinate - this.rangeMinDoubleValue) / axisLength;
+
+			// Then, scale into the range [-1.0, 1.0].
+			double scaledInto11 = scaledInto01 * 2.0 - 1.0;
+			return scaledInto11;
+		}
 	}
 
 
@@ -165,18 +195,24 @@ public final class SpaceConverter {
 	 * @return The scaled coordinate value.
 	 */
 	public synchronized BigDecimal toScaledSpaceCoordinate(BigDecimal rawCoordinate, int precision) {
+		if (this.logScaleEnabled) {
+			double doubleResult = this.toScaledSpaceCoordinate(rawCoordinate.doubleValue());
+			return new BigDecimal(doubleResult);
 
-		// Create the math context for specifying the rounding behavior.
-		MathContext precisionContext = new MathContext(precision, RoundingMode.HALF_EVEN);
-		MathContext redundantPrecisionContext = new MathContext(precision * 3, RoundingMode.HALF_EVEN);
+		} else {
 
-		// Firstly, scale into the range [0.0, 1.0].
-		BigDecimal axisLength = this.rangeMax.subtract(this.rangeMin);
-		BigDecimal scaledInto01 = rawCoordinate.subtract(this.rangeMin).divide(axisLength, redundantPrecisionContext);
+			// Create the math context for specifying the rounding behavior.
+			MathContext precisionContext = new MathContext(precision, RoundingMode.HALF_EVEN);
+			MathContext redundantPrecisionContext = new MathContext(precision * 3, RoundingMode.HALF_EVEN);
 
-		// Then, scale into the range [-1.0, 1.0].
-		BigDecimal scaledInto11 = scaledInto01.multiply(new BigDecimal(2)).subtract(BigDecimal.ONE);
-		scaledInto11 = scaledInto11.add(BigDecimal.ZERO, precisionContext);
-		return scaledInto11;
+			// Firstly, scale into the range [0.0, 1.0].
+			BigDecimal axisLength = this.rangeMax.subtract(this.rangeMin);
+			BigDecimal scaledInto01 = rawCoordinate.subtract(this.rangeMin).divide(axisLength, redundantPrecisionContext);
+
+			// Then, scale into the range [-1.0, 1.0].
+			BigDecimal scaledInto11 = scaledInto01.multiply(new BigDecimal(2)).subtract(BigDecimal.ONE);
+			scaledInto11 = scaledInto11.add(BigDecimal.ZERO, precisionContext);
+			return scaledInto11;
+		}
 	}
 }
