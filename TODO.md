@@ -94,7 +94,7 @@
       * スクリーン設定は現状通りGUI上ではカメラの所にあっていいと思う。2Dだと余白の調性とか居るけど、3Dだとほぼスクリーンサイズくらいだし。
         なので長期的にもカメラの所に一緒にあった方が便利かもしれない。わざわざ画面幅・高さだけ別ウィンドウに分けるってのもGUIでは過剰整理な気がするし。なにより 5.x を踏襲できる。
 
-* RendererConfig の RenderingMode、RendererConfig という枠を作ったならもっと細かい粒度に再分割してもいい気がする。
+* 済: RendererConfig の RenderingMode、RendererConfig という枠を作ったならもっと細かい粒度に再分割してもいい気がする。
   CameraConfig 内ならこういうモードで代表させるのはアリだけども、RendererConfig 内なら漠然と大味すぎる設定になってしまう。
 
   例えば、setAntialiasingEnabled とか、setSmoothShadingEnabled とか、それぞれ明示的に調性したい場面もあり得るだろうし。
