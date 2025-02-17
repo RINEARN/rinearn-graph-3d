@@ -10,6 +10,7 @@ import com.rinearn.graph3d.config.range.RangeConfiguration;
 import com.rinearn.graph3d.config.range.AxisRangeConfiguration;
 import com.rinearn.graph3d.config.scale.ScaleConfiguration;
 import com.rinearn.graph3d.config.scale.AxisScaleConfiguration;
+import com.rinearn.graph3d.config.frame.FrameConfiguration;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -222,27 +223,28 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		CameraConfiguration cameraConfig = this.config.getCameraConfiguration();
 		ScreenConfiguration screenConfig = this.config.getScreenConfiguration();
 		ScaleConfiguration scaleConfig = this.config.getScaleConfiguration();
+		FrameConfiguration frameConfig = this.config.getFrameConfiguration();
 		double[][] rotationMatrix = cameraConfig.getRotationMatrix();
 
 		// Resets the rotation-related elements of the transformation matrix.
 		double dx = this.transformationMatrix[0][3];
 		double dy = this.transformationMatrix[1][3];
 		double distance = cameraConfig.getDistance();
-		double xElement = 1.0;
-		double yElement = 1.0;
-		double zElement = 1.0;
+		double xFacror = frameConfig.getXFrameConfiguration().getLengthFactor();
+		double yFacror = frameConfig.getYFrameConfiguration().getLengthFactor();
+		double zFacror = frameConfig.getZFrameConfiguration().getLengthFactor();
 		if (scaleConfig.getXScaleConfiguration().isInversionEnabled()) {
-			xElement = -xElement;
+			xFacror = -xFacror;
 		}
 		if (scaleConfig.getYScaleConfiguration().isInversionEnabled()) {
-			yElement = -yElement;
+			yFacror = -yFacror;
 		}
 		if (scaleConfig.getZScaleConfiguration().isInversionEnabled()) {
-			zElement = -zElement;
+			zFacror = -zFacror;
 		}
-		this.transformationMatrix[0] = new double[] { xElement, 0.0, 0.0, dx };
-		this.transformationMatrix[1] = new double[] { 0.0, yElement, 0.0, dy };
-		this.transformationMatrix[2] = new double[] { 0.0, 0.0, zElement, -distance }; // Z takes a negative value for the depth direction.
+		this.transformationMatrix[0] = new double[] { xFacror, 0.0, 0.0, dx };
+		this.transformationMatrix[1] = new double[] { 0.0, yFacror, 0.0, dy };
+		this.transformationMatrix[2] = new double[] { 0.0, 0.0, zFacror, -distance }; // Z takes a negative value for the depth direction.
 		this.transformationMatrix[3] = new double[] { 0.0, 0.0, 0.0, 1.0 };
 
 		// Create a matrix for temporary storing updated values of the transformation matrix.
