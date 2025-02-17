@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.config.camera;
+package com.rinearn.graph3d.config.renderer;
 
 // * この命名だとここにあるのがおかしい、なんか別のコンテナ作るか改名を考える。
 //   そもそもこれはカメラの設定ではない可能性すらある。レンダラーの設定では。

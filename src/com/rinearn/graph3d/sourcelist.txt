@@ -1,6 +1,5 @@
 com/rinearn/graph3d/config/camera/CameraConfiguration.java
 com/rinearn/graph3d/config/camera/CameraPositionAngleMode.java
-com/rinearn/graph3d/config/camera/RenderingMode.java
 com/rinearn/graph3d/config/color/AxisGradientColor.java
 com/rinearn/graph3d/config/color/ColorBlendMode.java
 com/rinearn/graph3d/config/color/ColorConfiguration.java
@@ -35,6 +34,8 @@ com/rinearn/graph3d/config/plotter/SeriesFilterablePlotterConfiguration.java
 com/rinearn/graph3d/config/plotter/SurfacePlotterConfiguration.java
 com/rinearn/graph3d/config/range/AxisRangeConfiguration.java
 com/rinearn/graph3d/config/range/RangeConfiguration.java
+com/rinearn/graph3d/config/renderer/RendererConfiguration.java
+com/rinearn/graph3d/config/renderer/RenderingMode.java
 com/rinearn/graph3d/config/RinearnGraph3DConfiguration.java
 com/rinearn/graph3d/config/RinearnGraph3DConfigurationException.java
 com/rinearn/graph3d/config/scale/AxisScaleConfiguration.java

@@ -78,9 +78,6 @@ public final class CameraConfiguration {
  		{ 0.0, 0.0, 1.0 }
  	};
 
- 	/** The rendering mode, */
- 	private volatile RenderingMode renderingMode = RenderingMode.QUALITY;
-
 
  	/**
  	 * Creates a new configuration storing default values.
@@ -866,25 +863,6 @@ public final class CameraConfiguration {
 
 
 	/**
-	 * Sets the rendering mode.
-	 *
-	 * @param renderingMode The rendering mode.
-	 */
-	public synchronized void setRenderingMode(RenderingMode renderingMode) {
-		this.renderingMode = renderingMode;
-	}
-
-	/**
-	 * Gets the current rendering mode.
-	 *
-	 * @param renderingMode The current rendering mode.
-	 */
-	public synchronized RenderingMode getRenderingMode() {
-		return this.renderingMode;
-	}
-
-
-	/**
 	 * Validates correctness and consistency of configuration parameters stored in this instance.
 	 *
 	 * This method is called when this configuration is specified to RinearnGraph3D or its renderer.
@@ -902,9 +880,6 @@ public final class CameraConfiguration {
 		}
 		if (positionAngleMode == null) {
 			throw new RinearnGraph3DConfigurationException("The angle mode is null.");
-		}
-		if (renderingMode == null) {
-			throw new RinearnGraph3DConfigurationException("The rendering mode is null.");
 		}
 	}
 }

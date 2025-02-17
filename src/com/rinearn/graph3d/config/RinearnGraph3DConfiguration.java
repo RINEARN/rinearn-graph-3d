@@ -15,6 +15,7 @@ import com.rinearn.graph3d.config.camera.CameraConfiguration;
 import com.rinearn.graph3d.config.screen.ScreenConfiguration;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.ColorConfiguration;
+import com.rinearn.graph3d.config.renderer.RendererConfiguration;
 
 // !!!!!
 // NOTE
@@ -127,6 +128,9 @@ public final class RinearnGraph3DConfiguration {
 	/** The configuration of plotting options. */
 	private volatile PlotterConfiguration plotterConfiguration = null;
 
+	/** The configuration of the renderer. */
+	private volatile RendererConfiguration rendererConfiguration = null;
+
 
 	/**
 	 * Creates a new configuration storing default values.
@@ -165,6 +169,7 @@ public final class RinearnGraph3DConfiguration {
 		configuration.setFontConfiguration(new FontConfiguration());
 		configuration.setLabelConfiguration(new LabelConfiguration());
 		configuration.setPlotterConfiguration(new PlotterConfiguration());
+		configuration.setRendererConfiguration(new RendererConfiguration());
 
 		return configuration;
 	}
@@ -219,6 +224,9 @@ public final class RinearnGraph3DConfiguration {
 		if (mergedConfiguration.hasPlotterConfiguration()) {
 			this.setPlotterConfiguration(mergedConfiguration.getPlotterConfiguration());
 		}
+		if (mergedConfiguration.hasRendererConfiguration()) {
+			this.setRendererConfiguration(mergedConfiguration.getRendererConfiguration());
+		}
 	}
 
 
@@ -263,6 +271,7 @@ public final class RinearnGraph3DConfiguration {
 			this.cameraConfiguration.validate();
 		}
 
+		// Validate the screen configuration.
 		if (this.hasScreenConfiguration()) {
 			this.screenConfiguration.validate();
 		}
@@ -285,6 +294,11 @@ public final class RinearnGraph3DConfiguration {
 		// Validate the color configuration.
 		if (this.hasColorConfiguration()) {
 			this.colorConfiguration.validate();
+		}
+
+		// Validate the renderer configuration.
+		if (this.hasRendererConfiguration()) {
+			this.rendererConfiguration.validate();
 		}
 
 		// There are some dependencies between color and range configurations, so check the consistency of them.
@@ -645,5 +659,33 @@ public final class RinearnGraph3DConfiguration {
 	 */
 	public synchronized PlotterConfiguration getPlotterConfiguration() {
 		return this.plotterConfiguration;
+	}
+
+
+	/**
+	 * Checks whether any renderer configuration is set to this instance.
+	 *
+	 * @return Returns true if any renderer configuration is set to this instance.
+	 */
+	public synchronized boolean hasRendererConfiguration() {
+		return this.rendererConfiguration != null;
+	}
+
+	/**
+	 * Sets the configuration of the renderer.
+	 *
+	 * @param rendererConfiguration The configuration of the renderer.
+	 */
+	public synchronized void setRendererConfiguration(RendererConfiguration rendererConfiguration) {
+		this.rendererConfiguration = rendererConfiguration;
+	}
+
+	/**
+	 * Gets the configuration of the renderer.
+	 *
+	 * @return The configuration of the renderer.
+	 */
+	public synchronized RendererConfiguration getRendererConfiguration() {
+		return this.rendererConfiguration;
 	}
 }

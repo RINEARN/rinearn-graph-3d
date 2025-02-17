@@ -5,9 +5,9 @@ import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
 import com.rinearn.graph3d.config.camera.CameraConfiguration;
-import com.rinearn.graph3d.config.camera.RenderingMode;
 import com.rinearn.graph3d.config.screen.ScreenConfiguration;
 import com.rinearn.graph3d.config.range.RangeConfiguration;
+import com.rinearn.graph3d.config.renderer.RenderingMode;
 import com.rinearn.graph3d.config.range.AxisRangeConfiguration;
 
 import java.util.List;
@@ -299,7 +299,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	public synchronized void render() {
 
 		// Gets the quality mode, and turn on/off text-antialiasing option.
-		RenderingMode renderingMode = this.config.getCameraConfiguration().getRenderingMode();
+		RenderingMode renderingMode = this.config.getRendererConfiguration().getRenderingMode();
 		boolean isQualityMode = renderingMode == RenderingMode.QUALITY;
 		if (isQualityMode) {
 			this.screenGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
