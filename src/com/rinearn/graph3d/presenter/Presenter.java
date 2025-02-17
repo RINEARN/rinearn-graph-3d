@@ -24,6 +24,7 @@ import com.rinearn.graph3d.presenter.handler.GradientOptionHandler;
 import com.rinearn.graph3d.presenter.handler.MainWindowFrameHandler;
 import com.rinearn.graph3d.presenter.handler.LabelSettingHandler;
 import com.rinearn.graph3d.presenter.handler.LightSettingHandler;
+import com.rinearn.graph3d.presenter.handler.RendererSettingHandler;
 import com.rinearn.graph3d.presenter.handler.MainMenuHandler;
 import com.rinearn.graph3d.presenter.handler.RangeSettingHandler;
 import com.rinearn.graph3d.presenter.handler.ScaleSettingHandler;
@@ -134,6 +135,9 @@ public final class Presenter {
 	/** The rendering engine of 3D graphs. */
 	private final RinearnGraph3DRenderer renderer;
 
+	/** The flag for turning on/off the event handling feature of subcomponents in this instance. */
+	private volatile boolean eventHandlingEnabled = true;
+
 
 	/** The event dispatcher, which manages listeners of RinearnGraph3DPlottingEvent and dispatches fired events to them. */
 	public final RinearnGraph3DEventDispatcher plottingEventDispatcher;
@@ -156,6 +160,14 @@ public final class Presenter {
 	/** The handler of events and API requests related to UI on the panel at the left side of the screen. */
 	public final ScreenSideUIHandler screenSideUIHandler;
 
+
+	/** The handler of API requests for plotting data stored in arrays. */
+	public final DataArrayIOHandler dataArrayIOHandler;
+
+	/** The handler of events and API requests related to image file I/O. */
+	public final ImageIOHandler imageIOHandler;
+
+
 	/** The handler of events and API requests for setting ranges. */
 	public final RangeSettingHandler rangeSettingHandler;
 
@@ -174,6 +186,10 @@ public final class Presenter {
 	/** The handler of events for lighting parameters. */
 	public final LightSettingHandler lightSettingHandler;
 
+	/** The handler of events for lighting parameters. */
+	public final RendererSettingHandler rendererSettingHandler;
+
+
 	/** The handler of events and API requests for plotting math expressions of "z(x,y)" form. */
 	public final ZxyMathHandler zxyMathHandler;
 
@@ -186,14 +202,6 @@ public final class Presenter {
 	/** The handler of events for plotting data texts. */
 	public final DataTextIOHandler dataTextIOHandler;
 
-	/** The handler of API requests for plotting data stored in arrays. */
-	public final DataArrayIOHandler dataArrayIOHandler;
-
-	/** The handler of events and API requests related to image file I/O. */
-	public final ImageIOHandler imageIOHandler;
-
-	/** The flag for turning on/off the event handling feature of subcomponents in this instance. */
-	private volatile boolean eventHandlingEnabled = true;
 
 	/** The handler of "With Poinst" option window. */
 	public final PointOptionHandler pointOptionHandler;
@@ -260,6 +268,7 @@ public final class Presenter {
 		this.cameraSettingHandler = new CameraSettingHandler(model, view, this);
 		this.scaleSettingHandler = new ScaleSettingHandler(model, view, this);
 		this.lightSettingHandler = new LightSettingHandler(model, view, this);
+		this.rendererSettingHandler = new RendererSettingHandler(model, view, this);
 
 		this.zxyMathHandler = new ZxyMathHandler(model, view, this);
 		this.xtYtZtMathHandler = new XtYtZtMathHandler(model, view, this);
@@ -308,6 +317,7 @@ public final class Presenter {
 		this.cameraSettingHandler.setEventHandlingEnabled(enabled);
 		this.scaleSettingHandler.setEventHandlingEnabled(enabled);
 		this.lightSettingHandler.setEventHandlingEnabled(enabled);
+		this.rendererSettingHandler.setEventHandlingEnabled(enabled);
 
 		this.zxyMathHandler.setEventHandlingEnabled(enabled);
 		this.xtYtZtMathHandler.setEventHandlingEnabled(enabled);

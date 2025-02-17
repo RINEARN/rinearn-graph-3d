@@ -93,6 +93,7 @@ com/rinearn/graph3d/presenter/handler/MeshOptionHandler.java
 com/rinearn/graph3d/presenter/handler/package-info.java
 com/rinearn/graph3d/presenter/handler/PointOptionHandler.java
 com/rinearn/graph3d/presenter/handler/RangeSettingHandler.java
+com/rinearn/graph3d/presenter/handler/RendererSettingHandler.java
 com/rinearn/graph3d/presenter/handler/ScaleSettingHandler.java
 com/rinearn/graph3d/presenter/handler/ScreenHandler.java
 com/rinearn/graph3d/presenter/handler/ScreenRightClickMenuHandler.java
@@ -151,6 +152,7 @@ com/rinearn/graph3d/view/MultilingualItem.java
 com/rinearn/graph3d/view/package-info.java
 com/rinearn/graph3d/view/PointOptionWindow.java
 com/rinearn/graph3d/view/RangeSettingWindow.java
+com/rinearn/graph3d/view/RendererSettingWindow.java
 com/rinearn/graph3d/view/ScaleSettingWindow.java
 com/rinearn/graph3d/view/ScreenRightClickMenu.java
 com/rinearn/graph3d/view/SeriesFilterComponents.java
