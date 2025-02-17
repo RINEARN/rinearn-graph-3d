@@ -82,6 +82,7 @@ public final class MainMenuHandler {
 		window.mainMenu.cameraSettingMenuItem.addActionListener(new CameraSettingItemClickedEventListener());
 		window.mainMenu.lightSettingMenuItem.addActionListener(new LightSettingItemClickedEventListener());
 		window.mainMenu.scaleSettingMenuItem.addActionListener(new ScaleSettingItemClickedEventListener());
+		window.mainMenu.rendererSettingMenuItem.addActionListener(new RendererSettingItemClickedEventListener());
 
 		// Add the action listeners to the sub menu items in "Option" menu.
 		window.mainMenu.pointOptionMenuItem.addActionListener(new PointOptionMenuItemSelectedEventListener());
@@ -451,6 +452,20 @@ public final class MainMenuHandler {
 				return;
 			}
 			view.scaleSettingWindow.setWindowVisible(true);
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Settings" > "Set Renderer" menu item is clicked.
+	 */
+	private final class RendererSettingItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			view.rendererSettingWindow.setWindowVisible(true);
 		}
 	}
 

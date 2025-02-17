@@ -138,6 +138,9 @@ public final class View {
 	/** The setting window of "Settings" > "Set Scale" menu. */
 	public final ScaleSettingWindow scaleSettingWindow = new ScaleSettingWindow();
 
+	/** The setting window of "Settings" > "Set Renderer" menu. */
+	public final RendererSettingWindow rendererSettingWindow = new RendererSettingWindow();
+
 
 	/** The setting window of "Option" > "With Points" menu. */
 	public final PointOptionWindow pointOptionWindow = new PointOptionWindow();
@@ -177,17 +180,22 @@ public final class View {
 	 */
 	public synchronized void configure(RinearnGraph3DConfiguration configuration) {
 		this.mainWindow.configure(configuration);
+
 		this.dataFileOpeningWindow.configure(configuration);
 		this.dataTextPastingWindow.configure(configuration);
 		this.imageSavingWindow.configure(configuration);
+
 		this.zxyMathWindow.configure(configuration);
 		this.xtYtZtMathWindow.configure(configuration);
+
 		this.labelSettingWindow.configure(configuration);
 		this.rangeSettingWindow.configure(configuration);
 		this.fontSettingWindow.configure(configuration);
 		this.cameraSettingWindow.configure(configuration);
 		this.lightSettingWindow.configure(configuration);
 		this.scaleSettingWindow.configure(configuration);
+		this.rendererSettingWindow.configure(configuration);
+
 		this.pointOptionWindow.configure(configuration);
 		this.lineOptionWindow.configure(configuration);
 		this.meshOptionWindow.configure(configuration);
@@ -203,14 +211,18 @@ public final class View {
 		this.dataFileOpeningWindow.dispose();
 		this.dataTextPastingWindow.dispose();
 		this.imageSavingWindow.dispose();
+
 		this.zxyMathWindow.dispose();
 		this.xtYtZtMathWindow.dispose();
+
 		this.labelSettingWindow.dispose();
 		this.rangeSettingWindow.dispose();
 		this.fontSettingWindow.dispose();
 		this.cameraSettingWindow.dispose();
 		this.lightSettingWindow.dispose();
 		this.scaleSettingWindow.dispose();
+		this.rendererSettingWindow.dispose();
+
 		this.pointOptionWindow.dispose();
 		this.lineOptionWindow.dispose();
 		this.meshOptionWindow.dispose();
