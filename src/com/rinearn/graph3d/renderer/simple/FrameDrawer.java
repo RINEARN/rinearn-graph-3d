@@ -2,6 +2,8 @@ package com.rinearn.graph3d.renderer.simple;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.range.RangeConfiguration;
+import com.rinearn.graph3d.config.scale.AxisScaleConfiguration;
+import com.rinearn.graph3d.config.scale.ScaleConfiguration;
 import com.rinearn.graph3d.config.range.AxisRangeConfiguration;
 
 import java.awt.Color;
@@ -167,9 +169,20 @@ public final class FrameDrawer {
 		AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
 		AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 
-		SpaceConverter xSpaceConverter = new SpaceConverter(xRangeConfig.getMinimum(), xRangeConfig.getMaximum());
-		SpaceConverter ySpaceConverter = new SpaceConverter(yRangeConfig.getMinimum(), yRangeConfig.getMaximum());
-		SpaceConverter zSpaceConverter = new SpaceConverter(zRangeConfig.getMinimum(), zRangeConfig.getMaximum());
+		ScaleConfiguration scaleConfig = this.config.getScaleConfiguration();
+		AxisScaleConfiguration xScaleConfig = scaleConfig.getXScaleConfiguration();
+		AxisScaleConfiguration yScaleConfig = scaleConfig.getYScaleConfiguration();
+		AxisScaleConfiguration zScaleConfig = scaleConfig.getZScaleConfiguration();
+
+		SpaceConverter xSpaceConverter = new SpaceConverter(
+				xRangeConfig.getMinimum(), xRangeConfig.getMaximum(), xScaleConfig.isLogScaleEnabled()
+		);
+		SpaceConverter ySpaceConverter = new SpaceConverter(
+				yRangeConfig.getMinimum(), yRangeConfig.getMaximum(), yScaleConfig.isLogScaleEnabled()
+		);
+		SpaceConverter zSpaceConverter = new SpaceConverter(
+				zRangeConfig.getMinimum(), zRangeConfig.getMaximum(), zScaleConfig.isLogScaleEnabled()
+		);
 
 		// Draw ticks on X axis.
 		for (BigDecimal tickCoord: this.scaleTicks.xTickCoordinates) {

@@ -80,8 +80,6 @@ public class EqualDivisionTicker extends Ticker {
 
 		// Calculate coordinates of the ticks at the equally divided point on the axis, and return it.
 		BigDecimal[] tickCoords = new BigDecimal[this.dividedSectionCount + 1];
-		tickCoords[0] = convertedMin;
-		tickCoords[this.dividedSectionCount] = convertedMax;
 		for (int itick=1; itick<this.dividedSectionCount; itick++) {
 
 			// Calculate the value of itick-th tick coordinate. Be careful of the tiny calculation error. See the above comments.
@@ -97,6 +95,15 @@ public class EqualDivisionTicker extends Ticker {
 				// Recover log()-ed in real scale ussing exp().
 				tickCoords[itick] = new BigDecimal(StrictMath.exp(tickCoords[itick].doubleValue()));
 			}
+		}
+
+		// Generate coordinates of min/max edges tikcs.
+		tickCoords[0] = convertedMin;
+		tickCoords[this.dividedSectionCount] = convertedMax;
+		if (isLogPlot) {
+			tickCoords[0] = new BigDecimal(StrictMath.exp(tickCoords[0].doubleValue()));
+			tickCoords[this.dividedSectionCount] = new BigDecimal(StrictMath.exp(tickCoords[this.dividedSectionCount].doubleValue()));
+
 		}
 		return tickCoords;
 	}

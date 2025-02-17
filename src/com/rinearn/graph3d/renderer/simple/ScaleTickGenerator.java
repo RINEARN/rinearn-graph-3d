@@ -59,8 +59,6 @@ public final class ScaleTickGenerator {
 	public static Result generateTicks(RinearnGraph3DConfiguration config) {
 		Result result = new Result();
 
-		boolean isLogPlot = false; // Temporary
-
 		RangeConfiguration rangeConfig = config.getRangeConfiguration();
 		AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
 		AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
@@ -87,16 +85,17 @@ public final class ScaleTickGenerator {
 		AxisGradientColor axisGradientColor = axisGradientColors[0];
 
 		result.xTickCoordinates = xScaleConfig.getTicker().generateTickCoordinates(
-				xRangeConfig.getMinimum(), xRangeConfig.getMaximum(), isLogPlot
+				xRangeConfig.getMinimum(), xRangeConfig.getMaximum(), xScaleConfig.isLogScaleEnabled()
 		);
 		result.yTickCoordinates = yScaleConfig.getTicker().generateTickCoordinates(
-				yRangeConfig.getMinimum(), yRangeConfig.getMaximum(), isLogPlot
+				yRangeConfig.getMinimum(), yRangeConfig.getMaximum(), yScaleConfig.isLogScaleEnabled()
 		);
 		result.zTickCoordinates = zScaleConfig.getTicker().generateTickCoordinates(
-				zRangeConfig.getMinimum(), zRangeConfig.getMaximum(), isLogPlot
+				zRangeConfig.getMinimum(), zRangeConfig.getMaximum(), zScaleConfig.isLogScaleEnabled()
 		);
 		result.colorBarTickCoordinates = cScaleConfig.getTicker().generateTickCoordinates(
-				axisGradientColor.getMinimumBoundaryCoordinate(), axisGradientColor.getMaximumBoundaryCoordinate(), isLogPlot
+				axisGradientColor.getMinimumBoundaryCoordinate(), axisGradientColor.getMaximumBoundaryCoordinate(),
+				zScaleConfig.isLogScaleEnabled()
 		);
 
 		result.xTickLabelTexts = xScaleConfig.getTicker().generateTickLabelTexts(
