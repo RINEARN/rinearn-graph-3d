@@ -545,8 +545,9 @@ public final class LegendDrawer {
 					graphics.setColor(foregroundColor);
 				} else {
 					boolean isCoordNormalized = true;
+					boolean isLogScaleEnabled = false;
 					Color gradientCenterColor = colorMixer.generateColorFromAxisGradientColor(
-							new BigDecimal(0.5), axisGradientColor, isCoordNormalized
+							new BigDecimal(0.5), axisGradientColor, isCoordNormalized, isLogScaleEnabled
 					);
 					graphics.setColor(gradientCenterColor);
 				}
@@ -654,8 +655,9 @@ public final class LegendDrawer {
 				for (int ix=0; ix<lineIconWidth; ix++) {
 					double representCoord = (double)ix / (double)lineIconWidth;
 					boolean isCoordNormalized = true;
+					boolean isLogScaleEnabled = false;
 					Color lineColor = colorMixer.generateColorFromAxisGradientColor(
-							new BigDecimal(representCoord), axisGradientColor, isCoordNormalized
+							new BigDecimal(representCoord), axisGradientColor, isCoordNormalized, isLogScaleEnabled
 					);
 					graphics.setColor(lineColor);
 					graphics.drawLine(lineX + ix, lineY, lineX + ix, lineY + lineIconHeight - 1);
@@ -749,8 +751,9 @@ public final class LegendDrawer {
 					int lineY = tileY + iline;
 					double representCoord = (double)(iline - 1) / (double)(tileHeight - 2);
 					boolean isCoordNormalized = true;
+					boolean isLogScaleEnabled = false;
 					Color lineColor = colorMixer.generateColorFromAxisGradientColor(
-							new BigDecimal(representCoord), axisGradientColor, isCoordNormalized
+							new BigDecimal(representCoord), axisGradientColor, isCoordNormalized, isLogScaleEnabled
 					);
 					graphics.setColor(lineColor);
 					graphics.drawLine(tileX + 1, lineY, tileX + tileWidth - 1, lineY);

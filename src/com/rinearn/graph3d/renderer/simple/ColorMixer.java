@@ -1,14 +1,15 @@
 package com.rinearn.graph3d.renderer.simple;
 
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
-import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.config.data.SeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
+import com.rinearn.graph3d.config.color.GradientColor;
 import com.rinearn.graph3d.config.color.AxisGradientColor;
 import com.rinearn.graph3d.config.color.GradientAxis;
 import com.rinearn.graph3d.config.color.ColorBlendMode;
 import com.rinearn.graph3d.config.color.ColorConfiguration;
+import com.rinearn.graph3d.config.scale.ScaleConfiguration;
 
 import java.awt.Color;
 import java.math.BigDecimal;
@@ -69,10 +70,12 @@ public final class ColorMixer {
 	 * @param coordinates The coordinate values of the representative point. The index is [0:X, 1:Y, 2:Z, 3:scalar-dimension].
 	 * @param drawingParam The drawing parameter specified for drawing the geometric piece.
 	 * @param colorConfig The color configuration.
+	 * @param scaleConfig The scale configuration.
 	 * @return The generated color.
 	 */
 	public synchronized Color generateColor(
-			double[] coordinates, RinearnGraph3DDrawingParameter drawingParam, ColorConfiguration colorConfig) {
+			double[] coordinates, RinearnGraph3DDrawingParameter drawingParam,
+			ColorConfiguration colorConfig, ScaleConfiguration scaleConfig) {
 
 		// Convert the arg "coordinates" to BigDecimal values.
 		int coordinateCount = coordinates.length;
@@ -81,7 +84,7 @@ public final class ColorMixer {
 			bigDecimalCoords[icoord] = new BigDecimal(coordinates[icoord]);
 		}
 
-		return this.generateColor(bigDecimalCoords, drawingParam, colorConfig);
+		return this.generateColor(bigDecimalCoords, drawingParam, colorConfig, scaleConfig);
 	}
 
 
@@ -91,10 +94,12 @@ public final class ColorMixer {
 	 * @param coordinates The coordinate values of the representative point. The index is [0:X, 1:Y, 2:Z, 3:scalar-dimension].
 	 * @param drawingParam The drawing parameter specified for drawing the geometric piece.
 	 * @param colorConfig The color configuration.
+	 * @param scaleConfig The scale configuration.
 	 * @return The generated color.
 	 */
 	public synchronized Color generateColor(
-			BigDecimal[] coordinates, RinearnGraph3DDrawingParameter drawingParam, ColorConfiguration colorConfig) {
+			BigDecimal[] coordinates, RinearnGraph3DDrawingParameter drawingParam,
+			ColorConfiguration colorConfig, ScaleConfiguration scaleConfig) {
 
 		// If the automatic-coloring feature is disabled, the color is explicitly specified in the param object.
 		// So return that color.
@@ -123,7 +128,7 @@ public final class ColorMixer {
 
 			// If no series filter is set, apply this gradient color.
 			if (gradientColor.getSeriesFilterMode() == SeriesFilterMode.NONE) {
-				resultColor = this.determineColorFromGradientColor(coordinates, gradientColor);
+				resultColor = this.determineColorFromGradientColor(coordinates, gradientColor, scaleConfig);
 				continue; // Don't return the result here. Other gradient color may be applied.
 			}
 
@@ -133,7 +138,7 @@ public final class ColorMixer {
 			SeriesAttribute seriesAttribute = new SeriesAttribute();
 			seriesAttribute.setGlobalSeriesIndex(seriesIndex);
 			if (seriesFilter.isSeriesIncluded(seriesAttribute)) {
-				resultColor = this.determineColorFromGradientColor(coordinates, gradientColor);
+				resultColor = this.determineColorFromGradientColor(coordinates, gradientColor, scaleConfig);
 				continue; // Don't return the result here. Other gradient color may be applied.
 			}
 		}
@@ -142,22 +147,25 @@ public final class ColorMixer {
 
 
 	/**
-	 * Generates a color from the specified AxisGradientColor.
+	 * Generates a color from the specified 1-D AxisGradientColor.
 	 * This method is mainly used for drawing icons of legends.
 	 *
 	 * @param representCoordinate The coordinate on the gradient axis.
 	 * @param axisGradient The axis gradient color.
 	 * @param normalized Specify true if representCoordinate is normalized in the range [0, 1].
+	 * @param logScaleEnabled Specify true if the log-scale feature is enabled for the gradient axis.
 	 * @return The generated color.
 	 */
-	public synchronized Color generateColorFromAxisGradientColor(BigDecimal representCoordinate, AxisGradientColor axisGradient, boolean normalized) {
+	public synchronized Color generateColorFromAxisGradientColor(BigDecimal representCoordinate, AxisGradientColor axisGradient,
+			boolean normalized, boolean logScaleEnabled) {
+
 		if (normalized) {
 			BigDecimal gradientRangeLength = axisGradient.getMaximumBoundaryCoordinate().subtract(axisGradient.getMinimumBoundaryCoordinate());
 			BigDecimal delta = gradientRangeLength.multiply(representCoordinate);
 			BigDecimal denormalizedCoord = axisGradient.getMinimumBoundaryCoordinate().add(delta);
-			return this.determineColorFromAxisGradientColor(denormalizedCoord, axisGradient);
+			return this.determineColorFromAxisGradientColor(denormalizedCoord, axisGradient, logScaleEnabled);
 		} else {
-			return this.determineColorFromAxisGradientColor(representCoordinate, axisGradient);
+			return this.determineColorFromAxisGradientColor(representCoordinate, axisGradient, logScaleEnabled);
 		}
 	}
 
@@ -190,9 +198,10 @@ public final class ColorMixer {
 	 *     The coordinate values of the representative point to determine the color.
 	 *     The array index is [0:X, 1:Y, 2:Z, 3:scalar-dimension].
 	 * @param gradientColor The gradient color.
+	 * @param scaleConfig The scale configuration.
 	 * @return The generated color.
 	 */
-	private Color determineColorFromGradientColor(BigDecimal[] coordinates, GradientColor gradientColor) {
+	private Color determineColorFromGradientColor(BigDecimal[] coordinates, GradientColor gradientColor, ScaleConfiguration scaleConfig) {
 
 		// Get the number of axes (dimensions), and gradients for the directions of them.
 		int axisCount = gradientColor.getAxisCount();
@@ -203,13 +212,40 @@ public final class ColorMixer {
 		ColorBlendMode[] axisBlendModes = new ColorBlendMode[axisCount];
 		for (int iaxis=0; iaxis<axisCount; iaxis++) {
 			BigDecimal representCoord = this.extractCoordinateFromArray(coordinates, axisGradients[iaxis].getAxis());
-			axisColors[iaxis] = this.determineColorFromAxisGradientColor(representCoord, axisGradients[iaxis]);
+			boolean logScaleEnabled = this.isLogScaleEnabled(scaleConfig, axisGradients[iaxis].getAxis());
+
+			axisColors[iaxis] = this.determineColorFromAxisGradientColor(representCoord, axisGradients[iaxis], logScaleEnabled);
 			axisBlendModes[iaxis] = axisGradients[iaxis].getBlendMode();
 		}
 
 		// Blend the colors generated by all axes's gradients, and return it.
 		Color blendedColor = this.blendAxisColors(axisColors, axisBlendModes, axisCount, gradientColor.getBackgroundColor());
 		return blendedColor;
+	}
+
+
+	/**
+	 * Check whetehr the log-scale feature is enabled for the gradient axis.
+	 *
+	 * @param scaleConfig The scale configuration.
+	 * @param gradientAxis The gradient axis.
+	 * @return Returns true if the log scale feature is enabled.
+	 */
+	private boolean isLogScaleEnabled(ScaleConfiguration scaleConfig, GradientAxis gradientAxis) {
+		switch (gradientAxis) {
+			case X: {
+				return scaleConfig.getXScaleConfiguration().isLogScaleEnabled();
+			}
+			case Y: {
+				return scaleConfig.getYScaleConfiguration().isLogScaleEnabled();
+			}
+			case Z: {
+				return scaleConfig.getZScaleConfiguration().isLogScaleEnabled();
+			}
+			default: {
+				return false;
+			}
+		}
 	}
 
 
@@ -284,16 +320,18 @@ public final class ColorMixer {
 	 *
 	 * @param representCoord the coordinate value of the representative point, on the gradient axis.
 	 * @param axisGradientColor 1D gradient color for the axis.
+	 * @param logScaleEnabled Specify true if the log-scale feature is enabled for the gradient axis.
 	 * @return The generated color.
 	 */
-	private Color determineColorFromAxisGradientColor(BigDecimal representCoord, AxisGradientColor axisGradientColor) {
+	private Color determineColorFromAxisGradientColor(BigDecimal representCoord, AxisGradientColor axisGradientColor,
+			boolean logScaleEnabled) {
 
 		// Get the colors at the boundary points.
 		int boundaryCount = axisGradientColor.getBoundaryCount();
 		Color[] boundaryColors = axisGradientColor.getBoundaryColors();
 
 		// Get/generate the coordinate values of the boundary points.
-		BigDecimal[] boundaryCoords = this.getOrGenerateBoundaryCoordinates(axisGradientColor);
+		BigDecimal[] boundaryCoords = this.getOrGenerateBoundaryCoordinates(axisGradientColor, logScaleEnabled);
 
 		// If the representative coord's  is smaller than (or equals to) the minimum coord,
 		// return the color of the boundary point of which coord is minimum.
@@ -326,7 +364,8 @@ public final class ColorMixer {
 				return this.interpolateColors(
 						representCoord,
 						boundaryCoords[lowerBoundaryIndex], boundaryCoords[upperBoundaryIndex],
-						boundaryColors[lowerBoundaryIndex], boundaryColors[upperBoundaryIndex]
+						boundaryColors[lowerBoundaryIndex], boundaryColors[upperBoundaryIndex],
+						logScaleEnabled
 				);
 			}
 			default : {
@@ -344,11 +383,13 @@ public final class ColorMixer {
 	 * @param upperBoundaryCoord The coordinate value of the upper-side neighbor boundary point.
 	 * @param lowerBoundaryColor The color of the lower-side neighbor boundary point.
 	 * @param upperBoundaryColor The color of the upper-side neighbor boundary point.
+	 * @param logScaleEnabled Specify true if the log-scale feature is enabled for the gradient axis.
 	 * @return The generated color.
 	 */
 	private Color interpolateColors(BigDecimal representCoord,
 			BigDecimal lowerBoundaryCoord, BigDecimal upperBoundaryCoord,
-			Color lowerBoundaryColor, Color upperBoundaryColor) {
+			Color lowerBoundaryColor, Color upperBoundaryColor,
+			boolean logScaleEnabled) {
 
 		// In this step, no equality-comparisons are necessary any more.
 		// (They are already done in upper hierarchy methods.)
@@ -356,13 +397,22 @@ public final class ColorMixer {
 		// With considering the precision of the color component,
 		// compute values using double-values instead of BigDecimal values here.
 
+		double doubleUpperCoord = upperBoundaryCoord.doubleValue();
+		double doubleLowerCoord = lowerBoundaryCoord.doubleValue();
+		double doubleRepresentCoord = representCoord.doubleValue();
+		if (logScaleEnabled) {
+			doubleUpperCoord = StrictMath.log(doubleUpperCoord);
+			doubleLowerCoord = StrictMath.log(doubleLowerCoord);
+			doubleRepresentCoord = StrictMath.log(doubleRepresentCoord);
+		}
+
 		// Compute the length between the upper boundary's coord and the lower boundary's coord.
-		double sectionLength = upperBoundaryCoord.doubleValue() - lowerBoundaryCoord.doubleValue();
+		double sectionLength = doubleUpperCoord - doubleLowerCoord;
 
 		// Compute the "normalized level" of the representation point.
 		// If the point equals to the lower boundary, the level is 0.0.
 		// If equals to the upper boundary, the level is 1.0.
-		double normalizedLevel = (representCoord.doubleValue() - lowerBoundaryCoord.doubleValue()) / sectionLength;
+		double normalizedLevel = (doubleRepresentCoord - doubleLowerCoord) / sectionLength;
 
 		// Extract the values of the color components of the upper/lower boundary color.
 		int lowerBoundaryR = lowerBoundaryColor.getRed();
@@ -414,9 +464,10 @@ public final class ColorMixer {
 	 * Gets or generates the coordinate values of the boundary points.
 	 *
 	 * @param axisGradient The color gradient of the axis.
+	 * @param logScaleEnabled Specify true if the log-scale feature is enabled for the gradient axis.
 	 * @return The coordinate values of the boundary points.
 	 */
-	private BigDecimal[] getOrGenerateBoundaryCoordinates(AxisGradientColor axisGradient) {
+	private BigDecimal[] getOrGenerateBoundaryCoordinates(AxisGradientColor axisGradient, boolean logScaleEnabled) {
 		switch (axisGradient.getBoundaryMode()) {
 			case MANUAL : {
 				return axisGradient.getBoundaryCoordinates();
@@ -434,6 +485,10 @@ public final class ColorMixer {
 				BigDecimal maxCoord = axisGradient.getMaximumBoundaryCoordinate();
 				BigDecimal delta = maxCoord.subtract(minCoord).divide(new BigDecimal(sectionCount), mathContext);
 
+				BigDecimal logMinCoord = logScaleEnabled ? new BigDecimal(StrictMath.log(minCoord.doubleValue())) : null;
+				BigDecimal logMaxCoord = logScaleEnabled ? new BigDecimal(StrictMath.log(maxCoord.doubleValue())) : null;
+				BigDecimal logDelta = logScaleEnabled ? logMaxCoord.subtract(logMinCoord).divide(new BigDecimal(sectionCount), mathContext) : null;
+
 				// Create an array for storing results, and store min/max coords at the top/end of it.
 				BigDecimal[] coords = new BigDecimal[boundaryCount];
 				coords[0] = minCoord;
@@ -441,7 +496,12 @@ public final class ColorMixer {
 
 				// Compute the coordinates at equally divided boundary points, and store them into the array.
 				for (int ibound=1; ibound<boundaryCount-1; ibound++) {
-					coords[ibound] = minCoord.add(delta.multiply(new BigDecimal(ibound), mathContext));
+					if (logScaleEnabled) {
+						coords[ibound] = logMinCoord.add(logDelta.multiply(new BigDecimal(ibound), mathContext));
+						coords[ibound] = new BigDecimal(StrictMath.exp(coords[ibound].doubleValue()));
+					} else {
+						coords[ibound] = minCoord.add(delta.multiply(new BigDecimal(ibound), mathContext));
+					}
 				}
 				return coords;
 			}

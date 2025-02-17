@@ -417,7 +417,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 		// Generates the color based on the current color configuration.
 		double[] colorRepresentCoords = {x, y, z};
-		Color color = this.colorMixer.generateColor(colorRepresentCoords, parameter, this.config.getColorConfiguration());
+		Color color = this.colorMixer.generateColor(
+				colorRepresentCoords, parameter, this.config.getColorConfiguration(), this.config.getScaleConfiguration()
+		);
 
 		// Scale X/Y/Z coordinate values into the range [-1.0, 1.0] (= scaled space).
 		if (parameter.isRangeScalingEnabled()) {
@@ -483,7 +485,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 				(aY + bY) / 2.0,
 				(aZ + bZ) / 2.0
 		};
-		Color color = this.colorMixer.generateColor(colorRepresentCoords, parameter, this.config.getColorConfiguration());
+		Color color = this.colorMixer.generateColor(
+				colorRepresentCoords, parameter, this.config.getColorConfiguration(), this.config.getScaleConfiguration()
+		);
 
 		// Scale X/Y/Z coordinate values into the range [-1.0, 1.0] (= scaled space).
 		if (parameter.isRangeScalingEnabled()) {
@@ -595,7 +599,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 				(aY + bY + cY + dY) / 4.0,
 				(aZ + bZ + cZ + dZ) / 4.0
 		};
-		Color color = this.colorMixer.generateColor(colorRepresentCoords, parameter, this.config.getColorConfiguration());
+		Color color = this.colorMixer.generateColor(
+				colorRepresentCoords, parameter, this.config.getColorConfiguration(), this.config.getScaleConfiguration()
+		);
 
 		// Scale X/Y/Z coordinate values into the range [-1.0, 1.0] (= scaled space).
 		if (parameter.isRangeScalingEnabled()) {

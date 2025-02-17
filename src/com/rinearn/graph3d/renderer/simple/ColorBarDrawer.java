@@ -142,13 +142,17 @@ public class ColorBarDrawer {
 			// Convert the position of the line (iline) in the color bar to the corresponding 3D coordinate in the graph space.
 			double gradientRatio = (double)(this.colorBarHeight - iline) / (double)this.colorBarHeight;
 			double gradientAxisCoord = min.doubleValue() + (max.doubleValue() - min.doubleValue()) * gradientRatio;
+			if (isLogScaleEnabled) {
+				gradientAxisCoord = StrictMath.log(min.doubleValue()) + (StrictMath.log(max.doubleValue()) - StrictMath.log(min.doubleValue())) * gradientRatio;
+				gradientAxisCoord = StrictMath.exp(gradientAxisCoord);
+			}
 
 			// Generate the color of the line.
 			RinearnGraph3DDrawingParameter drawingParam = new RinearnGraph3DDrawingParameter();
 			drawingParam.setAutoColoringEnabled(true);
 			boolean isCoordNormalized = false;
 			Color lineColor = colorMixer.generateColorFromAxisGradientColor(
-					new BigDecimal(gradientAxisCoord), axisGradientColor, isCoordNormalized
+					new BigDecimal(gradientAxisCoord), axisGradientColor, isCoordNormalized, isLogScaleEnabled
 			);
 
 			// Draw the line
