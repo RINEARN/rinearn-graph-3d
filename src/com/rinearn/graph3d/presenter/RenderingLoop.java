@@ -182,6 +182,19 @@ public final class RenderingLoop implements Runnable {
 			}
 
 			if (this.renderer.casScreenResized(true, false)) {
+
+				// 2D drawn contents lost when the screen is resized, so re-draw them.
+				this.renderer.drawColorBar();
+				this.renderer.drawLegendLabels();
+				this.renderer.render(); // たぶんリサイズ時に走らすには重いので、2D前景を合成するのみのメソッドを renderer に用意した方が良い。
+
+				// ↑ これ、ユーザーが独自に前景2Dコンテンツを取捨選択して描きたい場合に、画面サイズを変えたら強制的にカラーバーと凡例が描かれてしまう。
+				//    なんか新しい枠組みが必用。
+				//
+				//    -> それはもうユーザー描きこみ用の新しいバッファを1枚入れたら？
+				//       -> 仮にそうしても、「clear() したのにリサイズでカラーバーや凡例が復活してしまう」の解決にはならない。別の話だ。
+
+				// Update the reference to the screen image, and repaint the screen.
 				Image screenImage = this.renderer.getScreenImage();
 				view.mainWindow.setScreenImage(screenImage);
 			}

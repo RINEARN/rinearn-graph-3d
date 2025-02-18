@@ -707,6 +707,10 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/**
 	 * Draws the legend labels of the graph.
+	 *
+	 * This method draws 2D contents on the "foreground image", which will be composed to the screen image by render() method.
+	 * The foreground image is disposed and re-allocated when the screen size is changed, so then the drawn 2D contents lost.
+	 * Therefore, please call this method again when the screen size is changed.
 	 */
 	@Override
 	public void drawLegendLabels() {
@@ -726,6 +730,10 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 	/**
 	 * Draws the color bar of the graph.
+	 *
+	 * This method draws 2D contents on the "foreground image", which will be composed to the screen image by render() method.
+	 * The foreground image is disposed and re-allocated when the screen size is changed, so then the drawn 2D contents lost.
+	 * Therefore, please call this method again when the screen size is changed.
 	 */
 	@Override
 	public void drawColorBar() {
@@ -773,7 +781,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		this.foregroundGraphics = this.foregroundImage.createGraphics();
 
 		// Clear the foreground image by the background color.
-		this.foregroundGraphics.setBackground(this.config.getColorConfiguration().getBackgroundColor());
+		this.foregroundGraphics.setBackground(new Color(0, 0, 0, 0)); // Clear color.
 		this.foregroundGraphics.clearRect(0, 0, screenWidth, screenHeight);
 
 		// Turn on the flag for detecting that the graph screen has been resized.

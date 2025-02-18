@@ -960,6 +960,17 @@ public interface RinearnGraph3DRenderer {
 	 * グラフの凡例ラベルを描画します
 	 * </span>
 	 * .
+	 * <span class="lang-en">
+	 * This method draws 2D contents on the "foreground image", which will be composed to the screen image by render() method.
+	 * The foreground image is disposed and re-allocated when the screen size is changed, so then the drawn 2D contents lost.
+	 * Therefore, please call this method again when the screen size is changed.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドは, 前景イメージ（foreground image）上に2Dの内容を描画します.
+	 * 前景イメージは, render() メソッドによって, グラフ画面の画像（screen image）内に合成されます.
+	 * 前景イメージは, グラフの画面サイズが変更された際には破棄・再確保されますが, その際に, 描画されている内容が失われます.
+	 * 従って, 画面サイズが変更された際には, このメソッドを再び呼び出して再描画してください.
+	 * </span>
 	 */
 	public void drawLegendLabels();
 
@@ -972,6 +983,17 @@ public interface RinearnGraph3DRenderer {
 	 * グラフのカラーバーを描画します
 	 * </span>
 	 * .
+	 * <span class="lang-en">
+	 * This method draws 2D contents on the "foreground image", which will be composed to the screen image by render() method.
+	 * The foreground image is disposed and re-allocated when the screen size is changed, so then the drawn 2D contents lost.
+	 * Therefore, please call this method again when the screen size is changed.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドは, 前景イメージ（foreground image）上に2Dの内容を描画します.
+	 * 前景イメージは, render() メソッドによって, グラフ画面の画像（screen image）内に合成されます.
+	 * 前景イメージは, グラフの画面サイズが変更された際には破棄・再確保されますが, その際に, 描画されている内容が失われます.
+	 * 従って, 画面サイズが変更された際には, このメソッドを再び呼び出して再描画してください.
+	 * </span>
 	 */
 	public void drawColorBar();
 }
