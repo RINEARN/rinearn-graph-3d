@@ -351,6 +351,78 @@ public interface RinearnGraph3DRenderer {
 
 	/**
 	 * <span class="lang-en">
+	 * Gets the Graphics2D instance to draw contents freely in the foreground layer of the graph screen
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフ画面の前景層に, 自由な内容を描き込むための Graphics2D インスタンスを取得します
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * Please note that, the Graphics2D instance is disposed and re-allocated when the screen is resized.
+	 * Hence, after the screen is resized, please get the new Graphics2D instance again by this method.
+	 * </span>
+	 * <span class="lang-ja">
+	 * なお, Graphics2D インスタンスは, グラフ画面がリサイズされたタイミングで破棄・再確保されます.
+	 * 従って, グラフ画面のリサイズ後には, このメソッドで新しい Graphics2D インスタンスを再取得してください.
+	 * </span>
+	 *
+	 * return
+	 *   <span class="lang-en">The Graphics2D instance to draw contents to the foreground layer</span>
+	 *   <span class="lang-ja">前景層に内容を描き込むための Graphics2D インスタンス</span>
+	 */
+	public Graphics2D getForegroundLayerGraphics2D();
+
+
+	/**
+	 * <span class="lang-en">
+	 * Gets the Graphics2D instance to draw contents freely in the background layer of the graph screen
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフ画面の背景層に, 自由な内容を描き込むための Graphics2D インスタンスを取得します
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * Please note that, the Graphics2D instance is disposed and re-allocated when the screen is resized.
+	 * Hence, after the screen is resized, please get the new Graphics2D instance again by this method.
+	 * </span>
+	 * <span class="lang-ja">
+	 * なお, Graphics2D インスタンスは, グラフ画面がリサイズされたタイミングで破棄・再確保されます.
+	 * 従って, グラフ画面のリサイズ後には, このメソッドで新しい Graphics2D インスタンスを再取得してください.
+	 * </span>
+	 *
+	 * return
+	 *   <span class="lang-en">The Graphics2D instance to draw contents to the background layer</span>
+	 *   <span class="lang-ja">背景層に内容を描き込むための Graphics2D インスタンス</span>
+	 */
+	public Graphics2D getBackgroundLayerGraphics2D();
+
+
+	/**
+	 * <span class="lang-en">
+	 * Composites the background, the foreground, and the 3D graph layers, as the screen image
+	 * </span>
+	 * <span class="lang-ja">
+	 * 前景層, 背景層, および3Dグラフ層を合成し, グラフ画面の画像（screen Image）を構成します
+	 * </span>
+	 * .
+	 * <span class="lang-en">
+	 * This method is automatically called in render() method.
+	 * However, the render() method is relatively heavy,
+	 * so sometimes you may want to perform only the composition of the layers without 3D rendering process,
+	 * e.g.: when the contents of only the foreground/background layers are updated. This method is useful for such situation.
+	 * </span>
+	 * <span class="lang-ja">
+	 * このメソッドの処理は通常, render() メソッド内で自動的に実行されます.
+	 * しかしながら, render() メソッドは比較的重いため, 3Dレンダリング処理は行わずに, 各層の合成のみを行いたい時も生じます.
+	 * 例えば, 前景層や背景層の内容のみが更新された場合などです.
+	 * このメソッドは, そのような場面で有用です.
+	 * </span>
+	 */
+	public void compositeLayers();
+
+
+	/**
+	 * <span class="lang-en">
 	 * Draws a point
 	 * </span>
 	 * <span class="lang-ja">
