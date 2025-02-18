@@ -102,6 +102,7 @@ public final class MainMenuHandler {
 		window.mainMenu.gridLinesOptionMenuItem.addActionListener(new GridLinesOptionMenuItemSelectedEventListener());
 		window.mainMenu.frameLinesOptionMenuItem.addActionListener(new FrameLinesOptionMenuItemSelectedEventListener());
 		window.mainMenu.scaleTicksOptionMenuItem.addActionListener(new ScaleTicksOptionMenuItemSelectedEventListener());
+		window.mainMenu.axisLabelsOptionMenuItem.addActionListener(new AxisLabelsOptionMenuItemSelectedEventListener());
 	}
 
 
@@ -686,6 +687,25 @@ public final class MainMenuHandler {
 
 			// Enable/disable the option.
 			model.config.getLabelConfiguration().setLegendLabelsVisible(isOptionSelected);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Options" > "Axis Labels" menu item is selected.
+	 */
+	private final class AxisLabelsOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			boolean isOptionSelected = view.mainWindow.mainMenu.axisLabelsOptionMenuItem.isSelected();
+
+			// Enable/disable the option.
+			model.config.getLabelConfiguration().setAxisLabelsVisible(isOptionSelected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}

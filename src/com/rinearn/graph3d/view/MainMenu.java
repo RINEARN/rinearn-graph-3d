@@ -144,6 +144,9 @@ public class MainMenu {
 	/** "Options" > "Scale Ticks" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem scaleTicksOptionMenuItem;
 
+	/** "Options" > "Axis Labels" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem axisLabelsOptionMenuItem;
+
 
 	/**
 	 * Creates a new main menu.
@@ -327,6 +330,10 @@ public class MainMenu {
 				// "Options" > "Scale Ticks" menu item:
 				scaleTicksOptionMenuItem = new JCheckBoxMenuItem("Scale Ticks");
 				optionsMenu.add(scaleTicksOptionMenuItem);
+
+				// "Options" > "Axis Labels" menu item:
+				axisLabelsOptionMenuItem = new JCheckBoxMenuItem("Axis Labels");
+				optionsMenu.add(axisLabelsOptionMenuItem);
 			}
 		}
 	}
@@ -472,6 +479,7 @@ public class MainMenu {
 				gridLinesOptionMenuItem.setText("グリッド線");
 				frameLinesOptionMenuItem.setText("フレーム");
 				scaleTicksOptionMenuItem.setText("目盛り");
+				axisLabelsOptionMenuItem.setText("軸ラベル");
 			}
 		}
 
@@ -533,6 +541,7 @@ public class MainMenu {
 				gridLinesOptionMenuItem.setText("Grid Lines");
 				frameLinesOptionMenuItem.setText("Frame Lines");
 				scaleTicksOptionMenuItem.setText("Scale Ticks");
+				axisLabelsOptionMenuItem.setText("Axis Labels");
 			}
 		}
 
@@ -596,6 +605,7 @@ public class MainMenu {
 				gridLinesOptionMenuItem.setFont(uiBoldFont);
 				frameLinesOptionMenuItem.setFont(uiBoldFont);
 				scaleTicksOptionMenuItem.setFont(uiBoldFont);
+				axisLabelsOptionMenuItem.setFont(uiBoldFont);
 			}
 		}
 
@@ -638,10 +648,11 @@ public class MainMenu {
 				frameLinesOptionMenuItem.setSelected(frameConfig.isFrameLinesVisible());
 			}
 
-			// Legends option:
+			// Label option:
 			{
 				LabelConfiguration labelConfig = configuration.getLabelConfiguration();
 				legendOptionMenuItem.setSelected(labelConfig.isLegendLabelsVisible());
+				axisLabelsOptionMenuItem.setSelected(labelConfig.isAxisLabelsVisible());
 			}
 
 			// Color options:

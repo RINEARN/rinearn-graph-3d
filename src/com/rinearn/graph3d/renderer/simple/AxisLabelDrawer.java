@@ -105,6 +105,9 @@ public class AxisLabelDrawer {
 		if (this.config == null) {
 			throw new IllegalArgumentException("This drawer instance has not been configured yet.");
 		}
+		if (!this.config.getLabelConfiguration().isAxisLabelsVisible()) {
+			return;
+		}
 
 		// Draw axis labels of X, Y, Z axis.
 		for (int idim=0; idim<=2; idim++) {
