@@ -420,7 +420,7 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 	 * e.g.: when the contents of only the foreground/background layers are updated. This method is useful for such situation.
 	 */
 	@Override
-	public void compositeLayers() {
+	public synchronized void compositeLayers() {
 
 		// Clear the screen image.
 		int screenWidth = this.screenImage.getWidth();
@@ -446,6 +446,8 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 			drawImageCompleted = this.screenGraphics.drawImage(this.foregroundLayerImage, 0, 0, null);
 		}
 
+		// Turn on the flag for detecting that the content of the graph screen has been updated.
+		this.screenUpdated = true;
 	}
 
 
