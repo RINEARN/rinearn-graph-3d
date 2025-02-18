@@ -886,7 +886,20 @@ public interface RinearnGraph3DRenderer {
 	 * </span>
 	 * .
 	 */
-	public void drawScale();
+	public void drawScaleTicks();
+
+	/**
+	 * <span class="lang-en">
+	 * The old name of drawScaleTicks()
+	 * </span>
+	 * <span class="lang-ja">
+	 * drawScaleTicks() の旧名です
+	 * </span>
+	 * .
+	 */
+	public default void drawScale() {
+		this.drawScaleTicks();
+	}
 
 
 	/**
@@ -898,17 +911,67 @@ public interface RinearnGraph3DRenderer {
 	 * </span>
 	 * .
 	 */
-	public void drawGrid();
+	public void drawGridLines();
+
+	/**
+	 * <span class="lang-en">
+	 * The old name of drawGridLines()
+	 * </span>
+	 * <span class="lang-ja">
+	 * drawGridLines() の旧名です
+	 * </span>
+	 * .
+	 */
+	public default void drawGrid() {
+		this.drawGridLines();
+	}
 
 
 	/**
 	 * <span class="lang-en">
-	 * Draws the labels of the axes of the graph
+	 * Draws the axis labels of the graph
 	 * </span>
 	 * <span class="lang-ja">
 	 * グラフの座標軸ラベルを描画します
 	 * </span>
 	 * .
 	 */
-	public void drawLabel();
+	public void drawAxisLabels();
+
+	/**
+	 * <span class="lang-en">
+	 * The old name of drawAxisLabels()
+	 * </span>
+	 * <span class="lang-ja">
+	 * drawAxisLabels() の旧名です
+	 * </span>
+	 * .
+	 */
+	public default void drawLabel() {
+		this.drawAxisLabels();
+	}
+
+
+	/**
+	 * <span class="lang-en">
+	 * Draws the legend labels of the graph
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフの凡例ラベルを描画します
+	 * </span>
+	 * .
+	 */
+	public void drawLegendLabels();
+
+
+	/**
+	 * <span class="lang-en">
+	 * Draws the color bar of the graph
+	 * </span>
+	 * <span class="lang-ja">
+	 * グラフのカラーバーを描画します
+	 * </span>
+	 * .
+	 */
+	public void drawColorBar();
 }

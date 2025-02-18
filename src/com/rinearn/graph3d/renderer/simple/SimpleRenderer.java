@@ -672,25 +672,46 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 * Draws the scale ticks of X/Y/Z axes.
 	 */
 	@Override
-	public synchronized void drawScale() {
+	public synchronized void drawScaleTicks() {
 		this.scaleTickDrawer.drawScaleTicks(this.geometricPieceList);
 	}
 
 
 	/**
-	 * Draws the grid lines on the backwalls of the graph.
+	 * Draws the grid lines on the back-walls of the graph.
 	 */
 	@Override
-	public synchronized void drawGrid() {
+	public synchronized void drawGridLines() {
 		this.frameDrawer.drawGridLines(this.geometricPieceList);
 	}
 
 
+	/**
+	 * Draws the axis labels of the graph.
+	 */
 	@Override
-	public synchronized void drawLabel() {
+	public synchronized void drawAxisLabels() {
 		this.screenGraphics.setFont(this.config.getFontConfiguration().getTickLabelFont());
 		FontMetrics tickLabelFontMetrics = this.screenGraphics.getFontMetrics();
 		this.labelDrawer.drawAxisLabels(this.geometricPieceList, tickLabelFontMetrics);
+	}
+
+
+	/**
+	 * Draws the legend labels of the graph.
+	 */
+	@Override
+	public void drawLegendLabels() {
+		// TODO: draw legend labels to the back-ground buffer image.
+	}
+
+
+	/**
+	 * Draws the color bar of the graph.
+	 */
+	@Override
+	public void drawColorBar() {
+		// TODO: draw legend labels to the back-ground buffer image.
 	}
 
 
