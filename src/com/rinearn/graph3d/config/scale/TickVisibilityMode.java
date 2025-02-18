@@ -1,9 +1,9 @@
 package com.rinearn.graph3d.config.scale;
 
 /**
- * The enum representing each mode to control the visibility of the scales.
+ * The enum representing each mode to control the visibility of scale tick(s).
  */
-public enum ScaleVisibilityMode {
+public enum TickVisibilityMode {
 
 	/** Switches the visibility automatically, depending on the angle of the graph.  */
 	AUTO,

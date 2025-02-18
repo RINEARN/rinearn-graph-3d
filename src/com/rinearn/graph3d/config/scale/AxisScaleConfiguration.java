@@ -45,19 +45,19 @@ public final class AxisScaleConfiguration {
 	//
 	// 少し塩漬けにしてまた要再検討。
 
-	/** The visibility of 'scale A' of this axis's scale. */
-	private volatile ScaleVisibilityMode scaleAVisibilityMode = ScaleVisibilityMode.AUTO;
-	// private volatile ScaleVisibilityMode tickSeriesAVisiblityMode = ScaleVisibilityMode.AUTO;
+	/** The visibility of 'scale ticks A' of this axis's scale ticks. */
+	private volatile TickVisibilityMode ticksAVisibilityMode = TickVisibilityMode.AUTO;
+	// private volatile TickVisibilityMode tickSeriesAVisiblityMode = TickVisibilityMode.AUTO;
 	// NOTE: ↑やっぱ tickSeriesA っての変だよ。scaleA の方がいいよ。scale 単独なら概念粒度的に大きすぎるけど scale 'A' なんだしいいでしょ。
 
-	/** The visibility of 'scale B' of this axis's scale. */
-	private volatile ScaleVisibilityMode scaleBVisibilityMode = ScaleVisibilityMode.AUTO;
+	/** The visibility of 'scale ticks B' of this axis's scale ticks. */
+	private volatile TickVisibilityMode ticksBVisibilityMode = TickVisibilityMode.AUTO;
 
-	/** The visibility of 'scale C' of this axis's scale. */
-	private volatile ScaleVisibilityMode scaleCVisibilityMode = ScaleVisibilityMode.AUTO;
+	/** The visibility of 'scale ticks C' of this axis's scale ticks. */
+	private volatile TickVisibilityMode ticksCVisibilityMode = TickVisibilityMode.AUTO;
 
-	/** The visibility of 'scale D' of this axis's scale. */
-	private volatile ScaleVisibilityMode scaleDVisibilityMode = ScaleVisibilityMode.AUTO;
+	/** The visibility of 'scale ticks D' of this axis's scale ticks. */
+	private volatile TickVisibilityMode ticksDVisibilityMode = TickVisibilityMode.AUTO;
 
 	/** The length of tick lines. */
 	private volatile double tickLineLength = 0.05;
@@ -107,79 +107,79 @@ public final class AxisScaleConfiguration {
 
 
 	/**
-	 * Sets the visibility mode of the 'scale A' of this axis.
+	 * Sets the visibility mode of the 'scale ticks A' of this axis.
 	 *
-	 * @param scaleAVisibilityMode The visibility mode of the 'scale A' of this axis.
+	 * @param ticksAVisibilityMode The visibility mode of the 'scale ticks A' of this axis.
 	 */
-	public synchronized void setScaleAVisibilityMode(ScaleVisibilityMode scaleAVisibilityMode) {
-		this.scaleAVisibilityMode = scaleAVisibilityMode;
+	public synchronized void setTicksAVisibilityMode(TickVisibilityMode ticksAVisibilityMode) {
+		this.ticksAVisibilityMode = ticksAVisibilityMode;
 	}
 
 	/**
-	 * Gets the visibility mode of the 'scale A' of this axis.
+	 * Gets the visibility mode of the 'scale ticks A' of this axis.
 	 *
-	 * @return The visibility mode of the 'scale A' of this axis.
+	 * @return The visibility mode of the 'scale ticks A' of this axis.
 	 */
-	public synchronized ScaleVisibilityMode getScaleAVisibilityMode() {
-		return this.scaleAVisibilityMode;
-	}
-
-
-	/**
-	 * Sets the visibility mode of the 'scale B' of this axis.
-	 *
-	 * @param scaleBVisibilityMode The visibility mode of the 'scale B' of this axis.
-	 */
-	public synchronized void setScaleBVisibilityMode(ScaleVisibilityMode scaleBVisibilityMode) {
-		this.scaleBVisibilityMode = scaleBVisibilityMode;
-	}
-
-	/**
-	 * Gets the visibility mode of the 'scale B' of this axis.
-	 *
-	 * @return The visibility mode of the 'scale B' of this axis.
-	 */
-	public synchronized ScaleVisibilityMode getScaleBVisibilityMode() {
-		return this.scaleBVisibilityMode;
+	public synchronized TickVisibilityMode getTicksAVisibilityMode() {
+		return this.ticksAVisibilityMode;
 	}
 
 
 	/**
-	 * Sets the visibility mode of the 'scale C' of this axis.
+	 * Sets the visibility mode of the 'scale ticks B' of this axis.
 	 *
-	 * @param scaleBVisibilityMode The visibility mode of the 'scale C' of this axis.
+	 * @param ticksBVisibilityMode The visibility mode of the 'scale ticks B' of this axis.
 	 */
-	public synchronized void setScaleCVisibilityMode(ScaleVisibilityMode scaleCVisibilityMode) {
-		this.scaleCVisibilityMode = scaleCVisibilityMode;
+	public synchronized void setTicksBVisibilityMode(TickVisibilityMode ticksBVisibilityMode) {
+		this.ticksBVisibilityMode = ticksBVisibilityMode;
 	}
 
 	/**
-	 * Gets the visibility mode of the 'scale C' of this axis.
+	 * Gets the visibility mode of the 'scale ticks B' of this axis.
 	 *
-	 * @return The visibility mode of the 'scale C' of this axis.
+	 * @return The visibility mode of the 'scale ticks B' of this axis.
 	 */
-	public synchronized ScaleVisibilityMode getScaleCVisibilityMode() {
-		return this.scaleCVisibilityMode;
+	public synchronized TickVisibilityMode getTicksBVisibilityMode() {
+		return this.ticksBVisibilityMode;
+	}
+
+
+	/**
+	 * Sets the visibility mode of the 'scale ticks C' of this axis.
+	 *
+	 * @param ticksBVisibilityMode The visibility mode of the 'scale ticks C' of this axis.
+	 */
+	public synchronized void setTicksCVisibilityMode(TickVisibilityMode ticksCVisibilityMode) {
+		this.ticksCVisibilityMode = ticksCVisibilityMode;
+	}
+
+	/**
+	 * Gets the visibility mode of the 'scale ticks C' of this axis.
+	 *
+	 * @return The visibility mode of the 'scale ticks C' of this axis.
+	 */
+	public synchronized TickVisibilityMode getTicksCVisibilityMode() {
+		return this.ticksCVisibilityMode;
 	}
 
 
 
 	/**
-	 * Sets the visibility mode of the 'scale D' of this axis.
+	 * Sets the visibility mode of the 'scale ticks D' of this axis.
 	 *
-	 * @param scaleBVisibilityMode The visibility mode of the 'scale D' of this axis.
+	 * @param ticksBVisibilityMode The visibility mode of the 'scale ticks D' of this axis.
 	 */
-	public synchronized void setScaleDVisibilityMode(ScaleVisibilityMode scaleDVisibilityMode) {
-		this.scaleDVisibilityMode = scaleDVisibilityMode;
+	public synchronized void setTicksDVisibilityMode(TickVisibilityMode ticksDVisibilityMode) {
+		this.ticksDVisibilityMode = ticksDVisibilityMode;
 	}
 
 	/**
-	 * Gets the visibility mode of the 'scale D' of this axis.
+	 * Gets the visibility mode of the 'scale ticks D' of this axis.
 	 *
-	 * @return The visibility mode of the 'scale D' of this axis.
+	 * @return The visibility mode of the 'scale ticks D' of this axis.
 	 */
-	public synchronized ScaleVisibilityMode getScaleDVisibilityMode() {
-		return this.scaleDVisibilityMode;
+	public synchronized TickVisibilityMode getTicksDVisibilityMode() {
+		return this.ticksDVisibilityMode;
 	}
 
 
@@ -515,14 +515,14 @@ public final class AxisScaleConfiguration {
 		}
 
 		// The visibility mode "AUTO" can not be used together with other modes in one axis, so check them.
-		boolean containsAutoVisibilityMode = this.scaleAVisibilityMode == ScaleVisibilityMode.AUTO
-				|| this.scaleBVisibilityMode == ScaleVisibilityMode.AUTO
-				|| this.scaleCVisibilityMode == ScaleVisibilityMode.AUTO
-				|| this.scaleDVisibilityMode == ScaleVisibilityMode.AUTO;
-		boolean containsOtherVisibilityMode = this.scaleAVisibilityMode != ScaleVisibilityMode.AUTO
-				|| this.scaleBVisibilityMode != ScaleVisibilityMode.AUTO
-				|| this.scaleCVisibilityMode != ScaleVisibilityMode.AUTO
-				|| this.scaleDVisibilityMode != ScaleVisibilityMode.AUTO;
+		boolean containsAutoVisibilityMode = this.ticksAVisibilityMode == TickVisibilityMode.AUTO
+				|| this.ticksBVisibilityMode == TickVisibilityMode.AUTO
+				|| this.ticksCVisibilityMode == TickVisibilityMode.AUTO
+				|| this.ticksDVisibilityMode == TickVisibilityMode.AUTO;
+		boolean containsOtherVisibilityMode = this.ticksAVisibilityMode != TickVisibilityMode.AUTO
+				|| this.ticksBVisibilityMode != TickVisibilityMode.AUTO
+				|| this.ticksCVisibilityMode != TickVisibilityMode.AUTO
+				|| this.ticksDVisibilityMode != TickVisibilityMode.AUTO;
 		if (containsAutoVisibilityMode && containsOtherVisibilityMode) {
 			throw new RinearnGraph3DConfigurationException(
 					"On the current version, the visibility mode 'AUTO' can not be used together with the other modes, in one axis."

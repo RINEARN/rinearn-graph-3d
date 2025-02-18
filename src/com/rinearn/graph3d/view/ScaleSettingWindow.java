@@ -13,7 +13,7 @@ import com.rinearn.graph3d.config.scale.ScaleConfiguration;
 import com.rinearn.graph3d.config.scale.AxisScaleConfiguration;
 import com.rinearn.graph3d.config.scale.ManualTicker;
 import com.rinearn.graph3d.config.scale.EqualDivisionTicker;
-import com.rinearn.graph3d.config.scale.ScaleVisibilityMode;
+import com.rinearn.graph3d.config.scale.TickVisibilityMode;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -1616,35 +1616,35 @@ public class ScaleSettingWindow {
 
 			// "Visibilities" tab:
 			{
-				ScaleVisibilityMode xAVisibilityMode = xScaleConfig.getScaleAVisibilityMode();
-				ScaleVisibilityMode xBVisibilityMode = xScaleConfig.getScaleBVisibilityMode();
-				ScaleVisibilityMode xCVisibilityMode = xScaleConfig.getScaleCVisibilityMode();
-				ScaleVisibilityMode xDVisibilityMode = xScaleConfig.getScaleDVisibilityMode();
+				TickVisibilityMode xAVisibilityMode = xScaleConfig.getTicksAVisibilityMode();
+				TickVisibilityMode xBVisibilityMode = xScaleConfig.getTicksBVisibilityMode();
+				TickVisibilityMode xCVisibilityMode = xScaleConfig.getTicksCVisibilityMode();
+				TickVisibilityMode xDVisibilityMode = xScaleConfig.getTicksDVisibilityMode();
 
-				ScaleVisibilityMode yAVisibilityMode = yScaleConfig.getScaleAVisibilityMode();
-				ScaleVisibilityMode yBVisibilityMode = yScaleConfig.getScaleBVisibilityMode();
-				ScaleVisibilityMode yCVisibilityMode = yScaleConfig.getScaleCVisibilityMode();
-				ScaleVisibilityMode yDVisibilityMode = yScaleConfig.getScaleDVisibilityMode();
+				TickVisibilityMode yAVisibilityMode = yScaleConfig.getTicksAVisibilityMode();
+				TickVisibilityMode yBVisibilityMode = yScaleConfig.getTicksBVisibilityMode();
+				TickVisibilityMode yCVisibilityMode = yScaleConfig.getTicksCVisibilityMode();
+				TickVisibilityMode yDVisibilityMode = yScaleConfig.getTicksDVisibilityMode();
 
-				ScaleVisibilityMode zAVisibilityMode = zScaleConfig.getScaleAVisibilityMode();
-				ScaleVisibilityMode zBVisibilityMode = zScaleConfig.getScaleBVisibilityMode();
-				ScaleVisibilityMode zCVisibilityMode = zScaleConfig.getScaleCVisibilityMode();
-				ScaleVisibilityMode zDVisibilityMode = zScaleConfig.getScaleDVisibilityMode();
+				TickVisibilityMode zAVisibilityMode = zScaleConfig.getTicksAVisibilityMode();
+				TickVisibilityMode zBVisibilityMode = zScaleConfig.getTicksBVisibilityMode();
+				TickVisibilityMode zCVisibilityMode = zScaleConfig.getTicksCVisibilityMode();
+				TickVisibilityMode zDVisibilityMode = zScaleConfig.getTicksDVisibilityMode();
 
-				boolean isXVisibilityAuto = xAVisibilityMode == ScaleVisibilityMode.AUTO
-						&& xBVisibilityMode == ScaleVisibilityMode.AUTO
-						&& xCVisibilityMode == ScaleVisibilityMode.AUTO
-						&& xDVisibilityMode == ScaleVisibilityMode.AUTO;
+				boolean isXVisibilityAuto = xAVisibilityMode == TickVisibilityMode.AUTO
+						&& xBVisibilityMode == TickVisibilityMode.AUTO
+						&& xCVisibilityMode == TickVisibilityMode.AUTO
+						&& xDVisibilityMode == TickVisibilityMode.AUTO;
 
-				boolean isYVisibilityAuto = yAVisibilityMode == ScaleVisibilityMode.AUTO
-						&& yBVisibilityMode == ScaleVisibilityMode.AUTO
-						&& yCVisibilityMode == ScaleVisibilityMode.AUTO
-						&& yDVisibilityMode == ScaleVisibilityMode.AUTO;
+				boolean isYVisibilityAuto = yAVisibilityMode == TickVisibilityMode.AUTO
+						&& yBVisibilityMode == TickVisibilityMode.AUTO
+						&& yCVisibilityMode == TickVisibilityMode.AUTO
+						&& yDVisibilityMode == TickVisibilityMode.AUTO;
 
-				boolean isZVisibilityAuto = zAVisibilityMode == ScaleVisibilityMode.AUTO
-						&& zBVisibilityMode == ScaleVisibilityMode.AUTO
-						&& zCVisibilityMode == ScaleVisibilityMode.AUTO
-						&& zDVisibilityMode == ScaleVisibilityMode.AUTO;
+				boolean isZVisibilityAuto = zAVisibilityMode == TickVisibilityMode.AUTO
+						&& zBVisibilityMode == TickVisibilityMode.AUTO
+						&& zCVisibilityMode == TickVisibilityMode.AUTO
+						&& zDVisibilityMode == TickVisibilityMode.AUTO;
 
 				visibilitiesTabItems.xAutoBox.setSelected(isXVisibilityAuto);
 				visibilitiesTabItems.xABox.setEnabled(!isXVisibilityAuto);
@@ -1657,10 +1657,10 @@ public class ScaleSettingWindow {
 					visibilitiesTabItems.xCBox.setSelected(false);
 					visibilitiesTabItems.xDBox.setSelected(false);
 				} else {
-					visibilitiesTabItems.xABox.setSelected(xAVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.xBBox.setSelected(xBVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.xCBox.setSelected(xCVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.xDBox.setSelected(xDVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.xABox.setSelected(xAVisibilityMode == TickVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.xBBox.setSelected(xBVisibilityMode == TickVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.xCBox.setSelected(xCVisibilityMode == TickVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.xDBox.setSelected(xDVisibilityMode == TickVisibilityMode.ALWAYS_VISIBLE);
 				}
 
 				visibilitiesTabItems.yAutoBox.setSelected(isYVisibilityAuto);
@@ -1674,10 +1674,10 @@ public class ScaleSettingWindow {
 					visibilitiesTabItems.yCBox.setSelected(false);
 					visibilitiesTabItems.yDBox.setSelected(false);
 				} else {
-					visibilitiesTabItems.yABox.setSelected(yAVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.yBBox.setSelected(yBVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.yCBox.setSelected(yCVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.yDBox.setSelected(yDVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.yABox.setSelected(yAVisibilityMode == TickVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.yBBox.setSelected(yBVisibilityMode == TickVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.yCBox.setSelected(yCVisibilityMode == TickVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.yDBox.setSelected(yDVisibilityMode == TickVisibilityMode.ALWAYS_VISIBLE);
 				}
 
 				visibilitiesTabItems.zAutoBox.setSelected(isZVisibilityAuto);
@@ -1691,10 +1691,10 @@ public class ScaleSettingWindow {
 					visibilitiesTabItems.zCBox.setSelected(false);
 					visibilitiesTabItems.zDBox.setSelected(false);
 				} else {
-					visibilitiesTabItems.zABox.setSelected(zAVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.zBBox.setSelected(zBVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.zCBox.setSelected(zCVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
-					visibilitiesTabItems.zDBox.setSelected(zDVisibilityMode == ScaleVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.zABox.setSelected(zAVisibilityMode == TickVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.zBBox.setSelected(zBVisibilityMode == TickVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.zCBox.setSelected(zCVisibilityMode == TickVisibilityMode.ALWAYS_VISIBLE);
+					visibilitiesTabItems.zDBox.setSelected(zDVisibilityMode == TickVisibilityMode.ALWAYS_VISIBLE);
 				}
 			}
 
