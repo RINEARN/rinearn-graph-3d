@@ -100,13 +100,13 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
 public final class ScaleConfiguration {
 
 	/** The visibility of the grid. */
-	private volatile boolean gridVisible;
+	private volatile boolean gridLinesVisible = true;
 
 	/** The visibility of the tick lines and tick labels. */
-	private volatile boolean tickVisible;
+	private volatile boolean ticksVisible = true;
 
 	/** The flag to set the direction of the ticks inward. */
-	private volatile boolean tickInward;
+	private volatile boolean ticksInward = false;
 
 	/** The configuration of X axis's scale. */
 	private volatile AxisScaleConfiguration xScaleConfiguration = new AxisScaleConfiguration();
@@ -131,10 +131,10 @@ public final class ScaleConfiguration {
 	/**
 	 * Sets the visibility of the grid.
 	 *
-	 * @param gridVisible Specify true for setting the grid visible.
+	 * @param gridLinesVisible Specify true for setting the grid visible.
 	 */
-	public synchronized void setGridVisible(boolean gridVisible) {
-		this.gridVisible = gridVisible;
+	public synchronized void setGridLinesVisible(boolean gridVisible) {
+		this.gridLinesVisible = gridVisible;
 	}
 
 	/**
@@ -142,18 +142,18 @@ public final class ScaleConfiguration {
 	 *
 	 * @return Returns true if the grid is visible.
 	 */
-	public synchronized boolean isGridVisible() {
-		return this.gridVisible;
+	public synchronized boolean isGridLinesVisible() {
+		return this.gridLinesVisible;
 	}
 
 
 	/**
 	 * Sets the visibility of the tick lines and tick labels.
 	 *
-	 * @param tickVisible Specify true for setting the tick lines/labels visible.
+	 * @param ticksVisible Specify true for setting the tick lines/labels visible.
 	 */
-	public synchronized void setTickVisible(boolean tickVisible) {
-		this.tickVisible = tickVisible;
+	public synchronized void setTicksVisible(boolean tickVisible) {
+		this.ticksVisible = tickVisible;
 	}
 
 	/**
@@ -161,18 +161,18 @@ public final class ScaleConfiguration {
 	 *
 	 * @return Returns true if the tick lines/labels are visible.
 	 */
-	public synchronized boolean isTickVisible() {
-		return this.tickVisible;
+	public synchronized boolean isTicksVisible() {
+		return this.ticksVisible;
 	}
 
 
 	/**
 	 * Sets the value of the flag to draw the ticks inward.
 	 *
-	 * @param tickInward Specify true to set the ticks inward.
+	 * @param ticksInward Specify true to set the ticks inward.
 	 */
-	public synchronized void setTickInward(boolean tickInward) {
-		this.tickInward = tickInward;
+	public synchronized void setTicksInward(boolean tickInward) {
+		this.ticksInward = tickInward;
 	}
 
 	/**
@@ -180,8 +180,8 @@ public final class ScaleConfiguration {
 	 *
 	 * @return Returns true if the ticks is set inward.
 	 */
-	public synchronized boolean isTickInward() {
-		return this.tickInward;
+	public synchronized boolean isTicksInward() {
+		return this.ticksInward;
 	}
 
 

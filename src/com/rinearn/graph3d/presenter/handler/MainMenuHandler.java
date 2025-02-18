@@ -99,6 +99,8 @@ public final class MainMenuHandler {
 		window.mainMenu.legendOptionMenuItem.addActionListener(new LegendOptionMenuItemSelectedEventListener());
 		window.mainMenu.blackScreenOptionMenuItem.addActionListener(new BlackScreenOptionMenuItemSelectedEventListener());
 		window.mainMenu.gradientOptionMenuItem.addActionListener(new GradientOptionMenuItemSelectedEventListener());
+		window.mainMenu.gridLinesOptionMenuItem.addActionListener(new GridLinesOptionMenuItemSelectedEventListener());
+		window.mainMenu.scaleTicksOptionMenuItem.addActionListener(new ScaleTicksOptionMenuItemSelectedEventListener());
 	}
 
 
@@ -582,6 +584,44 @@ public final class MainMenuHandler {
 
 			// Enable/disable the option.
 			model.config.getColorConfiguration().setDataGradientColorEnabled(isOptionSelected);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Options" > "Grid Lines" menu item is selected.
+	 */
+	private final class GridLinesOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			boolean isOptionSelected = view.mainWindow.mainMenu.gridLinesOptionMenuItem.isSelected();
+
+			// Update scale configuration.
+			model.config.getScaleConfiguration().setGridLinesVisible(isOptionSelected);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Options" > "Scale Ticks" menu item is selected.
+	 */
+	private final class ScaleTicksOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			boolean isOptionSelected = view.mainWindow.mainMenu.scaleTicksOptionMenuItem.isSelected();
+
+			// Update scale configuration.
+			model.config.getScaleConfiguration().setTicksVisible(isOptionSelected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}

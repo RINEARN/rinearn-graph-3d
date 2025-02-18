@@ -135,6 +135,11 @@ public class MainMenu {
 	/** "Options" > "Legends" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem legendOptionMenuItem;
 
+	/** "Options" > "Grid Lines" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem gridLinesOptionMenuItem;
+
+	/** "Options" > "Scale Ticks" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem scaleTicksOptionMenuItem;
 
 
 	/**
@@ -307,6 +312,14 @@ public class MainMenu {
 				// "Options" > "Gradient Coloring" menu item:
 				gradientOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
 				optionsMenu.add(gradientOptionMenuItem);
+
+				// "Options" > "Grid Lines" menu item:
+				gridLinesOptionMenuItem = new JCheckBoxMenuItem("Grid Lines");
+				optionsMenu.add(gridLinesOptionMenuItem);
+
+				// "Options" > "Scale Ticks" menu item:
+				scaleTicksOptionMenuItem = new JCheckBoxMenuItem("Scale Ticks");
+				optionsMenu.add(scaleTicksOptionMenuItem);
 			}
 		}
 	}
@@ -449,6 +462,8 @@ public class MainMenu {
 				legendOptionMenuItem.setText("凡例");
 				blackScreenOptionMenuItem.setText("ブラックスクリーン");
 				gradientOptionMenuItem.setText("グラデーション");
+				gridLinesOptionMenuItem.setText("グリッド線");
+				scaleTicksOptionMenuItem.setText("目盛り");
 			}
 		}
 
@@ -507,6 +522,8 @@ public class MainMenu {
 				legendOptionMenuItem.setText("Legends");
 				gradientOptionMenuItem.setText("Gradient Colors");
 				blackScreenOptionMenuItem.setText("Black Screen");
+				gridLinesOptionMenuItem.setText("Grid Lines");
+				scaleTicksOptionMenuItem.setText("Scale Ticks");
 			}
 		}
 
@@ -567,6 +584,8 @@ public class MainMenu {
 				legendOptionMenuItem.setFont(uiBoldFont);
 				blackScreenOptionMenuItem.setFont(uiBoldFont);
 				gradientOptionMenuItem.setFont(uiBoldFont);
+				gridLinesOptionMenuItem.setFont(uiBoldFont);
+				scaleTicksOptionMenuItem.setFont(uiBoldFont);
 			}
 		}
 
@@ -598,6 +617,9 @@ public class MainMenu {
 				invertXOptionMenuItem.setSelected(xScaleConfig.isInversionEnabled());
 				invertYOptionMenuItem.setSelected(yScaleConfig.isInversionEnabled());
 				invertZOptionMenuItem.setSelected(zScaleConfig.isInversionEnabled());
+
+				gridLinesOptionMenuItem.setSelected(scaleConfig.isGridLinesVisible());
+				scaleTicksOptionMenuItem.setSelected(scaleConfig.isTicksVisible());
 			}
 
 			// Legends option:

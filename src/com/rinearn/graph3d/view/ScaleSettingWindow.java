@@ -1440,7 +1440,7 @@ public class ScaleSettingWindow {
 				double scaleLineLength = scaleConfig.getXScaleConfiguration().getTickLineLength();
 				designTabItems.tickLineLengthField.setText(Double.toString(scaleLineLength));
 
-				boolean tickInward = scaleConfig.isTickInward();
+				boolean tickInward = scaleConfig.isTicksInward();
 				designTabItems.tickInwardBox.setSelected(tickInward);
 			}
 

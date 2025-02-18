@@ -106,6 +106,9 @@ public final class ScaleTickDrawer {
 		if (this.config == null) {
 			throw new IllegalArgumentException("This drawer instance has not been configured yet.");
 		}
+		if (!this.config.getScaleConfiguration().isTicksVisible()) {
+			return;
+		}
 		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
 		AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
 		AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();

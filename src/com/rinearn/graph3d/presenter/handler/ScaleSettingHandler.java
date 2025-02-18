@@ -212,7 +212,7 @@ public class ScaleSettingHandler {
 
 				// "Inward" box
 				boolean isTickInward = window.designTabItems.tickInwardBox.isSelected();
-				scaleConfig.setTickInward(isTickInward);
+				scaleConfig.setTicksInward(isTickInward);
 			}
 
 			// "Ticks" tab:

@@ -164,6 +164,9 @@ public final class FrameDrawer {
 		if (this.config == null) {
 			throw new IllegalArgumentException("This drawer instance has not been configured yet.");
 		}
+		if (!this.config.getScaleConfiguration().isGridLinesVisible()) {
+			return;
+		}
 		RangeConfiguration rangeConfig = this.config.getRangeConfiguration();
 		AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
 		AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
