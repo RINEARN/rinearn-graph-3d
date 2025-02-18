@@ -183,6 +183,14 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 			tv[ivertex][Z] = m[2][0] * sv[ivertex][X] + m[2][1] * sv[ivertex][Y] + m[2][2] * sv[ivertex][Z] + m[2][3] * sv[ivertex][W];
 		}
 
+		// Normalize the normal vector.
+		// Note: When the axis-length-factors in "matrix" is not 1, the lengths of the normal vectors change by the transformation.
+		double normalVectorLength = Math.sqrt(tv[4][X] * tv[4][X] + tv[4][Y] * tv[4][Y] + tv[4][Z] * tv[4][Z]);
+		double normalVectorLengthInv = 1.0 / normalVectorLength;
+		tv[4][X] *= normalVectorLengthInv;
+		tv[4][Y] *= normalVectorLengthInv;
+		tv[4][Z] *= normalVectorLengthInv;
+
 		// If this quadrangle faces the depth direction from the viewpoint, reverse its normal vector.
 		// See also: the description of 'facesDepthDirection' method.
 		if (this.facesDepthDirection(tv, this.normalVectorVertices)) {
