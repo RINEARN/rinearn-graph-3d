@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.renderer.simple;
+package com.rinearn.graph3d.renderer.refimpl;
 
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
@@ -55,10 +55,9 @@ import java.awt.RenderingHints;
 // !!! NOTE !!!
 
 /**
- * The class providing a simple implementation of
- * the rendering engine (renderer) of RINEARN Graph 3D.
+ * The reference implementation of the rendering engine (renderer) of RINEARN Graph 3D.
  */
-public final class SimpleRenderer implements RinearnGraph3DRenderer {
+public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 
 	/** The array index representing X, in some array fields. */
 	public static final int X = 0;
@@ -158,7 +157,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/**
 	 * Creates a new renderer.
 	 */
-	public SimpleRenderer() {
+	public ReferenceRenderer() {
 		this.configure(this.config);
 		this.clear();
 	}
@@ -885,7 +884,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 *
 	 * This method allocates a buffer (BufferedImage), and copies the content of the graph screen to it, and returns it.
 	 * The allocation of the buffer requires a certain overhead cost, so if frequently copy the graph screen,
-	 * consider using {SimpleRenderer.copyScreenImage(BufferedImage,Graphics2D) copyScreenImage(BufferedImage,Graphics2D)}
+	 * consider using {ReferenceRenderer.copyScreenImage(BufferedImage,Graphics2D) copyScreenImage(BufferedImage,Graphics2D)}
 	 * method instead.
 	 *
 	 * Please note that,

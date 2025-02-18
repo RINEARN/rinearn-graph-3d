@@ -4,7 +4,7 @@ import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
-import com.rinearn.graph3d.renderer.simple.SimpleRenderer;
+import com.rinearn.graph3d.renderer.refimpl.ReferenceRenderer;
 import com.rinearn.graph3d.event.RinearnGraph3DEventDispatcher;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 
@@ -132,7 +132,7 @@ public final class RinearnGraph3D {
 		this.view = new View();
 
 		// Create a rendering engine of 3D graphs.
-		this.renderer = new SimpleRenderer();
+		this.renderer = new ReferenceRenderer();
 
 		// !!! NOTE !!!
 		// ↑ここで引数で渡して参照共有してるのは確実にやめるべき。

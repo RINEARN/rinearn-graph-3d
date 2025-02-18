@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.renderer.simple;
+package com.rinearn.graph3d.renderer.refimpl;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.range.RangeConfiguration;

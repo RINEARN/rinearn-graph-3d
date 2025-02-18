@@ -1,4 +1,4 @@
-package com.rinearn.graph3d.renderer.simple;
+package com.rinearn.graph3d.renderer.refimpl;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
