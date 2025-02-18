@@ -685,7 +685,7 @@ public final class MainMenuHandler {
 			boolean isOptionSelected = view.mainWindow.mainMenu.legendOptionMenuItem.isSelected();
 
 			// Enable/disable the option.
-			model.config.getLabelConfiguration().getLegendLabelConfiguration().setVisible(isOptionSelected);
+			model.config.getLabelConfiguration().setLegendLabelsVisible(isOptionSelected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}

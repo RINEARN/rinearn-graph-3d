@@ -369,7 +369,7 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		}
 
 		// Draw legends.
-		if (this.config.getLabelConfiguration().getLegendLabelConfiguration().isVisible()) {
+		if (this.config.getLabelConfiguration().isLegendLabelsVisible()) {
 			this.legendDrawer.draw(this.screenGraphics);
 		}
 

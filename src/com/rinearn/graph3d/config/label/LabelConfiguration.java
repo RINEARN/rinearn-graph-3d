@@ -34,6 +34,9 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
  */
 public final class LabelConfiguration {
 
+	/** The flag representing whether legend labels are visible. */
+	public volatile boolean legendLabelsVisible = true;
+
 	/** The configuration of the X axis label. */
 	public volatile AxisLabelConfiguration xLabelConfiguration = new AxisLabelConfiguration();
 
@@ -54,6 +57,25 @@ public final class LabelConfiguration {
 		this.xLabelConfiguration.setLabelText("X");
 		this.yLabelConfiguration.setLabelText("Y");
 		this.zLabelConfiguration.setLabelText("Z");
+	}
+
+
+	/**
+	 * Sets whether the legend labels are visible.
+	 *
+	 * @param axisLabelsVisible Specify true to set the legend labels visible.
+	 */
+	public synchronized void setLegendLabelsVisible(boolean legendLabelsVisible) {
+		this.legendLabelsVisible = legendLabelsVisible;
+	}
+
+	/**
+	 * Gets whether the legend labels are visible.
+	 *
+	 * @return Returns true if the legend labels are visible.
+	 */
+	public synchronized boolean isLegendLabelsVisible() {
+		return this.legendLabelsVisible;
 	}
 
 

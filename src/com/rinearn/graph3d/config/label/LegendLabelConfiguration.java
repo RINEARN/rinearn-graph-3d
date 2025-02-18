@@ -8,9 +8,6 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
  */
 public final class LegendLabelConfiguration {
 
-	/** The flag representing whether the legends display is visible. */
-	private volatile boolean visible = false;
-
 	/** The flag representing whether the auto-legend-generation feature is enabled. */
 	private volatile boolean autoLegendGenerationEnabled = true;
 
@@ -21,23 +18,6 @@ public final class LegendLabelConfiguration {
 	/** The texts of the legend labels. */
 	private volatile String[] labelTexts = { };
 
-	/**
-	 * Sets whether the legends display is visible.
-	 *
-	 * @return Specify true/false to show/hide the legends display.
-	 */
-	public synchronized void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-
-	/**
-	 * Gets whether the legends display is visible.
-	 *
-	 * @return Returns true if the legend display is visible.
-	 */
-	public synchronized boolean isVisible() {
-		return this.visible;
-	}
 
 	/**
 	 * Enables/disables the auto-legend-generation feature.
