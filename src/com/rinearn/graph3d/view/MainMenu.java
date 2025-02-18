@@ -10,6 +10,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 
+import java.awt.Color;
+
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.color.ColorConfiguration;
 import com.rinearn.graph3d.config.scale.ScaleConfiguration;
@@ -104,6 +106,7 @@ public class MainMenu {
 	/** "Options" > "With Surfaces" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem surfaceOptionMenuItem;
 
+
 	/** "Options" > "Log X" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem logXOptionMenuItem;
 
@@ -122,11 +125,16 @@ public class MainMenu {
 	/** "Options" > "Invert Z" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem invertZOptionMenuItem;
 
+
+	/** "Options" > "Black Screen" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem blackScreenOptionMenuItem;
+
 	/** "Options" > "Gradient Colors" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem gradientOptionMenuItem;
 
 	/** "Options" > "Legends" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem legendOptionMenuItem;
+
 
 
 	/**
@@ -288,13 +296,17 @@ public class MainMenu {
 				// --- Separator ---
 				optionsMenu.add(new JSeparator());
 
-				// "Options" > "Gradient Coloring" menu item:
-				gradientOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
-				optionsMenu.add(gradientOptionMenuItem);
-
 				// "Options" > "Legends" menu item:
 				legendOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
 				optionsMenu.add(legendOptionMenuItem);
+
+				// "Options" > "Black Screen" menu item:
+				blackScreenOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
+				optionsMenu.add(blackScreenOptionMenuItem);
+
+				// "Options" > "Gradient Coloring" menu item:
+				gradientOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
+				optionsMenu.add(gradientOptionMenuItem);
 			}
 		}
 	}
@@ -434,8 +446,9 @@ public class MainMenu {
 				invertYOptionMenuItem.setText("軸反転 Y");
 				invertZOptionMenuItem.setText("軸反転 Z");
 
-				gradientOptionMenuItem.setText("グラデーション");
 				legendOptionMenuItem.setText("凡例");
+				blackScreenOptionMenuItem.setText("ブラックスクリーン");
+				gradientOptionMenuItem.setText("グラデーション");
 			}
 		}
 
@@ -491,8 +504,9 @@ public class MainMenu {
 				invertYOptionMenuItem.setText("Invert Y");
 				invertZOptionMenuItem.setText("Invert Z");
 
-				gradientOptionMenuItem.setText("Gradient Colors");
 				legendOptionMenuItem.setText("Legends");
+				gradientOptionMenuItem.setText("Gradient Colors");
+				blackScreenOptionMenuItem.setText("Black Screen");
 			}
 		}
 
@@ -550,8 +564,9 @@ public class MainMenu {
 				invertYOptionMenuItem.setFont(uiBoldFont);
 				invertZOptionMenuItem.setFont(uiBoldFont);
 
-				gradientOptionMenuItem.setFont(uiBoldFont);
 				legendOptionMenuItem.setFont(uiBoldFont);
+				blackScreenOptionMenuItem.setFont(uiBoldFont);
+				gradientOptionMenuItem.setFont(uiBoldFont);
 			}
 		}
 
@@ -585,17 +600,25 @@ public class MainMenu {
 				invertZOptionMenuItem.setSelected(zScaleConfig.isInversionEnabled());
 			}
 
-			// Gradient Colors option:
-			{
-				ColorConfiguration colorConfig = configuration.getColorConfiguration();
-				gradientOptionMenuItem.setSelected(colorConfig.isDataGradientColorEnabled());
-			}
-
 			// Legends option:
 			{
 				LabelConfiguration labelConfig = configuration.getLabelConfiguration();
 				LegendLabelConfiguration legendConfig = labelConfig.getLegendLabelConfiguration();
 				legendOptionMenuItem.setSelected(legendConfig.isVisible());
+			}
+
+			// Color options:
+			{
+				ColorConfiguration colorConfig = configuration.getColorConfiguration();
+				gradientOptionMenuItem.setSelected(colorConfig.isDataGradientColorEnabled());
+
+				Color bakcgroundColor = colorConfig.getBackgroundColor();
+				boolean isBlackScreenEnabled =
+						bakcgroundColor.getRed() == 0 &&
+						bakcgroundColor.getGreen() == 0 &&
+						bakcgroundColor.getBlue() == 0 &&
+						bakcgroundColor.getAlpha() == 255; // Not transparent.
+				blackScreenOptionMenuItem.setSelected(isBlackScreenEnabled);
 			}
 		}
 	}

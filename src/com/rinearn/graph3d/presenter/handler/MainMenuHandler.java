@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.awt.Toolkit;
+import java.awt.Color;
 
 import javax.swing.JOptionPane;
 import javax.swing.JMenuBar;
@@ -89,14 +90,15 @@ public final class MainMenuHandler {
 		window.mainMenu.lineOptionMenuItem.addActionListener(new LineOptionMenuItemSelectedEventListener());
 		window.mainMenu.meshOptionMenuItem.addActionListener(new MeshOptionMenuItemSelectedEventListener());
 		window.mainMenu.surfaceOptionMenuItem.addActionListener(new SurfaceOptionMenuItemSelectedEventListener());
-		window.mainMenu.gradientOptionMenuItem.addActionListener(new GradientOptionMenuItemSelectedEventListener());
-		window.mainMenu.legendOptionMenuItem.addActionListener(new LegendOptionMenuItemSelectedEventListener());
 		window.mainMenu.logXOptionMenuItem.addActionListener(new LogXOptionMenuItemSelectedEventListener());
 		window.mainMenu.logYOptionMenuItem.addActionListener(new LogYOptionMenuItemSelectedEventListener());
 		window.mainMenu.logZOptionMenuItem.addActionListener(new LogZOptionMenuItemSelectedEventListener());
 		window.mainMenu.invertXOptionMenuItem.addActionListener(new InvertXOptionMenuItemSelectedEventListener());
 		window.mainMenu.invertYOptionMenuItem.addActionListener(new InvertYOptionMenuItemSelectedEventListener());
 		window.mainMenu.invertZOptionMenuItem.addActionListener(new InvertZOptionMenuItemSelectedEventListener());
+		window.mainMenu.legendOptionMenuItem.addActionListener(new LegendOptionMenuItemSelectedEventListener());
+		window.mainMenu.blackScreenOptionMenuItem.addActionListener(new BlackScreenOptionMenuItemSelectedEventListener());
+		window.mainMenu.gradientOptionMenuItem.addActionListener(new GradientOptionMenuItemSelectedEventListener());
 	}
 
 
@@ -580,6 +582,31 @@ public final class MainMenuHandler {
 
 			// Enable/disable the option.
 			model.config.getColorConfiguration().setDataGradientColorEnabled(isOptionSelected);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Options" > "BlackScreen" menu item is selected.
+	 */
+	private final class BlackScreenOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			boolean isOptionSelected = view.mainWindow.mainMenu.blackScreenOptionMenuItem.isSelected();
+
+			// Update color configuration.
+			if (isOptionSelected) {
+				model.config.getColorConfiguration().setBackgroundColor(Color.BLACK);
+				model.config.getColorConfiguration().setForegroundColor(Color.WHITE);
+			} else {
+				model.config.getColorConfiguration().setBackgroundColor(Color.WHITE);
+				model.config.getColorConfiguration().setForegroundColor(Color.BLACK);
+			}
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
