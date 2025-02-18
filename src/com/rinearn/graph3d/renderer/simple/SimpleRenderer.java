@@ -119,11 +119,23 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The Graphics2D instance to draw the graph screen. */
 	private volatile Graphics2D screenGraphics = null;
 
-	/** The Image instance storing the foreground image, on which the color bar and legend labels are drawn. */
-	private volatile BufferedImage foregroundImage = null;
+	/** The Image instance storing the foreground layer image, on which the color bar and legend labels are drawn. */
+	private volatile BufferedImage foregroundLayerImage = null;
 
-	/** The Graphics2D instance to draw the foreground image. */
-	private volatile Graphics2D foregroundGraphics = null;
+	/** The Graphics2D instance to draw the foreground layer image. */
+	private volatile Graphics2D foregroundLayerGraphics = null;
+
+	/** The Image instance storing the middle layer image, on which 3D contents are rendered. */
+	private volatile BufferedImage middleLayerImage = null;
+
+	/** The Graphics2D instance to draw the middle layer image. */
+	private volatile Graphics2D middleLayerGraphics = null;
+
+	/** The Image instance storing the background layer image, which is filled by the background color by default. */
+	private volatile BufferedImage backgroundLayerImage = null;
+
+	/** The Graphics2D instance to draw the background layer image. */
+	private volatile Graphics2D backgroundLayerGraphics = null;
 
 	/** The flag representing whether the graph screen has been resized. */
 	private volatile boolean screenUpdated = false;
@@ -296,8 +308,12 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	public synchronized void dispose() {
 		this.screenImage = null;
 		this.screenGraphics.dispose();
-		this.foregroundImage = null;
-		this.foregroundGraphics.dispose();
+		this.backgroundLayerImage = null;
+		this.backgroundLayerGraphics.dispose();
+		this.middleLayerImage = null;
+		this.middleLayerGraphics.dispose();
+		this.foregroundLayerImage = null;
+		this.foregroundLayerGraphics.dispose();
 		this.geometricPieceList.clear();
 		this.transformationMatrix = null;
 
@@ -315,13 +331,21 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		this.geometricPieceList.clear();
 		System.gc();
 
-		// Clear the content of the graph screen.
-		this.screenGraphics.setBackground(this.config.getColorConfiguration().getBackgroundColor());
+		// Clear the final output image of the graph screen.
+		this.screenGraphics.setBackground(new Color(0, 0, 0, 0)); // Clear color.
 		this.screenGraphics.clearRect(0, 0, this.screenImage.getWidth(), this.screenImage.getHeight());
 
-		// Clear the content of the foreground image.
-		this.foregroundGraphics.setBackground(new Color(0, 0, 0, 0)); // Clear color.
-		this.foregroundGraphics.clearRect(0, 0, this.screenImage.getWidth(), this.screenImage.getHeight());
+		// Clear the content of the background layer image.
+		this.backgroundLayerGraphics.setBackground(this.config.getColorConfiguration().getBackgroundColor());
+		this.backgroundLayerGraphics.clearRect(0, 0, this.backgroundLayerImage.getWidth(), this.screenImage.getHeight());
+
+		// Clear the content of the middle layer image.
+		this.middleLayerGraphics.setBackground(new Color(0, 0, 0, 0)); // Clear color.
+		this.middleLayerGraphics.clearRect(0, 0, this.middleLayerImage.getWidth(), this.middleLayerImage.getHeight());
+
+		// Clear the content of the foreground layer image.
+		this.foregroundLayerGraphics.setBackground(new Color(0, 0, 0, 0)); // Clear color.
+		this.foregroundLayerGraphics.clearRect(0, 0, this.foregroundLayerImage.getWidth(), this.foregroundLayerImage.getHeight());
 
 		// Turn on the flag for detecting that the content of the graph screen has been updated.
 		this.screenUpdated = true;
@@ -334,12 +358,12 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	@Override
 	public synchronized void render() {
 
-		// Turn on/off anti-aliasing option of screenGraphics.
+		// Turn on/off anti-aliasing option of middleLayerGraphics, for drawing 3D contents.
 		boolean isAntialiasingEnabled = this.config.getRendererConfiguration().isAntialiasingEnabled();
 		if (isAntialiasingEnabled) {
-			this.screenGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			this.middleLayerGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		} else {
-			this.screenGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+			this.middleLayerGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
 		}
 
 		// Update the screen dimension.
@@ -349,9 +373,9 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		int screenOffsetY = this.config.getCameraConfiguration().getVerticalCenterOffset();
 		double magnification = this.config.getCameraConfiguration().getMagnification();
 
-		// Clear the graph screen.
-		this.screenGraphics.setBackground(this.config.getColorConfiguration().getBackgroundColor());
-		this.screenGraphics.clearRect(0, 0, screenWidth, screenHeight);
+		// Crear the middle layer image, on which 3D contents are drawn.
+		this.middleLayerGraphics.setBackground(new Color(0, 0, 0, 0));
+		this.middleLayerGraphics.clearRect(0, 0, screenWidth, screenHeight);
 
 		// Transform each geometric piece.
 		for (GeometricPiece piece: this.geometricPieceList) {
@@ -372,22 +396,57 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 
 			// Turn on/off antialiasing option for drawing geometric shape, depending on the kind of the piece.
 			if (isAntialiasingEnabled && piece.isAntialiasingAvailable()) {
-				this.screenGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				this.middleLayerGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			} else {
-				this.screenGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+				this.middleLayerGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 			}
 			piece.project(screenWidth, screenHeight, screenOffsetX, screenOffsetY, magnification);
-			piece.draw(this.screenGraphics);
+			piece.draw(this.middleLayerGraphics);
 		}
 
-		// Draw the foreground image, on which the color bar and legends are drawn.
-		boolean drawImageCompleted = false;
-		while (!drawImageCompleted) {
-			drawImageCompleted = this.screenGraphics.drawImage(this.foregroundImage, 0, 0, null);
-		}
+		// Composite the background, the middle (3D contents), and the foreground layers as the screen image.
+		this.compositeLayers();
 
 		// Turn on the flag for detecting that the content of the graph screen has been updated.
 		this.screenUpdated = true;
+	}
+
+
+	/**
+	 * Composites the background, the middle (3D contents), and the foreground layers as the screen image.
+	 *
+	 * This method is automatically called in render() method.
+	 * However, the render() method is relatively heavy,
+	 * so sometimes you may want to perform only the composition of the layers without 3D rendering process,
+	 * e.g.: when the contents of only the foreground/background layers are updated. This method is useful for such situation.
+	 */
+	@Override
+	public void compositeLayers() {
+
+		// Clear the screen image.
+		int screenWidth = this.screenImage.getWidth();
+		int screenHeight = this.screenImage.getHeight();
+		this.screenGraphics.setBackground(new Color(0, 0, 0, 0));
+		this.screenGraphics.clearRect(0, 0, screenWidth, screenHeight);
+
+		// Draw the background layer image, on which the color bar and legends are drawn.
+		boolean drawImageCompleted = false;
+		while (!drawImageCompleted) {
+			drawImageCompleted = this.screenGraphics.drawImage(this.backgroundLayerImage, 0, 0, null);
+		}
+
+		// Draw the middle layer image, on which the 3D contents are rendered.
+		drawImageCompleted = false;
+		while (!drawImageCompleted) {
+			drawImageCompleted = this.screenGraphics.drawImage(this.middleLayerImage, 0, 0, null);
+		}
+
+		// Draw the foreground image, on which the color bar and legends are drawn.
+		drawImageCompleted = false;
+		while (!drawImageCompleted) {
+			drawImageCompleted = this.screenGraphics.drawImage(this.foregroundLayerImage, 0, 0, null);
+		}
+
 	}
 
 
@@ -715,16 +774,16 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	@Override
 	public void drawLegendLabels() {
 
-		// Turn on/off anti-aliasing option of foregroundGraphics.
+		// Turn on/off anti-aliasing option of foregroundLayerGraphics.
 		boolean isAntialiasingEnabled = this.config.getRendererConfiguration().isAntialiasingEnabled();
 		if (isAntialiasingEnabled) {
-			this.foregroundGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			this.foregroundLayerGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		} else {
-			this.foregroundGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+			this.foregroundLayerGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
 		}
 
 		// Draw legends.
-		this.legendDrawer.draw(this.foregroundGraphics);
+		this.legendDrawer.draw(this.foregroundLayerGraphics);
 	}
 
 
@@ -738,16 +797,16 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	@Override
 	public void drawColorBar() {
 
-		// Turn on/off anti-aliasing option of foregroundGraphics.
+		// Turn on/off anti-aliasing option of foregroundLayerGraphics.
 		boolean isAntialiasingEnabled = this.config.getRendererConfiguration().isAntialiasingEnabled();
 		if (isAntialiasingEnabled) {
-			this.foregroundGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			this.foregroundLayerGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		} else {
-			this.foregroundGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+			this.foregroundLayerGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
 		}
 
 		// Draw legends.
-		this.colorBarDrawer.draw(this.foregroundGraphics, this.colorMixer);
+		this.colorBarDrawer.draw(this.foregroundLayerGraphics, this.colorMixer);
 	}
 
 
@@ -763,8 +822,12 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		if (this.screenGraphics != null) {
 			this.screenGraphics.dispose();
 			this.screenImage = null;
-			this.foregroundGraphics.dispose();
-			this.foregroundImage = null;
+			this.backgroundLayerGraphics.dispose();
+			this.backgroundLayerImage = null;
+			this.middleLayerGraphics.dispose();
+			this.middleLayerImage = null;
+			this.foregroundLayerGraphics.dispose();
+			this.foregroundLayerImage = null;
 			System.gc();
 		}
 
@@ -772,17 +835,34 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		this.screenImage = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
 		this.screenGraphics = this.screenImage.createGraphics();
 
+		// Allocate the background layer image/graphics instances.
+		this.backgroundLayerImage = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
+		this.backgroundLayerGraphics = this.backgroundLayerImage.createGraphics();
+
+		// Allocate the middle layer image/graphics instances.
+		this.middleLayerImage = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
+		this.middleLayerGraphics = this.middleLayerImage.createGraphics();
+
+		// Allocate the foreground layer image/graphics instances.
+		this.foregroundLayerImage = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
+		this.foregroundLayerGraphics = this.foregroundLayerImage.createGraphics();
+
+
 		// Clear the screen image by the background color.
-		this.screenGraphics.setBackground(this.config.getColorConfiguration().getBackgroundColor());
+		this.screenGraphics.setBackground(new Color(0, 0, 0, 0)); // Clear color.
 		this.screenGraphics.clearRect(0, 0, screenWidth, screenHeight);
 
-		// Allocate the foreground image/graphics instances.
-		this.foregroundImage = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
-		this.foregroundGraphics = this.foregroundImage.createGraphics();
+		// Clear the background layer image by the background color.
+		this.backgroundLayerGraphics.setBackground(this.config.getColorConfiguration().getBackgroundColor());
+		this.backgroundLayerGraphics.clearRect(0, 0, screenWidth, screenHeight);
 
-		// Clear the foreground image by the background color.
-		this.foregroundGraphics.setBackground(new Color(0, 0, 0, 0)); // Clear color.
-		this.foregroundGraphics.clearRect(0, 0, screenWidth, screenHeight);
+		// Clear the middle layer image by the background color.
+		this.middleLayerGraphics.setBackground(new Color(0, 0, 0, 0)); // Clear color.
+		this.middleLayerGraphics.clearRect(0, 0, screenWidth, screenHeight);
+
+		// Clear the foreground layer image by the background color.
+		this.foregroundLayerGraphics.setBackground(new Color(0, 0, 0, 0)); // Clear color.
+		this.foregroundLayerGraphics.clearRect(0, 0, screenWidth, screenHeight);
 
 		// Turn on the flag for detecting that the graph screen has been resized.
 		this.screenResized = true;
@@ -933,5 +1013,34 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			this.screenResized = toValue;
 		}
 		return unmodifiedValue;
+	}
+
+
+
+	/**
+	 * Gets the Graphics2D instance to draw contents freely in the foreground layer of the graph screen.
+	 *
+	 * Please note that, the Graphics2D instance is disposed and re-allocated when the screen is resized.
+	 * Hence, after the screen is resized, please get the new Graphics2D instance again by this method.
+	 *
+	 * return The Graphics2D instance to draw contents to the foreground layer
+	 */
+	@Override
+	public synchronized Graphics2D getForegroundLayerGraphics2D() {
+		return this.foregroundLayerGraphics;
+	}
+
+
+	/**
+	 * Gets the Graphics2D instance to draw contents freely in the background layer of the graph screen.
+	 *
+	 * Please note that, the Graphics2D instance is disposed and re-allocated when the screen is resized.
+	 * Hence, after the screen is resized, please get the new Graphics2D instance again by this method.
+	 *
+	 * return The Graphics2D instance to draw contents to the background layer
+	 */
+	@Override
+	public synchronized Graphics2D getBackgroundLayerGraphics2D() {
+		return this.backgroundLayerGraphics;
 	}
 }
