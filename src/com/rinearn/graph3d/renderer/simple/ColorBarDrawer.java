@@ -88,6 +88,9 @@ public class ColorBarDrawer {
 	public void draw(Graphics2D graphics, ColorMixer colorMixer) {
 		ColorConfiguration colorConfig = this.config.getColorConfiguration();
 		ScaleConfiguration scaleConfig = this.config.getScaleConfiguration();
+		if (!colorConfig.isDataGradientColorEnabled()) {
+			return;
+		}
 
 		// Extract the gradient colors defined in ColorConfiguration.
 		GradientColor[] gradientColors = colorConfig.getDataGradientColors();

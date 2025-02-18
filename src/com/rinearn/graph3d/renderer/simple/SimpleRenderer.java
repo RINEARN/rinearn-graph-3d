@@ -119,6 +119,12 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	/** The Graphics2D instance to draw the graph screen. */
 	private volatile Graphics2D screenGraphics = null;
 
+	/** The Image instance storing the foreground image, on which the color bar and legend labels are drawn. */
+	private volatile BufferedImage foregroundImage = null;
+
+	/** The Graphics2D instance to draw the foreground image. */
+	private volatile Graphics2D foregroundGraphics = null;
+
 	/** The flag representing whether the graph screen has been resized. */
 	private volatile boolean screenUpdated = false;
 
@@ -290,6 +296,8 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	public synchronized void dispose() {
 		this.screenImage = null;
 		this.screenGraphics.dispose();
+		this.foregroundImage = null;
+		this.foregroundGraphics.dispose();
 		this.geometricPieceList.clear();
 		this.transformationMatrix = null;
 
@@ -310,6 +318,10 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		// Clear the content of the graph screen.
 		this.screenGraphics.setBackground(this.config.getColorConfiguration().getBackgroundColor());
 		this.screenGraphics.clearRect(0, 0, this.screenImage.getWidth(), this.screenImage.getHeight());
+
+		// Clear the content of the foreground image.
+		this.foregroundGraphics.setBackground(new Color(0, 0, 0, 0)); // Clear color.
+		this.foregroundGraphics.clearRect(0, 0, this.screenImage.getWidth(), this.screenImage.getHeight());
 
 		// Turn on the flag for detecting that the content of the graph screen has been updated.
 		this.screenUpdated = true;
@@ -368,14 +380,10 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 			piece.draw(this.screenGraphics);
 		}
 
-		// Draw legends.
-		if (this.config.getLabelConfiguration().isLegendLabelsVisible()) {
-			this.legendDrawer.draw(this.screenGraphics);
-		}
-
-		// Draw the color bar.
-		if (this.config.getColorConfiguration().isDataGradientColorEnabled()) {
-			this.colorBarDrawer.draw(this.screenGraphics, this.colorMixer);
+		// Draw the foreground image, on which the color bar and legends are drawn.
+		boolean drawImageCompleted = false;
+		while (!drawImageCompleted) {
+			drawImageCompleted = this.screenGraphics.drawImage(this.foregroundImage, 0, 0, null);
 		}
 
 		// Turn on the flag for detecting that the content of the graph screen has been updated.
@@ -702,7 +710,17 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 */
 	@Override
 	public void drawLegendLabels() {
-		// TODO: draw legend labels to the back-ground buffer image.
+
+		// Turn on/off anti-aliasing option of foregroundGraphics.
+		boolean isAntialiasingEnabled = this.config.getRendererConfiguration().isAntialiasingEnabled();
+		if (isAntialiasingEnabled) {
+			this.foregroundGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		} else {
+			this.foregroundGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+		}
+
+		// Draw legends.
+		this.legendDrawer.draw(this.foregroundGraphics);
 	}
 
 
@@ -711,7 +729,17 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 	 */
 	@Override
 	public void drawColorBar() {
-		// TODO: draw legend labels to the back-ground buffer image.
+
+		// Turn on/off anti-aliasing option of foregroundGraphics.
+		boolean isAntialiasingEnabled = this.config.getRendererConfiguration().isAntialiasingEnabled();
+		if (isAntialiasingEnabled) {
+			this.foregroundGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		} else {
+			this.foregroundGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+		}
+
+		// Draw legends.
+		this.colorBarDrawer.draw(this.foregroundGraphics, this.colorMixer);
 	}
 
 
@@ -727,16 +755,26 @@ public final class SimpleRenderer implements RinearnGraph3DRenderer {
 		if (this.screenGraphics != null) {
 			this.screenGraphics.dispose();
 			this.screenImage = null;
+			this.foregroundGraphics.dispose();
+			this.foregroundImage = null;
 			System.gc();
 		}
 
-		// Allocate the image/graphics instances.
+		// Allocate the screen image/graphics instances.
 		this.screenImage = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
 		this.screenGraphics = this.screenImage.createGraphics();
 
 		// Clear the screen image by the background color.
 		this.screenGraphics.setBackground(this.config.getColorConfiguration().getBackgroundColor());
 		this.screenGraphics.clearRect(0, 0, screenWidth, screenHeight);
+
+		// Allocate the foreground image/graphics instances.
+		this.foregroundImage = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
+		this.foregroundGraphics = this.foregroundImage.createGraphics();
+
+		// Clear the foreground image by the background color.
+		this.foregroundGraphics.setBackground(this.config.getColorConfiguration().getBackgroundColor());
+		this.foregroundGraphics.clearRect(0, 0, screenWidth, screenHeight);
 
 		// Turn on the flag for detecting that the graph screen has been resized.
 		this.screenResized = true;

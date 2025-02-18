@@ -287,6 +287,9 @@ public final class LegendDrawer {
 	 * @param graphics The Graphics2D object to draw contents on the graph screen image.
 	 */
 	public void draw(Graphics2D graphics) {
+		if (!this.config.getLabelConfiguration().isLegendLabelsVisible()) {
+			return;
+		}
 
 		// Extract/define position parameters.
 		ScreenConfiguration screenConfig = this.config.getScreenConfiguration();
