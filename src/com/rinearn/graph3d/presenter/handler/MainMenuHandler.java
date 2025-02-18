@@ -100,6 +100,7 @@ public final class MainMenuHandler {
 		window.mainMenu.blackScreenOptionMenuItem.addActionListener(new BlackScreenOptionMenuItemSelectedEventListener());
 		window.mainMenu.gradientOptionMenuItem.addActionListener(new GradientOptionMenuItemSelectedEventListener());
 		window.mainMenu.gridLinesOptionMenuItem.addActionListener(new GridLinesOptionMenuItemSelectedEventListener());
+		window.mainMenu.frameLinesOptionMenuItem.addActionListener(new FrameLinesOptionMenuItemSelectedEventListener());
 		window.mainMenu.scaleTicksOptionMenuItem.addActionListener(new ScaleTicksOptionMenuItemSelectedEventListener());
 	}
 
@@ -603,6 +604,25 @@ public final class MainMenuHandler {
 
 			// Update scale configuration.
 			model.config.getScaleConfiguration().setGridLinesVisible(isOptionSelected);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Options" > "Frame Lines" menu item is selected.
+	 */
+	private final class FrameLinesOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			boolean isOptionSelected = view.mainWindow.mainMenu.frameLinesOptionMenuItem.isSelected();
+
+			// Update scale configuration.
+			model.config.getFrameConfiguration().setFrameLinesVisible(isOptionSelected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}

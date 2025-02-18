@@ -70,14 +70,27 @@ public final class FrameDrawer {
 	 */
 	public synchronized void drawFrame(List<GeometricPiece> geometricPieceList) {
 		if (this.config == null) {
-			throw new IllegalArgumentException("This drawer instance has not been configured yet.");
+			throw new IllegalStateException("This drawer instance has not been configured yet.");
 		}
+		if (!this.config.getFrameConfiguration().isFrameLinesVisible()) {
+			return;
+		}
+		this.drawFrameLines(geometricPieceList);
+	}
+
+
+	/**
+	 * Draws the graph frame.
+	 *
+	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
+	 */
+	private synchronized void drawFrameLines(List<GeometricPiece> geometricPieceList) {
 		switch (this.config.getFrameConfiguration().getShapeMode()) {
 			case NONE : {
 				return;
 			}
 			case BOX : {
-				this.drawBoxModeFrame(geometricPieceList);
+				this.drawBoxModeFrameLines(geometricPieceList);
 				return;
 			}
 			default : {
@@ -92,7 +105,7 @@ public final class FrameDrawer {
 	 *
 	 * @param geometricPieceList The list for storing the geometric pieces of the drawn contents by this method.
 	 */
-	private void drawBoxModeFrame(List<GeometricPiece> geometricPieceList) {
+	private void drawBoxModeFrameLines(List<GeometricPiece> geometricPieceList) {
 		Color color = this.config.getColorConfiguration().getForegroundColor();
 
 		// Draw the floor of the outer frame.

@@ -17,6 +17,7 @@ import com.rinearn.graph3d.config.color.ColorConfiguration;
 import com.rinearn.graph3d.config.scale.ScaleConfiguration;
 import com.rinearn.graph3d.config.scale.AxisScaleConfiguration;
 import com.rinearn.graph3d.config.font.FontConfiguration;
+import com.rinearn.graph3d.config.frame.FrameConfiguration;
 import com.rinearn.graph3d.config.label.LabelConfiguration;
 import com.rinearn.graph3d.config.label.LegendLabelConfiguration;
 import com.rinearn.graph3d.config.plotter.PlotterConfiguration;
@@ -137,6 +138,9 @@ public class MainMenu {
 
 	/** "Options" > "Grid Lines" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem gridLinesOptionMenuItem;
+
+	/** "Options" > "Frame Lines" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem frameLinesOptionMenuItem;
 
 	/** "Options" > "Scale Ticks" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem scaleTicksOptionMenuItem;
@@ -317,6 +321,10 @@ public class MainMenu {
 				gridLinesOptionMenuItem = new JCheckBoxMenuItem("Grid Lines");
 				optionsMenu.add(gridLinesOptionMenuItem);
 
+				// "Options" > "Frame Lines" menu item:
+				frameLinesOptionMenuItem = new JCheckBoxMenuItem("Frame Lines");
+				optionsMenu.add(frameLinesOptionMenuItem);
+
 				// "Options" > "Scale Ticks" menu item:
 				scaleTicksOptionMenuItem = new JCheckBoxMenuItem("Scale Ticks");
 				optionsMenu.add(scaleTicksOptionMenuItem);
@@ -463,6 +471,7 @@ public class MainMenu {
 				blackScreenOptionMenuItem.setText("ブラックスクリーン");
 				gradientOptionMenuItem.setText("グラデーション");
 				gridLinesOptionMenuItem.setText("グリッド線");
+				frameLinesOptionMenuItem.setText("フレーム");
 				scaleTicksOptionMenuItem.setText("目盛り");
 			}
 		}
@@ -523,6 +532,7 @@ public class MainMenu {
 				gradientOptionMenuItem.setText("Gradient Colors");
 				blackScreenOptionMenuItem.setText("Black Screen");
 				gridLinesOptionMenuItem.setText("Grid Lines");
+				frameLinesOptionMenuItem.setText("Frame Lines");
 				scaleTicksOptionMenuItem.setText("Scale Ticks");
 			}
 		}
@@ -585,6 +595,7 @@ public class MainMenu {
 				blackScreenOptionMenuItem.setFont(uiBoldFont);
 				gradientOptionMenuItem.setFont(uiBoldFont);
 				gridLinesOptionMenuItem.setFont(uiBoldFont);
+				frameLinesOptionMenuItem.setFont(uiBoldFont);
 				scaleTicksOptionMenuItem.setFont(uiBoldFont);
 			}
 		}
@@ -620,6 +631,12 @@ public class MainMenu {
 
 				gridLinesOptionMenuItem.setSelected(scaleConfig.isGridLinesVisible());
 				scaleTicksOptionMenuItem.setSelected(scaleConfig.isTicksVisible());
+			}
+
+			// Frame options:
+			{
+				FrameConfiguration frameConfig = configuration.getFrameConfiguration();
+				frameLinesOptionMenuItem.setSelected(frameConfig.isFrameLinesVisible());
 			}
 
 			// Legends option:

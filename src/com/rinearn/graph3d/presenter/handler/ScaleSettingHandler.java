@@ -186,7 +186,7 @@ public class ScaleSettingHandler {
 				String frameLineWidthText = window.designTabItems.frameLineWidthField.getText();
 				try {
 					double frameLineWidth = Double.parseDouble(frameLineWidthText);
-					frameConfig.setLineWidth(frameLineWidth);
+					frameConfig.setFrameLineWidth(frameLineWidth);
 				} catch (NumberFormatException nfe) {
 				}
 

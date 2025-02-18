@@ -1431,7 +1431,7 @@ public class ScaleSettingWindow {
 					}
 				}
 
-				double frameLineWidth = frameConfig.getLineWidth();
+				double frameLineWidth = frameConfig.getFrameLineWidth();
 				designTabItems.frameLineWidthField.setText(Double.toString(frameLineWidth));
 
 				double scaleLabelMargin = scaleConfig.getXScaleConfiguration().getTickLabelMargin();

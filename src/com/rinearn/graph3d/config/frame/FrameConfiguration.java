@@ -34,8 +34,11 @@ public final class FrameConfiguration {
 	/** Stores the direction mode of images displayed on the graph frame. */
 	private volatile FrameImageDirectionMode imageDirectionMode = FrameImageDirectionMode.INSIDE;
 
+	/** The flag representing whether the frame lines are visible. */
+	private volatile boolean frameLinesVisible = true; // Don't change to frameLineVisible. Plural form is best for this "Lines".
+
 	/** The width of the frame lines. */
-	private volatile double lineWidth = 1.0;
+	private volatile double frameLineWidth = 1.0; // Don't change to frameLinesWidth. Singular form is best for this "Line".
 
 	/** The configuration of the frame of X-axis. */
 	private volatile AxisFrameConfiguration xFrameConfiguration = new AxisFrameConfiguration();
@@ -104,12 +107,31 @@ public final class FrameConfiguration {
 
 
 	/**
+	 * Sets whether the frame lines are visible.
+	 *
+	 * @param frameLinesVisible Specify true to set the frame lines visible.
+	 */
+	public synchronized void setFrameLinesVisible(boolean frameLinesVisible) {
+		this.frameLinesVisible = frameLinesVisible;
+	}
+
+	/**
+	 * Gets whether the frame lines are visible.
+	 *
+	 * @return Returns true if the frame lines are visible.
+	 */
+	public synchronized boolean isFrameLinesVisible() {
+		return this.frameLinesVisible;
+	}
+
+
+	/**
 	 * Sets the width of the frame lines.
 	 *
-	 * @param lineWidth The width of the frame lines.
+	 * @param frameLineWidth The width of the frame lines.
 	 */
-	public synchronized void setLineWidth(double lineWidth) {
-		this.lineWidth = lineWidth;
+	public synchronized void setFrameLineWidth(double lineWidth) {
+		this.frameLineWidth = lineWidth;
 	}
 
 	/**
@@ -117,8 +139,8 @@ public final class FrameConfiguration {
 	 *
 	 * @return The width of the frame lines.
 	 */
-	public synchronized double getLineWidth() {
-		return this.lineWidth;
+	public synchronized double getFrameLineWidth() {
+		return this.frameLineWidth;
 	}
 
 
@@ -302,7 +324,7 @@ public final class FrameConfiguration {
 	 * @throws RinearnGraph3DConfigurationException Thrown when incorrect or inconsistent settings are detected.
 	 */
 	public synchronized void validate() throws RinearnGraph3DConfigurationException {
-		if (this.lineWidth < 0.0) {
+		if (this.frameLineWidth < 0.0) {
 			throw new IllegalStateException("The width of the frame lines must be a positive value.");
 		}
 
