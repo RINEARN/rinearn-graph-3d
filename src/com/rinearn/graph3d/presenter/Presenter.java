@@ -407,6 +407,8 @@ public final class Presenter {
 		this.renderer.drawLabel();
 		this.renderer.drawGrid();
 		this.renderer.drawFrame();
+		this.renderer.drawColorBar();
+		this.renderer.drawLegendLabels();
 
 		// -----
 		// Future: Draw other elements here
@@ -453,7 +455,16 @@ public final class Presenter {
 		//              みたいな。そういう感じだったかと。
 		//
 		// とりあえず render 前に行って、後でまた再検討する（RenderingListener とか作る方向も含めて）
-
+		//
+		// 2025/02/18:
+		//   RendererAPI に drawLegendLabels とか drawColorBar 等を追加した結果、それら2D描画要素に対する render() の挙動は
+		//   「forgroundGraphics2D が描き込んだ foregroundImage の内容を screenImage 上に合成する」というものになった。
+		//   なので、ここでも上記APIを明示的に呼んでから、その後に render() する必用がある。
+		//   つまり、2Dも3Dも含めて、「全て描き終わってから render()」で問題ない。
+		//   render() を先に呼んでから plotter を fire する必用が生じるかもっていう線は完全に消えた（そもそもそんなん明らかに謎仕様だし）。
+		//
+		// そして、将来的に plotters 内から renderer.getForegroundGraphics2D() して2D内容を描いても
+		// マウス操作で消えなくなったので、RinearnGraph3DRenderingListener とかも作る必要はなくなった。
 
 		// Render the re-plotted contents on the screen.
 		this.renderer.render();
