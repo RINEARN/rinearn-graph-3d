@@ -38,6 +38,15 @@ public abstract class MathDataSeries extends AbstractDataSeries {
 
 
 	/**
+	 * Returns whether this math expression is bounded for the directions of X and Y axes.
+	 * If this method return true, we can define X- and Y- ranges of this math expression.
+	 *
+	 * @return Returns true if this math expression is XY-bounded.
+	 */
+	public abstract boolean isXYBounded();
+
+
+	/**
 	 * Computes coordinate values from math expression(s) of this data series.
 	 *
 	 * The computed coordinate values will be stored into the fields: xCoordinates, yCoordinates and zCoordinates.

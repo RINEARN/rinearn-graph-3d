@@ -144,6 +144,17 @@ public final class XtYtZtMathDataSeries extends MathDataSeries {
 
 
 	/**
+	 * Returns whether this math expression is bounded for the directions of X and Y axes.
+	 * If this method return true, we can define X- and Y- ranges of this math expression.
+	 *
+	 * @return Returns true if this math expression is XY-bounded.
+	 */
+	public synchronized boolean isXYBounded() {
+		return true; // x(t),y(t),z(t) is bounded for X, Y and Z directions, if we can define the range of "t".
+	}
+
+
+	/**
 	 * Gets the container of the attribute (meta information) of this series.
 	 *
 	 * @return The container of the attribute of this series.

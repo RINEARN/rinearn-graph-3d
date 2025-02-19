@@ -4,7 +4,7 @@
 
 ## 気付いた事（対応が必用な事）
 
-* プロット処理、現状は以下の流れでやってるけど（無関係なものは省いてる）、Z(x,y) のX-Y範囲に関して問題がある。
+* 済: プロット処理、現状は以下の流れでやってるけど（無関係なものは省いてる）、Z(x,y) のX-Y範囲に関して問題がある。
 
 		this.updateMathDataSeriesCoordinates();
 		this.adjustRanges();
@@ -22,6 +22,23 @@
 
   シンプルに、しかし確実に正しく範囲設定＆メッシュ生成できるフローを探す必要がある。
   
+  -> X/Y方向に有界な数式＆データと、非有界な数式とを同列で扱ってる事が本質的問題だったので、以下のようなフローに変えて解決した:
+  
+		// Update coordinate values of XY-bounded math data series, e.g.: x(t),y(t),z(t).
+		// This type of expressions have their own ranges for all the X, Y, and Z axes.
+		this.updateXYBoundedMathDataSeriesCoordinates();
+
+		// Adjust the X and Y ranges to fit to the currently registered data.
+		this.adjustXYRanges();
+
+		// Update coordinate values of XY-unbounded math data series, e.g.: z(x,y).
+		// This type of expressions can have Z Z ranges under the given X/Y ranges, but don't have their own X/Y ranges.
+		this.updateXYUnboundedMathDataSeriesCoordinates();
+
+		// Adjust the Z and gradient color ranges to fit to the currently registered data.
+		this.adjustZRange();
+		this.adjustGradientColorRanges();
+
 
 * Renderer に backgroundLayer/foregroundLayer 実装したけど、スクリーンリサイズ時に内容がリセットされるので、内容の再描画が必要。これはAPI仕様としてはそうしていい。
   一方、グラフソフトとしては画面リサイズ時にカラーバーとか凡例とかを再描画しなきゃいけないので、レンダリングループ内でリサイズ時にそれらを再描画して各層を自動合成する必用がある。

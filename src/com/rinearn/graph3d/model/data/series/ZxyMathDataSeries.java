@@ -123,6 +123,17 @@ public final class ZxyMathDataSeries extends MathDataSeries {
 
 
 	/**
+	 * Returns whether this math expression is bounded for the directions of X and Y axes.
+	 * If this method return true, we can define X- and Y- ranges of this math expression.
+	 *
+	 * @return Returns true if this math expression is XY-bounded.
+	 */
+	public synchronized boolean isXYBounded() {
+		return false; // Z(x,y) is unbounded for X and Y directions.
+	}
+
+
+	/**
 	 * Gets the container of the attribute (meta information) of this series.
 	 *
 	 * @return The container of the attribute of this series.

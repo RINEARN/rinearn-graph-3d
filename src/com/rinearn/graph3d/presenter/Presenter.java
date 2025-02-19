@@ -387,17 +387,26 @@ public final class Presenter {
 	 */
 	public synchronized void plot() {
 
-		// Update coordinate values of math data series.
-		this.updateMathDataSeriesCoordinates();
+		// Update coordinate values of XY-bounded math data series, e.g.: x(t),y(t),z(t).
+		// This type of expressions have their own ranges for all the X, Y, and Z axes.
+		this.updateXYBoundedMathDataSeriesCoordinates();
+
+		// Adjust the X and Y ranges to fit to the currently registered data.
+		this.adjustXYRanges();
+
+		// Update coordinate values of XY-unbounded math data series, e.g.: z(x,y).
+		// This type of expressions can have Z Z ranges under the given X/Y ranges, but don't have their own X/Y ranges.
+		this.updateXYUnboundedMathDataSeriesCoordinates();
+
+		// Adjust the Z and gradient color ranges to fit to the currently registered data.
+		this.adjustZRange();
+		this.adjustGradientColorRanges();
 
 		// Update the data configuration from the currently registered data.
 		this.updateDataConfiguration();
 
 		// Update the legend configuration from the currently registered data.
 		this.updateLegends();
-
-		// Adjust the ranges to fit to the currently registered data.
-		this.adjustRanges();
 
 		// Clear all currently drawn contents registered to the renderer.
 		this.renderer.clear();
@@ -472,24 +481,43 @@ public final class Presenter {
 
 
 	/**
-	 * Updates coordinate values of math data series.
+	 * Updates coordinate values of XY-Bounded math data series.
 	 */
-	private void updateMathDataSeriesCoordinates() {
+	private void updateXYBoundedMathDataSeriesCoordinates() {
+		this.updateMathDataSeriesCoordinates(true);
+
+	}
+
+	/**
+	 * Updates coordinate values of XY-Unbounded math data series.
+	 */
+	private void updateXYUnboundedMathDataSeriesCoordinates() {
+		this.updateMathDataSeriesCoordinates(false);
+	}
+
+	/**
+	 * Updates coordinate values of math data series.
+	 *
+	 * @param xyBoundaryTypeFlag Specify true for update XY-bounded math expressions, false for XY-unbounded math expressions.
+	 */
+	private void updateMathDataSeriesCoordinates(boolean xyBoundaryTypeFlag) {
 		DataSeriesGroup<MathDataSeries> mathDataSeriesGroup = this.model.dataStore.getMathDataSeriesGroup();
 		for (MathDataSeries mathDataSeries: mathDataSeriesGroup) {
+			if (mathDataSeries.isXYBounded() == xyBoundaryTypeFlag) {
 
-			// Compute coordinate values from the math expression(s), using Vnano scripting engine.
-			try {
-				mathDataSeries.computeCoordinates();
+				// Compute coordinate values from the math expression(s), using Vnano scripting engine.
+				try {
+					mathDataSeries.computeCoordinates();
 
-			// The scripting engine may throw exceptions, when the expression(s) contains syntax errors, and so on.
-			} catch (VnanoException vne) {
-				String expression = mathDataSeries.getFullDisplayName();
-				String errorMessage = this.model.config.getEnvironmentConfiguration().isLocaleJapanese() ?
-						"数式「" + expression + "」のプロットでエラーが発生しました。\n詳細は標準エラー出力を参照してください。" :
-						"An error occurred for plotting the math expression \"" + expression + "\".\nSee the standard error output for datails.";
-				JOptionPane.showMessageDialog(this.view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
-				vne.printStackTrace();
+				// The scripting engine may throw exceptions, when the expression(s) contains syntax errors, and so on.
+				} catch (VnanoException vne) {
+					String expression = mathDataSeries.getFullDisplayName();
+					String errorMessage = this.model.config.getEnvironmentConfiguration().isLocaleJapanese() ?
+							"数式「" + expression + "」のプロットでエラーが発生しました。\n詳細は標準エラー出力を参照してください。" :
+							"An error occurred for plotting the math expression \"" + expression + "\".\nSee the standard error output for datails.";
+					JOptionPane.showMessageDialog(this.view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+					vne.printStackTrace();
+				}
 			}
 		}
 	}
@@ -581,9 +609,73 @@ public final class Presenter {
 
 
 	/**
-	 * Adjusts the ranges of axes and gradient colors to fit to the currently registered data.
+	 * Adjusts the X and Y ranges of axes to fit to the currently registered data.
 	 */
-	private synchronized void adjustRanges() {
+	private synchronized void adjustXYRanges() {
+
+		// Get the group of all the registered data series.
+		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = model.dataStore.getCombinedDataSeriesGroup();
+
+		// Get the configurations of each axis's range.
+		RangeConfiguration rangeConfig = model.config.getRangeConfiguration();
+		AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
+		AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
+
+		// Auto-adjust the X range to fit to the data, if enabled.
+		if (xRangeConfig.isAutoRangeEnabled()) {
+			if (dataSeriesGroup.hasXMin()) {
+				xRangeConfig.setMinimum(dataSeriesGroup.getXMin());
+			}
+			if (dataSeriesGroup.hasXMax()) {
+				xRangeConfig.setMaximum(dataSeriesGroup.getXMax());
+			}
+		}
+
+		// Auto-adjust the Y range to fit to the data, if enabled.
+		if (yRangeConfig.isAutoRangeEnabled()) {
+			if (dataSeriesGroup.hasYMin()) {
+				yRangeConfig.setMinimum(dataSeriesGroup.getYMin());
+			}
+			if (dataSeriesGroup.hasYMax()) {
+				yRangeConfig.setMaximum(dataSeriesGroup.getYMax());
+			}
+		}
+
+		// Propagates the updated range configurations to the entire application.
+		this.propagateConfiguration();
+	}
+
+
+	/**
+	 * Adjusts the ranges of Z axis to fit to the currently registered data.
+	 */
+	private synchronized void adjustZRange() {
+
+		// Get the group of all the registered data series.
+		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = model.dataStore.getCombinedDataSeriesGroup();
+
+		// Get the configurations of each axis's range.
+		RangeConfiguration rangeConfig = model.config.getRangeConfiguration();
+		AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
+
+		// Auto-adjust the Z range to fit to the data, if enabled.
+		if (zRangeConfig.isAutoRangeEnabled()) {
+			if (dataSeriesGroup.hasZMin()) {
+				zRangeConfig.setMinimum(dataSeriesGroup.getZMin());
+			}
+			if (dataSeriesGroup.hasZMax()) {
+				zRangeConfig.setMaximum(dataSeriesGroup.getZMax());
+			}
+		}
+
+		// Propagates the updated range configurations to the entire application.
+		this.propagateConfiguration();
+	}
+
+	/**
+	 * Adjusts the the range of gradient colors to fit to the currently registered data.
+	 */
+	private synchronized void adjustGradientColorRanges() {
 
 		// Get the group of all the registered data series.
 		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = model.dataStore.getCombinedDataSeriesGroup();
