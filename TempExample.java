@@ -2,8 +2,8 @@ import com.rinearn.graph3d.RinearnGraph3D;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
-import com.rinearn.graph3d.config.RangeConfiguration;
-import com.rinearn.graph3d.config.ColorConfiguration;
+import com.rinearn.graph3d.config.range.RangeConfiguration;
+import com.rinearn.graph3d.config.color.ColorConfiguration;
 import com.rinearn.graph3d.config.color.GradientColor;
 
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;

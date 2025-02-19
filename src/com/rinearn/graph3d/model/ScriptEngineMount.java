@@ -1,10 +1,12 @@
 package com.rinearn.graph3d.model;
 
-import org.vcssl.connect.ConnectorPermissionName;
-import org.vcssl.connect.ConnectorPermissionValue;
 import org.vcssl.nano.VnanoEngine;
 import org.vcssl.nano.VnanoException;
 import org.vcssl.nano.interconnect.PluginLoader;
+import org.vcssl.connect.ConnectorPermissionName;
+import org.vcssl.connect.ConnectorPermissionValue;
+import org.vcssl.nano.plugin.math.xnci1.MathElementaryXnci1Plugin;
+import org.vcssl.nano.plugin.math.xnci1.MathStatisticalXnci1Plugin;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -166,6 +168,15 @@ public final class ScriptEngineMount {
 		/* If there is any permission item necessary for this engine's usage, "ALLOW" it here. */
 		this.mathExpressionEngine.setPermissionMap(permissionMap);
 
+		// After 2025/02/19, the Standard Vnano Plug-ins are contained in the same JAR file: RinearnGraph3D.jar.
+		// So simply instantiate Math-related plug-ins, and connect them to the engine.
+		MathElementaryXnci1Plugin mathElementaryPlugin = new MathElementaryXnci1Plugin();
+		MathStatisticalXnci1Plugin mathStatisticalPlugin = new MathStatisticalXnci1Plugin();
+		this.mathExpressionEngine.connectPlugin("Math", mathElementaryPlugin);
+		this.mathExpressionEngine.connectPlugin("Math", mathStatisticalPlugin);
+
+		// OLD: Loaded the above plug-ins dynamically.
+		/*
 		// Load plug-ins listed in "./plugin/VnanoPluginList.txt".
 		try {
 			PluginLoader pluginLoader = new PluginLoader("UTF-8");
@@ -173,7 +184,6 @@ public final class ScriptEngineMount {
 			pluginLoader.load();
 			for (Object plugin: pluginLoader.getPluginInstances()) {
 				this.mathExpressionEngine.connectPlugin("___VNANO_AUTO_KEY", plugin);
-
 			}
 
 		// The locale setting does not affect to error messages occurred in PluginLoader,
@@ -182,6 +192,7 @@ public final class ScriptEngineMount {
 			vne.setLocale(locale);
 			throw vne;
 		}
+		*/
 
 		// Instantiate a plug-in providing parameter variables (x, y, and t) available in math expressions,
 		// and connect it to the engine.

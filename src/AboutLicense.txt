@@ -1,0 +1,18 @@
+In this folder, source code of multiple libraries, made by RINEARN, are included together.
+They are basically published under the MIT License, but some of them are public-domain (CC0).
+
+* RINEARN Graph 3D: MIT License
+
+    See: ../LICENSE
+
+* Vnano Engine: MIT License
+
+    See: ./org/vcssl/nano/VNANO_ENGINE_LICENSE
+
+* Vnano Standard Plug-ins: CC0
+
+    See: ./org/vcssl/nano/plugin/STANDARD_PLUGIN_LICENSE
+
+* VCSSL/Vnano Plug-in Interfaces: CC0
+
+    See: ./org/vcssl/connect/PLUGIN_INTERFACE_LICENSE

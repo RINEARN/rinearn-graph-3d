@@ -1,3 +1,2 @@
 Manifest-Version: 1.0
 Main-Class: com.rinearn.graph3d.RinearnGraph3D
-Class-Path: lib/app-dependencies/vnano-engine/Vnano.jar

@@ -579,7 +579,7 @@ public final class LegendDrawer {
 			} else {
 				int pointSize = 10;
 				markerX -= pointSize;
-				markerY -= (textFontHeight * 0.6);
+				markerY -= (int)(textFontHeight * 0.6);
 				graphics.fillOval(markerX, markerY, pointSize, pointSize);
 			}
 
