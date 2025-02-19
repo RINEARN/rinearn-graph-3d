@@ -114,7 +114,7 @@
 
 ## ちょっと思いつき系
 
-* Vnano.jar、内蔵の数式プロット機能（外部スクリプトではない）に使ってるからもうエンジン自体も RinearnGraph3D.jar 内に入れ込んでしまった方がいいのでは？
+* 済: Vnano.jar、内蔵の数式プロット機能（外部スクリプトではない）に使ってるからもうエンジン自体も RinearnGraph3D.jar 内に入れ込んでしまった方がいいのでは？
   アプリ内に RinearnGraph3D.jar を組み込んで使う用途で、一発でいけるようになる。現状だと lib/app-dependency から Vnano.jar も引っ張ってこないといけない。
   で、RinearnGraph3D.jar を組み込む用途だと、数式も描ければ描きたいだろうし、 Vnano.jar も大抵は居るでしょ。
 
