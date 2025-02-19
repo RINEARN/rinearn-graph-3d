@@ -7,13 +7,13 @@
 
 package org.vcssl.nano.plugin.system.xfci1;
 
-import org.vcssl.nano.plugin.system.file.FileIOHub;
+// import org.vcssl.nano.plugin.system.file.FileIOHub;
 
 import org.vcssl.connect.ConnectorException;
 import org.vcssl.connect.ConnectorFatalException;
 import org.vcssl.connect.Int64ScalarDataAccessorInterface1;
 import org.vcssl.connect.StringScalarDataAccessorInterface1;
-import org.vcssl.connect.ArrayDataAccessorInterface1;
+// import org.vcssl.connect.ArrayDataAccessorInterface1;
 import org.vcssl.connect.EngineConnectorInterface1;
 import org.vcssl.connect.ExternalFunctionConnectorInterface1;
 
@@ -58,6 +58,7 @@ public class StringRoundXfci1Plugin implements ExternalFunctionConnectorInterfac
 	private static final int HALF_TO_EVEN_SIGNIF = FloatRoundXfci1Plugin.HALF_TO_EVEN_SIGNIF;
 
 	/** Stores the engine connector for requesting permissions. */
+	@SuppressWarnings("unused")
 	private EngineConnectorInterface1 engineConnector = null;
 
 	/**
@@ -167,7 +168,7 @@ public class StringRoundXfci1Plugin implements ExternalFunctionConnectorInterfac
 
 	@Override
 	public Object invoke(Object[] arguments) throws ConnectorException {
-		int argLength = arguments.length;
+		// int argLength = arguments.length;
 
 		StringScalarDataAccessorInterface1 returnContainer = StringScalarDataAccessorInterface1.class.cast(arguments[0]);
 		String value = StringScalarDataAccessorInterface1.class.cast(arguments[1]).getStringScalarData();
@@ -181,7 +182,7 @@ public class StringRoundXfci1Plugin implements ExternalFunctionConnectorInterfac
 
 	/**
 	 * Rounds the specifed value with the specified settings.
-	 * 
+	 *
 	 * @param value The value to be rounded.
 	 * @param numberOfDigits The number of digits of the part to be rounded.
 	 * @param mode The rounding mode index.
@@ -208,7 +209,7 @@ public class StringRoundXfci1Plugin implements ExternalFunctionConnectorInterfac
 
 	/**
 	 * Converts the rounding mode index to RoundingMode object.
-	 * 
+	 *
 	 * @param mode The rounding mode index.
 	 * @return The RoundingMode object.
 	 */
@@ -236,7 +237,7 @@ public class StringRoundXfci1Plugin implements ExternalFunctionConnectorInterfac
 	/**
 	 * Returns whether the specified mode is for rounding a part after the radix point.
 	 * If this method returns false, it means that the specified mode is for rounding a significand part.
-	 * 
+	 *
 	 * @param mode The rounding mode index.
 	 * @return Returns true if the specified mode is for rounding a part after the radix point.
 	 */

@@ -47,23 +47,26 @@ public enum FileIOMode {
 
 	/** Represents the file has not been opened yet, or had already closed. */
 	UNOPEND_OR_CLOSED;
-	
+
 	/** The Set containing all modes for reading contents from files. */
+	@SuppressWarnings("serial")
 	public static final Set<FileIOMode> READ_MODE_SET= new HashSet<FileIOMode>() {{
 		add(READ);
 		add(READ_TSV);
 		add(READ_CSV);
 		add(READ_STSV);
 	}};
-	
+
 	/** The Set containing all modes for writing contents to files. */
+	@SuppressWarnings("serial")
 	public static final Set<FileIOMode> WRITE_MODE_SET= new HashSet<FileIOMode>() {{
 		add(WRITE);
 		add(WRITE_TSV);
 		add(WRITE_CSV);
 	}};
-	
+
 	/** The Set containing all modes for appending contents to files. */
+	@SuppressWarnings("serial")
 	public static final Set<FileIOMode> APPEND_MODE_SET= new HashSet<FileIOMode>() {{
 		add(APPEND);
 		add(APPEND_TSV);
@@ -71,6 +74,7 @@ public enum FileIOMode {
 	}};
 
 	/** The Map for converting a mode-specifier string ("w" for WRITE, and so on) to the corresponding element of this enum. */
+	@SuppressWarnings("serial")
 	public static final Map<String, FileIOMode> SPECIFIER_ENUM_MAP = new HashMap<String, FileIOMode>() {{
 		put("r", READ);
 		put("w", WRITE);

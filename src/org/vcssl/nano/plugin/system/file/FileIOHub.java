@@ -6,7 +6,7 @@
 package org.vcssl.nano.plugin.system.file;
 
 import org.vcssl.connect.ConnectorException;
-import org.vcssl.connect.ConnectorFatalException;
+// import org.vcssl.connect.ConnectorFatalException;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -17,14 +17,14 @@ import java.util.Locale;
 
 /**
  * A class managing file I/O from/to multiple files.
- * 
+ *
  * File I/O from/to to each file is performed by FileIOUnit.
  * This object internally has a list of instances of FileIOUnit.
  * An integer "file ID" is assigned for each file/FileIOUnit.
- * 
+ *
  * Methods of this class receives the file ID as an argument,
  * and performs the file I/O from/to the corresponding file/FileIOUnit.
- * 
+ *
  * Note that, the "file ID" we using here is different from the file ID assigned by OS.
  * Our file ID will be assigned in ascending order, and the firstly opened file has the ID "1".
  * (If a file was closed, its index will be assigned (reused) to the nextly opened file.)
@@ -55,7 +55,7 @@ public final class FileIOHub {
 
 	/**
 	 * Sets the locale, for switching the language of error messages.
-	 * 
+	 *
 	 * @param locale The locale for specifying the language of error messages.
 	 */
 	public synchronized void setLocale(Locale locale) {
@@ -84,13 +84,13 @@ public final class FileIOHub {
 
 	/**
 	 * Disposes the resources of this instance.
-	 * 
+	 *
 	 * If opened files exist when this method has been called,
 	 * they will be closed before disposing file I/O units.
-	 * 
+	 *
 	 * After using this method, if you want to reuse this instance,
 	 * call initializeResources() method again.
-	 * 
+	 *
 	 * @throws ConnectorException Thrown when any error has occurred for file closing processes.
 	 */
 	public synchronized void disposeResources() throws ConnectorException {
@@ -135,7 +135,7 @@ public final class FileIOHub {
 
 	/**
 	 * Checks that the file ID is valid, and then gets the corresponding file I/O unit from the list.
-	 * 
+	 *
 	 * @param fileId The file ID corresponding with the file I/O unit to get.
 	 * @return The file I/O unit corresponding with the specified file ID.
 	 * @throws ConnectorException throws if the specified ID is invalid.
@@ -180,7 +180,7 @@ public final class FileIOHub {
 
 	/**
 	 * Opens the specified file, and assign a new file index to the file.
-	 * 
+	 *
 	 * @param filePath The file to be opened.
 	 * @param modeSpecifier The string for specifying the file I/O mode (e.g.: "w" for WRITE, "r" for READ, and so on).
 	 * @param encodingName The name of the character encoding of the file.
@@ -210,7 +210,7 @@ public final class FileIOHub {
 
 	/**
 	 * Close the file.
-	 * 
+	 *
 	 * @param fileId The file ID of the file to be closed.
 	 * @throws ConnectorException Thrown when any error has occurred for the closing process.
 	 */
@@ -225,11 +225,11 @@ public final class FileIOHub {
 
 	/**
 	 * Writes the specified contents to the file.
-	 * 
+	 *
 	 * If the mode of this instance is WRITE, all elements in "contents" array will be written in the file without being delimited.
 	 * If the mode is WRITE_CSV, the elements will be written with delimited by "," (comma).
 	 * If the mode is WRITE_TSV, the elements will be written with delimited by "\t" (tab space).
-	 * 
+	 *
 	 * @param fileId The file ID of the file to be closed.
 	 * @param contents The contents to be written to the file.
 	 * @throws ConnectorException Thrown when any I/O error occurred, or when the file is opened by unwritable modes.
@@ -242,11 +242,11 @@ public final class FileIOHub {
 
 	/**
 	 * Writes the specified contents to the file, and go to the next line.
-	 * 
+	 *
 	 * If the mode of this instance is WRITE, all elements in "contents" array will be written in the file without being delimited.
 	 * If the mode is WRITE_CSV, the elements will be written with delimited by "," (comma).
 	 * If the mode is WRITE_TSV, the elements will be written with delimited by "\t" (tab space).
-	 * 
+	 *
 	 * @param fileId The file ID of the file to be closed.
 	 * @param contents The contents to be written to the file.
 	 * @throws ConnectorException Thrown when any I/O error occurred, or when the file is opened by unwritable modes.
@@ -259,7 +259,7 @@ public final class FileIOHub {
 
 	/**
 	 * Flushes the currently stored contents in the writing buffer.
-	 * 
+	 *
 	 * @param fileId The file ID of the file to be flushed.
 	 * @throws ConnectorException Thrown when any I/O error occurred, or when the file is opened by unwritable modes.
 	 */
@@ -271,13 +271,13 @@ public final class FileIOHub {
 
 	/**
 	 * Reads contents of one line from to the file.
-	 * 
+	 *
 	 * If the mode of this instance is READ, whole the read line will be returned as an array of which length is 1.
 	 * If the mode is READ_CSV, text of a line will be splitted by "," (comma), and they will be returned as an array.
 	 * If the mode is READ_TSV, text of a line will be splitted by "\t" (tab), and they will be returned as an array.
-	 * If the mode is READ_STSV, text of a line will be splitted by (may be sequential) tabs or spaces, 
+	 * If the mode is READ_STSV, text of a line will be splitted by (may be sequential) tabs or spaces,
 	 * and they will be returned as an array.
-	 * 
+	 *
 	 * @param fileId The file ID of the file to be flushed.
 	 * @return The (delimited) contents of a line read from the file.
 	 * @throws ConnectorException Thrown when any I/O error occurred, or when the file is opened by unwritable modes.
@@ -290,13 +290,13 @@ public final class FileIOHub {
 
 	/**
 	 * Reads all contents from to the file.
-	 * 
+	 *
 	 * If the mode of this instance is READ, whole the contnts in the file will be returned as an array of which length is 1.
 	 * If the mode is READ_CSV, text of all lines will be splitted by "," (comma), and they will be returned as an array.
 	 * If the mode is READ_TSV, text of all lines line will be splitted by "\t" (tab), and they will be returned as an array.
-	 * If the mode is READ_STSV, text of all lines line will be splitted by (may be sequential) tabs or spaces, 
+	 * If the mode is READ_STSV, text of all lines line will be splitted by (may be sequential) tabs or spaces,
 	 * and they will be returned as an array.
-	 * 
+	 *
 	 * @param fileId The file ID of the file to be flushed.
 	 * @return The (delimited) contents of all contents read from the file.
 	 * @throws ConnectorException Thrown when any I/O error occurred, or when the file is opened by unwritable modes.
@@ -309,13 +309,13 @@ public final class FileIOHub {
 
 	/**
 	 * Reads all contents from to the file.
-	 * 
+	 *
 	 * If the mode of this instance is READ, whole the contnts in the file will be returned as an array of which length is 1.
 	 * If the mode is READ_CSV, text of all lines will be splitted by "," (comma), and they will be returned as an array.
 	 * If the mode is READ_TSV, text of all lines line will be splitted by "\t" (tab), and they will be returned as an array.
-	 * If the mode is READ_STSV, text of all lines line will be splitted by (may be sequential) tabs or spaces, 
+	 * If the mode is READ_STSV, text of all lines line will be splitted by (may be sequential) tabs or spaces,
 	 * and they will be returned as an array.
-	 * 
+	 *
 	 * @param fileId The file ID of the file to be flushed.
 	 * @return The (delimited) contents of all contents read from the file.
 	 * @throws ConnectorException Thrown when any I/O error occurred, or when the file is opened by unwritable modes.

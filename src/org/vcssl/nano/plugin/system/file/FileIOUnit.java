@@ -63,6 +63,7 @@ public final class FileIOUnit {
 	private BufferedWriter bufferedWriter = null;
 
 	/** The locale to determine the language of error messages. */
+	@SuppressWarnings("unused")
 	private Locale locale = null;
 
 	/** The flag for switching the language of error messages to Japanese. */
@@ -82,7 +83,7 @@ public final class FileIOUnit {
 
 	/**
 	 * Sets the locale, for switching the language of error messages.
-	 * 
+	 *
 	 * @param locale The locale for specifying the language of error messages.
 	 */
 	public synchronized void setLocale(Locale locale) {
@@ -96,7 +97,7 @@ public final class FileIOUnit {
 
 	/**
 	 * Gets the file I/O mode, specified when this instance opened the file.
-	 * 
+	 *
 	 * @return The file I/O mode.
 	 */
 	public synchronized FileIOMode getFileIOMode() {
@@ -106,7 +107,7 @@ public final class FileIOUnit {
 
 	/**
 	 * Gets the File instance, specified when this instance opened the file.
-	 * 
+	 *
 	 * @return The File instance.
 	 */
 	public synchronized File getFile() {
@@ -116,7 +117,7 @@ public final class FileIOUnit {
 
 	/**
 	 * Opens the specified file.
-	 * 
+	 *
 	 * @param filePath The file to be opened.
 	 * @param modeSpecifier The string for specifying the file I/O mode (e.g.: "w" for WRITE, "r" for READ, and so on).
 	 * @param encodingName The name of the character encoding of the file.
@@ -165,11 +166,11 @@ public final class FileIOUnit {
 		} else if (FileIOMode.WRITE_MODE_SET.contains(mode)) {
 			boolean appendsToCurrentContent = false;
 			this.openForWriting(appendsToCurrentContent);
-			
+
 		} else if (FileIOMode.APPEND_MODE_SET.contains(mode)) {
 			boolean appendsToCurrentContent = true;
 			this.openForWriting(appendsToCurrentContent);
-			
+
 		} else {
 			throw new ConnectorFatalException("Unexpected file I/O mode: " + mode);
 		}
@@ -178,7 +179,7 @@ public final class FileIOUnit {
 
 	/**
 	 * Opens the file for reading.
-	 * 
+	 *
 	 * @throws ConnectorException Thrown when it has failed to open the file.
 	 */
 	private synchronized void openForReading() throws ConnectorException {
@@ -216,10 +217,10 @@ public final class FileIOUnit {
 		this.bufferedReader = new BufferedReader(this.inputStreamReader);
 	}
 
-	
+
 	/**
 	 * Opens the file for writing.
-	 * 
+	 *
 	 * @param appendsToCurrentContent Specify true for appending contents to the end of the current contents of the file.
 	 * @throws ConnectorException Thrown when it has failed to open the file.
 	 */
@@ -261,7 +262,7 @@ public final class FileIOUnit {
 
 	/**
 	 * Closes the file.
-	 * 
+	 *
 	 * @throws ConnectorException Thrown when it has failed to close the file.
 	 */
 	public synchronized void close() throws ConnectorException {
@@ -298,11 +299,11 @@ public final class FileIOUnit {
 
 	/**
 	 * Writes the specified contents to the file.
-	 * 
+	 *
 	 * If the mode of this instance is WRITE, all elements in "contents" array will be written in the file without being delimited.
 	 * If the mode is WRITE_CSV, the elements will be written with delimited by "," (comma).
 	 * If the mode is WRITE_TSV, the elements will be written with delimited by "\t" (tab space).
-	 * 
+	 *
 	 * @param contents The contents to be written to the file.
 	 * @throws ConnectorException Thrown when any I/O error occurred, or when the file is opened by unwritable modes.
 	 */
@@ -365,17 +366,17 @@ public final class FileIOUnit {
 
 	/**
 	 * Writes the specified contents to the file, and go to the next line.
-	 * 
+	 *
 	 * If the mode of this instance is WRITE, all elements in "contents" array will be written in the file without being delimited.
 	 * If the mode is WRITE_CSV, the elements will be written with delimited by "," (comma).
 	 * If the mode is WRITE_TSV, the elements will be written with delimited by "\t" (tab).
-	 * 
+	 *
 	 * @param contents The contents to be written to the file.
 	 * @throws ConnectorException Thrown when any I/O error occurred, or when the file is opened by unwritable modes.
 	 */
 	public synchronized void writeln(String[] contents) throws ConnectorException {
 		this.write(contents);
-		
+
 		try {
 			this.bufferedWriter.write(this.lineFeedCode);
 		} catch (IOException ioe) {
@@ -387,10 +388,10 @@ public final class FileIOUnit {
 		}
 	}
 
-	
+
 	/**
 	 * Flushes the currently stored contents in the writing buffer.
-	 * 
+	 *
 	 * @throws ConnectorException Thrown when any I/O error occurred, or when the file is opened by unwritable modes.
 	 */
 	public synchronized void flush() throws ConnectorException {
@@ -408,7 +409,7 @@ public final class FileIOUnit {
 				throw new ConnectorException("The specified file is not opened in \"writable\" modes (WRITE, APPEND, WRITE_CSV, ... etc.): " + this.file.getPath());
 			}
 		}
-		
+
 		try {
 			this.bufferedWriter.flush();
 		} catch (IOException ioe) {
@@ -423,13 +424,13 @@ public final class FileIOUnit {
 
 	/**
 	 * Reads contents of one line from to the file.
-	 * 
+	 *
 	 * If the mode of this instance is READ, whole the read line will be returned as an array of which length is 1.
 	 * If the mode is READ_CSV, text of a line will be splitted by "," (comma), and they will be returned as an array.
 	 * If the mode is READ_TSV, text of a line will be splitted by "\t" (tab), and they will be returned as an array.
-	 * If the mode is READ_STSV, text of a line will be splitted by (may be sequential) tabs or spaces, 
+	 * If the mode is READ_STSV, text of a line will be splitted by (may be sequential) tabs or spaces,
 	 * and they will be returned as an array.
-	 * 
+	 *
 	 * @return The (delimited) contents of a line read from the file.
 	 * @throws ConnectorException Thrown when any I/O error occurred, or when the file is opened by unwritable modes.
 	 */
@@ -488,16 +489,16 @@ public final class FileIOUnit {
 		}
 	}
 
-	
+
 	/**
 	 * Reads all contents from to the file.
-	 * 
+	 *
 	 * If the mode of this instance is READ, whole the contnts in the file will be returned as an array of which length is 1.
 	 * If the mode is READ_CSV, text of all lines will be splitted by "," (comma), and they will be returned as an array.
 	 * If the mode is READ_TSV, text of all lines line will be splitted by "\t" (tab), and they will be returned as an array.
-	 * If the mode is READ_STSV, text of all lines line will be splitted by (may be sequential) tabs or spaces, 
+	 * If the mode is READ_STSV, text of all lines line will be splitted by (may be sequential) tabs or spaces,
 	 * and they will be returned as an array.
-	 * 
+	 *
 	 * @return The (delimited) contents of all contents read from the file.
 	 * @throws ConnectorException Thrown when any I/O error occurred, or when the file is opened by unwritable modes.
 	 */
@@ -539,7 +540,7 @@ public final class FileIOUnit {
 			}
 		}
 
-		// For other modes, split each lines by the delimiter, 
+		// For other modes, split each lines by the delimiter,
 		// and store all splitted values in all lines in an array to be returned.
 		try {
 			List<String> resultList = new ArrayList<String>();
@@ -588,7 +589,7 @@ public final class FileIOUnit {
 
 	/**
 	 * Counts up the total number of lines in the file, and reopens the file.
-	 * 
+	 *
 	 * @return The total number of lines in the file.
 	 * @throws ConnectorException Thrown when any I/O error occurred, or when the file is opened by unwritable modes.
 	 */

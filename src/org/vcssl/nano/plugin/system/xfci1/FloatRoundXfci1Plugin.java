@@ -7,13 +7,13 @@
 
 package org.vcssl.nano.plugin.system.xfci1;
 
-import org.vcssl.nano.plugin.system.file.FileIOHub;
+// import org.vcssl.nano.plugin.system.file.FileIOHub;
 
 import org.vcssl.connect.ConnectorException;
 import org.vcssl.connect.ConnectorFatalException;
 import org.vcssl.connect.Int64ScalarDataAccessorInterface1;
 import org.vcssl.connect.Float64ScalarDataAccessorInterface1;
-import org.vcssl.connect.ArrayDataAccessorInterface1;
+// import org.vcssl.connect.ArrayDataAccessorInterface1;
 import org.vcssl.connect.EngineConnectorInterface1;
 import org.vcssl.connect.ExternalFunctionConnectorInterface1;
 
@@ -167,7 +167,7 @@ public class FloatRoundXfci1Plugin implements ExternalFunctionConnectorInterface
 
 	@Override
 	public Object invoke(Object[] arguments) throws ConnectorException {
-		int argLength = arguments.length;
+		// int argLength = arguments.length;
 
 		Float64ScalarDataAccessorInterface1 returnContainer = Float64ScalarDataAccessorInterface1.class.cast(arguments[0]);
 		double value = Float64ScalarDataAccessorInterface1.class.cast(arguments[1]).getFloat64ScalarData();
@@ -181,7 +181,7 @@ public class FloatRoundXfci1Plugin implements ExternalFunctionConnectorInterface
 
 	/**
 	 * Rounds the specifed value with the specified settings.
-	 * 
+	 *
 	 * @param value The value to be rounded.
 	 * @param numberOfDigits The number of digits of the part to be rounded.
 	 * @param mode The rounding mode index.
@@ -204,7 +204,7 @@ public class FloatRoundXfci1Plugin implements ExternalFunctionConnectorInterface
 
 	/**
 	 * Converts the rounding mode index to RoundingMode object.
-	 * 
+	 *
 	 * @param mode The rounding mode index.
 	 * @return The RoundingMode object.
 	 */
@@ -232,7 +232,7 @@ public class FloatRoundXfci1Plugin implements ExternalFunctionConnectorInterface
 	/**
 	 * Returns whether the specified mode is for rounding a part after the radix point.
 	 * If this method returns false, it means that the specified mode is for rounding a significand part.
-	 * 
+	 *
 	 * @param mode The rounding mode index.
 	 * @return Returns true if the specified mode is for rounding a part after the radix point.
 	 */

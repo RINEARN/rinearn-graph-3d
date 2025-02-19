@@ -8,17 +8,17 @@
 package org.vcssl.nano.plugin.system.xfci1;
 
 import org.vcssl.nano.plugin.system.file.FileIOHub;
-import org.vcssl.nano.plugin.system.file.FileIOMode;
+// import org.vcssl.nano.plugin.system.file.FileIOMode;
 
 import org.vcssl.connect.ConnectorException;
 import org.vcssl.connect.Int64ScalarDataAccessorInterface1;
-import org.vcssl.connect.ArrayDataAccessorInterface1;
+// import org.vcssl.connect.ArrayDataAccessorInterface1;
 import org.vcssl.connect.EngineConnectorInterface1;
 import org.vcssl.connect.ExternalFunctionConnectorInterface1;
 
-import org.vcssl.connect.ConnectorException;
-import java.io.IOException;
-import java.util.Locale;
+// import org.vcssl.connect.ConnectorException;
+// import java.io.IOException;
+// import java.util.Locale;
 
 
 /**
@@ -34,7 +34,7 @@ public class CountlnXfci1Plugin implements ExternalFunctionConnectorInterface1 {
 
 	/**
 	 * Create a new instance of this plug-in.
-	 * 
+	 *
 	 * @param fileIOHub The file I/O hub, through which the file I/O will be performed.
 	 */
 	public CountlnXfci1Plugin(FileIOHub fileIOHub) {
@@ -142,10 +142,10 @@ public class CountlnXfci1Plugin implements ExternalFunctionConnectorInterface1 {
 
 	@Override
 	public Object invoke(Object[] arguments) throws ConnectorException {
-		int argLength = arguments.length;
+		// int argLength = arguments.length;
 
 		// Note:
-		//    arguments[0] is the container for storing the return value, 
+		//    arguments[0] is the container for storing the return value,
 		//    argument[1] is the "fileId" arg,
 
 		// Get the value of the specified fileId.
