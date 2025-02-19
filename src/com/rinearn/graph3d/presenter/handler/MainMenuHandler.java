@@ -1,5 +1,6 @@
 package com.rinearn.graph3d.presenter.handler;
 
+import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.model.Model;
 import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
 import com.rinearn.graph3d.model.data.series.MathDataSeries;
@@ -27,6 +28,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 
+import java.util.Locale;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -68,6 +70,7 @@ public final class MainMenuHandler {
 		window.mainMenu.pasteDataTextMenuItem.addActionListener(new PasteDataTextItemClickedEventListener());
 		window.mainMenu.saveImageFileMenuItem.addActionListener(new SaveImageFileItemClickedEventListener());
 		window.mainMenu.copyImageMenuItem.addActionListener(new CopyImageItemClickedEventListener());
+		window.mainMenu.clearDataFileMenuItem.addActionListener(new ClearDataFileItemClickedEventListener());
 
 		// Add the action listeners to the sub menu items in "Math" menu.
 		window.mainMenu.zxyMathMenuItem.addActionListener(new ZxyMathItemClickedEventListener());
@@ -84,6 +87,8 @@ public final class MainMenuHandler {
 		window.mainMenu.lightSettingMenuItem.addActionListener(new LightSettingItemClickedEventListener());
 		window.mainMenu.scaleSettingMenuItem.addActionListener(new ScaleSettingItemClickedEventListener());
 		window.mainMenu.rendererSettingMenuItem.addActionListener(new RendererSettingItemClickedEventListener());
+		window.mainMenu.resetSettingMenuItem.addActionListener(new ResetSettingItemClickedEventListener());
+		window.mainMenu.clearAllMenuItem.addActionListener(new ClearAllItemClickedEventListener());
 
 		// Add the action listeners to the sub menu items in "Option" menu.
 		window.mainMenu.pointOptionMenuItem.addActionListener(new PointOptionMenuItemSelectedEventListener());
@@ -228,6 +233,25 @@ public final class MainMenuHandler {
 				String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.FAILED_TO_COPY_IMAGE_TO_CLIPBOARD);
 				JOptionPane.showMessageDialog(view.mainWindow.frame, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
 			}
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "File" > "Clear Data/Files" menu item is clicked.
+	 */
+	private final class ClearDataFileItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Cleare all currently-registered array data series.
+			model.dataStore.clearArrayDataSeries();
+
+			// Replot the graph.
+			presenter.plot();
 		}
 	}
 
@@ -478,6 +502,60 @@ public final class MainMenuHandler {
 				return;
 			}
 			view.rendererSettingWindow.setWindowVisible(true);
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Settings" > "Reset Settings" menu item is clicked.
+	 */
+	private final class ResetSettingItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Create the configuration container storing default settings.
+			RinearnGraph3DConfiguration defaultConfig = RinearnGraph3DConfiguration.createDefaultConfiguration();
+
+			// Update the locale (language of UI and messages).
+			defaultConfig.getEnvironmentConfiguration().setLocale(
+					model.config.getEnvironmentConfiguration().getLocale()
+			);
+
+			// Update the screen size.
+			defaultConfig.getScreenConfiguration().setScreenWidth(
+					model.config.getScreenConfiguration().getScreenWidth()
+			);
+			defaultConfig.getScreenConfiguration().setScreenHeight(
+					model.config.getScreenConfiguration().getScreenHeight()
+			);
+
+			// Reflect the default settings.
+			model.config.merge(defaultConfig);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Edit" > "Clear All" menu item is clicked.
+	 */
+	private final class ClearAllItemClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+
+			// Cleare all currently-registered data series.
+			model.dataStore.clearArrayDataSeries();
+			model.dataStore.clearMathDataSeries();
+
+			// Replot the graph.
+			presenter.plot();
 		}
 	}
 

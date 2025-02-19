@@ -46,6 +46,9 @@ public class MainMenu {
 	/** "File" > "Copy Image" menu on the menu bar. */
 	public volatile JMenuItem copyImageMenuItem;
 
+	/** "File" > "Clear Data/Files" */
+	public volatile JMenuItem clearDataFileMenuItem;
+
 
 	/** "Math" menu on the menu bar. */
 	public volatile JMenu mathMenu;
@@ -89,6 +92,12 @@ public class MainMenu {
 
 	/** "Edit" > "Set Renderer" menu item on the menu bar. */
 	public volatile JMenuItem rendererSettingMenuItem;
+
+	/** "Edit" > "Reset Settings" */
+	public volatile JMenuItem resetSettingMenuItem;
+
+	/** "Edit" > "Clear All" */
+	public volatile JMenuItem clearAllMenuItem;
 
 
 	/** "Options" menu on the menu bar. */
@@ -190,6 +199,9 @@ public class MainMenu {
 				pasteDataTextMenuItem = new JMenuItem("Unconfigured");
 				fileMenu.add(pasteDataTextMenuItem);
 
+				// ---
+				fileMenu.addSeparator();
+
 				// "File" > "Save Image"
 				saveImageFileMenuItem = new JMenuItem("Unconfigured");
 				fileMenu.add(saveImageFileMenuItem);
@@ -197,6 +209,13 @@ public class MainMenu {
 				// "File" > "Copy Image"
 				copyImageMenuItem = new JMenuItem("Unconfigured");
 				fileMenu.add(copyImageMenuItem);
+
+				// ---
+				fileMenu.addSeparator();
+
+				// "File" > "Clear Data/Files"
+				clearDataFileMenuItem = new JMenuItem("Unconfigured");
+				fileMenu.add(clearDataFileMenuItem);
 			}
 
 			// "Math" menu:
@@ -222,6 +241,9 @@ public class MainMenu {
 				// "Math" > "Remove Math Expression" menu item:
 				removeMathMenuItem = new JMenuItem("Unconfigured");
 				mathMenu.add(removeMathMenuItem);
+
+				// ---
+				mathMenu.addSeparator();
 
 				// "Math" > "Clear Math Expressions" menu item:
 				clearMathMenuItem = new JMenuItem("Unconfigured");
@@ -260,6 +282,17 @@ public class MainMenu {
 				// "Edit" > "Set Renderer" menu item:
 				rendererSettingMenuItem = new JMenuItem("Unconfigured");
 				editMenu.add(rendererSettingMenuItem);
+
+				// ---
+				editMenu.addSeparator();
+
+				// "Edit" > "Reset Settings" menu item:
+				resetSettingMenuItem = new JMenuItem("Unconfigured");
+				editMenu.add(resetSettingMenuItem);
+
+				// "Edit" > "Clear All" menu item:
+				clearAllMenuItem = new JMenuItem("Unconfigured");
+				editMenu.add(clearAllMenuItem);
 			}
 
 			// "Options" menu:
@@ -433,6 +466,7 @@ public class MainMenu {
 				pasteDataTextMenuItem.setText("データを貼り付け");
 				saveImageFileMenuItem.setText("画像を保存");
 				copyImageMenuItem.setText("画像をコピー");
+				clearDataFileMenuItem.setText("データ/ファイルをクリア");
 			}
 
 			// "Math" menu and sub menu items.
@@ -455,6 +489,8 @@ public class MainMenu {
 				lightSettingMenuItem.setText("光の設定");
 				scaleSettingMenuItem.setText("目盛りの設定");
 				rendererSettingMenuItem.setText("描画エンジンの設定");
+				resetSettingMenuItem.setText("設定をリセット");
+				clearAllMenuItem.setText("すべてクリア");
 			}
 
 			// "Options" menu and sub menu items.
@@ -495,6 +531,7 @@ public class MainMenu {
 				pasteDataTextMenuItem.setText("Paste Data");
 				saveImageFileMenuItem.setText("Save Image");
 				copyImageMenuItem.setText("Copy Image");
+				clearDataFileMenuItem.setText("Clear Data/Files");
 			}
 
 			// "Math" menu and sub menu items.
@@ -517,6 +554,8 @@ public class MainMenu {
 				lightSettingMenuItem.setText("Set Light");
 				scaleSettingMenuItem.setText("Set Scale");
 				rendererSettingMenuItem.setText("Set Renderer");
+				resetSettingMenuItem.setText("Reset Settings");
+				clearAllMenuItem.setText("Clear All");
 			}
 
 			// "Options" menu and sub menu items.
@@ -559,6 +598,7 @@ public class MainMenu {
 				pasteDataTextMenuItem.setFont(uiBoldFont);
 				saveImageFileMenuItem.setFont(uiBoldFont);
 				copyImageMenuItem.setFont(uiBoldFont);
+				clearDataFileMenuItem.setFont(uiBoldFont);
 			}
 
 			// "Math" menu and sub menu items.
@@ -581,6 +621,8 @@ public class MainMenu {
 				lightSettingMenuItem.setFont(uiBoldFont);
 				scaleSettingMenuItem.setFont(uiBoldFont);
 				rendererSettingMenuItem.setFont(uiBoldFont);
+				resetSettingMenuItem.setFont(uiBoldFont);
+				clearAllMenuItem.setFont(uiBoldFont);
 			}
 
 			// "Options" menu and sub menu items.
