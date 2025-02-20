@@ -153,6 +153,12 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 		{ 0.0, 0.0, 0.0, 1.0 }
 	};
 
+	/** The flag representing whether drawColorBar() is called after clear(). */
+	private boolean colorBarDrawingRegistered = false;
+
+	/** The flag representing whether drawLegends() is called after clear(). */
+	private boolean legendDrawingRegistered = false;
+
 
 	/**
 	 * Creates a new renderer.
@@ -346,6 +352,10 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 		this.foregroundLayerGraphics.setBackground(new Color(0, 0, 0, 0)); // Clear color.
 		this.foregroundLayerGraphics.clearRect(0, 0, this.foregroundLayerImage.getWidth(), this.foregroundLayerImage.getHeight());
 
+		// Reset the flags representing whether each 2D drawing method (drawColorBar(), drawLegends(), etc) is called.
+		this.colorBarDrawingRegistered = false;
+		this.legendDrawingRegistered = false;
+
 		// Turn on the flag for detecting that the content of the graph screen has been updated.
 		this.screenUpdated = true;
 	}
@@ -401,6 +411,19 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 			}
 			piece.project(screenWidth, screenHeight, screenOffsetX, screenOffsetY, magnification);
 			piece.draw(this.middleLayerGraphics);
+		}
+
+		// Draw 2D contents (color bar, legends, etc).
+		if (isAntialiasingEnabled) {
+			this.middleLayerGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		} else {
+			this.middleLayerGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+		}
+		if (this.colorBarDrawingRegistered) {
+			this.colorBarDrawer.draw(this.middleLayerGraphics, this.colorMixer);
+		}
+		if (this.legendDrawingRegistered) {
+			this.legendDrawer.draw(this.middleLayerGraphics);
 		}
 
 		// Composite the background, the middle (3D contents), and the foreground layers as the screen image.
@@ -771,43 +794,37 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 	 * This method draws 2D contents on the "foreground image", which will be composed to the screen image by render() method.
 	 * The foreground image is disposed and re-allocated when the screen size is changed, so then the drawn 2D contents lost.
 	 * Therefore, please call this method again when the screen size is changed.
+	 *
+	 * Please note that, as the same as other draw...() methods,
+	 * this method only registers to draw the legends, and it is actually drawn by render() method.
+	 * Therefore, just after calling this method, the legends is not drawn on the screen image yet.
+	 *
+	 * Also, there is no need to re-call this method when the screen is resized after calling this method,
+	 * because the registered legends by this method will be drawn at the proper position when render() is called.
 	 */
 	@Override
 	public void drawLegendLabels() {
 
-		// Turn on/off anti-aliasing option of foregroundLayerGraphics.
-		boolean isAntialiasingEnabled = this.config.getRendererConfiguration().isAntialiasingEnabled();
-		if (isAntialiasingEnabled) {
-			this.foregroundLayerGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		} else {
-			this.foregroundLayerGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-		}
-
-		// Draw legends.
-		this.legendDrawer.draw(this.foregroundLayerGraphics);
+		// This method registers the request to draw legends, and the legends are drawn in render() method.
+		this.legendDrawingRegistered = true;
 	}
 
 
 	/**
 	 * Draws the color bar of the graph.
 	 *
-	 * This method draws 2D contents on the "foreground image", which will be composed to the screen image by render() method.
-	 * The foreground image is disposed and re-allocated when the screen size is changed, so then the drawn 2D contents lost.
-	 * Therefore, please call this method again when the screen size is changed.
+	 * Please note that, as the same as other draw...() methods,
+	 * this method only registers to draw the color bar, and it is actually drawn by render() method.
+	 * Therefore, just after calling this method, the color bar is not drawn on the screen image yet.
+	 *
+	 * Also, there is no need to re-call this method when the screen is resized after calling this method,
+	 * because the registered color bar by this method will be drawn at the proper position when render() is called.
 	 */
 	@Override
 	public void drawColorBar() {
 
-		// Turn on/off anti-aliasing option of foregroundLayerGraphics.
-		boolean isAntialiasingEnabled = this.config.getRendererConfiguration().isAntialiasingEnabled();
-		if (isAntialiasingEnabled) {
-			this.foregroundLayerGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		} else {
-			this.foregroundLayerGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-		}
-
-		// Draw legends.
-		this.colorBarDrawer.draw(this.foregroundLayerGraphics, this.colorMixer);
+		// This method registers the request to draw color bar, and the color bar is drawn in render() method.
+		this.colorBarDrawingRegistered = true;
 	}
 
 
@@ -1024,6 +1041,10 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 	 * Please note that, the Graphics2D instance is disposed and re-allocated when the screen is resized.
 	 * Hence, after the screen is resized, please get the new Graphics2D instance again by this method.
 	 *
+	 * Also, the content on the foreground layer is cleared by the transparent color
+	 * when clear() method is called,or the screen is resized.
+	 * Therefore, please re-draw the contents at such time, if necessary.
+	 *
 	 * return The Graphics2D instance to draw contents to the foreground layer
 	 */
 	@Override
@@ -1037,6 +1058,10 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 	 *
 	 * Please note that, the Graphics2D instance is disposed and re-allocated when the screen is resized.
 	 * Hence, after the screen is resized, please get the new Graphics2D instance again by this method.
+	 *
+	 * Also, the content on the background layer is cleared by the background color
+	 * when clear() method is called,or the screen is resized.
+	 * Therefore, please re-draw the contents at such time, if necessary.
 	 *
 	 * return The Graphics2D instance to draw contents to the background layer
 	 */

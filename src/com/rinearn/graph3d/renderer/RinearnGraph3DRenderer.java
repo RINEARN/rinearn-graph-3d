@@ -366,9 +366,19 @@ public interface RinearnGraph3DRenderer {
 	 * 従って, グラフ画面のリサイズ後には, このメソッドで新しい Graphics2D インスタンスを再取得してください.
 	 * </span>
 	 *
+	 * <span class="lang-en">
+	 * Also, the content on the foreground layer is cleared by the transparent color
+	 * when clear() method is called,or the screen is resized.
+	 * Therefore, please re-draw the contents at such time, if necessary.
+	 * </span>
+	 * <span class="lang-ja">
+	 * なお, 前景層の内容は, clear() メソッドが呼ばれた際や, グラフ画面がリサイズされた際に, 透明色でクリアされます.
+	 * そのため, 必用に応じて, そのようなタイミングで前景層の内容を再描画してください.
+	 * </span>
+	 *
 	 * return
-	 *   <span class="lang-en">The Graphics2D instance to draw contents to the foreground layer</span>
-	 *   <span class="lang-ja">前景層に内容を描き込むための Graphics2D インスタンス</span>
+	 *   <span class="lang-en">The Graphics2D instance to draw contents freely to the foreground layer</span>
+	 *   <span class="lang-ja">前景層に自由な内容を描き込むための Graphics2D インスタンス</span>
 	 */
 	public Graphics2D getForegroundLayerGraphics2D();
 
@@ -390,9 +400,19 @@ public interface RinearnGraph3DRenderer {
 	 * 従って, グラフ画面のリサイズ後には, このメソッドで新しい Graphics2D インスタンスを再取得してください.
 	 * </span>
 	 *
+	 * <span class="lang-en">
+	 * Also, the content on the background layer is cleared by the background color
+	 * when clear() method is called,or the screen is resized.
+	 * Therefore, please re-draw the contents at such time, if necessary.
+	 * </span>
+	 * <span class="lang-ja">
+	 * なお, 背景層の内容は, clear() メソッドが呼ばれた際や, グラフ画面がリサイズされた際に, 背景色でクリアされます.
+	 * そのため, 必用に応じて, そのようなタイミングで背景層の内容を再描画してください.
+	 * </span>
+	 *
 	 * return
-	 *   <span class="lang-en">The Graphics2D instance to draw contents to the background layer</span>
-	 *   <span class="lang-ja">背景層に内容を描き込むための Graphics2D インスタンス</span>
+	 *   <span class="lang-en">The Graphics2D instance to draw contents freely to the background layer</span>
+	 *   <span class="lang-ja">背景層に自由な内容を描き込むための Graphics2D インスタンス</span>
 	 */
 	public Graphics2D getBackgroundLayerGraphics2D();
 
@@ -1033,15 +1053,23 @@ public interface RinearnGraph3DRenderer {
 	 * </span>
 	 * .
 	 * <span class="lang-en">
-	 * This method draws 2D contents on the "foreground image", which will be composed to the screen image by render() method.
-	 * The foreground image is disposed and re-allocated when the screen size is changed, so then the drawn 2D contents lost.
-	 * Therefore, please call this method again when the screen size is changed.
+	 * Please note that, as the same as other draw...() methods,
+	 * this method only registers to draw the legends, and it is actually drawn by render() method.
+	 * Therefore, just after calling this method, the legends is not drawn on the screen image yet.
 	 * </span>
 	 * <span class="lang-ja">
-	 * このメソッドは, 前景イメージ（foreground image）上に2Dの内容を描画します.
-	 * 前景イメージは, render() メソッドによって, グラフ画面の画像（screen image）内に合成されます.
-	 * 前景イメージは, グラフの画面サイズが変更された際には破棄・再確保されますが, その際に, 描画されている内容が失われます.
-	 * 従って, 画面サイズが変更された際には, このメソッドを再び呼び出して再描画してください.
+	 * 他の draw 系メソッドと同様, このメソッドは凡例の描画登録のみを行い,
+	 * 実際の描画は render() メソッドによって行われる事にご注意ください.
+	 * 従って, このメソッドを呼んだ直後には, まだグラフ画面のスクリーン画像に凡例は描画されていません.
+	 * </span>
+	 *
+	 * <span class="lang-en">
+	 * Also, there is no need to re-call this method when the screen is resized after calling this method,
+	 * because the registered legends by this method will be drawn at the proper position when render() is called.
+	 * </span>
+	 * <span class="lang-ja">
+	 * なお, このメソッドの呼び出し後に画面サイズが変更された場合, このメソッドを再度呼び出す必要はありません.
+	 * このメソッドによって描画登録された凡例は, render() メソッド呼び出し時における適切な位置に描画されるためです.
 	 * </span>
 	 */
 	public void drawLegendLabels();
@@ -1056,15 +1084,23 @@ public interface RinearnGraph3DRenderer {
 	 * </span>
 	 * .
 	 * <span class="lang-en">
-	 * This method draws 2D contents on the "foreground image", which will be composed to the screen image by render() method.
-	 * The foreground image is disposed and re-allocated when the screen size is changed, so then the drawn 2D contents lost.
-	 * Therefore, please call this method again when the screen size is changed.
+	 * Please note that, as the same as other draw...() methods,
+	 * this method only registers to draw the color bar, and it is actually drawn by render() method.
+	 * Therefore, just after calling this method, the color bar is not drawn on the screen image yet.
 	 * </span>
 	 * <span class="lang-ja">
-	 * このメソッドは, 前景イメージ（foreground image）上に2Dの内容を描画します.
-	 * 前景イメージは, render() メソッドによって, グラフ画面の画像（screen image）内に合成されます.
-	 * 前景イメージは, グラフの画面サイズが変更された際には破棄・再確保されますが, その際に, 描画されている内容が失われます.
-	 * 従って, 画面サイズが変更された際には, このメソッドを再び呼び出して再描画してください.
+	 * 他の draw 系メソッドと同様, このメソッドはカラーバーの描画登録のみを行い,
+	 * 実際の描画は render() メソッドによって行われる事にご注意ください.
+	 * 従って, このメソッドを呼んだ直後には, まだグラフ画面のスクリーン画像にカラーバーは描画されていません.
+	 * </span>
+	 *
+	 * <span class="lang-en">
+	 * Also, there is no need to re-call this method when the screen is resized after calling this method,
+	 * because the registered color bar by this method will be drawn at the proper position when render() is called.
+	 * </span>
+	 * <span class="lang-ja">
+	 * なお, このメソッドの呼び出し後に画面サイズが変更された場合, このメソッドを再度呼び出す必要はありません.
+	 * このメソッドによって描画登録されたカラーバーは, render() メソッド呼び出し時における適切な位置に描画されるためです.
 	 * </span>
 	 */
 	public void drawColorBar();
