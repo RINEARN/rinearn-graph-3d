@@ -5,6 +5,7 @@ import com.rinearn.graph3d.config.font.FontConfiguration;
 import com.rinearn.graph3d.config.range.RangeConfiguration;
 import com.rinearn.graph3d.config.range.AxisRangeConfiguration;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -501,9 +502,9 @@ public class RangeSettingWindow {
 			xAxisLabel.setText("- X軸 -");
 			yAxisLabel.setText("- Y軸 -");
 			zAxisLabel.setText("- Z軸 -");
-			xAutoRangeBox.setText("データ読み込み時に自動調整");
-			yAutoRangeBox.setText("データ読み込み時に自動調整");
-			zAutoRangeBox.setText("データ読み込み時に自動調整");
+			xAutoRangeBox.setText("プロット時に自動調整");
+			yAutoRangeBox.setText("プロット時に自動調整");
+			zAutoRangeBox.setText("プロット時に自動調整");
 			xMaxLabel.setText("最大:");
 			xMinLabel.setText("最小:");
 			yMaxLabel.setText("最大:");
@@ -521,9 +522,9 @@ public class RangeSettingWindow {
 			xAxisLabel.setText("- X Axis -");
 			yAxisLabel.setText("- Y Axis -");
 			zAxisLabel.setText("- Z Axis -");
-			xAutoRangeBox.setText("Auto-Set When Loading Data");
-			yAutoRangeBox.setText("Auto-Set When Loading Data");
-			zAutoRangeBox.setText("Auto-Set When Loading Data");
+			xAutoRangeBox.setText("Auto-Set When Plot Data");
+			yAutoRangeBox.setText("Auto-Set When Plot Data");
+			zAutoRangeBox.setText("Auto-Set When Plot Data");
 			xMaxLabel.setText("Max:");
 			xMinLabel.setText("Min:");
 			yMaxLabel.setText("Max:");
@@ -587,6 +588,34 @@ public class RangeSettingWindow {
 			xAutoRangeBox.setSelected(xRangeConfig.isAutoRangeEnabled());
 			yAutoRangeBox.setSelected(yRangeConfig.isAutoRangeEnabled());
 			zAutoRangeBox.setSelected(zRangeConfig.isAutoRangeEnabled());
+
+			this.setRangeFieldsEditable(xMinField, xMaxField, xRangeConfig.isAutoRangeEnabled());
+			this.setRangeFieldsEditable(yMinField, yMaxField, yRangeConfig.isAutoRangeEnabled());
+			this.setRangeFieldsEditable(zMinField, zMaxField, zRangeConfig.isAutoRangeEnabled());
+		}
+
+		/**
+		 * Sets the min and max text fields editable/non-editable.
+		 *
+		 * @param editable Specify true to set X-min and X-max text fields editable.
+		 */
+		private void setRangeFieldsEditable(JTextField minField, JTextField maxField, boolean editable) {
+			if (editable) {
+				minField.setEditable(false);
+				maxField.setEditable(false);
+				minField.setBackground(Color.LIGHT_GRAY);
+				maxField.setBackground(Color.LIGHT_GRAY);
+				minField.setForeground(Color.GRAY);
+				maxField.setForeground(Color.GRAY);
+
+			} else {
+				minField.setEditable(true);
+				maxField.setEditable(true);
+				minField.setBackground(Color.WHITE);
+				maxField.setBackground(Color.WHITE);
+				minField.setForeground(Color.BLACK);
+				maxField.setForeground(Color.BLACK);
+			}
 		}
 	}
 

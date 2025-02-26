@@ -68,6 +68,11 @@ public final class RangeSettingHandler {
 		RangeSettingWindow window = this.view.rangeSettingWindow;
 		window.okButton.addActionListener(new OkPressedEventListener());
 
+		// Add the event listeners to auto-range check boxes.
+		window.xAutoRangeBox.addActionListener(new XAutoRangeBoxClickedEventListener());
+		window.yAutoRangeBox.addActionListener(new YAutoRangeBoxClickedEventListener());
+		window.zAutoRangeBox.addActionListener(new ZAutoRangeBoxClickedEventListener());
+
 		// Add the event listeners to the right-click menus.
 		xMaxFieldMenuHandler = new TextRightClickMenuHandler(window.xMaxFieldRightClickMenu, window.xMaxField);
 		xMinFieldMenuHandler = new TextRightClickMenuHandler(window.xMinFieldRightClickMenu, window.xMinField);
@@ -112,6 +117,60 @@ public final class RangeSettingHandler {
 	// - Event Listeners -
 	//
 	// ================================================================================
+
+
+	/**
+	 * The event listener handling the event that the X-Auto-Range check box is selected/unselected.
+	 */
+	private final class XAutoRangeBoxClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			RangeSettingWindow window = view.rangeSettingWindow;
+			boolean enabled = window.xAutoRangeBox.isSelected();
+
+			// Update the config and reflect to the window,
+			// to update editable/non-editable states of min/max text fields.
+			RangeConfiguration rangeConfig = model.config.getRangeConfiguration();
+			rangeConfig.getXRangeConfiguration().setAutoRangeEnabled(enabled);
+			window.configure(model.config);
+		}
+	}
+
+
+	/**
+	 * The event listener handling the event that the Y-Auto-Range check box is selected/unselected.
+	 */
+	private final class YAutoRangeBoxClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			RangeSettingWindow window = view.rangeSettingWindow;
+			boolean enabled = window.yAutoRangeBox.isSelected();
+
+			// Update the config and reflect to the window,
+			// to update editable/non-editable states of min/max text fields.
+			RangeConfiguration rangeConfig = model.config.getRangeConfiguration();
+			rangeConfig.getYRangeConfiguration().setAutoRangeEnabled(enabled);
+			window.configure(model.config);
+		}
+	}
+
+
+	/**
+	 * The event listener handling the event that the Z-Auto-Range check box is selected/unselected.
+	 */
+	private final class ZAutoRangeBoxClickedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			RangeSettingWindow window = view.rangeSettingWindow;
+			boolean enabled = window.zAutoRangeBox.isSelected();
+
+			// Update the config and reflect to the window,
+			// to update editable/non-editable states of min/max text fields.
+			RangeConfiguration rangeConfig = model.config.getRangeConfiguration();
+			rangeConfig.getZRangeConfiguration().setAutoRangeEnabled(enabled);
+			window.configure(model.config);
+		}
+	}
 
 
 	/**
