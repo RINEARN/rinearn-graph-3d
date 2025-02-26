@@ -309,6 +309,8 @@ public final class RangeSettingHandler {
 	 * Sets the range of X axis.
 	 * (API Implementation)
 	 *
+	 * Please note that, this API automatically disables the auto-range feature for X axis.
+	 *
 	 * @param min The minimum coordinate value of X axis.
 	 * @param max The maximum coordinate value of X axis.
 	 */
@@ -331,6 +333,8 @@ public final class RangeSettingHandler {
 	/**
 	 * The class handling API requests from setXRange(-) method,
 	 * on event-dispatcher thread.
+	 *
+	 * Please note that, this API automatically disables the auto-range feature for X axis.
 	 */
 	private final class SetXRangeAPIListener implements Runnable {
 
@@ -354,6 +358,7 @@ public final class RangeSettingHandler {
 		@Override
 		public void run() {
 			AxisRangeConfiguration xRangeConfig = model.config.getRangeConfiguration().getXRangeConfiguration();
+			xRangeConfig.setAutoRangeEnabled(false);
 			xRangeConfig.setMinimum(min);
 			xRangeConfig.setMaximum(max);
 			presenter.propagateConfiguration();
@@ -416,6 +421,8 @@ public final class RangeSettingHandler {
 	 * Sets the range of Y axis.
 	 * (API Implementation)
 	 *
+	 * Please note that, this API automatically disables the auto-range feature for Y axis.
+	 *
 	 * @param min The minimum coordinate value of Y axis.
 	 * @param max The maximum coordinate value of Y axis.
 	 */
@@ -438,6 +445,8 @@ public final class RangeSettingHandler {
 	/**
 	 * The class handling API requests from setYRange(-) method,
 	 * on event-dispatcher thread.
+	 *
+	 * Please note that, this API automatically disables the auto-range feature for Y axis.
 	 */
 	private final class SetYRangeAPIListener implements Runnable {
 
@@ -461,6 +470,7 @@ public final class RangeSettingHandler {
 		@Override
 		public void run() {
 			AxisRangeConfiguration yRangeConfig = model.config.getRangeConfiguration().getYRangeConfiguration();
+			yRangeConfig.setAutoRangeEnabled(false);
 			yRangeConfig.setMinimum(min);
 			yRangeConfig.setMaximum(max);
 			presenter.propagateConfiguration();
@@ -522,6 +532,8 @@ public final class RangeSettingHandler {
 	 * Sets the range of Z axis.
 	 * (API Implementation)
 	 *
+	 * Please note that, this API automatically disables the auto-range feature for Z axis.
+	 *
 	 * @param min The minimum coordinate value of Z axis.
 	 * @param max The maximum coordinate value of Z axis.
 	 */
@@ -544,6 +556,8 @@ public final class RangeSettingHandler {
 	/**
 	 * The class handling API requests from setZRange(-) method,
 	 * on event-dispatcher thread.
+	 *
+	 * Please note that, this API automatically disables the auto-range feature for Z axis.
 	 */
 	private final class SetZRangeAPIListener implements Runnable {
 
@@ -567,6 +581,7 @@ public final class RangeSettingHandler {
 		@Override
 		public void run() {
 			AxisRangeConfiguration zRangeConfig = model.config.getRangeConfiguration().getZRangeConfiguration();
+			zRangeConfig.setAutoRangeEnabled(false);
 			zRangeConfig.setMinimum(min);
 			zRangeConfig.setMaximum(max);
 			presenter.propagateConfiguration();

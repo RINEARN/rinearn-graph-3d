@@ -1060,6 +1060,9 @@ public final class RinearnGraph3D {
 	/**
 	 * Sets the range of X axis.
 	 *
+	 * This method automatically disables the auto-range feature for X axis.
+	 * When you want to re-enable it, use setXAutoRangeEnabled(boolean) method explicitly.
+	 *
 	 * @param min The minimum coordinate value of X axis.
 	 * @param max The maximum coordinate value of X axis.
 	 */
@@ -1070,6 +1073,9 @@ public final class RinearnGraph3D {
 	/**
 	 * Sets the range of X axis.
 	 *
+	 * This method automatically disables the auto-range feature for X axis.
+	 * When you want to re-enable it, use setXAutoRangeEnabled(boolean) method explicitly.
+	 *
 	 * @param min The minimum coordinate value of X axis.
 	 * @param max The maximum coordinate value of X axis.
 	 */
@@ -1078,7 +1084,7 @@ public final class RinearnGraph3D {
 	}
 
 	/**
-	 * Turns on/off the auto-ranging feature for X axis.
+	 * Turns on/off the auto-range feature for X axis.
 	 *
 	 * This method is renamed from setXAutoRangingEnabled(boolean) in Ver.6.
 	 * The old name is also available for keeping compatibility.
@@ -1099,6 +1105,9 @@ public final class RinearnGraph3D {
 	/**
 	 * Sets the range of Y axis.
 	 *
+	 * This method automatically disables the auto-range feature for Y axis.
+	 * When you want to re-enable it, use setYAutoRangeEnabled(boolean) method explicitly.
+	 *
 	 * @param min The minimum coordinate value of Y axis.
 	 * @param max The maximum coordinate value of Y axis.
 	 */
@@ -1108,6 +1117,9 @@ public final class RinearnGraph3D {
 
 	/**
 	 * Sets the range of Y axis.
+	 *
+	 * This method automatically disables the auto-range feature for Y axis.
+	 * When you want to re-enable it, use setYAutoRangeEnabled(boolean) method explicitly.
 	 *
 	 * @param min The minimum coordinate value of Y axis.
 	 * @param max The maximum coordinate value of Y axis.
@@ -1138,6 +1150,9 @@ public final class RinearnGraph3D {
 	/**
 	 * Sets the range of Z axis.
 	 *
+	 * This method automatically disables the auto-range feature for Z axis.
+	 * When you want to re-enable it, use setZAutoRangeEnabled(boolean) method explicitly.
+	 *
 	 * @param min The minimum coordinate value of Z axis.
 	 * @param max The maximum coordinate value of Z axis.
 	 */
@@ -1147,6 +1162,9 @@ public final class RinearnGraph3D {
 
 	/**
 	 * Sets the range of Z axis.
+	 *
+	 * This method automatically disables the auto-range feature for Z axis.
+	 * When you want to re-enable it, use setZAutoRangeEnabled(boolean) method explicitly.
 	 *
 	 * @param min The minimum coordinate value of Z axis.
 	 * @param max The maximum coordinate value of Z axis.
