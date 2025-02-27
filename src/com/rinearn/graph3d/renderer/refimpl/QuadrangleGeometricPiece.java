@@ -52,14 +52,16 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 	 * @param dX The x coordinate value of the point D, in the scaled space.
 	 * @param dY The y coordinate value of the point D, in the scaled space.
 	 * @param dZ The z coordinate value of the point D, in the scaled space.
-	 * @param z The z coordinate value of the center of the point, in the scaled space.
-	 * @param radius The radius (pixels) of the point.
+	 * @param xLengthFactor The length factor for X dimension.
+	 * @param yLengthFactor The length factor for Y dimension.
+	 * @param zLengthFactor The length factor for Z dimension.
 	 * @param color The color of the point.
 	 */
 	public QuadrangleGeometricPiece(double aX, double aY, double aZ,
 			double bX, double bY, double bZ,
 			double cX, double cY, double cZ,
 			double dX, double dY, double dZ,
+			double xLengthFactor, double yLengthFactor, double zLengthFactor,
 			Color color) {
 
 		// Detect whether there is a couple of points having the same coordinate values in {A, B, C}.
@@ -73,7 +75,9 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 		 // the normal vector will be calculated for the triangle consisting of the points A, C, and D.
 		this.normalVectorVertices = existsSamePointInABC ? NormalVectorVertices.ACD : NormalVectorVertices.ABC;
 		double[] normalVector = this.computeNormalVector(
-			aX, aY, aZ , bX, bY, bZ, cX, cY, cZ, dX, dY, dZ, this.normalVectorVertices
+			aX, aY, aZ , bX, bY, bZ, cX, cY, cZ, dX, dY, dZ,
+			xLengthFactor, yLengthFactor, zLengthFactor,
+			this.normalVectorVertices
 		);
 
 		// Store the scaled coordinate values of the points A, B, C, and D into the vertex array.
@@ -98,6 +102,42 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 	}
 
 
+
+	/**
+	 * Updates the directional vectors, e.g. normal vectors of QuadrangleGeometricPieces.
+	 *
+	 * Some types of directional vectors must be re-computed when the length factors of X/Y/Z dimensions are changed,
+	 * so this method is called on such time.
+	 *
+	 * @param xLengthFactor The length factor for X dimension.
+	 * @param yLengthFactor The length factor for Y dimension.
+	 * @param zLengthFactor The length factor for Z dimension.
+	 */
+	public void updateDirectionalVectors(double xLengthFactor, double yLengthFactor, double zLengthFactor) {
+		double aX = this.scaledVertexArray[0][X];
+		double aY = this.scaledVertexArray[0][Y];
+		double aZ = this.scaledVertexArray[0][Z];
+		double bX = this.scaledVertexArray[1][X];
+		double bY = this.scaledVertexArray[1][Y];
+		double bZ = this.scaledVertexArray[1][Z];
+		double cX = this.scaledVertexArray[2][X];
+		double cY = this.scaledVertexArray[2][Y];
+		double cZ = this.scaledVertexArray[2][Z];
+		double dX = this.scaledVertexArray[3][X];
+		double dY = this.scaledVertexArray[3][Y];
+		double dZ = this.scaledVertexArray[3][Z];
+		double[] normalVector = this.computeNormalVector(
+				aX, aY, aZ , bX, bY, bZ, cX, cY, cZ, dX, dY, dZ,
+				xLengthFactor, yLengthFactor, zLengthFactor,
+				this.normalVectorVertices
+		);
+		this.scaledVertexArray[4][X] = normalVector[X];
+		this.scaledVertexArray[4][Y] = normalVector[Y];
+		this.scaledVertexArray[4][Z] = normalVector[Z];
+		//System.out.println("normal1 = (" + normalVector[X] + ", " + normalVector[Y] + ", " + normalVector[Z]);
+	}
+
+
 	/**
 	 * Computes the normal vector of the quadrangle of which vertices is the points A, B, C, and D.
 	 *
@@ -110,6 +150,9 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 	 * @param cX The x coordinate value of the point C.
 	 * @param cY The y coordinate value of the point C.
 	 * @param cZ The z coordinate value of the point C.
+	 * @param xLengthFactor The length factor for X dimension.
+	 * @param yLengthFactor The length factor for Y dimension.
+	 * @param zLengthFactor The length factor for Z dimension.
 	 * @param normalVectorVertices Represents a set of vertices for computing the normal vector.
 	 * @return The array storing x, y, and z coordinate values of the computed normal vector.
 	 */
@@ -117,6 +160,7 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 			double bX, double bY, double bZ,
 			double cX, double cY, double cZ,
 			double dX, double dY, double dZ,
+			double xLengthFactor, double yLengthFactor, double zLengthFactor,
 			NormalVectorVertices normalVectorVertices) {
 
 		// Arrays for storing the vectors of the triangle sides.
@@ -146,6 +190,14 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 			throw new RuntimeException("Unexpected normal vector vertices: " + normalVectorVertices);
 		}
 
+		// Scale by the length factors for X/Y/Z dimensions.
+		sideVectorP[X] *= xLengthFactor;
+		sideVectorP[Y] *= yLengthFactor;
+		sideVectorP[Z] *= zLengthFactor;
+		sideVectorQ[X] *= xLengthFactor;
+		sideVectorQ[Y] *= yLengthFactor;
+		sideVectorQ[Z] *= zLengthFactor;
+
 		// Calculate the normal vector as the cross product of the 'triangle side' vectors.
 		double[] normalVector = new double[3];
 		normalVector[X] = sideVectorP[Y] * sideVectorQ[Z] - sideVectorP[Z] * sideVectorQ[Y];
@@ -166,30 +218,30 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 	/**
 	 * Transforms the coordinate values of this quadrangle.
 	 *
-	 * @param matrix The transformation matrix.
+	 * @param positionalTransformMatrix The matrix to transform positions, e.g.: vertex coordinates.
+	 * @param directionalTransformMatrix The matrix to transform directional vectors, e.g.: normal vectors of surfaces.
 	 */
 	@Override
-	public void transform(double[][] matrix) {
+	public void transform(double[][] positionalTransformMatrix, double[][] directionalTransformMatrix) {
 
 		// Short aliases of the matrix and vertices arrays.
-		double[][] m = matrix;
+		double[][] m = positionalTransformMatrix;
 		double[][] sv = this.scaledVertexArray;
 		double[][] tv = this.transformedVertexArray;
 
-		// Transform each vertex, where X=0, Y=1, Z=2, and W=3.
-		for (int ivertex=0; ivertex<this.vertexCount; ivertex++) {
+		// Transform each vertex coordinates (A,B,C,D), where X=0, Y=1, Z=2, and W=3.
+		for (int ivertex=0; ivertex<=3; ivertex++) {
 			tv[ivertex][X] = m[0][0] * sv[ivertex][X] + m[0][1] * sv[ivertex][Y] + m[0][2] * sv[ivertex][Z] + m[0][3] * sv[ivertex][W];
 			tv[ivertex][Y] = m[1][0] * sv[ivertex][X] + m[1][1] * sv[ivertex][Y] + m[1][2] * sv[ivertex][Z] + m[1][3] * sv[ivertex][W];
 			tv[ivertex][Z] = m[2][0] * sv[ivertex][X] + m[2][1] * sv[ivertex][Y] + m[2][2] * sv[ivertex][Z] + m[2][3] * sv[ivertex][W];
 		}
 
-		// Normalize the normal vector.
-		// Note: When the axis-length-factors in "matrix" is not 1, the lengths of the normal vectors change by the transformation.
-		double normalVectorLength = Math.sqrt(tv[4][X] * tv[4][X] + tv[4][Y] * tv[4][Y] + tv[4][Z] * tv[4][Z]);
-		double normalVectorLengthInv = 1.0 / normalVectorLength;
-		tv[4][X] *= normalVectorLengthInv;
-		tv[4][Y] *= normalVectorLengthInv;
-		tv[4][Z] *= normalVectorLengthInv;
+		// Transform normal vector.
+		int inormvec = 4;
+		m = directionalTransformMatrix;
+		tv[inormvec][X] = m[0][0] * sv[inormvec][X] + m[0][1] * sv[inormvec][Y] + m[0][2] * sv[inormvec][Z] + m[0][3] * sv[inormvec][W];
+		tv[inormvec][Y] = m[1][0] * sv[inormvec][X] + m[1][1] * sv[inormvec][Y] + m[1][2] * sv[inormvec][Z] + m[1][3] * sv[inormvec][W];
+		tv[inormvec][Z] = m[2][0] * sv[inormvec][X] + m[2][1] * sv[inormvec][Y] + m[2][2] * sv[inormvec][Z] + m[2][3] * sv[inormvec][W];
 
 		// If this quadrangle faces the depth direction from the viewpoint, reverse its normal vector.
 		// See also: the description of 'facesDepthDirection' method.
@@ -281,6 +333,9 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 				lightConfig.getLightSourceDirectionY(),
 				lightConfig.getLightSourceDirectionZ()
 		};
+		// Note: There is no need to multiply x/y/zLengthFactor to the light vector.
+		//       In this graph software, x/y/zLengthFactor are used to control the aspect ratio of the 3D graph frame,
+		//       and the light is lighting up the graph from the OUTSIDE of the graph frame.
 
 		// Calculate the value of 'directional product',
 		// which is the inner product between the normal vector and the light vector.
@@ -288,6 +343,9 @@ public final class QuadrangleGeometricPiece extends GeometricPiece {
 				normalVector[X] * lightVector[X] +
 				normalVector[Y] * lightVector[Y] +
 				normalVector[Z] * lightVector[Z];
+
+		//System.out.println("normal2 = (" + normalVector[X] + ", " + normalVector[Y] + ", " + normalVector[Z]);
+		//System.out.println("drectional product: " + directionalProduct);
 
 		// Calculate the angle between the normal vector and the light vector,
 		// and normalize it into the range [0.0, 1.0].

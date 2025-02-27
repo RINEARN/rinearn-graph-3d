@@ -49,9 +49,10 @@ public abstract class GeometricPiece {
 	/**
 	 * Transforms the coordinate values of the vertices.
 	 *
-	 * @param matrix The transformation matrix.
+	 * @param positionalTransformMatrix The matrix to transform positions, e.g.: vertex coordinates.
+	 * @param directionalTransformMatrix The matrix to transform directional vectors, e.g.: normal vectors of surfaces.
 	 */
-	public abstract void transform(double[][] matrix);
+	public abstract void transform(double[][] positionalTransformMatrix, double[][] directionalTransformMatrix);
 
 
 	/**
@@ -80,6 +81,21 @@ public abstract class GeometricPiece {
 	 * @param graphics The Graphics2D instance for drawing shapes to the screen image.
 	 */
 	public abstract void draw(Graphics2D graphics);
+
+
+	/**
+	 * Updates the directional vectors, e.g. normal vectors of QuadrangleGeometricPieces.
+	 *
+	 * Some types of directional vectors must be re-computed when the length factors of X/Y/Z dimensions are changed,
+	 * so this method is called on such time.
+	 *
+	 * @param xLengthFactor The length factor for X dimension.
+	 * @param yLengthFactor The length factor for Y dimension.
+	 * @param zLengthFactor The length factor for Z dimension.
+	 */
+	public void updateDirectionalVectors(double xLengthFactor, double yLengthFactor, double zLengthFactos) {
+		// Do nothing if the subclass has no directional vectors (e.g. normal vectors).
+	}
 
 
 	/**

@@ -145,8 +145,22 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 	/** The list storing geometric pieces to be rendered. */
 	private volatile List<GeometricPiece> geometricPieceList = new ArrayList<GeometricPiece>();
 
-	/** The transformation matrix from the graph coordinate system to the view coordinate system. */
-	private volatile double[][] transformationMatrix = {
+	/**
+	 * The transformation matrix to transform positions (e.g.: vertex coordinates),
+	 * from the graph coordinate system to the view coordinate system.
+	 */
+	private volatile double[][] positionalTransformMatrix = {
+		{ 1.0, 0.0, 0.0, 0.0 },
+		{ 0.0, 1.0, 0.0, 0.0 },
+		{ 0.0, 0.0, 1.0, 0.0 },
+		{ 0.0, 0.0, 0.0, 1.0 }
+	};
+
+	/**
+	 * The transformation matrix to transform directional vectors (e.g.: normal vectors of surfaces),
+	 * from the graph coordinate system to the view coordinate system.
+	 */
+	private volatile double[][] directionalTransformMatrix = {
 		{ 1.0, 0.0, 0.0, 0.0 },
 		{ 0.0, 1.0, 0.0, 0.0 },
 		{ 0.0, 0.0, 1.0, 0.0 },
@@ -158,6 +172,15 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 
 	/** The flag representing whether drawLegends() is called after clear(). */
 	private boolean legendDrawingRegistered = false;
+
+	/** Store the last value of XFrameConfiguration.getLengthFactor(), because we must recompute normal vectors of surfaces when it is changed. */
+	private volatile double lastXLengthFactor = Double.NaN;
+
+	/** Store the last value of YFrameConfiguration.getLengthFactor(), because we must recompute normal vectors of surfaces when it is changed. */
+	private volatile double lastYLengthFactor = Double.NaN;
+
+	/** Store the last value of ZFrameConfiguration.getLengthFactor(), because we must recompute normal vectors of surfaces when it is changed. */
+	private volatile double lastZLengthFactor = Double.NaN;
 
 
 	/**
@@ -250,32 +273,37 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 		double[][] rotationMatrix = cameraConfig.getRotationMatrix();
 
 		// Resets the rotation-related elements of the transformation matrix.
-		double dx = this.transformationMatrix[0][3];
-		double dy = this.transformationMatrix[1][3];
+		double dx = this.positionalTransformMatrix[0][3];
+		double dy = this.positionalTransformMatrix[1][3];
 		double distance = cameraConfig.getDistance();
-		double xFacror = frameConfig.getXFrameConfiguration().getLengthFactor();
-		double yFacror = frameConfig.getYFrameConfiguration().getLengthFactor();
-		double zFacror = frameConfig.getZFrameConfiguration().getLengthFactor();
+		double xFactor = frameConfig.getXFrameConfiguration().getLengthFactor();
+		double yFactor = frameConfig.getYFrameConfiguration().getLengthFactor();
+		double zFactor = frameConfig.getZFrameConfiguration().getLengthFactor();
 		if (scaleConfig.getXScaleConfiguration().isInversionEnabled()) {
-			xFacror = -xFacror;
+			xFactor = -xFactor;
 		}
 		if (scaleConfig.getYScaleConfiguration().isInversionEnabled()) {
-			yFacror = -yFacror;
+			yFactor = -yFactor;
 		}
 		if (scaleConfig.getZScaleConfiguration().isInversionEnabled()) {
-			zFacror = -zFacror;
+			zFactor = -zFactor;
 		}
-		this.transformationMatrix[0] = new double[] { xFacror, 0.0, 0.0, dx };
-		this.transformationMatrix[1] = new double[] { 0.0, yFacror, 0.0, dy };
-		this.transformationMatrix[2] = new double[] { 0.0, 0.0, zFacror, -distance }; // Z takes a negative value for the depth direction.
-		this.transformationMatrix[3] = new double[] { 0.0, 0.0, 0.0, 1.0 };
+		this.positionalTransformMatrix[0] = new double[] { xFactor, 0.0, 0.0, dx };
+		this.positionalTransformMatrix[1] = new double[] { 0.0, yFactor, 0.0, dy };
+		this.positionalTransformMatrix[2] = new double[] { 0.0, 0.0, zFactor, -distance }; // Z takes a negative value for the depth direction.
+		this.positionalTransformMatrix[3] = new double[] { 0.0, 0.0, 0.0, 1.0 };
+
+		this.directionalTransformMatrix[0] = new double[] { 1.0, 0.0, 0.0, dx };
+		this.directionalTransformMatrix[1] = new double[] { 0.0, 1.0, 0.0, dy };
+		this.directionalTransformMatrix[2] = new double[] { 0.0, 0.0, 1.0, -distance }; // Z takes a negative value for the depth direction.
+		this.directionalTransformMatrix[3] = new double[] { 0.0, 0.0, 0.0, 1.0 };
 
 		// Create a matrix for temporary storing updated values of the transformation matrix.
 		double[][] updatedMatrix = new double[3][3];
 
-		// Act the rotation matrix to the transformation matrix.
+		// Act the rotation matrix to the positional transformation matrix.
 		double[][] r = rotationMatrix;
-		double[][] m = this.transformationMatrix;
+		double[][] m = this.positionalTransformMatrix;
 		for (int i=0; i<3; i++) {
 			for (int j=0; j<3; j++) {
 				updatedMatrix[i][j] = r[i][0] * m[0][j] + r[i][1] * m[1][j] + r[i][2] * m[2][j];
@@ -283,9 +311,35 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 		}
 		for (int i=0; i<3; i++) {
 			for (int j=0; j<3; j++) {
-				this.transformationMatrix[i][j] = updatedMatrix[i][j];
+				this.positionalTransformMatrix[i][j] = updatedMatrix[i][j];
 			}
 		}
+
+		// Act the rotation matrix to the directional transformation matrix.
+		m = this.directionalTransformMatrix;
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				updatedMatrix[i][j] = r[i][0] * m[0][j] + r[i][1] * m[1][j] + r[i][2] * m[2][j];
+			}
+		}
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				this.directionalTransformMatrix[i][j] = updatedMatrix[i][j];
+			}
+		}
+
+		// When the values of xFactor/yFactor/zFactor have changed, we must re-compute normal vectors of surfaces.
+		boolean hasXFactorChanged = xFactor != this.lastXLengthFactor;
+		boolean hasYFactorChanged = yFactor != this.lastYLengthFactor;
+		boolean hasZFactorChanged = zFactor != this.lastZLengthFactor;
+		if (hasXFactorChanged || hasYFactorChanged || hasZFactorChanged) {
+			for (GeometricPiece piece: this.geometricPieceList) {
+				piece.updateDirectionalVectors(xFactor, yFactor, zFactor);
+			}
+		}
+		this.lastXLengthFactor = xFactor;
+		this.lastYLengthFactor = yFactor;
+		this.lastZLengthFactor = zFactor;
 
 		// Update the size of the screen.
 		int updatedScreenWidth = screenConfig.getScreenWidth();
@@ -320,7 +374,8 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 		this.foregroundLayerImage = null;
 		this.foregroundLayerGraphics.dispose();
 		this.geometricPieceList.clear();
-		this.transformationMatrix = null;
+		this.positionalTransformMatrix = null;
+		this.directionalTransformMatrix = null;
 
 		System.gc();
 	}
@@ -388,7 +443,7 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 
 		// Transform each geometric piece.
 		for (GeometricPiece piece: this.geometricPieceList) {
-			piece.transform(transformationMatrix);
+			piece.transform(positionalTransformMatrix, directionalTransformMatrix);
 		}
 
 		// Sort the geometric pieces in descending order of their 'depth' values.
@@ -728,8 +783,18 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 			dZ = this.spaceConverters[Z].toScaledSpaceCoordinate(dZ);
 		}
 
+		// Get the length factor of X/Y/Z dimensions.
+		FrameConfiguration frameConfig = this.config.getFrameConfiguration();
+		double xFactor = frameConfig.getXFrameConfiguration().getLengthFactor();
+		double yFactor = frameConfig.getYFrameConfiguration().getLengthFactor();
+		double zFactor = frameConfig.getZFrameConfiguration().getLengthFactor();
+
 		// Create a quadrangle piece and register to the list.
-		QuadrangleGeometricPiece quad = new QuadrangleGeometricPiece(aX, aY, aZ, bX, bY, bZ, cX, cY, cZ, dX, dY, dZ, color);
+		QuadrangleGeometricPiece quad = new QuadrangleGeometricPiece(
+				aX, aY, aZ, bX, bY, bZ, cX, cY, cZ, dX, dY, dZ,
+				xFactor, yFactor, zFactor,
+				color
+		);
 		this.geometricPieceList.add(quad);
 	}
 

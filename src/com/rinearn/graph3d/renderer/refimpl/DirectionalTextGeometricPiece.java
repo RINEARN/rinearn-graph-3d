@@ -173,16 +173,17 @@ public final class DirectionalTextGeometricPiece extends GeometricPiece {
 	/**
 	 * Transforms the coordinate values of this text label.
 	 *
-	 * @param matrix The transformation matrix.
+	 * @param positionalTransformMatrix The matrix to transform positions, e.g.: vertex coordinates.
+	 * @param directionalTransformMatrix The matrix to transform directional vectors, e.g.: normal vectors of surfaces.
 	 */
 	@Override
-	public void transform(double[][] matrix) {
+	public void transform(double[][] positionalTransformMatrix, double[][] directionalTransformMatrix) {
 
 		// Reset the visibility of this text label (updated later if it should be invisible).
 		this.visible = true;
 
 		// Short aliases of the matrix and vertices arrays.
-		double[][] m = matrix;
+		double[][] m = positionalTransformMatrix;
 		double[][] sv = this.scaledVertexArray;
 		double[][] tv = this.transformedVertexArray;
 

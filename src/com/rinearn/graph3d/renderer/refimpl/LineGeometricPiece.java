@@ -41,13 +41,14 @@ public final class LineGeometricPiece extends GeometricPiece {
 	/**
 	 * Transforms the coordinate values of this line.
 	 *
-	 * @param matrix The transformation matrix.
+	 * @param positionalTransformMatrix The matrix to transform positions, e.g.: vertex coordinates.
+	 * @param directionalTransformMatrix The matrix to transform directional vectors, e.g.: normal vectors of surfaces.
 	 */
 	@Override
-	public void transform(double[][] matrix) {
+	public void transform(double[][] positionalTransformMatrix, double[][] directionalTransformMatrix) {
 
 		// Short aliases of the matrix and vertices arrays.
-		double[][] m = matrix;
+		double[][] m = positionalTransformMatrix;
 		double[][] sv = this.scaledVertexArray;
 		double[][] tv = this.transformedVertexArray;
 
