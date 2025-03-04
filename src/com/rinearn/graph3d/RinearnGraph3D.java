@@ -1220,6 +1220,29 @@ public final class RinearnGraph3D {
 	}
 
 
+	/**
+	 * Sets the legends of the series plotted on the graph.
+	 *
+	 * This method automatically disables the auto-legend-generation feature.
+	 * When you want to re-enable it, use setAutoLegendGenerationEnabled(boolean) method explicitly.
+	 *
+	 * @param legends The legends of the series plotted on the graph.
+	 */
+	public synchronized void setLegends(String[] legends) {
+		this.presenter.labelSettingHandler.setLegends(legends);
+	}
+
+
+	/**
+	 * Enables/disables the auto-legend-generation feature  .
+	 *
+	 * @param enabled Specify true to enable the auto-legend-generation feature.
+	 */
+	public synchronized void setAutoLegendGenerationEnabled(boolean enabled) {
+		this.presenter.labelSettingHandler.setAutoLegendGenerationEnabled(enabled);
+	}
+
+
  	/**
  	 * Sets the distance between the viewpoint and the origin of the graph.
  	 *

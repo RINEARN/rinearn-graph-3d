@@ -237,7 +237,7 @@ public class LabelSettingHandler {
 		@Override
 		public void run() {
 			AxisLabelConfiguration xLabelConfig = model.config.getLabelConfiguration().getXLabelConfiguration();
-			xLabelConfig.setLabelText(xLabel);
+			xLabelConfig.setLabelText(this.xLabel);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -287,7 +287,7 @@ public class LabelSettingHandler {
 		@Override
 		public void run() {
 			AxisLabelConfiguration yLabelConfig = model.config.getLabelConfiguration().getYLabelConfiguration();
-			yLabelConfig.setLabelText(yLabel);
+			yLabelConfig.setLabelText(this.yLabel);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -336,10 +336,116 @@ public class LabelSettingHandler {
 		@Override
 		public void run() {
 			AxisLabelConfiguration zLabelConfig = model.config.getLabelConfiguration().getZLabelConfiguration();
-			zLabelConfig.setLabelText(zLabel);
+			zLabelConfig.setLabelText(this.zLabel);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
 	}
 
+
+	/**
+	 * Set the legends of the series plotted on the graph.
+	 * (API Implementation)
+	 *
+	 * This API method automatically disables the auto-legend-generation feature.
+	 * When you want to re-enable it, use setAutoLegendGenerationEnabled(boolean) method explicitly.
+	 *
+	 * @param legends The legends of the series plotted on the graph.
+	 */
+	public void setLegends(String[] legends) {
+
+		// Handle the API on the event-dispatcher thread.
+		SetLegendsAPIListener apiListener = new SetLegendsAPIListener(legends);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setLegends(-) method,
+	 * on event-dispatcher thread.
+	 *
+	 * This API method automatically disables the auto-legend-generation feature.
+	 * When you want to re-enable it, use setAutoLegendGenerationEnabled(boolean) method explicitly.
+	 */
+	private final class SetLegendsAPIListener implements Runnable {
+
+		/** The legends. */
+		private volatile String[] legends;
+
+		/**
+		 * Create an instance handling setXLabel(-) API with the specified argument.
+		 *
+		 * @param legends The legends.
+		 */
+		public SetLegendsAPIListener(String[] legends) {
+			this.legends = legends;
+		}
+
+		@Override
+		public void run() {
+			LegendLabelConfiguration legendLabelConfig = model.config.getLabelConfiguration().getLegendLabelConfiguration();
+			legendLabelConfig.setAutoLegendGenerationEnabled(false);
+			legendLabelConfig.setLabelTexts(this.legends);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * Enables/disables the auto-legend-generation feature..
+	 * (API Implementation)
+	 *
+	 * @param enabled Specify true to enable the auto-legend-generation feature.
+	 */
+	public void setAutoLegendGenerationEnabled(boolean enabled) {
+
+		// Handle the API on the event-dispatcher thread.
+		AutoLegendGenerationAPIListener apiListener = new AutoLegendGenerationAPIListener(enabled);
+		if (SwingUtilities.isEventDispatchThread()) {
+			apiListener.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait(apiListener);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * The class handling API requests from setAutoLegendGenerationEnabled(-) method,
+	 * on event-dispatcher thread.
+	 */
+	private final class AutoLegendGenerationAPIListener implements Runnable {
+
+		/** The flag representing whether the auto-legend-generation feature is enabled. */
+		private volatile boolean enabled;
+
+		/**
+		 * Create an instance handling setAutoLegendGenerationEnabled(-) API with the specified argument.
+		 *
+		 * @param legends The legends.
+		 */
+		public AutoLegendGenerationAPIListener(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		@Override
+		public void run() {
+			LegendLabelConfiguration legendLabelConfig = model.config.getLabelConfiguration().getLegendLabelConfiguration();
+			legendLabelConfig.setAutoLegendGenerationEnabled(this.enabled);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
 }
