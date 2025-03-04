@@ -192,7 +192,10 @@
       -> configコンテナはそういうのやるべきではない。あれは表層APIではなく、Model層の状態コンテナであり、それを直接いじれる機能なので。
          しかもUIとして「自動生成がONになっているが、グレーアウトしているテキストエリア内に labelTexts は設定されてて見えてる」っていう状態は普通に存在するし、config で表現可能である必用がある。
 
-         -> しかしそろそろ最上層に setLegendLabels(String[]) APIを実装すべきで、そっちでは autoLegendGenerationEnabled を自動で false にすべき。
+         -> 済: しかしそろそろ最上層に setLegendLabels(String[]) APIを実装すべきで、そっちでは autoLegendGenerationEnabled を自動で false にすべき。
+            -> setLegendLabels(String[]) は少し冗長なので setLegends(String[]) にした。
+            *  あと、このAPIを実装して思ったが、やはり config コンテナ層の setter で自動的に auto 系フラグを disable にすべきではない。
+               それはAPIハンドラの層でやるべき。config コンテナの層でやると見通しが非常にややこしくなりそうな気配を感じた。
 
     * 描画エンジンAPIの Params でも、setAutoColorEnabled(true) なのに setColor しても効かないっていう挙動があるので、自動設定にしては？
       -> まあそれはやってもいいかなあ。悩むライン。
