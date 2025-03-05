@@ -231,7 +231,7 @@ public class ScaleSettingHandler {
 				try {
 					String xSectionCountText = window.ticksTabItems.xEqualDivisionItems.sectionCountField.getText();
 					int xSectionCount = Integer.parseInt(xSectionCountText);
-					xScaleConfig.getEqualDivisionTicker().setDividedSectionCount(xSectionCount);
+					xScaleConfig.getEqualDivisionTicker().setDivisionCount(xSectionCount);
 				} catch (NumberFormatException nfe) {
 				}
 
@@ -239,7 +239,7 @@ public class ScaleSettingHandler {
 				try {
 					String ySectionCountText = window.ticksTabItems.yEqualDivisionItems.sectionCountField.getText();
 					int ySectionCount = Integer.parseInt(ySectionCountText);
-					yScaleConfig.getEqualDivisionTicker().setDividedSectionCount(ySectionCount);
+					yScaleConfig.getEqualDivisionTicker().setDivisionCount(ySectionCount);
 				} catch (NumberFormatException nfe) {
 				}
 
@@ -247,7 +247,7 @@ public class ScaleSettingHandler {
 				try {
 					String zSectionCountText = window.ticksTabItems.zEqualDivisionItems.sectionCountField.getText();
 					int zSectionCount = Integer.parseInt(zSectionCountText);
-					zScaleConfig.getEqualDivisionTicker().setDividedSectionCount(zSectionCount);
+					zScaleConfig.getEqualDivisionTicker().setDivisionCount(zSectionCount);
 				} catch (NumberFormatException nfe) {
 				}
 
@@ -255,7 +255,7 @@ public class ScaleSettingHandler {
 				try {
 					String cSectionCountText = window.ticksTabItems.colorBarEqualDivisionItems.sectionCountField.getText();
 					int cSectionCount = Integer.parseInt(cSectionCountText);
-					cScaleConfig.getEqualDivisionTicker().setDividedSectionCount(cSectionCount);
+					cScaleConfig.getEqualDivisionTicker().setDivisionCount(cSectionCount);
 				} catch (NumberFormatException nfe) {
 				}
 

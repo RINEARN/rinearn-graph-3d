@@ -11,8 +11,8 @@ import java.math.RoundingMode;
  */
 public class EqualDivisionTicker extends Ticker {
 
-	/** The number of the divided sections. */
-	private int dividedSectionCount = 4;
+	/** The number of division (the divided intervals). */
+	private int divisionCount = 4;
 
 
 	/**
@@ -23,21 +23,21 @@ public class EqualDivisionTicker extends Ticker {
 
 
 	/**
-	 * Sets the number of the divided sections.
+	 * Sets the number of division (the divided intervals).
 	 *
-	 * @param dividedSectionCount The number of the divided sections.
+	 * @param divisionCount The number of division (the divided intervals).
 	 */
-	public void setDividedSectionCount(int dividedSectionCount) {
-		this.dividedSectionCount = dividedSectionCount;
+	public void setDivisionCount(int divisionCount) {
+		this.divisionCount = divisionCount;
 	}
 
 	/**
-	 * Gets the number of the divided sections.
+	 * Gets the number of division (the divided intervals).
 	 *
-	 * @return The number of the divided section.
+	 * @return The number of division (the divided intervals).
 	 */
-	public int getDividedSectionCount() {
-		return this.dividedSectionCount;
+	public int getDivisionCount() {
+		return this.divisionCount;
 	}
 
 
@@ -53,7 +53,7 @@ public class EqualDivisionTicker extends Ticker {
 	public synchronized BigDecimal[] generateTickCoordinates(BigDecimal rangeMin, BigDecimal rangeMax, boolean isLogPlot) {
 
 		// We can return the result without calculations if the number of sections is smaller than 3.
-		if (this.dividedSectionCount == 1) {
+		if (this.divisionCount == 1) {
 			return new BigDecimal[] { rangeMin, rangeMax };
 		}
 
@@ -73,17 +73,17 @@ public class EqualDivisionTicker extends Ticker {
 		//     BigDecimal interval = convertedMax.subtract(convertedMin).divide(new BigDecimal(this.dividedSectionCount), mathContext);
 		//
 		// If do it, the tick label of "0" can contain tiny error,
-		// when "interval" is smaller a little than the theoretical value of (max-min)/N, where N is dividedSectionCount.
+		// when "interval" is smaller a little than the theoretical value of (max-min)/N, where N is divisionCount.
 		//
 		// For example, it occurs when N = 6 and the range is [-1, 1] (so interval is 0.33333... < 1/3),
 		// leading that the tick label of "0" is displayed as "-1.0E-{calculationPrecision}".
 
 		// Calculate coordinates of the ticks at the equally divided point on the axis, and return it.
-		BigDecimal[] tickCoords = new BigDecimal[this.dividedSectionCount + 1];
-		for (int itick=1; itick<this.dividedSectionCount; itick++) {
+		BigDecimal[] tickCoords = new BigDecimal[this.divisionCount + 1];
+		for (int itick=1; itick<this.divisionCount; itick++) {
 
 			// Calculate the value of itick-th tick coordinate. Be careful of the tiny calculation error. See the above comments.
-			BigDecimal normalizedCoord = new BigDecimal(itick).divide(new BigDecimal(this.dividedSectionCount), mathContext); // r: i/N
+			BigDecimal normalizedCoord = new BigDecimal(itick).divide(new BigDecimal(this.divisionCount), mathContext); // r: i/N
 			BigDecimal distanceFromMin = convertedMax.subtract(convertedMin).multiply(normalizedCoord); // d: (max-min) * r
 			tickCoords[itick] = convertedMin.add(distanceFromMin); // result: min + d
 
@@ -99,10 +99,10 @@ public class EqualDivisionTicker extends Ticker {
 
 		// Generate coordinates of min/max edges tikcs.
 		tickCoords[0] = convertedMin;
-		tickCoords[this.dividedSectionCount] = convertedMax;
+		tickCoords[this.divisionCount] = convertedMax;
 		if (isLogPlot) {
 			tickCoords[0] = new BigDecimal(StrictMath.exp(tickCoords[0].doubleValue()));
-			tickCoords[this.dividedSectionCount] = new BigDecimal(StrictMath.exp(tickCoords[this.dividedSectionCount].doubleValue()));
+			tickCoords[this.divisionCount] = new BigDecimal(StrictMath.exp(tickCoords[this.divisionCount].doubleValue()));
 
 		}
 		return tickCoords;
@@ -120,7 +120,7 @@ public class EqualDivisionTicker extends Ticker {
 	 */
 	@Override
 	public void validate() throws RinearnGraph3DConfigurationException {
-		if (this.getDividedSectionCount() < 1) {
+		if (this.getDivisionCount() < 1) {
 			throw new RinearnGraph3DConfigurationException("The length of tick lines must be greater than 1.");
 		}
 	}

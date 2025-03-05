@@ -1535,10 +1535,10 @@ public class ScaleSettingWindow {
 				EqualDivisionTicker zEqualDivisionTicker = zScaleConfig.getEqualDivisionTicker();
 				EqualDivisionTicker cEqualDivisionTicker = cScaleConfig.getEqualDivisionTicker();
 
-				ticksTabItems.xEqualDivisionItems.sectionCountField.setText(Integer.toString(xEqualDivisionTicker.getDividedSectionCount()));
-				ticksTabItems.yEqualDivisionItems.sectionCountField.setText(Integer.toString(yEqualDivisionTicker.getDividedSectionCount()));
-				ticksTabItems.zEqualDivisionItems.sectionCountField.setText(Integer.toString(zEqualDivisionTicker.getDividedSectionCount()));
-				ticksTabItems.colorBarEqualDivisionItems.sectionCountField.setText(Integer.toString(cEqualDivisionTicker.getDividedSectionCount()));
+				ticksTabItems.xEqualDivisionItems.sectionCountField.setText(Integer.toString(xEqualDivisionTicker.getDivisionCount()));
+				ticksTabItems.yEqualDivisionItems.sectionCountField.setText(Integer.toString(yEqualDivisionTicker.getDivisionCount()));
+				ticksTabItems.zEqualDivisionItems.sectionCountField.setText(Integer.toString(zEqualDivisionTicker.getDivisionCount()));
+				ticksTabItems.colorBarEqualDivisionItems.sectionCountField.setText(Integer.toString(cEqualDivisionTicker.getDivisionCount()));
 
 				ManualTicker xManualTicker = xScaleConfig.getManualTicker();
 				ManualTicker yManualTicker = yScaleConfig.getManualTicker();

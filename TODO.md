@@ -146,7 +146,7 @@
 
 * 等高線オプション。これは現状とりあえず 5.x のコードからそのまま移植でいい。あれ掃除するのはたぶん大変で、コーナーケースがたくさんあるから用意周到にやらなきゃだし。現状ちゃんと動いてるし、閉じてる処理だから中をいじる機会もほぼ無いし、なのでとりあえずそのままで。中をいじる機会がある時にまた検討する。
 
-* EqualDivisionTicker の dividedSectionCount って冗長かも。単に sectionCount でいいのでは。上記の等高線の config コンテナを設計する際に意識したが、そっちは単に sectionCount にした。
+* 済: EqualDivisionTicker の dividedSectionCount って冗長かも。単に sectionCount でいいのでは。上記の等高線の config コンテナを設計する際に意識したが、そっちは単に sectionCount にした。-> 再考して、両方とも divisionCount にした。等高線も EQUAL_DIVISION モードとかできるかもしれないし、客観的にも divisionCount が分割の数として一番っぽいので。
 
 * 済: RangeConfig の setMinimum/setMaximum も Coordinates を付けたい
 
