@@ -241,27 +241,27 @@ public final class GradientOptionHandler {
 		switch (axis) {
 			case X : {
 				AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
-				window.minField.setText(xRangeConfig.getMinimum().toString());
-				window.maxField.setText(xRangeConfig.getMaximum().toString());
+				window.minField.setText(xRangeConfig.getMinimumCoordinate().toString());
+				window.maxField.setText(xRangeConfig.getMaximumCoordinate().toString());
 				break;
 			}
 			case Y : {
 				AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
-				window.minField.setText(yRangeConfig.getMinimum().toString());
-				window.maxField.setText(yRangeConfig.getMaximum().toString());
+				window.minField.setText(yRangeConfig.getMinimumCoordinate().toString());
+				window.maxField.setText(yRangeConfig.getMaximumCoordinate().toString());
 				break;
 			}
 			case Z : {
 				AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
-				window.minField.setText(zRangeConfig.getMinimum().toString());
-				window.maxField.setText(zRangeConfig.getMaximum().toString());
+				window.minField.setText(zRangeConfig.getMinimumCoordinate().toString());
+				window.maxField.setText(zRangeConfig.getMaximumCoordinate().toString());
 				break;
 			}
 			case SCALAR : {
 				AxisRangeConfiguration[] extraRangeConfig = rangeConfig.getExtraDimensionRangeConfigurations();
 				if (1 <= extraRangeConfig.length) {
-					window.minField.setText(extraRangeConfig[0].getMinimum().toString());
-					window.maxField.setText(extraRangeConfig[0].getMaximum().toString());
+					window.minField.setText(extraRangeConfig[0].getMinimumCoordinate().toString());
+					window.maxField.setText(extraRangeConfig[0].getMaximumCoordinate().toString());
 				}
 				break;
 			}

@@ -18,7 +18,7 @@ import com.rinearn.graph3d.config.plotter.MeshPlotterConfiguration;
 
 
 /**
- * The "plotter" to plot each data series as a mesh.
+ * The "plotter" to plot each data series as meshes.
  *
  * A plotter is an object implementing RinearnGraph3DPlottingListener interface,
  * performs a part of plottings/re-plottings (e.g. plots points, or lines, etc),
@@ -65,7 +65,7 @@ public class MeshPlotter implements RinearnGraph3DPlottingListener {
 	@Override
 	public synchronized void plottingRequested(RinearnGraph3DPlottingEvent event) {
 
-		// Get the configuration of "With Membranes" option.
+		// Get the configuration of "With Meshes" option.
 		RinearnGraph3DConfiguration config = this.model.config;
 		PlotterConfiguration plotterConfig = config.getPlotterConfiguration();
 		MeshPlotterConfiguration meshPlotterConfig = plotterConfig.getMeshPlotterConfiguration();
@@ -73,7 +73,7 @@ public class MeshPlotter implements RinearnGraph3DPlottingListener {
 		boolean isMeshOptionEnabled = meshPlotterConfig.isPlotterEnabled();
 
 		// Plots all data series.
-		// This plotter do nothing if "With Membranes" option is not selected.
+		// This plotter do nothing if "With Meshes" option is not selected.
 		if(!isMeshOptionEnabled) {
 			return;
 		}

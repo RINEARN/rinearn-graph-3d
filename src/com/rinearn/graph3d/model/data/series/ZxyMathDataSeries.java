@@ -217,10 +217,10 @@ public final class ZxyMathDataSeries extends MathDataSeries {
 		// Prepare some values to discretize X and Y coordinates.
 		int xN = this.xDiscretizationCount;
 		int yN = this.yDiscretizationCount;
-		double xMax = this.config.getRangeConfiguration().getXRangeConfiguration().getMaximum().doubleValue();
-		double xMin = this.config.getRangeConfiguration().getXRangeConfiguration().getMinimum().doubleValue();
-		double yMax = this.config.getRangeConfiguration().getYRangeConfiguration().getMaximum().doubleValue();
-		double yMin = this.config.getRangeConfiguration().getYRangeConfiguration().getMinimum().doubleValue();
+		double xMax = this.config.getRangeConfiguration().getXRangeConfiguration().getMaximumCoordinate().doubleValue();
+		double xMin = this.config.getRangeConfiguration().getXRangeConfiguration().getMinimumCoordinate().doubleValue();
+		double yMax = this.config.getRangeConfiguration().getYRangeConfiguration().getMaximumCoordinate().doubleValue();
+		double yMin = this.config.getRangeConfiguration().getYRangeConfiguration().getMinimumCoordinate().doubleValue();
 		double xDelta = (xMax - xMin) / (xN - 1);
 		double yDelta = (yMax - yMin) / (yN - 1);
 		double zMinTentative = Double.POSITIVE_INFINITY;

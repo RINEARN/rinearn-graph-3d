@@ -578,12 +578,12 @@ public class RangeSettingWindow {
 			AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
 			AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
 
-			xMaxField.setText(xRangeConfig.getMaximum().toString());
-			xMinField.setText(xRangeConfig.getMinimum().toString());
-			yMaxField.setText(yRangeConfig.getMaximum().toString());
-			yMinField.setText(yRangeConfig.getMinimum().toString());
-			zMaxField.setText(zRangeConfig.getMaximum().toString());
-			zMinField.setText(zRangeConfig.getMinimum().toString());
+			xMaxField.setText(xRangeConfig.getMaximumCoordinate().toString());
+			xMinField.setText(xRangeConfig.getMinimumCoordinate().toString());
+			yMaxField.setText(yRangeConfig.getMaximumCoordinate().toString());
+			yMinField.setText(yRangeConfig.getMinimumCoordinate().toString());
+			zMaxField.setText(zRangeConfig.getMaximumCoordinate().toString());
+			zMinField.setText(zRangeConfig.getMinimumCoordinate().toString());
 
 			xAutoRangeBox.setSelected(xRangeConfig.isAutoRangeEnabled());
 			yAutoRangeBox.setSelected(yRangeConfig.isAutoRangeEnabled());

@@ -235,9 +235,9 @@ public final class ReferenceRenderer implements RinearnGraph3DRenderer {
 		AxisRangeConfiguration xRangeConfig = rangeConfig.getXRangeConfiguration();
 		AxisRangeConfiguration yRangeConfig = rangeConfig.getYRangeConfiguration();
 		AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
-		this.spaceConverters[X].setRange(xRangeConfig.getMinimum(), xRangeConfig.getMaximum());
-		this.spaceConverters[Y].setRange(yRangeConfig.getMinimum(), yRangeConfig.getMaximum());
-		this.spaceConverters[Z].setRange(zRangeConfig.getMinimum(), zRangeConfig.getMaximum());
+		this.spaceConverters[X].setRange(xRangeConfig.getMinimumCoordinate(), xRangeConfig.getMaximumCoordinate());
+		this.spaceConverters[Y].setRange(yRangeConfig.getMinimumCoordinate(), yRangeConfig.getMaximumCoordinate());
+		this.spaceConverters[Z].setRange(zRangeConfig.getMinimumCoordinate(), zRangeConfig.getMaximumCoordinate());
 
 		ScaleConfiguration scaleConfig = this.config.getScaleConfiguration();
 		AxisScaleConfiguration xScaleConfig = scaleConfig.getXScaleConfiguration();

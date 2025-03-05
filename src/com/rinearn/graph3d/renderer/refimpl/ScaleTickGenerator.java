@@ -85,13 +85,13 @@ public final class ScaleTickGenerator {
 		AxisGradientColor axisGradientColor = axisGradientColors[0];
 
 		result.xTickCoordinates = xScaleConfig.getTicker().generateTickCoordinates(
-				xRangeConfig.getMinimum(), xRangeConfig.getMaximum(), xScaleConfig.isLogScaleEnabled()
+				xRangeConfig.getMinimumCoordinate(), xRangeConfig.getMaximumCoordinate(), xScaleConfig.isLogScaleEnabled()
 		);
 		result.yTickCoordinates = yScaleConfig.getTicker().generateTickCoordinates(
-				yRangeConfig.getMinimum(), yRangeConfig.getMaximum(), yScaleConfig.isLogScaleEnabled()
+				yRangeConfig.getMinimumCoordinate(), yRangeConfig.getMaximumCoordinate(), yScaleConfig.isLogScaleEnabled()
 		);
 		result.zTickCoordinates = zScaleConfig.getTicker().generateTickCoordinates(
-				zRangeConfig.getMinimum(), zRangeConfig.getMaximum(), zScaleConfig.isLogScaleEnabled()
+				zRangeConfig.getMinimumCoordinate(), zRangeConfig.getMaximumCoordinate(), zScaleConfig.isLogScaleEnabled()
 		);
 		result.colorBarTickCoordinates = cScaleConfig.getTicker().generateTickCoordinates(
 				axisGradientColor.getMinimumBoundaryCoordinate(), axisGradientColor.getMaximumBoundaryCoordinate(),

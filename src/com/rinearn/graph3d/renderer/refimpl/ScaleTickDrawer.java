@@ -120,13 +120,13 @@ public final class ScaleTickDrawer {
 		AxisScaleConfiguration zScaleConfig = scaleConfig.getZScaleConfiguration();
 
 		SpaceConverter xSpaceConverter = new SpaceConverter(
-				xRangeConfig.getMinimum(), xRangeConfig.getMaximum(), xScaleConfig.isLogScaleEnabled()
+				xRangeConfig.getMinimumCoordinate(), xRangeConfig.getMaximumCoordinate(), xScaleConfig.isLogScaleEnabled()
 		);
 		SpaceConverter ySpaceConverter = new SpaceConverter(
-				yRangeConfig.getMinimum(), yRangeConfig.getMaximum(), yScaleConfig.isLogScaleEnabled()
+				yRangeConfig.getMinimumCoordinate(), yRangeConfig.getMaximumCoordinate(), yScaleConfig.isLogScaleEnabled()
 		);
 		SpaceConverter zSpaceConverter = new SpaceConverter(
-				zRangeConfig.getMinimum(), zRangeConfig.getMaximum(), zScaleConfig.isLogScaleEnabled()
+				zRangeConfig.getMinimumCoordinate(), zRangeConfig.getMaximumCoordinate(), zScaleConfig.isLogScaleEnabled()
 		);
 
 		// Draw ticks on X axis.

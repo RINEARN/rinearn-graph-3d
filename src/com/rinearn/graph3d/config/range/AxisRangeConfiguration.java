@@ -20,38 +20,38 @@ public final class AxisRangeConfiguration {
 	private volatile boolean autoRangeEnabled = true;
 
 	/**
-	 * Sets the minimum value of this range.
+	 * Sets the minimum coordinate of this range.
 	 *
-	 * @param min The minimum value of this range.
+	 * @param min The minimum coordinate of this range.
 	 */
-	public synchronized void setMinimum(BigDecimal min) {
+	public synchronized void setMinimumCoordinate(BigDecimal min) {
 		this.min = min;
 	}
 
 	/**
-	 * Gets the minimum value of this range.
+	 * Gets the minimum coordinate of this range.
 	 *
-	 * @return The minimum value of this range.
+	 * @return The minimum coordinate of this range.
 	 */
-	public synchronized BigDecimal getMinimum() {
+	public synchronized BigDecimal getMinimumCoordinate() {
 		return this.min;
 	}
 
 	/**
-	 * Sets the maximum value of this range.
+	 * Sets the maximum coordinate of this range.
 	 *
-	 * @param max The maximum value of this range.
+	 * @param max The maximum coordinate of this range.
 	 */
-	public synchronized void setMaximum(BigDecimal max) {
+	public synchronized void setMaximumCoordinate(BigDecimal max) {
 		this.max = max;
 	}
 
 	/**
-	 * Gets the maximum value of this range.
+	 * Gets the maximum coordinate of this range.
 	 *
-	 * @return The maximum value of this range.
+	 * @return The maximum coordinate of this range.
 	 */
-	public synchronized BigDecimal getMaximum() {
+	public synchronized BigDecimal getMaximumCoordinate() {
 		return this.max;
 	}
 

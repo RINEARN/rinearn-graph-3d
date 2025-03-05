@@ -624,20 +624,20 @@ public final class Presenter {
 		// Auto-adjust the X range to fit to the data, if enabled.
 		if (xRangeConfig.isAutoRangeEnabled()) {
 			if (dataSeriesGroup.hasXMin()) {
-				xRangeConfig.setMinimum(dataSeriesGroup.getXMin());
+				xRangeConfig.setMinimumCoordinate(dataSeriesGroup.getXMin());
 			}
 			if (dataSeriesGroup.hasXMax()) {
-				xRangeConfig.setMaximum(dataSeriesGroup.getXMax());
+				xRangeConfig.setMaximumCoordinate(dataSeriesGroup.getXMax());
 			}
 		}
 
 		// Auto-adjust the Y range to fit to the data, if enabled.
 		if (yRangeConfig.isAutoRangeEnabled()) {
 			if (dataSeriesGroup.hasYMin()) {
-				yRangeConfig.setMinimum(dataSeriesGroup.getYMin());
+				yRangeConfig.setMinimumCoordinate(dataSeriesGroup.getYMin());
 			}
 			if (dataSeriesGroup.hasYMax()) {
-				yRangeConfig.setMaximum(dataSeriesGroup.getYMax());
+				yRangeConfig.setMaximumCoordinate(dataSeriesGroup.getYMax());
 			}
 		}
 
@@ -661,10 +661,10 @@ public final class Presenter {
 		// Auto-adjust the Z range to fit to the data, if enabled.
 		if (zRangeConfig.isAutoRangeEnabled()) {
 			if (dataSeriesGroup.hasZMin()) {
-				zRangeConfig.setMinimum(dataSeriesGroup.getZMin());
+				zRangeConfig.setMinimumCoordinate(dataSeriesGroup.getZMin());
 			}
 			if (dataSeriesGroup.hasZMax()) {
-				zRangeConfig.setMaximum(dataSeriesGroup.getZMax());
+				zRangeConfig.setMaximumCoordinate(dataSeriesGroup.getZMax());
 			}
 		}
 
@@ -689,30 +689,30 @@ public final class Presenter {
 		// Auto-adjust the X range to fit to the data, if enabled.
 		if (xRangeConfig.isAutoRangeEnabled()) {
 			if (dataSeriesGroup.hasXMin()) {
-				xRangeConfig.setMinimum(dataSeriesGroup.getXMin());
+				xRangeConfig.setMinimumCoordinate(dataSeriesGroup.getXMin());
 			}
 			if (dataSeriesGroup.hasXMax()) {
-				xRangeConfig.setMaximum(dataSeriesGroup.getXMax());
+				xRangeConfig.setMaximumCoordinate(dataSeriesGroup.getXMax());
 			}
 		}
 
 		// Auto-adjust the Y range to fit to the data, if enabled.
 		if (yRangeConfig.isAutoRangeEnabled()) {
 			if (dataSeriesGroup.hasYMin()) {
-				yRangeConfig.setMinimum(dataSeriesGroup.getYMin());
+				yRangeConfig.setMinimumCoordinate(dataSeriesGroup.getYMin());
 			}
 			if (dataSeriesGroup.hasYMax()) {
-				yRangeConfig.setMaximum(dataSeriesGroup.getYMax());
+				yRangeConfig.setMaximumCoordinate(dataSeriesGroup.getYMax());
 			}
 		}
 
 		// Auto-adjust the Z range to fit to the data, if enabled.
 		if (zRangeConfig.isAutoRangeEnabled()) {
 			if (dataSeriesGroup.hasZMin()) {
-				zRangeConfig.setMinimum(dataSeriesGroup.getZMin());
+				zRangeConfig.setMinimumCoordinate(dataSeriesGroup.getZMin());
 			}
 			if (dataSeriesGroup.hasZMax()) {
-				zRangeConfig.setMaximum(dataSeriesGroup.getZMax());
+				zRangeConfig.setMaximumCoordinate(dataSeriesGroup.getZMax());
 			}
 		}
 
@@ -725,24 +725,24 @@ public final class Presenter {
 				}
 				switch (axisGradientColor.getAxis()) {
 					case X : {
-						axisGradientColor.setMinimumBoundaryCoordinate(xRangeConfig.getMinimum());
-						axisGradientColor.setMaximumBoundaryCoordinate(xRangeConfig.getMaximum());
+						axisGradientColor.setMinimumBoundaryCoordinate(xRangeConfig.getMinimumCoordinate());
+						axisGradientColor.setMaximumBoundaryCoordinate(xRangeConfig.getMaximumCoordinate());
 						break;
 					}
 					case Y : {
-						axisGradientColor.setMinimumBoundaryCoordinate(yRangeConfig.getMinimum());
-						axisGradientColor.setMaximumBoundaryCoordinate(yRangeConfig.getMaximum());
+						axisGradientColor.setMinimumBoundaryCoordinate(yRangeConfig.getMinimumCoordinate());
+						axisGradientColor.setMaximumBoundaryCoordinate(yRangeConfig.getMaximumCoordinate());
 						break;
 					}
 					case Z : {
-						axisGradientColor.setMinimumBoundaryCoordinate(zRangeConfig.getMinimum());
-						axisGradientColor.setMaximumBoundaryCoordinate(zRangeConfig.getMaximum());
+						axisGradientColor.setMinimumBoundaryCoordinate(zRangeConfig.getMinimumCoordinate());
+						axisGradientColor.setMaximumBoundaryCoordinate(zRangeConfig.getMaximumCoordinate());
 						break;
 					}
 					case SCALAR : {
 						AxisRangeConfiguration[] extraRangeConfig = rangeConfig.getExtraDimensionRangeConfigurations();
-						axisGradientColor.setMinimumBoundaryCoordinate(extraRangeConfig[0].getMinimum());
-						axisGradientColor.setMaximumBoundaryCoordinate(extraRangeConfig[0].getMaximum());
+						axisGradientColor.setMinimumBoundaryCoordinate(extraRangeConfig[0].getMinimumCoordinate());
+						axisGradientColor.setMaximumBoundaryCoordinate(extraRangeConfig[0].getMaximumCoordinate());
 						// Existence of extraRangeConfig[0] has been checked in the validation.
 						break;
 					}

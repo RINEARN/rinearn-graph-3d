@@ -220,8 +220,8 @@ public final class RangeSettingHandler {
 
 				// Store the above into the configuration container.
 				xRangeConfig.setAutoRangeEnabled(xAutoRangeEnabled);
-				xRangeConfig.setMaximum(xMax);
-				xRangeConfig.setMinimum(xMin);
+				xRangeConfig.setMaximumCoordinate(xMax);
+				xRangeConfig.setMinimumCoordinate(xMin);
 			}
 
 			// Y range:
@@ -251,8 +251,8 @@ public final class RangeSettingHandler {
 
 				// Store the above into the configuration container.
 				yRangeConfig.setAutoRangeEnabled(yAutoRangeEnabled);
-				yRangeConfig.setMaximum(yMax);
-				yRangeConfig.setMinimum(yMin);
+				yRangeConfig.setMaximumCoordinate(yMax);
+				yRangeConfig.setMinimumCoordinate(yMin);
 			}
 
 			// Z range:
@@ -282,8 +282,8 @@ public final class RangeSettingHandler {
 
 				// Store the above into the configuration container.
 				zRangeConfig.setAutoRangeEnabled(zAutoRangeEnabled);
-				zRangeConfig.setMaximum(zMax);
-				zRangeConfig.setMinimum(zMin);
+				zRangeConfig.setMaximumCoordinate(zMax);
+				zRangeConfig.setMinimumCoordinate(zMin);
 			}
 
 			// Propagate the above update of the configuration to the entire application.
@@ -359,8 +359,8 @@ public final class RangeSettingHandler {
 		public void run() {
 			AxisRangeConfiguration xRangeConfig = model.config.getRangeConfiguration().getXRangeConfiguration();
 			xRangeConfig.setAutoRangeEnabled(false);
-			xRangeConfig.setMinimum(min);
-			xRangeConfig.setMaximum(max);
+			xRangeConfig.setMinimumCoordinate(min);
+			xRangeConfig.setMaximumCoordinate(max);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -471,8 +471,8 @@ public final class RangeSettingHandler {
 		public void run() {
 			AxisRangeConfiguration yRangeConfig = model.config.getRangeConfiguration().getYRangeConfiguration();
 			yRangeConfig.setAutoRangeEnabled(false);
-			yRangeConfig.setMinimum(min);
-			yRangeConfig.setMaximum(max);
+			yRangeConfig.setMinimumCoordinate(min);
+			yRangeConfig.setMaximumCoordinate(max);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
@@ -582,8 +582,8 @@ public final class RangeSettingHandler {
 		public void run() {
 			AxisRangeConfiguration zRangeConfig = model.config.getRangeConfiguration().getZRangeConfiguration();
 			zRangeConfig.setAutoRangeEnabled(false);
-			zRangeConfig.setMinimum(min);
-			zRangeConfig.setMaximum(max);
+			zRangeConfig.setMinimumCoordinate(min);
+			zRangeConfig.setMaximumCoordinate(max);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
