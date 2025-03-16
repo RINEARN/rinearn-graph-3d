@@ -10,11 +10,16 @@ import com.rinearn.graph3d.config.RinearnGraph3DConfigurationException;
  */
 public final class ContourPlotterConfiguration extends SeriesFilterablePlotterConfiguration {
 
+	// To be added in future:
+	//
+	// * mode enum, e.g.: EQUAL_DIVISION, MANUAL, etc.
+	//
+
 	/** The width (in pixels) of contour lines. */
 	private volatile double lineWidth = 1.0;
 
-	/** The number of the sections between contour lines. */
-	private volatile int sectionCount = 10;
+	/** The number of division (the divided intervals) of contours in EQUAL_DIVISION mode. */
+	private volatile int divisionCount = 10;
 
 	/** The flag representing whether the auto-range feature is enabled. */
 	private volatile boolean autoRangeEnabled = true;
@@ -54,21 +59,21 @@ public final class ContourPlotterConfiguration extends SeriesFilterablePlotterCo
 
 
 	/**
-	 * Sets the number of the sections between contour lines.
+	 * Sets the number of division (the divided intervals) of contours in EQUAL_DIVISION mode.
 	 *
-	 * @param sectionCount The number of the sections between contour lines.
+	 * @param divisionCount The number of division (the divided intervals) of contours.
 	 */
-	public synchronized void setSectionCount(int sectionCount) {
-		this.sectionCount = sectionCount;
+	public synchronized void setDivisionCount(int divisionCount) {
+		this.divisionCount = divisionCount;
 	}
 
 	/**
-	 * Gets the number of the sections between contour lines.
+	 * Gets the number of division (the divided intervals) of contours in EQUAL_DIVISION mode.
 	 *
-	 * @return The number of the sections between contour lines.
+	 * @return The number of division (the divided intervals) of contours.
 	 */
-	public synchronized int getSectionCount() {
-		return this.sectionCount;
+	public synchronized int getDivisionCount() {
+		return this.divisionCount;
 	}
 
 

@@ -115,6 +115,9 @@ public class MainMenu {
 	/** "Options" > "With Surfaces" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem surfaceOptionMenuItem;
 
+	/** "Options" > "With Contours" menu item on the menu bar.  */
+	public volatile JCheckBoxMenuItem contourOptionMenuItem;
+
 
 	/** "Options" > "Log X" menu item on the menu bar.  */
 	public volatile JCheckBoxMenuItem logXOptionMenuItem;
@@ -316,6 +319,9 @@ public class MainMenu {
 				surfaceOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
 				optionsMenu.add(surfaceOptionMenuItem);
 
+				contourOptionMenuItem = new JCheckBoxMenuItem("Unconfigured");
+				optionsMenu.add(contourOptionMenuItem);
+
 				// --- Separator ---
 				optionsMenu.add(new JSeparator());
 
@@ -500,6 +506,7 @@ public class MainMenu {
 				lineOptionMenuItem.setText("線プロット");
 				meshOptionMenuItem.setText("メッシュプロット");
 				surfaceOptionMenuItem.setText("曲面プロット");
+				contourOptionMenuItem.setText("等高線プロット");
 
 				logXOptionMenuItem.setText("対数軸 X");
 				logYOptionMenuItem.setText("対数軸 Y");
@@ -565,6 +572,7 @@ public class MainMenu {
 				lineOptionMenuItem.setText("With Lines");
 				meshOptionMenuItem.setText("With Meshes");
 				surfaceOptionMenuItem.setText("With Surfaces (Membranes)");
+				contourOptionMenuItem.setText("With Contours");
 
 				logXOptionMenuItem.setText("Log X");
 				logYOptionMenuItem.setText("Log Y");
@@ -632,6 +640,7 @@ public class MainMenu {
 				lineOptionMenuItem.setFont(uiBoldFont);
 				meshOptionMenuItem.setFont(uiBoldFont);
 				surfaceOptionMenuItem.setFont(uiBoldFont);
+				contourOptionMenuItem.setFont(uiBoldFont);
 
 				logXOptionMenuItem.setFont(uiBoldFont);
 				logYOptionMenuItem.setFont(uiBoldFont);

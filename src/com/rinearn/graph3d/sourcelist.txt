@@ -107,6 +107,7 @@ com/rinearn/graph3d/presenter/handler/UIParameterParser.java
 com/rinearn/graph3d/presenter/handler/XtYtZtMathHandler.java
 com/rinearn/graph3d/presenter/handler/ZxyMathHandler.java
 com/rinearn/graph3d/presenter/package-info.java
+com/rinearn/graph3d/presenter/plotter/ContourPlotter.java
 com/rinearn/graph3d/presenter/plotter/LinePlotter.java
 com/rinearn/graph3d/presenter/plotter/MeshPlotter.java
 com/rinearn/graph3d/presenter/plotter/package-info.java

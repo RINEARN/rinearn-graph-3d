@@ -42,10 +42,12 @@ import com.rinearn.graph3d.presenter.handler.PointOptionHandler;
 import com.rinearn.graph3d.presenter.handler.LineOptionHandler;
 import com.rinearn.graph3d.presenter.handler.MeshOptionHandler;
 import com.rinearn.graph3d.presenter.handler.SurfaceOptionHandler;
+// import com.rinearn.graph3d.presenter.handler.ContourOptionHandler;
 import com.rinearn.graph3d.presenter.plotter.PointPlotter;
 import com.rinearn.graph3d.presenter.plotter.LinePlotter;
 import com.rinearn.graph3d.presenter.plotter.MeshPlotter;
 import com.rinearn.graph3d.presenter.plotter.SurfacePlotter;
+import com.rinearn.graph3d.presenter.plotter.ContourPlotter;
 
 import org.vcssl.nano.VnanoException;
 
@@ -219,6 +221,9 @@ public final class Presenter {
 	/** The handler of "With Surfaces" option window. */
 	public final SurfaceOptionHandler surfaceOptionHandler;
 
+	/** The handler of "With Contours" option window. */
+	// public final ContourOptionHandler contourOptionHandler;
+
 	/** The handler of "Gradient Coloring" option window. */
 	public final GradientOptionHandler gradientOptionHandler;
 
@@ -233,6 +238,9 @@ public final class Presenter {
 
 	/** The plotter to plot surfaces. */
 	public final SurfacePlotter surfacePlotter;
+
+	/** The plotter to plot contours. */
+	public final ContourPlotter contourPlotter;
 
 
 	/**
@@ -300,6 +308,8 @@ public final class Presenter {
 		this.plottingEventDispatcher.addPlottingListener(this.meshPlotter);
 		this.surfacePlotter = new SurfacePlotter(model, view, this, renderer);
 		this.plottingEventDispatcher.addPlottingListener(this.surfacePlotter);
+		this.contourPlotter = new ContourPlotter(model, view, this, renderer);
+		this.plottingEventDispatcher.addPlottingListener(this.contourPlotter);
 	}
 
 

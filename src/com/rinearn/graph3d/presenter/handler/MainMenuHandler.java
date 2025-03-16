@@ -94,6 +94,7 @@ public final class MainMenuHandler {
 		window.mainMenu.lineOptionMenuItem.addActionListener(new LineOptionMenuItemSelectedEventListener());
 		window.mainMenu.meshOptionMenuItem.addActionListener(new MeshOptionMenuItemSelectedEventListener());
 		window.mainMenu.surfaceOptionMenuItem.addActionListener(new SurfaceOptionMenuItemSelectedEventListener());
+		window.mainMenu.contourOptionMenuItem.addActionListener(new ContourOptionMenuItemSelectedEventListener());
 		window.mainMenu.logXOptionMenuItem.addActionListener(new LogXOptionMenuItemSelectedEventListener());
 		window.mainMenu.logYOptionMenuItem.addActionListener(new LogYOptionMenuItemSelectedEventListener());
 		window.mainMenu.logZOptionMenuItem.addActionListener(new LogZOptionMenuItemSelectedEventListener());
@@ -641,6 +642,28 @@ public final class MainMenuHandler {
 
 			// Enable/disable the option.
 			model.config.getPlotterConfiguration().getSurfacePlotterConfiguration().setPlotterEnabled(isOptionSelected);
+			presenter.propagateConfiguration();
+			presenter.plot();
+		}
+	}
+
+
+	/**
+	 * The listener handling the event that "Options" > "With Contours" menu item is selected.
+	 */
+	private final class ContourOptionMenuItemSelectedEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (!isEventHandlingEnabled()) {
+				return;
+			}
+			boolean isOptionSelected = view.mainWindow.mainMenu.contourOptionMenuItem.isSelected();
+
+			// Show/hide the option settings window.
+			// view.contourOptionWindow.setWindowVisible(isOptionSelected);
+
+			// Enable/disable the option.
+			model.config.getPlotterConfiguration().getContourPlotterConfiguration().setPlotterEnabled(isOptionSelected);
 			presenter.propagateConfiguration();
 			presenter.plot();
 		}
