@@ -154,6 +154,9 @@ public final class View {
 	/** The setting window of "Option" > "With Surfaces" menu. */
 	public final SurfaceOptionWindow surfaceOptionWindow = new SurfaceOptionWindow();
 
+	/** The setting window of "Option" > "With Contours" menu. */
+	public final ContourOptionWindow contourOptionWindow = new ContourOptionWindow();
+
 	/** The setting window of "Option" > "Gradient Coloring" menu. */
 	public final GradientOptionWindow gradientOptionWindow = new GradientOptionWindow();
 
@@ -200,6 +203,7 @@ public final class View {
 		this.lineOptionWindow.configure(configuration);
 		this.meshOptionWindow.configure(configuration);
 		this.surfaceOptionWindow.configure(configuration);
+		this.contourOptionWindow.configure(configuration);
 		this.gradientOptionWindow.configure(configuration);
 	}
 
@@ -227,6 +231,7 @@ public final class View {
 		this.lineOptionWindow.dispose();
 		this.meshOptionWindow.dispose();
 		this.surfaceOptionWindow.dispose();
+		this.contourOptionWindow.dispose();
 		this.gradientOptionWindow.dispose();
 	}
 }

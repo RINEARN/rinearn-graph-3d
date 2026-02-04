@@ -660,7 +660,7 @@ public final class MainMenuHandler {
 			boolean isOptionSelected = view.mainWindow.mainMenu.contourOptionMenuItem.isSelected();
 
 			// Show/hide the option settings window.
-			// view.contourOptionWindow.setWindowVisible(isOptionSelected);
+			view.contourOptionWindow.setWindowVisible(isOptionSelected);
 
 			// Enable/disable the option.
 			model.config.getPlotterConfiguration().getContourPlotterConfiguration().setPlotterEnabled(isOptionSelected);
