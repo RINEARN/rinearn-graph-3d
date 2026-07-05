@@ -132,7 +132,7 @@ public final class LineOptionHandler {
 			// Line width:
 			try {
 				String lineWidthText = window.lineWidthField.getText();
-				double lineWidth = UIParameterParser.parseDoubleParameter(lineWidthText, "線の幅", "Line Width", 0.0, 10000.0, envConfig);
+				double lineWidth = UIParameterParser.parseDoubleParameter(lineWidthText, "Line Width", "線の幅", 0.0, 10000.0, envConfig);
 				lineOptionConfig.setLineWidth(lineWidth);
 			} catch (UIParameterParser.ParsingException e) {
 				// The error message is already shown to the user by UIParameterParser.

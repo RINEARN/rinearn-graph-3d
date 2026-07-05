@@ -110,7 +110,7 @@ public final class SeriesFilterHandler {
 
 			try {
 				String seriesIndexText = this.seriesFilterComponents.indexField.getText().trim();
-				int[] seriesIndices = UIParameterParser.parseCommaSeparatedIntParameters(seriesIndexText, "系列番号", "Series Indices", 1, Integer.MAX_VALUE/2, envConfig);
+				int[] seriesIndices = UIParameterParser.parseCommaSeparatedIntParameters(seriesIndexText, "Series Indices", "系列番号", 1, Integer.MAX_VALUE/2, envConfig);
 
 				// The series index "1" on UI corresponds to the internal series index "0" . So offset the index.
 				int seriesIndexCount = seriesIndices.length;

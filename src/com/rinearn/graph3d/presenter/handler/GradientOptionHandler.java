@@ -160,7 +160,7 @@ public final class GradientOptionHandler {
 			// Range-min:
 			try {
 				String rangeMinText = window.minField.getText();
-				BigDecimal rangeMin = UIParameterParser.parseBigDecimalParameter(rangeMinText, "下限", "Min", false, null, null, envConfig);
+				BigDecimal rangeMin = UIParameterParser.parseBigDecimalParameter(rangeMinText, "Min", "下限", false, null, null, envConfig);
 				axisGradientColor.setMinimumBoundaryCoordinate(rangeMin);
 			} catch (UIParameterParser.ParsingException e) {
 				// The error message is already shown to the user by UIParameterParser.
@@ -170,7 +170,7 @@ public final class GradientOptionHandler {
 			// Range-max:
 			try {
 				String rangeMaxText = window.maxField.getText();
-				BigDecimal rangeMax = UIParameterParser.parseBigDecimalParameter(rangeMaxText, "上限", "Max", false, null, null, envConfig);
+				BigDecimal rangeMax = UIParameterParser.parseBigDecimalParameter(rangeMaxText, "Max", "上限", false, null, null, envConfig);
 				axisGradientColor.setMaximumBoundaryCoordinate(rangeMax);
 			} catch (UIParameterParser.ParsingException e) {
 				// The error message is already shown to the user by UIParameterParser.

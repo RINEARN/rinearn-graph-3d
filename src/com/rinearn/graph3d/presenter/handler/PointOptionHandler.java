@@ -165,7 +165,7 @@ public final class PointOptionHandler {
 			// Circle radius:
 			try {
 				String circleRadiusText = window.circleModeComponents.radiusField.getText();
-				double circleRadius = UIParameterParser.parseDoubleParameter(circleRadiusText, "円の半径", "Circle Radius", 0.0, 10000.0, envConfig);
+				double circleRadius = UIParameterParser.parseDoubleParameter(circleRadiusText, "Circle Radius", "円の半径", 0.0, 10000.0, envConfig);
 				pointPlotterConfig.setCircleRadius(circleRadius);
 			} catch (UIParameterParser.ParsingException e) {
 				// The error message is already shown to the user by UIParameterParser.
@@ -175,7 +175,7 @@ public final class PointOptionHandler {
 			// Marker texts:
 			try {
 				String markerText = window.markerModeComponents.symbolField.getText().trim();
-				String[] markerTexts = UIParameterParser.parseCommaSeparatedStringParameters(markerText, "マーカー記号", "Marker Symbols", envConfig);
+				String[] markerTexts = UIParameterParser.parseCommaSeparatedStringParameters(markerText, "Marker Symbols", "マーカー記号", envConfig);
 				pointPlotterConfig.setMarkerTexts(markerTexts);
 			} catch (UIParameterParser.ParsingException e) {
 				// The error message is already shown to the user by UIParameterParser.
@@ -191,7 +191,7 @@ public final class PointOptionHandler {
 			// Marker size:
 			try {
 				String markerSizeText = window.markerModeComponents.sizeField.getText();
-				double markerSize = UIParameterParser.parseDoubleParameter(markerSizeText, "文字サイズ", "Font Size", 0.0, 10000.0, envConfig);
+				double markerSize = UIParameterParser.parseDoubleParameter(markerSizeText, "Font Size", "文字サイズ", 0.0, 10000.0, envConfig);
 				pointPlotterConfig.setMarkerSize(markerSize);
 			} catch (UIParameterParser.ParsingException e) {
 				// The error message is already shown to the user by UIParameterParser.
@@ -201,7 +201,7 @@ public final class PointOptionHandler {
 			// Marker offset ratio:
 			try {
 				String markerOffsetRatioText = window.markerModeComponents.verticalOffsetRatioField.getText();
-				double markerOffsetRatio = UIParameterParser.parseDoubleParameter(markerOffsetRatioText, "位置補正率", "Offset Ratio", -10000.0, 10000.0, envConfig);
+				double markerOffsetRatio = UIParameterParser.parseDoubleParameter(markerOffsetRatioText, "Offset Ratio", "位置補正率", -10000.0, 10000.0, envConfig);
 				pointPlotterConfig.setMarkerVerticalOffsetRatio(markerOffsetRatio);
 			} catch (UIParameterParser.ParsingException e) {
 				// The error message is already shown to the user by UIParameterParser.
