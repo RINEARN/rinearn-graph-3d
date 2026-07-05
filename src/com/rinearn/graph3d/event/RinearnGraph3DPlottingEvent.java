@@ -50,22 +50,55 @@ public class RinearnGraph3DPlottingEvent extends EventObject {
 	 * このクラスのインスタンスがシリアライズされた際の, バイト列の互換性を確認するためのUIDであり,
 	 * このクラスのソースコードが変更される度に再生成されます
 	 * </span>
+	 * .
 	 */
 	private static final long serialVersionUID = 3568268593381777989L;
 
 	/**
-	 * <span class="lang-ja">
-	 * 新しいプロットイベントを生成します
+	 * <span class="lang-en">
+	 * The data accessor for referring to the data to plot
 	 * </span>
+	 * <span class="lang-ja">
+	 * プロット対象のデータを参照るためのデータアクセッサ実装です
+	 * </span>
+	 * .
+	 */
+	private final RinearnGraph3DPlottingDataAccessor plottingDataAccessor;
+
+	/**
 	 * <span class="lang-en">
 	 * Creates a new plotting event
 	 * </span>
+	 * <span class="lang-ja">
+	 * 新しいプロットイベントを生成します
+	 * </span>
 	 * .
 	 * @param source
-	 *   <span class="lang-ja">イベント発生元の RinearnGraph3D インスタンス</span>
 	 *   <span class="lang-en">The RinearnGraph3D instance as the source of this event</span>
+	 *   <span class="lang-ja">イベント発生元の RinearnGraph3D インスタンス</span>
+	 *
+	 * @param plottingDataAccessor
+	 *   <span class="lang-en">The data accessor for referring to the data to plot</span>
+	 *   <span class="lang-ja">プロット対象のデータを参照するためのデータアクセッサ</span>
 	 */
-	public RinearnGraph3DPlottingEvent(Object source) {
+	public RinearnGraph3DPlottingEvent(Object source, RinearnGraph3DPlottingDataAccessor plottingDataAccessor) {
 		super(source);
+		this.plottingDataAccessor = plottingDataAccessor;
+	}
+
+	/**
+	 * <span class="lang-en">
+	 * Gets the data accessor for referring to the data to plot
+	 * </span>
+	 * <span class="lang-ja">
+	 * プロット対象のデータを参照するためのデータアクセッサを取得します
+	 * </span>
+	 * .
+	 * @return
+	 *   <span class="lang-en">The data accessor for referring to the data to plot</span>
+	 *   <span class="lang-ja">プロット対象のデータを参照するためのデータアクセッサ</span>
+	 */
+	public RinearnGraph3DPlottingDataAccessor getPlottingDataAccessor() {
+		return this.plottingDataAccessor;
 	}
 }

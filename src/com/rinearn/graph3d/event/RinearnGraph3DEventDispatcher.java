@@ -32,6 +32,9 @@ public class RinearnGraph3DEventDispatcher {
 	/** Stores the RinearnGraph3D instance, to be passed to event listeners as a "source". */
 	private final Object source;
 
+	/** The data accessor for referring to the data to plot. */
+	private volatile RinearnGraph3DPlottingDataAccessor plottingDataAccessor = null;
+
 
 	/**
 	 * <span class="lang-ja">
@@ -47,6 +50,22 @@ public class RinearnGraph3DEventDispatcher {
 	 */
 	public RinearnGraph3DEventDispatcher (Object source) {
 		this.source = source;
+	}
+
+	/**
+	 * <span class="lang-en">
+	 * Sets the data accessor for referring to the data to plot
+	 * </span>
+	 * <span class="lang-ja">
+	 * プロット対象のデータを参照するためのデータアクセッサを設定します
+	 * </span>
+	 * .
+	 * @param plottingDataAccessor
+	 *   <span class="lang-en">The data accessor for referring to the data to plot</span>
+	 *   <span class="lang-ja">プロット対象のデータを参照するためのデータアクセッサ</span>
+	 */
+	public void setPlottingDataAccessor(RinearnGraph3DPlottingDataAccessor plottingDataAccessor) {
+		this.plottingDataAccessor = plottingDataAccessor;
 	}
 
 
@@ -77,7 +96,7 @@ public class RinearnGraph3DEventDispatcher {
 	 * .
 	 */
 	public void firePlottingRequested () {
-		RinearnGraph3DPlottingEvent event = new RinearnGraph3DPlottingEvent(this.source);
+		RinearnGraph3DPlottingEvent event = new RinearnGraph3DPlottingEvent(this.source, this.plottingDataAccessor);
 		for (RinearnGraph3DPlottingListener listener : this.plotListeners) {
 			listener.plottingRequested(event);
 		}
@@ -94,7 +113,7 @@ public class RinearnGraph3DEventDispatcher {
 	 * .
 	 */
 	public void firePlottingCanceled () {
-		RinearnGraph3DPlottingEvent event = new RinearnGraph3DPlottingEvent(this.source);
+		RinearnGraph3DPlottingEvent event = new RinearnGraph3DPlottingEvent(this.source, this.plottingDataAccessor);
 		for (RinearnGraph3DPlottingListener listener : this.plotListeners) {
 			listener.plottingFinished(event);
 		}
@@ -111,7 +130,7 @@ public class RinearnGraph3DEventDispatcher {
 	 * .
 	 */
 	public void firePlottingFinished () {
-		RinearnGraph3DPlottingEvent event = new RinearnGraph3DPlottingEvent(this.source);
+		RinearnGraph3DPlottingEvent event = new RinearnGraph3DPlottingEvent(this.source, this.plottingDataAccessor);
 		for (RinearnGraph3DPlottingListener listener : this.plotListeners) {
 			listener.plottingFinished(event);
 		}
