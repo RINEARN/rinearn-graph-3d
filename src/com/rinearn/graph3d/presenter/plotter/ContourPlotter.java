@@ -10,8 +10,6 @@ import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;
 
-import java.awt.Color;
-
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.config.data.SeriesFilter;

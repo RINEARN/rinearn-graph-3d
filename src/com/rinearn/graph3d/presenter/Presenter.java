@@ -435,6 +435,11 @@ public final class Presenter {
 		// Future: Draw other elements here
 		// -----
 
+		// Update the data accessor,
+		// which is the object for referring to data to be plotted from the registered event listeners of RinearnGraph3DPlottingEvent.
+		DataAccessor dataAccessor = new DataAccessor(this.model.dataStore);
+		this.plottingEventDispatcher.setPlottingDataAccessor(dataAccessor);
+
 		// Call "plottingRequested" methods of the registered event listeners of RinearnGraph3DPlottingEvent.
 		this.plottingEventDispatcher.firePlottingRequested();
 

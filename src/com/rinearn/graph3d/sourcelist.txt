@@ -79,6 +79,7 @@ com/rinearn/graph3d/model/io/parser/package-info.java
 com/rinearn/graph3d/model/Model.java
 com/rinearn/graph3d/model/package-info.java
 com/rinearn/graph3d/model/ScriptEngineMount.java
+com/rinearn/graph3d/presenter/DataAccessor.java
 com/rinearn/graph3d/presenter/handler/CameraSettingHandler.java
 com/rinearn/graph3d/presenter/handler/ContourOptionHandler.java
 com/rinearn/graph3d/presenter/handler/DataArrayIOHandler.java
