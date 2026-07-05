@@ -42,7 +42,7 @@ import com.rinearn.graph3d.presenter.handler.PointOptionHandler;
 import com.rinearn.graph3d.presenter.handler.LineOptionHandler;
 import com.rinearn.graph3d.presenter.handler.MeshOptionHandler;
 import com.rinearn.graph3d.presenter.handler.SurfaceOptionHandler;
-// import com.rinearn.graph3d.presenter.handler.ContourOptionHandler;
+import com.rinearn.graph3d.presenter.handler.ContourOptionHandler;
 import com.rinearn.graph3d.presenter.plotter.PointPlotter;
 import com.rinearn.graph3d.presenter.plotter.LinePlotter;
 import com.rinearn.graph3d.presenter.plotter.MeshPlotter;
@@ -222,7 +222,7 @@ public final class Presenter {
 	public final SurfaceOptionHandler surfaceOptionHandler;
 
 	/** The handler of "With Contours" option window. */
-	// public final ContourOptionHandler contourOptionHandler;
+	public final ContourOptionHandler contourOptionHandler;
 
 	/** The handler of "Gradient Coloring" option window. */
 	public final GradientOptionHandler gradientOptionHandler;
@@ -297,6 +297,7 @@ public final class Presenter {
 		this.lineOptionHandler = new LineOptionHandler(model, view, this);
 		this.meshOptionHandler = new MeshOptionHandler(model, view, this);
 		this.surfaceOptionHandler = new SurfaceOptionHandler(model, view, this);
+		this.contourOptionHandler = new ContourOptionHandler(model, view, this);
 		this.gradientOptionHandler = new GradientOptionHandler(model, view, this);
 
 		// Create "plotter"s, which perform plottings/re-plottings in event-driven flow.
@@ -349,6 +350,7 @@ public final class Presenter {
 		this.lineOptionHandler.setEventHandlingEnabled(enabled);
 		this.meshOptionHandler.setEventHandlingEnabled(enabled);
 		this.surfaceOptionHandler.setEventHandlingEnabled(enabled);
+		this.contourOptionHandler.setEventHandlingEnabled(enabled);
 		this.gradientOptionHandler.setEventHandlingEnabled(enabled);
 	}
 

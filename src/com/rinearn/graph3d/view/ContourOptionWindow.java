@@ -35,7 +35,7 @@ public final class ContourOptionWindow {
 	public static final int DEFAULT_WINDOW_WIDTH = 340;
 
 	/** The default height [px] of this window. */
-	public static final int DEFAULT_WINDOW_HEIGHT = 360;
+	public static final int DEFAULT_WINDOW_HEIGHT = 390;
 
 	/** The display item of the gradient axis "X". */
 	public static final String GRADIENT_AXIS_X = "X";
@@ -63,6 +63,15 @@ public final class ContourOptionWindow {
 
 	/** The right-click menu of the text field to input the line width. */
 	public volatile TextRightClickMenu lineWidthFieldRightClickMenu;
+
+	/** The label of the text field to input the division count.  */
+	public volatile JLabel divisionCountLabel;
+
+	/** The text field to input the division count.  */
+	public volatile JTextField divisionCountField;
+
+	/** The right-click menu of the text field to input the division count. */
+	public volatile TextRightClickMenu divisionCountFieldRightClickMenu;
 
 	/** The checkbox to enable/disable the auto-ranging feature. */
 	public volatile JCheckBox autoRangeBox;
@@ -183,7 +192,7 @@ public final class ContourOptionWindow {
 
 			// The label of the text field to input the line width.
 			lineWidthLabel = new JLabel();
-			constraints.insets = new Insets(topMarginLong, leftMargin, bottomMargin, rightMargin);
+			constraints.insets = new Insets(topMarginLong, leftMargin, 0, rightMargin);
 			layout.setConstraints(lineWidthLabel, constraints);
 			basePanel.add(lineWidthLabel);
 
@@ -193,7 +202,7 @@ public final class ContourOptionWindow {
 
 			// The text field to input the line width.
 			lineWidthField = new JTextField();
-			constraints.insets = new Insets(topMarginLong, leftMargin, bottomMargin, rightMargin);
+			constraints.insets = new Insets(topMarginLong, leftMargin, 0, rightMargin);
 			layout.setConstraints(lineWidthField, constraints);
 			basePanel.add(lineWidthField);
 
@@ -204,15 +213,40 @@ public final class ContourOptionWindow {
 			constraints.gridy++;
 			constraints.weighty = 1.0;
 
+			// The label of the text field to input the division count.
+			divisionCountLabel = new JLabel();
+			constraints.insets = new Insets(topMarginLong, leftMargin, bottomMargin, rightMargin);
+			layout.setConstraints(divisionCountLabel, constraints);
+			basePanel.add(divisionCountLabel);
+
+			constraints.gridwidth = 1;
+			constraints.gridx = 1;
+			constraints.weightx = rightColumnWeight;
+
+			// The text field to input the division count.
+			divisionCountField = new JTextField();
+			constraints.insets = new Insets(topMarginLong, leftMargin, bottomMargin, rightMargin);
+			layout.setConstraints(divisionCountField, constraints);
+			basePanel.add(divisionCountField);
+
+			divisionCountFieldRightClickMenu = new TextRightClickMenu();
+
+			constraints.gridwidth = 2;
+			constraints.gridx = 0;
+			constraints.gridy++;
+			constraints.weighty = 1.0;
+
 			// A separator.
 			JSeparator separator = new JSeparator();
-			constraints.insets = new Insets(topMarginLong, leftMargin, bottomMargin, rightMargin);
+			constraints.insets = new Insets(topMarginLong, leftMargin, 0, rightMargin);
 			layout.setConstraints(separator, constraints);
 			basePanel.add(separator);
 
+			constraints.gridy++;
+
 			// The checkbox to enable/disable the auto-ranging feature.
 			autoRangeBox = new JCheckBox();
-			constraints.insets = new Insets(topMarginLong, leftMargin, 0, rightMargin);
+			constraints.insets = new Insets(0, leftMargin, 0, rightMargin);
 			layout.setConstraints(autoRangeBox, constraints);
 			basePanel.add(autoRangeBox);
 
@@ -273,13 +307,15 @@ public final class ContourOptionWindow {
 
 			// A separator.
 			separator = new JSeparator();
-			constraints.insets = new Insets(topMarginLong, leftMargin, bottomMargin, rightMargin);
+			constraints.insets = new Insets(topMarginLong, leftMargin, 0, rightMargin);
 			layout.setConstraints(separator, constraints);
 			basePanel.add(separator);
 
+			constraints.gridy++;
+
 			// The panel and UI components for setting the series filter.
 			seriesFilterComponents = new SeriesFilterComponents();
-			constraints.insets = new Insets(topMarginLong, 0, bottomMargin, 0);
+			constraints.insets = new Insets(0, 0, bottomMargin, 0);
 			layout.setConstraints(seriesFilterComponents.panel, constraints);
 			basePanel.add(seriesFilterComponents.panel);
 
@@ -378,6 +414,7 @@ public final class ContourOptionWindow {
 			frame.setTitle("オプション設定: 等高線プロット");
 
 			lineWidthLabel.setText("線の幅: ");
+			divisionCountLabel.setText("区間数: ");
 
 			autoRangeBox.setText("範囲の自動調整");
 			maxLabel.setText("上限: ");
@@ -393,6 +430,7 @@ public final class ContourOptionWindow {
 			frame.setTitle("Option Settings: Contours");
 
 			lineWidthLabel.setText("Line Width: ");
+			divisionCountLabel.setText("Division Count: ");
 
 			autoRangeBox.setText("Auto Range");
 			maxLabel.setText("Max: ");
@@ -411,6 +449,9 @@ public final class ContourOptionWindow {
 
 			lineWidthLabel.setFont(uiBoldFont);
 			lineWidthField.setFont(uiPlainFont);
+
+			divisionCountLabel.setFont(uiBoldFont);
+			divisionCountField.setFont(uiPlainFont);
 
 			autoRangeBox.setFont(uiBoldFont);
 			maxLabel.setFont(uiBoldFont);
@@ -431,10 +472,16 @@ public final class ContourOptionWindow {
 			DecimalFormat formatter = new DecimalFormat("#0.0#####");
 
 			lineWidthField.setText(formatter.format(contourPlotterConfig.getLineWidth()));
+			divisionCountField.setText(Integer.toString(contourPlotterConfig.getDivisionCount()));
 
 			setAutoRangeEnabled(contourPlotterConfig.isAutoRangeEnabled());
-			minField.setText(formatter.format(contourPlotterConfig.getMinimumCoordinate()));
-			maxField.setText(formatter.format(contourPlotterConfig.getMaximumCoordinate()));
+			if (contourPlotterConfig.isAutoRangeEnabled()) {
+				minField.setText("");
+				maxField.setText("");
+			} else {
+				minField.setText(formatter.format(contourPlotterConfig.getMinimumCoordinate()));
+				maxField.setText(formatter.format(contourPlotterConfig.getMaximumCoordinate()));
+			}
 		}
 	}
 
