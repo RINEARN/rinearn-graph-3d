@@ -32,6 +32,68 @@ public final class UIParameterParser {
 
 
 	/**
+	 * Parses the specified text parameter as a int-type scalar value.
+	 *
+	 * @param text The text to be parsed.
+	 * @param parameterNameEn The parameter name in Japanese.
+	 * @param parameterNameJa The parameter name in English.
+	 * @param min The minimum acceptable value of the parameter.
+	 * @param max The maximum acceptable value of the parameter.
+	 * @param envConfig The environment configuration, used for detecting the language of the environment's locale.
+	 * @return The parsed result.
+	 * @throws ParsingException Thrown if the parsing failed (thrown after showing the pop-up error message to the user).
+	 */
+	public static int parseIntParameter(
+			String text, String parameterNameEn, String parameterNameJa, int min, int max, EnvironmentConfiguration envConfig)
+					throws ParsingException {
+
+		long longResult = parseLongParameter(text, parameterNameEn, parameterNameJa, min, max, envConfig);
+		return (int)longResult;
+	}
+
+	/**
+	 * Parses the specified text parameter as a long-type scalar value.
+	 *
+	 * @param text The text to be parsed.
+	 * @param parameterNameEn The parameter name in Japanese.
+	 * @param parameterNameJa The parameter name in English.
+	 * @param min The minimum acceptable value of the parameter.
+	 * @param max The maximum acceptable value of the parameter.
+	 * @param envConfig The environment configuration, used for detecting the language of the environment's locale.
+	 * @return The parsed result.
+	 * @throws ParsingException Thrown if the parsing failed (thrown after showing the pop-up error message to the user).
+	 */
+	public static long parseLongParameter(
+			String text, String parameterNameEn, String parameterNameJa, long min, long max, EnvironmentConfiguration envConfig)
+					throws ParsingException {
+
+		boolean isJapanese = envConfig.isLocaleJapanese();
+		long result = 0;
+
+		// Parse:
+		try {
+			result = Long.parseLong(text);
+		} catch (NumberFormatException nfe) {
+			String[] errorWords = isJapanese ? new String[]{ parameterNameJa } : new String[]{ parameterNameEn };
+			String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.LONG_PARAMETER_PARSING_FAILED, errorWords);
+			JOptionPane.showMessageDialog(null, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+			throw new ParsingException(errorMessage);
+		}
+
+		// Check range:
+		if (result < min || max < result) {
+			String[] errorWords = isJapanese ?
+					new String[]{ parameterNameEn, Long.toString(min), Long.toString(max) } :
+					new String[]{ parameterNameEn, Long.toString(min), Long.toString(max) };
+			String errorMessage = ErrorMessage.generateErrorMessage(ErrorType.LONG_PARAMETER_OUT_OF_RANGE, errorWords);
+			JOptionPane.showMessageDialog(null, errorMessage, "!", JOptionPane.ERROR_MESSAGE);
+			throw new ParsingException(errorMessage);
+		}
+		return result;
+	}
+
+
+	/**
 	 * Parses the specified text parameter as a double-type scalar value.
 	 *
 	 * @param text The text to be parsed.
