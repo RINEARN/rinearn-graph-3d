@@ -80,6 +80,8 @@ public final class ErrorMessage {
 			case FAILED_TO_SAVE_IMAGE: return "画像の保存に失敗しました。\n（I/Oエラー）";
 			case DOUBLE_PARAMETER_PARSING_FAILED: return "「 " + words[0] + " 」の値を解釈できませんでした。この値は数値で指定してください。";
 			case DOUBLE_PARAMETER_OUT_OF_RANGE: return "「 " + words[0] + " 」の値が想定範囲外です。この値は " + words[1] + " から " + words[2] + "の範囲の数値を指定してください。";
+			case LONG_PARAMETER_PARSING_FAILED: return "「 " + words[0] + " 」の値を解釈できませんでした。この値は整数で指定してください。";
+			case LONG_PARAMETER_OUT_OF_RANGE: return "「 " + words[0] + " 」の値が想定範囲外です。この値は " + words[1] + " から " + words[2] + "の範囲の整数を指定してください。";
 			case INT_PARAMETER_PARSING_FAILED: return "「 " + words[0] + " 」の値を解釈できませんでした。この値は整数で指定してください。";
 			case INT_PARAMETER_OUT_OF_RANGE: return "「 " + words[0] + " 」の値が想定範囲外です。この値は " + words[1] + " から " + words[2] + "の範囲の整数を指定してください。";
 			case COMMA_SEPARATED_DOUBLE_PARAMETER_PARSING_FAILED: return "「 " + words[0] + " 」の値を解釈できませんでした。この値は、数値をカンマ「,」区切りで指定してください。";
@@ -117,6 +119,8 @@ public final class ErrorMessage {
 			case FAILED_TO_SAVE_IMAGE: return "Failed to save the image file.\n (I/O error)";
 			case DOUBLE_PARAMETER_PARSING_FAILED: return "Failed to parse the value of \"" + words[0] + "\". Please specify a numeric value for this parameter.";
 			case DOUBLE_PARAMETER_OUT_OF_RANGE: return "Tha value of \"" + words[0] + "\" is out of range. Please secify a numeric value in the range from " + words[1] + " to " + words[2] + ".";
+			case LONG_PARAMETER_PARSING_FAILED: return "Failed to parse the value of \"" + words[0] + "\". Please specify an integer value for this parameter.";
+			case LONG_PARAMETER_OUT_OF_RANGE: return "Tha value of \"" + words[0] + "\" is out of range. Please secify an integer value in the range from " + words[1] + " to " + words[2] + ".";
 			case INT_PARAMETER_PARSING_FAILED: return "Failed to parse the value of \"" + words[0] + "\". Please specify an integer value for this parameter.";
 			case INT_PARAMETER_OUT_OF_RANGE: return "Tha value of \"" + words[0] + "\" is out of range. Please secify an integer value in the range from " + words[1] + " to " + words[2] + ".";
 			case COMMA_SEPARATED_DOUBLE_PARAMETER_PARSING_FAILED: return "Failed to parse the value of \"" + words[0] + "\". Please specify numeric values, separated by commas.";
