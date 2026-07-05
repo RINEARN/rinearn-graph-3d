@@ -56,6 +56,7 @@ com/rinearn/graph3d/def/ErrorType.java
 com/rinearn/graph3d/def/package-info.java
 com/rinearn/graph3d/event/package-info.java
 com/rinearn/graph3d/event/RinearnGraph3DEventDispatcher.java
+com/rinearn/graph3d/event/RinearnGraph3DPlottingDataAccessor.java
 com/rinearn/graph3d/event/RinearnGraph3DPlottingEvent.java
 com/rinearn/graph3d/event/RinearnGraph3DPlottingListener.java
 com/rinearn/graph3d/model/data/DataStore.java
@@ -79,6 +80,7 @@ com/rinearn/graph3d/model/Model.java
 com/rinearn/graph3d/model/package-info.java
 com/rinearn/graph3d/model/ScriptEngineMount.java
 com/rinearn/graph3d/presenter/handler/CameraSettingHandler.java
+com/rinearn/graph3d/presenter/handler/ContourOptionHandler.java
 com/rinearn/graph3d/presenter/handler/DataArrayIOHandler.java
 com/rinearn/graph3d/presenter/handler/DataFileIOHandler.java
 com/rinearn/graph3d/presenter/handler/DataTextIOHandler.java
@@ -139,6 +141,7 @@ com/rinearn/graph3d/RinearnGraph3D.java
 com/rinearn/graph3d/RinearnGraph3DDataFileFormat.java
 com/rinearn/graph3d/RinearnGraph3DOptionItem.java
 com/rinearn/graph3d/view/CameraSettingWindow.java
+com/rinearn/graph3d/view/ContourOptionWindow.java
 com/rinearn/graph3d/view/DataFileOpeningWindow.java
 com/rinearn/graph3d/view/DataTextPastingWindow.java
 com/rinearn/graph3d/view/FontSettingWindow.java
