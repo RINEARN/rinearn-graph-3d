@@ -1,13 +1,12 @@
 package com.rinearn.graph3d.presenter.plotter;
 
 import com.rinearn.graph3d.model.Model;
-import com.rinearn.graph3d.model.data.series.AbstractDataSeries;
-import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
+import com.rinearn.graph3d.event.RinearnGraph3DPlottingDataAccessor;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.data.SeriesAttribute;
@@ -81,62 +80,59 @@ public class PointPlotter implements RinearnGraph3DPlottingListener {
 		boolean existsSeriesFilter = pointPlotterConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
 		SeriesFilter seriesFilter = existsSeriesFilter ? pointPlotterConfig.getSeriesFilter() : null;
 
+		// Get the data accessor, which is an object for accessing data to be plotted.
+		RinearnGraph3DPlottingDataAccessor dataAccessor = event.getPlottingDataAccessor();
+
 		// Plots all data series.
-		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = this.model.dataStore.getCombinedDataSeriesGroup();
-		int dataSeriesCount = dataSeriesGroup.getDataSeriesCount();
-		for (int dataSeriesIndex=0; dataSeriesIndex<dataSeriesCount; dataSeriesIndex++) {
+		int seriesCount = dataAccessor.getDataSeriesCount();
+		for (int seriesIndex=0; seriesIndex<seriesCount; seriesIndex++) {
 
 			// Filter the data series.
-			SeriesAttribute seriesAttribute = dataSeriesGroup.getDataSeriesAt(dataSeriesIndex).getSeriesAttribute();
+			SeriesAttribute seriesAttribute = dataAccessor.getDataSeriesAttribute(seriesIndex);
 			if (existsSeriesFilter && !seriesFilter.isSeriesIncluded(seriesAttribute)) {
 				continue;
 			}
 
-			// Plot.
-			AbstractDataSeries dataSeries = dataSeriesGroup.getDataSeriesAt(dataSeriesIndex);
-			this.plotPoints(dataSeries, dataSeriesIndex, pointRadius);
+			// Plot all points in the data series.
+			int lineCount = dataAccessor.getDataLineCount(seriesIndex);
+			for (int lineIndex=0; lineIndex<lineCount; lineIndex++) {
+				int pointCount = dataAccessor.getDataPointCount(seriesIndex, lineIndex);
+				for (int pointIndex=0; pointIndex<pointCount; pointIndex++) {
+					this.plotPoint(dataAccessor, seriesIndex, lineIndex, pointIndex, pointRadius);
+				}
+			}
 		}
 	}
 
 
 	/**
-	 * Plots points on each coordinate point of the specified data series.
+	 * Plots a point on each coordinate point of the specified data series.
 	 *
-	 * @param dataSeries The data series to be plotted.
+	 * @param dataAccessor The data accessor.
 	 * @param seriesIndex The index of the data series.
+	 * @param lineIndex The index of the data line to which the data point belongs.
+	 * @param pointIndex The index of the data point to be plotted.
 	 * @param pointRadius The radius (in pixels) of points.
 	 */
-	private void plotPoints(AbstractDataSeries dataSeries, int seriesIndex, double pointRadius) {
+	private void plotPoint(RinearnGraph3DPlottingDataAccessor dataAccessor, int seriesIndex, int lineIndex, int pointIndex, double pointRadius) {
 		RinearnGraph3DDrawingParameter drawingParameter = new RinearnGraph3DDrawingParameter();
 		drawingParameter.setSeriesIndex(seriesIndex);
 		drawingParameter.setAutoColoringEnabled(true);
 
-		// Extract all coordinate points of the data series.
-		double[][] xCoords = dataSeries.getXCoordinates();
-		double[][] yCoords = dataSeries.getYCoordinates();
-		double[][] zCoords = dataSeries.getZCoordinates();
-		boolean[][] visibilities = dataSeries.getVisibilities();
-
-		// Draw a point on each coordinate point in the above.
-		int leftDimLength = xCoords.length;
-		for (int iL=0; iL<leftDimLength; iL++) {
-
-			int rightDimLength = xCoords[iL].length;
-			for (int iR=0; iR<rightDimLength; iR++) {
-				if (!visibilities[iL][iR]) {
-					continue;
-				}
-
-				double x = xCoords[iL][iR];
-				double y = yCoords[iL][iR];
-				double z = zCoords[iL][iR];
-
-				// Draw a point on the 3D graph.
-				this.renderer.drawPoint(
-						x, y, z, pointRadius, drawingParameter
-				);
-			}
+		// If the data point is set to invisible, draw nothing.
+		if (!dataAccessor.isDataPointVisible(seriesIndex, lineIndex, pointIndex)) {
+			return;
 		}
+
+		// Get the coordinate values of the data point to be plotted.
+		double x = dataAccessor.getDataPointX(seriesIndex, lineIndex, pointIndex);
+		double y = dataAccessor.getDataPointY(seriesIndex, lineIndex, pointIndex);
+		double z = dataAccessor.getDataPointZ(seriesIndex, lineIndex, pointIndex);
+
+		// Draw a point on the 3D graph.
+		this.renderer.drawPoint(
+				x, y, z, pointRadius, drawingParameter
+		);
 	}
 
 
