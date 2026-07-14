@@ -1,14 +1,13 @@
 package com.rinearn.graph3d.presenter.plotter;
 
 import com.rinearn.graph3d.model.Model;
-import com.rinearn.graph3d.model.data.series.AbstractDataSeries;
-import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;
+import com.rinearn.graph3d.event.RinearnGraph3DPlottingDataAccessor;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.data.SeriesFilter;
 import com.rinearn.graph3d.config.data.SeriesFilterMode;
@@ -81,72 +80,68 @@ public class LinePlotter implements RinearnGraph3DPlottingListener {
 		boolean existsSeriesFilter = linePlotterConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
 		SeriesFilter seriesFilter = existsSeriesFilter ? linePlotterConfig.getSeriesFilter() : null;
 
+		// Get the data accessor, which is an object for accessing data to be plotted.
+		RinearnGraph3DPlottingDataAccessor dataAccessor = event.getPlottingDataAccessor();
+
 		// Plots all data series.
-		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = this.model.dataStore.getCombinedDataSeriesGroup();
-		int dataSeriesCount = dataSeriesGroup.getDataSeriesCount();
-		for (int dataSeriesIndex=0; dataSeriesIndex<dataSeriesCount; dataSeriesIndex++) {
+		int seriesCount = dataAccessor.getDataSeriesCount();
+		for (int seriesIndex=0; seriesIndex<seriesCount; seriesIndex++) {
 
 			// Filter the data series.
-			SeriesAttribute seriesAttribute = dataSeriesGroup.getDataSeriesAt(dataSeriesIndex).getSeriesAttribute();
+			SeriesAttribute seriesAttribute = dataAccessor.getDataSeriesAttribute(seriesIndex);
 			if (existsSeriesFilter && !seriesFilter.isSeriesIncluded(seriesAttribute)) {
 				continue;
 			}
 
-			// Plot.
-			AbstractDataSeries dataSeries = dataSeriesGroup.getDataSeriesAt(dataSeriesIndex);
-			this.plotLines(dataSeries, dataSeriesIndex, lineWidth);
+			// Plot all lines in the data series.
+			int lineCount = dataAccessor.getDataLineCount(seriesIndex);
+			for (int lineIndex=0; lineIndex<lineCount; lineIndex++) {
+				this.plotLine(dataAccessor, seriesIndex, lineIndex, lineWidth);
+			}
 		}
 	}
 
 
 	/**
-	 * Plots lines connecting coordinate points of the specified data series.
+	 * Plots the specified line in data.
 	 *
-	 * @param dataSeries The data series to be plotted.
-	 * @param seriesIndex The index of the data series.
-	 * @param lineWidth The width (in pixels) of lines.
+	 * @param dataAccessor The data accessor.
+	 * @param seriesIndex The index of the data series to be plotted.
+	 * @param lineIndex The index of the line to be plotted.
+	 * @param lineWidth The line width.
 	 */
-	private void plotLines(AbstractDataSeries dataSeries, int seriesIndex, double lineWidth) {
+	private void plotLine(RinearnGraph3DPlottingDataAccessor dataAccessor, int seriesIndex, int lineIndex, double lineWidth) {
 		RinearnGraph3DDrawingParameter drawingParameter = new RinearnGraph3DDrawingParameter();
 		drawingParameter.setSeriesIndex(seriesIndex);
 		drawingParameter.setAutoColoringEnabled(true);
 
-		// Extract all coordinate points of the data series.
-		double[][] xCoords = dataSeries.getXCoordinates();
-		double[][] yCoords = dataSeries.getYCoordinates();
-		double[][] zCoords = dataSeries.getZCoordinates();
-		boolean[][] visibilities = dataSeries.getVisibilities();
+		int pointCount = dataAccessor.getDataPointCount(seriesIndex, lineIndex);
+		for (int pointIndex=0; pointIndex<pointCount-1; pointIndex++) {
 
-		// Draw a line between each pair of adjacent points in the above.
-		int leftDimLength = xCoords.length;
-		for (int iL=0; iL<leftDimLength; iL++) {
-
-			int rightDimLength = xCoords[iL].length;
-			for (int iR=0; iR<rightDimLength - 1; iR++) {
-
-				// Draw a line only when both of its edge points are set to visible.
-				boolean isLineVisible = visibilities[iL][iR] && visibilities[iL][iR + 1];
-				if (!isLineVisible) {
-					continue;
-				}
-
-				// The coordinates of the edge point A:
-				double xA = xCoords[iL][iR];
-				double yA = yCoords[iL][iR];
-				double zA = zCoords[iL][iR];
-
-				// The coordinates of the edge point B:
-				double xB = xCoords[iL][iR + 1];
-				double yB = yCoords[iL][iR + 1];
-				double zB = zCoords[iL][iR + 1];
-
-				// Draw a line connecting the points A and B, on the 3D graph.
-				this.renderer.drawLine(
-						xA, yA, zA,
-						xB, yB, zB,
-						lineWidth, drawingParameter
-				);
+			// Draw a line element only when both of its edge points A,B are set to visible.
+			boolean isPointAVisible = dataAccessor.isDataPointVisible(seriesIndex, lineIndex, pointIndex);
+			boolean isPointBVisible = dataAccessor.isDataPointVisible(seriesIndex, lineIndex, pointIndex + 1);
+			boolean isLineElementVisible = isPointAVisible && isPointBVisible;
+			if (!isLineElementVisible) {
+				continue;
 			}
+
+			// The coordinates of the edge point A:
+			double xA = dataAccessor.getDataPointX(seriesIndex, lineIndex, pointIndex);
+			double yA = dataAccessor.getDataPointY(seriesIndex, lineIndex, pointIndex);
+			double zA = dataAccessor.getDataPointZ(seriesIndex, lineIndex, pointIndex);
+
+			// The coordinates of the edge point B:
+			double xB = dataAccessor.getDataPointX(seriesIndex, lineIndex, pointIndex + 1);
+			double yB = dataAccessor.getDataPointY(seriesIndex, lineIndex, pointIndex + 1);
+			double zB = dataAccessor.getDataPointZ(seriesIndex, lineIndex, pointIndex + 1);
+
+			// Draw a line connecting the points A and B, on the 3D graph.
+			this.renderer.drawLine(
+					xA, yA, zA,
+					xB, yB, zB,
+					lineWidth, drawingParameter
+			);
 		}
 	}
 
