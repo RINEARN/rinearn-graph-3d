@@ -1,5 +1,6 @@
 package com.rinearn.graph3d.presenter;
 
+import com.rinearn.graph3d.config.data.SeriesAttribute;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingDataAccessor;
 import com.rinearn.graph3d.model.data.DataStore;
 import com.rinearn.graph3d.model.data.series.AbstractDataSeries;
@@ -79,5 +80,10 @@ public class DataAccessor implements RinearnGraph3DPlottingDataAccessor {
 	@Override
 	public int getDataPointCount(int seriesIndex, int lineIndex) {
 		return this.dataSeriesGroup.getDataSeriesAt(seriesIndex).getXCoordinates()[lineIndex].length;
+	}
+
+	@Override
+	public SeriesAttribute getDataSeriesAttribute(int seriesIndex) {
+		return this.dataSeriesGroup.getDataSeriesAt(seriesIndex).getSeriesAttribute();
 	}
 }

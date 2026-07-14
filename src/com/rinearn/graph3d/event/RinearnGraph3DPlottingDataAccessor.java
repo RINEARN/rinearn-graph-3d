@@ -1,5 +1,7 @@
 package com.rinearn.graph3d.event;
 
+import com.rinearn.graph3d.config.data.SeriesAttribute;
+
 /**
  * RinearnGraph3DPlottingListener の実装内から, プロット対象のデータにアクセスするためのインターフェースです.
  * このインターフェースを実装したクラスを, DataAccessor 実装またはデータアクセッサ実装と呼びます.
@@ -23,7 +25,6 @@ public interface RinearnGraph3DPlottingDataAccessor {
 	 * @return 提供される機能群の世代
 	 */
 	public int getApiGeneration();
-
 
 	/**
 	 * 指定されたデータ点のX座標値を取得します.
@@ -93,6 +94,7 @@ public interface RinearnGraph3DPlottingDataAccessor {
 	/**
 	 * 指定されたデータ系列における, データ線の総数を返します.
 	 *
+	 * @param seriesIndex データ線が属する, データ系列のインデックス
 	 * @return データ線の総数
 	 */
 	public int getDataLineCount(int seriesIndex);
@@ -100,8 +102,17 @@ public interface RinearnGraph3DPlottingDataAccessor {
 	/**
 	 * 指定されたデータ系列・データ線における, データ点の総数を返します.
 	 *
+	 * @param seriesIndex データ点が属する, データ系列のインデックス
+	 * @param seriesIndex データ点が属する, データ線のインデックス
 	 * @return データ点の総数
 	 */
 	public int getDataPointCount(int seriesIndex, int lineIndex);
 
+	/**
+	 * 指定されたデータ系列の属性を返します。
+	 *
+	 * @param seriesIndex データ系列のインデックス
+	 * @return データ系列の属性
+	 */
+	public SeriesAttribute getDataSeriesAttribute(int seriesIndex);
 }
