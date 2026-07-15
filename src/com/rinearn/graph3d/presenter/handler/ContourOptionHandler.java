@@ -164,11 +164,16 @@ public final class ContourOptionHandler {
 				return;
 			}
 
+			// Auto range:
+			contourPlotterConfig.setAutoRangeEnabled(window.autoRangeBox.isSelected());
+
 			// Max coordinate:
 			try {
-				String maxText = window.maxField.getText();
-				double maxCoord = UIParameterParser.parseDoubleParameter(maxText, "Max", "上限", -Double.MAX_VALUE, Double.MAX_VALUE, envConfig);
-				contourPlotterConfig.setMaximumCoordinate(BigDecimal.valueOf(maxCoord));
+				if (!window.autoRangeBox.isSelected()) {
+					String maxText = window.maxField.getText();
+					double maxCoord = UIParameterParser.parseDoubleParameter(maxText, "Max", "上限", -Double.MAX_VALUE, Double.MAX_VALUE, envConfig);
+					contourPlotterConfig.setMaximumCoordinate(BigDecimal.valueOf(maxCoord));
+				}
 			} catch (UIParameterParser.ParsingException e) {
 				// The error message is already shown to the user by UIParameterParser.
 				return;
@@ -176,9 +181,11 @@ public final class ContourOptionHandler {
 
 			// Min coordinate:
 			try {
-				String minText = window.minField.getText();
-				double minCoord = UIParameterParser.parseDoubleParameter(minText, "Min", "下限", -Double.MAX_VALUE, Double.MAX_VALUE, envConfig);
-				contourPlotterConfig.setMinimumCoordinate(BigDecimal.valueOf(minCoord));
+				if (!window.autoRangeBox.isSelected()) {
+					String minText = window.minField.getText();
+					double minCoord = UIParameterParser.parseDoubleParameter(minText, "Min", "下限", -Double.MAX_VALUE, Double.MAX_VALUE, envConfig);
+					contourPlotterConfig.setMinimumCoordinate(BigDecimal.valueOf(minCoord));
+				}
 			} catch (UIParameterParser.ParsingException e) {
 				// The error message is already shown to the user by UIParameterParser.
 				return;
