@@ -1,13 +1,12 @@
 package com.rinearn.graph3d.presenter.plotter;
 
 import com.rinearn.graph3d.model.Model;
-import com.rinearn.graph3d.model.data.series.AbstractDataSeries;
-import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
+import com.rinearn.graph3d.event.RinearnGraph3DPlottingDataAccessor;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;
 
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
@@ -84,32 +83,33 @@ public class ContourPlotter implements RinearnGraph3DPlottingListener {
 		boolean existsSeriesFilter = contourPlotterConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
 		SeriesFilter seriesFilter = existsSeriesFilter ? contourPlotterConfig.getSeriesFilter() : null;
 
+		// Get the data accessor, which is an object for accessing data to be plotted.
+		RinearnGraph3DPlottingDataAccessor dataAccessor = event.getPlottingDataAccessor();
+
 		// Plots all data series.
-		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = this.model.dataStore.getCombinedDataSeriesGroup();
-		int dataSeriesCount = dataSeriesGroup.getDataSeriesCount();
-		for (int dataSeriesIndex=0; dataSeriesIndex<dataSeriesCount; dataSeriesIndex++) {
+		int seriesCount = dataAccessor.getDataSeriesCount();
+		for (int seriesIndex=0; seriesIndex<seriesCount; seriesIndex++) {
 
 			// Filter the data series.
-			SeriesAttribute seriesAttribute = dataSeriesGroup.getDataSeriesAt(dataSeriesIndex).getSeriesAttribute();
+			SeriesAttribute seriesAttribute = dataAccessor.getDataSeriesAttribute(seriesIndex);
 			if (existsSeriesFilter && !seriesFilter.isSeriesIncluded(seriesAttribute)) {
 				continue;
 			}
 
 			// Plot.
-			AbstractDataSeries dataSeries = dataSeriesGroup.getDataSeriesAt(dataSeriesIndex);
-			this.plotContour(dataSeries, dataSeriesIndex, contourPlotterConfig);
+			this.plotContour(dataAccessor, seriesIndex, contourPlotterConfig);
 		}
 	}
 
 
 	/**
-	 * Plots the specified data series as a mesh.
+	 * Plots the specified data series as contour lines.
 	 *
-	 * @param dataSeries The data series to be plotted.
+	 * @param dataAccessor The data accessor.
 	 * @param seriesIndex The index of the data series.
-	 * @param lineWidth The width (in pixels) of lines composing a mesh.
+	 * @param contourPlotterConfig The configuration container of the contour option.
 	 */
-	private void plotContour(AbstractDataSeries dataSeries, int seriesIndex, ContourPlotterConfiguration contourPlotterConfig) {
+	private void plotContour(RinearnGraph3DPlottingDataAccessor dataAccessor, int seriesIndex, ContourPlotterConfiguration contourPlotterConfig) {
 		if (contourPlotterConfig.isAutoRangeEnabled()) {
 			RangeConfiguration rangeConfig = this.model.config.getRangeConfiguration();
 			AxisRangeConfiguration zRangeConfig = rangeConfig.getZRangeConfiguration();
@@ -132,55 +132,57 @@ public class ContourPlotter implements RinearnGraph3DPlottingListener {
 			drawingParameter.setColor(model.config.getColorConfiguration().getForegroundColor());
 		}
 
-		// Extract all coordinate points of the data series.
-		double[][] xCoords = dataSeries.getXCoordinates();
-		double[][] yCoords = dataSeries.getYCoordinates();
-		double[][] zCoords = dataSeries.getZCoordinates();
-		boolean[][] visibilities = dataSeries.getVisibilities();
+		// Points at the corners in each cell:
+		//
+		// A:(iL1,iP1)   B:(iL1,iP2)
+		//
+		// D:(iL2,iP1)   C:(iL2,iP2)
 
-		// Draw lines for the direction of the right-side dimension.
-		int leftDimLength = xCoords.length;
-		for (int iL=0; iL<leftDimLength - 1; iL++) {
+		int dataLineCount = dataAccessor.getDataLineCount(seriesIndex);
+		for (int iL1=0; iL1<dataLineCount - 1; iL1++) {
+			int iL2 = iL1 + 1;
 
-			int rightDimLength = xCoords[iL].length;
-			for (int iR=0; iR<rightDimLength - 1; iR++) {
+			int dataPointCount1 = dataAccessor.getDataPointCount(seriesIndex, iL1);
+			int dataPointCount2 = dataAccessor.getDataPointCount(seriesIndex, iL2);
+			for (int iP1=0; iP1<dataPointCount1 - 1 && iP1 < dataPointCount2 - 1; iP1++) {
+				int iP2 = iP1 + 1;
 
-				// Draw a line only when both of its edge points are set to visible.
-				boolean isLineVisible = visibilities[iL][iR] && visibilities[iL][iR + 1];
-				if (!isLineVisible) {
-					continue;
-				}
+				// The coordinates of the point A:
+				double xA = dataAccessor.getDataPointX(seriesIndex, iL1, iP1);
+				double yA = dataAccessor.getDataPointY(seriesIndex, iL1, iP1);
+				double zA = dataAccessor.getDataPointZ(seriesIndex, iL1, iP1);
+				boolean isAVisible = dataAccessor.isDataPointVisible(seriesIndex, iL1, iP1);
 
-				// The coordinates of the edge point A:
-				double xA = xCoords[iL][iR];
-				double yA = yCoords[iL][iR];
-				double zA = zCoords[iL][iR];
+				// The coordinates of the point B:
+				double xB = dataAccessor.getDataPointX(seriesIndex, iL1, iP2);
+				double yB = dataAccessor.getDataPointY(seriesIndex, iL1, iP2);
+				double zB = dataAccessor.getDataPointZ(seriesIndex, iL1, iP2);
+				boolean isBVisible = dataAccessor.isDataPointVisible(seriesIndex, iL1, iP2);
 
-				// The coordinates of the edge point B:
-				double xB = xCoords[iL][iR + 1];
-				double yB = yCoords[iL][iR + 1];
-				double zB = zCoords[iL][iR + 1];
+				// The coordinates of the point C:
+				double xC = dataAccessor.getDataPointX(seriesIndex, iL2, iP2);
+				double yC = dataAccessor.getDataPointY(seriesIndex, iL2, iP2);
+				double zC = dataAccessor.getDataPointZ(seriesIndex, iL2, iP2);
+				boolean isCVisible = dataAccessor.isDataPointVisible(seriesIndex, iL2, iP1);
 
-				// The coordinates of the edge point C:
-				double xC = xCoords[iL + 1][iR + 1];
-				double yC = yCoords[iL + 1][iR + 1];
-				double zC = zCoords[iL + 1][iR + 1];
-
-				// The coordinates of the edge point D:
-				double xD = xCoords[iL + 1][iR];
-				double yD = yCoords[iL + 1][iR];
-				double zD = zCoords[iL + 1][iR];
+				// The coordinates of the point D:
+				double xD = dataAccessor.getDataPointX(seriesIndex, iL2, iP1);
+				double yD = dataAccessor.getDataPointY(seriesIndex, iL2, iP1);
+				double zD = dataAccessor.getDataPointZ(seriesIndex, iL2, iP1);
+				boolean isDVisible = dataAccessor.isDataPointVisible(seriesIndex, iL2, iP1);
 
 				// Draw a contour lines in this cell, for every Z levels.
-				for (int iinterval=0; iinterval<intervalCount + 1; iinterval++) {
-					double zLevel = minCoord + (maxCoord - minCoord) * iinterval / (double)intervalCount;
-					this.plotContourOfCell(
-						xA, yA, zA,
-						xB, yB, zB,
-						xC, yC, zC,
-						xD, yD, zD,
-						zLevel, lineWidth, false, drawingParameter
-					);
+				if (isAVisible && isBVisible && isCVisible && isDVisible) {
+					for (int iinterval=0; iinterval<intervalCount + 1; iinterval++) {
+						double zLevel = minCoord + (maxCoord - minCoord) * iinterval / (double)intervalCount;
+						this.plotContourOfCell(
+								xA, yA, zA,
+								xB, yB, zB,
+								xC, yC, zC,
+								xD, yD, zD,
+								zLevel, lineWidth, false, drawingParameter
+						);
+					}
 				}
 			}
 		}
