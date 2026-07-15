@@ -1,13 +1,12 @@
 package com.rinearn.graph3d.presenter.plotter;
 
 import com.rinearn.graph3d.model.Model;
-import com.rinearn.graph3d.model.data.series.AbstractDataSeries;
-import com.rinearn.graph3d.model.data.series.DataSeriesGroup;
 import com.rinearn.graph3d.presenter.Presenter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DDrawingParameter;
 import com.rinearn.graph3d.renderer.RinearnGraph3DRenderer;
 import com.rinearn.graph3d.view.View;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingListener;
+import com.rinearn.graph3d.event.RinearnGraph3DPlottingDataAccessor;
 import com.rinearn.graph3d.event.RinearnGraph3DPlottingEvent;
 import com.rinearn.graph3d.config.RinearnGraph3DConfiguration;
 import com.rinearn.graph3d.config.data.SeriesAttribute;
@@ -65,7 +64,7 @@ public class SurfacePlotter implements RinearnGraph3DPlottingListener {
 	@Override
 	public synchronized void plottingRequested(RinearnGraph3DPlottingEvent event) {
 
-		// Get the configuration of "With Membranes" option.
+		// Get the configuration of "With Surfaces" option.
 		RinearnGraph3DConfiguration config = this.model.config;
 		PlotterConfiguration plotterConfig = config.getPlotterConfiguration();
 		SurfacePlotterConfiguration surfacePlotterConfig = plotterConfig.getSurfacePlotterConfiguration();
@@ -80,87 +79,86 @@ public class SurfacePlotter implements RinearnGraph3DPlottingListener {
 		boolean existsSeriesFilter = surfacePlotterConfig.getSeriesFilterMode() != SeriesFilterMode.NONE;
 		SeriesFilter seriesFilter = existsSeriesFilter ? surfacePlotterConfig.getSeriesFilter() : null;
 
+		// Get the data accessor, which is an object for accessing data to be plotted.
+		RinearnGraph3DPlottingDataAccessor dataAccessor = event.getPlottingDataAccessor();
+
 		// Plots all data series.
-		DataSeriesGroup<AbstractDataSeries> dataSeriesGroup = this.model.dataStore.getCombinedDataSeriesGroup();
-		int dataSeriesCount = dataSeriesGroup.getDataSeriesCount();
-		for (int dataSeriesIndex=0; dataSeriesIndex<dataSeriesCount; dataSeriesIndex++) {
+		int seriesCount = dataAccessor.getDataSeriesCount();
+		for (int seriesIndex=0; seriesIndex<seriesCount; seriesIndex++) {
 
 			// Filter the data series.
-			SeriesAttribute seriesAttribute = dataSeriesGroup.getDataSeriesAt(dataSeriesIndex).getSeriesAttribute();
+			SeriesAttribute seriesAttribute = dataAccessor.getDataSeriesAttribute(seriesIndex);
 			if (existsSeriesFilter && !seriesFilter.isSeriesIncluded(seriesAttribute)) {
 				continue;
 			}
 
 			// Plot.
-			AbstractDataSeries dataSeries = dataSeriesGroup.getDataSeriesAt(dataSeriesIndex);
-			this.plotSurface(dataSeries, dataSeriesIndex);
+			this.plotSurface(dataAccessor, seriesIndex);
 		}
 	}
 
 
 	/**
-	 * Plots the specified data series as a membrane.
+	 * Plots the specified data series as a surface.
 	 *
-	 * @param dataSeries The data series to be plotted.
+	 * @param dataAccessor The data accessor.
 	 * @param seriesIndex The index of the data series.
+	 * @param lineWidth The width (in pixels) of lines composing a mesh.
 	 */
-	private void plotSurface(AbstractDataSeries dataSeries, int seriesIndex) {
+	private void plotSurface(RinearnGraph3DPlottingDataAccessor dataAccessor, int seriesIndex) {
 		RinearnGraph3DDrawingParameter drawingParameter = new RinearnGraph3DDrawingParameter();
 		drawingParameter.setSeriesIndex(seriesIndex);
 		drawingParameter.setAutoColoringEnabled(true);
 
-		// Extract all coordinate points of the data series.
-		double[][] xCoords = dataSeries.getXCoordinates();
-		double[][] yCoords = dataSeries.getYCoordinates();
-		double[][] zCoords = dataSeries.getZCoordinates();
-		boolean[][] visibilities = dataSeries.getVisibilities();
+		// Points at the corners in each cell:
+		//
+		// A:(iL1,iP1)   B:(iL1,iP2)
+		//
+		// D:(iL2,iP1)   C:(iL2,iP2)
 
-		// Draw a quadrangle for each adjacent coordinate points in the above.
-		int leftDimLength = xCoords.length;
-		for (int iL=0; iL<leftDimLength - 1; iL++) {
+		int dataLineCount = dataAccessor.getDataLineCount(seriesIndex);
+		for (int iL1=0; iL1<dataLineCount - 1; iL1++) {
+			int iL2 = iL1 + 1;
 
-			int currentRightDimLength = xCoords[iL].length;
-			int nextRightDimLength = xCoords[iL + 1].length;
-			for (int iR=0; iR < currentRightDimLength - 1 && iR < nextRightDimLength - 1; iR++) {
+			int dataPointCount1 = dataAccessor.getDataPointCount(seriesIndex, iL1);
+			int dataPointCount2 = dataAccessor.getDataPointCount(seriesIndex, iL2);
+			for (int iP1=0; iP1<dataPointCount1 - 1 && iP1 < dataPointCount2 - 1; iP1++) {
+				int iP2 = iP1 + 1;
 
-				// Draw a quadrangle only when all of its vertices are set to visible.
-				boolean isQuadrangleVisible =
-						visibilities[iL    ][iR    ] &&
-						visibilities[iL + 1][iR    ] &&
-						visibilities[iL + 1][iR + 1] &&
-						visibilities[iL    ][iR + 1];
-				if (!isQuadrangleVisible) {
-					continue;
-				}
+				// The coordinates of the point A:
+				double xA = dataAccessor.getDataPointX(seriesIndex, iL1, iP1);
+				double yA = dataAccessor.getDataPointY(seriesIndex, iL1, iP1);
+				double zA = dataAccessor.getDataPointZ(seriesIndex, iL1, iP1);
+				boolean isAVisible = dataAccessor.isDataPointVisible(seriesIndex, iL1, iP1);
 
-				// Coords of the vertex A:
-				double xA = xCoords[iL][iR];
-				double yA = yCoords[iL][iR];
-				double zA = zCoords[iL][iR];
+				// The coordinates of the point B:
+				double xB = dataAccessor.getDataPointX(seriesIndex, iL1, iP2);
+				double yB = dataAccessor.getDataPointY(seriesIndex, iL1, iP2);
+				double zB = dataAccessor.getDataPointZ(seriesIndex, iL1, iP2);
+				boolean isBVisible = dataAccessor.isDataPointVisible(seriesIndex, iL1, iP2);
 
-				// Coords of the vertex B:
-				double xB = xCoords[iL + 1][iR];
-				double yB = yCoords[iL + 1][iR];
-				double zB = zCoords[iL + 1][iR];
+				// The coordinates of the point C:
+				double xC = dataAccessor.getDataPointX(seriesIndex, iL2, iP2);
+				double yC = dataAccessor.getDataPointY(seriesIndex, iL2, iP2);
+				double zC = dataAccessor.getDataPointZ(seriesIndex, iL2, iP2);
+				boolean isCVisible = dataAccessor.isDataPointVisible(seriesIndex, iL2, iP1);
 
-				// Coords of the vertex C:
-				double xC = xCoords[iL + 1][iR + 1];
-				double yC = yCoords[iL + 1][iR + 1];
-				double zC = zCoords[iL + 1][iR + 1];
-
-				// Coords of the vertex D:
-				double xD = xCoords[iL][iR + 1];
-				double yD = yCoords[iL][iR + 1];
-				double zD = zCoords[iL][iR + 1];
+				// The coordinates of the point D:
+				double xD = dataAccessor.getDataPointX(seriesIndex, iL2, iP1);
+				double yD = dataAccessor.getDataPointY(seriesIndex, iL2, iP1);
+				double zD = dataAccessor.getDataPointZ(seriesIndex, iL2, iP1);
+				boolean isDVisible = dataAccessor.isDataPointVisible(seriesIndex, iL2, iP1);
 
 				// Draw a quadrangle on the 3D graph.
-				this.renderer.drawQuadrangle(
-						xA, yA, zA,
-						xB, yB, zB,
-						xC, yC, zC,
-						xD, yD, zD,
-						drawingParameter
-				);
+				if (isAVisible && isBVisible && isCVisible && isDVisible) {
+					this.renderer.drawQuadrangle(
+							xA, yA, zA,
+							xB, yB, zB,
+							xC, yC, zC,
+							xD, yD, zD,
+							drawingParameter
+					);
+				}
 			}
 		}
 	}
